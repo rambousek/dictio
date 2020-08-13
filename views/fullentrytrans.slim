@@ -1,0 +1,44 @@
+- if @meaning['relation'].find{|rel| rel['type'] == 'translation' and (rel['target'] == @show_target or @target == '')}
+  h3 Translations:
+  - @meaning['relation'].select{|rel| rel['type'] == 'translation' and (rel['target'] == @show_target or @target == '')}.uniq{|rel| rel['target']}.each do |rels|
+    p.detail__badge = @dict_info[rels['target']]['label']
+    - if @dict_info[rels['target']]['type'] == 'write'
+      - @meaning['relation'].select{|rel| rel['type'] == 'translation' and (rel['target'] == rels['target'])}.each do |rel|
+        - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id'].to_s
+        p
+          - if rel['entry']['id']
+            - if @search.to_s != ''
+              a.link href="#{@tran_path}/#{relid}" #{rel['entry']['lemma']['title']}
+              - if rel['meaning_nr']
+                |  (význam #{rel['meaning_nr']})
+            - else
+              a.link href="/#{rel['target']}/show/#{rel['entry']['id']}"  #{rel['entry']['lemma']['title']}
+              - if rel['meaning_nr']
+                |  (význam #{rel['meaning_nr']})
+          - else
+            = rel['entry']['lemma']['title']
+    - else
+      .row.row--start
+        - @meaning['relation'].select{|rel| rel['type'] == 'translation' and (rel['target'] == rels['target'])}.each do |rel|
+          - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id'].to_s
+          .col.col--2.col--precise
+            .video.video--small
+              .video__content
+                video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url=(@search.to_s != ''? "#{@tran_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") 
+                  source src="/proxy/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
+              .video__controls
+                - if @search.to_s != ''
+                  a.video__link href="#{@tran_path}/#{relid}"
+                    span.icon.icon--open-new-window
+                      svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                        use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
+                - else
+                  a.video__link href="/#{rel['target']}/show/#{rel['entry']['id']}"
+                    span.icon.icon--open-new-window
+                      svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                        use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
+                - if rel['entry'] and rel['entry']['lemma'] and rel['entry']['lemma']['sw']
+                  span.video__sign
+                    img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]=#{rel['entry']['lemma']['sw'][0]['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+            .video__info
+              p meaning #{rel['meaning_nr']}

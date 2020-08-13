@@ -1,0 +1,44 @@
+main role="main"
+  section.section.section--no-space role="region"
+    article.translation role="article"
+      .container
+        .translation__wrapper
+          p.translation__count-desktop.headline translations: 18 852
+          h1 Multilingual dictionary focused on sign languages
+          p.lead Search for translations in several languages and explore various meanings of words and signs. There is more information than you expect.
+          .translation__count-mobile
+            .special-info Translations: <strong>18 852</strong>
+    == slim :searchboxtrans
+    == slim :searchboxsearch
+    - @msclass = ""
+    == slim :mobilesearch
+    .recent
+      .container
+        .recent__row
+          .recent__item
+            h2.recent__headline Last searched
+            ul
+              li
+                a href="#" Head
+              li
+                a href="#" Header
+              li
+                a href="#" Monetize
+              li
+                a href="#" Final
+              li
+                a href="#" Corellation
+          .recent__item
+            h2.recent__headline Most searched
+            ul
+              li
+                a href="#" Hello
+              li
+                a href="#" Dog
+              li
+                a href="#" Simple
+              li
+                a href="#" a
+              li
+                a href="#" Video
+

@@ -1,0 +1,99 @@
+.detail-word
+  h1.detail-word__headline #{@entry['lemma']['title']} 
+  p #{@entry['id']}
+- if @entry['collocations']['entries']
+  h2.detail-category 
+    | composed from entries:
+    - @entry['collocations']['entries'].each do |coll|
+      a href="/#{@dictcode}/search/text/#{coll['id']}" #{coll['lemma']['title']}
+      | ,
+h2.detail-category 
+  | lexical category:
+  span 
+    - if @entry['lemma']['grammar_note']
+      - @entry['lemma']['grammar_note'].each do |gram|
+        = gram['@slovni_druh']
+- if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gram| gram['variant'] and gram['variant'].size > 0}
+  h2.detail-category 
+    | grammatical variants:
+    span
+      - @entry['lemma']['grammar_note'].each do |gram|
+        - if gram['variant']
+          - gram['variant'].each do |var|
+            = var['_text']
+            |,
+- if @entry['lemma']['gram'] and @entry['lemma']['gram']['form']
+  - if  @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc1'}.size > 0
+    table.table.table--no-margin
+      tr
+        th
+        th jednotné číslo
+        th množné číslo
+      tr
+        td
+          strong 1. pád
+        td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc1'}[0]['_text']
+        td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc1'}[0]['_text']
+      tr
+        td
+          strong 2. pád
+        td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc2'}[0]['_text']
+        td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc2'}[0]['_text']
+      tr
+        td
+          strong 3. pád
+        td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc3'}[0]['_text']
+        td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc3'}[0]['_text']
+      tr
+        td
+          strong 4. pád
+        td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc4'}[0]['_text']
+        td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc4'}[0]['_text']
+      tr
+        td
+          strong 5. pád
+        td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc5'}[0]['_text']
+        td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc5'}[0]['_text']
+      tr
+        td
+          strong 6. pád
+        td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc6'}[0]['_text']
+        td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc6'}[0]['_text']
+      tr
+        td
+          strong 7. pád
+        td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc7'}[0]['_text']
+        td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc7'}[0]['_text']
+hr
+- @entry['meanings'].each do |meaning|
+    .detail-block
+      h3.headline.detail-block__headline Meaning #{meaning['number']}
+      - if meaning['text'] and meaning['text']['_text']
+        p.detail-block__lead == meaning['text']['_text']
+      - if meaning['relation'].find{|rel| rel['type'] == 'synonym'}
+        h4.detail-block__name Synonyms:
+        - meaning['relation'].select{|rel| rel['type'] == 'synonym'}.each do |rel|
+          p
+            a.link href="#" = rel['id']
+      - if meaning['usages'].size > 0
+        h4.detail-block__name Examples of use
+        - meaning['usages'].each do |usg|
+          p
+            em = usg['text']['_text']
+- if @entry['revcollocations']['entries'].size > 0
+  hr
+  div.detail-block
+    h3.headline.deatil-block__headline Collocation with this lemma
+    div.dropdown
+    - @entry['revcollocations']['entries'].each do |colloc|
+      div.dropdown__item
+        div.dropdown__item__name = colloc['lemma']['title']
+        div.dropdown__item__detail
+          - colloc['meanings'].each do |meaning|
+            p.naming Meaning:
+            p
+              em == meaning['text']['_text']
+            p.naming Examples of use:
+            - meaning['usages'].each do |usg|
+              p = usg['text']['_text']
+

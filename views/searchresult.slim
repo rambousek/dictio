@@ -1,0 +1,35 @@
+main role="main"
+  == slim :searchbox
+  section.section.section--no-space role="region"
+    article.container role="article"
+      .row
+        aside.col.col--2.col--start.layout-aside role="complementary"
+          h2 Entries in total: #{@result.size}
+          - if @dict_info[@dictcode]['type'] == 'sign'
+            - @result.each do |entry|
+                div style="width:70%"
+                  .video.video--small
+                    .video__content
+                      video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url="#{@search_path}/#{entry['id']}?#{@url_params}"
+                        source src="/proxy/video#{entry['dict']}/#{entry['lemma']['video_front']}" type="video/mp4"
+                    .video__controls
+                      a.video__link href="#{@search_path}/#{entry['id']}"
+                        span.icon.icon--open-new-window
+                          svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                            use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
+                      - if entry['lemma'] and entry['lemma']['sw']
+                        span.video__sign
+                          img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]=#{entry['lemma']['sw'][0]['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+
+          - else 
+            ul.entries
+              - @result.each do |entry|
+                li: a href="#{@search_path}/#{entry['id']}?#{@url_params}" = entry['lemma']['title'] 
+          a.btn href="#" Next
+        .col.col--2.col--start.layout-aside
+          - if @entry != nil
+            - if @dict_info[@dictcode]['type'] == 'sign'
+              == slim :entrysigndetail
+            - else
+              == slim :entrywritedetail
+

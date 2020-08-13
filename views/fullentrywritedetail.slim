@@ -1,0 +1,138 @@
+.detail__head
+  p.detail__badge.detail__badge--top #{@dict_info[@entry['dict']]['label']} #{@entry['id']}
+  .detail-word
+    h1.detail-word__headline #{@entry['lemma']['title']} 
+  - if @entry['collocations'] and @entry['collocations']['entries']
+    h2.detail-category 
+      | composed from entries:
+      - @entry['collocations']['entries'].each do |coll|
+        a href="/#{@dictcode}/search/text/#{coll['id']}" #{coll['lemma']['title']}
+        | , 
+  - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'] != ''}
+    h2.detail-category 
+      | lexical category:
+      span 
+        - if @entry['lemma']['grammar_note']
+          - @entry['lemma']['grammar_note'].each do |gram|
+            =  gram['@slovni_druh']
+  - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gram| gram['variant'] and gram['variant'].size > 0}
+    h2.detail-category 
+      | grammatical variants:
+      span
+        - @entry['lemma']['grammar_note'].each do |gram|
+          - if gram['variant']
+            - gram['variant'].each do |var|
+              = var['_text']
+              |,
+  - if @entry['lemma']['gram'] and @entry['lemma']['gram']['form']
+    - if  @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc1'}.size > 0
+      table.table.table--no-margin
+        tr
+          th
+          th jednotné číslo
+          th množné číslo
+        tr
+          td
+            strong 1. pád
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc1'}[0]['_text']
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc1'}[0]['_text']
+        tr
+          td
+            strong 2. pád
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc2'}[0]['_text']
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc2'}[0]['_text']
+        tr
+          td
+            strong 3. pád
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc3'}[0]['_text']
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc3'}[0]['_text']
+        tr
+          td
+            strong 4. pád
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc4'}[0]['_text']
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc4'}[0]['_text']
+        tr
+          td
+            strong 5. pád
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc5'}[0]['_text']
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc5'}[0]['_text']
+        tr
+          td
+            strong 6. pád
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc6'}[0]['_text']
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc6'}[0]['_text']
+        tr
+          td
+            strong 7. pád
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc7'}[0]['_text']
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc7'}[0]['_text']
+
+- @entry['meanings'].each do |meaning|
+  - @meaning = meaning
+  .row
+    .col.col--2
+      .detail__block.detail__block--line
+        h3 id="meaning#{meaning['number']}" Meaning #{meaning['number']}
+        - if meaning['text'] and meaning['text']['_text']
+          p 
+            - mtext = meaning['text']['_text'].gsub(/\[[0-9]+(-[0-9]+)?\]/) {|rl| rla=rl[1..-2].split('-'); "<a href='/#{@entry['dict']}/show/#{rla[0]}'>#{meaning['def_relations'][rla[0]]}"+(rla[1].to_s==''?"":" (#{rla[1]})")+"</a>"}
+            == mtext
+        - if meaning['relation'].find{|rel| rel['type'] == 'synonym'}
+          h4 Synonyms:
+          - meaning['relation'].select{|rel| rel['type'] == 'synonym'}.each do |rel|
+            - if rel['entry']
+              - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id'].to_s
+              p
+                - if rel['entry']['id']
+                  - if @search.to_s != ''
+                    a.link href="#{@tran_path}/#{relid}" #{rel['entry']['lemma']['title']}
+                    |  (význam #{rel['meaning_nr']})
+                  - else
+                    a.link href="/#{rel['target']}/show/#{rel['entry']['id']}"  #{rel['entry']['lemma']['title']}
+                    |  (význam #{rel['meaning_nr']})
+                - else
+                  = rel['entry']['lemma']['title']
+        - if meaning['relation'].find{|rel| rel['type'] == 'antonym'}
+          h4 Antonyms:
+          - meaning['relation'].select{|rel| rel['type'] == 'antonym'}.each do |rel|
+            - if rel['entry']
+              - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id'].to_s
+              p
+                - if rel['entry']['id']
+                  - if @search.to_s != ''
+                    a.link href="#{@tran_path}/#{relid}" #{rel['entry']['lemma']['title']}
+                    |  (význam #{rel['meaning_nr']})
+                  - else
+                    a.link href="/#{rel['target']}/show/#{rel['entry']['id']}"  #{rel['entry']['lemma']['title']}
+                    |  (význam #{rel['meaning_nr']})
+                - else
+                  = rel['entry']['lemma']['title']
+        - if meaning['usages'].size > 0
+          h4 Examples of use:
+          - meaning['usages'].each do |usg|
+            p
+              em = usg['text']['_text']
+    .col.col--2
+      .detail__block.detail__block--wide
+        == slim :fullentrytrans
+
+- if @entry['revcollocations'] and @entry['revcollocations']['entries'].size > 0
+  .row.row--start
+    .col.col--2.col--precise
+      .detail__block.detail__block--line
+        div.detail-block
+          h3.headline.detail-block__headline Collocations with this lemma
+          div.dropdown
+          - @entry['revcollocations']['entries'].each do |colloc|
+            div.dropdown__item
+              div.dropdown__item__name = colloc['lemma']['title']
+              div.dropdown__item__detail
+                - colloc['meanings'].each do |meaning|
+                  p.naming Meaning #{meaning['number']}:
+                  p == meaning['text']['_text']
+                  - if meaning['usages'].size > 0
+                    p.naming Examples of use:
+                    - meaning['usages'].each do |usg|
+                      p: em = usg['text']['_text']
+                p
+                  a.btn.btn--secondary href="/#{colloc['dict']}/show/#{colloc['id']}" Full details

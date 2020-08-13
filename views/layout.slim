@@ -1,0 +1,36 @@
+doctype html
+html
+  head
+    meta charset="utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    meta http-equiv="X-UA-Compatible" content="IE=edge"
+    meta name="robots" content="index,follow"
+    meta name="googlebot" content="index,follow,snippet,archive"
+    - if @title.nil? or @title.empty?
+      title Dictio
+    - else
+      title Dictio: #{@title}
+    link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png"
+    link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png"
+    link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png"
+    link rel="manifest" href="/favicon/site.webmanifest"
+    link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#03c9a9"
+    meta name="msapplication-TileColor" content="#03c9a9" 
+    meta name="theme-color" content="#03c9a9"
+    link rel="stylesheet" href="/css/styles.css" type="text/css"
+    link rel="stylesheet" href="/css/dictio.css" type="text/css"
+  body
+    .content
+      == slim :header
+      == yield
+    - @msclass = "mobile-search--modal"
+    == slim :mobilesearch
+    == slim :footer
+
+    script src="/js/libs/svg4everybody.min.js"
+    javascript:
+      svg4everybody();
+    
+    script src="/js/libs/jquery-1.12.4.min.js"
+    script src="/js/scripts.js"
+    script src="/js/dictio.js"

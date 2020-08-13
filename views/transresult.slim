@@ -1,0 +1,52 @@
+main role="main"
+  == slim :searchbox
+  section.list-translate role="region"
+    article.container role="article"
+      <!-- list translate -->
+      .row.row--start
+        - @result.each do |entry|
+          - rellemmaused = []
+          - entry['meanings'].each do |mean|
+            - mean['relation'].select{|rel| rel['target'] == @target and not rellemmaused.include?(rel['target']+rel['meaning_id'])}.each do |rel|
+              - rellemmaused << rel['target']+rel['meaning_id']
+              .col.col--3.col--precise
+                - if @dict_info[@dictcode]['type'] == 'write'
+                  p
+                    a.btn.btn--simple.btn--simple--lg href="#{@tran_path}/#{entry['id']}" = entry['lemma']['title']
+                - else
+                  .video.video--shrink.video--small
+                    .video__content
+                      video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url="#{@tran_path}/#{entry['id']}" 
+                        source src="/proxy/video#{@dictcode}/#{entry['lemma']['video_front']}" type="video/mp4"
+                    .video__controls
+                      a.video__link href="/#{@tran_path}/#{entry['id']}"
+                        span.icon.icon--open-new-window
+                          svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                            use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
+                      - unless entry['lemma']['sw'].nil? or entry['lemma']['sw'][0].nil?
+                        span.video__sign
+                          img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]=#{entry['lemma']['sw'][0]['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+                    span.video__down
+                      span.icon.icon--arrow-down
+                        svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                          use xlink:href="/img/icons.svg#arrow-down" x="0" y="0" width="100%" height="100%"
+                - if @dict_info[@target]['type'] == 'write'
+                  - if rel['entry'] and rel['entry']['id']
+                    p
+                      a.link href="#{@tran_path}/#{@target}-#{rel['entry']['id']}"  #{rel['entry']['lemma']['title']}
+                      |  (meaning #{rel['meaning_nr']})
+                  - else
+                    p = rel['meaning_id']
+                - else
+                  .video.video--small
+                    .video__content
+                      video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url="#{@tran_path}/#{@target}-#{rel['entry']['id']}" 
+                        source src="/proxy/video#{@target}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
+                    .video__controls
+                      a.video__link href="/#{@dictcode}/translate/#{@target}/#{@params['type']}/#{@search}/#{@target}-#{rel['entry']['id']}"
+                        span.icon.icon--open-new-window
+                          svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                            use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
+                      - unless rel['entry']['lemma']['sw'].nil? or rel['entry']['lemma']['sw'][0].nil?
+                        span.video__sign
+                          img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]=#{rel['entry']['lemma']['sw'][0]['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""

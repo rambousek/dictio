@@ -1,0 +1,34 @@
+<!-- vyhledávání -->
+.search role="search"
+  .container
+    .search__wrapper
+      .search__item
+        label for="translate-from" Translate from:
+        .custom-select
+          select name="translate-from" id="translate-from"
+            - @dict_info.each do |code, info|
+              option value="#{code}" selected=("selected" if @dictcode==code) #{info['label']}
+        .search__switch
+          span.icon.icon--translate
+            svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+              use xlink:href="/img/icons.svg#translate" x="0" y="0" width="100%" height="100%"
+      .search__item
+        label for="translate-to" Translate to:
+        .custom-select
+          select name="translate-to" id="translate-to"
+            - @dict_info.each do |code, info|
+              option value="#{code}" selected=("selected" if @target==code or (@target.to_s=='' and code=='czj')) #{info['label']}
+      .search__item
+        label for="expression" Expression
+        .search__input
+          input type="text" id="expression" placeholder="Dům" value=@search
+          button.btn.btn--search
+            span.icon.icon--magnifier
+              svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                use xlink:href="/img/icons.svg#magnifier" x="0" y="0" width="100%" height="100%"
+        label.checkbox
+          input type="checkbox" name="deklin" value="" checked=@search_params['deklin']
+          span
+          | Cover inflicted forms
+
+<!-- /vyhledávání -->
