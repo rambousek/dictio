@@ -10,9 +10,10 @@
           video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop"
             source src="/proxy/video#{@show_dictcode}/#{@entry['lemma']['video_side']}" type="video/mp4"
       .video__controls
-        - unless @entry['lemma']['sw'].nil? or @entry['lemma']['sw'][0].nil?
+        - unless @entry['lemma']['swmix'].nil?
           span.video__sign
-            img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]=#{@entry['lemma']['sw'][0]['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+            - @entry['lemma']['swmix'].each do |sw|
+              img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
     .video__info
       p
         a.btn.btn-front Front view
