@@ -3,7 +3,7 @@
   - @meaning['relation'].select{|rel| rel['type'] == 'translation' and (rel['target'] == @show_target or @target == '')}.uniq{|rel| rel['target']}.each do |rels|
     p.detail__badge = @dict_info[rels['target']]['label']
     - if @dict_info[rels['target']]['type'] == 'write'
-      - @meaning['relation'].select{|rel| rel['type'] == 'translation' and (rel['target'] == rels['target'])}.each do |rel|
+      - @meaning['relation'].select{|rel| rel['type'] == 'translation' and (rel['target'] == rels['target']) and rel['entry']}.each do |rel|
         - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id'].to_s
         p
           - if rel['entry']['id']
@@ -19,7 +19,7 @@
             = rel['entry']['lemma']['title']
     - else
       .row.row--start
-        - @meaning['relation'].select{|rel| rel['type'] == 'translation' and (rel['target'] == rels['target'])}.each do |rel|
+        - @meaning['relation'].select{|rel| rel['type'] == 'translation' and (rel['target'] == rels['target']) and rel['entry']}.each do |rel|
           - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id'].to_s
           .col.col--2.col--precise
             .video.video--small
