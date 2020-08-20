@@ -42,9 +42,10 @@
               video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url=(@search.to_s != ''? "#{@tran_path}/#{relid}" : "/#{coll['dict']}/show/#{coll['id']}") 
                 source src="/proxy/video#{coll['dict']}/#{coll['lemma']['video_front']}" type="video/mp4"
             .video__controls
-              - unless coll['lemma']['sw'].nil? or coll['lemma']['sw'][0].nil?
+              - unless coll['lemma']['swmix'].nil?
                 span.video__sign
-                  img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]=#{coll['lemma']['sw'][0]['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+                  - coll['lemma']['swmix'].each do |sw|
+                    img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
 
   - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'] != '' or gr['@mluv_komp'] != '' or gr['@oral_komp'] != '' or gr['_text'].to_s != '' or gr['variant'] != nil or gr['@region'] != ''}
     hr.mobile-hide
@@ -134,9 +135,10 @@
                         span.icon.icon--open-new-window
                           svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                             use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
-                    - if rel['entry'] and rel['entry']['lemma'] and rel['entry']['lemma']['sw']
+                    - if rel['entry'] and rel['entry']['lemma'] and rel['entry']['lemma']['swmix']
                       span.video__sign
-                        img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]=#{rel['entry']['lemma']['sw'][0]['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+                        - rel['entry']['lemma']['swmix'].each do |sw|
+                          img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
 
         - if meaning['relation'].find{|rel| rel['type'] == 'antonym'}
           h4 Antonyms
@@ -159,9 +161,10 @@
                         span.icon.icon--open-new-window
                           svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                             use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
-                    - if rel['entry'] and rel['entry']['lemma'] and rel['entry']['lemma']['sw']
+                    - if rel['entry'] and rel['entry']['lemma'] and rel['entry']['lemma']['swmix']
                       span.video__sign
-                        img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]=#{rel['entry']['lemma']['sw'][0]['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+                        - rel['entry']['lemma']['swmix'].each do |sw|
+                          img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
 
         - if meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.size > 0
             h4.detail-block__name Examples of use
@@ -194,9 +197,10 @@
                         video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop"
                           source src="/proxy/video#{colloc['dict']}/#{colloc['lemma']['video_front']}" type="video/mp4"
                   .col.col--2.col--precise
-                      - if colloc['lemma'] and colloc['lemma']['sw']
+                      - if colloc['lemma'] and colloc['lemma']['swmix']
                         span.video__sign style="margin-right: 20px;"
-                          img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]=#{colloc['lemma']['sw'][0]['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+                          - colloc['lemma']['swmix'].each do |sw|
+                            img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
 
               div.dropdown__item__detail
                 - colloc['meanings'].each do |meaning|
