@@ -1,23 +1,23 @@
 .detail__head
-  p.detail__badge.detail__badge--top #{@dict_info[@entry['dict']]['label']} #{@entry['id']}
+  p.detail__badge.detail__badge--top #{I18n.t("dict."+@entry['dict'])} #{@entry['id']}
   .detail-word
     h1.detail-word__headline #{@entry['lemma']['title']} 
   - if @entry['collocations'] and @entry['collocations']['entries']
     h2.detail-category 
-      | composed from entries:
+      | #{I18n.t("entry.composed_from")}:
       - @entry['collocations']['entries'].each do |coll|
         a href="/#{@dictcode}/search/text/#{coll['id']}" #{coll['lemma']['title']}
         | , 
   - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'] != ''}
     h2.detail-category 
-      | lexical category:
+      | #{I18n.t("entry.lexical")}:
       span 
         - if @entry['lemma']['grammar_note']
           - @entry['lemma']['grammar_note'].each do |gram|
             =  gram['@slovni_druh']
   - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gram| gram['variant'] and gram['variant'].size > 0}
     h2.detail-category 
-      | grammatical variants:
+      | #{I18n.t("entry.grammar_variant")}:
       span
         - @entry['lemma']['grammar_note'].each do |gram|
           - if gram['variant']
@@ -72,13 +72,13 @@
   .row
     .col.col--2
       .detail__block.detail__block--line
-        h3 id="meaning#{meaning['number']}" Meaning #{meaning['number']}
+        h3 id="meaning#{meaning['number']}" #{I18n.t("entry.meaning")} #{meaning['number']}
         - if meaning['text'] and meaning['text']['_text']
           p 
             - mtext = meaning['text']['_text'].gsub(/\[[0-9]+(-[0-9]+)?\]/) {|rl| rla=rl[1..-2].split('-'); "<a href='/#{@entry['dict']}/show/#{rla[0]}'>#{meaning['def_relations'][rla[0]]}"+(rla[1].to_s==''?"":" (#{rla[1]})")+"</a>"}
             == mtext
         - if meaning['relation'].find{|rel| rel['type'] == 'synonym'}
-          h4 Synonyms:
+          h4 #{I18n.t("entry.synonyms")}:
           - meaning['relation'].select{|rel| rel['type'] == 'synonym'}.each do |rel|
             - if rel['entry']
               - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id'].to_s
@@ -86,14 +86,14 @@
                 - if rel['entry']['id']
                   - if @search.to_s != ''
                     a.link href="#{@tran_path}/#{relid}" #{rel['entry']['lemma']['title']}
-                    |  (význam #{rel['meaning_nr']})
+                    |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
                   - else
                     a.link href="/#{rel['target']}/show/#{rel['entry']['id']}"  #{rel['entry']['lemma']['title']}
-                    |  (význam #{rel['meaning_nr']})
+                    |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
                 - else
                   = rel['entry']['lemma']['title']
         - if meaning['relation'].find{|rel| rel['type'] == 'antonym'}
-          h4 Antonyms:
+          h4 #{I18n.t("entry.antonyms")}:
           - meaning['relation'].select{|rel| rel['type'] == 'antonym'}.each do |rel|
             - if rel['entry']
               - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id'].to_s
@@ -101,14 +101,14 @@
                 - if rel['entry']['id']
                   - if @search.to_s != ''
                     a.link href="#{@tran_path}/#{relid}" #{rel['entry']['lemma']['title']}
-                    |  (význam #{rel['meaning_nr']})
+                    |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
                   - else
                     a.link href="/#{rel['target']}/show/#{rel['entry']['id']}"  #{rel['entry']['lemma']['title']}
-                    |  (význam #{rel['meaning_nr']})
+                    |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
                 - else
                   = rel['entry']['lemma']['title']
         - if meaning['usages'].size > 0
-          h4 Examples of use:
+          h4 #{I18n.t("entry.examples")}:
           - meaning['usages'].each do |usg|
             p
               em = usg['text']['_text']
@@ -121,18 +121,18 @@
     .col.col--2.col--precise
       .detail__block.detail__block--line
         div.detail-block
-          h3.headline.detail-block__headline Collocations with this lemma
+          h3.headline.detail-block__headline = I18n.t("entry.collocation_with_this")
           div.dropdown
           - @entry['revcollocations']['entries'].each do |colloc|
             div.dropdown__item
               div.dropdown__item__name = colloc['lemma']['title']
               div.dropdown__item__detail
                 - colloc['meanings'].each do |meaning|
-                  p.naming Meaning #{meaning['number']}:
+                  p.naming #{I18n.t("entry.meaning")} #{meaning['number']}:
                   p == meaning['text']['_text']
                   - if meaning['usages'].size > 0
-                    p.naming Examples of use:
+                    p.naming #{I18n.t("entry.examples")}:
                     - meaning['usages'].each do |usg|
                       p: em = usg['text']['_text']
                 p
-                  a.btn.btn--secondary href="/#{colloc['dict']}/show/#{colloc['id']}" Full details
+                  a.btn.btn--secondary href="/#{colloc['dict']}/show/#{colloc['id']}" = I18n.t("entry.full_details")

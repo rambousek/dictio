@@ -1,7 +1,7 @@
 - if @meaning['relation'].find{|rel| rel['type'] == 'translation' and (rel['target'] == @show_target or @target == '')}
-  h3 Translations:
+  h3 #{I18n.t("entry.translations")}:
   - @meaning['relation'].select{|rel| rel['type'] == 'translation' and (rel['target'] == @show_target or @target == '')}.uniq{|rel| rel['target']}.each do |rels|
-    p.detail__badge = @dict_info[rels['target']]['label']
+    p.detail__badge = I18n.t("dict."+rels['target'])
     - if @dict_info[rels['target']]['type'] == 'write'
       - @meaning['relation'].select{|rel| rel['type'] == 'translation' and (rel['target'] == rels['target']) and rel['entry']}.each do |rel|
         - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id'].to_s
@@ -10,11 +10,11 @@
             - if @search.to_s != ''
               a.link href="#{@tran_path}/#{relid}" #{rel['entry']['lemma']['title']}
               - if rel['meaning_nr']
-                |  (význam #{rel['meaning_nr']})
+                |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
             - else
               a.link href="/#{rel['target']}/show/#{rel['entry']['id']}"  #{rel['entry']['lemma']['title']}
               - if rel['meaning_nr']
-                |  (význam #{rel['meaning_nr']})
+                |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
           - else
             = rel['entry']['lemma']['title']
     - else
@@ -41,4 +41,4 @@
                   span.video__sign
                     img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]=#{rel['entry']['lemma']['sw'][0]['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
             .video__info
-              p meaning #{rel['meaning_nr']}
+              p #{I18n.t("entry.meaning_small")} #{rel['meaning_nr']}

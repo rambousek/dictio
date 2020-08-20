@@ -1,5 +1,5 @@
 .detail__head
-  p.detail__badge.detail__badge--top #{@dict_info[@entry['dict']]['label']} #{@entry['id']}
+  p.detail__badge.detail__badge--top #{I18n.t("dict."+@entry['dict'])} #{@entry['id']}
   .video-top
     .video
       .video__content.video-front
@@ -16,9 +16,9 @@
               img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
     .video__info
       p
-        a.btn.btn-front Front view
+        a.btn.btn-front = I18n.t("entry.frontview")
         - if @entry['lemma']['video_side'] != ''
-          a.btn.btn--secondary.btn-side Profile view
+          a.btn.btn--secondary.btn-side = I18n.t("entry.sideview")
 
   - unless @entry['lemma']['hamnosys'].nil? or @entry['lemma']['hamnosys']['_text'].to_s == ''
     .hieroglyf.mobile-hide
@@ -30,9 +30,9 @@
 
   - if @entry['collocations'] and @entry['collocations']['entries'] and @entry['collocations']['entries'].size > 0
     - if @entry['lemma']['lemma_type'] == "collocation"
-      p.naming composed from entries (collocation):
+      p.naming #{I18n.t("entry.composed_collocation")}:
     - else
-      p.naming composed from entries (komp,deriv):
+      p.naming #{I18n.t("entry.composed_deriv")}:
     .row.row--start
       - @entry['collocations']['entries'].each do |coll|
         - relid = (coll['dict'] == @dictcode) ? coll['id'] : coll['dict']+'-'+coll['id'].to_s
@@ -52,20 +52,20 @@
 
     .block.mobile-hide
       - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh']!=''}
-        p.naming Lexical category:
+        p.naming #{I18n.t("entry.lexical")}:
         p
           - @entry['lemma']['grammar_note'].each do |gram|
             = gram['@slovni_druh']
       - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@mluv_komp'] == ''
-        p.naming Mouthing:
+        p.naming #{I18n.t("entry.mouthing")}:
         p 
           | [#{@entry['lemma']['grammar_note'][0]['@mluv_komp']}] - #{@entry['lemma']['grammar_note'][0]['@mluv_komp_sel']}
       - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@oral_komp'] == ''
-        p.naming Oral component:
+        p.naming #{I18n.t("entry.oralcomp")}:
         p 
           | [#{@entry['lemma']['grammar_note'][0]['@oral_komp']}] - #{@entry['lemma']['grammar_note'][0]['@oral_komp_sel']}
       - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['_text'].nil?
-        p.naming Grammar details:
+        p.naming #{I18n.t("entry.grammar_details")}:
         p
           - gcount = 0
           - grtext = @entry['lemma']['grammar_note'][0]['_text'].gsub(/\[media_id=[0-9]+\]/) {|s| gcount+=1; 'viz video '+gcount.to_s}
@@ -83,7 +83,7 @@
                 .video__info
                   | video #{gcount}
       - if @entry['lemma']['grammar_note'] != nil and @entry['lemma']['grammar_note'].find{|gr| gr['variant'] != nil and gr['variant'].size > 0}
-        p.naming Gramatical variants:
+        p.naming #{I18n.t("entry.grammar_variant")}:
         .row.row--start 
           - @entry['lemma']['grammar_note'].each do |gram|
             - if gram['variant'] != nil 
@@ -94,7 +94,7 @@
                       video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop"
                         source src="/proxy/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}" type="video/mp4"
       - unless  @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@region'] == ''
-        p.naming Distribution area:
+        p.naming #{I18n.t("entry.distribution_area")}:
         p #{@entry['lemma']['grammar_note'][0]['@region']}
 
 - @entry["meanings"].each do |meaning|
@@ -103,7 +103,7 @@
     .col.col--2
       .detail__block.detail__block--line
         .video-simple
-          h3 id="meaning#{meaning['number']}" Meaning #{meaning['number']}
+          h3 id="meaning#{meaning['number']}" #{I18n.t("entry.meaning")} #{meaning['number']}
           /.mobile-text
           /  p 
           /    | Semantic region: 
@@ -115,7 +115,7 @@
                   source src="/proxy/video#{@show_dictcode}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
 
         - if meaning['relation'].find{|rel| rel['type'] == 'synonym'}
-          h4 Synonyms
+          h4 = I18n.t("entry.synonyms")
           .row.row--start
             - meaning['relation'].select{|rel| rel['type'] == 'synonym'}.each do |rel|
               - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id']
@@ -141,7 +141,7 @@
                           img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
 
         - if meaning['relation'].find{|rel| rel['type'] == 'antonym'}
-          h4 Antonyms
+          h4 = I18n.t("entry.antonyms")
           .row.row--start
             - meaning['relation'].select{|rel| rel['type'] == 'antonym'}.each do |rel|
               - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id']
@@ -167,7 +167,7 @@
                           img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
 
         - if meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.size > 0
-            h4.detail-block__name Examples of use
+            h4.detail-block__name = I18n.t("entry.examples")
             .row.row--start
               - meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.each do |usg|
                 - if usg["text"] and usg["text"]["file"]
@@ -185,7 +185,7 @@
     .col.col--2.col--precise
       .detail__block.detail__block--line
         div.detail-block
-          h3.headline.detail-block__headline Collocations with this lemma
+          h3.headline.detail-block__headline == I18n.t("entry.collocation_with_this")
           div.dropdown
           - @entry['revcollocations']['entries'].each do |colloc|
             div.dropdown__item
@@ -204,14 +204,14 @@
 
               div.dropdown__item__detail
                 - colloc['meanings'].each do |meaning|
-                  p.naming Meaning #{meaning['number']}:
+                  p.naming #{I18n.t("entry.meaning")} #{meaning['number']}:
                   - if meaning["text"] and meaning["text"]["file"]
                     .video.video--small
                       .video__content
                         video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop"
                           source src="/proxy/video#{colloc['dict']}/#{colloc['media'][meaning["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
                   - if meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.size > 0
-                    p.naming Examples of use:
+                    p.naming #{I18n.t("entry.examples")}:
                     .row.row--start
                       - meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.each do |usg|
                         - if usg["text"] and usg["text"]["file"]
@@ -221,5 +221,5 @@
                                 video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop"
                                   source src="/proxy/video#{colloc['dict']}/#{colloc['media'][usg["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
                 p
-                  a.btn.btn--secondary href="/#{colloc['dict']}/show/#{colloc['id']}" Full details
+                  a.btn.btn--secondary href="/#{colloc['dict']}/show/#{colloc['id']}" == I18n.t("entry.full_details")
 

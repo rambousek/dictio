@@ -19,7 +19,7 @@
             - @dict_info.each do |code, info|
               option value="#{code}" selected=("selected" if @target==code or (@target.to_s=='' and code=='czj')) #{info['label']}
       .search__item
-        label for="expression" == I18n.t("search.expression")
+        label for="expression" = I18n.t("search.expression")
         .search__input
           input type="text" id="expression" placeholder="#{I18n.t('search.placeholder')}" value=@search
           button.btn.btn--search
@@ -29,6 +29,6 @@
         label.checkbox
           input type="checkbox" name="deklin" value="" checked=@search_params['deklin']
           span
-          == I18n.t("search.inflicted")
+          = I18n.t("search.inflicted")
 
 <!-- /vyhledávání -->
