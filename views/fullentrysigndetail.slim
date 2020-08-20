@@ -54,12 +54,16 @@
       - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh']!=''}
         p.naming #{I18n.t("entry.lexical")}:
         p
-          - @entry['lemma']['grammar_note'].each do |gram|
-            = gram['@slovni_druh']
+          - slovni_druhy = []
+          - @entry['lemma']['grammar_note'].each{|gr| slovni_druhy << gr['@slovni_druh']}
+          - slovni_druhy.uniq.each do |sd|
+            = I18n.t("gram.slovni_druh."+sd)
+            - unless sd.equal? slovni_druhy.uniq.last
+              | , 
       - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@mluv_komp'] == ''
         p.naming #{I18n.t("entry.mouthing")}:
         p 
-          | [#{@entry['lemma']['grammar_note'][0]['@mluv_komp']}] - #{@entry['lemma']['grammar_note'][0]['@mluv_komp_sel']}
+          | [#{@entry['lemma']['grammar_note'][0]['@mluv_komp']}] - #{I18n.t("gram."+@entry['lemma']['grammar_note'][0]['@mluv_komp_sel'])}
       - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@oral_komp'] == ''
         p.naming #{I18n.t("entry.oralcomp")}:
         p 
@@ -95,7 +99,7 @@
                         source src="/proxy/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}" type="video/mp4"
       - unless  @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@region'] == ''
         p.naming #{I18n.t("entry.distribution_area")}:
-        p #{@entry['lemma']['grammar_note'][0]['@region']}
+        p = I18n.t("gram.region."+@entry['lemma']['grammar_note'][0]['@region'])
 
 - @entry["meanings"].each do |meaning|
   - @meaning = meaning

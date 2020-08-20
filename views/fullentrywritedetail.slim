@@ -2,19 +2,23 @@
   p.detail__badge.detail__badge--top #{I18n.t("dict."+@entry['dict'])} #{@entry['id']}
   .detail-word
     h1.detail-word__headline #{@entry['lemma']['title']} 
-  - if @entry['collocations'] and @entry['collocations']['entries']
+  - if @entry['collocations'] and @entry['collocations']['entries'] and @entry['collocations']['entries'].size > 0
     h2.detail-category 
       | #{I18n.t("entry.composed_from")}:
       - @entry['collocations']['entries'].each do |coll|
         a href="/#{@dictcode}/search/text/#{coll['id']}" #{coll['lemma']['title']}
         | , 
   - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'] != ''}
-    h2.detail-category 
-      | #{I18n.t("entry.lexical")}:
-      span 
-        - if @entry['lemma']['grammar_note']
-          - @entry['lemma']['grammar_note'].each do |gram|
-            =  gram['@slovni_druh']
+      - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh']!=''}
+        h2.detail-category 
+          | #{I18n.t("entry.lexical")}: 
+          span
+            - slovni_druhy = []
+            - @entry['lemma']['grammar_note'].each{|gr| slovni_druhy << gr['@slovni_druh']}
+            - slovni_druhy.uniq.each do |sd|
+              = I18n.t("gram.slovni_druh."+sd)
+              - unless sd.equal? slovni_druhy.uniq.last
+                | , 
   - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gram| gram['variant'] and gram['variant'].size > 0}
     h2.detail-category 
       | #{I18n.t("entry.grammar_variant")}:
@@ -29,43 +33,145 @@
       table.table.table--no-margin
         tr
           th
-          th jednotné číslo
-          th množné číslo
+          th = I18n.t("gram.detail.jednotne")
+          th = I18n.t("gram.detail.mnozne")
         tr
           td
-            strong 1. pád
+            strong = I18n.t("gram.detail.1pad")
           td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc1'}[0]['_text']
           td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc1'}[0]['_text']
         tr
           td
-            strong 2. pád
+            strong = I18n.t("gram.detail.2pad")
           td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc2'}[0]['_text']
           td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc2'}[0]['_text']
         tr
           td
-            strong 3. pád
+            strong = I18n.t("gram.detail.3pad")
           td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc3'}[0]['_text']
           td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc3'}[0]['_text']
         tr
           td
-            strong 4. pád
+            strong = I18n.t("gram.detail.4pad")
           td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc4'}[0]['_text']
           td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc4'}[0]['_text']
         tr
           td
-            strong 5. pád
+            strong = I18n.t("gram.detail.5pad")
           td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc5'}[0]['_text']
           td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc5'}[0]['_text']
         tr
           td
-            strong 6. pád
+            strong = I18n.t("gram.detail.6pad")
           td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc6'}[0]['_text']
           td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc6'}[0]['_text']
         tr
           td
-            strong 7. pád
+            strong = I18n.t("gram.detail.7pad")
           td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc7'}[0]['_text']
           td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc7'}[0]['_text']
+    - if  @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mIp1nS'}.size > 0
+      table.table.table--no-margin
+        tr
+          th
+          th = I18n.t("gram.detail.jednotne")
+          th = I18n.t("gram.detail.mnozne")
+        tr
+          td
+            strong = I18n.t("gram.detail.1osoba")
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mIp1nS'}[0]['_text']
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mIp1nP'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.2osoba")
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mIp2nS'}[0]['_text']
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mIp2nP'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.3osoba")
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mIp3nS'}[0]['_text']
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mIp3nP'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.rozkazovaci")
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mRp2nS'}[0]['_text']
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mRp2nP'}[0]['_text']
+        - if @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mAgMnS'}.size > 0
+          tr
+            td
+              strong = I18n.t("gram.detail.pricinne")
+            td colspan="2" = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mAgMnS'}[0]['_text']
+        - if @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mNgMnS'}.size > 0
+          tr
+            td
+              strong = I18n.t("gram.detail.pritrpne")
+            td colspan="2" = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mNgMnS'}[0]['_text']
+        - if @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mSgMnS'}.size > 0
+          tr
+            td
+              strong = I18n.t("gram.detail.prechm")
+            td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mSgMnS'}[0]['_text']
+            td rowspan="2" = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mSgMnP'}[0]['_text']
+          tr
+            td
+              strong = I18n.t("gram.detail.prechzs")
+            td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mSgFnS'}[0]['_text']
+        - if @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mDgMnS'}.size > 0
+          tr
+            td
+              strong = I18n.t("gram.detail.prechm")
+            td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mDgMnS'}[0]['_text']
+            td rowspan="2" = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mDgMnP'}[0]['_text']
+          tr
+            td
+              strong = I18n.t("gram.detail.prechzs")
+            td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mDgFnS'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.versub")
+          td colspan="2" = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'gNnSc1'}[0]['_text']
+    - if  @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'd2'}.size > 0
+      table.table.table--no-margin
+        tr
+          td
+            strong = I18n.t("gram.detail.2stupen")
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'd2'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.3stupen")
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'd3'}[0]['_text']
+    - if  @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c1'}.size > 0
+      table.table.table--no-margin
+        tr
+          td
+            strong = I18n.t("gram.detail.1pad")
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c1'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.2pad")
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c2'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.3pad")
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c3'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.4pad")
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c4'}[0]['_text']
+        - if  @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c5'}.size > 0
+          tr
+            td
+              strong = I18n.t("gram.detail.5pad")
+            td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c5'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.6pad")
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c6'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.7pad")
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c7'}[0]['_text']
+
 
 - @entry['meanings'].each do |meaning|
   - @meaning = meaning
