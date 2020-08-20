@@ -70,8 +70,8 @@ class CZJDict < Object
             # spojeni/spell = SW casti
             if entry['collocations']['entries']
               entry['collocations']['entries'].each{|ce|
-                if ce['lemma'] and ce['lemma']['sw']
-                  ce['lemma']['sw'].each{|swc| entry['lemma']['swmix'] << swc.dup}
+                if ce['lemma'] and ce['lemma']['swmix']
+                  ce['lemma']['swmix'].each{|swc| entry['lemma']['swmix'] << swc.dup}
                 end
               }
             end
