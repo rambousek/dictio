@@ -189,11 +189,15 @@ class CZJDict < Object
             rela = rel['meaning_id'].split('-')
             lemmaid = rela[0]
             rel['meaning_nr'] = rela[1]
-            rel['entry'] = @entrydb.find({'dict': rel['target'], 'id': lemmaid}).first
+            relentry = @entrydb.find({'dict': rel['target'], 'id': lemmaid}).first
+            relentry = add_colloc(relentry)
+            relentry = get_sw(relentry)
+            rel['entry'] = relentry
           elsif rel['meaning_id'] =~ /^[0-9]*-[0-9]*_us[0-9]*$/
             rela = rel['meaning_id'].split('-')
             lemmaid = rela[0]
-            rel['entry'] = @entrydb.find({'dict': rel['target'], 'id': lemmaid}).first
+            relentry = @entrydb.find({'dict': rel['target'], 'id': lemmaid}).first
+            rel['entry'] = relentry
             if rel['entry']
               rel['entry']['meanings'].each{|rm|
                 if rm['usages']
@@ -280,6 +284,7 @@ class CZJDict < Object
       entry = add_rels(entry, 'translation', target)
       entry = add_rels(entry, 'synonym', source)
       entry = add_rels(entry, 'antonym', source)
+      entry = get_sw(entry)
       res << entry
     }
     return res
