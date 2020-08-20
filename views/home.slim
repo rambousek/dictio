@@ -3,11 +3,11 @@ main role="main"
     article.translation role="article"
       .container
         .translation__wrapper
-          p.translation__count-desktop.headline translations: 18 852
+          p.translation__count-desktop.headline Entries: #{@count_entry} <br/> Translations: #{@count_rels}
           h1 Multilingual dictionary focused on sign languages
           p.lead Search for translations in several languages and explore various meanings of words and signs. There is more information than you expect.
           .translation__count-mobile
-            .special-info Translations: <strong>18 852</strong>
+            .special-info Entries: <strong>#{@count_entry}</strong> Translations: <strong>#{@count_rels}</strong>
     == slim :searchboxtrans
     == slim :searchboxsearch
     - @msclass = ""

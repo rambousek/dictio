@@ -41,7 +41,18 @@ class CzjApp < Sinatra::Base
   }
 
   dict_array = {}
-  
+
+  get '/' do
+    @dict_info = dict_info
+    @search_params = {}
+    @target = 'czj'
+    @dictcode = 'cs'
+    stat = $mongo['entryStat'].find({}, :sort=>{'dateField'=>-1}).first
+    @count_entry = stat['entries'][0]['count']
+    @count_rels = ((stat['rel'][0]['count'].to_i+stat['usgrel'][0]['count'].to_i)/2).round
+    slim :home
+  end
+
   (write_dicts+sign_dicts).each{|code|
   	$stderr.puts code
     dict = CZJDict.new(code)
@@ -49,13 +60,6 @@ class CzjApp < Sinatra::Base
     dict.sign_dicts = sign_dicts
     dict_array[code] = dict
  
-    get '/' do
-      @dict_info = dict_info
-      @search_params = {}
-      @target = 'czj'
-      @dictcode = 'cs'
-      slim :home
-    end
     get '/proxy/:dir/:video' do
       content_type 'video/mp4'
       if File.exist?('public/'+params['dir']+'/'+params['video'])
