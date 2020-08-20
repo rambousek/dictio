@@ -33,7 +33,9 @@ class CZJDict < Object
     entry['revcollocations'] = {} if entry['revcollocations'].nil?
     entry['revcollocations']['entries'] = []
     if @write_dicts.include?(entry['dict'])
-      collate = {:collation => {'locale'=>entry['dict']}, :sort => {'lemma.title'=>1}}
+      locale = entry['dict']
+      locale = 'sk' if entry['dict'] == 'sj'
+      collate = {:collation => {'locale' => locale}, :sort => {'lemma.title' => 1}}
     else
       collate = { :sort => {'id'=>1}}
     end
