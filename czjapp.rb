@@ -5,6 +5,8 @@ require 'mongo'
 require 'json'
 require 'bson'
 require 'open-uri'
+require 'i18n'
+require 'i18n/backend/fallbacks'
 
 require_relative 'lib/dict/czj'
 
@@ -15,6 +17,10 @@ class CzjApp < Sinatra::Base
     set :bind, '0.0.0.0'
     set :server, :puma
     set :strict_paths, false
+    I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
+    I18n.load_path = Dir[File.join(settings.root, 'locales', '*.yml')]
+    I18n.backend.load_translations
+    I18n.default_locale = 'cs'
   end
   
   dict_info = {
@@ -41,6 +47,14 @@ class CzjApp < Sinatra::Base
   }
 
   dict_array = {}
+
+  before do
+    I18n.locale = 'cs'
+    I18n.locale = params['lang'] if params['lang'].to_s != "" and I18n.available_locales.map(&:to_s).include?(params["lang"])
+    @selectlang = I18n.locale.to_s
+    @langpath = request.fullpath.gsub(/lang=[a-z]*/,'').gsub(/&&*/,'&')
+    @langpath += '?' unless @langpath.include?('?')
+  end
 
   get '/' do
     @dict_info = dict_info

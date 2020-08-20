@@ -41,25 +41,20 @@ header.header role="banner"
         .nav-lang
           span.icon.icon--globe.nav__icon
             svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
-              use xlink:href="img/icons.svg#globe" x="0" y="0" width="100%" height="100%"
-          .nav-lang__selected English
+              use xlink:href="/img/icons.svg#globe" x="0" y="0" width="100%" height="100%"
+          .nav-lang__selected == I18n.t("locale."+@selectlang)
+            English
           span.icon.icon--arrow-down.nav-lang__dropdown
             svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
-              use xlink:href="img/icons.svg#arrow-down" x="0" y="0" width="100%" height="100%"
+              use xlink:href="/img/icons.svg#arrow-down" x="0" y="0" width="100%" height="100%"
           .nav-lang__choose
             ul
               li
-                a href="#" Čeština
+                a href="#{@langpath}#{(@langpath[-1]=='?')?'':'&'}lang=cs" == I18n.t("locale.cs")
               li
-                a href="#" English
+                a href="#{@langpath}#{(@langpath[-1]=='?')?'':'&'}lang=en" == I18n.t("locale.en")
               li
-                a href="#" Deutsch
-              li
-                a href="#" Polski
-              li
-                a href="#" Slovensky
-              li
-                a href="#" Other language
+                a href="#{@langpath}#{(@langpath[-1]=='?')?'':'&'}lang=de" == I18n.t("locale.de")
 
         <!-- mobilni menu -->
         .mobile-menu
@@ -67,7 +62,7 @@ header.header role="banner"
             .mobile-menu__top
               span.icon.icon--star
                 svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
-                  use xlink:href="img/icons.svg#star" x="0" y="0" width="100%" height="100%"
+                  use xlink:href="/img/icons.svg#star" x="0" y="0" width="100%" height="100%"
 
             .mobile-menu__scroll
               .mobile-menu__nav
@@ -87,18 +82,18 @@ header.header role="banner"
               .mobile-menu__lang
                 ul
                   li
-                    a href="#" Česky
+                    a href="#{@langpath}#{(@langpath[-1]=='?')?'':'&'}lang=cs" == I18n.t("locale.cs")
                   li
-                    a href="#" English
+                    a href="#{@langpath}#{(@langpath[-1]=='?')?'':'&'}lang=en" == I18n.t("locale.en")
                   li
-                    a href="#" Deutsch
+                    a href="#{@langpath}#{(@langpath[-1]=='?')?'':'&'}lang=de" == I18n.t("locale.de")
               .mobile-menu__bottom
                 a.btn href="#" Full dictionary version
         .nav__mobile
           .nav__mobile-search
             span.icon.icon--magnifier
               svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
-                use xlink:href="img/icons.svg#magnifier" x="0" y="0" width="100%" height="100%"
+                use xlink:href="/img/icons.svg#magnifier" x="0" y="0" width="100%" height="100%"
           .nav-switcher role="button" aria-controls="navigation" tabindex="0" aria-label="Menu"
             .nav-switcher__line
 <!-- /hlavička -->

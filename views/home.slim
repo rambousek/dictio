@@ -3,11 +3,11 @@ main role="main"
     article.translation role="article"
       .container
         .translation__wrapper
-          p.translation__count-desktop.headline Entries: #{@count_entry} <br/> Translations: #{@count_rels}
-          h1 Multilingual dictionary focused on sign languages
-          p.lead Search for translations in several languages and explore various meanings of words and signs. There is more information than you expect.
+          p.translation__count-desktop.headline #{I18n.t("entries")}: #{@count_entry} <br/> #{I18n.t("translations")}: #{@count_rels}
+          h1 == I18n.t("home.title")
+          p.lead == I18n.t("home.info")
           .translation__count-mobile
-            .special-info Entries: <strong>#{@count_entry}</strong> Translations: <strong>#{@count_rels}</strong>
+            .special-info #{I18n.t("entries")}: <strong>#{@count_entry}</strong> #{I18n.t("translations")}: <strong>#{@count_rels}</strong>
     == slim :searchboxtrans
     == slim :searchboxsearch
     - @msclass = ""

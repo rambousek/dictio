@@ -1,0 +1,19 @@
+en:
+  locale:
+    en: "English"
+    cs: "Čeština"
+    de: "Deutsch"
+  translations: "Translations"
+  entries: "Entries"
+  home:
+    title: "Multilingual dictionary focused on sign languages"
+    info: "Search for translations in several languages and explore various meanings of words and signs. There is more information than you expect."
+  search:
+    translate_from: "Translate from"
+    translate_to: "Translate to"
+    expression: "Expression"
+    placeholder: "Enter search expression"
+    search_in: "Search in"
+    inflicted: "cover inflicted forms"
+    diacritics: "ignore diacritics"
+    collocations: "cover collocations"

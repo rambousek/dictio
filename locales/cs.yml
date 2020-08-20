@@ -1,0 +1,19 @@
+cs:
+  locale:
+    en: "English"
+    cs: "Čeština"
+    de: "Deutsch"
+  translations: "Překlady"
+  entries: "Hesla"
+  home:
+    title: "Vícejazyčný slovník znakových jazyků"
+    info: "popis"
+  search:
+    translate_from: "Přeložit z"
+    translate_to: "Přeložit do"
+    expression: "Výraz"
+    placeholder: "Zadejte hledaný výraz"
+    search_in: "Hledat v"
+    inflicted: "hledat slovní tvary"
+    diacritics: "hledat bez diakritiky"
+    collocations: "hledat slovní spojení"

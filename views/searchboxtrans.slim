@@ -3,7 +3,7 @@
   .container
     .search__wrapper
       .search__item
-        label for="translate-from" Translate from:
+        label for="translate-from" #{I18n.t("search.translate_from")}:
         .custom-select
           select name="translate-from" id="translate-from"
             - @dict_info.each do |code, info|
@@ -13,15 +13,15 @@
             svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
               use xlink:href="/img/icons.svg#translate" x="0" y="0" width="100%" height="100%"
       .search__item
-        label for="translate-to" Translate to:
+        label for="translate-to" #{I18n.t("search.translate_to")}:
         .custom-select
           select name="translate-to" id="translate-to"
             - @dict_info.each do |code, info|
               option value="#{code}" selected=("selected" if @target==code or (@target.to_s=='' and code=='czj')) #{info['label']}
       .search__item
-        label for="expression" Expression
+        label for="expression" == I18n.t("search.expression")
         .search__input
-          input type="text" id="expression" placeholder="Dům" value=@search
+          input type="text" id="expression" placeholder="#{I18n.t('search.placeholder')}" value=@search
           button.btn.btn--search
             span.icon.icon--magnifier
               svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -29,6 +29,6 @@
         label.checkbox
           input type="checkbox" name="deklin" value="" checked=@search_params['deklin']
           span
-          | Cover inflicted forms
+          == I18n.t("search.inflicted")
 
 <!-- /vyhledávání -->

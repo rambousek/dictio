@@ -5,15 +5,15 @@
       .search-alt__wrap
         .search-alt__top
           .search__item 
-            label for="translate-from" Search in:
+            label for="translate-from" #{I18n.t("search.search_in")}:
             .custom-select
               select name="translate-from" id="translate-from"
                 - @dict_info.each do |code, info|
                   option value="#{code}" selected=("selected" if @dictcode==code) #{info['label']}
           .search__item
-            label for="expression" Expression
+            label for="expression" == I18n.t("search.expression")
             .search__input
-              input type="text" id="expression" placeholder="Dům" value=@search
+              input type="text" id="expression" placeholder="#{I18n.t('search.placeholder')}" value=@search
               button.btn.btn--search
                 span.icon.icon--magnifier
                   svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -22,14 +22,14 @@
           label.checkbox
             input type="checkbox" name="deklin" checked=@search_params['deklin']
               span
-              | cover inflicted forms
+              == I18n.t("search.inflicted")
           label.checkbox
             input type="checkbox" name="diak" checked=@search_params['diak']
               span
-              | ignore diacritics
+              == I18n.t("search.diacritics")
           label.checkbox
             input type="checkbox" name="spojeni" checked=@search_params['spojeni']
               span
-              | cover collocations
+              == I18n.t("search.collocations")
 <!-- vyhledávání -->
 
