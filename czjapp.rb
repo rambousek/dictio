@@ -21,6 +21,7 @@ class CzjApp < Sinatra::Base
     I18n.load_path = Dir[File.join(settings.root, 'locales', '*.yml')]
     I18n.backend.load_translations
     I18n.default_locale = 'cs'
+    enable :sessions
   end
   
   dict_info = {
@@ -49,9 +50,13 @@ class CzjApp < Sinatra::Base
   dict_array = {}
 
   before do
-    I18n.locale = 'cs'
-    I18n.locale = params['lang'] if params['lang'].to_s != "" and I18n.available_locales.map(&:to_s).include?(params["lang"])
-    @selectlang = I18n.locale.to_s
+    if params['lang'].to_s != "" and I18n.available_locales.map(&:to_s).include?(params["lang"]) and params['lang'] != session[:locale]
+      session[:locale] = 'cs' if session[:locale].to_s == ""
+      session[:locale] = params['lang']
+    end
+    @selectlang = session[:locale]
+    @selectlang = 'cs' if @selectlang.nil?
+    I18n.locale = @selectlang
     @langpath = request.fullpath.gsub(/lang=[a-z]*/,'').gsub(/&&*/,'&')
     @langpath += '?' unless @langpath.include?('?')
   end
