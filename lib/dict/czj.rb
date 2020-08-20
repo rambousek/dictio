@@ -192,6 +192,7 @@ class CZJDict < Object
             lemmaid = rela[0]
             rel['meaning_nr'] = rela[1]
             relentry = @entrydb.find({'dict': rel['target'], 'id': lemmaid}).first
+            next if relentry.nil?
             relentry = add_colloc(relentry)
             relentry = get_sw(relentry)
             rel['entry'] = relentry
@@ -199,6 +200,7 @@ class CZJDict < Object
             rela = rel['meaning_id'].split('-')
             lemmaid = rela[0]
             relentry = @entrydb.find({'dict': rel['target'], 'id': lemmaid}).first
+            next if relentry.nil?
             rel['entry'] = relentry
             if rel['entry']
               rel['entry']['meanings'].each{|rm|
