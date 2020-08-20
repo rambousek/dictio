@@ -194,15 +194,17 @@ class CZJDict < Object
             rela = rel['meaning_id'].split('-')
             lemmaid = rela[0]
             rel['entry'] = @entrydb.find({'dict': rel['target'], 'id': lemmaid}).first
-            rel['entry']['meanings'].each{|rm|
-              if rm['usages']
-                rm['usages'].each{|ru|
-                  if ru['id'] == rel['meaning_id']
-                    rel['entry']['lemma']['title'] = ru['text']['_text']
-                  end
-                }
-              end
-            }
+            if rel['entry']
+              rel['entry']['meanings'].each{|rm|
+                if rm['usages']
+                  rm['usages'].each{|ru|
+                    if ru['id'] == rel['meaning_id']
+                      rel['entry']['lemma']['title'] = ru['text']['_text']
+                    end
+                  }
+                end
+              }
+            end
           else
             rel['entry'] = {'lemma'=>{'title'=>rel['meaning_id']}}
             rel['meaning_nr'] = ''
