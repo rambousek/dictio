@@ -235,6 +235,10 @@ class CZJDict < Object
       @entrydb.find({'dict': dictcode, 'id': search}).each{|re|
         res << full_entry(re)
       }
+    elsif search == '*'
+      @entrydb.find({'dict': dictcode}).each{|re|
+        res << re
+      }
     else
       if @write_dicts.include?(dictcode)
           fullids = []
