@@ -97,6 +97,7 @@ en:
       int: "interjection"
       sprezka: "adverbial compound"
       zkratka: "abbreviation"
+      ustalene: "collocation"
     detail:
       jednotne: "singular"
       mnozne: "plural"

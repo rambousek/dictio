@@ -97,6 +97,7 @@ cs:
       int: "citoslovce"
       sprezka: "příslovečná spřežka"
       zkratka: "zkratka"
+      ustalene: "ustálené slovní spojení/frazém"
     detail:
       jednotne: "jednotné číslo"
       mnozne: "množné číslo"
