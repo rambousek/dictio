@@ -4,20 +4,22 @@
     h1.detail-word__headline #{@entry['lemma']['title']} 
   - if @entry['collocations'] and @entry['collocations']['entries'] and @entry['collocations']['entries'].size > 0
     h2.detail-category 
-      | #{I18n.t("entry.composed_from")}:
+      | #{I18n.t("entry.composed_from")}: 
       - @entry['collocations']['entries'].each do |coll|
-        a href="/#{@dictcode}/search/text/#{coll['id']}" #{coll['lemma']['title']}
-        | , 
+        a href="/#{@dictcode}/show/#{coll['id']}" #{coll['lemma']['title']}
+        - unless coll.equal?(@entry['collocations']['entries'].last)
+          | , 
   - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'] != ''}
       - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh']!=''}
         h2.detail-category 
-          | #{I18n.t("entry.lexical")}: 
+          - if @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh']!='ustalene'}
+            | #{I18n.t("entry.lexical")}: 
           span
             - slovni_druhy = []
             - @entry['lemma']['grammar_note'].each{|gr| slovni_druhy << gr['@slovni_druh']}
             - slovni_druhy.uniq.each do |sd|
               = I18n.t("gram.slovni_druh."+sd)
-              - unless sd.equal? slovni_druhy.uniq.last
+              - unless sd.equal?(slovni_druhy.uniq.last)
                 | , 
   - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gram| gram['variant'] and gram['variant'].size > 0}
     h2.detail-category 
