@@ -1,13 +1,23 @@
 cs:
   locale:
     en: "English"
-    cs: "Čeština"
+    cs: "Česky"
     de: "Deutsch"
   dict:
     cs: "Čeština"
     sj: "Slovenština"
     en: "Angličtina"
     de: "Němčina"
+    czj: "ČZJ"
+    spj: "SPJ"
+    is: "IS"
+    ogs: "OGS"
+    asl: "ASL"
+  dict_menu:
+    cs: "Češtiny"
+    sj: "Slovenštiny"
+    en: "Angličtiny"
+    de: "Němčiny"
     czj: "ČZJ"
     spj: "SPJ"
     is: "IS"
@@ -37,7 +47,7 @@ cs:
     oralcomp: "Orální komponent"
     grammar_details: "Gram. poznámka"
     grammar_variant: "Gram. varianty"
-    distribution_area: "Oblast"
+    distribution_area: "Oblast rozšíření"
     meaning: "Význam"
     synonyms: "Synonyma"
     antonyms: "Antonyma"

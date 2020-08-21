@@ -1,9 +1,19 @@
 en:
   locale:
     en: "English"
-    cs: "Čeština"
+    cs: "Česky"
     de: "Deutsch"
   dict:
+    cs: "Czech"
+    sj: "Slovak"
+    en: "English"
+    de: "German"
+    czj: "CZJ"
+    spj: "SPJ"
+    is: "IS"
+    ogs: "OGS"
+    asl: "ASL"
+  dict_menu:
     cs: "Czech"
     sj: "Slovak"
     en: "English"
