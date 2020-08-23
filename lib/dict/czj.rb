@@ -183,6 +183,20 @@ class CZJDict < Object
         end
       }
     end
+    if entry['lemma']['style_note']
+      entry['lemma']['style_note'].each{|gn|
+        if gn['variant']
+          gn['variant'].each{|gv|
+            entry['media'][gv['_text']] = get_media(gv['_text'], entry['dict']) if gv['_text'] != ''
+          }
+        end
+        if gn['_text'] and gn['_text'] =~ /media_id/
+          gn['_text'].scan(/\[media_id=([0-9]+)\]/).each{|gm|
+            entry['media'][gm[0]] = get_media(gm[0], entry['dict'])
+          }
+        end
+      }
+    end
     return entry
   end
 

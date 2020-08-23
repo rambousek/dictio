@@ -47,6 +47,8 @@ cs:
     oralcomp: "Orální komponent"
     grammar_details: "Gram. poznámka"
     grammar_variant: "Gram. varianty"
+    style_details: "Styl. poznámka"
+    style_variant: "Styl. varianty"
     distribution_area: "Oblast rozšíření"
     meaning: "Význam"
     synonyms: "Synonyma"
