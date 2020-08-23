@@ -1,95 +1,222 @@
-      .detail__head
-        .video-top
-          .video-top__wrap
-            .video-top__video
-              video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop"
-                source src="/proxy/video#{@dictcode}/#{@entry['lemma']['video_front']}" type="video/mp4"
-            .video-top__content
-              .video-top__image-wrap
-                - unless @entry['lemma']['sw'].nil? or @entry['lemma']['sw'][0].nil?
-                  img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]=#{@entry['lemma']['sw'][0]['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
-            .video-top__buttons
-              .btn__group
-                a href="#" class="btn" Front view
-                a href="#" class="btn btn--secondary" Profile view
+.detail__head
+  p.detail__badge.detail__badge--top #{I18n.t("dict."+@entry['dict'])} #{@entry['id']}
+  .video-top
+    .video
+      .video__content.video-front
+        video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop"
+          source src="/proxy/video#{@entry['dict']}/#{@entry['lemma']['video_front']}" type="video/mp4"
+      - if @entry['lemma']['video_side'] != ''
+        .video__content.video-side style="display:none"
+          video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop"
+            source src="/proxy/video#{@entry['dict']}/#{@entry['lemma']['video_side']}" type="video/mp4"
+      .video__controls
+        - unless @entry['lemma']['swmix'].nil?
+          span.video__sign
+            - @entry['lemma']['swmix'].each do |sw|
+              img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+    .video__info
+      p
+        a.btn.btn-front = I18n.t("entry.frontview")
+        - if @entry['lemma']['video_side'] != ''
+          a.btn.btn--secondary.btn-side = I18n.t("entry.sideview")
 
-        - unless @entry['lemma']['hamnosys'].nil? or @entry['lemma']['hamnosys']['_text'].to_s == ''
-          .hieroglyf.mobile-hide
-            img src="/placeholder/hieroglyf.png" alt=""
-            .btn.btn--round
-              span.icon.icon--zoom
-                svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
-                  use xlink:href="/img/icons.svg#zoom" x="0" y="0" width="100%" height="100%"
+  - unless @entry['lemma']['hamnosys'].nil? or @entry['lemma']['hamnosys']['_text'].to_s == ''
+    .hieroglyf.mobile-hide
+      img src="/placeholder/hieroglyf.png" alt=""
+      .btn.btn--round
+        span.icon.icon--zoom
+          svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+            use xlink:href="/img/icons.svg#zoom" x="0" y="0" width="100%" height="100%"
 
-        hr.mobile-hide
+  - if @entry['collocations'] and @entry['collocations']['entries'] and @entry['collocations']['entries'].size > 0
+    - if @entry['lemma']['lemma_type'] == "collocation"
+      p.naming #{I18n.t("entry.composed_collocation")}:
+    - else
+      p.naming #{I18n.t("entry.composed_deriv")}:
+    .row.row--start
+      - @entry['collocations']['entries'].each do |coll|
+        - relid = (coll['dict'] == @dictcode) ? coll['id'] : coll['dict']+'-'+coll['id'].to_s
+        .col.col--3.col--precise
+          .video.video--small
+            .video__content
+              video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url=(@search.to_s != ''? "#{@search_path}/#{relid}" : "/#{coll['dict']}/show/#{coll['id']}") 
+                source src="/proxy/video#{coll['dict']}/#{coll['lemma']['video_front']}" type="video/mp4"
+            .video__controls
+              - unless coll['lemma']['swmix'].nil?
+                span.video__sign
+                  - coll['lemma']['swmix'].each do |sw|
+                    img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
 
-        .block.mobile-hide
-          p.naming Lexical category:
-          p
-            - if @entry['lemma']['grammar_note']
-              - @entry['lemma']['grammar_note'].each do |gram|
-                = gram['@slovni_druh']
-          br
-          - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@mluv_komp'] == ''
-            p.naming Mouthing:
-            p 
-              | [#{@entry['lemma']['grammar_note'][0]['@mluv_komp']}] - #{@entry['lemma']['grammar_note'][0]['@mluv_komp_sel']}
-            br
-          p.naming Gramatical variants:
-          p 
-            - if @entry['lemma']['grammar_note']
-              - @entry['lemma']['grammar_note'].each do |gram|
-                - if gram['variant'] != nil 
-                  - gram['variant'].each do |var|
-                    = var['_text']
-                    |,
-          br
-          - unless  @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@region'] == ''
-            p.naming Distribution area:
-            p #{@entry['lemma']['grammar_note'][0]['@region']}
-        hr.mobile-hide
+  - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'] != '' or gr['@mluv_komp'] != '' or gr['@oral_komp'] != '' or gr['_text'].to_s != '' or gr['variant'] != nil or gr['@region'] != ''}
+    hr.mobile-hide
 
-      - @entry["meanings"].each do |meaning|
-            .detail-block
-              .video-simple
-                h3.headline.detail-block__headline Meaning #{meaning['number']}
-                /.mobile-text
-                /  p 
-                /    | Semantic region: 
-                /    a href="#" Human body
-                .video-simple__wrap
-                  - if meaning["text"] and meaning["text"]["file"]
+    .block.mobile-hide
+      - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh']!=''}
+        p.naming #{I18n.t("entry.lexical")}:
+        p
+          - slovni_druhy = []
+          - @entry['lemma']['grammar_note'].each{|gr| slovni_druhy << gr['@slovni_druh']}
+          - slovni_druhy.uniq.each do |sd|
+            = I18n.t("gram.slovni_druh."+sd)
+            - unless sd.equal? slovni_druhy.uniq.last
+              | , 
+      - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@mluv_komp'] == ''
+        p.naming #{I18n.t("entry.mouthing")}:
+        p 
+          | [#{@entry['lemma']['grammar_note'][0]['@mluv_komp']}] - #{I18n.t("gram."+@entry['lemma']['grammar_note'][0]['@mluv_komp_sel'])}
+      - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@oral_komp'] == ''
+        p.naming #{I18n.t("entry.oralcomp")}:
+        p 
+          | [#{@entry['lemma']['grammar_note'][0]['@oral_komp']}] - #{@entry['lemma']['grammar_note'][0]['@oral_komp_sel']}
+      - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['_text'].nil?
+        p.naming #{I18n.t("entry.grammar_details")}:
+        p
+          - gcount = 0
+          - grtext = @entry['lemma']['grammar_note'][0]['_text'].gsub(/\[media_id=[0-9]+\]/) {|s| gcount+=1; 'viz video '+gcount.to_s}
+          = grtext
+        - if @entry['lemma']['grammar_note'][0]['_text'] =~ /media_id=/
+          .row.row--start
+            - gcount = 0
+            - @entry['lemma']['grammar_note'][0]['_text'].scan(/\[media_id=([0-9]+)\]/) do |gm|
+              - gcount += 1 
+              .col.col--3.col--precise
+                .video.video--small
+                  .video__content
                     video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop"
-                      source src="/proxy/video#{@dictcode}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
+                      source src="/proxy/video#{@entry['dict']}/#{@entry['media'][gm[0]]['location']}" type="video/mp4"
+                .video__info
+                  | video #{gcount}
+      - if @entry['lemma']['grammar_note'] != nil and @entry['lemma']['grammar_note'].find{|gr| gr['variant'] != nil and gr['variant'].size > 0}
+        p.naming #{I18n.t("entry.grammar_variant")}:
+        .row.row--start 
+          - @entry['lemma']['grammar_note'].each do |gram|
+            - if gram['variant'] != nil 
+              - gram['variant'].each do |var|
+                .col.col--3.col--precise
+                  .video.video--small
+                    .video__content
+                      video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop"
+                        source src="/proxy/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}" type="video/mp4"
+      - unless  @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@region'] == ''
+        p.naming #{I18n.t("entry.distribution_area")}:
+        p = I18n.t("gram.region."+@entry['lemma']['grammar_note'][0]['@region'])
 
-            - if meaning['relation'].find{|rel| rel['type'] == 'synonym'}
-              h4 Synonyms
-              - meaning['relation'].select{|rel| rel['type'] == 'synonym'}.each do |rel|
-                .translation-block
-                  .translation-block__image
-                    p
-                      video.video-link width="100%" style="width:200px;height:160px;background-color:gray" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url="/#{@dictcode}/search/#{@params['type']}/#{@search}/#{rel['entry']['id']}"
-                        source src="/proxy/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
-                    .translation-block__controls
-                      - if rel['entry'] and rel['entry']['lemma'] and rel['entry']['lemma']['sw']
-                        p
-                          img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]=#{rel['entry']['lemma']['sw'][0]['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
-                      .btn.btn--round
-                        a href="/#{@dictcode}/search/#{@params['type']}/#{@search}/#{rel['entry']['id']}"
-                          span.icon.icon--open-new-window
-                            svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
-                              use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
+- @entry["meanings"].each do |meaning|
+  - @meaning = meaning
+  .detail__block.detail__block--line
+    .video-simple
+      h3 id="meaning#{meaning['number']}" #{I18n.t("entry.meaning")} #{meaning['number']}
+      /.mobile-text
+      /  p 
+      /    | Semantic region: 
+      /    a href="#" Human body
+      - if meaning["text"] and meaning["text"]["file"]
+        .video.video--shrink
+          .video__content
+            video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop"
+              source src="/proxy/video#{@entry['dict']}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
 
-            - if meaning['relation'].find{|rel| rel['type'] == 'antonym'}
-              h4 Antonyms
-            - if meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.size > 0
-              .examples
-                h4.detail-block__name Examples of use
-                .examples__wrap
+    - if meaning['relation'].find{|rel| rel['type'] == 'synonym'}
+      h4 = I18n.t("entry.synonyms")
+      .row.row--start
+        - meaning['relation'].select{|rel| rel['type'] == 'synonym'}.each do |rel|
+          - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id']
+          .col.col--2.col--precise
+            .video.video--small
+              .video__content
+                  video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url=(@search.to_s != ''? "#{@search_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") 
+                    source src="/proxy/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
+              .video__controls
+                - if @search.to_s != ''
+                  a.video__link href="#{@search_path}/#{relid}"
+                    span.icon.icon--open-new-window
+                      svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                        use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
+                - else
+                  a.video__link href="/#{rel['target']}/show/#{rel['entry']['id']}"
+                    span.icon.icon--open-new-window
+                      svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                        use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
+                - if rel['entry'] and rel['entry']['lemma'] and rel['entry']['lemma']['swmix']
+                  span.video__sign
+                    - rel['entry']['lemma']['swmix'].each do |sw|
+                      img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+
+    - if meaning['relation'].find{|rel| rel['type'] == 'antonym'}
+      h4 = I18n.t("entry.antonyms")
+      .row.row--start
+        - meaning['relation'].select{|rel| rel['type'] == 'antonym'}.each do |rel|
+          - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id']
+          .col.col--2.col--precise
+            .video.video--small
+              .video__content
+                  video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url=(@search.to_s != ''? "#{@search_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") 
+                    source src="/proxy/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
+              .video__controls
+                - if @search.to_s != ''
+                  a.video__link href="#{@search_path}/#{relid}"
+                    span.icon.icon--open-new-window
+                      svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                        use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
+                - else
+                  a.video__link href="/#{rel['target']}/show/#{rel['entry']['id']}"
+                    span.icon.icon--open-new-window
+                      svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                        use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
+                - if rel['entry'] and rel['entry']['lemma'] and rel['entry']['lemma']['swmix']
+                  span.video__sign
+                    - rel['entry']['lemma']['swmix'].each do |sw|
+                      img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+
+    - if meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.size > 0
+        h4.detail-block__name = I18n.t("entry.examples")
+        .row.row--start
+          - meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.each do |usg|
+            - if usg["text"] and usg["text"]["file"]
+              .col.col--2.col--precise
+                .video.video--small
+                  .video__content
+                    video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop"
+                      source src="/proxy/video#{@entry['dict']}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
+
+- if @entry['revcollocations'] and @entry['revcollocations']['entries'].size > 0
+  .detail__block.detail__block--line
+    div.detail-block
+      h3.headline.detail-block__headline == I18n.t("entry.collocation_with_this")
+      div.dropdown
+      - @entry['revcollocations']['entries'].each do |colloc|
+        div.dropdown__item
+          div.dropdown__item__name
+            .row.row--start
+              .col.col--2.col--precise
+                .video.video--small
+                  .video__content
+                    video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop"
+                      source src="/proxy/video#{colloc['dict']}/#{colloc['lemma']['video_front']}" type="video/mp4"
+              .col.col--2.col--precise
+                  - if colloc['lemma'] and colloc['lemma']['swmix']
+                    span.video__sign style="margin-right: 20px;"
+                      - colloc['lemma']['swmix'].each do |sw|
+                        img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+
+          div.dropdown__item__detail
+            - colloc['meanings'].each do |meaning|
+              p.naming #{I18n.t("entry.meaning")} #{meaning['number']}:
+              - if meaning["text"] and meaning["text"]["file"]
+                .video.video--small
+                  .video__content
+                    video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop"
+                      source src="/proxy/video#{colloc['dict']}/#{colloc['media'][meaning["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
+              - if meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.size > 0
+                p.naming #{I18n.t("entry.examples")}:
+                .row.row--start
                   - meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.each do |usg|
-                    .examples__item
-                      .video-simple__wrap
-                        - if usg["text"] and usg["text"]["file"]
-                          video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop"
-                            source src="/proxy/video#{@dictcode}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
+                    - if usg["text"] and usg["text"]["file"]
+                      .col.col--2.col--precise
+                        .video.video--small
+                          .video__content
+                            video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop"
+                              source src="/proxy/video#{colloc['dict']}/#{colloc['media'][usg["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
+            p
+              a.btn.btn--secondary href="/#{colloc['dict']}/show/#{colloc['id']}" == I18n.t("entry.full_details")
 
