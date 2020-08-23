@@ -92,11 +92,17 @@
           - @entry['lemma']['grammar_note'].each do |gram|
             - if gram['variant'] != nil 
               - gram['variant'].each do |var|
+                - selmedia = @entry['media'][var['_text']]
                 .col.col--3.col--precise
                   .video.video--small
                     .video__content
                       video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop"
-                        source src="/proxy/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}" type="video/mp4"
+                        source src="/proxy/video#{@entry['dict']}/#{selmedia['location']}" type="video/mp4"
+                    .video__controls
+                      - if selmedia['main_for_entry'] and selmedia['main_for_entry']['lemma']['sw']
+                        span.video__sign
+                          - selmedia['main_for_entry']['lemma']['sw'].each do |sw|
+                            img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
       - unless  @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@region'] == ''
         p.naming #{I18n.t("entry.distribution_area")}:
         p = I18n.t("gram.region."+@entry['lemma']['grammar_note'][0]['@region'])
