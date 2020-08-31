@@ -22,10 +22,10 @@ class CZJDict < Object
     return entry
   end
 
-  def full_entry(entry)
+  def full_entry(entry, getsw=true)
     entry = add_media(entry)
-    entry = add_colloc(entry)
-    entry = get_sw(entry)
+    entry = add_colloc(entry) if getsw
+    entry = get_sw(entry) if getsw
     return entry
   end
 
@@ -200,7 +200,7 @@ class CZJDict < Object
     return entry
   end
 
-  def add_rels(entry, type=nil, target=nil)
+  def add_rels(entry, getsw=true, type=nil, target=nil)
     entry['meanings'].each{|mean|
       if mean['relation']
         mean['relation'].each{|rel|
@@ -212,8 +212,8 @@ class CZJDict < Object
             rel['meaning_nr'] = rela[1]
             relentry = @entrydb.find({'dict': rel['target'], 'id': lemmaid}).first
             next if relentry.nil?
-            relentry = add_colloc(relentry)
-            relentry = get_sw(relentry)
+            relentry = add_colloc(relentry) if getsw
+            relentry = get_sw(relentry) if getsw
             rel['entry'] = relentry
           elsif rel['meaning_id'] =~ /^[0-9]*-[0-9]*_us[0-9]*$/
             rela = rel['meaning_id'].split('-')
@@ -291,7 +291,7 @@ class CZJDict < Object
         #@collection.find({'meanings'=>{'relation'=>{"$expr"=>{"$and"=>['target'=>'cs','meaning_id'=>{"$in"=>csl}]}}}}).each{|e|
         #@collection.find({'dict':@dictcode, 'relations.lemma.title':search}).each{|e|
         $mongo['entries'].find({'dict'=>dictcode, 'meanings.relation'=>{'$elemMatch'=>{'target'=>'cs','meaning_id'=>{'$in'=>csl}}}}).each{|e|
-          res << full_entry(e)
+          res << full_entry(e, false)
         }
       end
     end
@@ -308,10 +308,14 @@ class CZJDict < Object
         }
       end
     }.each{|entry| 
-      entry = add_rels(entry, 'translation', target)
-      entry = add_rels(entry, 'synonym', source)
-      entry = add_rels(entry, 'antonym', source)
-      entry = get_sw(entry)
+      $stderr.puts entry['id']
+      $stderr.puts 'add translation'
+      entry = add_rels(entry, false, 'translation', target)
+      $stderr.puts 'add syno'
+      entry = add_rels(entry, false, 'synonym', source)
+      $stderr.puts 'add anto'
+      entry = add_rels(entry, false, 'antonym', source)
+      #entry = get_sw(entry)
       res << entry
     }
     return res
