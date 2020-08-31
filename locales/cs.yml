@@ -23,11 +23,21 @@ cs:
     is: "IS"
     ogs: "OGS"
     asl: "ASL"
+  dict_search:
+    cs: "Češtině"
+    sj: "Slovenštině"
+    en: "Angličtině"
+    de: "Němčině"
+    czj: "ČZJ"
+    spj: "SPJ"
+    is: "IS"
+    ogs: "OGS"
+    asl: "ASL"
   home:
     title: "Vícejazyčný slovník znakových jazyků"
     info: "popis"
-    translations: "Překlady"
-    entries: "Hesla"
+    translations: "Překladů"
+    entries: "Hesel"
   search:
     translate_from: "Přeložit z"
     translate_to: "Přeložit do"
