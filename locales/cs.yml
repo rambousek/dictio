@@ -3,6 +3,7 @@ cs:
     en: "English"
     cs: "Česky"
     de: "Deutsch"
+    sk: "Slovensky"
   dict:
     cs: "Čeština"
     sj: "Slovenština"
@@ -11,7 +12,7 @@ cs:
     czj: "ČZJ"
     spj: "SPJ"
     is: "IS"
-    ogs: "OGS"
+    ogs: "ÖGS"
     asl: "ASL"
   dict_menu:
     cs: "Češtiny"
@@ -21,7 +22,7 @@ cs:
     czj: "ČZJ"
     spj: "SPJ"
     is: "IS"
-    ogs: "OGS"
+    ogs: "ÖGS"
     asl: "ASL"
   dict_search:
     cs: "Češtině"
@@ -31,11 +32,11 @@ cs:
     czj: "ČZJ"
     spj: "SPJ"
     is: "IS"
-    ogs: "OGS"
+    ogs: "ÖGS"
     asl: "ASL"
   home:
     title: "Vícejazyčný slovník znakových jazyků"
-    info: "popis"
+    info: "Hledejte překaldy (ekvivalenty) mezi jenotlivými jazyky, zkoumejte různé významy slov a znaků (znakových jazyků). Je toho více, než se zdá."
     translations: "Překladů"
     entries: "Hesel"
   search:
@@ -131,4 +132,3 @@ cs:
       prechm: "přechodník, m."
       prechzs: "přechodník, ž. + s."
       versub: "verbální substantivum"
-
