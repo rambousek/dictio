@@ -77,6 +77,7 @@ class CzjApp < Sinatra::Base
     @search_params = {}
     @target = 'czj'
     @dictcode = 'cs'
+    @selected_page = 'about'
     page = 'about-'+I18n.locale.to_s
     slim page.to_sym
   end
