@@ -267,9 +267,10 @@
                               .video__content
                                 video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop"
                                   source src="/proxy/video#{colloc['dict']}/#{colloc['media'][usg["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
+                - relid = (colloc['dict'] == @dictcode) ? colloc['id'] : colloc['dict']+'-'+colloc['id'].to_s
                 p
                   - if @search.to_s != ''
-                    a.btn.btn--secondary href="#{@tran_path}/#{colloc['id']}" == I18n.t("entry.full_details")
+                    a.btn.btn--secondary href="#{@tran_path}/#{relid}" == I18n.t("entry.full_details")
                   - else 
                     a.btn.btn--secondary href="/#{colloc['dict']}/show/#{colloc['id']}" == I18n.t("entry.full_details")
 

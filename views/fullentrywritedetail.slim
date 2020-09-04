@@ -273,8 +273,9 @@
                     p.naming #{I18n.t("entry.examples")}:
                     - meaning['usages'].each do |usg|
                       p: em = usg['text']['_text']
+                - relid = (colloc['dict'] == @dictcode) ? colloc['id'] : colloc['dict']+'-'+colloc['id'].to_s
                 p
                   - if @search.to_s != ''
-                    a.btn.btn--secondary href="#{@tran_path}/#{colloc['id']}" = I18n.t("entry.full_details")
+                    a.btn.btn--secondary href="#{@tran_path}/#{relid}" = I18n.t("entry.full_details")
                   - else
                     a.btn.btn--secondary href="/#{colloc['dict']}/show/#{colloc['id']}" = I18n.t("entry.full_details")
