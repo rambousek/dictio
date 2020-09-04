@@ -72,6 +72,15 @@ class CzjApp < Sinatra::Base
     slim :home
   end
 
+  get '/about' do
+    @dict_info = dict_info
+    @search_params = {}
+    @target = 'czj'
+    @dictcode = 'cs'
+    page = 'about-'+I18n.locale.to_s
+    slim page.to_sym
+  end
+
   (write_dicts+sign_dicts).each{|code|
   	$stderr.puts code
     dict = CZJDict.new(code)
