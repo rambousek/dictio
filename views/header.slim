@@ -18,17 +18,13 @@ header.header role="banner"
                   svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                     use xlink:href="/img/icons.svg#magnifier" x="0" y="0" width="100%" height="100%"
             li
-              a href="#" About
+              a href="#" #{I18n.t("menu.about")}
             li
-              a href="#" How to
+              a href="#" #{I18n.t("menu.help")}
+            li
+              a href="#" #{I18n.t("menu.contact")}
             li
               a href="#" class="is-active" Technology
-            li
-              a href="#" Translations
-            li
-              a href="#" Contacts
-            li
-              a href="#" People
             li
               a href="#" class="nav__control"
                 span.icon.icon--wheel.nav__icon

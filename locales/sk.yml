@@ -39,6 +39,10 @@ sk:
     info: "Hľadajte preklady do rôzných jazykov a preskúmajte mnohé významy slov a znakov. Nájdete viac informácií, ako čakáte."
     translations: "Prekladov"
     entries: "Hesiel"
+  menu:
+    about: "O slovníku"
+    contact: "Kontakt"
+    help: "Nápověda"
   search:
     translate_from: "Preložiť z"
     translate_to: "Preložiť do"
