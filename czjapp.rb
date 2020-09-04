@@ -130,14 +130,8 @@ class CzjApp < Sinatra::Base
       @dict_info = dict_info
       @request = request
       @search_path = '/'+code+'/search/'+params['type']+'/'+params['search']
-      more_params = {'diak': false, 'deklin': false, 'spojeni': false}
-      more_params['diak'] = true if params['diak'].to_s == 'on'
-      more_params['deklin'] = true if params['deklin'].to_s == 'on'
-      more_params['spojeni'] = true if params['spojeni'].to_s == 'on'
+      more_params = {}
       url_pars = []
-      url_pars << 'diak=on' if more_params['diak']
-      url_pars << 'deklin=on' if more_params['deklin']
-      url_pars << 'spojeni=on' if more_params['spojeni']
       @url_params = url_pars.join('&')
       @result = dict.search(code, params['search'].to_s.strip, params['type'].to_s, more_params)
       @entry = nil
@@ -160,11 +154,8 @@ class CzjApp < Sinatra::Base
       @target = params['target']
       selected = params['selected']
       @tran_path = '/'+code+'/translate/'+params['target']+'/'+params['type']+'/'+params['search']
-      more_params = {'diak': false, 'deklin': false, 'spojeni': false}
-      more_params['deklin'] = true if params['deklin'].to_s == 'on'
-      more_params['spojeni'] = true 
+      more_params = {}
       url_pars = []
-      url_pars << 'deklin=on' if more_params['deklin']
       @url_params = url_pars.join('&')
       @search_type = 'translate'
       @search = params['search']

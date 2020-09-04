@@ -267,15 +267,14 @@ class CZJDict < Object
           locale = dictcode
           locale = 'sk' if dictcode == 'sj'
           search_cond = {'dict': dictcode, '$or': [{'lemma.title': search}, {'lemma.title_var': search}]}
-          search_cond[:$or] << {'lemma.title_dia': search} if params['diak']
-          search_cond[:$or] << {'lemma.gram.form._text': search} if params['deklin']
-          search_cond['lemma.lemma_type'] = 'single' unless params['spojeni']
+          search_cond[:$or] << {'lemma.title_dia': search} 
+          search_cond[:$or] << {'lemma.gram.form._text': search} 
           @entrydb.find(search_cond, :sort => {'lemma.title'=>1}).each{|re|
             res << re #full_entry(re)
             fullids << re['id']
           }
           search_cond = {'dict': dictcode, 'id': {'$nin': fullids}, '$or': [{'lemma.title': {'$regex': /^#{search}/}}]}
-          search_cond[:$or] << {'lemma.title': {'$regex': /(^| )#{search}/}} if params['spojeni']
+          search_cond[:$or] << {'lemma.title': {'$regex': /(^| )#{search}/}} 
           @entrydb.find(search_cond, {:collation => {'locale'=>locale}, :sort => {'lemma.title'=>1}}).each{|re|
             res << re #full_entry(re)
           }
