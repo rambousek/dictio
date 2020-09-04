@@ -15,7 +15,8 @@ main role="main"
                     - if entry['id']
                       a.btn.btn--simple.btn--simple--lg href="#{@tran_path}/#{entry['id']}" = entry['lemma']['title']
                     - else
-                      em = entry['lemma']['title']
+                      span.btn.btn--simple.btn--simple--lg style="cursor:auto"
+                        em = entry['lemma']['title']
                 - else
                   .video.video--shrink.video--small
                     .video__content
