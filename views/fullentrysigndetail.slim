@@ -268,5 +268,8 @@
                                 video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop"
                                   source src="/proxy/video#{colloc['dict']}/#{colloc['media'][usg["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
                 p
-                  a.btn.btn--secondary href="/#{colloc['dict']}/show/#{colloc['id']}" == I18n.t("entry.full_details")
+                  - if @search.to_s != ''
+                    a.btn.btn--secondary href="#{@tran_path}/#{colloc['id']}" == I18n.t("entry.full_details")
+                  - else 
+                    a.btn.btn--secondary href="/#{colloc['dict']}/show/#{colloc['id']}" == I18n.t("entry.full_details")
 
