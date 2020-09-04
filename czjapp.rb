@@ -29,11 +29,11 @@ class CzjApp < Sinatra::Base
     'en' => {'type' => 'write', 'label'=>'English'},
     'sj' => {'type' => 'write', 'label'=>'Slovak'},
     'de' => {'type' => 'write', 'label'=>'German'},
-    'czj' => {'type' => 'sign', 'label'=>'ČZJ'},
-    'spj' => {'type' => 'sign', 'label'=>'SPJ'},
-    'asl' => {'type' => 'sign', 'label'=>'ASL'},
-    'is' => {'type' => 'sign', 'label'=>'IS'},
-    'ogs' => {'type' => 'sign', 'label'=>'OGS'},
+    'czj' => {'type' => 'sign', 'label'=>'ČZJ', 'search_in'=>'cs'},
+    'spj' => {'type' => 'sign', 'label'=>'SPJ', 'search_in'=>'sj'},
+    'asl' => {'type' => 'sign', 'label'=>'ASL', 'search_in'=>'en'},
+    'is' => {'type' => 'sign', 'label'=>'IS', 'search_in'=>'en'},
+    'ogs' => {'type' => 'sign', 'label'=>'OGS', 'search_in'=>'de'},
   }
   #write_dicts = ['en','cs','de','sj']
   #sign_dicts = ['czj','ogs','spj','asl','is']
@@ -77,6 +77,7 @@ class CzjApp < Sinatra::Base
     dict = CZJDict.new(code)
     dict.write_dicts = write_dicts
     dict.sign_dicts = sign_dicts
+    dict.dict_info = dict_info
     dict_array[code] = dict
  
     get '/proxy/:dir/:video' do

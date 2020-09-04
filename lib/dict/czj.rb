@@ -3,6 +3,7 @@ class CZJDict < Object
   attr_accessor :dictcode
   attr_accessor :write_dicts
   attr_accessor :sign_dicts
+  attr_accessor :dict_info
 
   def initialize(dictcode)
     @dictcode = dictcode 
@@ -279,8 +280,10 @@ class CZJDict < Object
             res << re #full_entry(re)
           }
       else
+        search_in = 'cs'
+        search_in = @dict_info[dictcode]['search_in'] unless @dict_info[dictcode]['search_in'].nil?
         csl = [search]
-        $mongo['cs'].find({'lemma.title': search}, {'projection'=>{'meanings.id'=>1, '_id'=>0}}).each{|re|
+        $mongo['entries'].find({'dict'=>search_in, 'lemma.title'=> search}, {'projection'=>{'meanings.id'=>1, '_id'=>0}}).each{|re|
           unless re['meanings'].nil?
             re['meanings'].each{|rl| 
               csl << rl['id']
@@ -290,7 +293,7 @@ class CZJDict < Object
         #$stderr.puts csl
         #@collection.find({'meanings'=>{'relation'=>{"$expr"=>{"$and"=>['target'=>'cs','meaning_id'=>{"$in"=>csl}]}}}}).each{|e|
         #@collection.find({'dict':@dictcode, 'relations.lemma.title':search}).each{|e|
-        $mongo['entries'].find({'dict'=>dictcode, 'meanings.relation'=>{'$elemMatch'=>{'target'=>'cs','meaning_id'=>{'$in'=>csl}}}}).each{|e|
+        $mongo['entries'].find({'dict'=>dictcode, 'meanings.relation'=>{'$elemMatch'=>{'target'=>search_in,'meaning_id'=>{'$in'=>csl}}}}).each{|e|
           res << full_entry(e, false)
         }
       end
