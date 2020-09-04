@@ -12,7 +12,10 @@ main role="main"
               .col.col--3.col--precise
                 - if @dict_info[@dictcode]['type'] == 'write'
                   p
-                    a.btn.btn--simple.btn--simple--lg href="#{@tran_path}/#{entry['id']}" = entry['lemma']['title']
+                    - if entry['id']
+                      a.btn.btn--simple.btn--simple--lg href="#{@tran_path}/#{entry['id']}" = entry['lemma']['title']
+                    - else
+                      em = entry['lemma']['title']
                 - else
                   .video.video--shrink.video--small
                     .video__content

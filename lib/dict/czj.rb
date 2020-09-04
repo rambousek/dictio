@@ -301,9 +301,9 @@ class CZJDict < Object
   end
 
   def translate(source, target, search, type, params=nil)
-    search = search(source, search, type, params)
+    search_res = search(source, search, type, params)
     res = []
-    search.select{|entry| 
+    search_res.select{|entry| 
       if entry['meanings']
         entry['meanings'].find{|mean| 
           mean['relation'].find{|rel| rel['target'] == target}
@@ -319,6 +319,34 @@ class CZJDict < Object
       entry = add_rels(entry, false, 'antonym', source)
       #entry = get_sw(entry)
       res << entry
+    }
+
+    #pridat textove preklady, vcetne prekladu v prikladech
+    search_cond = {'dict'=>target, '$or'=>[]}
+    search_cond['$or'] << {'meanings.relation'=>{'$elemMatch'=>{'target'=>source,'meaning_id'=>{'$regex'=>/(^| )#{search}/}}}}
+    search_cond['$or'] << {'meanings.usages.relation'=>{'$elemMatch'=>{'target'=>source,'meaning_id'=>{'$regex'=>/(^| )#{search}/}}}}
+    $mongo['entries'].find(search_cond).each{|e|
+      e['meanings'].each{|mean|
+        mean['relation'].each{|rel|
+          if rel['target'] == source and rel['meaning_id'].match(/(^| )#{search}/)
+            newdoc = {'id'=>nil,'dict'=>source, 'lemma'=>{'title'=>rel['meaning_id']}, 'meanings'=>[{'relation'=>[{'target'=>target, 'meaning_id'=>mean['id'], 'lemma_id'=>e['id'], 'type'=>'translation', 'entry'=>e}]}]}
+            res << newdoc
+          end
+        }
+        if mean['usages']
+          mean['usages'].each{|usg|
+            if usg['relation']
+              usg['relation'].each{|rel|
+                if rel['target'] == source and rel['meaning_id'].match(/(^| )#{search}/)
+                  newdoc = {'id'=>nil,'dict'=>source, 'lemma'=>{'title'=>rel['meaning_id']}, 'meanings'=>[{'relation'=>[{'target'=>target, 'meaning_id'=>usg['id'], 'lemma_id'=>e['id'], 'type'=>'translation', 'entry'=>e}]}]}
+                  newdoc['meanings'][0]['relation'][0]['entry']['lemma']['video_front'] = get_media(usg['text']['file']['@media_id'], target)['location']
+                  res << newdoc
+                end
+              }
+            end
+          }
+        end
+      }
     }
     return res
   end
