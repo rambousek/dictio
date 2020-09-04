@@ -327,6 +327,7 @@ class CZJDict < Object
     search_cond['$or'] << {'meanings.usages.relation'=>{'$elemMatch'=>{'target'=>source,'meaning_id'=>{'$regex'=>/(^| )#{search}/}}}}
     $mongo['entries'].find(search_cond).each{|e|
       e['meanings'].each{|mean|
+        next if mean['is_translation_unknown'].to_s == '1'
         mean['relation'].each{|rel|
           if rel['target'] == source and rel['meaning_id'].match(/(^| )#{search}/)
             newdoc = {'id'=>nil,'dict'=>source, 'lemma'=>{'title'=>rel['meaning_id']}, 'meanings'=>[{'relation'=>[{'target'=>target, 'meaning_id'=>mean['id'], 'lemma_id'=>e['id'], 'type'=>'translation', 'entry'=>e}]}]}
