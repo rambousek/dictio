@@ -4,7 +4,7 @@
     h1.detail-word__headline #{@entry['lemma']['title']} 
   - if @entry['collocations'] and @entry['collocations']['entries'] and @entry['collocations']['entries'].size > 0
     h2.detail-category 
-      | #{I18n.t("entry.composed_from")}: 
+      | #{I18n.t("entry.composed_collocation")}: 
       - @entry['collocations']['entries'].each do |coll|
         a href="/#{@dictcode}/show/#{coll['id']}" #{coll['lemma']['title']}
         - unless coll.equal?(@entry['collocations']['entries'].last)
