@@ -51,9 +51,11 @@ class CZJDict < Object
       entry['collocations']['entries'] = []
       entry['collocations']['colloc'].uniq.each{|coll|
         ce = @entrydb.find({'dict': entry['dict'], 'id': coll}).first
-        ce = add_colloc(ce)
-        ce = get_sw(ce)
-        entry['collocations']['entries'] << ce
+        unless ce.nil?
+          ce = add_colloc(ce)
+          ce = get_sw(ce)
+          entry['collocations']['entries'] << ce
+        end
       }
     end
     return entry
