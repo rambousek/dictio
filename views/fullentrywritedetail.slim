@@ -162,7 +162,9 @@
         tr
           td
             strong = I18n.t("gram.detail.versub")
-          td colspan="2" = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'gNnSc1'}[0]['_text']
+          td colspan="2" 
+            - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'gNnSc1'}
+              | = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'gNnSc1'}[0]['_text']
     - if  @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'd2'}.size > 0
       table.table.table--no-margin
         tr
