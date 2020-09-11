@@ -19,9 +19,9 @@
             - @dict_info.each do |code, info|
               option value="#{code}" selected=("selected" if @target==code or (@target.to_s=='' and code=='czj')) #{I18n.t("dict_menu."+code)}
       .search__item
-        label for="expression" = I18n.t("search.expression")
+        label for="expression_trans" = I18n.t("search.expression")
         .search__input
-          input type="text" id="expression" placeholder="#{I18n.t('search.placeholder')}" value=@search
+          input type="text" id="expression_trans" placeholder="#{I18n.t('search.placeholder')}" value=@search
           button.btn.btn--search
             span.icon.icon--magnifier
               svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
