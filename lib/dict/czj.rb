@@ -254,17 +254,19 @@ class CZJDict < Object
 
   def search(dictcode, search, type, params=nil)
     res = []
-    search = search.downcase
-    if search =~ /^[0-9]*$/
-      @entrydb.find({'dict': dictcode, 'id': search}).each{|re|
-        res << full_entry(re)
-      }
-    elsif search == '*'
-      @entrydb.find({'dict': dictcode}).each{|re|
-        res << re
-      }
-    else
-      if @write_dicts.include?(dictcode)
+    case type
+    when 'text'
+      search = search.downcase
+      if search =~ /^[0-9]*$/
+        @entrydb.find({'dict': dictcode, 'id': search}).each{|re|
+          res << full_entry(re)
+        }
+      elsif search == '*'
+        @entrydb.find({'dict': dictcode}).each{|re|
+          res << re
+        }
+      else
+        if @write_dicts.include?(dictcode)
           fullids = []
           locale = dictcode
           locale = 'sk' if dictcode == 'sj'
@@ -280,24 +282,109 @@ class CZJDict < Object
           @entrydb.find(search_cond, {:collation => {'locale'=>locale}, :sort => {'lemma.title'=>1}}).each{|re|
             res << re #full_entry(re)
           }
-      else
-        search_in = 'cs'
-        search_in = @dict_info[dictcode]['search_in'] unless @dict_info[dictcode]['search_in'].nil?
-        csl = [search]
-        $mongo['entries'].find({'dict'=>search_in, 'lemma.title'=> search}, {'projection'=>{'meanings.id'=>1, '_id'=>0}}).each{|re|
-          unless re['meanings'].nil?
-            re['meanings'].each{|rl| 
-              csl << rl['id']
-            }
-          end
-        }
-        #$stderr.puts csl
-        #@collection.find({'meanings'=>{'relation'=>{"$expr"=>{"$and"=>['target'=>'cs','meaning_id'=>{"$in"=>csl}]}}}}).each{|e|
-        #@collection.find({'dict':@dictcode, 'relations.lemma.title':search}).each{|e|
-        $mongo['entries'].find({'dict'=>dictcode, 'meanings.relation'=>{'$elemMatch'=>{'target'=>search_in,'meaning_id'=>{'$in'=>csl}}}}).each{|e|
-          res << full_entry(e, false)
-        }
+        else
+          search_in = 'cs'
+          search_in = @dict_info[dictcode]['search_in'] unless @dict_info[dictcode]['search_in'].nil?
+          csl = [search]
+          $mongo['entries'].find({'dict'=>search_in, 'lemma.title'=> search}, {'projection'=>{'meanings.id'=>1, '_id'=>0}}).each{|re|
+            unless re['meanings'].nil?
+              re['meanings'].each{|rl| 
+                csl << rl['id']
+              }
+            end
+          }
+          #$stderr.puts csl
+          #@collection.find({'meanings'=>{'relation'=>{"$expr"=>{"$and"=>['target'=>'cs','meaning_id'=>{"$in"=>csl}]}}}}).each{|e|
+          #@collection.find({'dict':@dictcode, 'relations.lemma.title':search}).each{|e|
+          $mongo['entries'].find({'dict'=>dictcode, 'meanings.relation'=>{'$elemMatch'=>{'target'=>search_in,'meaning_id'=>{'$in'=>csl}}}}).each{|e|
+            res << full_entry(e, false)
+          }
+        end
       end
+    when 'key'
+      search_ar = search.split('|')
+      search_shape = search_ar[0].to_s.split(',') #tvary
+      search_jedno = []
+      search_obe_ruzne = []
+      search_obe_stejne = []
+      $stderr.puts search_shape
+      search_shape.each{|e|
+        #jednorucni, rotace jen 0-7
+        search_jedno << {
+          'lemma.sw'=>{
+            '$elemMatch'=>{
+              '$and'=>[
+                {'@fsw'=>{'$regex'=>e+'[0-5][0-7]'}},
+                {'@fsw'=>{'$not'=>{'$regex'=>'S1[0-9a-f][0-9a-f][0-5][89a-f]'}}},
+                {'@fsw'=>{'$not'=>{'$regex'=>'S20[0-4][0-5][89a-f]'}}}
+              ]
+            }
+          }
+        }
+        #dve ruce, stejne rotace 0-7 + 8-f
+        search_obe_stejne << {
+          'lemma.sw'=>{
+            '$elemMatch'=>{
+              '$and'=>[
+                {'@fsw'=>{'$regex'=>e+'[0-5][0-7]'}},
+                {'@fsw'=>{'$regex'=>e+'[0-5][89a-f]'}},
+              ]
+            }
+          }
+        }
+        #dve ruce, ruzne, hledana 0-7 a jina 8-f, nebo hledana 8-f a jina 0-7
+        search_obe_ruzne << {
+          'lemma.sw'=>{
+            '$elemMatch'=>{
+              '$or'=>[
+                {
+                  '$and'=>[
+                    {'@fsw'=>{'$regex'=>e+'[0-5][0-7]'}},
+                    {'@fsw'=>{'$not'=>{'$regex'=>e+'[0-5][89a-f]'}}},
+                    {'$or'=>[
+                      {'@fsw'=>{'$regex'=>'S1[0-9a-f][0-9a-f][0-5][89a-f]'}},
+                      {'@fsw'=>{'$regex'=>'S20[0-4][0-5][89a-f]'}},
+                    ]
+                    }
+                  ]
+                },
+                {
+                  '$and'=>[
+                    {'@fsw'=>{'$regex'=>e+'[0-5][89a-f]'}},
+                    {'@fsw'=>{'$not'=>{'$regex'=>e+'[0-5][0-7]'}}},
+                    {'$or'=>[
+                      {'@fsw'=>{'$regex'=>'S1[0-9a-f][0-9a-f][0-5][0-7]'}},
+                      {'@fsw'=>{'$regex'=>'S20[0-4][0-5][0-7]'}},
+                    ]
+                    }
+                  ]
+                },
+              ]
+            }
+          }
+        }
+      }
+      $stderr.puts search_jedno
+      if search_ar[1].to_s != ''
+        #pridame umisteni
+        search_loc = search_ar[1].split(',')
+        #search_loc.map!{|e| e='contains($r/@misto,"'+e+'")'}
+        search_jedno.map!{|e| 
+          e['lemma.sw']['$elemMatch']['@misto'] = {'$in'=>search_loc}
+          e
+        }
+        if search_jedno.length == 0
+          search_jedno << {'lemma.sw'=>{'$elemMatch'=>{'@misto'=>{'$in'=>search_loc}}}}
+        end
+      end
+      $stderr.puts search_jedno
+      search_query = {'dict'=>dictcode, '$or'=>search_obe_ruzne}
+      $stderr.puts search_query
+      $mongo['entries'].find(search_query).each{|e|
+        #$stderr.puts e['id']
+        #res << full_entry(e, false)
+        res << e
+      }
     end
     return res
   end

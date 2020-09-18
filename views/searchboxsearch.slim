@@ -13,10 +13,12 @@
           .search__item
             label for="expression_search" = I18n.t("search.expression")
             .search__input
-              input type="text" id="expression_search" placeholder="#{I18n.t('search.placeholder')}" value=@search
+              input.expression type="text" id="expression_search" placeholder="#{I18n.t('search.placeholder')}" value=@search
+              .keyboard-images height="100"
               button.btn.btn--search
                 span.icon.icon--magnifier
                   svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                     use xlink:href="/img/icons.svg#magnifier" x="0" y="0" width="100%" height="100%"
+      == slim :keyboard
 <!-- vyhledávání -->
 

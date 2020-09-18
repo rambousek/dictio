@@ -1,3 +1,11 @@
 video.video-link {
   cursor: pointer;
 }
+
+.js-key-selected {
+  border: solid 5px green !important;
+}
+
+.keyboard-images img {
+  height: 40px;
+}
