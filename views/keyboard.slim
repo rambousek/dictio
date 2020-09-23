@@ -1,0 +1,25 @@
+- places = [['zaklad','neutral'], ['trup','hrud'], ['bricho','pas'],['dolni','dolni'],['paze','paze'],['ruka','ruka'],['hlava','hlava'],['temeno','temeno'],['celo','celo'],['oci','oci'],['usi','usi'],['tvare','tvare'],['usta','usta'],['brada','brada'],['krk','krk'],]
+- hands = [['4','S203,S204'],['2','S1f5,S1f6,S1f7,S1f9,S1fa'],['1','S1f8'],['3','S1ea'],['5','S1fb'],['29','S100'],['32','S10c'],['33','S10a,S106'],['30','S1dc,S1e4,S1df,S1e0,S1de'],['34','S1f0,S1ef,S1f1,S1ee'],['36','S1e2,S1e1'],['35','S1ed,S1ec'],['37','S1eb'],['31','S1f4'],['43','S115'],['45','S119'],['46','S118'],['52','S11a'],['38','S10e'],['40','S110'],['42','S128'],['39','S11e'],['41','S12b,S13d'],['44','S13f'],['12','S147'],['48','S18c,S186,S187,S18d'],['23','S144,S145,S146'],['13','S15d,S15e'],['22','S160'],['19','S180'],['18','S17d,S17e'],['16','S182,S180,S14b'],['14','S15a,S15b,S15c'],['17','S181'],['20','S17f'],['24','S14c,S14d,S152'],['25','S150,S151,S14e,S14f'],['26','S154,S155,S156,S157'],['9','S16c,S16d,S174'],['10','S16f'],['11','S168'],['15','S177,S185'],['6','S176'],['8','S101'],['7','S1ce'],['21','S1d4,S1d1'],['49','S192'],['50','S19a'],['51','S19c'],['28','S1bb,S1cf'],['27','S1c5'],]
+.keyboard
+  .buttons-hand
+    - hands.each do |hand|
+      button.js-key data-hand=hand[0] data-key=hand[1]
+        img src="http://www.dictio.info/media/search/images/Hand_#{hand[0]}.png"
+    button.keyboard__special.js-key.keyboard-place data-key=":login:"
+      img src="http://www.dictio.info/media/search/images/place.png"
+    button.keyboard__special.js-key.keyboard-hide data-key=":up:"
+      span.icon.icon--up
+        svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+          use xlink:href="/img/icons.svg#up" x="0" y="0" width="100%" height="100%"
+  .buttons-place
+    - places.each do |place|
+      button.js-key data-hand=place[0] data-key=place[1]
+        img src="http://www.dictio.info/media/search/images/#{place[0]}.jpg"
+    button.keyboard__special.js-key.keyboard-hand data-key=":login:"
+      img src="http://www.dictio.info/media/search/images/dom_hand.png"
+    button.keyboard__special.js-key.keyboard-hide data-key=":up:"
+      span.icon.icon--up
+        svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+          use xlink:href="/img/icons.svg#up" x="0" y="0" width="100%" height="100%"
+
+

@@ -143,6 +143,7 @@ class CzjApp < Sinatra::Base
       end
       @search_type = 'search'
       @search = params['search']
+      @input_type = params['type']
       @search_params = more_params
       @dictcode = code
       @target = 'czj'

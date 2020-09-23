@@ -9,3 +9,10 @@ video.video-link {
 .keyboard-images img {
   height: 40px;
 }
+
+.keyboard-images {
+  border: 0 solid rgba(0,0,0,0);
+  border-radius: 20px;
+  background: #fff;
+  padding: 9px 45px 9px 10px;
+}

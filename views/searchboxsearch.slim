@@ -13,7 +13,10 @@
           .search__item
             label for="expression_search" = I18n.t("search.expression")
             .search__input
-              input.expression type="text" id="expression_search" placeholder="#{I18n.t('search.placeholder')}" value=@search
+              - if @input_type == 'key'
+                input.expression type="text" id="expression_search" placeholder="#{I18n.t('search.placeholder')}" value=@search data-codes_hand="#{@search.split('|')[0]}" data-codes_place="#{@search.split('|')[1]}"
+              - else
+                input.expression type="text" id="expression_search" placeholder="#{I18n.t('search.placeholder')}" value=@search
               .keyboard-images height="100"
               button.btn.btn--search
                 span.icon.icon--magnifier
