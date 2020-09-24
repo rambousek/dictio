@@ -373,12 +373,26 @@ class CZJDict < Object
           e['lemma.sw']['$elemMatch']['@misto'] = {'$in'=>search_loc}
           e
         }
+        search_obe_stejne.map!{|e| 
+          e['lemma.sw']['$elemMatch']['@misto'] = {'$in'=>search_loc}
+          e
+        }
+        search_obe_ruzne.map!{|e| 
+          e['lemma.sw']['$elemMatch']['@misto'] = {'$in'=>search_loc}
+          e
+        }
         if search_jedno.length == 0
           search_jedno << {'lemma.sw'=>{'$elemMatch'=>{'@misto'=>{'$in'=>search_loc}}}}
         end
+        if search_obe_ruzne.length == 0
+          search_obe_ruzne << {'lemma.sw'=>{'$elemMatch'=>{'@misto'=>{'$in'=>search_loc}}}}
+        end
+        if search_obe_stejne.length == 0
+          search_obe_stejne << {'lemma.sw'=>{'$elemMatch'=>{'@misto'=>{'$in'=>search_loc}}}}
+        end
       end
       $stderr.puts search_jedno
-      search_query = {'dict'=>dictcode, '$or'=>search_obe_ruzne}
+      search_query = {'dict'=>dictcode, '$or'=>search_jedno}
       $stderr.puts search_query
       $mongo['entries'].find(search_query).each{|e|
         #$stderr.puts e['id']

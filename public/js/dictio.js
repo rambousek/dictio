@@ -36,7 +36,7 @@ function do_search() {
   if (search != '') {
     var dict = $('.search-alt__wrap #translate-from').val();
     var type = 'text';
-    if ($('.search-alt__wrap #expression_search').data('codes_hand') != undefined && $('.search-alt__wrap #expression_search').data('codes_hand') != '') {
+    if (($('.search-alt__wrap #expression_search').data('codes_hand') != undefined && $('.search-alt__wrap #expression_search').data('codes_hand') != '') || ($('.search-alt__wrap #expression_search').data('codes_place') != undefined && $('.search-alt__wrap #expression_search').data('codes_place') != '')) {
       type = 'key';
     }
     var url = '/'+dict+'/search/'+type+'/'+search;
@@ -187,7 +187,7 @@ if ($('.keyboard').length) {
   });
 
   // if search string, select correct images
-  if ($('.keyboard-target .expression').data('codes_hand') && $('.keyboard-target .expression').data('codes_hand') != '') {
+  if (($('.keyboard-target .expression').data('codes_hand') && $('.keyboard-target .expression').data('codes_hand') != '') || ($('.keyboard-target .expression').data('codes_place') && $('.keyboard-target .expression').data('codes_place') != '')) {
     $('.keyboard-target .keyboard-images').show();
     var codes_hand = $('.keyboard-target .expression').data('codes_hand');
     var codes_place = $('.keyboard-target .expression').data('codes_place');
