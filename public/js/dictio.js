@@ -122,13 +122,12 @@ $('.search-alt .select-items div').on('click', function(event) {
     $('.search-alt .expression').show();
     $('.search-alt .keyboard-images').hide();
     $('.keyboard').hide();
-    if ($('.keyboard-target .expression').data('codes_hand') != '') {
-      $('.keyboard-target .expression').val('');
-      $('.keyboard-target .expression').data('codes_hand', '');
-      $('.keyboard-target .expression').data('codes_place', '');
-      $('.keyboard-target .expression').data('places', '');
-      $('.keyboard-target .expression').data('hands', '');
-    }
+    $('.keyboard-target .expression').val('');
+    $('.keyboard-target .expression').data('codes_hand', '');
+    $('.keyboard-target .expression').data('codes_place', '');
+    $('.keyboard-target .expression').data('places', '');
+    $('.keyboard-target .expression').data('hands', '');
+    $('.js-key').removeClass('js-key-selected');
   }
 });
 
@@ -167,15 +166,32 @@ if ($('.keyboard').length) {
         $('.keyboard-target .keyboard-images').append('<img src="http://www.dictio.info/media/search/images/'+$(this).data('hand')+'.jpg"/>');
       }
     });
-    $('.keyboard-target .expression').val(codes_hand.join(',')+'|'+codes_place.join(','));
     $('.keyboard-target .expression').data('codes_hand', codes_hand.join(','));
     $('.keyboard-target .expression').data('codes_place', codes_place.join(','));
     $('.keyboard-target .expression').data('hands', hands.join(','));
     $('.keyboard-target .expression').data('places', places.join(','));
-    $('.keyboard-target .keyboard-images').show();
-    $('.keyboard-target .expression').hide();
+    if (codes_hand.length == 0 && codes_place.length == 0) {
+      $('.keyboard-target .keyboard-images').hide();
+      $('.keyboard-target .expression').val('');
+      $('.keyboard-target .expression').show();
+      $('.keyboard').hide();
+    } else {
+      $('.keyboard-target .expression').val(codes_hand.join(',')+'|'+codes_place.join(','));
+      $('.keyboard-target .keyboard-images').show();
+      $('.keyboard-target .expression').hide();
+    }
   });
 
+  //delete all key
+  $('.js-key-back').on('click', function (event) {
+    $('.keyboard-target .keyboard-images').hide();
+    $('.keyboard-target .expression').val('');
+    $('.keyboard-target .expression').show();
+    $('.keyboard').hide();
+    $('.js-key').removeClass('js-key-selected');
+  });
+
+  // switch keyboard tabs
   $('.keyboard .buttons-place').hide();
   $('.keyboard .keyboard-place').on('click', function() {
     $(this).parents('.keyboard').find('.buttons-place').show();
