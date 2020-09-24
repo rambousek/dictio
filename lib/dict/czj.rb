@@ -364,11 +364,10 @@ class CZJDict < Object
           }
         }
       }
-      $stderr.puts search_jedno
+
       if search_ar[1].to_s != ''
         #pridame umisteni
         search_loc = search_ar[1].split(',')
-        #search_loc.map!{|e| e='contains($r/@misto,"'+e+'")'}
         search_jedno.map!{|e| 
           e['lemma.sw']['$elemMatch']['@misto'] = {'$in'=>search_loc}
           e
@@ -391,8 +390,44 @@ class CZJDict < Object
           search_obe_stejne << {'lemma.sw'=>{'$elemMatch'=>{'@misto'=>{'$in'=>search_loc}}}}
         end
       end
-      $stderr.puts search_jedno
-      search_query = {'dict'=>dictcode, '$or'=>search_jedno}
+
+      # dvourucni volby, vyber dotazu
+      if search_ar[2].to_s != ''
+        search_two = search_ar[2].split(',')
+        if search_two.include?('sym')
+          search_query = search_obe_stejne
+        else
+          search_query = search_obe_ruzne
+        end
+        if search_two.include?('act')
+          search_query.map!{|e| 
+            e['lemma.sw']['$elemMatch']['$and'] = [] if e['lemma.sw']['$elemMatch']['$and'].nil?
+            e['lemma.sw']['$elemMatch']['$and'] << {
+              '$or'=>[
+                {'@fsw'=>{'$regex'=>'S2[2-9a-f][0-9a-f]2'}},
+                {'$and'=>[
+                  {'@fsw'=>{'$regex'=>'S2[2-9a-f][0-9a-f]0'}},
+                  {'@fsw'=>{'$regex'=>'S2[2-9a-f][0-9a-f]1'}},
+                ]
+                },
+                {'$and'=>[
+                  {'@fsw'=>{'$not'=>{'$regex'=>'S2[2-9a-f][0-9a-f]'}}},
+                  {'$or'=>[
+                    {'@fsw'=>{'$regex'=>'S20[567bcd]'}},
+                    {'@fsw'=>{'$regex'=>'S21[123]'}},
+                  ]}
+                ]
+                }
+              ]
+            }
+            e
+          }
+        end
+      else 
+        search_query = search_jedno
+      end
+
+      search_query = {'dict'=>dictcode, '$or'=>search_query}
       $stderr.puts search_query
       $mongo['entries'].find(search_query).each{|e|
         #$stderr.puts e['id']

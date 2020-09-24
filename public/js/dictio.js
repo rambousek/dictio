@@ -151,8 +151,10 @@ if ($('.keyboard').length) {
     // display images and collect codes
     var codes_hand = new Array();
     var codes_place = new Array();
+    var codes_two = new Array();
     var hands = new Array()
     var places = new Array()
+    var two = new Array();
     $('.keyboard-target .keyboard-images img').remove();
     $(this).parents('.keyboard').find('.js-key-selected').each(function() {
       if ($(this).parent().hasClass('buttons-hand')) {
@@ -165,18 +167,24 @@ if ($('.keyboard').length) {
         places.push($(this).data('hand'));
         $('.keyboard-target .keyboard-images').append('<img src="http://www.dictio.info/media/search/images/'+$(this).data('hand')+'.jpg"/>');
       }
+      if ($(this).parent().hasClass('buttons-two')) {
+        codes_two = codes_two.concat($(this).data('key').split(','));
+        two.push($(this).data('hand'));
+        $('.keyboard-target .keyboard-images').append('<img src="http://www.dictio.info/editor/img/'+$(this).data('hand')+'.png"/>');
+      }
     });
     $('.keyboard-target .expression').data('codes_hand', codes_hand.join(','));
     $('.keyboard-target .expression').data('codes_place', codes_place.join(','));
+    $('.keyboard-target .expression').data('codes_two', codes_two.join(','));
     $('.keyboard-target .expression').data('hands', hands.join(','));
     $('.keyboard-target .expression').data('places', places.join(','));
-    if (codes_hand.length == 0 && codes_place.length == 0) {
+    $('.keyboard-target .expression').data('two', two.join(','));
+    if (codes_hand.length == 0 && codes_place.length == 0 && codes_two.length == 0) {
       $('.keyboard-target .keyboard-images').hide();
       $('.keyboard-target .expression').val('');
       $('.keyboard-target .expression').show();
-      $('.keyboard').hide();
     } else {
-      $('.keyboard-target .expression').val(codes_hand.join(',')+'|'+codes_place.join(','));
+      $('.keyboard-target .expression').val(codes_hand.join(',')+'|'+codes_place.join(',')+'|'+codes_two.join(','));
       $('.keyboard-target .keyboard-images').show();
       $('.keyboard-target .expression').hide();
     }
@@ -187,19 +195,26 @@ if ($('.keyboard').length) {
     $('.keyboard-target .keyboard-images').hide();
     $('.keyboard-target .expression').val('');
     $('.keyboard-target .expression').show();
-    $('.keyboard').hide();
     $('.js-key').removeClass('js-key-selected');
   });
 
   // switch keyboard tabs
   $('.keyboard .buttons-place').hide();
+  $('.keyboard .buttons-two').hide();
   $('.keyboard .keyboard-place').on('click', function() {
     $(this).parents('.keyboard').find('.buttons-place').show();
     $(this).parents('.keyboard').find('.buttons-hand').hide();
+    $(this).parents('.keyboard').find('.buttons-two').hide();
   });
   $('.keyboard .keyboard-hand').on('click', function() {
     $(this).parents('.keyboard').find('.buttons-hand').show();
     $(this).parents('.keyboard').find('.buttons-place').hide();
+    $(this).parents('.keyboard').find('.buttons-two').hide();
+  });
+  $('.keyboard .keyboard-two').on('click', function() {
+    $(this).parents('.keyboard').find('.buttons-hand').hide();
+    $(this).parents('.keyboard').find('.buttons-place').hide();
+    $(this).parents('.keyboard').find('.buttons-two').show();
   });
 
   // if search string, select correct images
@@ -207,25 +222,35 @@ if ($('.keyboard').length) {
     $('.keyboard-target .keyboard-images').show();
     var codes_hand = $('.keyboard-target .expression').data('codes_hand');
     var codes_place = $('.keyboard-target .expression').data('codes_place');
+    var codes_two = $('.keyboard-target .expression').data('codes_two');
     var hands = new Array();
     var places = new Array();
+    var two = new Array();
     $('.keyboard-target .keyboard-images img').remove();
     $('.keyboard .buttons-hand button').each(function() {
-        if (codes_hand.includes($(this).data('key'))) {
-          hands.push($(this).data('hand'));
-          $('.keyboard-target .keyboard-images').append('<img src="http://www.dictio.info/media/search/images/Hand_'+$(this).data('hand')+'.png"/>');
-          $(this).addClass('js-key-selected');
-        }
+      if (codes_hand.includes($(this).data('key'))) {
+        hands.push($(this).data('hand'));
+        $('.keyboard-target .keyboard-images').append('<img src="http://www.dictio.info/media/search/images/Hand_'+$(this).data('hand')+'.png"/>');
+        $(this).addClass('js-key-selected');
+      }
     });
     $('.keyboard .buttons-place button').each(function() {
-        if (codes_place.includes($(this).data('key'))) {
-          places.push($(this).data('hand'));
-          $('.keyboard-target .keyboard-images').append('<img src="http://www.dictio.info/media/search/images/'+$(this).data('hand')+'.jpg"/>');
-          $(this).addClass('js-key-selected');
-        }
+      if (codes_place.includes($(this).data('key'))) {
+        places.push($(this).data('hand'));
+        $('.keyboard-target .keyboard-images').append('<img src="http://www.dictio.info/media/search/images/'+$(this).data('hand')+'.jpg"/>');
+        $(this).addClass('js-key-selected');
+      }
+    });
+    $('.keyboard .buttons-two button').each(function() {
+      if (codes_two.includes($(this).data('key'))) {
+        two.push($(this).data('hand'));
+        $('.keyboard-target .keyboard-images').append('<img src="http://www.dictio.info/editor/img/'+$(this).data('hand')+'.png"/>');
+        $(this).addClass('js-key-selected');
+      }
     });
     $('.keyboard-target .expression').data('hands', hands.join(','));
     $('.keyboard-target .expression').data('places', places.join(','));
+    $('.keyboard-target .expression').data('two', two.join(','));
     $('.keyboard-target .expression').hide();
   }
 }
