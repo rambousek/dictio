@@ -13,5 +13,5 @@ yum install nginx ruby-devel make gcc redhat-rpm-config
 gem install sinatra slim mongo i18n json bson
 ```
 
-## mongo
+### mongo
 https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/
