@@ -8,4 +8,3 @@ state_path "#{root}/tmp/pids/puma.state"
 stdout_redirect "#{root}/logs/stdout", "#{root}/logs/stderr"
 
 daemonize true
-
