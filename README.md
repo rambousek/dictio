@@ -15,3 +15,7 @@ gem install sinatra slim mongo i18n json bson
 
 ### mongo
 https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/
+```
+yum install ruby-devel make gcc redhat-rpm-config
+gem install mongo json bson
+```
