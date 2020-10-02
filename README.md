@@ -11,7 +11,7 @@ group add dictio
 ### view
 ```
 yum install nginx ruby-devel make gcc redhat-rpm-config
-gem install sinatra slim mongo i18n json bson
+gem install sinatra slim mongo i18n json bson puma
 ```
 
 ### mongo
