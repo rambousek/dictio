@@ -40,7 +40,7 @@ upstream sinatra {
 server {
     listen 80;
     root /srv/dictio/public;
-    server_name raindrop-b-0-027.cloud.metacentrum.cz;
+    server_name DICTIO;
 
     location / {
         try_files $uri $uri/index.html @puma;
@@ -58,3 +58,10 @@ server {
 ```
 ### mongo
 systemctl enable mongod
+
+/etc/mongod.conf - net: bindIp:
+
+```
+use dictio
+db.entries.aggregate([{"$facet":{"rel": [{"$match": { "meanings.relation.type":{"$nin":["synonym","antonym"]}}},{"$unwind":"$meanings"},{"$unwind":"$meanings.relation"},{"$count":"count"}],"usgrel": [{"$match": { "meanings.usages.relation.type":{"$nin":["synonym","antonym"]}}},{"$unwind":"$meanings"},{"$unwind":"$meanings.usages"},{"$unwind":"$meanings.usages.relation"},{"$count":"count"}],"entries": [{"$count":"count"}] }},{"$merge":"entryStat"}])
+```
