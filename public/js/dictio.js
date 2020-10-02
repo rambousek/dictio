@@ -125,8 +125,10 @@ $('.search-alt .select-items div').on('click', function(event) {
     $('.keyboard-target .expression').val('');
     $('.keyboard-target .expression').data('codes_hand', '');
     $('.keyboard-target .expression').data('codes_place', '');
+    $('.keyboard-target .expression').data('codes_two', '');
     $('.keyboard-target .expression').data('places', '');
     $('.keyboard-target .expression').data('hands', '');
+    $('.keyboard-target .expression').data('two', '');
     $('.js-key').removeClass('js-key-selected');
   }
 });
@@ -195,6 +197,12 @@ if ($('.keyboard').length) {
     $('.keyboard-target .keyboard-images').hide();
     $('.keyboard-target .expression').val('');
     $('.keyboard-target .expression').show();
+    $('.keyboard-target .expression').data('codes_hand', '');
+    $('.keyboard-target .expression').data('codes_place', '');
+    $('.keyboard-target .expression').data('codes_two', '');
+    $('.keyboard-target .expression').data('places', '');
+    $('.keyboard-target .expression').data('hands', '');
+    $('.keyboard-target .expression').data('two', '');
     $('.js-key').removeClass('js-key-selected');
   });
 
