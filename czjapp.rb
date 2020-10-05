@@ -8,7 +8,7 @@ require 'open-uri'
 require 'i18n'
 require 'i18n/backend/fallbacks'
 
-require_relative 'lib/dict/czj'
+require_relative 'lib/czj'
 
 class CzjApp < Sinatra::Base
   $mongo = Mongo::Client.new([ '192.168.0.156:27017' ], :database => 'dictio')
