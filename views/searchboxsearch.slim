@@ -1,5 +1,5 @@
 <!-- vyhledávání -->
-.search-alt
+.search-alt.keyboard-target
   .container
     .search-alt__wrapper
       .search-alt__wrap
@@ -7,7 +7,7 @@
           .search__item 
             label for="translate-from" #{I18n.t("search.search_in")}:
             .custom-select
-              select name="translate-from" id="translate-from"
+              select.translate-from name="translate-from" id="translate-from"
                 - @dict_info.each do |code, info|
                   option value="#{code}" selected=("selected" if @dictcode==code) #{I18n.t("dict_search."+code)}
           .search__item

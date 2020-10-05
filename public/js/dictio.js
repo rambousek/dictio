@@ -1,16 +1,13 @@
 function do_translate() {
   var search = $('.search__wrapper #expression_trans').val();
   if (search != '') {
-    var dict = $('.search__wrapper #translate-from').val();
+    var dict = $('.search__wrapper .translate-from').val();
     var target = $('.search__wrapper #translate-to').val();
-    var url = '/'+dict+'/translate/'+target+'/text/'+search;
-    var params = new Array();
-    if ($('.search__wrapper [name=deklin]').prop('checked')) {
-      params.push('deklin=on')
+    var type = 'text';
+    if (($('.search__wrapper #expression_trans').data('codes_hand') != undefined && $('.search__wrapper #expression_trans').data('codes_hand') != '') || ($('.search__wrapper #expression_trans').data('codes_place') != undefined && $('.search__wrapper #expression_trans').data('codes_place') != '')) {
+      type = 'key';
     }
-    if (params.length > 0) {
-      url += '?' + params.join('&')
-    }
+    var url = '/'+dict+'/translate/'+target+'/'+type+'/'+search;
     window.location = url;
   }
 }
@@ -34,7 +31,7 @@ function do_mobile_translate() {
 function do_search() {
   var search = $('.search-alt__wrap #expression_search').val();
   if (search != '') {
-    var dict = $('.search-alt__wrap #translate-from').val();
+    var dict = $('.search-alt__wrap .translate-from').val();
     var type = 'text';
     if (($('.search-alt__wrap #expression_search').data('codes_hand') != undefined && $('.search-alt__wrap #expression_search').data('codes_hand') != '') || ($('.search-alt__wrap #expression_search').data('codes_place') != undefined && $('.search-alt__wrap #expression_search').data('codes_place') != '')) {
       type = 'key';
@@ -99,28 +96,58 @@ $('.btn-front').on('click', function(event) {
 
 /* show keyboard */
 $('#expression_search').on('focus', function(event) {
-  var dict = $('.search-alt__wrap #translate-from').val();
+  var dict = $('.search-alt__wrap .translate-from').val();
   if (['czj','spj','asl','is','ogs'].includes(dict)) {
     $('.search-alt__wrapper .keyboard').show();
     $('.search-alt').addClass('keyboard-target');
   }
 });
+$('#expression_trans').on('focus', function(event) {
+  var dict = $('.search__wrapper .translate-from').val();
+  if (['czj','spj','asl','is','ogs'].includes(dict)) {
+    $('.search__wrapper .keyboard').show();
+    $('.search').addClass('keyboard-target');
+  }
+});
 $('.search-alt .keyboard-images').on('click', function(event) {
-  var dict = $('.search-alt__wrap #translate-from').val();
   $('.search-alt__wrapper .keyboard').show();
   $('.search-alt').addClass('keyboard-target');
+});
+$('.search .keyboard-images').on('click', function(event) {
+  $('.search__wrapper .keyboard').show();
+  $('.search').addClass('keyboard-target');
 });
 /* hide keyboard */
 $('.search-alt__wrapper .keyboard .keyboard-hide').on('click', function(event) {
   $('.search-alt__wrapper .keyboard').hide();
   $('.search-alt').removeClass('keyboard-target');
 });
+$('.search__wrapper .keyboard .keyboard-hide').on('click', function(event) {
+  $('.search__wrapper .keyboard').hide();
+  $('.search').removeClass('keyboard-target');
+});
 /* switch back from keyboard */
 $('.search-alt .select-items div').on('click', function(event) {
-  var dict = $('.search-alt__wrap #translate-from').val();
+  var dict = $('.search-alt__wrap .translate-from').val();
   if (!(['czj','spj','asl','is','ogs'].includes(dict))) {
     $('.search-alt .expression').show();
     $('.search-alt .keyboard-images').hide();
+    $('.keyboard').hide();
+    $('.keyboard-target .expression').val('');
+    $('.keyboard-target .expression').data('codes_hand', '');
+    $('.keyboard-target .expression').data('codes_place', '');
+    $('.keyboard-target .expression').data('codes_two', '');
+    $('.keyboard-target .expression').data('places', '');
+    $('.keyboard-target .expression').data('hands', '');
+    $('.keyboard-target .expression').data('two', '');
+    $('.js-key').removeClass('js-key-selected');
+  }
+});
+$('.search .select-items div').on('click', function(event) {
+  var dict = $('.search__wrapper .translate-from').val();
+  if (!(['czj','spj','asl','is','ogs'].includes(dict))) {
+    $('.search .expression').show();
+    $('.search .keyboard-images').hide();
     $('.keyboard').hide();
     $('.keyboard-target .expression').val('');
     $('.keyboard-target .expression').data('codes_hand', '');
@@ -136,7 +163,9 @@ $('.search-alt .select-items div').on('click', function(event) {
 /* hide keyboard by default */
 $('.keyboard').hide();
 $('.keyboard-images').hide();
-$('.search-alt').addClass('keyboard-target');
+if ($('.keyboard-target').length > 1) {
+  $('.keyboard-target').removeClass('keyboard-target');
+}
 
 if ($('.keyboard').length) {
   $('.js-key').on('click', function (event) {

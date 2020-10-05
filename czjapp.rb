@@ -161,6 +161,7 @@ class CzjApp < Sinatra::Base
       @url_params = url_pars.join('&')
       @search_type = 'translate'
       @search = params['search']
+      @input_type = params['type']
       @search_params = more_params
       @dictcode = code
       if selected.nil?
