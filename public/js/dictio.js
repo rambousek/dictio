@@ -162,12 +162,12 @@ if ($('.keyboard').length) {
       if ($(this).parent().hasClass('buttons-hand')) {
         codes_hand = codes_hand.concat($(this).data('key').split(','));
         hands.push($(this).data('hand'));
-        $('.keyboard-target .keyboard-images').append('<img src="http://www.dictio.info/media/search/images/Hand_'+$(this).data('hand')+'.png"/>');
+        $('.keyboard-target .keyboard-images').append('<img src="http://www.dictio.info/media/search/images_dark/Hand_'+$(this).data('hand')+'.png"/>');
       }
       if ($(this).parent().hasClass('buttons-place')) {
         codes_place = codes_place.concat($(this).data('key').split(','));
         places.push($(this).data('hand'));
-        $('.keyboard-target .keyboard-images').append('<img src="http://www.dictio.info/media/search/images/'+$(this).data('hand')+'.jpg"/>');
+        $('.keyboard-target .keyboard-images').append('<img src="http://www.dictio.info/media/search/images_dark/'+$(this).data('hand')+'.jpg"/>');
       }
       if ($(this).parent().hasClass('buttons-two')) {
         codes_two = codes_two.concat($(this).data('key').split(','));
@@ -238,14 +238,14 @@ if ($('.keyboard').length) {
     $('.keyboard .buttons-hand button').each(function() {
       if (codes_hand.includes($(this).data('key'))) {
         hands.push($(this).data('hand'));
-        $('.keyboard-target .keyboard-images').append('<img src="http://www.dictio.info/media/search/images/Hand_'+$(this).data('hand')+'.png"/>');
+        $('.keyboard-target .keyboard-images').append('<img src="http://www.dictio.info/media/search/images_dark/Hand_'+$(this).data('hand')+'.png"/>');
         $(this).addClass('js-key-selected');
       }
     });
     $('.keyboard .buttons-place button').each(function() {
       if (codes_place.includes($(this).data('key'))) {
         places.push($(this).data('hand'));
-        $('.keyboard-target .keyboard-images').append('<img src="http://www.dictio.info/media/search/images/'+$(this).data('hand')+'.jpg"/>');
+        $('.keyboard-target .keyboard-images').append('<img src="http://www.dictio.info/media/search/images_dark/'+$(this).data('hand')+'.jpg"/>');
         $(this).addClass('js-key-selected');
       }
     });

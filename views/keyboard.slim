@@ -4,7 +4,7 @@
   .buttons-hand
     - hands.each do |hand|
       button.js-key data-hand=hand[0] data-key=hand[1]
-        img src="http://www.dictio.info/media/search/images/Hand_#{hand[0]}.png"
+        img src="http://www.dictio.info/media/search/images_dark/Hand_#{hand[0]}.png"
     button.keyboard__back.js-key-back data-key=":back:"
       span.icon.icon--back
         svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -20,7 +20,7 @@
   .buttons-place
     - places.each do |place|
       button.js-key data-hand=place[0] data-key=place[1]
-        img src="http://www.dictio.info/media/search/images/#{place[0]}.jpg"
+        img src="http://www.dictio.info/media/search/images_dark/#{place[0]}.jpg"
     button.keyboard__back.js-key-back data-key=":back:"
       span.icon.icon--back
         svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
