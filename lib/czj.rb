@@ -478,7 +478,7 @@ class CZJDict < Object
               usg['relation'].each{|rel|
                 if rel['target'] == source and rel['meaning_id'].match(/(^| )#{search}/)
                   newdoc = {'id'=>nil,'dict'=>source, 'lemma'=>{'title'=>rel['meaning_id']}, 'meanings'=>[{'relation'=>[{'target'=>target, 'meaning_id'=>usg['id'], 'lemma_id'=>e['id'], 'type'=>'translation', 'entry'=>e}]}]}
-                  newdoc['meanings'][0]['relation'][0]['entry']['lemma']['video_front'] = get_media(usg['text']['file']['@media_id'], target)['location']
+                  newdoc['meanings'][0]['relation'][0]['entry']['lemma']['video_front'] = get_media(usg['text']['file']['@media_id'], target)['location'] if usg['text']['file']
                   res << newdoc
                 end
               }
