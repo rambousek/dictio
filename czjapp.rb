@@ -9,9 +9,10 @@ require 'i18n'
 require 'i18n/backend/fallbacks'
 
 require_relative 'lib/czj'
+require_relative 'lib/mongo-config'
 
 class CzjApp < Sinatra::Base
-  $mongo = Mongo::Client.new([ '192.168.0.156:27017' ], :database => 'dictio')
+  $mongo = Mongo::Client.new([$mongoHost], :database => 'dictio')
   
   configure do
     set :bind, '0.0.0.0'
