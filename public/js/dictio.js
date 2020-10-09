@@ -105,7 +105,7 @@ $('#expression_search').on('focus', function(event) {
 $('#expression_trans').on('focus', function(event) {
   var dict = $('.search__wrapper .translate-from').val();
   if (['czj','spj','asl','is','ogs'].includes(dict)) {
-    $('.search__wrapper .keyboard').show();
+    $('.search .keyboard').show();
     $('.search').addClass('keyboard-target');
   }
 });
@@ -114,7 +114,7 @@ $('.search-alt .keyboard-images').on('click', function(event) {
   $('.search-alt').addClass('keyboard-target');
 });
 $('.search .keyboard-images').on('click', function(event) {
-  $('.search__wrapper .keyboard').show();
+  $('.search .keyboard').show();
   $('.search').addClass('keyboard-target');
 });
 /* hide keyboard */
@@ -122,8 +122,8 @@ $('.search-alt__wrapper .keyboard .keyboard-hide').on('click', function(event) {
   $('.search-alt__wrapper .keyboard').hide();
   $('.search-alt').removeClass('keyboard-target');
 });
-$('.search__wrapper .keyboard .keyboard-hide').on('click', function(event) {
-  $('.search__wrapper .keyboard').hide();
+$('.search .keyboard .keyboard-hide').on('click', function(event) {
+  $('.search .keyboard').hide();
   $('.search').removeClass('keyboard-target');
 });
 /* switch back from keyboard */

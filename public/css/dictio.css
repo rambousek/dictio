@@ -3,7 +3,7 @@ video.video-link {
 }
 
 .js-key-selected {
-  border: solid 5px green !important;
+  border: solid 1px #03c9a9 !important;
 }
 
 .keyboard-images img {
