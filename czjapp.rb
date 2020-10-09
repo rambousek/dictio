@@ -91,17 +91,6 @@ class CzjApp < Sinatra::Base
     dict.dict_info = dict_info
     dict_array[code] = dict
  
-    get '/proxy/:dir/:video' do
-      content_type 'video/mp4'
-      if File.exist?('public/'+params['dir']+'/'+params['video'])
-        redirect '/'+params['dir']+'/'+params['video']
-      else
-        url = 'http://www.dictio.info/media/'+params['dir']+'/'+params['video']
-        open(url) do |content|
-          content.read
-        end
-      end
-    end
     get '/'+code do
       redirect to('/')
     end
