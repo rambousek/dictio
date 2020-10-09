@@ -10,8 +10,12 @@ group add dictio
 
 ### view
 ```
-yum install nginx ruby-devel make gcc redhat-rpm-config
+yum install nginx ruby-devel make gcc redhat-rpm-config certbot python3-certbot-apache mod_ssl
 gem install sinatra slim mongo i18n json bson puma
+```
+
+certifikát
+```
 ```
 
 ### mongo
@@ -38,9 +42,22 @@ upstream sinatra {
 }
 
 server {
-    listen 80;
+   listen 80;
+   listen [::]:80;
+   server_name beta.dictio.info;
+   return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
     root /srv/dictio/public;
-    server_name DICTIO;
+    server_name beta.dictio.info;
+    ssl_certificate_key /etc/letsencrypt/live/beta.dictio.info/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/beta.dictio.info/fullchain.pem;
+    keepalive_timeout 70;
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 10m;
+
 
     location / {
         try_files $uri $uri/index.html @puma;
@@ -54,7 +71,6 @@ server {
   }
 
 }
-
 ```
 ### mongo
 systemctl enable mongod
