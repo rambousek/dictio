@@ -63,6 +63,18 @@ server {
         try_files $uri $uri/index.html @puma;
     }
 
+    location ~* ^/video/([^/]*)/([^/]*) {
+        proxy_pass http://147.251.22.156/media/$1/$2;
+    }
+    location ~* ^/thumb/([^/]*)/([^/]*) {
+        proxy_pass http://147.251.22.156/media/$1/thumb/$2/thumb.jpg;
+    }
+    location ~* /sw/(.*) {
+        proxy_set_header Host znaky.zcu.cz;
+        proxy_pass http://147.228.43.30/proxy/tts/$1?$args;
+    }
+
+
     location @puma {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Host $http_host;
