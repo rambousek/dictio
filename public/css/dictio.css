@@ -8,6 +8,7 @@ video.video-link {
 
 .keyboard-images img {
   height: 40px;
+  border: 1px solid white;
 }
 
 .keyboard-images {
@@ -15,4 +16,9 @@ video.video-link {
   border-radius: 20px;
   background: #fff;
   padding: 9px 45px 9px 10px;
+}
+
+.keyboard-images img:hover {
+  opacity: 0.3; 
+  border: 1px solid red;
 }

@@ -191,17 +191,17 @@ if ($('.keyboard').length) {
       if ($(this).parent().hasClass('buttons-hand')) {
         codes_hand = codes_hand.concat($(this).data('key').split(','));
         hands.push($(this).data('hand'));
-        $('.keyboard-target .keyboard-images').append('<img src="/img/keys/Hand_'+$(this).data('hand')+'.png"/>');
+        $('.keyboard-target .keyboard-images').append('<img data-type="hand" data-hand="'+$(this).data('hand')+'" src="/img/keys/Hand_'+$(this).data('hand')+'.png"/>');
       }
       if ($(this).parent().hasClass('buttons-place')) {
         codes_place = codes_place.concat($(this).data('key').split(','));
         places.push($(this).data('hand'));
-        $('.keyboard-target .keyboard-images').append('<img src="/img/keys/'+$(this).data('hand')+'.jpg"/>');
+        $('.keyboard-target .keyboard-images').append('<img data-type="place" data-hand="'+$(this).data('hand')+'" src="/img/keys/'+$(this).data('hand')+'.jpg"/>');
       }
       if ($(this).parent().hasClass('buttons-two')) {
         codes_two = codes_two.concat($(this).data('key').split(','));
         two.push($(this).data('hand'));
-        $('.keyboard-target .keyboard-images').append('<img src="/img/keys_dark/'+$(this).data('hand')+'.png"/>');
+        $('.keyboard-target .keyboard-images').append('<img data-type="two" data-hand="'+$(this).data('hand')+'" src="/img/keys_dark/'+$(this).data('hand')+'.png"/>');
       }
     });
     $('.keyboard-target .expression').data('codes_hand', codes_hand.join(','));
@@ -218,6 +218,12 @@ if ($('.keyboard').length) {
       $('.keyboard-target .expression').val(codes_hand.join(',')+'|'+codes_place.join(',')+'|'+codes_two.join(','));
       $('.keyboard-target .keyboard-images').show();
       $('.keyboard-target .expression').hide();
+
+      //click on selected image to delete
+      $('.keyboard-images img').on("click", function() {
+        var path = '.keyboard-target .keyboard .buttons-'+$(this).data('type')+' button[data-hand='+$(this).data('hand')+']';
+        $(path).trigger('click');
+      });
     }
   });
 
@@ -267,21 +273,21 @@ if ($('.keyboard').length) {
     $('.keyboard .buttons-hand button').each(function() {
       if (codes_hand.includes($(this).data('key'))) {
         hands.push($(this).data('hand'));
-        $('.keyboard-target .keyboard-images').append('<img src="/img/keys/Hand_'+$(this).data('hand')+'.png"/>');
+        $('.keyboard-target .keyboard-images').append('<img data-type="hand" data-hand="'+$(this).data('hand')+'" src="/img/keys/Hand_'+$(this).data('hand')+'.png"/>');
         $(this).addClass('js-key-selected');
       }
     });
     $('.keyboard .buttons-place button').each(function() {
       if (codes_place.includes($(this).data('key'))) {
         places.push($(this).data('hand'));
-        $('.keyboard-target .keyboard-images').append('<img src="/img/keys/'+$(this).data('hand')+'.jpg"/>');
+        $('.keyboard-target .keyboard-images').append('<img data-type="place" data-hand="'+$(this).data('hand')+'" src="/img/keys/'+$(this).data('hand')+'.jpg"/>');
         $(this).addClass('js-key-selected');
       }
     });
     $('.keyboard .buttons-two button').each(function() {
       if (codes_two.includes($(this).data('key'))) {
         two.push($(this).data('hand'));
-        $('.keyboard-target .keyboard-images').append('<img src="/img/keys_dark/'+$(this).data('hand')+'.png"/>');
+        $('.keyboard-target .keyboard-images').append('<img data-type="two" data-hand="'+$(this).data('hand')+'" src="/img/keys_dark/'+$(this).data('hand')+'.png"/>');
         $(this).addClass('js-key-selected');
       }
     });
@@ -289,5 +295,12 @@ if ($('.keyboard').length) {
     $('.keyboard-target .expression').data('places', places.join(','));
     $('.keyboard-target .expression').data('two', two.join(','));
     $('.keyboard-target .expression').hide();
+
+    //click on selected image to delete
+    $('.keyboard-images img').on("click", function() {
+      var path = '.keyboard-target .keyboard .buttons-'+$(this).data('type')+' button[data-hand='+$(this).data('hand')+']';
+      $(path).trigger('click');
+    });
   }
+
 }
