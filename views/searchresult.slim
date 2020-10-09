@@ -11,7 +11,7 @@ main role="main"
                   .video.video--small
                     .video__content
                       video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url="#{@search_path}/#{entry['id']}?#{@url_params}"
-                        source src="/proxy/video#{entry['dict']}/#{entry['lemma']['video_front']}" type="video/mp4"
+                        source src="/video/video#{entry['dict']}/#{entry['lemma']['video_front']}" type="video/mp4"
                     .video__controls
                       a.video__link href="#{@search_path}/#{entry['id']}"
                         span.icon.icon--open-new-window
@@ -19,7 +19,7 @@ main role="main"
                             use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
                       - if entry['lemma'] and entry['lemma']['sw']
                         span.video__sign
-                          img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]=#{entry['lemma']['sw'][0]['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+                          img src="/sw/signwriting.png?generator[sw]=#{entry['lemma']['sw'][0]['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
 
           - else 
             ul.entries
