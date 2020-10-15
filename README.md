@@ -16,6 +16,7 @@ gem install sinatra slim mongo i18n json bson puma
 
 certifikát
 ```
+certbot certonly -d beta.dictio.info
 ```
 
 ### mongo
@@ -84,6 +85,34 @@ server {
 
 }
 ```
+
+### files
+/etc/nginx/conf.d/dictio.conf
+```
+server {
+   listen 80;
+   listen [::]:80;      
+   server_name files.dictio.info;
+   return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    root /data/video;
+    server_name files.dictio.info;
+    ssl_certificate_key /etc/letsencrypt/live/files.dictio.info/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/files.dictio.info/fullchain.pem;
+    keepalive_timeout 70;
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 10m;
+
+    location / {
+        autoindex on;
+    }
+}
+```
+
 ### mongo
 systemctl enable mongod
 
