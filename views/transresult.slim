@@ -21,7 +21,7 @@ main role="main"
                   .video.video--shrink.video--small
                     .video__content
                       video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url="#{@tran_path}/#{entry['id']}" poster="/thumb/video#{@dictcode}/#{entry['lemma']['video_front']}" muted="muted"
-                        source src="/video/video#{@dictcode}/#{entry['lemma']['video_front']}" type="video/mp4"
+                        source src="https://files.dictio.info/video#{@dictcode}/#{entry['lemma']['video_front']}" type="video/mp4"
                     .video__controls
                       a.video__link href="/#{@tran_path}/#{entry['id']}"
                         span.icon.icon--open-new-window
@@ -46,7 +46,7 @@ main role="main"
                   .video.video--small
                     .video__content
                       video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url="#{@tran_path}/#{@target}-#{rel['entry']['id']}" poster="/thumb/video#{@target}/#{rel['entry']['lemma']['video_front']}" muted="muted"
-                        source src="/video/video#{@target}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
+                        source src="https://files.dictio.info/video#{@target}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
                     .video__controls
                       a.video__link href="/#{@dictcode}/translate/#{@target}/#{@params['type']}/#{@search}/#{@target}-#{rel['entry']['id']}"
                         span.icon.icon--open-new-window

@@ -25,7 +25,7 @@
             .video.video--small
               .video__content
                 video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url=(@search.to_s != ''? "#{@tran_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") poster="/thumb/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}"
-                  source src="/video/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
+                  source src="https://files.dictio.info/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
               .video__controls
                 - if @search.to_s != ''
                   a.video__link href="#{@tran_path}/#{relid}"
