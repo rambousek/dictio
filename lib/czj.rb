@@ -62,88 +62,102 @@ class CZJDict < Object
   end
 
   def get_sw(entry)
-    entry['lemma']['swmix'] = []
-    if ['collocation','derivat','kompozitum','fingerspell'].include?(entry['lemma']['lemma_type'])
-      if entry['collocations']
-        # spojeni
-        if entry['collocations']['swcompos'].to_s == ''
-          # prazdne SW compos
-          if entry['lemma']['lemma_type'] == 'derivat' or entry['lemma']['lemma_type'] == 'kompozitum'
-            # derivat/komp = zustava hlavni SW
-            entry['lemma']['swmix'] = entry['lemma']['sw'].dup
-          else
-            # spojeni/spell = SW casti
-            if entry['collocations']['entries']
-              entry['collocations']['entries'].each{|ce|
-                if ce['lemma'] and ce['lemma']['swmix']
-                  ce['lemma']['swmix'].each{|swc| entry['lemma']['swmix'] << swc.dup}
-                end
-              }
-            end
-          end
-        else
-          #vyplnene SW compos
-          entry['collocations']['swcompos'].split(',').each{|swid|
-            swid.strip!
-            $stderr.puts 'sw part '+swid
-            if swid[0,2].upcase == 'SW'
-              #copy from this entry
-              swn = swid[2..-1].to_i-1
-              entry['lemma']['swmix'] << entry['lemma']['sw'][swn].dup unless entry['lemma']['sw'][swn].nil?
-            elsif swid.upcase =~ /^[A-Z]$/
-              #copy from this entry
-              $stderr.puts 'get SW char from this entry ' + swid + ' = ' + (swid[0].ord-65).to_s
-              swn = swid[0].ord-65
-              entry['lemma']['swmix'] << entry['lemma']['sw'][swn].dup unless entry['lemma']['sw'][swn].nil?
+    $stderr.puts 'GETSW'
+    swdoc = $mongo['sw'].find({'id': entry['id'], 'dict': entry['dict']})
+    $stderr.puts swdoc.first
+    if swdoc.first
+      entry['lemma']['swmix'] = swdoc.first['swmix']
+    else
+      entries_used = [entry['id']]
+      entry['lemma']['swmix'] = []
+      if ['collocation','derivat','kompozitum','fingerspell'].include?(entry['lemma']['lemma_type'])
+        if entry['collocations']
+          # spojeni
+          if entry['collocations']['swcompos'].to_s == ''
+            # prazdne SW compos
+            if entry['lemma']['lemma_type'] == 'derivat' or entry['lemma']['lemma_type'] == 'kompozitum'
+              # derivat/komp = zustava hlavni SW
+              entry['lemma']['swmix'] = entry['lemma']['sw'].dup
             else
-              # copy from part
-              if swid.upcase =~ /[A-Z]/
-                # copy one char
-                match = /([0-9]+)([A-Z]+)/.match(swid.upcase)
-                unless match.nil?
-                  $stderr.puts 'copy char '+swid+' ('+(match[1].to_i-1).to_s+':'+(match[2][0].ord-65).to_s+')'
+              # spojeni/spell = SW casti
+              if entry['collocations']['entries']
+                entry['collocations']['entries'].each{|ce|
+                  entries_used << ce['id']
+                  if ce['lemma'] and ce['lemma']['swmix']
+                    ce['lemma']['swmix'].each{|swc| entry['lemma']['swmix'] << swc.dup}
+                  end
+                }
+              end
+            end
+          else
+            #vyplnene SW compos
+            entry['collocations']['swcompos'].split(',').each{|swid|
+              swid.strip!
+              $stderr.puts 'sw part '+swid
+              if swid[0,2].upcase == 'SW'
+                #copy from this entry
+                swn = swid[2..-1].to_i-1
+                entry['lemma']['swmix'] << entry['lemma']['sw'][swn].dup unless entry['lemma']['sw'][swn].nil?
+              elsif swid.upcase =~ /^[A-Z]$/
+                #copy from this entry
+                $stderr.puts 'get SW char from this entry ' + swid + ' = ' + (swid[0].ord-65).to_s
+                swn = swid[0].ord-65
+                entry['lemma']['swmix'] << entry['lemma']['sw'][swn].dup unless entry['lemma']['sw'][swn].nil?
+              else
+                # copy from part
+                if swid.upcase =~ /[A-Z]/
+                  # copy one char
+                  match = /([0-9]+)([A-Z]+)/.match(swid.upcase)
+                  unless match.nil?
+                    $stderr.puts 'copy char '+swid+' ('+(match[1].to_i-1).to_s+':'+(match[2][0].ord-65).to_s+')'
+                    if entry['collocations'] and entry['collocations']['entries']
+                      unless entry['collocations']['entries'][match[1].to_i-1].nil?
+                        unless entry['collocations']['entries'][match[1].to_i-1]['lemma']['sw'].first.nil?
+                          entries_used << entry['collocations']['entries'][match[1].to_i-1]['id']
+                          entry['lemma']['swmix'] << entry['collocations']['entries'][match[1].to_i-1]['lemma']['sw'][match[2][0].ord-65].dup unless entry['collocations']['entries'][match[1].to_i-1]['lemma']['sw'][match[2][0].ord-65].nil?
+                        else
+                          entries_used << entry['collocations']['entries'][match[1].to_i-1]['id']
+                          entry['lemma']['swmix'] << entry['collocations']['entries'][match[1].to_i-1]['lemma']['swmix'][match[2][0].ord-65].dup unless entry['collocations']['entries'][match[1].to_i-1]['lemma']['swmix'][match[2][0].ord-65].nil?
+                        end
+                      end
+                    end
+                  end
+                else
+                  # copy full
+                  $stderr.puts 'copy full '+swid
                   if entry['collocations'] and entry['collocations']['entries']
-                    unless entry['collocations']['entries'][match[1].to_i-1].nil?
-                      unless entry['collocations']['entries'][match[1].to_i-1]['lemma']['sw'].first.nil?
-                        entry['lemma']['swmix'] << entry['collocations']['entries'][match[1].to_i-1]['lemma']['sw'][match[2][0].ord-65].dup unless entry['collocations']['entries'][match[1].to_i-1]['lemma']['sw'][match[2][0].ord-65].nil?
+                    unless entry['collocations']['entries'][swid.to_i-1].nil?
+                      if entry['collocations']['entries'][swid.to_i-1]['lemma']['swmix'].nil? or entry['collocations']['entries'][swid.to_i-1]['lemma']['swmix'].size == 0
+                        entries_used << entry['collocations']['entries'][swid.to_i-1]['id']
+                        entry['collocations']['entries'][swid.to_i-1]['lemma']['sw'].each{|swel|
+                          entry['lemma']['swmix'] << swel.dup
+                        }
                       else
-                        entry['lemma']['swmix'] << entry['collocations']['entries'][match[1].to_i-1]['lemma']['swmix'][match[2][0].ord-65].dup unless entry['collocations']['entries'][match[1].to_i-1]['lemma']['swmix'][match[2][0].ord-65].nil?
+                        entries_used << entry['collocations']['entries'][swid.to_i-1]['id']
+                        entry['collocations']['entries'][swid.to_i-1]['lemma']['swmix'].each{|swel|
+                          entry['lemma']['swmix'] << swel.dup
+                        }
                       end
                     end
                   end
                 end
-              else
-                # copy full
-                $stderr.puts 'copy full '+swid
-                if entry['collocations'] and entry['collocations']['entries']
-                  unless entry['collocations']['entries'][swid.to_i-1].nil?
-                    if entry['collocations']['entries'][swid.to_i-1]['lemma']['swmix'].nil? or entry['collocations']['entries'][swid.to_i-1]['lemma']['swmix'].size == 0
-                      entry['collocations']['entries'][swid.to_i-1]['lemma']['sw'].each{|swel|
-                        entry['lemma']['swmix'] << swel.dup
-                      }
-                    else
-                      entry['collocations']['entries'][swid.to_i-1]['lemma']['swmix'].each{|swel|
-                        entry['lemma']['swmix'] << swel.dup
-                      }
-                    end
-                  end
-                end
               end
-            end
-          }
+            }
+          end
+        end
+      else
+        # jednoduche
+        if entry['lemma']['sw']
+          if entry['lemma']['sw'].find{|sw| sw['@primary'] == 'true'}
+            # primary SW
+            entry['lemma']['swmix'] = entry['lemma']['sw'].select{|sw| sw['@primary'] == 'true'}
+          else
+            # no primary SW
+            entry['lemma']['swmix'] = entry['lemma']['sw'].dup
+          end
         end
       end
-    else
-      # jednoduche
-      if entry['lemma']['sw']
-        if entry['lemma']['sw'].find{|sw| sw['@primary'] == 'true'}
-          # primary SW
-          entry['lemma']['swmix'] = entry['lemma']['sw'].select{|sw| sw['@primary'] == 'true'}
-        else
-          # no primary SW
-         entry['lemma']['swmix'] = entry['lemma']['sw'].dup
-        end
-      end
+      $mongo['sw'].insert_one({'id': entry['id'], 'dict': entry['dict'], 'swmix': entry['lemma']['swmix'], 'entries_used': entries_used})
     end
     return entry
   end
@@ -467,12 +481,12 @@ class CZJDict < Object
     }.each{|entry| 
       $stderr.puts entry['id']
       $stderr.puts 'add translation'
-      entry = add_rels(entry, false, 'translation', target)
+      entry = add_rels(entry, true, 'translation', target)
       $stderr.puts 'add syno'
-      entry = add_rels(entry, false, 'synonym', source)
+      entry = add_rels(entry, true, 'synonym', source)
       $stderr.puts 'add anto'
-      entry = add_rels(entry, false, 'antonym', source)
-      #entry = get_sw(entry)
+      entry = add_rels(entry, true, 'antonym', source)
+      entry = get_sw(entry)
       res << entry
     }
 
