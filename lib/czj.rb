@@ -161,44 +161,60 @@ class CZJDict < Object
       return {}
     end
   end
+  def get_media_location(media_id, dict)
+    media = $mongo['media'].find({'location': media_id, 'dict': dict})
+    if media.first
+      return media.first
+    else
+      return {}
+    end
+  end
 
-  def add_media(entry)
+  def add_media(entry, main_only=false)
     entry['media'] = {}
-    if entry['meanings']
-      entry['meanings'].each{|mean|
-        entry['media'][mean['text']['file']['@media_id']] = get_media(mean['text']['file']['@media_id'], entry['dict']) if mean['text'] and mean['text']['file']
-        mean['usages'].each{|usg|
-          entry['media'][usg['text']['file']['@media_id']] = get_media(usg['text']['file']['@media_id'], entry['dict']) if usg['text'] and usg['text']['file']
+    if not main_only
+      if entry['meanings']
+        entry['meanings'].each{|mean|
+          entry['media'][mean['text']['file']['@media_id']] = get_media(mean['text']['file']['@media_id'], entry['dict']) if mean['text'] and mean['text']['file']
+          mean['usages'].each{|usg|
+            entry['media'][usg['text']['file']['@media_id']] = get_media(usg['text']['file']['@media_id'], entry['dict']) if usg['text'] and usg['text']['file']
+          }
         }
-      }
+      end
+      if entry['lemma']['grammar_note']
+        entry['lemma']['grammar_note'].each{|gn|
+          if gn['variant']
+            gn['variant'].each{|gv|
+              entry['media'][gv['_text']] = get_media(gv['_text'], entry['dict']) if gv['_text'] != ''
+            }
+          end
+          if gn['_text'] and gn['_text'] =~ /media_id/
+            gn['_text'].scan(/\[media_id=([0-9]+)\]/).each{|gm|
+              entry['media'][gm[0]] = get_media(gm[0], entry['dict'])
+            }
+          end
+        }
+      end
+      if entry['lemma']['style_note']
+        entry['lemma']['style_note'].each{|gn|
+          if gn['variant']
+            gn['variant'].each{|gv|
+              entry['media'][gv['_text']] = get_media(gv['_text'], entry['dict']) if gv['_text'] != ''
+            }
+          end
+          if gn['_text'] and gn['_text'] =~ /media_id/
+            gn['_text'].scan(/\[media_id=([0-9]+)\]/).each{|gm|
+              entry['media'][gm[0]] = get_media(gm[0], entry['dict'])
+            }
+          end
+        }
+      end
     end
-    if entry['lemma']['grammar_note']
-      entry['lemma']['grammar_note'].each{|gn|
-        if gn['variant']
-          gn['variant'].each{|gv|
-            entry['media'][gv['_text']] = get_media(gv['_text'], entry['dict']) if gv['_text'] != ''
-          }
-        end
-        if gn['_text'] and gn['_text'] =~ /media_id/
-          gn['_text'].scan(/\[media_id=([0-9]+)\]/).each{|gm|
-            entry['media'][gm[0]] = get_media(gm[0], entry['dict'])
-          }
-        end
-      }
+    if entry['lemma']['video_front'].to_s != ''
+      entry['media']['video_front'] = get_media_location(entry['lemma']['video_front'].to_s, entry['dict'])
     end
-    if entry['lemma']['style_note']
-      entry['lemma']['style_note'].each{|gn|
-        if gn['variant']
-          gn['variant'].each{|gv|
-            entry['media'][gv['_text']] = get_media(gv['_text'], entry['dict']) if gv['_text'] != ''
-          }
-        end
-        if gn['_text'] and gn['_text'] =~ /media_id/
-          gn['_text'].scan(/\[media_id=([0-9]+)\]/).each{|gm|
-            entry['media'][gm[0]] = get_media(gm[0], entry['dict'])
-          }
-        end
-      }
+    if entry['lemma']['video_side'].to_s != ''
+      entry['media']['video_side'] = get_media_location(entry['lemma']['video_side'].to_s, entry['dict'])
     end
     return entry
   end
@@ -217,6 +233,7 @@ class CZJDict < Object
             next if relentry.nil?
             relentry = add_colloc(relentry) if getsw
             relentry = get_sw(relentry) if getsw
+            relentry = add_media(relentry, true)
             rel['entry'] = relentry
           elsif rel['meaning_id'] =~ /^[0-9]*-[0-9]*_us[0-9]*$/
             rela = rel['meaning_id'].split('-')

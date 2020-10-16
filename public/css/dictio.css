@@ -22,3 +22,11 @@ video.video-link {
   opacity: 0.3; 
   border: 1px solid red;
 }
+
+.video-orient {
+  position: absolute; 
+  color: #03c9a9; 
+  margin-left: 5px; 
+  margin-top: 5px; 
+  font-weight: bold;
+}
