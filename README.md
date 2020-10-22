@@ -120,5 +120,5 @@ systemctl enable mongod
 
 ```
 use dictio
-db.entries.aggregate([{"$facet":{"rel": [{"$match": { "meanings.relation.type":{"$nin":["synonym","antonym"]}}},{"$unwind":"$meanings"},{"$unwind":"$meanings.relation"},{"$count":"count"}],"usgrel": [{"$match": { "meanings.usages.relation.type":{"$nin":["synonym","antonym"]}}},{"$unwind":"$meanings"},{"$unwind":"$meanings.usages"},{"$unwind":"$meanings.usages.relation"},{"$count":"count"}],"entries": [{"$count":"count"}] }},{"$merge":"entryStat"}])
+db.entries.aggregate([{"$facet":{"rel": [{"$match": { "meanings.relation.type":{"$nin":["synonym","antonym"]}}},{"$unwind":"$meanings"},{"$unwind":"$meanings.relation"},{"$count":"count"}],"usgrel": [{"$match": { "meanings.usages.relation.type":{"$nin":["synonym","antonym"]}}},{"$unwind":"$meanings"},{"$unwind":"$meanings.usages"},{"$unwind":"$meanings.usages.relation"},{"$count":"count"}],"entries": [{"$count":"count"}] }},{"$addFields":{dateField: new Date()}}, {"$merge":"entryStat"}])
 ```
