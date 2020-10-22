@@ -52,6 +52,8 @@ cs:
     inflicted: "hledat slovní tvary"
     diacritics: "hledat bez diakritiky"
     collocations: "hledat slovní spojení"
+    entry_count: "Celkem hesel"
+    load_next: "Načíst další"
   entry:
     frontview: "Čelní pohled"
     sideview: "Boční pohled"

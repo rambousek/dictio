@@ -60,6 +60,7 @@ class CzjApp < Sinatra::Base
     I18n.locale = @selectlang
     @langpath = request.fullpath.gsub(/lang=[a-z]*/,'').gsub(/&&*/,'&')
     @langpath += '?' unless @langpath.include?('?')
+    @search_limit = 10
   end
 
   get '/' do
@@ -109,9 +110,9 @@ class CzjApp < Sinatra::Base
       content_type :json
       body = dict.getdoc(params['id']).to_json
     end
-    get '/'+code+'/jsonsearch/:type/:search' do 
+    get '/'+code+'/jsonsearch/:type/:search(/:start)?(/:limit)?' do 
       content_type :json
-      body = dict.search(code, params['search'].to_s.strip, params['type'].to_s, params).to_json
+      body = dict.search(code, params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i).to_json
     end
     get '/'+code+'/jsontranslate/:target/:type/:search' do 
       content_type :json
@@ -124,12 +125,13 @@ class CzjApp < Sinatra::Base
       more_params = {}
       url_pars = []
       @url_params = url_pars.join('&')
-      @result = dict.search(code, params['search'].to_s.strip, params['type'].to_s, more_params)
+      @result = dict.search(code, params['search'].to_s.strip, params['type'].to_s, 0, @search_limit)
+      $stderr.puts(@result['count'])
       @entry = nil
       if params['selected'] != nil
-        @entry = dict.getdoc(params['selected']) #@result.select{|re| re['id'] == params['selected']}.first
-      elsif @result.first != nil
-        @entry = dict.getdoc(@result.first['id'])
+        @entry = dict.getdoc(params['selected']) 
+      elsif @result['entries'].first != nil
+        @entry = dict.getdoc(@result['entries'].first['id'])
       end
       @search_type = 'search'
       @search = params['search']

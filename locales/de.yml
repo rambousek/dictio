@@ -52,6 +52,8 @@ de:
     inflicted: "beinhaltet flektierte Formen"
     diacritics: "ohne diakritische Zeichen suchen"
     collocations: "beinhaltet Kollokation"
+    entry_count: "Entries in total"
+    load_next: "Show more"
   entry:
     frontview: "Frontansicht"
     sideview: "Seitenansicht"

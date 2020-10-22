@@ -52,6 +52,8 @@ en:
     inflicted: "cover inflicted forms"
     diacritics: "ignore diacritics"
     collocations: "cover collocations"
+    entry_count: "Entries in total"
+    load_next: "Show more"
   entry:
     frontview: "Front view"
     sideview: "Profile view"

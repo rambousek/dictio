@@ -52,6 +52,8 @@ sk:
     inflicted: "hľadať slovné tvary"
     diacritics: "hľadať bez diakritiky"
     collocations: "hľadat slovné spojenia"
+    entry_count: "Entries in total"
+    load_next: "Show more"
   entry:
     frontview: "Čelný pohľad"
     sideview: "Bočný pohľad"
