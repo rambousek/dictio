@@ -474,7 +474,11 @@ class CZJDict < Object
 
       search_query = {'dict'=>dictcode, '$or'=>search_query}
       $stderr.puts search_query
-      $mongo['entries'].find(search_query).each{|e|
+      cursor = $mongo['entries'].find(search_query)
+      resultcount = cursor.count_documents
+      cursor = cursor.skip(start)
+      cursor = cursor.limit(limit) if limit.to_i > 0
+      cursor.each{|e|
         res << add_media(e, true)
       }
     end
