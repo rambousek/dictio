@@ -5,13 +5,13 @@
       .search-alt__wrap
         .search-alt__top
           .search__item 
-            label for="translate-from" #{I18n.t("search.search_in")}:
+            label for="translate-from" #{I18n.t("search.search_in")}
             .custom-select
               select.translate-from name="translate-from" id="translate-from"
                 - @dict_info.each do |code, info|
                   option value="#{code}" selected=("selected" if @dictcode==code) #{I18n.t("dict_search."+code)}
           .search__item
-            label for="expression_search" = I18n.t("search.expression")
+            label style="visibility:hidden" for="expression_search" = I18n.t("search.expression")
             .search__input
               - if @input_type == 'key'
                 input.expression type="text" id="expression_search" placeholder="#{I18n.t('search.placeholder')}" value=@search data-codes_hand="#{@search.split('|')[0]}" data-codes_place="#{@search.split('|')[1]}" data-codes_two="#{@search.split('|')[2]}"
