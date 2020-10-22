@@ -4,7 +4,7 @@ main role="main"
     article.container role="article"
       .row
         aside.col.col--2.col--start.layout-aside role="complementary"
-          h2 #{I18n.t("search.entry_count")}: #{@result['count']}
+          h2.result-count data-count="#{@result['count']}" #{I18n.t("search.entry_count")}: #{@result['count']}
           - if @dict_info[@dictcode]['type'] == 'sign'
             div.search-results-sign
               - @result['entries'].each do |entry|
@@ -27,7 +27,7 @@ main role="main"
             ul.entries.search-results-write
               - @result['entries'].each do |entry|
                 li: a href="#{@search_path}/#{entry['id']}" = entry['lemma']['title'] 
-          a.btn href="#" #{I18n.t("search.load_next")}
+          a.btn.load_next data-search=@search_path #{I18n.t("search.load_next")}
         .col.col--2.col--start.layout-aside
           - if @entry != nil
             - if @dict_info[@dictcode]['type'] == 'sign'
