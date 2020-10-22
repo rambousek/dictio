@@ -1,5 +1,7 @@
 .detail__head
-  p.detail__badge.detail__badge--top #{I18n.t("dict."+@entry['dict'])} #{@entry['id']}
+  p.detail__badge.detail__badge--top #{I18n.t("dict."+@entry['dict'])}
+  - if false
+    = @entry['id']
   .video-top
     .video
       .video__content.video-front

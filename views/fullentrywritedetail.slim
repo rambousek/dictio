@@ -1,5 +1,7 @@
 .detail__head
-  p.detail__badge.detail__badge--top #{I18n.t("dict."+@entry['dict'])} #{@entry['id']}
+  p.detail__badge.detail__badge--top #{I18n.t("dict."+@entry['dict'])}
+  - if false
+    = @entry['id']
   .detail-word
     h1.detail-word__headline #{@entry['lemma']['title']} 
   - if @entry['collocations'] and @entry['collocations']['entries'] and @entry['collocations']['entries'].size > 0
