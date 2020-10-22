@@ -461,9 +461,7 @@ class CZJDict < Object
       search_query = {'dict'=>dictcode, '$or'=>search_query}
       $stderr.puts search_query
       $mongo['entries'].find(search_query).each{|e|
-        #$stderr.puts e['id']
-        #res << full_entry(e, false)
-        res << e
+        res << add_media(e, true)
       }
     end
     return res
