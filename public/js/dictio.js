@@ -306,7 +306,7 @@ $( document ).ready(function() {
   }
 
   // load more search results
-  $('.load_next').click(function() {
+  $('.load_next_search').click(function() {
     var total_results = $('.result-count').data('count');
     var current_count;
     if ($('.search-results-write').length) {
@@ -317,7 +317,7 @@ $( document ).ready(function() {
     }
     console.log(current_count)
     if (current_count < total_results) {
-      var search_path = $('.load_next').data('search');
+      var search_path = $('.load_next_search').data('search');
       var search_url = search_path.replace('/search/', '/jsonsearch/') + '/' + current_count + '/10';
       $.get(search_url, function(response) {
         if (response.entries) {
@@ -345,7 +345,7 @@ $( document ).ready(function() {
         // after adding
         // maybe hide button
         if (current_count >= total_results) {
-          $('.load_next').hide();
+          $('.load_next_search').hide();
         }
         //activate video links
         $('.video-link').on('click', function(event) {
@@ -354,5 +354,31 @@ $( document ).ready(function() {
         });
       });
     }
+  });
+
+  // load more translate results
+  $('.load_next_trans').click(function() {
+    var current_count;
+    current_count = $('.translate-results > div').length;
+    console.log(current_count);
+    var search_path = $('.load_next_trans').data('search');
+    var search_url = search_path.replace('/translate/', '/translatelist/') + '/' + current_count + '/9';
+    console.log(search_url)
+    $.get(search_url, function(response) {
+      $('.translate-results').append(response);
+    }).always(function() {
+      // after adding
+      // maybe hide button
+      current_count = $('.translate-results > div').length;
+      maxcount = $('.translate-results > div:last').data('resultcount');
+      if (current_count >= maxcount) {
+        $('.load_next_trans').hide();
+      }
+      //activate video links
+      $('.video-link').on('click', function(event) {
+        event.preventDefault();
+        window.location = $(this).data('url');
+      });
+    });
   });
 });

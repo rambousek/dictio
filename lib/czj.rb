@@ -487,9 +487,10 @@ class CZJDict < Object
     return {'count'=> resultcount, 'entries'=> res}
   end
 
-  def translate(source, target, search, type, params=nil)
+  def translate(source, target, search, type, start=0, limit=nil)
     search_res = search(source, search, type)['entries']
     res = []
+    relcount = 0
     search_res.select{|entry| 
       if entry['meanings']
         entry['meanings'].find{|mean| 
@@ -505,38 +506,73 @@ class CZJDict < Object
       $stderr.puts 'add anto'
       entry = add_rels(entry, true, 'antonym', source)
       entry = get_sw(entry)
+      entry['meanings'].each{|mean|
+        relcount += mean['relation'].select{|rel| rel['target'] == target}.size
+      }
       res << entry
+      break if limit.to_i > 0 and relcount > (start + limit + 1)
     }
 
     #pridat textove preklady, vcetne prekladu v prikladech
-    search_cond = {'dict'=>target, '$or'=>[]}
-    search_cond['$or'] << {'meanings.relation'=>{'$elemMatch'=>{'target'=>source,'meaning_id'=>{'$regex'=>/(^| )#{search}/}}}}
-    search_cond['$or'] << {'meanings.usages.relation'=>{'$elemMatch'=>{'target'=>source,'meaning_id'=>{'$regex'=>/(^| )#{search}/}}}}
-    $mongo['entries'].find(search_cond).each{|e|
-      e['meanings'].each{|mean|
-        next if mean['is_translation_unknown'].to_s == '1'
-        mean['relation'].each{|rel|
-          if rel['target'] == source and rel['meaning_id'].match(/(^| )#{search}/)
-            newdoc = {'id'=>nil,'dict'=>source, 'lemma'=>{'title'=>rel['meaning_id']}, 'meanings'=>[{'relation'=>[{'target'=>target, 'meaning_id'=>mean['id'], 'lemma_id'=>e['id'], 'type'=>'translation', 'entry'=>e}]}]}
-            res << newdoc
-          end
-        }
-        if mean['usages']
-          mean['usages'].each{|usg|
-            if usg['relation']
-              usg['relation'].each{|rel|
-                if rel['target'] == source and rel['meaning_id'].match(/(^| )#{search}/)
-                  newdoc = {'id'=>nil,'dict'=>source, 'lemma'=>{'title'=>rel['meaning_id']}, 'meanings'=>[{'relation'=>[{'target'=>target, 'meaning_id'=>usg['id'], 'lemma_id'=>e['id'], 'type'=>'translation', 'entry'=>e}]}]}
-                  newdoc['meanings'][0]['relation'][0]['entry']['lemma']['video_front'] = get_media(usg['text']['file']['@media_id'], target)['location'] if usg['text']['file']
-                  res << newdoc
-                end
-              }
+    if limit.to_i == 0 or relcount <= (start + limit)
+      search_cond = {'dict'=>target, '$or'=>[]}
+      search_cond['$or'] << {'meanings.relation'=>{'$elemMatch'=>{'target'=>source,'meaning_id'=>{'$regex'=>/(^| )#{search}/}}}}
+      search_cond['$or'] << {'meanings.usages.relation'=>{'$elemMatch'=>{'target'=>source,'meaning_id'=>{'$regex'=>/(^| )#{search}/}}}}
+      cursor = $mongo['entries'].find(search_cond)
+      cursor.each{|e|
+        e['meanings'].each{|mean|
+          next if mean['is_translation_unknown'].to_s == '1'
+          mean['relation'].each{|rel|
+            if rel['target'] == source and rel['meaning_id'].match(/(^| )#{search}/)
+              newdoc = {'id'=>nil,'dict'=>source, 'lemma'=>{'title'=>rel['meaning_id']}, 'meanings'=>[{'relation'=>[{'target'=>target, 'meaning_id'=>mean['id'], 'lemma_id'=>e['id'], 'type'=>'translation', 'entry'=>e}]}]}
+              res << newdoc
+              relcount += 1
             end
           }
-        end
+          if mean['usages']
+            mean['usages'].each{|usg|
+              if usg['relation']
+                usg['relation'].each{|rel|
+                  if rel['target'] == source and rel['meaning_id'].match(/(^| )#{search}/)
+                    newdoc = {'id'=>nil,'dict'=>source, 'lemma'=>{'title'=>rel['meaning_id']}, 'meanings'=>[{'relation'=>[{'target'=>target, 'meaning_id'=>usg['id'], 'lemma_id'=>e['id'], 'type'=>'translation', 'entry'=>e}]}]}
+                    newdoc['meanings'][0]['relation'][0]['entry']['lemma']['video_front'] = get_media(usg['text']['file']['@media_id'], target)['location'] if usg['text']['file']
+                    res << newdoc
+                    relcount += 1
+                  end
+                }
+              end
+            }
+          end
+        }
+        break if limit.to_i > 0 and relcount > (start + limit + 1)
       }
-    }
-    return res
+    end
+
+    # select part of results
+    if limit.to_i > 0
+      usedrels = 0
+      newres = []
+      res.each{|entry|
+        entry['meanings'].each{|mean|
+          rel_to_del = []
+          mean['relation'].each{|rel|
+            if rel['target'] == target
+              rel_to_del << rel['meaning_id'] if usedrels < start
+              rel_to_del << rel['meaning_id'] if usedrels >= (start + limit)
+              usedrels += 1 
+            end
+          }
+          rel_to_del.each{|rid|
+            mean['relation'].delete_if{|rel| rel['target'] == target and rel['meaning_id'] == rid}
+          }
+        }
+        newres << entry
+        break if usedrels >= (start + limit)
+      }
+      res = newres
+    end
+
+    return {'count'=> relcount, 'entries'=> res}
   end
 end
 

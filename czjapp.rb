@@ -61,6 +61,7 @@ class CzjApp < Sinatra::Base
     @langpath = request.fullpath.gsub(/lang=[a-z]*/,'').gsub(/&&*/,'&')
     @langpath += '?' unless @langpath.include?('?')
     @search_limit = 10
+    @translate_limit = 9
   end
 
   get '/' do
@@ -114,9 +115,9 @@ class CzjApp < Sinatra::Base
       content_type :json
       body = dict.search(code, params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i).to_json
     end
-    get '/'+code+'/jsontranslate/:target/:type/:search' do 
+    get '/'+code+'/jsontranslate/:target/:type/:search(/:start)?(/:limit)?' do 
       content_type :json
-      body = dict.translate(code, params['target'], params['search'].to_s.strip, params['type'].to_s, params).to_json
+      body = dict.translate(code, params['target'], params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i).to_json
     end
     get '/'+code+'/search/:type/:search(/:selected)?' do
       @dict_info = dict_info
@@ -148,16 +149,14 @@ class CzjApp < Sinatra::Base
       @target = params['target']
       selected = params['selected']
       @tran_path = '/'+code+'/translate/'+params['target']+'/'+params['type']+'/'+params['search']
-      more_params = {}
       url_pars = []
       @url_params = url_pars.join('&')
       @search_type = 'translate'
       @search = params['search']
       @input_type = params['type']
-      @search_params = more_params
       @dictcode = code
       if selected.nil?
-        @result = dict.translate(code, params['target'], params['search'].to_s.strip, params['type'].to_s, more_params)
+        @result = dict.translate(code, params['target'], params['search'].to_s.strip, params['type'].to_s, 0, @translate_limit)
         slim :transresult
       else
         if selected.include?('-')
@@ -172,6 +171,21 @@ class CzjApp < Sinatra::Base
         end
         slim :fullentry 
       end
+    end
+    get '/'+code+'/translatelist/:target/:type/:search(/:start)?(/:limit)?' do
+      @dict_info = dict_info
+      @request = request
+      @target = params['target']
+      selected = params['selected']
+      @tran_path = '/'+code+'/translate/'+params['target']+'/'+params['type']+'/'+params['search']
+      url_pars = []
+      @url_params = url_pars.join('&')
+      @search_type = 'translate'
+      @search = params['search']
+      @input_type = params['type']
+      @dictcode = code
+      @result = dict.translate(code, params['target'], params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
+      slim :transresultlist, :layout=>false
     end
   }
 
