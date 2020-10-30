@@ -20,12 +20,6 @@
               - @dict_info.each do |code, info|
                 - if info['type'] == 'write'
                   li value="#{code}" = info['label']
-            .mobile-search__option
-              label.checkbox.checkbox--light
-                input type="checkbox" name="deklin" value="" checked=@search_params['deklin']
-                 span
-                 | Also include a word form
-
         .mobile-search__input-wrap
           input type="text" placeholder="Searching for ..." value=@search
 
