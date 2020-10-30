@@ -27,7 +27,8 @@ main role="main"
             ul.entries.search-results-write
               - @result['entries'].each do |entry|
                 li: a href="#{@search_path}/#{entry['id']}" = entry['lemma']['title'] 
-          a.btn.load_next data-search=@search_path #{I18n.t("search.load_next")}
+          - if @result['count'].to_i > @result['entries'].size
+            a.btn.load_next data-search=@search_path #{I18n.t("search.load_next")}
         .col.col--2.col--start.layout-aside
           - if @entry != nil
             - if @dict_info[@dictcode]['type'] == 'sign'

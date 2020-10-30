@@ -285,12 +285,14 @@ class CZJDict < Object
 
   def search(dictcode, search, type, start=0, limit=nil)
     res = []
+    resultcount = 0
     case type
     when 'text'
       search = search.downcase
       if search =~ /^[0-9]*$/
         @entrydb.find({'dict': dictcode, 'id': search}).each{|re|
           res << full_entry(re)
+          resultcount = 1
         }
       elsif search == '*'
         @entrydb.find({'dict': dictcode}).each{|re|
