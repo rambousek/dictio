@@ -5,8 +5,10 @@
   .video-top
     .video
       .video__content.video-front
-        - if @entry['media']['video_front']
+        - if @entry['media']['video_front'] and @entry['media']['video_front']['orient']
           span.video-orient = @entry['media']['video_front']['orient'][0].upcase
+        - else
+          span.video-orient P
         video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{@show_dictcode}/#{@entry['lemma']['video_front']}"
           source src="https://files.dictio.info/video#{@show_dictcode}/#{@entry['lemma']['video_front']}" type="video/mp4"
       - if @entry['lemma']['video_side'] != ''

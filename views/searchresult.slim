@@ -11,8 +11,10 @@ main role="main"
                   div style="width:70%"
                     .video.video--small
                       .video__content
-                        - if entry['media'] and entry['media']['video_front']
+                        - if entry['media'] and entry['media']['video_front'] and entry['media']['video_front']['orient']
                           span.video-orient = entry['media']['video_front']['orient'].to_s[0].to_s.upcase
+                        - else
+                          span.video-orient P
                         video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url="#{@search_path}/#{entry['id']}?#{@url_params}" poster="/thumb/video#{entry['dict']}/#{entry['lemma']['video_front']}" muted="muted"
                           source src="https://files.dictio.info/video#{entry['dict']}/#{entry['lemma']['video_front']}" type="video/mp4"
                       .video__controls
