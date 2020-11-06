@@ -22,9 +22,7 @@ header.header role="banner"
             li
               a href="#" class=('is-active' if @selected_page.to_s=='help') #{I18n.t("menu.help")}
             li
-              a href="#" class=('is-active' if @selected_page.to_s=='contact') #{I18n.t("menu.contact")}
-            li
-              a href="#" class="is-active" Technology
+              a href="/contact" class=('is-active' if @selected_page.to_s=='contact') #{I18n.t("menu.contact")}
             li
               a href="#" class="nav__control"
                 span.icon.icon--wheel.nav__icon
