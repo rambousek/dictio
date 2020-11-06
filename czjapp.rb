@@ -127,7 +127,7 @@ class CzjApp < Sinatra::Base
     end
     get '/'+code+'/jsontranslate/:target/:type/:search(/:start)?(/:limit)?' do 
       content_type :json
-      body = dict.translate(code, params['target'], params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i).to_json
+      body = dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i).to_json
     end
     get '/'+code+'/search/:type/:search(/:selected)?' do
       @dict_info = dict_info
@@ -166,7 +166,7 @@ class CzjApp < Sinatra::Base
       @input_type = params['type']
       @dictcode = code
       if selected.nil?
-        @result = dict.translate(code, params['target'], params['search'].to_s.strip, params['type'].to_s, 0, @translate_limit)
+        @result = dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, 0, @translate_limit)
         slim :transresult
       else
         if selected.include?('-')
@@ -194,7 +194,7 @@ class CzjApp < Sinatra::Base
       @search = params['search']
       @input_type = params['type']
       @dictcode = code
-      @result = dict.translate(code, params['target'], params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
+      @result = dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
       slim :transresultlist, :layout=>false
     end
   }

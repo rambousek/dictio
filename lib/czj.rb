@@ -487,6 +487,96 @@ class CZJDict < Object
     return {'count'=> resultcount, 'entries'=> res}
   end
 
+  def translate2(source, target, search, type, start=0, limit=nil)
+    res = []
+    resultcount = 0
+    case type
+    when 'text'
+      search = search.downcase
+      if search =~ /^[0-9]*$/
+        @entrydb.find({'dict': dictcode, 'id': search}).each{|re|
+          res << full_entry(re)
+          resultcount = 1
+        }
+      elsif search == '*'
+        @entrydb.find({'dict': dictcode}).each{|re|
+          res << re
+        }
+      else
+        if @write_dicts.include?(source)
+          locale = source
+          locale = 'sk' if source == 'sj'
+          search_cond_text = {'$or': []}
+          search_cond_text[:$or] << {'lemma.title': search} 
+          search_cond_text[:$or] << {'lemma.title_var': search} 
+          search_cond_text[:$or] << {'lemma.title_dia': search} 
+          search_cond_text[:$or] << {'lemma.gram.form._text': search} 
+          search_cond_text[:$or] << {'lemma.title': {'$regex': /^#{search}/}}
+          search_cond_text[:$or] << {'lemma.title': {'$regex': /(^| )#{search}/}}
+          search_cond_rel = {'meanings.relation':{'$elemMatch': {'target': target, 'type': 'translation'}}}
+          search_cond = {'dict': dictcode, '$and': [search_cond_text, search_cond_rel]}
+          $stderr.puts search_cond
+          ## > db.entries.aggregate([{'$match':{dict:"cs", '$and':[{'$or':[{"lemma.title":"bratranec"},{"lemma.title":"bratr"}]}, {"meanings.relation":{'$elemMatch':{target:"czj", type:"translation"}}}]}}, {'$unwind':'$meanings'}, {'$unwind':'$meanings.relation'},{'$match':{'meanings.relation.target':'czj'}},{'$project':{'meanings.relation':1, 'id':1}},{'$limit':2}])
+          pipeline = [
+            {'$match' => search_cond},
+            {'$unwind' => '$meanings'},
+            {'$unwind' => '$meanings.relation'},
+            {'$match' => {'meanings.relation.target'=>target}},
+          ]
+          @entrydb.aggregate(pipeline+[{'$count'=>'total'}]).each{|re|
+            resultcount = re['total'].to_i
+          }
+          pipeline << {'$skip' => start.to_i}
+          pipeline << {'$limit' => limit.to_i} if limit.to_i > 0
+          cursor = @entrydb.aggregate(pipeline, :allow_disk_use => true)
+          cursor.each{|re|
+            re['meanings']['relation'] = [re['meanings']['relation']]
+            re['meanings'] = [re['meanings']]
+            entry = add_rels(re, true, 'translation', target)
+            entry = get_sw(entry)
+            res << entry
+          }
+
+
+          #cursor = @entrydb.find(search_cond, {:collation => {'locale'=>locale}, :sort => {'lemma.title'=>1}})
+          #fullcount = cursor.count_documents
+          #start = start - fullcount if start > 0
+          ##cursor = @entrydb.find(search_cond, {:collation => {'locale'=>locale}, :sort => {'lemma.title'=>1}})
+          ##cursor = cursor.skip(start)
+          ##if limit.to_i > 0
+          ##  limit = limit - fullcount if fullcount > start
+          ##  cursor = cursor.limit(limit)
+          ##end
+          #$stderr.puts 'START='+start.to_s
+          #$stderr.puts 'LIMIT='+limit.to_s
+          #
+          #cursor.each{|re|
+          #  res << re #full_entry(re)
+          #}
+        else
+          search_in = 'cs'
+          search_in = @dict_info[dictcode]['search_in'] unless @dict_info[dictcode]['search_in'].nil?
+          csl = [search]
+          $mongo['entries'].find({'dict'=>search_in, 'lemma.title'=> search}, {'projection'=>{'meanings.id'=>1, '_id'=>0}}).each{|re|
+            unless re['meanings'].nil?
+              re['meanings'].each{|rl| 
+                csl << rl['id']
+              }
+            end
+          }
+          cursor = $mongo['entries'].find({'dict'=>dictcode, 'meanings.relation'=>{'$elemMatch'=>{'target'=>search_in,'meaning_id'=>{'$in'=>csl}}}})
+          resultcount = cursor.count_documents
+          cursor = cursor.skip(start)
+          cursor = cursor.limit(limit) if limit.to_i > 0
+          cursor.each{|e|
+            res << full_entry(e, false)
+          }
+        end
+      end
+    end
+    return {'count'=> resultcount, 'entries'=> res}
+  end
+
   def translate(source, target, search, type, start=0, limit=nil)
     search_res = search(source, search, type)['entries']
     res = []
