@@ -253,8 +253,10 @@
         - if meaning['usages'].size > 0
           h4 #{I18n.t("entry.examples")}:
           - meaning['usages'].each do |usg|
-            p
+            p.example
               em = usg['text']['_text']
+            p.more-example style="display:none;cursor:pointer" + příklady
+
     .col.col--2
       .detail__block.detail__block--wide
         == slim :fullentrytrans

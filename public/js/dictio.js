@@ -105,6 +105,18 @@ $( document ).ready(function() {
     $('.video-top .video-side').hide();
   });
 
+  /* hide more examples */
+  $('.detail__block').each(function() {
+    var exs = $(this).find('p.example')
+    if (exs.length > 2) {
+      $(this).find('p.example:gt(1)').hide();
+      $(this).find('.more-example').show();
+      $(this).find('.more-example').click(function(event) {
+        $(this).parent().find('.example').show();
+      });
+    }
+  });
+
   /* show keyboard */
   $('#expression_search').on('focus', function(event) {
     var dict = $('.search-alt__wrap .translate-from').val();
