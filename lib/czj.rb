@@ -283,72 +283,7 @@ class CZJDict < Object
     return entry
   end
 
-  def search(dictcode, search, type, start=0, limit=nil)
-    res = []
-    resultcount = 0
-    case type
-    when 'text'
-      search = search.downcase
-      if search =~ /^[0-9]*$/
-        @entrydb.find({'dict': dictcode, 'id': search}).each{|re|
-          res << full_entry(re)
-          resultcount = 1
-        }
-      elsif search == '*'
-        @entrydb.find({'dict': dictcode}).each{|re|
-          res << re
-        }
-      else
-        if @write_dicts.include?(dictcode)
-          fullids = []
-          locale = dictcode
-          locale = 'sk' if dictcode == 'sj'
-          search_cond = {'dict': dictcode, '$or': [{'lemma.title': search}, {'lemma.title_var': search}]}
-          search_cond[:$or] << {'lemma.title_dia': search} 
-          search_cond[:$or] << {'lemma.gram.form._text': search} 
-          cursor = @entrydb.find(search_cond, :sort => {'lemma.title'=>1})
-          fullcount = cursor.count_documents
-          cursor.each{|re|
-            res << re if fullcount > start
-            fullids << re['id']
-          }
-          search_cond = {'dict': dictcode, 'id': {'$nin': fullids}, '$or': [{'lemma.title': {'$regex': /^#{search}/}}]}
-          search_cond[:$or] << {'lemma.title': {'$regex': /(^| )#{search}/}}
-          start = start - fullcount if start > 0
-          cursor = @entrydb.find(search_cond, {:collation => {'locale'=>locale}, :sort => {'lemma.title'=>1}})
-          resultcount = fullcount + cursor.count_documents
-          cursor = cursor.skip(start)
-          if limit.to_i > 0
-            limit = limit - fullcount if fullcount > start
-            cursor = cursor.limit(limit)
-          end
-          $stderr.puts 'START='+start.to_s
-          $stderr.puts 'LIMIT='+limit.to_s
-          
-          cursor.each{|re|
-            res << re #full_entry(re)
-          }
-        else
-          search_in = 'cs'
-          search_in = @dict_info[dictcode]['search_in'] unless @dict_info[dictcode]['search_in'].nil?
-          csl = [search]
-          $mongo['entries'].find({'dict'=>search_in, 'lemma.title'=> search}, {'projection'=>{'meanings.id'=>1, '_id'=>0}}).each{|re|
-            unless re['meanings'].nil?
-              re['meanings'].each{|rl| 
-                csl << rl['id']
-              }
-            end
-          }
-          cursor = $mongo['entries'].find({'dict'=>dictcode, 'meanings.relation'=>{'$elemMatch'=>{'target'=>search_in,'meaning_id'=>{'$in'=>csl}}}})
-          resultcount = cursor.count_documents
-          cursor = cursor.skip(start)
-          cursor = cursor.limit(limit) if limit.to_i > 0
-          cursor.each{|e|
-            res << full_entry(e, false)
-          }
-        end
-      end
-    when 'key'
+  def get_key_search(search)
       search_ar = search.split('|')
       search_shape = search_ar[0].to_s.split(',') #tvary
       search_jedno = []
@@ -473,8 +408,76 @@ class CZJDict < Object
       else 
         search_query = search_jedno
       end
+      return search_query
+  end
 
-      search_query = {'dict'=>dictcode, '$or'=>search_query}
+  def search(dictcode, search, type, start=0, limit=nil)
+    res = []
+    resultcount = 0
+    case type
+    when 'text'
+      search = search.downcase
+      if search =~ /^[0-9]*$/
+        @entrydb.find({'dict': dictcode, 'id': search}).each{|re|
+          res << full_entry(re)
+          resultcount = 1
+        }
+      elsif search == '*'
+        @entrydb.find({'dict': dictcode}).each{|re|
+          res << re
+        }
+      else
+        if @write_dicts.include?(dictcode)
+          fullids = []
+          locale = dictcode
+          locale = 'sk' if dictcode == 'sj'
+          search_cond = {'dict': dictcode, '$or': [{'lemma.title': search}, {'lemma.title_var': search}]}
+          search_cond[:$or] << {'lemma.title_dia': search} 
+          search_cond[:$or] << {'lemma.gram.form._text': search} 
+          cursor = @entrydb.find(search_cond, :sort => {'lemma.title'=>1})
+          fullcount = cursor.count_documents
+          cursor.each{|re|
+            res << re if fullcount > start
+            fullids << re['id']
+          }
+          search_cond = {'dict': dictcode, 'id': {'$nin': fullids}, '$or': [{'lemma.title': {'$regex': /^#{search}/}}]}
+          search_cond[:$or] << {'lemma.title': {'$regex': /(^| )#{search}/}}
+          start = start - fullcount if start > 0
+          cursor = @entrydb.find(search_cond, {:collation => {'locale'=>locale}, :sort => {'lemma.title'=>1}})
+          resultcount = fullcount + cursor.count_documents
+          cursor = cursor.skip(start)
+          if limit.to_i > 0
+            limit = limit - fullcount if fullcount > start
+            cursor = cursor.limit(limit)
+          end
+          $stderr.puts 'START='+start.to_s
+          $stderr.puts 'LIMIT='+limit.to_s
+          
+          cursor.each{|re|
+            res << re #full_entry(re)
+          }
+        else
+          search_in = 'cs'
+          search_in = @dict_info[dictcode]['search_in'] unless @dict_info[dictcode]['search_in'].nil?
+          csl = [search]
+          $mongo['entries'].find({'dict'=>search_in, 'lemma.title'=> search}, {'projection'=>{'meanings.id'=>1, '_id'=>0}}).each{|re|
+            unless re['meanings'].nil?
+              re['meanings'].each{|rl| 
+                csl << rl['id']
+              }
+            end
+          }
+          cursor = $mongo['entries'].find({'dict'=>dictcode, 'meanings.relation'=>{'$elemMatch'=>{'target'=>search_in,'meaning_id'=>{'$in'=>csl}}}})
+          resultcount = cursor.count_documents
+          cursor = cursor.skip(start)
+          cursor = cursor.limit(limit) if limit.to_i > 0
+          cursor.each{|e|
+            res << full_entry(e, false)
+          }
+        end
+      end
+    when 'key'
+      search_query = {'dict'=>dictcode, '$or'=>get_key_search(search)}
       $stderr.puts search_query
       cursor = $mongo['entries'].find(search_query)
       resultcount = cursor.count_documents
@@ -497,10 +500,6 @@ class CZJDict < Object
         @entrydb.find({'dict': dictcode, 'id': search}).each{|re|
           res << full_entry(re)
           resultcount = 1
-        }
-      elsif search == '*'
-        @entrydb.find({'dict': dictcode}).each{|re|
-          res << re
         }
       else
         if @write_dicts.include?(source)
@@ -536,23 +535,6 @@ class CZJDict < Object
             entry = get_sw(entry)
             res << entry
           }
-
-
-          #cursor = @entrydb.find(search_cond, {:collation => {'locale'=>locale}, :sort => {'lemma.title'=>1}})
-          #fullcount = cursor.count_documents
-          #start = start - fullcount if start > 0
-          ##cursor = @entrydb.find(search_cond, {:collation => {'locale'=>locale}, :sort => {'lemma.title'=>1}})
-          ##cursor = cursor.skip(start)
-          ##if limit.to_i > 0
-          ##  limit = limit - fullcount if fullcount > start
-          ##  cursor = cursor.limit(limit)
-          ##end
-          #$stderr.puts 'START='+start.to_s
-          #$stderr.puts 'LIMIT='+limit.to_s
-          #
-          #cursor.each{|re|
-          #  res << re #full_entry(re)
-          #}
         else
           search_in = 'cs'
           search_in = @dict_info[dictcode]['search_in'] unless @dict_info[dictcode]['search_in'].nil?
@@ -569,10 +551,36 @@ class CZJDict < Object
           cursor = cursor.skip(start)
           cursor = cursor.limit(limit) if limit.to_i > 0
           cursor.each{|e|
-            res << full_entry(e, false)
+            entry = add_rels(e, true, 'translation', target)
+            entry = get_sw(entry)
+            res << entry
           }
         end
       end
+    when 'key'
+      search_cond_text = {'$or': get_key_search(search)}
+      search_cond_rel = {'meanings.relation':{'$elemMatch': {'target': target, 'type': 'translation'}}}
+      search_cond = {'dict': dictcode, '$and': [search_cond_text, search_cond_rel]}
+      $stderr.puts search_cond
+          pipeline = [
+            {'$match' => search_cond},
+            {'$unwind' => '$meanings'},
+            {'$unwind' => '$meanings.relation'},
+            {'$match' => {'meanings.relation.target'=>target}},
+          ]
+          @entrydb.aggregate(pipeline+[{'$count'=>'total'}]).each{|re|
+            resultcount = re['total'].to_i
+          }
+          pipeline << {'$skip' => start.to_i}
+          pipeline << {'$limit' => limit.to_i} if limit.to_i > 0
+          cursor = @entrydb.aggregate(pipeline, :allow_disk_use => true)
+          cursor.each{|re|
+            re['meanings']['relation'] = [re['meanings']['relation']]
+            re['meanings'] = [re['meanings']]
+            entry = add_rels(re, true, 'translation', target)
+            entry = get_sw(entry)
+            res << entry
+          }
     end
     return {'count'=> resultcount, 'entries'=> res}
   end
