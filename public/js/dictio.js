@@ -75,6 +75,16 @@ $( document ).ready(function() {
     $('.mobile-search__select').removeClass('is-open');
   });
 
+  /* switch direction translate */
+  $('.search__switch').click(function(event) {
+    var source = $('.search__wrapper .translate-from').val();
+    var target = $('.search__wrapper #translate-to').val();
+    $('.search__wrapper .translate-from').val(target).change();
+    $('.search__wrapper .translate-from ~ .select-selected').html( $('.search__wrapper .translate-from option[value='+$('.search__wrapper .translate-from').val()+']').html() );
+    $('.search__wrapper #translate-to').val(source).change();
+    $('.search__wrapper #translate-to ~ .select-selected').html( $('.search__wrapper #translate-to option[value='+$('.search__wrapper #translate-to').val()+']').html() );
+  });
+
   /* clickable video */
   $('.video-link').on('click', function(event) {
     event.preventDefault();
