@@ -76,6 +76,10 @@ de:
     translations: "Übersetzungen"
     meaning_small: "Einzelheite"
     composed_from: "Komponente Anzeigen"
+    more_example: "více příkladů"
+    more_trans: "více překladů"
+    more_syno: "více synonym"
+    more_anto: "více antonym"
   gram:
     region:
       cr: "gesamte Tsechien"

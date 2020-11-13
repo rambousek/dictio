@@ -105,14 +105,36 @@ $( document ).ready(function() {
     $('.video-top .video-side').hide();
   });
 
-  /* hide more examples */
+  /* hide more examples, write */
   $('.detail__block').each(function() {
-    var exs = $(this).find('p.example')
-    if (exs.length > 2) {
+    if ($(this).find('p.example').length > 2) {
       $(this).find('p.example:gt(1)').hide();
       $(this).find('.more-example').show();
       $(this).find('.more-example').click(function(event) {
         $(this).parent().find('.example').show();
+        $(this).hide();
+      });
+    }
+  });
+  /* hide more translations, write */
+  $('.translation-group-write').each(function() {
+    if ($(this).find('p').length > 3) {
+      $(this).find('p:gt(1)').hide();
+      $(this).find('.more-trans').show();
+      $(this).find('.more-trans').click(function(event) {
+        $(this).parent().find('p').show();
+        $(this).hide();
+      });
+    }
+  });
+  /* hide more translations, sign (synonym, antonym, examples) */
+  $('.translation-group-sign').each(function() {
+    if ($(this).find('div.col').length > 2) {
+      $(this).find('div.col:gt(1)').hide();
+      $(this).find('.more-trans').show();
+      $(this).find('.more-trans').click(function(event) {
+        $(this).parent().find('div.col').show();
+        $(this).hide();
       });
     }
   });

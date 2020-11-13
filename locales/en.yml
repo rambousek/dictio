@@ -76,6 +76,10 @@ en:
     translations: "Translations"
     meaning_small: "meaning"
     composed_from: "composed from entries"
+    more_example: "more examples"
+    more_trans: "more translations"
+    more_syno: "more synonyms"
+    more_anto: "more antonyms"
   gram:
     region:
       cr: "Entire Czech Republic"

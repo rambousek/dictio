@@ -249,7 +249,7 @@
       - meaning['usages'].each do |usg|
         p.example
           em = usg['text']['_text']
-      p.more-example style="display:none;cursor:pointer" + příklady
+      p.more-example.link style="display:none;cursor:pointer" = I18n.t('entry.more_example')
 
 - if @entry['revcollocations'] and @entry['revcollocations']['entries'].size > 0
   .detail__block.detail__block--line

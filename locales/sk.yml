@@ -76,6 +76,10 @@ sk:
     translations: "Preklady"
     meaning_small: "význam"
     composed_from: "časti slovného spojenia"
+    more_example: "více příkladů"
+    more_trans: "více překladů"
+    more_syno: "více synonym"
+    more_anto: "více antonym"
   gram:
     region:
       cr: "celá ČR"

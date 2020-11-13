@@ -169,7 +169,7 @@
 
         - if meaning['relation'].find{|rel| rel['type'] == 'synonym'}
           h4 = I18n.t("entry.synonyms")
-          .row.row--start
+          .row.row--start.translation-group-sign
             - meaning['relation'].select{|rel| rel['type'] == 'synonym'}.each do |rel|
               - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id']
               .col.col--2.col--precise
@@ -192,10 +192,11 @@
                       span.video__sign
                         - rel['entry']['lemma']['swmix'].each do |sw|
                           img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+            p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_syno')
 
         - if meaning['relation'].find{|rel| rel['type'] == 'antonym'}
           h4 = I18n.t("entry.antonyms")
-          .row.row--start
+          .row.row--start.translation-group-sign
             - meaning['relation'].select{|rel| rel['type'] == 'antonym'}.each do |rel|
               - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id']
               .col.col--2.col--precise
@@ -218,10 +219,11 @@
                       span.video__sign
                         - rel['entry']['lemma']['swmix'].each do |sw|
                           img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+            p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_anto')
 
         - if meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.size > 0
             h4.detail-block__name = I18n.t("entry.examples")
-            .row.row--start
+            .row.row--start.translation-group-sign
               - meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.each do |usg|
                 - if usg["text"] and usg["text"]["file"]
                   .col.col--2.col--precise
@@ -229,6 +231,7 @@
                       .video__content
                         video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{@show_dictcode}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}"
                           source src="https://files.dictio.info/video#{@show_dictcode}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
+              p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_example')
     .col.col--2
       .detail__block.detail__block--wide
         == slim :fullentrytrans
