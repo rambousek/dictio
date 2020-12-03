@@ -20,7 +20,7 @@ header.header role="banner"
             li
               a href="/about" class=('is-active' if @selected_page.to_s=='about') #{I18n.t("menu.about")}
             li
-              a href="#" class=('is-active' if @selected_page.to_s=='help') #{I18n.t("menu.help")}
+              a href="/help" class=('is-active' if @selected_page.to_s=='help') #{I18n.t("menu.help")}
             li
               a href="/contact" class=('is-active' if @selected_page.to_s=='contact') #{I18n.t("menu.contact")}
             li

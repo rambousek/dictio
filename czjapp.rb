@@ -85,6 +85,16 @@ class CzjApp < Sinatra::Base
     slim page.to_sym
   end
 
+  get '/help' do
+    @dict_info = dict_info
+    @search_params = {}
+    @target = 'czj'
+    @dictcode = 'cs'
+    @selected_page = 'help'
+    page = 'help-'+I18n.locale.to_s
+    slim page.to_sym
+  end
+
   get '/contact' do
     @dict_info = dict_info
     @search_params = {}
