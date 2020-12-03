@@ -105,6 +105,35 @@
                     .video__content
                       video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}"
                         source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}" type="video/mp4"
+      - unless @entry['lemma']['style_note'].nil? or @entry['lemma']['style_note'][0].nil? or @entry['lemma']['style_note'][0]['_text'].nil?
+        p.naming #{I18n.t("entry.style_details")}:
+        p
+          - gcount = 0
+          - grtext = @entry['lemma']['style_note'][0]['_text'].gsub(/\[media_id=[0-9]+\]/) {|s| gcount+=1; 'viz video '+gcount.to_s}
+          = grtext
+        - if @entry['lemma']['style_note'][0]['_text'] =~ /media_id=/
+          .row.row--start
+            - gcount = 0
+            - @entry['lemma']['style_note'][0]['_text'].scan(/\[media_id=([0-9]+)\]/) do |gm|
+              - gcount += 1 
+              .col.col--3.col--precise
+                .video.video--small
+                  .video__content
+                    video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{@entry['dict']}/#{@entry['media'][gm[0]]['location']}"
+                      source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][gm[0]]['location']}" type="video/mp4"
+                .video__info
+                  | video #{gcount}
+      - if @entry['lemma']['style_note'] != nil and @entry['lemma']['style_note'].find{|gr| gr['variant'] != nil and gr['variant'].size > 0}
+        p.naming #{I18n.t("entry.style_variant")}:
+        .row.row--start 
+          - @entry['lemma']['style_note'].each do |gram|
+            - if gram['variant'] != nil 
+              - gram['variant'].each do |var|
+                .col.col--3.col--precise
+                  .video.video--small
+                    .video__content
+                      video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}"
+                        source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}" type="video/mp4"
       - unless  @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@region'] == ''
         p.naming #{I18n.t("entry.distribution_area")}:
         p = I18n.t("gram.region."+@entry['lemma']['grammar_note'][0]['@region'])
