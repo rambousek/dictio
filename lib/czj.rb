@@ -521,6 +521,7 @@ class CZJDict < Object
             {'$unwind' => '$meanings'},
             {'$unwind' => '$meanings.relation'},
             {'$match' => {'meanings.relation.target'=>target}},
+            {'$sort' => {'lemma.title'=>1}}
           ]
           @entrydb.aggregate(pipeline+[{'$count'=>'total'}]).each{|re|
             resultcount = re['total'].to_i
