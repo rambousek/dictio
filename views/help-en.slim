@@ -4,16 +4,14 @@ main role="main"
       .row
         article.col.col--2.col--start role="article"
           h1 Help
-          h2 Content
-          ul
-          li
-            a href="#jak" How to Use This Dictionary
-          li
-            a href="#heslo" Dictionary entry sctucture
-          li
-            a href="#nastaveni" Virtual Keyboard
-          li
-            a href="#kategorie" Czech Sign Language Lexical Units
+            div class="info is-pushed"
+            h4 Content
+             p
+              a href="#jak" How to Use This Dictionary
+             p
+              a href="#keyboard" Virtual Keyboard
+             p          
+              a href="#heslo" Dictionary entry sctucture
             
           h2 id="jak" How to Use This Dictionary
           p
@@ -45,17 +43,27 @@ main role="main"
             li If you click on a single result, you will get more details about the entry.
             li Equivalents (translations) are listed within each meaning of the entry.
             
-          h3 Virtual keyboard
+          h3 id="keyboard" Virtual keyboard
           p The virtual keyboard is designed for entering parts of signs (of Sign Languages). It contains hanshapes and part of the signing space. Specifying one- or two-hand signs as well as identical handshapes of dominant and non dominant hand and both hands activeness is possible.
-          p
-            img src="/img/help/struktura.jpg" align="left"
-            img src="/img/keys_dark/hands.png" align="left" Hands options
-            img src="/img/keys_dark/one-hand.png" align="left" One-hand sign option
-            img src="/img/keys_dark/two-hand.png" align="right" Two-hands sign option
-            img src="/img/keys_dark/symetric.png" align="right" Identical handshapes (dominant and non dominant hand)
-            img src="/img/keys_dark/both-move.png" align="left" Both hands active option
+          table class="table table--limit"
+           tbody
+            tr
+             td img src="/img/keys_dark/hands.png" align="left"
+             td Hands options
+            tr
+             td img src="/img/keys_dark/one-hand.png" align="left" 
+             td One-hand sign option
+            tr 
+             td img src="/img/keys_dark/two-hand.png" align="right"
+             td Two-hands sign option
+            tr 
+             td img src="/img/keys_dark/symetric.png" align="right" 
+             td Identical handshapes (dominant and non dominant hand)
+            tr
+             td img src="/img/keys_dark/both-move.png" align="left" 
+             td Both hands active option
       
-          h2 Dictionary Entry Structure
+          h2 id="heslo" Dictionary Entry Structure
           p Each entry contains of three parts:
           ul
             li Header
@@ -65,7 +73,7 @@ main role="main"
             
           h3 Header
           p Spoken language header contains lemma itself (1), unusual pronunciation in brackets (2) and another way of spelling if possible (3)
-            img src="/img/help/headerwrite.png" align="left"
+           img src="/img/help/headerwrite.png" align="left"
           p Sign Language header contains videos and notations since there is no firmly established conventional writing for sign languages. As a basic form showing the lemma itself is considered the frontal view video (1). It is accompanied by a side view as well (2). There is transcription in SignWriting (3). Transcription in HamNoSys (4) can be provided as well. 
           p 
             em Since there are left and right-handed signer as well, information about signer headness is in the left top corner provided. (L: left-handed, R: right-handed) 
