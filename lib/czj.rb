@@ -234,6 +234,7 @@ class CZJDict < Object
   end
 
   def add_rels(entry, getsw=true, type=nil, target=nil)
+    return entry if entry['meanings'].nil?
     entry['meanings'].each{|mean|
       if mean['relation']
         mean['relation'].each{|rel|

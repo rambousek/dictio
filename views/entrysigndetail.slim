@@ -138,86 +138,87 @@
         p.naming #{I18n.t("entry.distribution_area")}:
         p = I18n.t("gram.region."+@entry['lemma']['grammar_note'][0]['@region'])
 
-- @entry["meanings"].each do |meaning|
-  - @meaning = meaning
-  .detail__block.detail__block--line
-    .video-simple
-      h3 id="meaning#{meaning['number']}" #{I18n.t("entry.meaning")} #{meaning['number']}
-      /.mobile-text
-      /  p 
-      /    | Semantic region: 
-      /    a href="#" Human body
-      - if meaning["text"] and meaning["text"]["file"]
-        .video.video--shrink
-          .video__content
-            video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{@entry['dict']}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}"
-              source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
-
-    - if meaning['relation'].find{|rel| rel['type'] == 'synonym'}
-      h4 = I18n.t("entry.synonyms")
-      .row.row--start.translation-group-sign
-        - meaning['relation'].select{|rel| rel['type'] == 'synonym'}.each do |rel|
-          - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id']
-          .col.col--2.col--precise
-            .video.video--small
-              .video__content
-                  video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url=(@search.to_s != ''? "#{@search_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") poster="/thumb/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}"
-                    source src="https://files.dictio.info/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
-              .video__controls
-                - if @search.to_s != ''
-                  a.video__link href="#{@search_path}/#{relid}"
-                    span.icon.icon--open-new-window
-                      svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
-                        use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
-                - else
-                  a.video__link href="/#{rel['target']}/show/#{rel['entry']['id']}"
-                    span.icon.icon--open-new-window
-                      svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
-                        use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
-                - if rel['entry'] and rel['entry']['lemma'] and rel['entry']['lemma']['swmix']
-                  span.video__sign
-                    - rel['entry']['lemma']['swmix'].each do |sw|
-                      img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
-        p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_syno')
-
-    - if meaning['relation'].find{|rel| rel['type'] == 'antonym'}
-      h4 = I18n.t("entry.antonyms")
-      .row.row--start.translation-group-sign
-        - meaning['relation'].select{|rel| rel['type'] == 'antonym'}.each do |rel|
-          - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id']
-          .col.col--2.col--precise
-            .video.video--small
-              .video__content
-                  video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url=(@search.to_s != ''? "#{@search_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") poster="/thumb/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}"
-                    source src="https://files.dictio.info/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
-              .video__controls
-                - if @search.to_s != ''
-                  a.video__link href="#{@search_path}/#{relid}"
-                    span.icon.icon--open-new-window
-                      svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
-                        use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
-                - else
-                  a.video__link href="/#{rel['target']}/show/#{rel['entry']['id']}"
-                    span.icon.icon--open-new-window
-                      svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
-                        use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
-                - if rel['entry'] and rel['entry']['lemma'] and rel['entry']['lemma']['swmix']
-                  span.video__sign
-                    - rel['entry']['lemma']['swmix'].each do |sw|
-                      img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
-        p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_syno')
-
-    - if meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.size > 0
-        h4.detail-block__name = I18n.t("entry.examples")
+- if @entry['meanings']
+  - @entry["meanings"].each do |meaning|
+    - @meaning = meaning
+    .detail__block.detail__block--line
+      .video-simple
+        h3 id="meaning#{meaning['number']}" #{I18n.t("entry.meaning")} #{meaning['number']}
+        /.mobile-text
+        /  p 
+        /    | Semantic region: 
+        /    a href="#" Human body
+        - if meaning["text"] and meaning["text"]["file"]
+          .video.video--shrink
+            .video__content
+              video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{@entry['dict']}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}"
+                source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
+  
+      - if meaning['relation'].find{|rel| rel['type'] == 'synonym'}
+        h4 = I18n.t("entry.synonyms")
         .row.row--start.translation-group-sign
-          - meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.each do |usg|
-            - if usg["text"] and usg["text"]["file"]
-              .col.col--2.col--precise
-                .video.video--small
-                  .video__content
-                    video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{@entry['dict']}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}"
-                      source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
-          p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_example')
+          - meaning['relation'].select{|rel| rel['type'] == 'synonym'}.each do |rel|
+            - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id']
+            .col.col--2.col--precise
+              .video.video--small
+                .video__content
+                    video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url=(@search.to_s != ''? "#{@search_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") poster="/thumb/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}"
+                      source src="https://files.dictio.info/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
+                .video__controls
+                  - if @search.to_s != ''
+                    a.video__link href="#{@search_path}/#{relid}"
+                      span.icon.icon--open-new-window
+                        svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                          use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
+                  - else
+                    a.video__link href="/#{rel['target']}/show/#{rel['entry']['id']}"
+                      span.icon.icon--open-new-window
+                        svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                          use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
+                  - if rel['entry'] and rel['entry']['lemma'] and rel['entry']['lemma']['swmix']
+                    span.video__sign
+                      - rel['entry']['lemma']['swmix'].each do |sw|
+                        img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+          p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_syno')
+  
+      - if meaning['relation'].find{|rel| rel['type'] == 'antonym'}
+        h4 = I18n.t("entry.antonyms")
+        .row.row--start.translation-group-sign
+          - meaning['relation'].select{|rel| rel['type'] == 'antonym'}.each do |rel|
+            - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id']
+            .col.col--2.col--precise
+              .video.video--small
+                .video__content
+                    video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url=(@search.to_s != ''? "#{@search_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") poster="/thumb/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}"
+                      source src="https://files.dictio.info/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
+                .video__controls
+                  - if @search.to_s != ''
+                    a.video__link href="#{@search_path}/#{relid}"
+                      span.icon.icon--open-new-window
+                        svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                          use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
+                  - else
+                    a.video__link href="/#{rel['target']}/show/#{rel['entry']['id']}"
+                      span.icon.icon--open-new-window
+                        svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                          use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
+                  - if rel['entry'] and rel['entry']['lemma'] and rel['entry']['lemma']['swmix']
+                    span.video__sign
+                      - rel['entry']['lemma']['swmix'].each do |sw|
+                        img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+          p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_syno')
+  
+      - if meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.size > 0
+          h4.detail-block__name = I18n.t("entry.examples")
+          .row.row--start.translation-group-sign
+            - meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.each do |usg|
+              - if usg["text"] and usg["text"]["file"]
+                .col.col--2.col--precise
+                  .video.video--small
+                    .video__content
+                      video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{@entry['dict']}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}"
+                        source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
+            p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_example')
 
 - if @entry['revcollocations'] and @entry['revcollocations']['entries'].size > 0
   .detail__block.detail__block--line

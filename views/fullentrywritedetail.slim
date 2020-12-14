@@ -214,56 +214,57 @@
           td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c7'}[0]['_text']
 
 
-- @entry['meanings'].each do |meaning|
-  - @meaning = meaning
-  .row
-    .col.col--2
-      .detail__block.detail__block--line
-        h3 id="meaning#{meaning['number']}" #{I18n.t("entry.meaning")} #{meaning['number']}
-        - if meaning['text'] and meaning['text']['_text']
-          p 
-            - mtext = meaning['text']['_text'].gsub(/\[[0-9]+(-[0-9]+)?\]/) {|rl| rla=rl[1..-2].split('-'); "<a href='/#{@entry['dict']}/show/#{rla[0]}'>#{meaning['def_relations'][rla[0]]}"+(rla[1].to_s==''?"":" (#{rla[1]})")+"</a>"}
-            == mtext
-        - if meaning['relation'].find{|rel| rel['type'] == 'synonym'}
-          h4 #{I18n.t("entry.synonyms")}:
-          - meaning['relation'].select{|rel| rel['type'] == 'synonym'}.each do |rel|
-            - if rel['entry']
-              - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id'].to_s
-              p
-                - if rel['entry']['id']
-                  - if @search.to_s != ''
-                    a.link href="#{@tran_path}/#{relid}" #{rel['entry']['lemma']['title']}
-                    |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
+- if @entry['meanings']
+  - @entry['meanings'].each do |meaning|
+    - @meaning = meaning
+    .row
+      .col.col--2
+        .detail__block.detail__block--line
+          h3 id="meaning#{meaning['number']}" #{I18n.t("entry.meaning")} #{meaning['number']}
+          - if meaning['text'] and meaning['text']['_text']
+            p 
+              - mtext = meaning['text']['_text'].gsub(/\[[0-9]+(-[0-9]+)?\]/) {|rl| rla=rl[1..-2].split('-'); "<a href='/#{@entry['dict']}/show/#{rla[0]}'>#{meaning['def_relations'][rla[0]]}"+(rla[1].to_s==''?"":" (#{rla[1]})")+"</a>"}
+              == mtext
+          - if meaning['relation'].find{|rel| rel['type'] == 'synonym'}
+            h4 #{I18n.t("entry.synonyms")}:
+            - meaning['relation'].select{|rel| rel['type'] == 'synonym'}.each do |rel|
+              - if rel['entry']
+                - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id'].to_s
+                p
+                  - if rel['entry']['id']
+                    - if @search.to_s != ''
+                      a.link href="#{@tran_path}/#{relid}" #{rel['entry']['lemma']['title']}
+                      |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
+                    - else
+                      a.link href="/#{rel['target']}/show/#{rel['entry']['id']}"  #{rel['entry']['lemma']['title']}
+                      |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
                   - else
-                    a.link href="/#{rel['target']}/show/#{rel['entry']['id']}"  #{rel['entry']['lemma']['title']}
-                    |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
-                - else
-                  = rel['entry']['lemma']['title']
-        - if meaning['relation'].find{|rel| rel['type'] == 'antonym'}
-          h4 #{I18n.t("entry.antonyms")}:
-          - meaning['relation'].select{|rel| rel['type'] == 'antonym'}.each do |rel|
-            - if rel['entry']
-              - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id'].to_s
-              p
-                - if rel['entry']['id']
-                  - if @search.to_s != ''
-                    a.link href="#{@tran_path}/#{relid}" #{rel['entry']['lemma']['title']}
-                    |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
+                    = rel['entry']['lemma']['title']
+          - if meaning['relation'].find{|rel| rel['type'] == 'antonym'}
+            h4 #{I18n.t("entry.antonyms")}:
+            - meaning['relation'].select{|rel| rel['type'] == 'antonym'}.each do |rel|
+              - if rel['entry']
+                - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id'].to_s
+                p
+                  - if rel['entry']['id']
+                    - if @search.to_s != ''
+                      a.link href="#{@tran_path}/#{relid}" #{rel['entry']['lemma']['title']}
+                      |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
+                    - else
+                      a.link href="/#{rel['target']}/show/#{rel['entry']['id']}"  #{rel['entry']['lemma']['title']}
+                      |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
                   - else
-                    a.link href="/#{rel['target']}/show/#{rel['entry']['id']}"  #{rel['entry']['lemma']['title']}
-                    |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
-                - else
-                  = rel['entry']['lemma']['title']
-        - if meaning['usages'].size > 0
-          h4 #{I18n.t("entry.examples")}:
-          - meaning['usages'].each do |usg|
-            p.example
-              em = usg['text']['_text']
-          p.more-example.link style="display:none;cursor:pointer" = I18n.t('entry.more_example')
-
-    .col.col--2
-      .detail__block.detail__block--wide
-        == slim :fullentrytrans
+                    = rel['entry']['lemma']['title']
+          - if meaning['usages'].size > 0
+            h4 #{I18n.t("entry.examples")}:
+            - meaning['usages'].each do |usg|
+              p.example
+                em = usg['text']['_text']
+            p.more-example.link style="display:none;cursor:pointer" = I18n.t('entry.more_example')
+  
+      .col.col--2
+        .detail__block.detail__block--wide
+          == slim :fullentrytrans
 
 - if @entry['revcollocations'] and @entry['revcollocations']['entries'].size > 0
   .row.row--start
