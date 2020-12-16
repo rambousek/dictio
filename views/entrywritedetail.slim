@@ -2,7 +2,7 @@
   h1.detail-word__headline #{@entry['lemma']['title']}
 
 - if @entry['lemma']['pron'] and @entry['lemma']['pron'] != ""
-  h2.detail-category #{@entry['lemma']['pron']}
+  span() [#{@entry['lemma']['pron']}]
 - if @entry['lemma']['title_var'] and @entry['lemma']['title_var'] != ""
   h2.detail-category #{@entry['lemma']['title_var']}
 - if @entry['collocations'] and @entry['collocations']['entries'] and @entry['collocations']['entries'].size > 0
