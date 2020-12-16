@@ -207,6 +207,10 @@ class CzjApp < Sinatra::Base
       @result = dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
       slim :transresultlist, :layout=>false
     end
+    get '/'+code+'/comments/:id(/:type)?' do
+      content_type :json
+      body = dict.get_comments(params['id'], params['type'].to_s).to_json
+    end
   }
 
 end

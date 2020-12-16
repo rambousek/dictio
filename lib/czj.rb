@@ -23,6 +23,22 @@ class CZJDict < Object
     return entry
   end
 
+  def get_comments(id, type, exact=true)
+    coms = []
+    query = {'dict': @dictcode, 'entry': id}
+    if type != ''
+      if exact
+        query['box'] = type 
+      else
+        query['box'] = {'$regex':'.*'+type+'.*'}
+      end
+    end
+    $mongo['koment'].find(query, :sort=>{'time'=>-1}).each{|com|
+      coms << com
+    }
+    return {'comments':coms}
+  end
+
   def full_entry(entry, getsw=true)
     entry = add_media(entry)
     entry = add_colloc(entry) if getsw
