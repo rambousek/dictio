@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <style type="text/css" media="screen">@import url( ./swe-styles.css );</style>
+      
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="imagetoolbar" content="no" />
+    <meta http-equiv="msthemecompatible" content="no" />
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="jquery.namespace.js"></script>    
+    <script type="text/javascript" src="jquery.drag.js"></script>
+    <script type="text/javascript" src="jquery.drop.js"></script>
+    <script type="text/javascript" src="jquery.tools.js"></script>
+    <script type="text/javascript" src="jquery.improptu.js"></script>
+    <script type="text/javascript" src="json2.js"></script>
+
+    <!-- kompilovaná verze -->
+    <!-- script type="text/javascript" src="../scripts/swe.js"></script --> 
+    <!-- /kompilovaná verze -->
+
+    <script type="text/javascript" src="swe_init.js"></script>
+    <script type="text/javascript" src="swe_ajax_queries.js"></script>
+    <script type="text/javascript" src="swe_main.js"></script>
+    <script type="text/javascript" src="swe_create_buttons.js"></script>
+    <script type="text/javascript" src="swe_html.js"></script>
+    <script type="text/javascript" src="swe_bindings.js"></script>
+</head>
+<body>
+  <header>
+    <h1>demo 3</h1>
+    <p>Full varianta, s vychozim znakem (vstup z formulare), s callbackem (vystup do formulare)</p>
+  </header>
+  <form>
+    <fieldset style="width: 610px; border: 1px solid #999; margin: 0 0 20px 0;">
+       <label>input glyphogram/phrase:<br/><nobr><textarea cols="40" rows="6" id="input">{"id":"10","name":"Glyphogram, který má přiřazené ID je zobrazen žlutě","set":[{"symbol_id":"257","x":"10","y":"10"},{"symbol_id":"256","x":"40","y":"10"}]}</textarea><textarea cols="40" rows="6" id="inputPhrase">[{"set":[{"symbol_id":"256","x":"10","y":"10"},{"symbol_id":"257","x":"40","y":"10"}]},{"id":"11","name":"Pokusný druhý","set":[{"symbol_id":"256","x":"10","y":"10"},{"symbol_id":"259","x":"40","y":"10"}]},{"set":[{"symbol_id":"260","x":"10","y":"10"},{"symbol_id":"263","x":"40","y":"10"}]}]</textarea></nobr></label>
+       <br/>
+       <label>output glyphogram/phrase:<br/><nobr><textarea cols="40" rows="6" id="output"></textarea><textarea cols="40" rows="6" id="outputPhrase"></textarea></nobr></label>
+    </fieldset>
+  </form>
+  <span id="test" style="position: absolute; top: 70px; left: 650px;"></span>
+  <div id="holder"></div>
+  <script type="text/javascript">
+  <!--
+    $(document).ready(function() {
+
+        glyphogram = JSON.parse($('#input').val());
+        phrase = JSON.parse($('#inputPhrase').val());
+        $("#holder").sw.editor({
+            callback: function(state) {
+                console.log(state);
+                $('#output').val(JSON.stringify( state.glyphogram));
+                $('#outputPhrase').val(JSON.stringify(state.phrase));
+                $("#test").sw.generateGlyphogram(state.glyphogram);
+            },
+            glyphogram: glyphogram,
+            phrase: phrase
+        });
+    });
+  -->
+  </script>
+
+</body>
+</html>

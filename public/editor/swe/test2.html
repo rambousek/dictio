@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <style type="text/css" media="screen">@import url( /editor/swe/swe-styles.css );</style>
+      
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="imagetoolbar" content="no" />
+    <meta http-equiv="msthemecompatible" content="no" />
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="/editor/swe/jquery.namespace.js"></script>    
+    <script type="text/javascript" src="/editor/swe/jquery.drag.js"></script>
+    <script type="text/javascript" src="/editor/swe/jquery.drop.js"></script>
+    <script type="text/javascript" src="/editor/swe/jquery.tools.js"></script>
+    <script type="text/javascript" src="/editor/swe/jquery.improptu.js"></script>
+    <script type="text/javascript" src="/editor/swe/json2.js"></script>
+
+    <!-- kompilovaná verze -->
+    <!-- script type="text/javascript" src="../scripts/swe.js"></script --> 
+    <!-- /kompilovaná verze -->
+
+    <script type="text/javascript" src="/editor/swe/swe_init.js"></script>
+    <script type="text/javascript" src="/editor/swe/swe_ajax_queries.js"></script>
+    <script type="text/javascript" src="/editor/swe/swe_main.js"></script>
+    <script type="text/javascript" src="/editor/swe/swe_create_buttons.js"></script>
+    <script type="text/javascript" src="/editor/swe/swe_html.js"></script>
+    <script type="text/javascript" src="/editor/swe/swe_bindings.js"></script>
+</head>
+<style>
+body {width: 780px; height: 600px;}
+.button {
+    color: black;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
+    font-weight: bold;
+    width: 770px;
+    background-color: rgb(215, 225, 228);
+}
+</style>
+<body>
+ <input id="savebutton" type="button" class="button" value="zavřít editor a vložit hodnotu" onclick="send()"/> 
+  <form>
+    <fieldset style="width: 610px; border: 1px solid #999; margin: 0 0 20px 0;display:none">
+       <label>input glyphogram/phrase:<br/><nobr><textarea cols="40" rows="6" id="input"></textarea></nobr></label>
+       <br/>
+       <label>output glyphogram/phrase:<br/><nobr><textarea cols="40" rows="6" id="output"></textarea></nobr></label>
+    </fieldset>
+  </form>
+  <div id="holder"></div>
+  <script type="text/javascript">
+  <!--
+function send() {
+  var sw_id = JSON.parse($("#input").val()).id;
+  var swobj = JSON.parse($("#output").val());
+  var swar = [];
+  for (var i = 0; i < swobj.set.length; i++) {
+    var sws = swobj.set[i].symbol_id;
+    if ((swobj.set[i].x != undefined && swobj.set[i].x != '') || (swobj.set[i].y != undefined && swobj.set[i].y != '')) {
+      sws += '(';
+      if (swobj.set[i].x != undefined && swobj.set[i].x != '') {
+        sws += 'x'+swobj.set[i].x;
+      }
+      if (swobj.set[i].y != undefined && swobj.set[i].y != '') {
+        sws += 'y'+swobj.set[i].y;
+      }
+      sws += ')';
+    }
+    swar.push(sws);
+  }
+  if (sw_id == 'swsearch') {
+    var dict = '';
+    /*if (window.location.search != "") {
+      dict = window.location.search.substr(1);
+    }*/
+    $('#search'+dict+'sw', window.parent.document).val(swar.join('_'));
+    $('#'+dict+'swpreview', window.parent.document).attr('src', '//www.dictio.info/proxy/tts/signwriting.png?generator[sw]='+swar.join('_')+'&generator[align]=top_left&generator[set]=sw10');
+    $('#'+dict+'swpreview', window.parent.document).show();
+  } else {
+    $('#'+sw_id, window.parent.document).attr('swe', swar.join('_'));
+  }
+  parent.$.fancybox.close();  
+
+}
+
+function onload(input) {
+  console.log('input:')
+  console.log(input)
+  var lang = 'cs';
+  if (window.location.search == '?lang=en') lang = 'en';
+  if (input == undefined || input == '') {
+    input = '{"id":"","set":[]}';
+  }
+  $("#input").val(input);
+  glyphogram = JSON.parse(input);
+  //phrase = JSON.parse($('#inputPhrase').val());
+  $("#holder").sw.editor({
+      callback: function(state) {
+          console.log(state);
+          $('#output').val(JSON.stringify( state.glyphogram));
+          //$('#outputPhrase').val(JSON.stringify(state.phrase));
+          //$("#test").sw.generateGlyphogram(state.glyphogram);
+      },
+      glyphogram: glyphogram,
+      type: 'compact'
+      //phrase: phrase
+  });
+  if (lang == 'en') {
+    $('#savebutton').val('Close window and use SignWriting input');
+    $('#swe-buttons').find('a').each(function() {
+      var newst = $(this).attr('style').replace('buttons','buttonsen');
+      $(this).attr('style', newst);
+    });
+  }
+}
+-->
+  </script>
+
+</body>
+</html>

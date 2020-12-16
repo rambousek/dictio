@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+
+<FLVCoreCharacters version="1">
+
+	<Group groupNameCz = "Tvar ruky" groupNameEng = "Hand shape">
+		<Char>hamfist</Char>
+		<Char>hamflathand</Char>
+		<Char>hamfinger2</Char>
+		<Char>hamfinger23</Char>
+		<Char>hamfinger23spread</Char>
+		<Char>hamfinger2345</Char>
+		<Char>hampinch12</Char>
+		<Char>hampinchall</Char>
+		<Char>hampinch12open</Char>
+		<Char>hamceeopen</Char>
+		<Char>hamthumboutmod</Char>
+		<Char>hamthumbacrossmod</Char>
+		<Char>hamthumbopenmod</Char>
+		<Char>hamdoublebent</Char>
+		<Char>hamfingerstraightmod</Char>
+		<Char>hamfingerbendmod</Char>
+		<Char>hamfingerhookmod</Char>
+		<Char>hamdoublehooked</Char>
+		<Char>hamthumb</Char>
+		<Char>hamindexfinger</Char>
+		<Char>hammiddlefinger</Char>
+		<Char>hamringfinger</Char>
+		<Char>hampinky</Char>
+		<Char>hambetween</Char>
+		<Char>hamfingertip</Char>
+		<Char>hamfingernail</Char>
+		<Char>hamfingerpad</Char>
+		<Char>hamfingermidjoint</Char>
+		<Char>hamfingerbase</Char>
+		<Char>hamfingerside</Char>
+	</Group>
+	
+	<Group groupNameCz = "Orientace prstů a ruky" groupNameEng = "Fingers and palm orientation">
+		<Char>hamextfingeru</Char>
+    <Char>hamextfingerur</Char>
+    <Char>hamextfingerr</Char>
+    <Char>hamextfingerdr</Char>
+    <Char>hamextfingerd</Char>
+    <Char>hamextfingerdl</Char>
+    <Char>hamextfingerl</Char>
+    <Char>hamextfingerul</Char>
+		<Char>hamextfingero</Char>
+    <Char>hamextfingeror</Char>
+    <Char>hamextfingerir</Char>
+    <Char>hamextfingeri</Char>
+    <Char>hamextfingeril</Char>
+    <Char>hamextfingerol</Char>
+    <Char>hamextfingeruo</Char>
+    <Char>hamextfingerdo</Char>
+    <Char>hamextfingerdi</Char>
+    <Char>hamextfingerui</Char>
+		<Char>hampalmu</Char>
+    <Char>hampalmur</Char>
+    <Char>hampalmr</Char>
+    <Char>hampalmdr</Char>
+    <Char>hampalmd</Char>
+    <Char>hampalmdl</Char>
+    <Char>hampalml</Char>
+    <Char>hampalmul</Char>
+		<Char>hambetween</Char>
+    <Char>hamorirelative</Char>
+	</Group>
+	
+	<Group groupNameCz = "Lokace rukou" groupNameEng = "Hand location">
+		<Char>hamheadtop</Char>
+		<Char>hamhead</Char>
+		<Char>hamforehead</Char>
+		<Char>hamnose</Char>
+		<Char>hamnostrils</Char>
+		<Char>hamlips</Char>
+		<Char>hamtongue</Char>
+		<Char>hamteeth</Char>
+		<Char>hamchin</Char>
+		<Char>hamunderchin</Char>
+		<Char>hamneck</Char>
+		<Char>hameyebrows</Char>
+		<Char>hameyes</Char>
+		<Char>hamear</Char>
+		<Char>hamearlobe</Char>
+		<Char>hamcheek</Char>
+		<Char>hamupperarm</Char>
+		<Char>hamelbowinside</Char>
+		<Char>hamlowerarm</Char>
+		<Char>hamwristback</Char>
+		<Char>hamthumbball</Char>
+		<Char>hampalm</Char>
+		<Char>hamhandback</Char>
+		<Char>hamthumbside</Char>
+		<Char>hampinkyside</Char>
+		<Char>hamshouldertop</Char>
+		<Char>hamshoulders</Char>
+		<Char>hamchest</Char>
+		<Char>hamstomach</Char>
+		<Char>hambelowstomach </Char>
+	</Group>
+	
+	<Group groupNameCz = "Lokace prstů" groupNameEng = "Finger location">
+		<Char>hamthumb</Char>
+		<Char>hamindexfinger</Char>
+		<Char>hammiddlefinger</Char>
+		<Char>hamringfinger</Char>
+		<Char>hampinky</Char>
+		<Char>hamfingertip</Char>
+		<Char>hamfingerpad</Char>
+		<Char>hamfingermidjoint</Char>
+		<Char>hamfingerbase </Char>
+	</Group>
+	
+	<Group groupNameCz = "Lokace - modifikátory" groupNameEng = "Location - modifiers">
+		<Char>hambetween </Char>
+		<Char>hamclose</Char>
+		<Char>hamtouch</Char>
+		<Char>haminterlock</Char>
+		<Char>hamcross</Char>
+		<Char>hambrushing</Char>
+		<Char>hambehind</Char>
+		<Char>hamarmextended </Char>
+		<Char>hamlrbeside</Char>
+		<Char>hamlrat</Char>
+		<Char>hamdoublebent</Char>
+		<Char>hamdoublehooked </Char>
+		<Char>hamneutralspace </Char>
+	</Group>
+	
+	<Group groupNameCz = "Přímé pohyby" groupNameEng = "Direct motions">
+		<Char>hammoveu</Char>
+		<Char>hammoveur</Char>
+		<Char>hammover</Char>
+		<Char>hammovedr</Char>
+		<Char>hammoved</Char>
+		<Char>hammovedl</Char>
+		<Char>hammovel</Char>
+		<Char>hammoveul</Char>
+		<Char>hammoveo</Char>
+		<Char>hammoveor</Char>
+		<Char>hammoveir</Char>
+		<Char>hammovei</Char>
+		<Char>hammoveil</Char>
+		<Char>hammoveol</Char>
+		<Char>hammoveuo</Char>
+		<Char>hammovedo</Char>
+		<Char>hammovedi</Char>
+		<Char>hammoveui</Char>
+	</Group>
+	
+  <Group groupNameCz = "Kruhové pohyby" groupNameEng = "Circular motions">
+		<Char>hamcircleu</Char>
+		<Char>hamcircleur</Char>
+		<Char>hamcircler</Char>
+		<Char>hamcircledr</Char>
+		<Char>hamcircled</Char>
+		<Char>hamcircledl</Char>
+		<Char>hamcirclel</Char>
+		<Char>hamcircleul</Char>
+		<Char>hamcircleo</Char>
+		<Char>hamcircleor</Char>
+		<Char>hamcircleir</Char>
+		<Char>hamcirclei</Char>
+		<Char>hamcircleil</Char>
+		<Char>hamcircleol</Char>
+		<Char>hamcircleuo</Char>
+		<Char>hamcircledo</Char>
+		<Char>hamcircledi</Char>
+		<Char>hamcircleui</Char>
+		<Char>hamclocku</Char>
+		<Char>hamclockur</Char>
+		<Char>hamclockr</Char>
+		<Char>hamclockdr</Char>
+		<Char>hamclockd</Char>
+		<Char>hamclockdl</Char>
+		<Char>hamclockl</Char>
+		<Char>hamclockul</Char>
+		<Char>hamclockfull</Char>
+	</Group>
+	
+	<Group groupNameCz = "Specifické pohyby" groupNameEng = "Specific motions">
+		<Char>hamfast</Char>
+		<Char>hamslow</Char>
+		<Char>hamtense</Char>
+		<Char>hamrest</Char>
+		<Char>hamhalt</Char>
+		<Char>hamrepeatfromstart</Char>
+		<Char>hamrepeatfromstartseveral</Char>
+		<Char>hamrepeatcontinue</Char>
+		<Char>hamrepeatcontinueseveral</Char>
+		<Char>hamrepeatreverse</Char>
+		<Char>hamsmallmod</Char>
+		<Char>hamlargemod</Char>
+		<Char>hamnomotion</Char>
+		<Char>hamincreasing</Char>
+		<Char>hamdecreasing</Char>
+		<Char>hamarcl</Char>
+		<Char>hamarcu</Char>
+		<Char>hamarcd</Char>
+		<Char>hamarcr</Char>
+		<Char>hamwavy</Char>
+		<Char>hamzigzag</Char>
+		<Char>hamellipsev</Char>
+		<Char>hamellipseur</Char>
+		<Char>hamellipseh</Char>
+		<Char>hamellipseul</Char>
+		<Char>hambetween</Char>
+	</Group>
+	
+	<Group groupNameCz = "Modifikátory pohybů" groupNameEng = "Motions modifiers">
+		<Char>hamstircw</Char>
+		<Char>hamnodding</Char>
+		<Char>hamtwisting</Char>
+		<Char>hamreplace</Char>
+		<Char>hamstirccw</Char>
+		<Char>hamswinging </Char>
+		<Char>hamfingerplay</Char>
+		<Char>hambetween</Char>
+	</Group>
+
+  <Group groupNameCz = "Řídící symboly" groupNameEng = "Directing symbols">
+		<Char>hamsymmpar</Char>
+		<Char>hamsymmlr </Char>
+		<Char>hamfingerstraightmod</Char>
+		<Char>hamlargemod </Char>
+		<!-- <Char>hamsymmlr,hamfingerstraightmod,hamlargemod</Char> -->
+		<Char>hamparbegin</Char>
+		<Char>hamplus </Char>
+		<Char>hamparend</Char>
+		<Char>hamalternatingmotion</Char>
+		<Char>hamnonipsi</Char>
+		<Char>hamnondominant</Char>
+		<Char>hametc</Char>
+		<Char>hamseqbegin</Char>
+		<Char>hamseqend </Char>
+		<Char>hamparbegin</Char>
+		<Char>hamparend</Char>
+		<Char>hamfusionbegin</Char>
+		<Char>hamfusionend </Char>
+		<Char>hamaltbegin</Char>
+		<Char>hamaltend</Char>
+		<Char>hammetaalt</Char>
+		<Char>hamcoreftag</Char>
+		<Char>hamcorefref </Char>
+		<Char>hamthumb</Char>
+		<Char>hamindexfinger</Char>
+		<Char>hammiddlefinger </Char>
+		<Char>hamringfinger</Char>
+		<Char>hampinky</Char>
+		<Char>hamcomma</Char>
+		<Char>hamfullstop</Char>
+		<Char>hamexclaim</Char>
+		<Char>hamquery</Char>
+		<Char>hammime</Char>
+	</Group>
+		
+</FLVCoreCharacters>

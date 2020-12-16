@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<translations>
+  <translation id="cs">
+    <phrase id="dragsymbol">Tažením přetáhněte symbol do editoru nalevo.</phrase>
+    <phrase id="dragsign">Tažením přetáhněte vytvořený znak do seznamu nalevo.</phrase>
+    <phrase id="dragineditor">Kliknutím vyberte; tažením přesuňte; odtažením z okna odstraňte symbol.</phrase>
+    <phrase id="search">Hledat</phrase>
+    <phrase id="del">Odstranit</phrase>
+    <phrase id="truncate">Vyčistit</phrase>
+    <phrase id="variations">Variace</phrase>
+    <phrase id="fill">Výplň</phrase>
+    <phrase id="mirror">Zrcadlit</phrase>
+    <phrase id="rotateclockwise">Otočit ve směru hodinových ručiček</phrase>
+    <phrase id="rotatecclockwise">Otočit protisměru hodinových ručiček</phrase>  
+    <phrase id="placeover">Přesunout na vrch</phrase>  
+    <phrase id="similarsymbols">Podobných symbolů</phrase>
+    <phrase id="back">Zpět</phrase>
+    <phrase id="reedit_dialog">Vyberte prosím operaci pro již vytvořený symbol:</phrase>
+    <phrase id="reedit_edit">Znak skutečně editovat</phrase>
+    <phrase id="reedit_copy">Vytvořit jeho kopii</phrase>
+    <phrase id="reedit_thesign">editovat vytvořený znak</phrase>
+    <phrase id="reedit_copy">editovat kopii</phrase>
+    <phrase id="reedit_cancel">zrušit</phrase>
+    <phrase id="sign_with_id_being_edited">Editujete:</phrase>
+  </translation>
+  <translation id="en">
+    <phrase id="dragsymbol">Drag the symbol to the editor on the left side.</phrase>
+    <phrase id="dragsign">Drag the sign to the paper on the left side.</phrase>
+    <phrase id="dragineditor">Kliknutím vyberte; tažením přesuňte; odtažením z okna odstraňte symbol.</phrase>
+    <phrase id="search">Search</phrase>
+    <phrase id="del">Delete</phrase>
+    <phrase id="truncate">Clean up</phrase>
+    <phrase id="variations">Variations</phrase>
+    <phrase id="fill">Fills</phrase>
+    <phrase id="mirror">Mirror</phrase>
+    <phrase id="rotateclockwise">Rotate clockwise</phrase>
+    <phrase id="rotatecclockwise">Rotate counterclockwise</phrase>  
+    <phrase id="placeover">Place over</phrase>  
+    <phrase id="similarsymbols">Similar symbols</phrase>
+    <phrase id="back">Back</phrase>
+    <phrase id="reedit_dialog">Pick the operation for the selected symbol:</phrase>
+    <phrase id="reedit_edit">Edit the sign</phrase>
+    <phrase id="reedit_copy">Create a copy</phrase>
+    <phrase id="reedit_thesign">edit the created sign</phrase>
+    <phrase id="reedit_cancel">cancel</phrase>
+    <phrase id="sign_with_id_being_edited">Editing:</phrase>
+  </translation>
+</translations>
