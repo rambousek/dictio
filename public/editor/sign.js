@@ -1,4 +1,5 @@
 var xmlDoc;
+var entrydata;
 Ext.require([
     'Ext.form.*',
 ]);
@@ -1424,6 +1425,7 @@ function load_doc(id) {
     success: function(response) {
       console.log('parse start ' + new Date().getTime())
       var data = JSON.parse(response.responseText);
+      entrydata = data;
       console.log(data)
       console.log('ext form start ' + new Date().getTime())
       Ext.getCmp('tabForm').setTitle(locale[lang].entry+' '+dictcode.toUpperCase()+' id '+id);
@@ -1905,25 +1907,22 @@ function entry_update_show(updated) {
 function save_doc(id) {
   var tracking = changes.filter(function (value, index, self) { return self.indexOf(value) === index;}).join(", ");
   changes = new Array();
-  var data = {'entry':{
-    '@id': id,
+  var data = {
+    'dict': dictcode,
+    'id': id,
     'track_changes':{'$': tracking},
     'media':[],
     'lemma':{
-      '@id': id,
-      '@lang': 'sgn-CZ',
-      'id': {'$': id},
-      'updated_at': {'$': Ext.Date.format(new Date(), 'Y-m-d H:i:s')},
-      'iso_lang_code': {'$': 'sgn-CZ'},
-      'media_folder_id': {'$': Ext.getCmp('tabForm').query('component[name="media_folder_id"]')[0].getValue()},
-      'created_at': {'$': Ext.DomQuery.selectValue('/entry/lemma/created_at', xmlDoc)},
-      'completeness': {'$': Ext.getCmp('tabForm').query('component[name="completeness"]')[0].getValue()},
-      'pracskupina': {'$': Ext.getCmp('tabForm').query('component[name="pracskupina"]')[0].getValue()},
-      'puvod': {'$': Ext.getCmp('tabForm').query('component[name="puvod_slova"]')[0].getValue()},
-      'admin_comment': {'$': Ext.getCmp('tabForm').query('component[name="admin_comment"]')[0].getValue()},
-      'status': {'$': Ext.getCmp('tabForm').query('component[name="stav"]')[0].getValue()},
+      'updated_at': Ext.Date.format(new Date(), 'Y-m-d H:i:s'),
+      'media_folder_id': Ext.getCmp('tabForm').query('component[name="media_folder_id"]')[0].getValue(),
+      'created_at':  entrydata['lemma']['created_at'],
+      'completeness': Ext.getCmp('tabForm').query('component[name="completeness"]')[0].getValue(),
+      'pracskupina': Ext.getCmp('tabForm').query('component[name="pracskupina"]')[0].getValue(),
+      'puvod': Ext.getCmp('tabForm').query('component[name="puvod_slova"]')[0].getValue(),
+      'admin_comment': Ext.getCmp('tabForm').query('component[name="admin_comment"]')[0].getValue(),
+      'status': Ext.getCmp('tabForm').query('component[name="stav"]')[0].getValue(),
       'grammar_note': [{
-        '$': Ext.getCmp('tabForm').query('component[name="gramatikatext_text"]')[0].getValue(), 
+        '_text': Ext.getCmp('tabForm').query('component[name="gramatikatext_text"]')[0].getValue(), 
         '@region': Ext.getCmp('styldesc').query('component[name="region"]')[0].getValue().filter(item => item != '').join(';'),
         '@author': Ext.getCmp('gramdesc').query('component[name="copy_autor"]')[0].getValue(),
         '@copyright': Ext.getCmp('gramdesc').query('component[name="copy_copy"]')[0].getValue(),
@@ -1936,8 +1935,8 @@ function save_doc(id) {
         '@oral_komp_sel': Ext.getCmp('gramdesc').query('component[name="oral_komp_sel"]')[0].getValue(),
         'variant': []
       }],
-      'style_note': {
-        '$': Ext.getCmp('tabForm').query('component[name="styltext_text"]')[0].getValue(), 
+      'style_note': [{
+        '_text': Ext.getCmp('tabForm').query('component[name="styltext_text"]')[0].getValue(), 
         '@generace': Ext.getCmp('styldesc').query('component[name="generace"]')[0].getValue().join(';'),
         '@kategorie': Ext.getCmp('styldesc').query('component[name="kategorie"]')[0].getValue(),
         '@gender': Ext.getCmp('styldesc').query('component[name="gender"]')[0].getValue(),
@@ -1947,22 +1946,21 @@ function save_doc(id) {
         '@admin': Ext.getCmp('styldesc').query('component[name="copy_admin"]')[0].getValue(),
         '@status': Ext.getCmp('styldesc').query('component[name="stav"]')[0].getValue(),
         'variant': []
-      },
+      }],
       'sw': [],
-      'swmix': {'sw':[]}
-      },
-    }
+    },
   };
+
   /* gramatika */
   var grams = Ext.getCmp('gramcont').query('[name=gramitem]');
   for (var i = 0; i < grams.length; i++) {
     if (i == 0) {
-      data.entry.lemma.grammar_note[0]['@slovni_druh'] = grams[i].query('component[name="slovni_druh"]')[0].getValue();
-      data.entry.lemma.grammar_note[0]['@skupina'] = grams[i].query('component[name="skupina"]')[0].getValue();
-      data.entry.lemma.grammar_note[0]['@skupina2'] = grams[i].query('component[name="skupina2"]')[0].getValue().join(';');
-      data.entry.lemma.grammar_note[0]['@skupina3'] = grams[i].query('component[name="skupina3"]')[0].getValue().join(';');
+      data.lemma.grammar_note[0]['@slovni_druh'] = grams[i].query('component[name="slovni_druh"]')[0].getValue();
+      data.lemma.grammar_note[0]['@skupina'] = grams[i].query('component[name="skupina"]')[0].getValue();
+      data.lemma.grammar_note[0]['@skupina2'] = grams[i].query('component[name="skupina2"]')[0].getValue().join(';');
+      data.lemma.grammar_note[0]['@skupina3'] = grams[i].query('component[name="skupina3"]')[0].getValue().join(';');
     } else {
-      data.entry.lemma.grammar_note.push({
+      data.lemma.grammar_note.push({
         '@slovni_druh': grams[i].query('component[name="slovni_druh"]')[0].getValue(),
         '@skupina': grams[i].query('component[name="skupina"]')[0].getValue(),
         '@skupina2': grams[i].query('component[name="skupina2"]')[0].getValue().join(';'),
@@ -1977,8 +1975,8 @@ function save_doc(id) {
     var varvid = variants[i].query('[name=variant]')[0].getValue();
     if (varvid != '' && variants_ar.indexOf(varvid) == -1) {
       variants_ar.push(varvid);
-      data.entry.lemma.style_note.variant.push({
-        '$': varvid, 
+      data.lemma.style_note[0].variant.push({
+        '_text': varvid, 
         '@desc':variants[i].query('[name=variant_desc]')[0].getValue(),
         '@sw':variants[i].query('[name=variant_sw]')[0].getValue()
       });      
@@ -1990,16 +1988,15 @@ function save_doc(id) {
     var varvid = variants[i].query('[name=variant]')[0].getValue();
     if (varvid != '' && variants_ar.indexOf(varvid) == -1) {
       variants_ar.push(varvid);
-      data.entry.lemma.grammar_note[0].variant.push({
-        '$': varvid, 
+      data.lemma.grammar_note[0].variant.push({
+        '_text': varvid, 
         '@desc':variants[i].query('[name=variant_desc]')[0].getValue(),
         '@sw':variants[i].query('[name=variant_sw]')[0].getValue()
       });      
     }
   }
-
   /* videa */
-  data.entry.update_video = []
+  data.update_video = []
   var vids = Ext.getCmp('videobox').query('component[name="viditem"]');
   for (var i = 0; i < vids.length; i++) {
     if (vids[i].query('component[name="type"]')[0].getValue() == '' || vids[i].query('component[name="type"]')[0].getValue() == null) {
@@ -2007,12 +2004,12 @@ function save_doc(id) {
       return false;
     }
     if (vids[i].query('component[name="type"]')[0].getValue() == 'front') {
-      data.entry.lemma.video_front = {'$': vids[i].query('component[name="vidid"]')[0].getValue()};
+      data.lemma.video_front = vids[i].query('component[name="vidid"]')[0].getValue();
     }
     if (vids[i].query('component[name="type"]')[0].getValue() == 'side') {
-      data.entry.lemma.video_side = {'$': vids[i].query('component[name="vidid"]')[0].getValue()};
+      data.lemma.video_side = vids[i].query('component[name="vidid"]')[0].getValue();
     }
-    data.entry.update_video.push({
+    data.update_video.push({
       '@id': vids[i].query('component[name="mediaid"]')[0].getValue(),
       '@id_meta_author': vids[i].query('component[name="copy_autor"]')[0].getValue(),
       '@id_meta_copyright': vids[i].query('component[name="copy_copy"]')[0].getValue(),
@@ -2024,19 +2021,19 @@ function save_doc(id) {
       '@orient': vids[i].query('component[name="'+vids[i].id+'orient"]')[0].getGroupValue(),
     });
   }
-  var mar = Ext.getCmp('mediabox').query('component[name=mediaitem]');
+  /*var mar = Ext.getCmp('mediabox').query('component[name=mediaitem]');
   for (var i = 0; i < mar.length; i++) {
     var loc = mar[i].query('component[name="vidid"]')[0].getValue();
-    data.entry.media.push({'file':{
+    data.media.push({'file':{
       '@id': mar[i].query('component[name="mediaid"]')[0].getValue(),
       'location': {'$': loc},
       'status': {'$': 'published'}
     }});
-  }
+  }*/
 
   /* transkripce */
-  data.entry.lemma.hamnosys = {
-    '$': Ext.get('hamndata-inputEl').dom.value,
+  data.lemma.hamnosys = {
+    '_text': Ext.get('hamndata-inputEl').dom.value,
     '@author': Ext.getCmp('hamnosys_copybox').query('component[name="copy_autor"]')[0].getValue(),
     '@source': Ext.getCmp('hamnosys_copybox').query('component[name="copy_zdroj"]')[0].getValue(),
     '@copyright': Ext.getCmp('hamnosys_copybox').query('component[name="copy_copy"]')[0].getValue(),
@@ -2054,26 +2051,25 @@ function save_doc(id) {
       '@source': sws[i].query('component[name="copy_zdroj"]')[0].getValue(),
       '@admin': sws[i].query('component[name="copy_admin"]')[0].getValue(),
       '@primary': sws[i].query('component[name="primary_sw"]')[0].checked,
-      '$': sws[i].query('component[name="swdata"]')[0].getValue()
+      '_text': sws[i].query('component[name="swdata"]')[0].getValue()
     };
-    data.entry.lemma.sw.push(newsw);
-    data.entry.lemma.swmix.sw.push(newsw);
-    data.entry.lemma['@swstatus'] = Ext.getCmp('swfieldset').query('component[name="stav"]')[0].getValue();
+    data.lemma.sw.push(newsw);
+    data.lemma['@swstatus'] = Ext.getCmp('swfieldset').query('component[name="stav"]')[0].getValue();
   }
 
   /*slovni spojeni*/
   if (Ext.getCmp('tabForm').query('component[name="lemma_type"]')[0].getGroupValue() != null) {
-    data.entry.lemma.lemma_type = {'$': Ext.getCmp('tabForm').query('component[name="lemma_type"]')[0].getGroupValue()};
+    data.lemma.lemma_type = Ext.getCmp('tabForm').query('component[name="lemma_type"]')[0].getGroupValue();
   }
-  if (data.entry.lemma.lemma_type.$ != 'single') {
-    data.entry.collocations = {'@status': Ext.getCmp('boxcolloc').query('component[name="stav"]')[0].getValue()};
+  if (data.lemma.lemma_type != 'single') {
+    data.collocations = {'status': Ext.getCmp('boxcolloc').query('component[name="stav"]')[0].getValue()};
     if (Ext.getCmp('tabForm').query('component[name="swcompos"]')[0].getValue()) {
-      data.entry.collocations.swcompos = {'$':Ext.getCmp('tabForm').query('component[name="swcompos"]')[0].getValue().toUpperCase()};
+      data.collocations.swcompos = Ext.getCmp('tabForm').query('component[name="swcompos"]')[0].getValue().toUpperCase();
     }
-    data.entry.collocations.colloc = [];
+    data.collocations.colloc = [];
     var cols = Ext.getCmp('colbox').query('component[name="colitem"]');
     for (var i = 0; i < cols.length; i++) {
-      data.entry.collocations.colloc.push({'@lemma_id': cols[i].query('component[name="colid"]')[0].getValue()});
+      data.collocations.colloc.push(cols[i].query('component[name="colid"]')[0].getValue());
     }
   }
 
@@ -2081,30 +2077,29 @@ function save_doc(id) {
   var maxnr = 0;
   var meanings = Ext.getCmp('tabForm').query('component[name="vyznam"]');
   if (meanings.length > 0) {
-    data.entry.meanings = {'meaning': []};
+    data.meanings = [];
   }
   var mean_numbers = new Array();
   var max_mean = 0;
   for (var i = 0; i < meanings.length; i++) {
     var newmean = {
-      '@id': meanings[i].query('component[name="meaning_id"]')[0].getValue(),
-      'id': {'$': meanings[i].query('component[name="meaning_id"]')[0].getValue()},
-      'status': {'$': meanings[i].query('[name=vyznammeta]')[0].query('component[name="stav"]')[0].getValue()},
-      'updated_at': {'$': Ext.Date.format(new Date(), 'Y-m-d H:i:s')},      
-      'category': [], //{'$': meanings[i].query('component[name="obor"]')[0].getValue()},
+      'id': meanings[i].query('component[name="meaning_id"]')[0].getValue(),
+      'status': meanings[i].query('[name=vyznammeta]')[0].query('component[name="stav"]')[0].getValue(),
+      'updated_at': Ext.Date.format(new Date(), 'Y-m-d H:i:s'),
+      'category': [], 
       'relation': [],
-      '@author': Ext.getCmp(meanings[i].id+'_copybox').query('component[name="copy_autor"]')[0].getValue(),
-      '@copyright': Ext.getCmp(meanings[i].id+'_copybox').query('component[name="copy_copy"]')[0].getValue(),
-      '@source': Ext.getCmp(meanings[i].id+'_copybox').query('component[name="copy_zdroj"]')[0].getValue(),
-      '@admin': Ext.getCmp(meanings[i].id+'_copybox').query('component[name="copy_admin"]')[0].getValue(),
-      '@style_region': meanings[i].query('component[name="region"]')[0].getValue().join(';'),
-      '@pracskupina': meanings[i].query('component[name="pracskupina"]')[0].getValue(),
+      'author': Ext.getCmp(meanings[i].id+'_copybox').query('component[name="copy_autor"]')[0].getValue(),
+      'copyright': Ext.getCmp(meanings[i].id+'_copybox').query('component[name="copy_copy"]')[0].getValue(),
+      'source': Ext.getCmp(meanings[i].id+'_copybox').query('component[name="copy_zdroj"]')[0].getValue(),
+      'admin': Ext.getCmp(meanings[i].id+'_copybox').query('component[name="copy_admin"]')[0].getValue(),
+      'style_region': meanings[i].query('component[name="region"]')[0].getValue().join(';'),
+      'pracskupina': meanings[i].query('component[name="pracskupina"]')[0].getValue(),
     };
     maxnr += 1;
     if (isNaN(parseInt(meanings[i].query('component[name="meaning_nr"]')[0].getValue()))) {
-      newmean['@number'] = maxnr;
+      newmean['number'] = maxnr;
     } else {
-      newmean['@number'] = parseInt(meanings[i].query('component[name="meaning_nr"]')[0].getValue());
+      newmean['number'] = parseInt(meanings[i].query('component[name="meaning_nr"]')[0].getValue());
     }
     mean_numbers.push(newmean['@number']);
     if (max_mean < newmean['@number']) {
@@ -2112,15 +2107,15 @@ function save_doc(id) {
     }
     var categ_array = meanings[i].query('component[name="obor"]')[0].getValue();
     for (var ci=0; ci < categ_array.length; ci++) {
-      newmean.category.push({'$':categ_array[ci]});
+      newmean.category.push(categ_array[ci]);
     }
     if (meanings[i].query('component[name="meaning_id"]')[0].getValue() != '') {
-      newmean.created_at = {'$': Ext.DomQuery.selectValue('/entry/meanings/meaning[@id="'+meanings[i].query('component[name="meaning_id"]')[0].getValue()+'"]/created_at', xmlDoc)};
+      newmean.created_at = entrydata['meanings'].filter(mean => mean['id'] == meanings[i].query('component[name="meaning_id"]')[0].getValue())[0]['created_at'];
     } else {
-      newmean.created_at = {'$': Ext.Date.format(new Date(), 'Y-m-d H:i:s')};
+      newmean.created_at = Ext.Date.format(new Date(), 'Y-m-d H:i:s');
     }
     if (meanings[i].query('component[name="translation_unknown"]')[0].getValue()) {
-      newmean.is_translation_unknown = {'$': '1'};
+      newmean.is_translation_unknown = '1';
     }
     /* preklady,odkazy */
     var trset = meanings[i].query('component[name="rellinkset"]');
@@ -2140,54 +2135,38 @@ function save_doc(id) {
         if ((trset_ar.indexOf(reltype+rellink+reltar) == -1) && (!(rellink.startsWith(id+'-')) || reltype == 'translation' || reltype == 'translation_colloc')) {
           trset_ar.push(reltype+rellink+reltar);
           newrel = {
-            '@meaning_id': rellink,
-            '@type': reltype,
-            '@target': reltar,
-            '@status': trset[j].query('component[name="stav"]')[0].getValue()
+            'meaning_id': rellink,
+            'type': reltype,
+            'target': reltar,
+            'status': trset[j].query('component[name="stav"]')[0].getValue()
           };
-          if (['sj','cs','de','en'].includes(reltar)) {
-            if (trset[j].query('component[name="vztahtitle"]')[0].getEl().dom.textContent != '') {
-              newrel.title = {'$': trset[j].query('component[name="vztahtitle"]')[0].getEl().dom.textContent};
-            } else {
-              newrel.title = {'$': rellink}
-            }
-            if (newrel.title['$'] == newrel['@meaning_id']) {
-              newrel['@title_only'] = 'true';
-            } else {
-              newrel['@title_only'] = '';
-              newrel['@lemma_id'] = newrel['@meaning_id'].split('-')[0];
-            }
-          } else {
-            newrel['@lemma_id'] = newrel['@meaning_id'].split('-')[0];
-            newrel['@title_only'] = '';
-            if (trset[j].query('component[name="vztahtitle"]')[0].getEl().dom.firstChild.querySelector('source[type="video/mp4"]') != null) {
-              var src = trset[j].query('component[name="vztahtitle"]')[0].getEl().dom.firstChild.querySelector('source[type="video/mp4"]').getAttribute('src');
-              var srca = src.split('/');
-              console.log(src)
-              newrel.file = {'location':{'$':srca[3]},'status':{'$':'published'}};
-            }
-          }
           newmean.relation.push(newrel);
         }
       }
     }
-    newmean.text = {'$': meanings[i].query('component[name="'+meanings[i].id+'_text_text"]')[0].getValue()};
+    var textval = meanings[i].query('component[name="'+meanings[i].id+'_text_text"]')[0].getValue();
+    if (textval.match(/<file media_id="[0-9]*"\/>/)) {
+      var tmed = textval.match(/<file media_id="([0-9]*)"\/>/)[1];
+      newmean.text = {'file':{'@media_id': tmed}};
+    } else {
+      newmean.text = {'_text': textval};
+    }
     
     /*priklady*/
     var uses = meanings[i].query('component[name="usageset"]');
     if (uses.length > 0) {
-      newmean.usages = {'usage':[]};
+      newmean.usages = [];
     }
     for (var j = 0; j < uses.length; j++) {
       var newuse = {
-        '@id': uses[j].query('component[name="usage_id"]')[0].getValue(),
-        'updated_at': {'$': Ext.Date.format(new Date(), 'Y-m-d H:i:s')},
-        'status': {'$': uses[j].query('component[name="stav"]')[0].getValue()},
+        'id': uses[j].query('component[name="usage_id"]')[0].getValue(),
+        'updated_at': Ext.Date.format(new Date(), 'Y-m-d H:i:s'),
+        'status': uses[j].query('component[name="stav"]')[0].getValue(),
         'text': {},
-        '@author': uses[j].query('component[name="copy_autor"]')[0].getValue(),
-        '@copyright': uses[j].query('component[name="copy_copy"]')[0].getValue(),
-        '@source': uses[j].query('component[name="copy_zdroj"]')[0].getValue(),
-        '@admin': uses[j].query('component[name="copy_admin"]')[0].getValue(),
+        'author': uses[j].query('component[name="copy_autor"]')[0].getValue(),
+        'copyright': uses[j].query('component[name="copy_copy"]')[0].getValue(),
+        'source': uses[j].query('component[name="copy_zdroj"]')[0].getValue(),
+        'admin': uses[j].query('component[name="copy_admin"]')[0].getValue(),
       };
       var trset = uses[j].query('component[name="exrellinkset"]');
       var trset_ar = new Array();
@@ -2209,29 +2188,35 @@ function save_doc(id) {
           if ((trset_ar.indexOf(reltype+rellink+reltar) == -1) && (!(rellink.startsWith(id+'-')) || reltype == 'translation' || reltype == 'translation_colloc')) {
             trset_ar.push(reltype+rellink+reltar);
             newuse.relation.push({
-              '@meaning_id': rellink,
-              '@type': reltype,
-              '@target': reltar,
+              'meaning_id': rellink,
+              'type': reltype,
+              'target': reltar,
             });
           }
         }
       }
       if (uses[j].query('[inputValue=colloc]')[0].getValue()) {
-        newuse['@type'] = 'colloc';
+        newuse['type'] = 'colloc';
       } else {
-        newuse['@type'] = 'sentence';
+        newuse['type'] = 'sentence';
       }
       if (uses[j].query('component[name="usage_id"]')[0].getValue() != '') {
-        newuse.created_at = {'$': Ext.DomQuery.selectValue('//usage[@id="'+uses[j].query('component[name="usage_id"]')[0].getValue()+'"]/created_at', xmlDoc)};
+        newuse.created_at = entrydata['meanings'].filter(mean => mean['id'] == meanings[i].query('component[name="meaning_id"]')[0].getValue())[0]['usages'].filter(usg=>usg['id'] == uses[j].query('component[name="usage_id"]')[0].getValue())[0]['created_at'];
       } else {
-        newuse.created_at = {'$': Ext.Date.format(new Date(), 'Y-m-d H:i:s')};
+        newuse.created_at = Ext.Date.format(new Date(), 'Y-m-d H:i:s');
       }
-      newuse.text = {'$': uses[j].query('component[name="'+uses[j].id+'text_text"]')[0].getValue()};
+      var textval = uses[j].query('component[name="'+uses[j].id+'text_text"]')[0].getValue();
+      if (textval.match(/<file media_id="[0-9]*"\/>/)) {
+        var tmed = textval.match(/<file media_id="([0-9]*)"\/>/)[1];
+        newuse.text = {'file':{'@media_id': tmed}};
+      } else {
+        newuse.text = {'_text': textval};
+      }
 
-      newmean.usages.usage.push(newuse);
+      newmean.usages.push(newuse);
     }
 
-    data.entry.meanings.meaning.push(newmean);
+    data.meanings.push(newmean);
   }
   var numbers_ok = true;
   for (var i = 1; i <= max_mean; i++) {
@@ -2242,8 +2227,7 @@ function save_doc(id) {
   if (numbers_ok == false) {
     alert('Pořadí významů neobsahuje všechny významy nebo obsahuje špatné pořadí.');
   }
-    console.log(data.entry)
-
+    console.log(data)
 
   return data;
 }
@@ -4824,7 +4808,8 @@ Ext.onReady(function(){
           console.log('savedisplay horni');
           var form = this.up('form').getForm();
           var data = save_doc(entryid);
-          if (data != false) {
+          console.log(data)
+          /*if (data != false) {
             console.log('odeslat data');
             form.submit({
               params: {
@@ -4846,7 +4831,7 @@ Ext.onReady(function(){
                 window.location = '/'+dictcode+'?action=search&getdoc='+entryid+'&lang='+lang+'&empty='+empty;
               }
             });
-          }
+          }*/
         }
       },{
         xtype: 'label',
