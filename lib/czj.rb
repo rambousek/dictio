@@ -690,5 +690,162 @@ class CZJDict < Object
 
     return {'count'=> relcount, 'entries'=> res}
   end
+
+  def save_doc(data)
+    entryid = data['id']
+    dict = data['dict']
+
+    #check relations
+    olddata = @entrydb.find({'id': entryid, 'dict': dict}).first
+    if olddata != nil
+      @entrydb.find({'dict':dict, 'id': entryid}).delete_many
+      oldrels = {}
+      oldmeans = []
+      olddata['meanings'].each{|m|
+        oldmeans << m['id']
+        oldrels[m['id']] = []
+        m['relation'].each{|r|
+          oldrels[m['id']] << r
+        }
+        m['usages'].each{|u|
+          if u['relation']
+            oldrels[u['id']] = []
+            u['relation'].each{|ur|
+              oldrels[u['id']] << ur
+            }
+          end
+        }
+      }
+      #removed meanings?
+      oldmeans.each{|mi|
+        if data['meanings'].nil? or data['meanings'].select{|m| m['id']==mi}.length == 0
+          $stderr.puts 'REMOVED meaning'+mi
+          oldrels[mi].each{|olr|
+            $stderr.puts 'smazat relation '+olr['meaning_id']
+            if olr['type'] == 'translation'
+              target = olr['target'].to_s
+            else
+              target = dict
+            end
+            remove_relation(target, mi, olr['meaning_id'], olr['type'], dict)
+          }
+        end
+      }
+      data['meanings'].each{|m|
+        #remove relations
+        if oldrels[m['id']]
+          oldrels[m['id']].each{|olr|
+            if m['relation'].select{|r| r['meaning_id']==olr['meaning_id'] and r['type']==olr['type']}.length == 0
+              $stderr.puts 'smazat relation '+olr['meaning_id']
+              if olr['type'] == 'translation'
+                target = olr['target'].to_s
+              else
+                target = dict
+              end
+              remove_relation(target, m['id'], olr['meaning_id'], olr['type'], dict)
+            end
+          }
+        end
+        #add relations
+        m['relation'].each{|rel|
+          $stderr.puts 'pridat relation '+rel['meaning_id']
+          if rel['type'] == 'translation'
+            target = rel['target'].to_s
+          else
+            target = dict
+          end
+          add_relation(target, m['id'], rel['meaning_id'], rel['type'], rel['status'], dict) 
+          if rel['meaning_id'].include?('_us') and rel['status'] == 'published' and /^([0-9]*)-.*/.match(rel['meaning_id']) != nil
+            publish_relation(target, /^([0-9]*)-.*/.match(rel['meaning_id'])[1].to_s, rel['meaning_id'], m['id'], rel['type'])
+          end
+        }
+        if m['usages']
+          m['usages'].each{|usg|
+            #remove relations in usages
+            if oldrels[usg['id']]
+              oldrels[usg['id']].each{|olr|
+                if usg['relation'].nil? or usg['relation'].select{|r| r['meaning_id']==olr['meaning_id'] and r['type']==olr['type']}.length == 0
+                  $stderr.puts 'smazat relation '+olr['meaning_id']
+                  if olr['type'] == 'translation'
+                    target = olr['target'].to_s
+                  else
+                    target = dictcode
+                  end
+                  remove_relation(target, usg['id'], olr['meaning_id'], olr['type'], dict)
+                end
+              }
+            end
+            #add relations in usages
+            if usg['relation']
+              usg['relation'].each{|rel|
+                $stderr.puts 'pridat relation '+rel['meaning_id']
+                if rel['type'] == 'translation'
+                  target = rel['target'].to_s
+                else
+                  target = dictcode
+                end
+                add_relation(target, usg['id'], rel['meaning_id'], rel['type'], usg['status'], dict) 
+                if rel['meaning_id'].include?('_us') and usg['status'] == 'published' and /^([0-9]*)-.*/.match(rel['meaning_id']) != nil
+                  publish_relation(target, /^([0-9]*)-.*/.match(rel['meaning_id'])[1].to_s, rel['meaning_id'], usg['id'], rel['type'])
+                end
+              }
+            end
+          }
+        end
+      }
+    end
+
+    #add fsw
+    data['lemma']['sw'].each{|sw|
+      sw['@fsw'] = get_fsw(sw['_text']) if sw['@fsw'] == ''
+    }
+    data.delete('track_changes')
+    data.delete('update_video')
+    $stderr.puts data
+
+    @entrydb.insert_one(data)
+    return true
+  end
+
+  def remove_relation(dict, rel_meaning, rel_target_id, rel_type, rel_dict)
+    query = {'dict': dict, 'meanings.id': rel_target_id}
+  end
+
+  def add_relation(dict, rel_meaning, rel_target_id, rel_type, rel_status, rel_dict)
+    rel_type = 'synonym' if rel_type == 'synonym_strategie'
+    query = {'dict': dict, 'meanings.id': rel_target_id}
+  end
+
+  def publish_relation(dict, rel_meaning, rel_target_id, rel_type)
+    query = {'dict': dict, 'meanings.id': rel_target_id}
+  end
+
+  def get_fsw(swstring)
+    fsw = 'M500x500'
+    swa = []
+    swstring.split('_').each{|e|
+      match = /([0-9]*)(\(.*\))?/.match(e)
+      unless match[1].nil?
+        info = {'id'=>match[1], 'x'=>0, 'y'=>0}
+        unless match[2].nil?
+          if match[2].include?('x') and match[2].include?('y')
+            match2 = /\(x([\-0-9]*)y([\-0-9]*)\)/.match(match[2])
+            info['x'] = match2[1].to_i
+            info['y'] = match2[2].to_i
+          elsif match[2].include?('x')
+            info['x'] = match[2].gsub(/[^0-9^-]/,'').to_i
+          else
+            info['y'] = match[2].gsub(/[^0-9^-]/,'').to_i
+          end
+        end
+        swa << info
+      end
+    }
+    swa.each{|info|
+      doc = $mongo['symbol'].find({'id': info['id']}).first
+      fsw += 'S' + doc['bs_code'].to_i.to_s(16) + (doc['fill'].to_i-1).to_s(16) + (doc['rot'].to_i-1).to_s(16) + (info['x']+500).to_s + 'x' + (info['y']+500).to_s
+    }
+    return fsw
+  end
 end
 

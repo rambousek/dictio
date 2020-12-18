@@ -1443,7 +1443,7 @@ function load_doc(id) {
       Ext.getCmp('tabForm').query('component[name="pracskupina"]')[0].setValue(data['lemma']['pracskupina']);
       Ext.getCmp('tabForm').query('component[name="puvod_slova"]')[0].setValue(data['lemma']['puvod']);
       Ext.getCmp('tabForm').query('component[name="admin_comment"]')[0].setValue(data['lemma']['admin_comment']);
-      if (data['collocations']['swcompos'] && data['collocations']['swcompos'] != "") {
+      if (data['collocations'] && data['collocations']['swcompos'] && data['collocations']['swcompos'] != "") {
         Ext.getCmp('tabForm').query('component[name="swcompos"]')[0].setValue(data['collocations']['swcompos'].toUpperCase());
       }
 
@@ -1910,8 +1910,7 @@ function save_doc(id) {
   var data = {
     'dict': dictcode,
     'id': id,
-    'track_changes':{'$': tracking},
-    'media':[],
+    'track_changes':tracking,
     'lemma':{
       'updated_at': Ext.Date.format(new Date(), 'Y-m-d H:i:s'),
       'media_folder_id': Ext.getCmp('tabForm').query('component[name="media_folder_id"]')[0].getValue(),
@@ -1949,6 +1948,7 @@ function save_doc(id) {
       }],
       'sw': [],
     },
+    'media':[],
   };
 
   /* gramatika */
@@ -2227,7 +2227,7 @@ function save_doc(id) {
   if (numbers_ok == false) {
     alert('Pořadí významů neobsahuje všechny významy nebo obsahuje špatné pořadí.');
   }
-    console.log(data)
+  console.log(data)
 
   return data;
 }
@@ -4795,7 +4795,7 @@ Ext.onReady(function(){
           text: locale[lang].viewplus,
           icon: '/editor/img/display.png',
           handler: function() {           
-            var odkaz = '/'+dictcode+'?action=search&getdoc='+entryid+'&lang='+lang;
+            var odkaz = '/'+dictcode+'/show/'+entryid+'?lang='+lang;
             window.open(odkaz);
           }
         },{
@@ -4808,15 +4808,12 @@ Ext.onReady(function(){
           console.log('savedisplay horni');
           var form = this.up('form').getForm();
           var data = save_doc(entryid);
-          console.log(data)
-          /*if (data != false) {
+          if (data != false) {
             console.log('odeslat data');
             form.submit({
+              url: '/'+dictcode+'/save',
               params: {
-                data: Ext.encode(data),
-                action: 'save',
-                id: entryid,
-                fast: true
+                data: JSON.stringify(data),
               },
               method: 'POST',
               waitMsg: locale[lang].savemsg,
@@ -4828,10 +4825,10 @@ Ext.onReady(function(){
                 console.log(action.result)
                 Ext.Msg.alert('Stav', action.result.msg);
                 Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox);
-                window.location = '/'+dictcode+'?action=search&getdoc='+entryid+'&lang='+lang+'&empty='+empty;
+                window.location = '/'+dictcode+'/show/'+entryid+'?lang='+lang;
               }
             });
-          }*/
+          }
         }
       },{
         xtype: 'label',
@@ -4893,10 +4890,9 @@ Ext.onReady(function(){
           var data = save_doc(entryid);
           if (data != false) {
             form.submit({
+              url: '/'+dictcode+'/save',
               params: {
-                data: Ext.encode(data),
-                action: 'save',
-                id: entryid,
+                data: JSON.stringify(data),
               },
               method: 'POST',
               waitMsg: locale[lang].savemsg,
@@ -4926,11 +4922,9 @@ Ext.onReady(function(){
             Ext.Msg.alert('Stav', locale[lang].savemsg);
             console.log('odeslat data');
             form.submit({
+              url: '/'+dictcode+'/save',
               params: {
-                data: Ext.encode(data),
-                action: 'save',
-                id: entryid,
-                fast: true
+                data: JSON.stringify(data),
               },
               method: 'POST',
               waitMsg: locale[lang].savemsg,
@@ -4942,7 +4936,7 @@ Ext.onReady(function(){
                 console.log(action.result)
                 Ext.Msg.alert('Stav', action.result.msg);
                 Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox);
-                window.location = '/'+dictcode+'?action=search&getdoc='+entryid+'&lang='+lang+'&empty='+empty;
+                window.location = '/'+dictcode+'/show/'+entryid+'?lang='+lang;
               }
             });
           }
@@ -4952,7 +4946,7 @@ Ext.onReady(function(){
         text: locale[lang].viewplus,
         icon: '/editor/img/display.png',
         handler: function() {           
-          var odkaz = '/'+dictcode+'?action=search&getdoc='+entryid+'&lang='+lang;
+          var odkaz = '/'+dictcode+'/show/'+entryid+'?lang='+lang;
           window.open(odkaz);
         }
       }]

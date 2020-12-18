@@ -211,6 +211,12 @@ class CzjApp < Sinatra::Base
       content_type :json
       body = dict.get_comments(params['id'], params['type'].to_s).to_json
     end
+    post '/'+code+'/save' do
+      data = JSON.parse(params['data'])
+      dict.save_doc(data)
+      content_type :json
+      body = '{"success":true,"msg":"Uloženo"}'
+    end
   }
 
 end
