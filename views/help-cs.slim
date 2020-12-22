@@ -4,165 +4,128 @@ main role="main"
       .row
         article.col.col--2.col--start role="article"
           h1 Nápověda
-          h2 Obsah
-          ul
-          li
+          .info
+           h4 Obsah
+           p          
             a href="#jak" Jak používat slovník
-          li
-            a href="#heslo" Struktura slovníkového hesla
-          li
-            a href="#nastaveni" Nastavení
-          li
-            a href="#prepinace" Přepínače
-          li
+           p
+            a href="#keyboard" Virtuální klávesnice pro znakový jazyk
+           p
             a href="#kategorie" Lexikální kategorie českého znakového jazyka
-          li
-            a href="#seznam" Seznam použitých orálních komponentů pro český znakový jazyk
-          li
+           p
+            a href="#zkratky" Seznam použitých orálních komponentů pro český znakový jazyk
+           p
             a href="#poznamky" Terminologické poznámky ke gramatickým informacím ČZJ
 
           h2 id="jak" Jak používat slovník
-          p
-            em DICTIO obsahuje několik slovníků, které jsou navzájem provázané. Obsahuje dvě základní části: překladový slovník a výkladový slovník.
-            br
-            img src="/img/help/help-switch.jpg" align="left" 
-            em Mezi jednotlivými sekcemi se můžete přepínat pomocí odkazu v levé horní části stránky.
-
-          h2 Překladový slovník
-
-          p Překladový slovník DICTIO nabízí překlady pro libovolnou kombinaci zvolených dvou jazyků.  
-          p
-            em Vzájemně neprovázanějí jsou v tuto chvíli slovníky češtiny a českého znakového jazyka, které jsou postupně obohacovány o překlady do angličtiny. Sada ukázkových hesel amerického znakového jazyka a mezinárodního systému je postupně obohacována o překlady češtiny i českého znakového jazyka.
-
-          p <strong>Zdrojový jazyk</strong> (hesla k překladu) volíte z barevně označené nabídky jazyků (1) (nabídka se zobrazí po najetí myši). Cílový jazyk (jazyk do kterého má být heslo přeloženo) volíte z barevně označeného seznamu jazyků (2) (zozbrazí se po najetí myši).
-          p U hesel označených ikonou <img src="editor/img/vykladovy_z.png" style="width: 15px;" /> lze otevřít jejich výkladovou část.
-          img src="/img/help/vyklad.jpg" 
+          p.lead DICTIO se skládá z několik slovníků, které jsou navzájem provázané. Zahrnuté slovníky jsou viditelné v nabídce pro vyhledávání. DICTIO umožňuje hledání ekvivalentů mezi jednotlivými jazyky (hledání typických překladů) a také zobrazení podrobných informací o jednotlivých slovech a znacích.
+          p Vyhledávání ve slovníku je možné jak na základě slov, tak na základě znaků znakového jazyka.
+            
+          h3 Hledání na základě slov
           
-          h2 Výkladový slovník
-          img src="/img/help/vykladovy.jpg" align="right"
-          p Tato část obsahuje několik (jednojazyčných) výkladových slovníků. Počet obsažených hesel v jednotlivých slovnících je nižší než počet hesel obsažených v "překladové části" kvůli velké časové náročnosti na podrobné zpracování jednotlivých hesel.
-          p Konkrétní slovníkové heslo lze vyhledat pomocí vyhledávacího formuláře, který se může pro jednotlivé jazyky lišit. V jednu chvíli lze vyhledávat hesla pouze ve zvoleném jazyce. Po přepnutí do jiného slovníku se aktuální výsledky hledání ztratí.
+          .row.row-start
+            .col-2 style="width:50%;"
+              ul
+                li Zvolte jazyk ve kterém chcete vyhledávat (pokud chcete hledat překlady, zvolte zdrojový a cílový jazyk).
+                li Zadejte hledané slovo nebo jeho část do vyhledávacího pole.
+                li
+                  em (Volitelné) Zvolte slovní druh hledaného výrazu.
+                li Klikněte na ikonu pro spuštění vyhledávání (img).
+                li Na stránce se vám zobrazí dohledané výrazy.
+                li Detaily o dohledaných výrazech můžete zobrazit kliknutím na výraz.
+                li Jednotlivé ekvivalenty (překlady) jsou zařazeny vždy pod konkrétní význam slova (znaku).
+            .col-2
+              video src="/img/help/helpEN-IS.mp4" height="300" controls=true autoplay=true
 
-          p 
-            img src="/img/help/struktura.jpg" align="left"
-            | (1) Přepínač slovníků. <br/> <em>Záložka aktivního slovníku je barevně podbarvena.</em><br/>
-            | (2) Plovoucí záhlaví hesla (<em>při pohybu ve slovníkovém hesle je stále viditelné</em>)<br />
-            | (3) Vyhledávací formulář (nástroj)<br />
-            | (4) Seznam výsledků hledání<br />
-            | (5) Záhlaví hesla<br />
-            | (6) Formální část hesla<br />
-            | (7) Sémantická část hesla<br /> 
-
-          h3 Vyhledávání ve slovnících mluvených jazyků <em>(čeština, angličtina, němčina, slovenština)</em>
-          p Vyhledávat běžným způsobem zadáním celého hledaného výrazu nebo jeho části. Používat lze i běžné regulární výrazy. (Pro užití této funkce je ještě potřeba zároveň zvolit "hledat slovní tvary".) 
-          p <em><strong>Seznam běžně užívaných znaků v rámci regulárních výrazů:</strong></em><br />
-            | <strong>.</strong>&nbsp;&nbsp;zastupuje jeden libovolný znak<br />
-            | <strong>?</strong>&nbsp;&nbsp;zastupuje jeden nebo žádný výskyt předcházejícího znaku<br />
-            | <strong>*</strong>&nbsp;&nbsp;zastupuje libovolný počet opakování předcházejícího znaku<br />
-            | <strong>|</strong>&nbsp;&nbsp;odděluje jednotlivé hledané řetězce - př: <code>diskuse|diskuze</code><br />
-            | <strong>$</strong>&nbsp;&nbsp;označuje konec hledaného řetězce - př: <code>*tel$</code> - <em>všechna slova končící na "tel"</em><br />
-            | <strong>[]</strong>&nbsp;&nbsp;obsahuje seznam variantních znaků - př: <code>disku[sz]e</code> - <em>hledá slova "diskuze" i "diskuse"</em> 
-          p Výsledky hledání jsou řazeny abecedně. Ustálená slovní spojení jsou podřazena pod příslušná hesla a jsou označeny ikonou: <img src="editor/img/spojeni.png" />. Ve výsledcích hledání je zobrazen i seznam všech ustálených slovních spojení, která jsou pod dané heslo zařazena.
+          h3 Hledání na základě znaků znakového jazyka
+           .row.row-start
+            .col-2 style="width:50%;"
+              ul
+               li Zvolte jazyk ve kterém chcete vyhledávat (pokud chcete hledat překlady, zvolte zdrojový a cílový jazyk).
+               li Zadejte základní parametry vyhledávaného znaku pomocí virtuální klávesnice.
+               li Je možné zadat tvar(y) dominantní ruky, znakovací prostor (místo artikulace), specifikovat zda hledáte jednoruční či dvouruční znak. V případě že zadáte volbu "totožný tvar dominantní a nedominantní ruky", nebo "obě ruce vykonávají pohyb", volba "obouruční znak" je vybrána automaticky. Pokud není upřesněno, základní volba pro hledání je omezena na jednoruční znaky.
+               li Více detailů je možné zadat pomocí systému SignWriting (v tuto chvíli nedostupné).
+               li
+                 em (Volitelné) Zadejte slovní druh hledanéhoé výrazu (znaku).
+               li Klikněte na ikonu pro spuštění vyhledávání (img).
+               li Na stránce se vám zobrazí dohledané výrazy.
+                li Detaily o dohledaných výrazech můžete zobrazit kliknutím na výraz.
+                li Jednotlivé ekvivalenty (překlady) jsou zařazeny vždy pod konkrétní význam slova (znaku).
+            .col-2
+              video src="/img/help/helpIS-EN.mp4" height="300" controls=true autoplay=true
+           
+          h3 id="keyboard" Virtuální klávesnice pro znakový jazyk
+          p Virtuální klávesnice slouží pro zadávání parametrů (jednotlivých částí) znaků znakového jazyka. Umožňuje zadat tvary dominantní (hlavní) ruky, specifikovat znakovací prostor (místo artikulace). Dále je možné specifikovat jednoruční či dvouruční znak, shodnost tvaru dominantní a nedominantní ruky a aktivitu rukou.
+          table class="table table--limit"
+            tbody
+              tr
+                td
+                  img src="/img/keys_dark/hands.png" align="left"
+                td Dvouruční volby
+              tr
+                td
+                  img src="/img/keys_dark/one-hand.png" align="left"
+                td Volba "jednoruční znak"
+              tr
+                td
+                  img src="/img/keys_dark/two-hand.png" align="left"
+                td Volba "obouruční znak"
+              tr
+                td
+                  img src="/img/keys_dark/symetric.png" align="left"
+                td Volba "totožné tvary (dominantní a nedominantní ruky)"
+              tr
+                td
+                  img src="/img/keys_dark/both-move.png" align="left"
+                td Volba "obě ruce aktivní"
       
-          h3 Vyhledávání ve slovnících znakových jazyků
-          p Hesla libovolného znakového jazyka lze vyhledávat třemi různými způsoby. Hesla jsou řazena v závislosti na způsobu hledání hesel.
-          p 
-            strong Hledání podle tvarů ruky a místa artikulace
-
-          iframe style="margin-left: 10px; margin-top: 10px; float: right;" id="if1" src="https://www.youtube.com/embed/RP_Dwtkc2mw?rel=0" allowfullscreen="" frameborder="0" height="250" width="394">
-
-          p Znaky je možné vyhledávat na základě zadaných tvarů dominantní ruky a (nebo) místa artikulace. <br />
-            | Tvary v&nbsp;nabídce tvarů rukou jsou řazeny dle české úpravy Stokoeho notačního systému. <br /><img src="/media/img/hgroup.png" align="left"/>Tvary označené zeleným orámováním reprezentují skupinu více vzájemně podobných tvarů ruky, které lze zadat do hledání současně. <br />
-            | <img src="/img/help/hselect.png" align="left"/>Vybraný tvar ruky (tvary rukou) se do parametrů hledání zadá kliknutím na konkrétní tvar. Tvar zadávaný do hledání je graficky zvýrazněný. <br />Místo artikulace se do vyhledávacího formuláře zadá stejným způsobem.<br />Zadané parametry hledání se zobrazují v&nbsp;modře vyznačené oblasti vyhledávacího formuláře. <br />
-            | Symboly z parametrů hledání je možné odebrat kliknutím na vybraný symbol. 
-
-          p Při hledání jednoručního znaku není potřeba hledání nijak dále upřesňovat.
-          p Pro hledání dvouručního znaku slouží další volby, které umožňují zadat další vlastnosti hledaného znaku (totožnost dominantní a nedominantní ruky, aktivnost obou rukou). 
-          p Hesla jsou řazena podle toho, jak odpovídají zadaným parametrům hledání. Nejdříve jednoduché znaky, dále znaky odvozené a složené.
-          p <strong>Hledání pomocí systému SignWriting</strong><br />Tato volba umožňuje zadat velmi přesně transkripci hledaného znaku. Symboly, které má hledaný znak obsahovat, je možné zadat pomocí nástroje, který se otevře po kliknutí na "zadat / upravit". Jednotlivé symboly se vybírají přetažením do pracovního pole. Podskupiny symbolů se otevřou automaticky po kliknutí na vybraný symbol. Pro návrat na základní nabídku symbolů slouží úzký svislý pruh mezi pracovní plochou a nabídkou symbolů.
-          p Slovník hledá přesnou shodu výplně a orientace symbolů <em>(toto bude do budoucna rozšířeno o další možnosti)</em>.
-          p Z libovolného znaku lze podobné vyhledat také přetažením příslušného SignWritingu do vyhledávacího formuláře. Takto zadané symboly pro hledání můžete dodatečně upravit pomocí editoru přes volbu "zadat / upravit".
-          p <strong>Hledání pomocí ekvivalentu v mluveném jazyce </strong> <br />  Tato volba vyhledává znaky znakového jazyka na základě jejich přiřazených ekvivalentů mluveného jazyka.  Vyhledávání je možné pouze na základě domácího mluveného jazyka dané země. Konkrétní kombinace jsou uvedené v následující tabulce:
-          table style="margin-top: 10px;"
-            tr
-              td český znakový jazyk
-              td čeština
-            tr
-              td slovenský znakový jazyk
-              td slovenština
-            tr
-              td rakouský znakový jazyk
-              td němčina
-            tr
-              td americký znakový jazyk
-              td angličtina
-            tr
-              td mezinárodní znaky
-              td angličtina
-  
-          p Hesla jsou ve výsledcích hledání řazena abecedně, podle jednotlivých textových ekvivalentů.
-
           h2 id="heslo" Struktura slovníkového hesla
+          p Každé heslo se skládá z následujících částí:
+          ul
+            li Záhlaví
+            li Formální část (gramatické informace a pod.)
+            li Významová část
+            li Slovní spojení
+              
+          h3 Záhlaví
+          p Záhlaví hesla <strong>mluveného jazyka</strong> je tvořeno lemmatem tj. základní (slovníkovou) podobou lexému zobrazenou v&nbsp;souladu s kodifikovaným pravopisem (1), a je doplněno údajem o výslovnosti (3), pokud výslovnost není jednoznačná. Může obsahovat i pravopisnou variantu (2), pokud je kodifikováno více možností zápisu. 
+           img src="/img/help/headerwriteEN.png" align="left"
+          p Záhlaví hesla <strong>znakového jazyka</strong> obsahuje více forem zachycující lemma samotné: video z čelního (1) i bočního (2) pohledu a transkripce SignWriting (3) případně HamNoSys (4). Video je doplněno o dominanci mluvčího (5). L: levá, P: pravá dominance. Lemma je reprezentováno více formamí kvůli absenci konvenční formy zápisu. Pro účely slovníku je za základní formu (lemma) považován videozáznam z čelního pohledu.
+           img src="/img/help/headersignEN.png" align="left"
 
-          p Slovníkové heslo se obecně skládá ze tří barevně odlišených částí:
-          p style="background-color: #D7E1E4;" ZÁHLAVÍ HESLA 
-          p style="background-color: #E7EDDF;" FORMÁLNÍ ČÁST HESLA
-          p style="background-color: #E1EFF6;" SÉMANTICKÁ ČÁST HESLA a USTÁLENÁ SPOJENÍ 
-
-          h3 Záhlaví slovníkového hesla
-          p Záhlaví hesla <strong>mluveného jazyka</strong> je tvořeno lemmatem, tj.  základní (slovníkovou) podobou lexému zobrazenou v&nbsp;souladu s kodifikovaným pravopisem (1), a je doplněno údajem o výslovnosti (2), pokud výslovnost není jednoznačná.
-          img src="/img/help/nahled_lemma_cj.png" 
-          p Vzhledem k tomu, že u <strong>znakových jazyků </strong>obecně není konvenční forma zápisu ustálena, lexém znakového jazyka reprezentován více formami. Pro účely slovníku je za základní formu (lemma) považován videozáznam z čelního pohledu (1), který je doplněn pohledem z boku (lze zobrazit přepínačem). <em>Videozáznam doplňuje informace o stranové dominanci mluvčího, která je umístěna v horním rohu obrazu (L: dominantní levá ruka, R: pravá ruka)</em>. <br />Dále jsou uváděny transkripce systémem SignWriting (2) a HamNoSys (3) a vizualizace avatarem (4). <em>Transkripce jsou uváděny bez ohledu na stranovou dominanci mluvčího vždy ve formě s dominantní pravou rukou.</em> 
-          img src="/img/help/nahled_lemma_czj.png" 
-          p Všechny zveřejněné lexémy obsahují transkripci systémem SignWriting. Zobrazení avataru je podmíněno existencí transkripce systémem HamNoSys u daného lexému <em>(tato funkce je dostupná pouze u několika vybraných hesel). </em>
-
-          h3 Formální část hesla
-          p Formální část českého hesla zahrnuje tyto údaje:
-          ul 
+          h3 Formální část 
+          p Formální část hesla <strong>mluveného jazyka</strong> zahrnuje tyto údaje:
+          ul
             li původ slova (pokud jde o slovo přejaté),
             li slovní druh,
             li možné varianty (pravopisné, morfologické),
             li morfologické paradigma ohebných slovních druhů (tabulku s přehledem tvarů),
             li stylistická specifika (teritoriální, sociální nebo stylové omezení použití výrazu).
-          p U <strong> znakového jazyka</strong> je formální část kvůli přehlednosti rozdělena i vizuálně na část gramatickou a&nbsp;stylistickou. Gramatická část zahrnuje tyto údaje:
+          
+          p Formální část hesla <strong> znakového jazyka</strong> obsahuje následující údaje:
           ul
             li původ znaku
             li slovní druh (více viz část <a href="#kategorie">Kategorie lexikálních jednotek ČZJ</a>)
             li mluvní komponent - je uváděn pouze u lexémů, kde je mluvní komponent při artikulaci povinný, je uváděn malými písmeny. Část slova uvedená v závorce je nepovinná. Více možných variantních mluvních komponentů je odděleno lomítkem. Př.: "term(ín)/datum".<br />orální komponent -  je uveden pouze v případě, že je povinný.
-          p <a href="#seznam">Seznam užitých zkratek</a> níže. 
+          p <a href="#seznam">Seznam užitých zkratek</a> níže.
 
           h3 Sémantická část
           p Tato část zahrnuje výklad významu, příklady užití, informace o významových vztazích a ustálené víceslovné vazby obsahující vykládaný výraz.
           p <strong>Výklad významu</strong> (sémantická definice) respektuje zažitou formu slovníkové definice s drobnými úpravami pro znakový jazyk, které byly motivovány snahou o zachování přirozenosti definice jakožto výpovědi v daném jazyce (např. není vyžadován stejný slovních druh výrazu v záhlaví a výrazu tvořícího jádro významového výkladu; je akceptováno opakování vykládaného výrazu v úvodu definice). V souladu s lexikografickou tradicí jsou všechny významy, které se vztahují k jedné formě, řazeny do jednoho slovníkového hesla. Rozlišuje se homonymie (řazeno do více hesel) a polysémie (řazeno pod jedno heslo), v nejasných případech jsou jednotlivé významy řazeny pod jedno heslo. Jednotlivé výklady významu mohou být navíc označeny jednou z významových (sémantických) oblastí, která podává informaci o kontextu (vědní obor nebo obecně odvětví lidské činnosti), ve kterém se s příslušným výrazem v uvedeném významu lze obvykle setkat. Toto značení je přebíráno z původních zdrojů tam, kde je převzata i původní definice, u nově vzniklých hesel (především hesel terminologické povahy) je v případě potřeby přiřazena jedna ze sémantických oblastí zavedených v používaných zdrojích (o zdrojích podrobněji na stránce "<a href="/czj?action=page&page=about">O slovníku</a>"). Významy označené konkrétní oblastí následují po významech obecných (tj. po významech bez příslušnosti ke konkrétní oblasti). <!--Úplný seznam používaných sémantických oblastí je k nahlédnutí zde.-->
           p <strong>Příklady užití </strong> mají formu vět, případně výpovědí. Jejich účelem je demonstrovat gramatické (případně stylistické) vlastnosti i konkrétní významové odstíny popisovaného slova. V některých případech je tento oddíl zaměřen spíše na ukázky užití slova v typických syntaktických vazbách (např. s několika typickými slovesy nebo předložkami), jindy se jedná spíše o konkretizaci a zpřesnění významové definice. Příklady jsou v současné době získávány z několika zdrojů: v případě českého znakového jazyka vznikají přímo v pracovních skupinách, jsou tedy účelně tvořeny (nebo kontrolovány a schvalovány) rodilými uživateli českého znakového jazyka; v případě češtiny jsou a) dohledávány v korpusu existujících textů pomocí nástroje Sketch Engine (zdroje korpusu pro češtinu lze nalézt <a href="http://www.sketchengine.co.uk/documentation/wiki/Corpora/czes">zde</a>; b) přebírány ze zdrojových slovníků a přeformulovány do podoby vět v případě, že není vhodný příklad nalezen v korpusu.
           p Další informací v tomto poli jsou<strong> významové vztahy</strong> k jednotkám daného jazyka (<strong>synonyma, antonyma</strong>) a k jednotkám dalších jazyků obsažených ve slovníku (<strong>překlad</strong> <em>(překlady jsou vždy označené zkratkou cílového jazyka (čeština: cz, angličtina: en, český znakový jazyk: čzj, mezinárodní znakový systém: is, americký znakový jazyk: asl))</em>. Položky v této části významového oddílu hesla mohou nést odkaz na další samostatné heslo (např. z hesla v češtině se lze dostat jedním kliknutím na heslo významového ekvivalentu v českém znakovém jazyce), nebo mohu mít formu prostého textu. V případě druhé možnosti ještě není odpovídající heslo zpracované (odkaz se objeví v budoucnu), nebo není účelné ho pro slovník zpracovávat (např. pokud je znak překládán slovním spojením v češtině, které není ustálené).
+          
+          h3 Slovní spojení
           p Poslední položkou slovníkového hesla jsou ustálená spojení obsahující vysvětlovaný lexém. Do této části jsou řazeny jak kratší slovní spojení (frazémy, idiomy, některá přirovnání), tak celá přísloví a pořekadla. Kritériem pro zařazení víceslovných jednotek do slovníku je jejich idiomatický charakter: význam celého spojení není pravidelně odvoditelný pouze z významu jednotlivých lexémů.
-
-          h2 id="nastaveni" Nastavení <img src="/img/help/setting.png">
-          p Nastavení slovníku lze provést v několika úrovních.
-          p <strong>1) Základní nastavení</strong>  <br />
-          ul
-            li <em><strong>výchozí typ slovníku</strong></em> umožňuje zvolit, který slovník se bude zobrazovat při otevření základní stránky, tedy dictio.info. Volit lze mezi výkladovým a překladovým slovníkem. 
-            li <em><strong>Výchozí slovník</strong></em> určuje který slovník bude zobrazen při přechodu na základní stránkuk dictio.info. 
-            li <em><strong>Jazyk rozhraní</strong></em> je k dispozici ve třech jazykových mutacích. Češtině, slovenštině a angličtině. Tato volba určí, který jazyk rozraní bude implicitně použit. Jazyk rozhraní lze také měnit v horním pravém rohu stránky.
-            li <em><strong>Formát videa</strong></em> určuje, který formát videí bude použit jako výchozí. K dispozici jsou videa ve formátu mp4 a webm. Pro aktuálně zobrazené heslo lze formát také změnit v pravém horním rohu stránky.
-          p <strong>2) Jazyková nastavení</strong><br /> Jazyková nastavení umožňují navolit jazyky slovníků, se kterými se má pracovat. Slovníky zvolených jazyků budou zobrazeny v jazykových volbách a ve výkladovém slovníku budou také zobrazeny pouze překlady do zvolených jazyků.
-          p V základním nastavení se zobrazuje jen slovník češtiny a českého znakového jazyka.
-          p Dále lze nastavit, které části hesla mají být zobrazeny, respektive skryty <em>(uplatní se pouze pro slovníky znakových jazyků)</em>. V základním nastavení se zobrazují všechny části hesla.
-
-          h2 id="prepinace" Přepínače
-          ul
-            li <img src="/img/help/jazyk_rozhrani.png" align="left" /> jazykový přepínač slouží pro změnu jazyka rozhraní. 
-            li <img src="/img/help/format_videa.png" align="left" /> přepínač formátu videa slouží k dočasné změně formátu videí zobrazených na stránce. Po přechodu na jinou stránku se změna zruší. Typicky slouží v případě problémů s přehráváním videa v konkrétním hesle. <br />V případě přetrvávajících problémů s přehráváním videí v prohlížeči Chrome bývá potřeba vymazat aktuální cache.
 
           h2 id="kategorie" Kategorie lexikálních jednotek českého znakového jazyka
           p První informací uváděnou ve formálním popisu hesla v českém znakovém jazyce je lexikální kategorie znaku. Jako v každém přirozeném jazyce lze i v českém znakovém jazyce rozlišovat skupiny výrazů, které vykazují určité shodné morfologické, syntaktické (distribuční) a sémantické vlastnosti. Napříč jazyky světa jsou tyto systematické shody (a rozdíly) tradičně zachycovány klasifikací do tzv. lexikálních kategorií (v češtině označovaných jako slovní druhy). Definování jednotlivých lexikálních kategorií na základě kombinace morfologických, syntaktických a sémantických vlastností slovních jednotek je tedy považováno za dostatečně obecný nástroj pro systematizaci slovní zásoby jakéhokoliv přirozeného jazyka. V souladu s touto tradicí přiřazujeme ve slovníku každé lexikální jednotce zpravidla jednu lexikální kategorii. Je zřejmé, že vzhledem ke gramatické struktuře znakových jazyků obecně a ke stupni teoretického zpracování konkrétně českého znakového jazyka není třídění do lexikálních kategorií procesem jednoznačným, a je proto třeba stručně okomentovat postup, který uplatňujeme, a definovat termíny, které ve slovníku používáme.            
           p Naší strategií je využít poznatky obecné lingvistiky na jedné straně a dosavadního výzkumu českého znakového jazyka na straně druhé. Nebráníme se tedy aplikování tradičních lexikálních kategorií tam, kde materiál českého znakového jazyka klasifikaci podle těchto kategorií umožňuje. V ostatních případech využíváme některé termíny z odborných prací o českém znakovém jazyce nebo používané v zahraniční literatuře. Vzhledem k faktu, že ucelený teoretický popis gramatiky českého znakového jazyka je v současné době stále předmětem práce příslušných akademických pracovišť, neklade si klasifikace, kterou nabízíme, vyšší cíl než poskytnout odrazový můstek pro další odbornou diskuzi.  <br />          Z tradičních slovních druhů používáme jako lexikální kategorii pro popis lexika českého znakového jazyka následující: <em>podstatné jméno, sloveso, zájmeno, číslovka, spojka a částice</em>. Z odborných prací o českém znakovém jazyce přijímáme dále kategorii označovanou termínem <em>kategorizační výraz<sup>1</sup></em>. Ze zahraniční tradice přebíráme termíny classifier, size and shape specifier, modifier a wh-word, které překládáme jako klasifikátor, specifikátor tvaru a velikosti, modifikátor a tázací výraz.
-          p 
+          p
             strong Kritéria pro zařazení znaku do lexikálních kategorií
           p
             strong 1) Podstatné jméno
-          p Mezi podstatná jména jsou řazeny znaky, které splňují následující kritéria: 
+          p Mezi podstatná jména jsou řazeny znaky, které splňují následující kritéria:
           ul
             li sémantické: označují entity (osoba, zvíře, věc…) nebo vlastnosti, materiály apod.
             li syntaktická: a) jsou spojitelné se základními číslovkami a jinými kvantifikátory; b) prosté kladení dalšího podstatného jména je vždy interpretována koordinačně
@@ -170,28 +133,28 @@ main role="main"
           p V rámci podstatných jmen jsou rozlišovány dvě podskupiny: obecná a vlastní. <strong>Obecná</strong> podstatná jména označují skupiny entit (třídy osob, předmětů, jevů apod.). <strong>Vlastní</strong> podstatná jména, nebo také jmenné znaky, označují jednu konkrétní entitu, kterou odlišují od ostatních téhož druhu a určují ji tím jako jedinečnou v rámci dané třídy.  
           p
             strong 2) Sloveso
-          p Mezi slovesa jsou řazeny znaky, které splňují následující definovaná kritéria: 
+          p Mezi slovesa jsou řazeny znaky, které splňují následující definovaná kritéria:
           ul
             li sémantické: vyjadřují děje nebo stavy
             li syntaktické: nespojují se se základními číslovkami
             li morfologická: i) vykazují různé typy shody (místo, číslo); ii) možná je aspektová modifikace nemanuálními prostředky; iii) reduplikace je prostředkem aspektu (případně objektové shody v čísle)
           p Pomocnými orientačními kritérii může být i výskyt orálního komponentu (v kontrastu k mluvnímu komponentu u&nbsp;podstatných jmen) nebo možnost negace nemanuálními prostředky.
           p Na základě dalších kritérií jsou slovesa zařazována k následujícím podskupinám: prosté, prostorové, shodové, klasifikátorové. Prostá slovesa se zpravidla artikulují na těle nebo v jeho těsné blízkosti, nepřibírají afixy osoby, místa ani čísla, některá přibírají afixy aspektu. <b>Prostorová</b> slovesa přibírají afixy místa, nepřibírají afixy osoby, čísla ani aspektu. <b>Shodová</b> slovesa přibírají afixy osoby, čísla a aspektu, nepřibírají afixy místa. <b>Klasifikátorová</b> slovesa inkorporují klasifikátorové tvary ruky.  
-          p 
+          p
             strong 3) Zájmeno
-          p Do zájmen jsou řazeny výhradně výrazy s deiktickou nebo anaforickou funkcí. Lze je dále dělit na zájmena ukazovací a přivlastňovací. <strong>Ukazovací</strong> zájmena jsou výrazy, jejichž referentem je účastník komunikace, případně objekt v komunikační situaci (deiktické užití), nebo znak (anaforické užití), ke kterému směřuje natažený ukazovák (případně další prsty u plurálových forem). <strong>Přivlastňovací</strong> zájmena jsou výrazy, které vyjadřují příslušnost k účastníkovi komunikace nebo znaku, ke kterému míří dlaň mluvčího. 
+          p Do zájmen jsou řazeny výhradně výrazy s deiktickou nebo anaforickou funkcí. Lze je dále dělit na zájmena ukazovací a přivlastňovací. <strong>Ukazovací</strong> zájmena jsou výrazy, jejichž referentem je účastník komunikace, případně objekt v komunikační situaci (deiktické užití), nebo znak (anaforické užití), ke kterému směřuje natažený ukazovák (případně další prsty u plurálových forem). <strong>Přivlastňovací</strong> zájmena jsou výrazy, které vyjadřují příslušnost k účastníkovi komunikace nebo znaku, ke kterému míří dlaň mluvčího.
           p
             strong 4) Číslovka
-          p Mezi číslovky jsou řazeny výrazy, jejichž význam se týká počtu a čísel. Na základě dalších kritérií, zpravidla sémantických, rozlišujeme číslovku základní, řadovou, násobnou, ikonickou a neurčitou. <strong>Základní</strong> číslovky označující prostý určitý počet, artikulují se v neutrálním prostoru. <strong>Řadové</strong> číslovky vyjadřují pořadí a mají bohatší flektivní morfologii (obvyklý je některý z typů posunu v prostoru, někdy mění i orientaci). <strong>Násobné</strong> číslovky vyjadřují počet opakování děje, frekvenci děje nebo míru překročení určité vlastnosti při srovnávání. <strong>Ikonické</strong> číslovky jsou takové, při jejichž artikulaci je pomocí pohybu napodobena písemná podoba odpovídající číslice (zcela nebo částečně). <strong>Neurčité číslovky</strong> jsou výrazy vyjadřující neurčitý počet. 
+          p Mezi číslovky jsou řazeny výrazy, jejichž význam se týká počtu a čísel. Na základě dalších kritérií, zpravidla sémantických, rozlišujeme číslovku základní, řadovou, násobnou, ikonickou a neurčitou. <strong>Základní</strong> číslovky označující prostý určitý počet, artikulují se v neutrálním prostoru. <strong>Řadové</strong> číslovky vyjadřují pořadí a mají bohatší flektivní morfologii (obvyklý je některý z typů posunu v prostoru, někdy mění i orientaci). <strong>Násobné</strong> číslovky vyjadřují počet opakování děje, frekvenci děje nebo míru překročení určité vlastnosti při srovnávání. <strong>Ikonické</strong> číslovky jsou takové, při jejichž artikulaci je pomocí pohybu napodobena písemná podoba odpovídající číslice (zcela nebo částečně). <strong>Neurčité číslovky</strong> jsou výrazy vyjadřující neurčitý počet.
           p
             strong 5) Spojka
-          p Jako spojky jsou řazeny znaky, které vyjadřují různé logické vztahy mezi dvěma větami nebo větnými členy. 
+          p Jako spojky jsou řazeny znaky, které vyjadřují různé logické vztahy mezi dvěma větami nebo větnými členy.
           p
             strong 6) Částice
-          p Mezi částice jsou řazeny výrazy vyjadřující postoj mluvčího k výpovědi. V rámci této skupiny jsou jako zvláštní typ vyčleňovány kontaktové a záporné částice. <strong>Kontaktové</strong> částice jsou výrazy, pomocí nichž mluvčí dává najevo, že očekává další interakci. <strong>Záporné</strong> částice jsou znaky schopné negovat větný člen nebo celou větu. 
+          p Mezi částice jsou řazeny výrazy vyjadřující postoj mluvčího k výpovědi. V rámci této skupiny jsou jako zvláštní typ vyčleňovány kontaktové a záporné částice. <strong>Kontaktové</strong> částice jsou výrazy, pomocí nichž mluvčí dává najevo, že očekává další interakci. <strong>Záporné</strong> částice jsou znaky schopné negovat větný člen nebo celou větu.
           p
             strong 7) Kategorizační výraz
-          p Třída kategorizačních výrazů je definována výčtově podle Půlpánové (2007). Ze sémantického pohledu jde o více či méně gramatikalizované výrazy se schopností uspořádávat hypero-hyponymické vztahy mezi lexémy, přesněji odlišuje nadřazenou nebo podřazenou rovinu od základní. 
+          p Třída kategorizačních výrazů je definována výčtově podle Půlpánové (2007). Ze sémantického pohledu jde o více či méně gramatikalizované výrazy se schopností uspořádávat hypero-hyponymické vztahy mezi lexémy, přesněji odlišuje nadřazenou nebo podřazenou rovinu od základní.
           p
             strong 8) Modifikátor
           p Mezi modifikátory jsou řazeny znaky blíže určující entitu nebo slovesný děj. Dělíme je na: kvalifikační, prostorové, časové a aspektové.  <strong>Kvalifikační</strong> vyjadřují vlastnosti entit nebo dějů; od ostatních skupin se liší tím, že jsou typicky stupňovatelné. <strong>Prostorové</strong> modifikátory jsou zpravidla deiktické výrazy, které kromě umístění objektu v&nbsp;prostoru mohou znázorňovat i dráhu pohybu. <strong>Časové</strong> modifikují děj výpovědi, mohou fungovat jako časový rámec výpovědi; od ostatních skupin se liší tím, že inkorporují číselné morfémy; případná reduplikace pak vyjadřuje frekvenci, nikoliv plurál. <strong>Aspektové</strong> modifikují děj z hlediska jeho začátku, konce a průběhu, případně absence realizace. Pojí se tedy výhradně se slovesy.
@@ -199,11 +162,11 @@ main role="main"
             strong 9) Tázací výraz
           p Tázacími výrazy označujeme ty znaky, které odpovídají v lingvistice běžnému pojmu wh-words. Jde o znaky sloužící k tvorbě doplňovacích otázek.
 
-          p 
+          p
             strong Citované zdroje:
           ul
             li 1)  PŮLPÁNOVÁ, L. Kategorizace v českém znakovém jazyce. Magisterská diplomová práce, Praha: Univerzita Karlova 2007.
-            li 2)   Např. BÍMOVÁ, P. Klasifikace sloves ve znakových jazycích. [online]. [cit. 2014-11-05]. Dostupné z: http://ruce.cz/clanky/30-klasifikace-sloves-ve-znakovych-jazycich. VALLI, C. - LUCAS, C. - MULROONEY, K.J. - VILLANUEVA, M. Linguistics of American Sign Language: An Introduction. 5. vyd. Washington: Gallaudet University Press, 2011. 
+            li 2)   Např. BÍMOVÁ, P. Klasifikace sloves ve znakových jazycích. [online]. [cit. 2014-11-05]. Dostupné z: http://ruce.cz/clanky/30-klasifikace-sloves-ve-znakovych-jazycich. VALLI, C. - LUCAS, C. - MULROONEY, K.J. - VILLANUEVA, M. Linguistics of American Sign Language: An Introduction. 5. vyd. Washington: Gallaudet University Press, 2011.
 
           h2 id="seznam" Seznam použitých značek pro orální komponenty českého znakového jazyka
           ul
@@ -211,8 +174,8 @@ main role="main"
             li() [<strong>At</strong>]  ústa otevřená (A), jazyk se opírá o dolní ret (částečné “t”)
             ul
               li() [<strong>At+</strong>] ústa otevřená (A), jazyk vyčnívá ven bez kontaktu se zuby
-            li() [<strong>E</strong>] ústa jsou ve tvaru bezhlasného vyslovení dané samohlásky 
-            li() [<strong>I</strong>] ústa jsou ve tvaru bezhlasného vyslovení dané samohlásky 
+            li() [<strong>E</strong>] ústa jsou ve tvaru bezhlasného vyslovení dané samohlásky
+            li() [<strong>I</strong>] ústa jsou ve tvaru bezhlasného vyslovení dané samohlásky
             li() [<strong>O</strong>] ústa jsou ve tvaru bezhlasného vyslovení dané samohlásky  
             li() [<strong>U</strong>] ústa jsou ve tvaru bezhlasného vyslovení dané samohlásky
             ul
@@ -220,19 +183,19 @@ main role="main"
             li() [<strong>B</strong>] nafouknuté tváře
             li() [<strong>P</strong>] proražené rty
             ul
-              li() [<strong>P-</strong>] rty jsou jemně semknuté 
+              li() [<strong>P-</strong>] rty jsou jemně semknuté
             li() [<strong>V</strong>]  zuby opřené o dolní ret        
             li() [<strong>M</strong>] sepjaté/semknuté rty           
             li() [<strong>Mu</strong>] vyšpulené rty/ústa (ústa jsou zavřená - M, vyšpulená - u)  
             li() [<strong>S</strong>] koutky úst jsou roztažené, zuby jsou vyceněné  
             li() [<strong>Š</strong>] našpulené rty a vypouštění vzduchu ven z úst
             ul
-              li() [<strong>Š&gt;</strong>] protažené rty, vypouštění vzduchu ven z úst 
+              li() [<strong>Š&gt;</strong>] protažené rty, vypouštění vzduchu ven z úst
             li() [<strong>T</strong>] jazyk prostrčený mezi zuby, který je podobný artikulaci anglického „TH“/pootevřená ústa, zuby svírají jazyk, který se opírá o spodní ret (Vysuček, 2008)
             ul
               li() [<strong>T+</strong>] jazyk hodně vyčnívá z úst, zuby svírají jazyk  
             li() [<strong>L</strong>] jazyk zavadí o zadní stranu horních zubů při prudkém pohybu směrem dolů/jazyk tře o horní patro směrem dopředu dolů  
-            li() [<strong>L</strong>] <em>(v kombinaci s doplňkovým symbolem ( nebo ) )</em> jazyk zavadí o stranu tváře 
+            li() [<strong>L</strong>] <em>(v kombinaci s doplňkovým symbolem ( nebo ) )</em> jazyk zavadí o stranu tváře
             li() [<strong>~</strong>] kmitající rty                                
             li() [<strong>/\</strong>]  svěšené koutky úst u semknutých rtů      
           p <strong>Doplňkové značky</strong> (používají se v kombinaci se základními)
@@ -241,14 +204,16 @@ main role="main"
             li() [<strong>(</strong>] levá strana úst/tváře
             li() [<strong>+</strong>] větší intenzita základního symbolu <em>(např. větší míra protažení rtů dopředu, větší míra nafouknutí tváří)</em>
             li() [<strong>–</strong>] menší intenzita základního symbolu <em>(např. vtažení rtů nebo tváří dovnitř úst)</em>
-            li() [<strong>&gt;</strong>] vyfukování vzduchu ven z úst. 
-            li() [<strong>&lt;</strong>] vdechování vzduchu 
+            li() [<strong>&gt;</strong>] vyfukování vzduchu ven z úst.
+            li() [<strong>&lt;</strong>] vdechování vzduchu
             li() [<strong>x</strong>] vzduch je držen v ústech  
-            li() [<strong>/</strong>] označení různých hlásek majících stejný nebo hůře rozpoznatelný ústní vzorec v konkrétním projevu 
+            li() [<strong>/</strong>] označení různých hlásek majících stejný nebo hůře rozpoznatelný ústní vzorec v konkrétním projevu
 
           p Komponenty částečně převzaty z bakalářské práce: Mareš, J. Orální komponenty. Bakalářská práce. Praha: FF UK, 2011, částečně z diplomové práce: Vysuček, P. Specifické znaky v českém znakovém jazyce. Diplomová práce. Praha: FF UK, 2009; vlastní návrhy na základě obou prací.)
     
           h2 id="poznamky" Terminologické poznámky ke gramatickým informacím ČZJ
-          p Lexémy označené jako "<strong>znakové páry</strong>" (u znakového jazyka) jsou takové lexémy, které spolu úzce souvisí jak formálně, tak i významově. Jedna z forem bývá obvykle řazena k podstatnému jménu, zatímco druhá forma ke slovesu. 
+          p Lexémy označené jako "<strong>znakové páry</strong>" (u znakového jazyka) jsou takové lexémy, které spolu úzce souvisí jak formálně, tak i významově. Jedna z forem bývá obvykle řazena k podstatnému jménu, zatímco druhá forma ke slovesu.
           p <strong>Variantami</strong> v českém znakovém jazyce rozumíme takové lexémy, které se vzájemně liší a) jedním fonémem b) připojeným klasifikátorem resp. specifikátorem, avšak sémanticky se zcela shodují, jsou ve stejném kontextu zaměnitelné.
+
+
 
