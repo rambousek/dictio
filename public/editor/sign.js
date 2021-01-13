@@ -722,6 +722,8 @@ function check_perm(heslo_skupina, user_skupina, user_perm) {
     //komparator jen komentare
     if (user_perm.indexOf('editor_komparator') > -1) {
       Ext.each(Ext.getCmp('tabForm').query('[name=commentbutton]'), function(item) {item.setDisabled(false)})
+      Ext.getCmp('media').setDisabled(false);
+      Ext.each(Ext.getCmp('mediabox').query('component[name=mediaiteminfo]'), function(item) {item.setDisabled(true);})
     }
 
     //revizor
@@ -3500,6 +3502,7 @@ function create_media(entryid, upload, vidid) {
           height: 120,      
         },{
           xtype: 'container',
+          name: 'mediaiteminfo',
           layout: {
             type: 'vbox'
           },
