@@ -1303,6 +1303,9 @@ function reload_files(id, search, add_preview, load_variant, type) {
       if (add_preview == true) {
         add_videopreview();
       }
+      if (Ext.getCmp('tabForm').query('component[name="userperm"]')[0].getValue().indexOf('editor_komparator') > -1) {
+        Ext.each(Ext.getCmp('mediabox').query('component[name=mediaiteminfo]'), function(item) {item.setDisabled(true);})
+      }
       if (load_variant == true) {
         var variants = Ext.getCmp('tabForm').query('[name=variantitem]');
         for (var i = 0; i < variants.length; i++) {
