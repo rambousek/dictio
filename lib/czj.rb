@@ -704,17 +704,21 @@ class CZJDict < Object
       olddata['meanings'].each{|m|
         oldmeans << m['id']
         oldrels[m['id']] = []
-        m['relation'].each{|r|
-          oldrels[m['id']] << r
-        }
-        m['usages'].each{|u|
-          if u['relation']
-            oldrels[u['id']] = []
-            u['relation'].each{|ur|
-              oldrels[u['id']] << ur
-            }
-          end
-        }
+        if m['relation']
+          m['relation'].each{|r|
+            oldrels[m['id']] << r
+          }
+        end
+        if m['usages']
+          m['usages'].each{|u|
+            if u['relation']
+              oldrels[u['id']] = []
+              u['relation'].each{|ur|
+                oldrels[u['id']] << ur
+              }
+            end
+          }
+        end
       }
       #removed meanings?
       oldmeans.each{|mi|
@@ -735,7 +739,7 @@ class CZJDict < Object
         #remove relations
         if oldrels[m['id']]
           oldrels[m['id']].each{|olr|
-            if m['relation'].select{|r| r['meaning_id']==olr['meaning_id'] and r['type']==olr['type']}.length == 0
+            if m['relation'] and m['relation'].select{|r| r['meaning_id']==olr['meaning_id'] and r['type']==olr['type']}.length == 0
               $stderr.puts 'smazat relation '+olr['meaning_id']
               if olr['type'] == 'translation'
                 target = olr['target'].to_s
@@ -747,18 +751,20 @@ class CZJDict < Object
           }
         end
         #add relations
-        m['relation'].each{|rel|
-          $stderr.puts 'pridat relation '+rel['meaning_id']
-          if rel['type'] == 'translation'
-            target = rel['target'].to_s
-          else
-            target = dict
-          end
-          add_relation(target, m['id'], rel['meaning_id'], rel['type'], rel['status'], dict) 
-          if rel['meaning_id'].include?('_us') and rel['status'] == 'published' and /^([0-9]*)-.*/.match(rel['meaning_id']) != nil
-            publish_relation(target, /^([0-9]*)-.*/.match(rel['meaning_id'])[1].to_s, rel['meaning_id'], m['id'], rel['type'])
-          end
-        }
+        if m['relation']
+          m['relation'].each{|rel|
+            $stderr.puts 'pridat relation '+rel['meaning_id']
+            if rel['type'] == 'translation'
+              target = rel['target'].to_s
+            else
+              target = dict
+            end
+            add_relation(target, m['id'], rel['meaning_id'], rel['type'], rel['status'], dict) 
+            if rel['meaning_id'].include?('_us') and rel['status'] == 'published' and /^([0-9]*)-.*/.match(rel['meaning_id']) != nil
+              publish_relation(target, /^([0-9]*)-.*/.match(rel['meaning_id'])[1].to_s, rel['meaning_id'], m['id'], rel['type'])
+            end
+          }
+        end
         if m['usages']
           m['usages'].each{|usg|
             #remove relations in usages
