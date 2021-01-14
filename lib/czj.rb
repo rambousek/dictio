@@ -78,7 +78,7 @@ class CZJDict < Object
   end
 
   def get_sw(entry)
-    $stderr.puts 'GETSW'
+    $stderr.puts 'GETSW, entry ' + entry['id'].to_s
     swdoc = $mongo['sw'].find({'id': entry['id'], 'dict': entry['dict']})
     $stderr.puts swdoc.first
     if swdoc.first and swdoc.first['swmix'].length > 0
@@ -118,7 +118,7 @@ class CZJDict < Object
                 #copy from this entry
                 $stderr.puts 'get SW char from this entry ' + swid + ' = ' + (swid[0].ord-65).to_s
                 swn = swid[0].ord-65
-                entry['lemma']['swmix'] << entry['lemma']['sw'][swn].dup unless entry['lemma']['sw'][swn].nil?
+                entry['lemma']['swmix'] << entry['lemma']['sw'][swn].dup unless entry['lemma']['sw'].nil? or entry['lemma']['sw'][swn].nil?
               else
                 # copy from part
                 if swid.upcase =~ /[A-Z]/
