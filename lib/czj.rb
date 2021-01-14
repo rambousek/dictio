@@ -206,9 +206,11 @@ class CZJDict < Object
       if entry['meanings']
         entry['meanings'].each{|mean|
           entry['media'][mean['text']['file']['@media_id']] = get_media(mean['text']['file']['@media_id'], entry['dict']) if mean['text'] and mean['text']['file']
-          mean['usages'].each{|usg|
-            entry['media'][usg['text']['file']['@media_id']] = get_media(usg['text']['file']['@media_id'], entry['dict']) if usg['text'] and usg['text']['file']
-          }
+          if mean['usages']
+            mean['usages'].each{|usg|
+              entry['media'][usg['text']['file']['@media_id']] = get_media(usg['text']['file']['@media_id'], entry['dict']) if usg['text'] and usg['text']['file']
+            }
+          end
         }
       end
       if entry['lemma']['grammar_note']
