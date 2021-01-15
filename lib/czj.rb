@@ -430,7 +430,7 @@ class CZJDict < Object
       return search_query
   end
 
-  def search(dictcode, search, type, start=0, limit=nil)
+  def search(dictcode, search, type, start=0, limit=nil, more_params=[])
     res = []
     resultcount = 0
     case type
@@ -450,17 +450,31 @@ class CZJDict < Object
           fullids = []
           locale = dictcode
           locale = 'sk' if dictcode == 'sj'
-          search_cond = {'dict': dictcode, '$or': [{'lemma.title': search}, {'lemma.title_var': search}]}
-          search_cond[:$or] << {'lemma.title_dia': search} 
-          search_cond[:$or] << {'lemma.gram.form._text': search} 
+          search_cond = {'dict': dictcode}
+          search_cond_title ={'$or': [{'lemma.title': search}, {'lemma.title_var': search}]}
+          search_cond_title[:$or] << {'lemma.title_dia': search} 
+          search_cond_title[:$or] << {'lemma.gram.form._text': search} 
+          if more_params['slovni_druh'].to_s != ''
+            search_cond[:$and] = [search_cond_title,{'lemma.grammar_note.@slovni_druh'=> more_params['slovni_druh'].to_s}]
+          else
+            search_cond[:$or] = search_cond_title[:$or]
+          end
+          $stderr.puts search_cond
           cursor = @entrydb.find(search_cond, :sort => {'lemma.title'=>1})
           fullcount = cursor.count_documents
           cursor.each{|re|
             res << re if fullcount > start
             fullids << re['id']
           }
-          search_cond = {'dict': dictcode, 'id': {'$nin': fullids}, '$or': [{'lemma.title': {'$regex': /^#{search}/}}]}
-          search_cond[:$or] << {'lemma.title': {'$regex': /(^| )#{search}/}}
+          search_cond = {'dict': dictcode, 'id': {'$nin': fullids}}
+          search_cond_title = {'$or': [{'lemma.title': {'$regex': /^#{search}/}}]}
+          search_cond_title[:$or] << {'lemma.title': {'$regex': /(^| )#{search}/}}
+          if more_params['slovni_druh'].to_s != ''
+            search_cond[:$and] = [search_cond_title,{'lemma.grammar_note.@slovni_druh'=> more_params['slovni_druh'].to_s}]
+          else
+            search_cond[:$or] = search_cond_title[:$or]
+          end
+          $stderr.puts search_cond
           start = start - fullcount if start > 0
           cursor = @entrydb.find(search_cond, {:collation => {'locale'=>locale}, :sort => {'lemma.title'=>1}})
           resultcount = fullcount + cursor.count_documents

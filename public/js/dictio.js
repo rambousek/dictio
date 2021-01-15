@@ -30,13 +30,19 @@ function do_mobile_translate() {
 }
 function do_search() {
   var search = $('.search-alt__wrap #expression_search').val();
-  if (search != '') {
+  var slovniDruh = $('.search-alt__wrap #slovni_druh').val();
+  if (search != '' || slovniDruh != '') {
     var dict = $('.search-alt__wrap .translate-from').val();
     var type = 'text';
     if (($('.search-alt__wrap #expression_search').data('codes_hand') != undefined && $('.search-alt__wrap #expression_search').data('codes_hand') != '') || ($('.search-alt__wrap #expression_search').data('codes_place') != undefined && $('.search-alt__wrap #expression_search').data('codes_place') != '')) {
       type = 'key';
     }
-    var url = '/'+dict+'/search/'+type+'/'+search;
+    if (search == '') {
+      var url = '/'+dict+'/search/'+type+'/_';
+    } else {
+      var url = '/'+dict+'/search/'+type+'/'+search;
+    }
+    if (slovniDruh != '') url += '?slovni_druh='+slovniDruh;
     window.location = url;
   }
 }
@@ -362,7 +368,8 @@ $( document ).ready(function() {
     console.log(current_count)
     if (current_count < total_results) {
       var search_path = $('.load_next_search').data('search');
-      var search_url = search_path.replace('/search/', '/jsonsearch/') + '/' + current_count + '/10';
+      var slovniDruh = $('.search-alt__wrap #slovni_druh').val();
+      var search_url = search_path.replace('/search/', '/jsonsearch/') + '/' + current_count + '/10?slovni_druh='+slovniDruh;
       $.get(search_url, function(response) {
         if (response.entries) {
           response.entries.forEach((entry) => {
