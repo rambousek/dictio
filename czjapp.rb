@@ -9,7 +9,7 @@ require 'i18n'
 require 'i18n/backend/fallbacks'
 
 require_relative 'lib/czj'
-require_relative 'lib/mongo-config'
+require_relative 'lib/host-config'
 
 class CzjApp < Sinatra::Base
   $mongo = Mongo::Client.new([$mongoHost], :database => 'dictio')
@@ -50,6 +50,27 @@ class CzjApp < Sinatra::Base
 
   dict_array = {}
 
+  helpers do
+    def protected!
+      return if authorized?
+      headers['WWW-Authenticate'] = 'Basic realm="CZJ"'
+      halt 401, "Not authorized\n"
+    end
+
+    def authorized?
+      @auth ||=  Rack::Auth::Basic::Request.new(request.env)
+      if @auth.provided? and @auth.basic? and @auth.credentials
+        user = @auth.credentials.first
+        pass = @auth.credentials[1]
+        res = $mongo['users'].find({'login':user}).first
+        return false if res.nil?
+        return (user == res['login'] and pass.crypt(res['password'][0,2]) == res['password'])
+      end
+      return false
+    end
+  end
+
+
   before do
     if params['lang'].to_s != "" and I18n.available_locales.map(&:to_s).include?(params["lang"]) and params['lang'] != session[:locale]
       session[:locale] = 'cs' if session[:locale].to_s == ""
@@ -62,6 +83,7 @@ class CzjApp < Sinatra::Base
     @langpath += '?' unless @langpath.include?('?')
     @search_limit = 10
     @translate_limit = 9
+    protected! if $is_edit
   end
 
   get '/' do
