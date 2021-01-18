@@ -71,11 +71,11 @@
         p 
           | [#{@entry['lemma']['grammar_note'][0]['@mluv_komp']}] 
           - if @entry['lemma']['grammar_note'][0]['@mluv_komp_sel'] == 'povinny' or @entry['lemma']['grammar_note'][0]['@mluv_komp_sel'] == 'nepovinny'
-            | - #{I18n.t("gram."+@entry['lemma']['grammar_note'][0]['@mluv_komp_sel'])}
+            span style="text-transform: lowercase" - #{I18n.t("gram."+@entry['lemma']['grammar_note'][0]['@mluv_komp_sel'])}
       - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@oral_komp'] == ''
         p.naming #{I18n.t("entry.oralcomp")}:
         p 
-          | [#{@entry['lemma']['grammar_note'][0]['@oral_komp']}] - #{@entry['lemma']['grammar_note'][0]['@oral_komp_sel']}
+          span style="text-transform: lowercase" [#{@entry['lemma']['grammar_note'][0]['@oral_komp']}] - #{@entry['lemma']['grammar_note'][0]['@oral_komp_sel']}
       - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['_text'].nil?
         p.naming #{I18n.t("entry.grammar_details")}:
         p
