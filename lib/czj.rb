@@ -41,12 +41,24 @@ class CZJDict < Object
 
   def full_entry(entry, getsw=true)
     entry = add_media(entry)
-    entry = add_colloc(entry) if getsw
-    entry = get_sw(entry) if getsw
+    entry = add_colloc(entry)
+    entry = get_sw(entry)
     return entry
   end
 
   def add_colloc(entry)
+    if entry['collocations'] and entry['collocations']['colloc']
+      entry['collocations']['entries'] = []
+      entry['collocations']['colloc'].uniq.each{|coll|
+        ce = @entrydb.find({'dict': entry['dict'], 'id': coll}).first
+        unless ce.nil?
+          ce = add_colloc(ce)
+          ce = get_sw(ce)
+          entry['collocations']['entries'] << ce
+        end
+      }
+    end
+
     entry['revcollocations'] = {} if entry['revcollocations'].nil?
     entry['revcollocations']['entries'] = []
     if @write_dicts.include?(entry['dict'])
@@ -63,17 +75,6 @@ class CZJDict < Object
       entry['revcollocations']['entries'] << ce
     }
 
-    if entry['collocations'] and entry['collocations']['colloc']
-      entry['collocations']['entries'] = []
-      entry['collocations']['colloc'].uniq.each{|coll|
-        ce = @entrydb.find({'dict': entry['dict'], 'id': coll}).first
-        unless ce.nil?
-          ce = add_colloc(ce)
-          ce = get_sw(ce)
-          entry['collocations']['entries'] << ce
-        end
-      }
-    end
     return entry
   end
 
