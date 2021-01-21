@@ -1031,12 +1031,7 @@ function open_comments(box, type) {
     }
   });
   Ext.Ajax.request({
-    url: '/'+dictcode,
-    params: {
-      action: 'get_comments',
-      entry: entryid,
-      box: type,
-    },
+    url: '/'+dictcode+'/comments/'+entryid+'/'+type,
     method: 'get',
     success: function(response) {
       var data = JSON.parse(response.responseText);
