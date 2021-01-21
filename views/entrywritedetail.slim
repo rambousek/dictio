@@ -1,5 +1,7 @@
 .detail-word
   h1.detail-word__headline #{@entry['lemma']['title']}
+  - if @is_edit
+    p.detail__badge class="detail__badge__#{@entry['dict']}" #{@entry['dict']}-#{@entry['id']}
   - if @entry['lemma']['pron'] and @entry['lemma']['pron'] != ""
     span() [#{@entry['lemma']['pron']}]
 - if @entry['lemma']['title_var'] and @entry['lemma']['title_var'] != ""

@@ -30,3 +30,31 @@ video.video-link {
   margin-top: 5px; 
   font-weight: bold;
 }
+
+.detail__badge__czj, .trans__badge__czj {
+  background-color: #19B5FE;
+}
+.detail__badge__cs, .trans__badge__cs {
+  background-color: darkmagenta;
+}
+.detail__badge__is, .trans__badge__is {
+  background-color: darkslateblue;
+}
+.detail__badge__asl, .trans__badge__asl {
+  background-color: darkorange;
+}
+.detail__badge__en, .trans__badge__en {
+  background-color: black;
+}
+.detail__badge__spj, .trans__badge__spj {
+  background-color: mediumseagreen;
+}
+.detail__badge__sj, .trans__badge__sj {
+  background-color: crimson;
+}
+.trans__badge {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  font-size: 90%;
+}

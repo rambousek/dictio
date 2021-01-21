@@ -71,6 +71,7 @@ class CzjApp < Sinatra::Base
     @langpath += '?' unless @langpath.include?('?')
     @search_limit = 10
     @translate_limit = 9
+    @is_edit = $is_edit
     protected! if $is_edit
   end
 

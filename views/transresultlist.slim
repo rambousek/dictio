@@ -50,6 +50,8 @@
               video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url="#{@tran_path}/#{@target}-#{rel['entry']['id']}" poster="/thumb/video#{@target}/#{rel['entry']['lemma']['video_front']}" muted="muted"
                 source src="https://files.dictio.info/video#{@target}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
             .video__controls
+              - if @is_edit
+                span.trans__badge class="trans__badge__#{@target}" #{@target}-#{rel['entry']['id']}
               a.video__link href="/#{@dictcode}/translate/#{@target}/#{@params['type']}/#{@search}/#{@target}-#{rel['entry']['id']}"
                 span.icon.icon--open-new-window
                   svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
