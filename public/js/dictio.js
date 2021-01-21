@@ -30,9 +30,9 @@ function do_mobile_translate() {
 }
 function do_search() {
   var search = $('.search-alt__wrap #expression_search').val();
-  var slovniDruh = $('.search-alt__wrap #slovni_druh').val();
+  var dict = $('.search-alt__wrap .translate-from').val();
+  var slovniDruh = $('.search-alt__wrap #slovni_druh_'+dict).val();
   if (search != '' || slovniDruh != '') {
-    var dict = $('.search-alt__wrap .translate-from').val();
     var type = 'text';
     if (($('.search-alt__wrap #expression_search').data('codes_hand') != undefined && $('.search-alt__wrap #expression_search').data('codes_hand') != '') || ($('.search-alt__wrap #expression_search').data('codes_place') != undefined && $('.search-alt__wrap #expression_search').data('codes_place') != '')) {
       type = 'key';
@@ -44,6 +44,19 @@ function do_search() {
     }
     if (slovniDruh != '') url += '?slovni_druh='+slovniDruh;
     window.location = url;
+  }
+}
+
+function show_pos_list() {
+  var dict = $('.search-alt__wrap .translate-from').val();
+  $('.advanced-search .slovni_druh').hide();
+  $('.advanced-search #slovni_druh_'+dict).show();
+}
+function change_pos_list() {
+  var dict = $('.search-alt__wrap .translate-from').val();
+  if ($('.advanced-search .slovni_druh:visible').length > 0) {
+    $('.advanced-search .slovni_druh').hide();
+    $('.advanced-search #slovni_druh_'+dict).show();
   }
 }
 
@@ -80,6 +93,10 @@ $( document ).ready(function() {
     $('.mobile-search__target .mobile-search__selected').text($(this).text())
     $('.mobile-search__select').removeClass('is-open');
   });
+
+  // advanced search
+  $('#advanced-search-toggle').click(show_pos_list);
+  $('.search-alt__wrap .select-items div').click(change_pos_list);
 
   /* switch direction translate */
   $('.search__switch').click(function(event) {

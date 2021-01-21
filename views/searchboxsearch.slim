@@ -23,11 +23,13 @@
                   svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                     use xlink:href="/img/icons.svg#magnifier" x="0" y="0" width="100%" height="100%"
         .search-alt__options
-          label
-            select.checkbox id="slovni_druh" style="text-indent: 0px;"
-              option value="" -- slovní druh --
-              - ['subst', 'verb', 'modif', 'pron', 'num', 'konj', 'part', 'taz', 'kat', 'klf', 'spc'].each do |sd|
-                option value="#{sd}" selected=("selected" if @search_params['slovni_druh'].to_s==sd)  #{I18n.t('gram.slovni_druh.'+sd)}
+          span.checkbox id="advanced-search-toggle" style="cursor: pointer;" = I18n.t("search.advanced")
+          .advanced-search
+            - @dict_info.each do |code, info|
+              select.checkbox.slovni_druh id="slovni_druh_#{code}" style="text-indent: 0px; #{"display: none;" if code!=@dictcode or @search_params['slovni_druh'].to_s==''}"
+                option value="" #{I18n.t('search.pos')}
+                - info['pos'].each do |sd|
+                  option value="#{sd}" selected=("selected" if @search_params['slovni_druh'].to_s==sd)  #{I18n.t('gram.slovni_druh.'+sd)}
       == slim :keyboard
 <!-- vyhledávání -->
 

@@ -54,6 +54,8 @@ en:
     collocations: "cover collocations"
     entry_count: "Entries in total"
     load_next: "Show more"
+    pos: "-- PoS --"
+    advanced: "advanced..."
   entry:
     frontview: "Front view"
     sideview: "Profile view"

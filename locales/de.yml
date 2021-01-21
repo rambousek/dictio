@@ -54,6 +54,8 @@ de:
     collocations: "beinhaltet Kollokation"
     entry_count: "Entries in total"
     load_next: "Show more"
+    pos: "-- PoS --"
+    advanced: "advanced..."
   entry:
     frontview: "Frontansicht"
     sideview: "Seitenansicht"

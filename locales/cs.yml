@@ -54,6 +54,8 @@ cs:
     collocations: "hledat slovní spojení"
     entry_count: "Celkem hesel"
     load_next: "Načíst další"
+    pos: "-- slovní druh --"
+    advanced: "rozšířené..."
   entry:
     frontview: "Čelní pohled"
     sideview: "Boční pohled"

@@ -54,6 +54,8 @@ sk:
     collocations: "hľadat slovné spojenia"
     entry_count: "Entries in total"
     load_next: "Show more"
+    pos: "-- slovní druh --"
+    advanced: "rozšířené..."
   entry:
     frontview: "Čelný pohľad"
     sideview: "Bočný pohľad"
