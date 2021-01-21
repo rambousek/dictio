@@ -1,7 +1,7 @@
 - @result['entries'].each do |entry|
   - rellemmaused = []
   - entry['meanings'].each do |mean|
-    - mean['relation'].select{|rel| rel['target'] == @target and not rellemmaused.include?(rel['target']+rel['meaning_id'])}.each do |rel|
+    - mean['relation'].select{|rel| rel['target'] == @target and not rellemmaused.include?(rel['target']+rel['meaning_id']) and rel['entry']}.each do |rel|
       - rellemmaused << rel['target']+rel['meaning_id']
       .col.col--3.col--precise
         - if @dict_info[@dictcode]['type'] == 'write'
