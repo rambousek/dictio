@@ -436,8 +436,9 @@ class CZJDict < Object
     resultcount = 0
     case type
     when 'text'
+      search = '' if search == '_'
       search = search.downcase
-      if search =~ /^[0-9]*$/
+      if search =~ /^[0-9]+$/
         @entrydb.find({'dict': dictcode, 'id': search}).each{|re|
           res << full_entry(re)
           resultcount = 1
@@ -455,9 +456,13 @@ class CZJDict < Object
           search_cond_title ={'$or': [{'lemma.title': search}, {'lemma.title_var': search}]}
           search_cond_title[:$or] << {'lemma.title_dia': search} 
           search_cond_title[:$or] << {'lemma.gram.form._text': search} 
-          if more_params['slovni_druh'].to_s != ''
+          if search != '' and more_params['slovni_druh'].to_s != ''
             search_cond[:$and] = [search_cond_title,{'lemma.grammar_note.@slovni_druh'=> more_params['slovni_druh'].to_s}]
-          else
+          end
+          if search == '' and more_params['slovni_druh'].to_s != ''
+            search_cond['lemma.grammar_note.@slovni_druh'] = more_params['slovni_druh'].to_s
+          end
+          if search != '' and more_params['slovni_druh'].to_s == ''
             search_cond[:$or] = search_cond_title[:$or]
           end
           $stderr.puts search_cond
@@ -470,9 +475,13 @@ class CZJDict < Object
           search_cond = {'dict': dictcode, 'id': {'$nin': fullids}}
           search_cond_title = {'$or': [{'lemma.title': {'$regex': /^#{search}/}}]}
           search_cond_title[:$or] << {'lemma.title': {'$regex': /(^| )#{search}/}}
-          if more_params['slovni_druh'].to_s != ''
+          if search != '' and more_params['slovni_druh'].to_s != ''
             search_cond[:$and] = [search_cond_title,{'lemma.grammar_note.@slovni_druh'=> more_params['slovni_druh'].to_s}]
-          else
+          end
+          if search == '' and more_params['slovni_druh'].to_s != ''
+            search_cond['lemma.grammar_note.@slovni_druh'] = more_params['slovni_druh'].to_s
+          end
+          if search != '' and more_params['slovni_druh'].to_s == ''
             search_cond[:$or] = search_cond_title[:$or]
           end
           $stderr.puts search_cond
@@ -494,14 +503,28 @@ class CZJDict < Object
           search_in = 'cs'
           search_in = @dict_info[dictcode]['search_in'] unless @dict_info[dictcode]['search_in'].nil?
           csl = [search]
-          $mongo['entries'].find({'dict'=>search_in, 'lemma.title'=> search}, {'projection'=>{'meanings.id'=>1, '_id'=>0}}).each{|re|
-            unless re['meanings'].nil?
-              re['meanings'].each{|rl| 
-                csl << rl['id']
-              }
-            end
-          }
-          cursor = $mongo['entries'].find({'dict'=>dictcode, 'meanings.relation'=>{'$elemMatch'=>{'target'=>search_in,'meaning_id'=>{'$in'=>csl}}}})
+          if search != ''
+            $mongo['entries'].find({'dict'=>search_in, 'lemma.title'=> search}, {'projection'=>{'meanings.id'=>1, '_id'=>0}}).each{|re|
+              unless re['meanings'].nil?
+                re['meanings'].each{|rl| 
+                  csl << rl['id']
+                }
+              end
+            }
+          end
+          search_cond = {'dict'=>dictcode}
+          search_cond_title = {'meanings.relation'=>{'$elemMatch'=>{'target'=>search_in,'meaning_id'=>{'$in'=>csl}}}}
+          if search != '' and more_params['slovni_druh'].to_s != ''
+            search_cond[:$and] = [search_cond_title,{'lemma.grammar_note.@slovni_druh'=> more_params['slovni_druh'].to_s}]
+          end
+          if search == '' and more_params['slovni_druh'].to_s != ''
+            search_cond['lemma.grammar_note.@slovni_druh'] = more_params['slovni_druh'].to_s
+          end
+          if search != '' and more_params['slovni_druh'].to_s == ''
+            search_cond['meanings.relation'] = search_cond_title['meanings.relation']
+          end
+          $stderr.puts search_cond
+          cursor = $mongo['entries'].find(search_cond)
           resultcount = cursor.count_documents
           cursor = cursor.skip(start)
           cursor = cursor.limit(limit) if limit.to_i > 0

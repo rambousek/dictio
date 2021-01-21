@@ -173,7 +173,8 @@ class CzjApp < Sinatra::Base
         @entry = dict.getdoc(@result['entries'].first['id'])
       end
       @search_type = 'search'
-      @search = params['search']
+      @search = ''
+      @search = params['search'] if params['search'] != '_'
       @input_type = params['type']
       @search_params = more_params
       @dictcode = code
