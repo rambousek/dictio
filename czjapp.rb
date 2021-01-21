@@ -10,6 +10,7 @@ require 'i18n/backend/fallbacks'
 
 require_relative 'lib/czj'
 require_relative 'lib/host-config'
+require_relative 'lib/dict-config'
 
 class CzjApp < Sinatra::Base
   $mongo = Mongo::Client.new([$mongoHost], :database => 'dictio')
@@ -25,22 +26,9 @@ class CzjApp < Sinatra::Base
     enable :sessions
   end
   
-  dict_info = {
-    'cs' => {'type' => 'write', 'label'=>'Czech'},
-    'en' => {'type' => 'write', 'label'=>'English'},
-    'sj' => {'type' => 'write', 'label'=>'Slovak'},
-    'de' => {'type' => 'write', 'label'=>'German'},
-    'czj' => {'type' => 'sign', 'label'=>'ČZJ', 'search_in'=>'cs'},
-    'spj' => {'type' => 'sign', 'label'=>'SPJ', 'search_in'=>'sj'},
-    'asl' => {'type' => 'sign', 'label'=>'ASL', 'search_in'=>'en'},
-    'is' => {'type' => 'sign', 'label'=>'IS', 'search_in'=>'en'},
-    'ogs' => {'type' => 'sign', 'label'=>'OGS', 'search_in'=>'de'},
-  }
-  #write_dicts = ['en','cs','de','sj']
-  #sign_dicts = ['czj','ogs','spj','asl','is']
   write_dicts = []
   sign_dicts = []
-  dict_info.each{|code,info|
+  $dict_info.each{|code,info|
     if info['type'] == 'write'
       write_dicts << code
     else
@@ -87,7 +75,7 @@ class CzjApp < Sinatra::Base
   end
 
   get '/' do
-    @dict_info = dict_info
+    @dict_info = $dict_info
     @search_params = {}
     @target = 'czj'
     @dictcode = 'cs'
@@ -98,7 +86,7 @@ class CzjApp < Sinatra::Base
   end
 
   get '/about' do
-    @dict_info = dict_info
+    @dict_info = $dict_info
     @search_params = {}
     @target = 'czj'
     @dictcode = 'cs'
@@ -108,7 +96,7 @@ class CzjApp < Sinatra::Base
   end
 
   get '/help' do
-    @dict_info = dict_info
+    @dict_info = $dict_info
     @search_params = {}
     @target = 'czj'
     @dictcode = 'cs'
@@ -118,7 +106,7 @@ class CzjApp < Sinatra::Base
   end
 
   get '/contact' do
-    @dict_info = dict_info
+    @dict_info = $dict_info
     @search_params = {}
     @target = 'czj'
     @dictcode = 'cs'
@@ -132,14 +120,14 @@ class CzjApp < Sinatra::Base
     dict = CZJDict.new(code)
     dict.write_dicts = write_dicts
     dict.sign_dicts = sign_dicts
-    dict.dict_info = dict_info
+    dict.dict_info = $dict_info
     dict_array[code] = dict
  
     get '/'+code do
       redirect to('/')
     end
     get '/'+code+'/show/:id' do
-      @dict_info = dict_info
+      @dict_info = $dict_info
       @dictcode = code
       @show_dictcode = code
       @entry = dict.getdoc(params['id'])
@@ -166,7 +154,7 @@ class CzjApp < Sinatra::Base
       body = dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i).to_json
     end
     get '/'+code+'/search/:type/:search(/:selected)?' do
-      @dict_info = dict_info
+      @dict_info = $dict_info
       @request = request
       @search_path = '/'+code+'/search/'+params['type']+'/'+params['search']
       more_params = {}
@@ -194,7 +182,7 @@ class CzjApp < Sinatra::Base
       slim :searchresult
     end
     get '/'+code+'/translate/:target/:type/:search(/:selected)?' do
-      @dict_info = dict_info
+      @dict_info = $dict_info
       @request = request
       @target = params['target']
       selected = params['selected']
@@ -223,7 +211,7 @@ class CzjApp < Sinatra::Base
       end
     end
     get '/'+code+'/translatelist/:target/:type/:search(/:start)?(/:limit)?' do
-      @dict_info = dict_info
+      @dict_info = $dict_info
       @request = request
       @target = params['target']
       selected = params['selected']
