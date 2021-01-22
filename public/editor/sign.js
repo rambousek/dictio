@@ -1010,14 +1010,13 @@ function open_comments(box, type) {
           text: locale[lang].savechanges,
           handler: function() {
             Ext.Ajax.request({
-              url: '/'+dictcode,
+              url: '/'+dictcode+'/add_comment',
               params: {
-                action: 'add_comment',
                 entry: entryid,
                 box: type,
                 text: kwin.query('[name=newtext]')[0].getValue()
               },
-              method: 'get',
+              method: 'post',
               success: function(response) {
                 Ext.getCmp(box).query('[name=lastcomment]')[0].update(kwin.query('[name=newtext]')[0].getValue());
                 Ext.getCmp(box).query('[name=lastcomment]')[0].show(); 
@@ -1049,7 +1048,7 @@ function open_comments(box, type) {
           html: data.comments[i].text + '<br/><i>' + data.comments[i].user + ', ' + data.comments[i].time + '</i>',
           name: 'commenthtml'
         });
-        var cid = data.comments[i].id;
+        var cid = data.comments[i]['_id']['$oid'];
         var nrow = Ext.create('Ext.container.Container',{
           layout: {
             type: 'hbox'
@@ -1060,11 +1059,7 @@ function open_comments(box, type) {
             cidParam: cid,
             handler: function(btn) {
               Ext.Ajax.request({
-                url: '/'+dictcode,
-                params: {
-                  action: 'del_comment',
-                  id: btn.cidParam
-                },
+                url: '/'+dictcode+'/del_comment/'+btn.cidParam,
                 method: 'get',
                 success: function(response) {
                   var lasttext = '';

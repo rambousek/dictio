@@ -893,5 +893,22 @@ class CZJDict < Object
     }
     return fsw
   end
+
+  def comment_add(user, entry, box, text)
+    comment_data = {
+      'dict' => @dictcode,
+      'entry' => entry,
+      'box' => box,
+      'text' => text,
+      'user' => user,
+      'time' => Time.new.strftime('%Y-%m-%d %H:%M')
+    }
+    $stderr.puts comment_data
+    $mongo['koment'].insert_one(comment_data)
+  end
+
+  def comment_del(cid)
+    $mongo['koment'].find({'_id' => BSON::ObjectId.from_string(cid)}).delete_many
+  end
 end
 

@@ -38,6 +38,8 @@ class CzjApp < Sinatra::Base
 
   dict_array = {}
 
+  @user_info = nil
+
   helpers do
     def protected!
       return if authorized?
@@ -52,7 +54,12 @@ class CzjApp < Sinatra::Base
         pass = @auth.credentials[1]
         res = $mongo['users'].find({'login':user}).first
         return false if res.nil?
-        return (user == res['login'] and pass.crypt(res['password'][0,2]) == res['password'])
+        if user == res['login'] and pass.crypt(res['password'][0,2]) == res['password']
+          @user_info = {'login'=>res['login'], 'name'=>res['name'], 'email'=>res['email'], 'skupina'=>res['skupina'], 'copy'=>res['copy'], 'autor'=>res['autor'], 'zdroj'=>res['zdroj'], 'perm'=>[]}
+          res['editor'].each{|e| @user_info['perm'] << 'editor_'+e}
+          res['revizor'].each{|e| @user_info['perm'] << 'revizor_'+e}
+          return true
+        end
       end
       return false
     end
@@ -234,6 +241,21 @@ class CzjApp < Sinatra::Base
     post '/'+code+'/save' do
       data = JSON.parse(params['data'])
       dict.save_doc(data)
+      content_type :json
+      body = '{"success":true,"msg":"Uloženo"}'
+    end
+    post '/'+code+'/add_comment' do
+      user = ''
+      if params['box'] != '' and params['entry'] != '' and params['type'] != ''
+        dict.comment_add(@user_info['login'], params['entry'], params['box'], params['text'])
+      end
+      content_type :json
+      body = '{"success":true,"msg":"Uloženo"}'
+    end
+    get '/'+code+'/del_comment/:cid' do
+      if params['cid'] != ''
+        dict.comment_del(params['cid'])
+      end
       content_type :json
       body = '{"success":true,"msg":"Uloženo"}'
     end
