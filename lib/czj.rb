@@ -280,7 +280,12 @@ class CZJDict < Object
                 if rm['usages']
                   rm['usages'].each{|ru|
                     if ru['id'] == rel['meaning_id']
-                      rel['entry']['lemma']['title'] = ru['text']['_text']
+                      if ru['text']['file'] != nil and ru['text']['file']['@media_id'] != nil
+                        rel['entry']['lemma']['video_front'] = get_media(ru['text']['file']['@media_id'], rel['target'])['location']
+                      end
+                      if ru['text']['_text'] != nil
+                        rel['entry']['lemma']['title'] = ru['text']['_text']
+                      end
                     end
                   }
                 end
