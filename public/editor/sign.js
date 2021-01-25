@@ -1252,10 +1252,8 @@ function reload_files(id, search, add_preview, load_variant, type) {
   }
   filelist.loadData([], false);
   Ext.Ajax.request({
-    url: '/'+dictcode,
+    url: '/'+dictcode+'/filelist/'+id,
     params: {
-      action: 'filelist',
-      entryid: id,
       search: search,
       type: type
     },
@@ -1786,7 +1784,7 @@ function load_doc(id) {
         document.getElementById(key).classList.add(value);
       }
       console.log('layout end ' + new Date().getTime())
-          //reload_files(id, '', false, true);
+      reload_files(id, '', false, true);
       track_change();
       entry_updated = false;
     }

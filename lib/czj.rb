@@ -915,5 +915,67 @@ class CZJDict < Object
   def comment_del(cid)
     $mongo['koment'].find({'_id' => BSON::ObjectId.from_string(cid)}).delete_many
   end
+
+  def get_entry_files(entry_id)
+    list = []
+    entry = @entrydb.find({'id': entry_id, 'dict': @dictcode}).first
+
+    query = {'dict'=> 'czj'}
+    query[:$or] = [{'entry_folder' => entry_id}]
+
+    if entry != nil
+      query[:$or] << {'media_folder_id' => entry['lemma']['media_folder_id']} unless entry['lemma']['media_folder_id'].nil?
+      files = []
+      entry['meanings'].each{|me|
+        me['usages'].each{|us|
+          files << us['text']['file']['@media_id'] if us['text'] and us['text']['file'] and us['text']['file']['@media_id']
+        }
+        files << me['text']['file']['@media_id'] if me['text'] and me['text']['file'] and me['text']['file']['@media_id']
+      }
+      if entry['lemma']['grammar_note'] and entry['lemma']['grammar_note'][0] and entry['lemma']['grammar_note'][0]['variant']
+        entry['lemma']['grammar_note'][0]['variant'].each{|va|
+          files << va['_text']
+        }
+      end
+      if entry['lemma']['style_note'] and entry['lemma']['style_note'][0] and entry['lemma']['style_note'][0]['variant']
+        entry['lemma']['style_note'][0]['variant'].each{|va|
+          files << va['_text']
+        }
+      end
+      files.uniq.each{|fi|
+        query[:$or] << {'id' => fi}
+      }
+      if entry['lemma']['video_front'] and entry['lemma']['video_front'].to_s != ''
+        query[:$or] << {'location' => entry['lemma']['video_front'].to_s}
+      end
+      if entry['lemma']['video_side'] and entry['lemma']['video_side'].to_s != ''
+        query[:$or] << {'location' => entry['lemma']['video_side'].to_s}
+      end
+    end
+
+    $mongo['media'].find(query).each{|re| list << re}
+
+    return list
+  end
+
+  def find_files(search, type)
+    list = []
+    if search.length > 1
+      query = {'dict' => @dictcode, :$or => [{'location' => /#{search}/}, {'original_file_name' => /#{search}/}]}
+      case type
+      when 'AB'
+        query['type'] = {'$in' => ['sign_front', 'sign_side']}
+      when 'A'
+        query['type'] = 'sign_front'
+      when 'K'
+        query['type'] = 'sign_usage_example'
+      when 'D'
+        query['type'] = 'sign_definition'
+      end
+
+      $mongo['media'].find(query).each{|re| list << re}
+    end
+    return list
+  end
 end
 

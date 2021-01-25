@@ -265,6 +265,14 @@ class CzjApp < Sinatra::Base
         content_type :json
         body = '{"success":true,"msg":"Uloženo"}'
       end
+      get '/'+code+'/filelist/:id' do
+        list = dict.get_entry_files(params['id'])
+        if params['search'].to_s != ''
+          list = dict.find_files(params['search'].to_s, params['type'].to_s)
+        end
+        content_type :json
+        body = list.to_json
+      end
     end
   }
 
