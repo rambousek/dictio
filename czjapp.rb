@@ -234,30 +234,32 @@ class CzjApp < Sinatra::Base
       @result = dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
       slim :transresultlist, :layout=>false
     end
-    get '/'+code+'/comments/:id(/:type)?' do
-      content_type :json
-      body = dict.get_comments(params['id'], params['type'].to_s).to_json
-    end
-    post '/'+code+'/save' do
-      data = JSON.parse(params['data'])
-      dict.save_doc(data)
-      content_type :json
-      body = '{"success":true,"msg":"Uloženo"}'
-    end
-    post '/'+code+'/add_comment' do
-      user = ''
-      if params['box'] != '' and params['entry'] != '' and params['type'] != ''
-        dict.comment_add(@user_info['login'], params['entry'], params['box'], params['text'])
+    if $is_edit
+      get '/'+code+'/comments/:id(/:type)?' do
+        content_type :json
+        body = dict.get_comments(params['id'], params['type'].to_s).to_json
       end
-      content_type :json
-      body = '{"success":true,"msg":"Uloženo"}'
-    end
-    get '/'+code+'/del_comment/:cid' do
-      if params['cid'] != ''
-        dict.comment_del(params['cid'])
+      post '/'+code+'/save' do
+        data = JSON.parse(params['data'])
+        dict.save_doc(data)
+        content_type :json
+        body = '{"success":true,"msg":"Uloženo"}'
       end
-      content_type :json
-      body = '{"success":true,"msg":"Uloženo"}'
+      post '/'+code+'/add_comment' do
+        user = ''
+        if params['box'] != '' and params['entry'] != '' and params['type'] != ''
+          dict.comment_add(@user_info['login'], params['entry'], params['box'], params['text'])
+        end
+        content_type :json
+        body = '{"success":true,"msg":"Uloženo"}'
+      end
+      get '/'+code+'/del_comment/:cid' do
+        if params['cid'] != ''
+          dict.comment_del(params['cid'])
+        end
+        content_type :json
+        body = '{"success":true,"msg":"Uloženo"}'
+      end
     end
   }
 
