@@ -64,9 +64,10 @@
           - slovni_druhy = []
           - @entry['lemma']['grammar_note'].each{|gr| slovni_druhy << gr['@slovni_druh']}
           - slovni_druhy.uniq.each do |sd|
-            = I18n.t("gram.slovni_druh."+sd)
-            - unless sd.equal? slovni_druhy.uniq.last
-              | , 
+            - if sd.to_s != ''
+              = I18n.t("gram.slovni_druh."+sd)
+              - unless sd.equal? slovni_druhy.uniq.last
+                | , 
       - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@mluv_komp'] == ''
         p.naming #{I18n.t("entry.mouthing")}:
         p
