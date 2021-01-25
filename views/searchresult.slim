@@ -22,9 +22,10 @@ main role="main"
                           span.icon.icon--open-new-window
                             svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                               use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
-                        - if entry['lemma'] and entry['lemma']['sw']
+                        - unless entry['lemma']['swmix'].nil? 
                           span.video__sign
-                            img src="/sw/signwriting.png?generator[sw]=#{entry['lemma']['sw'][0]['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+                            - entry['lemma']['swmix'].each do |sw|
+                                img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
           - else 
             ul.entries.search-results-write
               - @result['entries'].each do |entry|
