@@ -142,7 +142,7 @@ class CzjApp < Sinatra::Base
       @search_params = {}
       @search_type = 'search'
       @target = ''
-      @title = dict_info[code]['label'] + ' ' + params['id']
+      @title = $dict_info[code]['label'] + ' ' + params['id']
       slim :fullentry 
     end
     get '/'+code+'/json/:id' do 
