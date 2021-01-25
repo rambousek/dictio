@@ -55,9 +55,10 @@ class CzjApp < Sinatra::Base
         res = $mongo['users'].find({'login':user}).first
         return false if res.nil?
         if user == res['login'] and pass.crypt(res['password'][0,2]) == res['password']
-          @user_info = {'login'=>res['login'], 'name'=>res['name'], 'email'=>res['email'], 'skupina'=>res['skupina'], 'copy'=>res['copy'], 'autor'=>res['autor'], 'zdroj'=>res['zdroj'], 'perm'=>[]}
+          @user_info = {'login'=>res['login'], 'name'=>res['name'], 'email'=>res['email'], 'skupina'=>res['skupina'], 'copy'=>res['copy'], 'autor'=>res['autor'], 'zdroj'=>res['zdroj'], 'perm'=>[], 'admin'=>res['admin']}
           res['editor'].each{|e| @user_info['perm'] << 'editor_'+e}
           res['revizor'].each{|e| @user_info['perm'] << 'revizor_'+e}
+          @user_info['perm'] = ['admin'] if res['admin']
           return true
         end
       end
@@ -147,7 +148,11 @@ class CzjApp < Sinatra::Base
     end
     get '/'+code+'/json/:id' do 
       content_type :json
-      body = dict.getdoc(params['id']).to_json
+      doc = dict.getdoc(params['id'])
+      if $is_edit
+        doc['user_info'] = @user_info
+      end
+      body = doc.to_json
     end
     get '/'+code+'/jsonsearch/:type/:search(/:start)?(/:limit)?' do 
       content_type :json

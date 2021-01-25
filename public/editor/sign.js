@@ -1380,15 +1380,15 @@ function new_entry() {
       entryid = data['newid'];
       Ext.getCmp('tabForm').setTitle('Heslo id '+entryid);
       document.title = dictcode.toUpperCase()+' '+entryid;
-      Ext.getCmp('tabForm').query('component[name="userskupina"]')[0].setValue(data['user_skupina']);
-      Ext.getCmp('tabForm').query('component[name="userperm"]')[0].setValue(data['user_perm']);
+      Ext.getCmp('tabForm').query('component[name="userskupina"]')[0].setValue(data['user_info']['skupina'].join(','));
+      Ext.getCmp('tabForm').query('component[name="userperm"]')[0].setValue(data['user_info']['perm']);
       Ext.getCmp('tabForm').query('component[name="usersetrel"]')[0].setValue(data['set_rel']);
-      Ext.getCmp('tabForm').query('component[name="defaultcopy"]')[0].setValue(data['default_copy']);
-      Ext.getCmp('tabForm').query('component[name="defaultzdroj"]')[0].setValue(data['default_zdroj']);
-      Ext.getCmp('tabForm').query('component[name="defaultautor"]')[0].setValue(data['default_autor']);
+      Ext.getCmp('tabForm').query('component[name="defaultcopy"]')[0].setValue(data['user_info']['copy']);
+      Ext.getCmp('tabForm').query('component[name="defaultzdroj"]')[0].setValue(data['user_info']['zdroj']);
+      Ext.getCmp('tabForm').query('component[name="defaultautor"]')[0].setValue(data['user_info']['autor']);
       Ext.getCmp('tabForm').query('component[name="completeness"]')[0].setValue('0');
-      if (data['user_skupina'] != '') {
-        var skupiny = data['user_skupina'].split(',');
+      if (data['user_info']['skupina'] != undefined) {
+        var skupiny = data['user_info']['skupina'];
         Ext.getCmp('tabForm').query('component[name="pracskupina"]')[0].setValue(skupiny[0]);
       }
       Ext.getCmp('vyznamy_box').query('component[name="vyznam"]')[0].query('component[name="meaning_id"]')[0].setValue(data['newid']+'-1');
@@ -1396,9 +1396,9 @@ function new_entry() {
       Ext.getCmp('vyznamy_box').query('component[name="vyznam"]')[0].query('component[name="meaning_nr"]')[0].setValue('1');
       var copys = Ext.getCmp('tabForm').query('[name=copybox]');
       for (var i = 0; i < copys.length; i++) {
-        copys[i].query('[name=copy_copy]')[0].setValue(data['default_copy']);
-        copys[i].query('[name=copy_zdroj]')[0].setValue(data['default_zdroj']);
-        copys[i].query('[name=copy_autor]')[0].setValue(data['default_autor']);
+        copys[i].query('[name=copy_copy]')[0].setValue(data['user_info']['copy']);
+        copys[i].query('[name=copy_zdroj]')[0].setValue(data['user_info']['zdroj']);
+        copys[i].query('[name=copy_autor]')[0].setValue(data['user_info']['autor']);
       }
 
       console.log('new end ' + new Date().getTime())
@@ -1427,12 +1427,12 @@ function load_doc(id) {
       document.title = dictcode.toUpperCase()+' '+id;
 
       /* heslo */
-      //Ext.getCmp('tabForm').query('component[name="userskupina"]')[0].setValue(Ext.DomQuery.select('/entry', xmlDoc)[0].getAttribute('user_skupina'));
-      //Ext.getCmp('tabForm').query('component[name="userperm"]')[0].setValue(Ext.DomQuery.select('/entry', xmlDoc)[0].getAttribute('user_perm'));
-      //Ext.getCmp('tabForm').query('component[name="usersetrel"]')[0].setValue(Ext.DomQuery.select('/entry', xmlDoc)[0].getAttribute('set_rel'));
-      //Ext.getCmp('tabForm').query('component[name="defaultcopy"]')[0].setValue(Ext.DomQuery.select('/entry', xmlDoc)[0].getAttribute('default_copy'));
-      //Ext.getCmp('tabForm').query('component[name="defaultzdroj"]')[0].setValue(Ext.DomQuery.select('/entry', xmlDoc)[0].getAttribute('default_zdroj'));
-      //Ext.getCmp('tabForm').query('component[name="defaultautor"]')[0].setValue(Ext.DomQuery.select('/entry', xmlDoc)[0].getAttribute('default_autor'));
+      Ext.getCmp('tabForm').query('component[name="userskupina"]')[0].setValue(data['user_info']['skupina'].join(','));
+      Ext.getCmp('tabForm').query('component[name="userperm"]')[0].setValue(data['user_info']['perm']);
+      Ext.getCmp('tabForm').query('component[name="usersetrel"]')[0].setValue(data['set_rel']);
+      Ext.getCmp('tabForm').query('component[name="defaultcopy"]')[0].setValue(data['user_info']['copy']);
+      Ext.getCmp('tabForm').query('component[name="defaultzdroj"]')[0].setValue(data['user_info']['zdroj']);
+      Ext.getCmp('tabForm').query('component[name="defaultautor"]')[0].setValue(data['user_info']['autor']);
       Ext.getCmp('tabForm').query('component[name="media_folder_id"]')[0].setValue(data['lemma']['media_folder_id']);
       Ext.getCmp('tabForm').query('component[name="completeness"]')[0].setValue(data['lemma']['completeness']);
       Ext.getCmp('tabForm').query('component[name="pracskupina"]')[0].setValue(data['lemma']['pracskupina']);
