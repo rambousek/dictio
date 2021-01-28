@@ -1191,16 +1191,10 @@ function recieveDatahamndata(data) {
 }
 
 function reload_rel(search, field, target) {
-  if (target == 'cs' || target == 'en' || target == 'de' || target == 'sj') {
-    var action = 'relfindcs';
-  } else {
-    var action = 'relfind';
-  }
   relationlist.loadData([], false);
   Ext.Ajax.request({
-    url: '/'+dictcode,
+    url: '/'+dictcode+'/relfind',
     params: {
-      action: action,
       target: target,
       search: search,
     },

@@ -273,6 +273,11 @@ class CzjApp < Sinatra::Base
         content_type :json
         body = list.to_json
       end
+      get '/'+code+'/relfind' do
+        data = dict.find_relation(params['search'].to_s, params['target'].to_s)
+        content_type :json
+        body = data.to_json
+      end
       get '/'+code+'/getfsw' do
         fsw = dict.getfsw(params['sw'].to_s)
         body = fsw

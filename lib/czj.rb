@@ -1038,5 +1038,43 @@ class CZJDict < Object
     swstring = swa.join('_')
     return swstring
   end
+
+  def find_relation(search, target)
+    list = []
+    if search != '' and target != ''
+      if @write_dicts.include?(target)
+        query = {
+          'dict'=>target,
+          'lemma.completeness'=>{'$ne'=>'1'},
+          '$or'=>[
+            {'lemma.title'=>{'$regex'=>/^#{search.downcase}/i}},
+            {'lemma.title_dia'=>{'$regex'=>/^#{search.downcase}/i}},
+            {'meanings.id'=>search},
+            {'id'=>search}
+          ]
+        }
+        @entrydb.find(query).each{|rel|
+          title = rel['lemma']['title'].to_s
+          rel['meanings'].each{|relm|
+            hash = {'title'=>title, 'number'=>relm['number'].to_s, 'id'=>relm['id']}
+            hash['def'] = relm['text']['_text'] if relm['text'] and relm['text']['_text'].to_s != ''
+            list << hash
+          }
+        }
+      else
+        query = {
+          'dict'=>target,
+          'lemma.completeness'=>{'$ne'=>'1'},
+          '$or'=>[
+            {'id'=>search},
+          ]
+        }
+
+                    #(some $l in media/file satisfies ((contains($l/label, "'+search.downcase+'") or $l/label="'+search+'") and ($l/type="sign_side" or $l/type="sign_front" or $l/type="sign_definition"))) 
+                    #or (some $r in meanings/meaning/relation[@type="translation"] satisfies (starts-with($r/title, "'+search+'") or starts-with($r/title_dia, "'+search+'")))
+      end
+    end
+    return list.sort_by{|x| [x['title'], x['number'].to_i]}
+  end
 end
 
