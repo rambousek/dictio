@@ -1357,7 +1357,7 @@ function add_videopreview() {
   for (var i = 0; i < mar.length; i++) {
     var loc = mar[i].query('component[name="vidid"]')[0].getValue();
     console.log('add preview ' + loc);
-    mar[i].query('component[name="mediaimg"]')[0].el.setHTML('<div id="flowvideo'+mar[i].query('component[name="mediaid"]')[0].getValue()+'" data-width="100" data-ratio="0.8" style="width:150px; height: 120px; background:#777 url(/media/video'+dictcode+'/thumb/'+loc+'/thumb.jpg) no-repeat; background-size: 150px 120px; background-image-opacity: 0.5; "><video class='+dictcode+' poster="/media/video'+dictcode+'/thumb/'+loc+'/thumb.jpg" onmouseover="this.play()" onmouseout="this.pause()" width="150px" height="120px" loop="loop"><source type="video/webm" src="/media/video'+dictcode+'/'+loc+'.webm"></source><source type="video/mp4" src="/media/video'+dictcode+'/'+loc+'"></source></video></div>');
+    mar[i].query('component[name="mediaimg"]')[0].el.setHTML('<div id="flowvideo'+mar[i].query('component[name="mediaid"]')[0].getValue()+'" data-width="100" data-ratio="0.8" style="width:150px; height: 120px; background:#777 url(https://beta.dictio.info/thumb/video'+dictcode+'/'+loc+') no-repeat; background-size: 150px 120px; background-image-opacity: 0.5; "><video class='+dictcode+' poster="https://beta.dictio.info/thumb/video'+dictcode+'/'+loc+'" onmouseover="this.play()" onmouseout="this.pause()" width="150px" height="120px" loop="loop"><source type="video/mp4" src="https://files.dictio.info/video'+dictcode+'/'+loc+'"></source></video></div>');
   }
 //  activate_player('.player2');
 }
@@ -2549,8 +2549,7 @@ function create_variant(entryid) {
           },
           listConfig: {
             getInnerTpl: function() {
-              /* return '<div><img width="80" src="/media/video'+dictcode+'/thumb/{location}/thumb.jpg">{location}</div>'; */
-              return '<div cursor: hand;"><video width="120px" poster="/media/video'+dictcode+'/thumb/{location}/thumb.jpg" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/webm" src="/media/video'+dictcode+'/{location}.webm"></source><source type="video/mp4" src="/media/video'+dictcode+'/{location}"></source></video>{location}</div>';
+              return '<div cursor: hand;"><video width="120px" poster="https://beta.dictio.info/thumb/video'+dictcode+'/{location}" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video'+dictcode+'/{location}"></source></video>{location}</div>';
               
             }
           }
@@ -2650,8 +2649,7 @@ function create_text_video(idstart, entryid, label, show_copy, video_type) {
           },
           listConfig: {
             getInnerTpl: function() {
-              /* return '<div><img width="80" src="/media/video'+dictcode+'/thumb/{location}/thumb.jpg">{location}</div>';  upraveno */
-            return '<div cursor: hand;"><video width="120px" poster="/media/video'+dictcode+'/thumb/{location}/thumb.jpg" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/webm" src="/media/video'+dictcode+'/{location}.webm"></source><source type="video/mp4" src="/media/video'+dictcode+'/{location}"></source></video>{location}</div>';
+            return '<div cursor: hand;"><video width="120px" poster="https://beta.dictio.info/thumb/video'+dictcode+'/{location}" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video'+dictcode+'/{location}"></source></video>{location}</div>';
             }
           }
         }]
@@ -2854,7 +2852,7 @@ function create_vyznam_links(parentid) {
                 }
                 if (rinfo.charAt(0) == 'V') {
                   var videoloc = rinfo.substring(2);
-                  prevbox.update('<div class="videofancybox" data-ratio="0.8" class="usage" style="width:120px; cursor: zoom-in;"><video width="80px" poster="/media/video'+target+'/thumb/'+videoloc+'/thumb.jpg" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/webm" src="/media/video'+target+'/'+videoloc+'.webm"></source><source type="video/mp4" src="/media/video'+target+'/'+videoloc+'"></source></video></div>')
+                  prevbox.update('<div class="videofancybox" data-ratio="0.8" class="usage" style="width:120px; cursor: zoom-in;"><video width="80px" poster="https://beta.dictio.info/thumb/video'+target+'/'+videoloc+'" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video'+target+'/'+videoloc+'"></source></video></div>')
                   prevbox.setHeight(60);
                 }
                 document.getElementById(prevbox.id+"-innerCt").classList.add('text-'+target)
@@ -2879,9 +2877,9 @@ function create_vyznam_links(parentid) {
             }
           }
         }
-      },  /* <img width="80" src="/media/video{target}/thumb/{loc}/thumb.jpg"> */
+      },  
       tpl: new Ext.XTemplate(
-          '<tpl for="."><div class="x-boundlist-item"><b>{title}: {number}:</b> <i>{def}</i><tpl if="front!=&quot;&quot;"><div cursor: hand;"><video width="80px" poster="/media/video{target}/thumb/{front}/thumb.jpg" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/webm" src="/media/video{target}/{front}.webm"></video><source type="video/mp4" src="/media/video{target}/{front}"></video>{front}</div></tpl> <tpl if="loc!=&quot;&quot;"><div cursor: hand;"><video width="120px" poster="/media/video{target}/thumb/{loc}/thumb.jpg" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/webm" src="/media/video{target}/{loc}.webm"></source><source type="video/mp4" src="/media/video{target}/{loc}"></source></video>{loc}</div></tpl></div></tpl>'
+          '<tpl for="."><div class="x-boundlist-item"><b>{title}: {number}:</b> <i>{def}</i><tpl if="front!=&quot;&quot;"><div cursor: hand;"><video width="80px" poster="https://beta.dictio.info/thumb/video{target}/{front}" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video{target}/{front}"></video>{front}</div></tpl> <tpl if="loc!=&quot;&quot;"><div cursor: hand;"><video width="120px" poster="https://beta.dictio.info/thumb/video{target}/{loc}" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video{target}/{loc}"></source></video>{loc}</div></tpl></div></tpl>'
       ),
     },
     create_stav(),
@@ -2952,7 +2950,7 @@ function create_priklad_links(parentid) {
         }
       },
       
-      tpl: Ext.create('Ext.XTemplate','<tpl for="."><div class="x-boundlist-item"><b>{title}: {number}:</b> <i>{def}</i><tpl if="loc!=\'\'"><br/><img src="/media/video{target}/thumb/{loc}/thumb.jpg" width="120" height="96"/></tpl></div></tpl>'),
+      tpl: Ext.create('Ext.XTemplate','<tpl for="."><div class="x-boundlist-item"><b>{title}: {number}:</b> <i>{def}</i><tpl if="loc!=\'\'"><br/><img src="https://beta.dictio.info/thumb/video{target}/{loc}" width="120" height="96"/></tpl></div></tpl>'),
     },{
       xtype: 'button',
       icon: '/editor/delete.png',
@@ -3279,7 +3277,7 @@ function create_colloc(entryid) {
       },
       listConfig: {
         getInnerTpl: function() {
-          return '<div cursor: hand;"><video width="120px" poster="/media/video'+dictcode+'/thumb/{loc}/thumb.jpg" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/webm" src="/media/video'+dictcode+'/{loc}.webm"></source><source type="video/mp4" src="/media/video'+dictcode+'/{loc}"></source></video>{id}</div>';
+          return '<div cursor: hand;"><video width="120px" poster="https://beta.dictio.info/thumb/video'+dictcode+'/{loc}" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video'+dictcode+'/{loc}"></source></video>{id}</div>';
         }
       }
     },{
@@ -3397,7 +3395,7 @@ function create_video(entryid, selectnew, vidid) {
               },
               listConfig: {
                 getInnerTpl: function() {
-                  return '<div><img width="140" src="/media/video'+dictcode+'/thumb/{location}/thumb.jpg">{location}</div>';
+                  return '<div><img width="140" src="https://beta.dictio.info/thumb/video'+dictcode+'/{location}">{location}</div>';
                 }
               }
             },{
