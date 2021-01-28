@@ -1172,9 +1172,8 @@ function getglyph(swid, swdata) {
   Ext.getCmp(swid).query('component[name="swdata"]')[0].setValue(swar.join('_'));
   Ext.getCmp(swid).query('component[name="swimg"]')[0].el.setHTML('<img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]='+swar.join('_')+'&generator[align]=top_left&generator[set]=sw10"/>');
   Ext.Ajax.request({
-    url: '/'+dictcode,
+    url: '/'+dictcode+'/getfsw',
     params: {
-      action: 'getfsw',
       sw: swar.join('_'),
     },
     method: 'get',
@@ -3143,9 +3142,8 @@ function create_sw(entryid, add_copy) {
                     Ext.getCmp(name).query('component[name="swdata"]')[0].setValue(swe);
                     Ext.getCmp(name).query('component[name="swimg"]')[0].el.setHTML('<img src="https://beta.dictio.info/sw/signwriting.png?generator[sw]='+swe+'&generator[align]=top_left&generator[set]=sw10"/>');
                     Ext.Ajax.request({
-                      url: '/'+dictcode,
+                      url: '/'+dictcode+'/getfsw',
                       params: {
-                        action: 'getfsw',
                         sw: swe
                       },
                       method: 'get',
@@ -3183,9 +3181,8 @@ function create_sw(entryid, add_copy) {
                   if (btn == 'ok' && text != '') {
                     field.setValue(text);
                     Ext.Ajax.request({
-                      url: '/'+dictcode,
+                      url: '/'+dictcode+'/fromfsw',
                       params: {
-                        action: 'fromfsw',
                         fsw: text,
                         width: 600,
                       },

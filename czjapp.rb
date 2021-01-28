@@ -273,6 +273,14 @@ class CzjApp < Sinatra::Base
         content_type :json
         body = list.to_json
       end
+      get '/'+code+'/getfsw' do
+        fsw = dict.getfsw(params['sw'].to_s)
+        body = fsw
+      end
+      get '/'+code+'/fromfsw' do
+        sw = dict.fromfsw(params['fsw'].to_s)
+        body = sw
+      end
     end
   }
 
