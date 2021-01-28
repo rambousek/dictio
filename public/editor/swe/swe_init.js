@@ -14,11 +14,7 @@ sw = {
     phrase: [],
     p_x: 0,
     p_y: 0,
-//  baseDir: "./", 
-//  baseDir: "/pcSignwritingPlugin/swEditor/",
-//    baseDir: "http://pojabr.zcu.cz/proxy/slovnik/pcSignwritingPlugin/swEditor/",
-//    baseDir: "http://slovnik.zj.teiresias.muni.cz/pcSignwritingPlugin/swEditor/",
-baseDir: './swplugin/',
+    baseDir: './swplugin/',
     localesXML: "locales.xml",
     sourcesXML: "sources.xml",
     buttons: ["del", "truncate", "mirror", "fill", "rotatecclockwise", "rotateclockwise", "placeover"]

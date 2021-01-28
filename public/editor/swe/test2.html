@@ -16,10 +16,6 @@
     <script type="text/javascript" src="/editor/swe/jquery.improptu.js"></script>
     <script type="text/javascript" src="/editor/swe/json2.js"></script>
 
-    <!-- kompilovaná verze -->
-    <!-- script type="text/javascript" src="../scripts/swe.js"></script --> 
-    <!-- /kompilovaná verze -->
-
     <script type="text/javascript" src="/editor/swe/swe_init.js"></script>
     <script type="text/javascript" src="/editor/swe/swe_ajax_queries.js"></script>
     <script type="text/javascript" src="/editor/swe/swe_main.js"></script>
@@ -78,7 +74,7 @@ function send() {
       dict = window.location.search.substr(1);
     }*/
     $('#search'+dict+'sw', window.parent.document).val(swar.join('_'));
-    $('#'+dict+'swpreview', window.parent.document).attr('src', '//www.dictio.info/proxy/tts/signwriting.png?generator[sw]='+swar.join('_')+'&generator[align]=top_left&generator[set]=sw10');
+    $('#'+dict+'swpreview', window.parent.document).attr('src', '/sw/signwriting.png?generator[sw]='+swar.join('_')+'&generator[align]=top_left&generator[set]=sw10');
     $('#'+dict+'swpreview', window.parent.document).show();
   } else {
     $('#'+sw_id, window.parent.document).attr('swe', swar.join('_'));
