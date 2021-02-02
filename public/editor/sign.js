@@ -1193,9 +1193,8 @@ function recieveDatahamndata(data) {
 function reload_rel(search, field, target) {
   relationlist.loadData([], false);
   Ext.Ajax.request({
-    url: '/'+dictcode+'/relfind',
+    url: '/'+target+'/relfind',
     params: {
-      target: target,
       search: search,
     },
     method: 'get',
@@ -2674,15 +2673,18 @@ function refresh_relations(parentid, set_rel) {
 }
 
 function get_selected_dict() {
-  cook_ar = Ext.util.Cookies.get('dictio_pref').split(';');
+  cookie = Ext.util.Cookies.get('dictio_pref')
   selected = new Array();
-  cook_ar.forEach(function(el) {
-    if (el.startsWith('dict-') && el.endsWith('=true')) {
-      var selcode = el.substring(5, el.indexOf('='))
-      selected.push(selcode);
-      if (selcode == 'cj') {selected.push('cs');}
-    }
-  });
+  if (cookie != undefined) {
+    cook_ar = cookie.split(';');
+    cook_ar.forEach(function(el) {
+      if (el.startsWith('dict-') && el.endsWith('=true')) {
+        var selcode = el.substring(5, el.indexOf('='))
+        selected.push(selcode);
+        if (selcode == 'cj') {selected.push('cs');}
+      }
+    });
+  }
   return selected;
 }
 

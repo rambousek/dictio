@@ -274,7 +274,7 @@ class CzjApp < Sinatra::Base
         body = list.to_json
       end
       get '/'+code+'/relfind' do
-        data = dict.find_relation(params['search'].to_s, params['target'].to_s)
+        data = dict.find_relation(params['search'].to_s)
         content_type :json
         body = data.to_json
       end

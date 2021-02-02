@@ -1039,7 +1039,8 @@ class CZJDict < Object
     return swstring
   end
 
-  def find_relation(search, target)
+  def find_relation(search)
+    target = @dictcode
     list = []
     if search != '' and target != ''
       if @write_dicts.include?(target)
@@ -1062,16 +1063,72 @@ class CZJDict < Object
           }
         }
       else
+        # find media with label
+        querym = {
+          'dict'=>target,
+          '$or'=>[
+            {'label'=>{'$regex'=>/#{search.downcase}/i}},
+            {'label'=>search}
+          ],
+          'type'=>{'$in' => ['sign_front', 'sign_side', 'sign_definition']}
+        }
+        mids = []
+        mlocs = []
+        $mongo['media'].find(querym).each{|med|
+          mids << med['id']
+          mlocs << med['location']
+        }
+        # find relations with title
+        queryr = {
+          'dict'=>{'$in'=>@write_dicts},
+          'meanings.relation.target'=>target,
+          '$or'=>[
+            {'lemma.title'=>{'$regex'=>/^#{search.downcase}/i}},
+            {'lemma.title_dia'=>{'$regex'=>/^#{search.downcase}/i}},
+          ]
+        }
+        trans = []
+        @entrydb.find(queryr).each{|entry|
+          entry['meanings'].each{|mean|
+            mean['relation'].each{|rel|
+              if rel['type'] == 'translation' and rel['target'] == target
+                trans << rel['meaning_id']
+              end
+            }
+          }
+        }
+
+        # combine media, relation
         query = {
           'dict'=>target,
           'lemma.completeness'=>{'$ne'=>'1'},
           '$or'=>[
             {'id'=>search},
+            {'lemma.video_front'=>{'$in'=>mlocs}},
+            {'meanings.usages.text.file.@media_id'=>{'$in'=>mids}},
+            {'meanings.text.file.@media_id'=>{'$in'=>mids}},
+            {'lemma.grammar_note.variant._text'=>{'$in'=>mids}},
+            {'lemma.style_note.variant._text'=>{'$in'=>mids}},
+            {'meanings.id'=>{'$in'=>trans}}
           ]
         }
-
-                    #(some $l in media/file satisfies ((contains($l/label, "'+search.downcase+'") or $l/label="'+search+'") and ($l/type="sign_side" or $l/type="sign_front" or $l/type="sign_definition"))) 
-                    #or (some $r in meanings/meaning/relation[@type="translation"] satisfies (starts-with($r/title, "'+search+'") or starts-with($r/title_dia, "'+search+'")))
+        $stderr.puts query
+        @entrydb.find(query).each{|rel|
+          hash = {'title'=>rel['id'], 'target'=>target, 'front'=>'', 'def'=>''}
+          if rel['lemma']['video_front'].to_s != '' 
+            hash['title'] = get_media_location(rel['lemma']['video_front'].to_s, target)['label'].to_s + ' (' + rel['id'].to_s + ')'
+            hash['front'] = rel['lemma']['video_front'].to_s
+          end
+          rel['meanings'].each{|mean|
+            hash['number'] = mean['number'].to_s
+            hash['id'] = mean['id'].to_s
+            if mean['text'] and mean['text']['file'] and mean['text']['file']['@media_id']
+              hash['def'] = mean['text']['file']['@media_id'].to_s
+              hash['loc'] = get_media(mean['text']['file']['@media_id'].to_s, target)['location']
+            end
+            list << hash
+          }
+        }
       end
     end
     return list.sort_by{|x| [x['title'], x['number'].to_i]}
