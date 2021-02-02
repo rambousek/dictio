@@ -1133,5 +1133,38 @@ class CZJDict < Object
     end
     return list.sort_by{|x| [x['title'], x['number'].to_i]}
   end
+
+  def get_relation_info(meaning_id)
+    data = @entrydb.find({'meanings.id': meaning_id, 'dict': @dictcode}).first
+    if data != nil
+      if @write_dicts.include?(@dictcode)
+        return 'T:'+data['lemma']['title'].to_s
+      else
+        return 'V:'+data['lemma']['video_front'].to_s
+      end
+    end
+    return ''
+  end
+
+  def get_relations(meaning_id, type)
+    list = []
+    entry = getdoc(meaning_id.split('-')[0].to_s)
+    entry['meanings'].each{|mean|
+      if mean['id'] == meaning_id
+        mean['relation'].each{|rel|
+          next if type != '' and rel['type'] != type
+          hash = {'type'=>rel['type'], 'target'=>rel['target'], 'meaning_id'=>rel['meaning_id']}
+          if rel['entry'] and rel['entry']['lemma'] and rel['entry']['lemma']['title']
+            hash['title'] = rel['entry']['lemma']['title']
+          end
+          if rel['entry'] and rel['entry']['media'] and rel['entry']['media']['video_front']
+            hash['title'] = rel['entry']['media']['video_front']['label']
+          end
+          list << hash
+        }
+      end
+    }
+    return list
+  end
 end
 

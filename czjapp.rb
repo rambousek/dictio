@@ -286,6 +286,15 @@ class CzjApp < Sinatra::Base
         sw = dict.fromfsw(params['fsw'].to_s)
         body = sw
       end
+      get '/'+code+'/relationinfo' do
+        info = dict.get_relation_info(params['meaning_id'].to_s)
+        body = info
+      end
+      get '/'+code+'/getrelations' do
+        list = dict.get_relations(params['meaning_id'].to_s, params['type'].to_s)
+        content_type :json
+        body = list.to_json
+      end
     end
   }
 

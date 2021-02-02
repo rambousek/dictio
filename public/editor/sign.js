@@ -2690,9 +2690,8 @@ function get_selected_dict() {
 
 function load_link_relations(target, combo, name, parentid, set_rel) {
             Ext.Ajax.request({
-              url: '/'+target,
+              url: '/'+target+'/getrelations',
               params: {
-                action: 'get_relations',
                 meaning_id: combo.getValue(),
                 type: set_rel
               },
@@ -2832,9 +2831,8 @@ function create_vyznam_links(parentid) {
             }
             //ajax load preview
             Ext.Ajax.request({
-              url: '/'+target,
+              url: '/'+target+'/relationinfo',
               params: {
-                action: 'get_relation_info',
                 meaning_id: combo.getValue()
               },
               method: 'get',
