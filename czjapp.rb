@@ -139,12 +139,16 @@ class CzjApp < Sinatra::Base
       @dict_info = $dict_info
       @dictcode = code
       @show_dictcode = code
-      @entry = dict.getdoc(params['id'])
       @search_params = {}
       @search_type = 'search'
       @target = ''
-      @title = $dict_info[code]['label'] + ' ' + params['id']
-      slim :fullentry 
+      @entry = dict.getdoc(params['id'])
+      if @entry != {}
+        @title = $dict_info[code]['label'] + ' ' + params['id']
+        slim :fullentry 
+      else
+        slim :notfound
+      end
     end
     get '/'+code+'/json/:id' do 
       content_type :json

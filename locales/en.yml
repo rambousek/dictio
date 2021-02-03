@@ -56,6 +56,7 @@ en:
     load_next: "Show more"
     pos: "-- PoS --"
     advanced: "advanced..."
+    notfound: "entry not found"
   entry:
     frontview: "Front view"
     sideview: "Profile view"

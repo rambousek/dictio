@@ -18,9 +18,13 @@ class CZJDict < Object
 
     data = @entrydb.find({'id': id, 'dict': @dictcode}).first
     $stderr.puts data
-    entry = full_entry(data)
-    entry = add_rels(entry)
-    return entry
+    if data != nil
+      entry = full_entry(data)
+      entry = add_rels(entry)
+      return entry
+    else
+      return {}
+    end
   end
 
   def get_comments(id, type, exact=true)
