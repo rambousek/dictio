@@ -969,9 +969,11 @@ class CZJDict < Object
       query[:$or] << {'media_folder_id' => entry['lemma']['media_folder_id']} unless entry['lemma']['media_folder_id'].nil?
       files = []
       entry['meanings'].each{|me|
-        me['usages'].each{|us|
-          files << us['text']['file']['@media_id'] if us['text'] and us['text']['file'] and us['text']['file']['@media_id']
-        }
+        if me['usages']
+          me['usages'].each{|us|
+            files << us['text']['file']['@media_id'] if us['text'] and us['text']['file'] and us['text']['file']['@media_id']
+          }
+        end
         files << me['text']['file']['@media_id'] if me['text'] and me['text']['file'] and me['text']['file']['@media_id']
       }
       if entry['lemma']['grammar_note'] and entry['lemma']['grammar_note'][0] and entry['lemma']['grammar_note'][0]['variant']
