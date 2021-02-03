@@ -4799,13 +4799,14 @@ Ext.onReady(function(){
                 data: JSON.stringify(data),
               },
               method: 'POST',
-              failure: function(form, action) {
+              failure: function(response) {
                 console.log('fail')
-                console.log(action.result)
+                console.log(response.responseText)
               },
-              success: function(form, action) {
-                console.log(action.result)
-                Ext.Msg.alert('Stav', action.result.msg);
+              success: function(response) {
+                console.log(response.responseText)
+                var data = JSON.parse(response.responseText);
+                Ext.Msg.alert('Stav', data.msg);
                 Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox);
                 window.location = '/'+dictcode+'/show/'+entryid+'?lang='+lang;
               }
@@ -4873,11 +4874,12 @@ Ext.onReady(function(){
                 data: JSON.stringify(data),
               },
               method: 'POST',
-              success: function(form, action) {
+              success: function(response) {
                 entry_updated = false;
                 entry_update_show(false);
-                console.log(action.result)
-                Ext.Msg.alert('Stav', action.result.msg);
+                var data = JSON.parse(response.responseText);
+                console.log(data)
+                Ext.Msg.alert('Stav', data.msg);
                 Ext.Function.defer(Ext.MessageBox.hide, 9000, Ext.MessageBox);
                 if (is_new_entry) {
                   window.location = '/editor/?id='+entryid+'&lang='+lang;
@@ -4893,7 +4895,6 @@ Ext.onReady(function(){
         icon: '/editor/img/savedisplay.png',
         handler: function() {
           console.log('savedisplay spodni');
-          //var form = this.up('form').getForm();
           var data = save_doc(entryid);
           if (data != false) {
             Ext.Msg.alert('Stav', locale[lang].savemsg);
@@ -4905,13 +4906,14 @@ Ext.onReady(function(){
                 data: JSON.stringify(data),
               },
               method: 'POST',
-              failure: function(form, action) {
+              failure: function(response) {
                 console.log('fail')
-                console.log(action.result)
+                console.log(response.responseText)
               },
-              success: function(form, action) {
-                console.log(action.result)
-                Ext.Msg.alert('Stav', action.result.msg);
+              success: function(response) {
+                var data = JSON.parse(response.responseText);
+                console.log(data)
+                Ext.Msg.alert('Stav', data.msg);
                 Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox);
                 window.location = '/'+dictcode+'/show/'+entryid+'?lang='+lang;
               }
