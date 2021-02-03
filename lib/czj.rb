@@ -864,7 +864,30 @@ class CZJDict < Object
   end
 
   def remove_relation(dict, rel_meaning, rel_target_id, rel_type, rel_dict)
-    query = {'dict': dict, 'meanings.id': rel_target_id}
+    rel_type = 'synonym' if rel_type == 'synonym_strategie'
+    query = {'dict'=>dict, '$or'=>[{'meanings.id'=>rel_target_id}, {'meanings.usages.id'=>rel_target_id}]}
+    @entrydb.find(query).each{|doc|
+      changed = false
+      doc['meanings'].each{|mean|
+        if mean['id'] == rel_target_id
+          mean['relation'].reject!{|rel| rel['target'] == rel_dict and rel['meaning_id'] == rel_meaning}
+        end
+
+        if mean['usages']
+          mean['usages'].select{|usg| usg['id'] == rel_target_id}.each{|usg|
+            if usg['relation']
+              usg['relation'].reject!{|rel| rel['target'] == rel_dict and rel['meaning_id'] == rel_meaning}
+              if usg['relation'].length == 0
+                usg['type'] = 'sentence'
+              end
+            end
+          }
+        end
+      }
+      $stderr.puts 'update doc remove relations '+doc['dict']+doc['id']
+      @entrydb.find({'dict'=>doc['dict'], 'id'=>doc['id']}).delete_many
+      @entrydb.insert_one(doc)
+    }
   end
 
   def add_relation(dict, rel_meaning, rel_target_id, rel_type, rel_status, rel_dict)
@@ -875,7 +898,7 @@ class CZJDict < Object
       doc['meanings'].each{|mean|
         if mean['id'] == rel_target_id
           mean['relation'] = [] if mean['relation'].nil?
-          if mean['relation'].find{|rel| rel['target'] == rel_dict and rel['type'] == rel_type and rel['meaning_id'] == rel_meaning}
+          if not mean['relation'].find{|rel| rel['target'] == rel_dict and rel['type'] == rel_type and rel['meaning_id'] == rel_meaning}
             mean['relation'] << {'target'=>rel_dict, 'type'=>rel_type, 'meaning_id'=>rel_meaning, 'status'=>rel_status}
             changed = true
           else
@@ -889,8 +912,9 @@ class CZJDict < Object
         if mean['usages']
           mean['usages'].select{|usg| usg['id'] == rel_target_id}.each{|usg|
             usg['relation'] = [] if usg['relation'].nil?
-            if usg['relation'].find{|rel| rel['target'] == rel_dict and rel['type'] == rel_type and rel['meaning_id'] == rel_meaning}
+            if not usg['relation'].find{|rel| rel['target'] == rel_dict and rel['type'] == rel_type and rel['meaning_id'] == rel_meaning}
               usg['relation'] << {'target'=>rel_dict, 'type'=>rel_type, 'meaning_id'=>rel_meaning, 'status'=>rel_status}
+              usg['type'] = 'colloc'
               changed = true
             else
               usg['relation'].select{|rel| rel['target'] == rel_dict and rel['type'] == rel_type and rel['meaning_id'] == rel_meaning}.each{|rel|
@@ -902,7 +926,7 @@ class CZJDict < Object
         end
       }
       if changed
-        $stderr.puts 'update doc relations '+doc['dict']+doc['id']
+        $stderr.puts 'update doc add relations '+doc['dict']+doc['id']
         @entrydb.find({'dict'=>doc['dict'], 'id'=>doc['id']}).delete_many
         @entrydb.insert_one(doc)
       end
