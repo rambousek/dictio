@@ -765,6 +765,7 @@ class CZJDict < Object
           }
         end
       }
+      $stderr.puts oldrels
       #removed meanings?
       oldmeans.each{|mi|
         if data['meanings'].nil? or data['meanings'].select{|m| m['id']==mi}.length == 0
@@ -864,7 +865,44 @@ class CZJDict < Object
 
   def add_relation(dict, rel_meaning, rel_target_id, rel_type, rel_status, rel_dict)
     rel_type = 'synonym' if rel_type == 'synonym_strategie'
-    query = {'dict': dict, 'meanings.id': rel_target_id}
+    query = {'dict'=>dict, '$or'=>[{'meanings.id'=>rel_target_id}, {'meanings.usages.id'=>rel_target_id}]}
+    @entrydb.find(query).each{|doc|
+      changed = false
+      doc['meanings'].each{|mean|
+        if mean['id'] == rel_target_id
+          mean['relation'] = [] if mean['relation'].nil?
+          if mean['relation'].find{|rel| rel['target'] == rel_dict and rel['type'] == rel_type and rel['meaning_id'] == rel_meaning}
+            mean['relation'] << {'target'=>rel_dict, 'type'=>rel_type, 'meaning_id'=>rel_meaning, 'status'=>rel_status}
+            changed = true
+          else
+            mean['relation'].select{|rel| rel['target'] == rel_dict and rel['type'] == rel_type and rel['meaning_id'] == rel_meaning}.each{|rel|
+              rel['status'] = rel_status
+              changed = true
+            }
+          end
+        end
+
+        if mean['usages']
+          mean['usages'].select{|usg| usg['id'] == rel_target_id}.each{|usg|
+            usg['relation'] = [] if usg['relation'].nil?
+            if usg['relation'].find{|rel| rel['target'] == rel_dict and rel['type'] == rel_type and rel['meaning_id'] == rel_meaning}
+              usg['relation'] << {'target'=>rel_dict, 'type'=>rel_type, 'meaning_id'=>rel_meaning, 'status'=>rel_status}
+              changed = true
+            else
+              usg['relation'].select{|rel| rel['target'] == rel_dict and rel['type'] == rel_type and rel['meaning_id'] == rel_meaning}.each{|rel|
+                rel['status'] = rel_status
+                changed = true
+              }
+            end
+          }
+        end
+      }
+      if changed
+        $stderr.puts 'update doc relations '+doc['dict']+doc['id']
+        @entrydb.find({'dict'=>doc['dict'], 'id'=>doc['id']}).delete_many
+        @entrydb.insert_one(doc)
+      end
+    }
   end
 
   def publish_relation(dict, rel_meaning, rel_target_id, rel_type)
@@ -1165,6 +1203,10 @@ class CZJDict < Object
       end
     }
     return list
+  end
+
+  def delete_doc(entry_id)
+    @entrydb.find({'dict'=>@dictcode, 'id'=>entry_id}).delete_many
   end
 end
 

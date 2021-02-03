@@ -4789,17 +4789,16 @@ Ext.onReady(function(){
         handler: function() {
           Ext.Msg.alert('Stav', locale[lang].savemsg);
           console.log('savedisplay horni');
-          var form = this.up('form').getForm();
+          var waitBox = Ext.MessageBox.wait(locale[lang].savemsg);
           var data = save_doc(entryid);
           if (data != false) {
             console.log('odeslat data');
-            form.submit({
+            Ext.Ajax.request({
               url: '/'+dictcode+'/save',
               params: {
                 data: JSON.stringify(data),
               },
               method: 'POST',
-              waitMsg: locale[lang].savemsg,
               failure: function(form, action) {
                 console.log('fail')
                 console.log(action.result)
@@ -4833,18 +4832,14 @@ Ext.onReady(function(){
             fn: function(btn) {
               if (btn == 'yes') {
                 Ext.Ajax.request({
-                  url: '/'+dictcode,
-                  params: {
-                    action: 'delete',
-                    id: entryid
-                  },
+                  url: '/'+dictcode+'/delete/'+entryid,
                   method: 'get',
                   success: function(response) {
                     console.log(response.responseText);
                     if (response.responseText.substring(0,7) == 'DELETED') {
                       Ext.Msg.alert('Stav', locale[lang].deleted);
                       Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox);
-                      window.location = '/'+dictcode+'?action=search'
+                      window.location = '/'+dictcode;
                     } else {
                       Ext.Msg.alert('Chyba', response.responseText);
                     }
@@ -4869,16 +4864,15 @@ Ext.onReady(function(){
         name: 'savebutton',
         icon: '/editor/img/save.png',        
         handler: function() {
-          var form = this.up('form').getForm();
+          var waitBox = Ext.MessageBox.wait(locale[lang].savemsg);
           var data = save_doc(entryid);
           if (data != false) {
-            form.submit({
+            Ext.Ajax.request({
               url: '/'+dictcode+'/save',
               params: {
                 data: JSON.stringify(data),
               },
               method: 'POST',
-              waitMsg: locale[lang].savemsg,
               success: function(form, action) {
                 entry_updated = false;
                 entry_update_show(false);
@@ -4899,18 +4893,18 @@ Ext.onReady(function(){
         icon: '/editor/img/savedisplay.png',
         handler: function() {
           console.log('savedisplay spodni');
-          var form = this.up('form').getForm();
+          //var form = this.up('form').getForm();
           var data = save_doc(entryid);
           if (data != false) {
             Ext.Msg.alert('Stav', locale[lang].savemsg);
+            var waitBox = Ext.MessageBox.wait(locale[lang].savemsg);
             console.log('odeslat data');
-            form.submit({
+            Ext.Ajax.request({
               url: '/'+dictcode+'/save',
               params: {
                 data: JSON.stringify(data),
               },
               method: 'POST',
-              waitMsg: locale[lang].savemsg,
               failure: function(form, action) {
                 console.log('fail')
                 console.log(action.result)

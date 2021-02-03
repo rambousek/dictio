@@ -55,7 +55,7 @@ class CzjApp < Sinatra::Base
         res = $mongo['users'].find({'login':user}).first
         return false if res.nil?
         if user == res['login'] and pass.crypt(res['password'][0,2]) == res['password']
-          @user_info = {'login'=>res['login'], 'name'=>res['name'], 'email'=>res['email'], 'skupina'=>res['skupina'], 'copy'=>res['copy'], 'autor'=>res['autor'], 'zdroj'=>res['zdroj'], 'perm'=>[], 'admin'=>res['admin']}
+          @user_info = {'login'=>res['login'], 'name'=>res['name'], 'email'=>res['email'], 'skupina'=>res['skupina'], 'copy'=>res['copy'], 'autor'=>res['autor'], 'zdroj'=>res['zdroj'], 'perm'=>[], 'admin'=>res['admin'], 'editor'=>res['editor'], 'revizor'=>res['revizor']}
           res['editor'].each{|e| @user_info['perm'] << 'editor_'+e}
           res['revizor'].each{|e| @user_info['perm'] << 'revizor_'+e}
           @user_info['perm'] = ['admin'] if res['admin']
@@ -249,6 +249,18 @@ class CzjApp < Sinatra::Base
         dict.save_doc(data)
         content_type :json
         body = '{"success":true,"msg":"Uloženo"}'
+      end
+      post '/'+code+'/delete/:id' do
+        if params['id'].to_s != ''
+          if @user_info['editor'].length > 0 or @user_info['revizor'].length > 0 or @user_info['perm'].include?('admin')
+            dict.remove_all_relations(params['id'].to_s)
+            dict.remove_colloc(params['id'].to_s)
+            #dict.delete_doc(params['id'].to_s)
+            body = 'DELETED ' + params['id'].to_s
+          else
+            body = 'not authorized to delete entry'
+          end
+        end
       end
       post '/'+code+'/add_comment' do
         user = ''
