@@ -747,7 +747,6 @@ class CZJDict < Object
     #check relations
     olddata = @entrydb.find({'id': entryid, 'dict': dict}).first
     if olddata != nil
-      @entrydb.find({'dict':dict, 'id': entryid}).delete_many
       oldrels = {}
       oldmeans = []
       olddata['meanings'].each{|m|
@@ -859,6 +858,7 @@ class CZJDict < Object
     data.delete('update_video')
     $stderr.puts data
 
+    @entrydb.find({'dict':dict, 'id': entryid}).delete_many
     @entrydb.insert_one(data)
     return true
   end
