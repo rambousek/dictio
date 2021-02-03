@@ -811,7 +811,7 @@ class CZJDict < Object
             end
             add_relation(target, m['id'], rel['meaning_id'], rel['type'], rel['status'], dict) 
             if rel['meaning_id'].include?('_us') and rel['status'] == 'published' and /^([0-9]*)-.*/.match(rel['meaning_id']) != nil
-              publish_relation(target, /^([0-9]*)-.*/.match(rel['meaning_id'])[1].to_s, rel['meaning_id'], m['id'], rel['type'])
+              publish_usage_relation(target, rel['meaning_id'])
             end
           }
         end
@@ -842,7 +842,7 @@ class CZJDict < Object
                 end
                 add_relation(target, usg['id'], rel['meaning_id'], rel['type'], usg['status'], dict) 
                 if rel['meaning_id'].include?('_us') and usg['status'] == 'published' and /^([0-9]*)-.*/.match(rel['meaning_id']) != nil
-                  publish_relation(target, /^([0-9]*)-.*/.match(rel['meaning_id'])[1].to_s, rel['meaning_id'], usg['id'], rel['type'])
+                  publish_usage_relation(target, rel['meaning_id'])
                 end
               }
             end
@@ -867,7 +867,6 @@ class CZJDict < Object
     rel_type = 'synonym' if rel_type == 'synonym_strategie'
     query = {'dict'=>dict, '$or'=>[{'meanings.id'=>rel_target_id}, {'meanings.usages.id'=>rel_target_id}]}
     @entrydb.find(query).each{|doc|
-      changed = false
       doc['meanings'].each{|mean|
         if mean['id'] == rel_target_id
           mean['relation'].reject!{|rel| rel['target'] == rel_dict and rel['meaning_id'] == rel_meaning}
@@ -933,8 +932,26 @@ class CZJDict < Object
     }
   end
 
-  def publish_relation(dict, rel_meaning, rel_target_id, rel_type)
-    query = {'dict': dict, 'meanings.id': rel_target_id}
+  def publish_usage_relation(dict, rel_usage)
+    query = {'dict'=>dict, 'meanings.usages.id'=>rel_usage}
+    @entrydb.find(query).each{|doc|
+      changed = false
+      doc['meanings'].each{|mean|
+        if mean['usages'] and mean['usages'].find{|usg| usg['id'] == rel_usage}
+          mean['usages'].select{|usg| usg['id'] == rel_usage}.each{|usg|
+            if usg['status'] != 'published'
+              usg['status'] = 'published'
+              changed = true
+            end
+          }
+        end
+      }
+      if changed
+        $stderr.puts 'update doc publish relations '+doc['dict']+doc['id']
+        @entrydb.find({'dict'=>doc['dict'], 'id'=>doc['id']}).delete_many
+        @entrydb.insert_one(doc)
+      end
+    }
   end
 
   def get_fsw(swstring)
