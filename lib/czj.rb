@@ -1255,5 +1255,40 @@ class CZJDict < Object
   def delete_doc(entry_id)
     @entrydb.find({'dict'=>@dictcode, 'id'=>entry_id}).delete_many
   end
+
+  # remove all relations to entry
+  def remove_all_relations(entry_id)
+    query = {'$or'=>[
+      'meanings.relation'=>{'$elemMatch'=>{'target'=>@dictcode,'meaning_id'=>{'$regex'=>/^#{entry_id}-/}}},
+      'meanings.usages.relation'=>{'$elemMatch'=>{'target'=>@dictcode,'meaning_id'=>{'$regex'=>/^#{entry_id}-/}}}
+    ]}
+    @entrydb.find(query).each{|doc|
+      doc['meanings'].each{|mean|
+        if mean['relation']
+          mean['relation'].reject!{|rel| rel['target'] == @dictcode and rel['meaning_id'].start_with?(entry_id+'-')}
+        end
+        if mean['usages']
+          mean['usages'].each{|usg|
+            if usg['relation']
+              usg['relation'].reject!{|rel| rel['target'] == @dictcode and rel['meaning_id'].start_with?(entry_id+'-')}
+            end
+          }
+        end
+      }
+      @entrydb.find({'dict'=>doc['dict'], 'id'=>doc['id']}).delete_many
+      @entrydb.insert_one(doc)
+    }
+  end
+
+  # remove entry as collocation part
+  def remove_colloc(entry_id)
+    query = {'dict'=>@dictcode, 'collocations.colloc'=>entry_id}
+    @entrydb.find(query).each{|doc|
+      doc['collocations']['colloc'].delete(entry_id)
+      $stderr.puts doc['collocations']
+      @entrydb.find({'dict'=>doc['dict'], 'id'=>doc['id']}).delete_many
+      @entrydb.insert_one(doc)
+    }
+  end
 end
 

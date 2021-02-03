@@ -4834,7 +4834,7 @@ Ext.onReady(function(){
               if (btn == 'yes') {
                 Ext.Ajax.request({
                   url: '/'+dictcode+'/delete/'+entryid,
-                  method: 'get',
+                  method: 'post',
                   success: function(response) {
                     console.log(response.responseText);
                     if (response.responseText.substring(0,7) == 'DELETED') {
