@@ -161,7 +161,7 @@ class CzjApp < Sinatra::Base
     get '/'+code+'/jsonsearch/:type/:search(/:start)?(/:limit)?' do 
       content_type :json
       more_params = {}
-      if params['slovni_druh'].to_s != ''
+      if params['slovni_druh'].to_s != '' and params['slovni_druh'].to_s != 'undefined'
         more_params['slovni_druh'] = params['slovni_druh']
       end
       body = dict.search(code, params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i, more_params).to_json
