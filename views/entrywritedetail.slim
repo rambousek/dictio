@@ -22,9 +22,10 @@
           - slovni_druhy = []
           - @entry['lemma']['grammar_note'].each{|gr| slovni_druhy << gr['@slovni_druh']}
           - slovni_druhy.uniq.each do |sd|
-            = I18n.t("gram.slovni_druh."+sd)
-            - unless sd.equal?(slovni_druhy.uniq.last)
-              | , 
+            - if sd.to_s != ''
+              = I18n.t("gram.slovni_druh."+sd.to_s)
+              - unless sd.equal?(slovni_druhy.uniq.last)
+                | , 
 - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gram| gram['variant'] and gram['variant'].size > 0}
   h2.detail-category 
     | #{I18n.t("entry.grammar_variant")}:
