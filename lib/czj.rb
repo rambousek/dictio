@@ -83,6 +83,9 @@ class CZJDict < Object
   end
 
   def get_sw(entry)
+    if @write_dicts.include?(entry['dict'])
+      return entry
+    end
     $stderr.puts 'GETSW, entry ' + entry['id'].to_s
     swdoc = $mongo['sw'].find({'id': entry['id'], 'dict': entry['dict']})
     $stderr.puts swdoc.first
