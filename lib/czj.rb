@@ -1222,6 +1222,75 @@ class CZJDict < Object
     return list.sort_by{|x| [x['title'], x['number'].to_i]}
   end
 
+  def find_link(search)
+    target = @dictcode
+    list = []
+    if search != '' and target != ''
+      if @write_dicts.include?(target)
+      else
+        # find media with label
+        querym = {
+          'dict'=>target,
+          '$or'=>[
+            {'label'=>{'$regex'=>/#{search.downcase}/i}},
+            {'label'=>search}
+          ],
+          'type'=>{'$in' => ['sign_front', 'sign_side', 'sign_definition']}
+        }
+        mids = []
+        mlocs = []
+        $mongo['media'].find(querym).each{|med|
+          mids << med['id']
+          mlocs << med['location']
+        }
+        # find relations with title
+        queryr = {
+          'dict'=>{'$in'=>@write_dicts},
+          'meanings.relation.target'=>target,
+          '$or'=>[
+            {'lemma.title'=>{'$regex'=>/^#{search.downcase}/i}},
+            {'lemma.title_dia'=>{'$regex'=>/^#{search.downcase}/i}},
+          ]
+        }
+        trans = []
+        @entrydb.find(queryr).each{|entry|
+          entry['meanings'].each{|mean|
+            mean['relation'].each{|rel|
+              if rel['type'] == 'translation' and rel['target'] == target
+                trans << rel['meaning_id']
+              end
+            }
+          }
+        }
+
+        # combine media, relation
+        query = {
+          'dict'=>target,
+          'lemma.completeness'=>{'$ne'=>'1'},
+          '$or'=>[
+            {'id'=>search},
+            {'lemma.video_front'=>{'$in'=>mlocs}},
+            {'meanings.usages.text.file.@media_id'=>{'$in'=>mids}},
+            {'meanings.text.file.@media_id'=>{'$in'=>mids}},
+            {'lemma.grammar_note.variant._text'=>{'$in'=>mids}},
+            {'lemma.style_note.variant._text'=>{'$in'=>mids}},
+            {'meanings.id'=>{'$in'=>trans}}
+          ]
+        }
+        $stderr.puts query
+        @entrydb.find(query).each{|rel|
+          hash = {'id'=>rel['id'], 'title'=>'', 'label'=>'', 'loc'=>''}
+          if rel['lemma']['video_front'].to_s != '' 
+            hash['label'] = get_media_location(rel['lemma']['video_front'].to_s, target)['label'].to_s + ' (' + rel['id'].to_s + ')'
+            hash['loc'] = rel['lemma']['video_front'].to_s
+          end
+          list << hash
+        }
+      end
+    end
+    return list.sort_by{|x| [x['title'], x['label'].to_i]}
+  end
+
   def get_relation_info(meaning_id)
     data = @entrydb.find({'meanings.id': meaning_id, 'dict': @dictcode}).first
     if data != nil

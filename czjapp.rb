@@ -294,6 +294,11 @@ class CzjApp < Sinatra::Base
         content_type :json
         body = data.to_json
       end
+      get '/'+code+'/linkfind' do
+        data = dict.find_link(params['search'].to_s)
+        content_type :json
+        body = data.to_json
+      end
       get '/'+code+'/getfsw' do
         fsw = dict.getfsw(params['sw'].to_s)
         body = fsw

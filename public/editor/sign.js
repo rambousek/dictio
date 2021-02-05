@@ -1217,9 +1217,8 @@ function reload_rel(search, field, target) {
 function reload_link(search, field) {
   linklist.loadData([], false);
   Ext.Ajax.request({
-    url: '/'+dictcode,
+    url: '/'+dictcode+'/linkfind',
     params: {
-      action: 'linkfind',
       search: search,
     },
     method: 'get',
