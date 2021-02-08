@@ -1015,7 +1015,7 @@ class CZJDict < Object
     query[:$or] = [{'entry_folder' => entry_id}]
 
     if entry != nil
-      query[:$or] << {'media_folder_id' => entry['lemma']['media_folder_id']} unless entry['lemma']['media_folder_id'].nil?
+      query[:$or] << {'media_folder_id' => entry['lemma']['media_folder_id']} if entry['lemma']['media_folder_id'].to_s != ''
       files = []
       entry['meanings'].each{|me|
         if me['usages']
