@@ -16,7 +16,7 @@ class CZJDict < Object
     $stderr.puts id
     $stderr.puts @dictcode
 
-    data = @entrydb.find({'id': id, 'dict': @dictcode, 'empty': {'$exists': false}}).first
+    data = getone(@dictcode, id)
     $stderr.puts data
     if data != nil
       entry = full_entry(data)
@@ -25,6 +25,11 @@ class CZJDict < Object
     else
       return {}
     end
+  end
+
+  def getone(dict, id)
+    data = @entrydb.find({'id': id, 'dict': dict, 'empty': {'$exists': false}}).first
+    return data
   end
 
   def get_comments(id, type, exact=true)
@@ -54,7 +59,7 @@ class CZJDict < Object
     if entry['collocations'] and entry['collocations']['colloc']
       entry['collocations']['entries'] = []
       entry['collocations']['colloc'].uniq.each{|coll|
-        ce = @entrydb.find({'dict': entry['dict'], 'id': coll}).first
+        ce = getone(entry['dict'], coll)
         unless ce.nil?
           ce = add_colloc(ce)
           ce = get_sw(ce)
@@ -270,7 +275,7 @@ class CZJDict < Object
             rela = rel['meaning_id'].split('-')
             lemmaid = rela[0]
             rel['meaning_nr'] = rela[1]
-            relentry = @entrydb.find({'dict': rel['target'], 'id': lemmaid}).first
+            relentry = getone(rel['target'], lemmaid)
             next if relentry.nil?
             relentry = add_colloc(relentry) if getsw
             relentry = get_sw(relentry) if getsw
@@ -279,7 +284,7 @@ class CZJDict < Object
           elsif rel['meaning_id'] =~ /^[0-9]*-[0-9]*_us[0-9]*$/
             rela = rel['meaning_id'].split('-')
             lemmaid = rela[0]
-            relentry = @entrydb.find({'dict': rel['target'], 'id': lemmaid}).first
+            relentry = getone(rel['target'], lemmaid)
             next if relentry.nil?
             rel['entry'] = relentry
             if rel['entry']
@@ -308,7 +313,7 @@ class CZJDict < Object
         mean['text']['_text'].scan(/\[([0-9]+)(-[0-9]+)?\]/).each{|mrel|
           relid = mrel[0]
           mean['def_relations'] = {} if mean['def_relations'].nil?
-          mean['def_relations'][relid] = @entrydb.find({'dict': entry['dict'], 'id': relid}).first['lemma']['title']
+          mean['def_relations'][relid] = getone(entry['dict'], relid)['lemma']['title']
         }
       end
     }
@@ -748,7 +753,7 @@ class CZJDict < Object
     dict = data['dict']
 
     #check relations
-    olddata = @entrydb.find({'id': entryid, 'dict': dict}).first
+    olddata = getone(dict, entryid)
     if olddata != nil
       oldrels = {}
       oldmeans = []
@@ -1004,7 +1009,7 @@ class CZJDict < Object
 
   def get_entry_files(entry_id)
     list = []
-    entry = @entrydb.find({'id': entry_id, 'dict': @dictcode, 'empty': {'$exists': false}}).first
+    entry = getone(@dictcode, entry_id)
 
     query = {'dict'=> 'czj'}
     query[:$or] = [{'entry_folder' => entry_id}]
