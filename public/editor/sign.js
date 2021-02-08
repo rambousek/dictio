@@ -1363,8 +1363,8 @@ function new_entry() {
     method: 'get',
     success: function(response) {
       var data = JSON.parse(response.responseText);
-      entryid = data['newid'];
-      entrydata = {'meanings': [], 'lemma': {'created_at': Ext.Date.format(new Date(), 'Y-m-d H:i:s')}};
+      entryid = data['newid'].toString();
+      entrydata = {'meanings': [{'id': data['newid']+'-1','created_at': Ext.Date.format(new Date(), 'Y-m-d H:i:s')}], 'lemma': {'created_at': Ext.Date.format(new Date(), 'Y-m-d H:i:s')}};
       Ext.getCmp('tabForm').setTitle('Heslo id '+entryid);
       document.title = dictcode.toUpperCase()+' '+entryid;
       Ext.getCmp('tabForm').query('component[name="userskupina"]')[0].setValue(data['user_info']['skupina'].join(','));
@@ -1378,9 +1378,10 @@ function new_entry() {
         var skupiny = data['user_info']['skupina'];
         Ext.getCmp('tabForm').query('component[name="pracskupina"]')[0].setValue(skupiny[0]);
       }
-      Ext.getCmp('vyznamy_box').query('component[name="vyznam"]')[0].query('component[name="meaning_id"]')[0].setValue(data['newid']+'-1');
+
+      Ext.getCmp('vyznamy_box').remove(Ext.getCmp('vyznamy_box').query('component[name="vyznam"]')[0]);
+      Ext.getCmp('vyznamy_box').insert(Ext.getCmp('vyznamy_box').items.length-1, create_vyznam(data['newid'], true, data['newid']+'-1'));
       max_meaning = 1;
-      Ext.getCmp('vyznamy_box').query('component[name="vyznam"]')[0].query('component[name="meaning_nr"]')[0].setValue('1');
       var copys = Ext.getCmp('tabForm').query('[name=copybox]');
       for (var i = 0; i < copys.length; i++) {
         copys[i].query('[name=copy_copy]')[0].setValue(data['user_info']['copy']);
@@ -1430,7 +1431,7 @@ function load_doc(id) {
       }
 
       /* videa */
-      if (data['lemma']['video_front'].length > 0) {
+      if (data['lemma']['video_front'] && data['lemma']['video_front'].length > 0) {
         var vid = create_video(id, false, data['lemma']['video_front']);
         Ext.getCmp('videobox').insert(Ext.getCmp('videobox').items.length-1, vid);
         vid.query('component[name="vidid"]')[0].setValue(data['lemma']['video_front']);
@@ -1449,7 +1450,7 @@ function load_doc(id) {
           vid.query('component[inputValue="pr"]')[0].setValue(true);
         }
       } 
-      if (data['lemma']['video_side'].length > 0) {
+      if (data['lemma']['video_side'] && data['lemma']['video_side'].length > 0) {
         var vid = create_video(id, false, data['lemma']['video_side']);
         Ext.getCmp('videobox').insert(Ext.getCmp('videobox').items.length-1, vid);
         vid.query('component[name="vidid"]')[0].setValue(data['lemma']['video_side']);
@@ -1891,7 +1892,7 @@ function save_doc(id) {
   changes = new Array();
   var data = {
     'dict': dictcode,
-    'id': id,
+    'id': id.toString(),
     'track_changes':tracking,
     'lemma':{
       'updated_at': Ext.Date.format(new Date(), 'Y-m-d H:i:s'),
@@ -2182,7 +2183,7 @@ function save_doc(id) {
       } else {
         newuse['type'] = 'sentence';
       }
-      if (uses[j].query('component[name="usage_id"]')[0].getValue() != '') {
+      if (uses[j].query('component[name="usage_id"]')[0].getValue() != '' && entrydata['meanings'].filter(mean => mean['id'] == meanings[i].query('component[name="meaning_id"]')[0].getValue())[0]['usages'] != undefined) {
         newuse.created_at = entrydata['meanings'].filter(mean => mean['id'] == meanings[i].query('component[name="meaning_id"]')[0].getValue())[0]['usages'].filter(usg=>usg['id'] == uses[j].query('component[name="usage_id"]')[0].getValue())[0]['created_at'];
       } else {
         newuse.created_at = Ext.Date.format(new Date(), 'Y-m-d H:i:s');
