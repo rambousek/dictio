@@ -244,6 +244,12 @@ class CzjApp < Sinatra::Base
       slim :transresultlist, :layout=>false
     end
     if $is_edit
+      get '/'+code+'/newentry' do
+        newid = dict.get_new_id
+        doc = {'user_info' => @user_info, 'newid' => newid}
+        content_type :json
+        body = doc.to_json
+      end
       get '/'+code+'/comments/:id(/:type)?' do
         content_type :json
         body = dict.get_comments(params['id'], params['type'].to_s).to_json

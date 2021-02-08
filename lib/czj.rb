@@ -16,7 +16,7 @@ class CZJDict < Object
     $stderr.puts id
     $stderr.puts @dictcode
 
-    data = @entrydb.find({'id': id, 'dict': @dictcode}).first
+    data = @entrydb.find({'id': id, 'dict': @dictcode, 'empty': {'$exists': false}}).first
     $stderr.puts data
     if data != nil
       entry = full_entry(data)
@@ -1004,7 +1004,7 @@ class CZJDict < Object
 
   def get_entry_files(entry_id)
     list = []
-    entry = @entrydb.find({'id': entry_id, 'dict': @dictcode}).first
+    entry = @entrydb.find({'id': entry_id, 'dict': @dictcode, 'empty': {'$exists': false}}).first
 
     query = {'dict'=> 'czj'}
     query[:$or] = [{'entry_folder' => entry_id}]
@@ -1361,6 +1361,19 @@ class CZJDict < Object
       @entrydb.find({'dict'=>doc['dict'], 'id'=>doc['id']}).delete_many
       @entrydb.insert_one(doc)
     }
+  end
+
+  #get new max id
+  def get_new_id
+    cursor = @entrydb.find({'dict' => @dictcode}, {:projection => {'id':1}, :collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'id' => -1}})
+    cursor = cursor.limit(1)
+    newid = 1
+    cursor.each{|r|
+      newid = r['id'].to_i + 1
+    }
+    doc = {'dict' => @dictcode, 'id' => newid.to_s, 'empty' => true}
+    @entrydb.insert_one(doc)
+    return newid
   end
 end
 

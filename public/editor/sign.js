@@ -1359,14 +1359,12 @@ function new_entry() {
   Ext.suspendLayouts();
   loadMask.show();
   Ext.Ajax.request({
-    url: '/'+dictcode,
-    params: {
-      action: 'new_entry',
-    },
+    url: '/'+dictcode+'/newentry',
     method: 'get',
     success: function(response) {
       var data = JSON.parse(response.responseText);
       entryid = data['newid'];
+      entrydata = {'meanings': [], 'lemma': {'created_at': Ext.Date.format(new Date(), 'Y-m-d H:i:s')}};
       Ext.getCmp('tabForm').setTitle('Heslo id '+entryid);
       document.title = dictcode.toUpperCase()+' '+entryid;
       Ext.getCmp('tabForm').query('component[name="userskupina"]')[0].setValue(data['user_info']['skupina'].join(','));
@@ -4881,7 +4879,7 @@ Ext.onReady(function(){
                 Ext.Msg.alert('Stav', data.msg);
                 Ext.Function.defer(Ext.MessageBox.hide, 9000, Ext.MessageBox);
                 if (is_new_entry) {
-                  window.location = '/editor/?id='+entryid+'&lang='+lang;
+                  window.location = '/editor'+dictcode+'/?id='+entryid+'&lang='+lang;
                 }
               }
             });
