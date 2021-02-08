@@ -3502,38 +3502,50 @@ function create_media(entryid, upload, vidid) {
         name: 'uploadbutton',
         hidden: true,
         handler: function() {
-          var form = this.up('form').getForm();
           var mediaitem = this.up('[name=mediaitem]');
           var metadata = {
-            '@id_meta_author': mediaitem.query('component[name="copy_autor"]')[0].getValue(),
-            '@id_meta_copyright': mediaitem.query('component[name="copy_copy"]')[0].getValue(),
-            '@id_meta_source': mediaitem.query('component[name="copy_zdroj"]')[0].getValue(),
-            '@admin_comment': mediaitem.query('component[name="copy_admin"]')[0].getValue(),
-            '@status': mediaitem.query('component[name="stav"]')[0].getValue(),
-            '@type': mediaitem.query('component[name="type"]')[0].getValue(),
-            '@location': mediaitem.query('component[name="vidid"]')[0].getValue(),
-            '@orient': mediaitem.query('component[name="'+mediaitem.id+'orient"]')[0].getGroupValue()
+            'id_meta_author': mediaitem.query('component[name="copy_autor"]')[0].getValue(),
+            'id_meta_copyright': mediaitem.query('component[name="copy_copy"]')[0].getValue(),
+            'id_meta_source': mediaitem.query('component[name="copy_zdroj"]')[0].getValue(),
+            'admin_comment': mediaitem.query('component[name="copy_admin"]')[0].getValue(),
+            'status': mediaitem.query('component[name="stav"]')[0].getValue(),
+            'type': mediaitem.query('component[name="type"]')[0].getValue(),
+            'location': mediaitem.query('component[name="vidid"]')[0].getValue(),
+            'orient': mediaitem.query('component[name="'+mediaitem.id+'orient"]')[0].getGroupValue()
           };
           console.log(metadata)
-          form.submit({
-            url: '/'+dictcode,
-            params: {
-              action: 'upload',
-              entryid: entryid,
-              metadata: Ext.encode(metadata)
-            },
-            waitMsg: 'Upload',
-            success: function(form, action) {
+          var waitBox = Ext.MessageBox.wait('Upload');
+          console.log(mediaitem.query('component[name="filebutton"]'))
+          var filedata = mediaitem.query('component[name="filebutton"]')[0].fileInputEl.dom.files[0];
+          var formData = new FormData();
+          formData.append("filedata", filedata);
+          formData.append('entryid', entryid);
+          formData.append('metadata', JSON.stringify(metadata));
+          console.log(formData)
+          xhr = new XMLHttpRequest();
+          xhr.open('POST', '/'+dictcode+'/upload', true);
+          xhr.onload = function() {
+            if (xhr.readyState == 4 && xhr.status === 200) {
               Ext.suspendLayouts();
               while (Ext.getCmp('mediabox').child('[name=mediaitem]')) {
                 Ext.getCmp('mediabox').remove(Ext.getCmp('mediabox').child('[name=mediaitem]'))
               }
               reload_files(entryid, null, true);
               Ext.resumeLayouts(true);              
-              Ext.Msg.alert('Stav', action.result.message);
+              Ext.Msg.alert('Stav', JSON.parse(xhr.responseText).message);
               Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox); 
+            } else {
+              if (xhr.status === 413) {
+                Ext.Msg.alert('Stav', 'file too large');
+                Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox); 
+              } else {
+                Ext.Msg.alert('Stav', JSON.parse(xhr.responseText).message);
+                Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox); 
+              }
+              //error
             }
-          })
+          };
+          xhr.send(formData);
         }
       },{
        fieldLabel: locale[lang].video,

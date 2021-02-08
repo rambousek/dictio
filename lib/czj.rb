@@ -204,6 +204,7 @@ class CZJDict < Object
       return {}
     end
   end
+
   def get_media_location(media_id, dict)
     media = $mongo['media'].find({'location': media_id, 'dict': dict})
     if media.first
@@ -1379,6 +1380,113 @@ class CZJDict < Object
     doc = {'dict' => @dictcode, 'id' => newid.to_s, 'empty' => true}
     @entrydb.insert_one(doc)
     return newid
+  end
+
+  def norm_name(name)
+    name = name.sub('.flv','')
+    name = name.sub('.mp4','')
+    sense = ''
+    name.sub!(/^[ABDKabdk][-_]/,'')
+    var = ''
+    var = 'A' if name.include?('_1_FLV_HQ')
+    var = 'B' if name.include?('_2_FLV_HQ')
+    var = 'C' if name.include?('_3_FLV_HQ')
+    var = 'D' if name.include?('_4_FLV_HQ')
+    var = 'E' if name.include?('_5_FLV_HQ')
+    var = 'F' if name.include?('_6_FLV_HQ')
+    name.sub!('_1_FLV_HQ','')
+    name.sub!('_2_FLV_HQ','')
+    name.sub!('_3_FLV_HQ','')
+    name.sub!('_4_FLV_HQ','')
+    name.sub!('_5_FLV_HQ','')
+    name.sub!('_6_FLV_HQ','')
+    name.gsub!('FLV_HQ','')
+    if name =~ /_[1-9]$/
+      var += name[/_([1-9])$/,1]
+      name.sub!(/_[1-9]$/,'')
+    end
+    var = 'A' if name =~ /_I$/
+    var = 'B' if name =~ /_II$/
+    var = 'C' if name =~ /_III$/
+    var = 'D' if name =~ /_IV$/
+    name.sub!(/_I$/,'')
+    name.sub!(/_II$/,'')
+    name.sub!(/_III$/,'')
+    name.sub!(/_IV$/,'')
+    name.sub!('A-C1','A1')
+    name.sub!('A-C-D','A1d')
+    if name =~ /[A-Z]$/ and not name =~ /[A-Z][A-Z]$/
+      var = name[-1,1]
+      name = name[0..-2]
+    end
+    if name =~ /[A-Z][1-9]$/
+      var = name[-2,1]
+      sense = name[-1,1]
+      name = name[0..-3]
+    end
+    if name =~ /[A-Z][1-9][a-z]$/
+      var = name[-3,3]
+      name = name[0..-4]
+    end
+    if name =~ /[0-9][a-z]$/
+      var = (name[/([0-9])[a-z]$/,1].to_i+64).chr + (name[/[0-9]([a-z])$/,1][0].ord-96).to_s
+      name = name[0..-3]
+    end
+    if name =~ /[a-z][0-9]$/
+      var = (name[/([0-9])$/,1].to_i+64).chr
+      name = name[0..-2]
+    end
+    var = name.gsub(/.*[a-z0-9]([A-Z])[A-Z]+[0-9]+([0-9])$/,'\1\2')
+    var = 'A' if var == ''
+    name.gsub!(/[A-Z]+[0-9]+$/,'')
+    name.gsub!(/([a-z])([A-Z])/, '\1-\2')
+    name.gsub!(/_$/,'')
+    name.gsub!('_','-')
+    name.gsub!('(','')
+    name.gsub!(')','')
+    name.downcase!
+    return name+'=='+var, sense
+  end
+
+  # upload file, store metadata
+  def save_uploaded_file(filedata, metadata, entry_id)
+    filename = filedata['filename'].gsub(/[^\w^\.^_^-]/, '')
+    filename = filename[0,2]+filename[2..-1].gsub('_','')
+    $stderr.puts filename
+    media = get_media_location(filename, @dictcode)
+    if media == {}
+      cursor = $mongo['media'].find({'dict' => @dictcode}, {:projection => {'id':1}, :collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'id' => -1}})
+      cursor = cursor.limit(1)
+      mediaid = 1
+      cursor.each{|r|
+        mediaid = r['id'].to_i + 1
+      }
+    else
+      mediaid = media['id']
+      $mongo['media'].find({'dict'=> @dictcode, 'id'=> mediaid}).delete_many
+    end
+    data = {
+      'id' => mediaid.to_s,
+      'dict' => @dictcode,
+      'location' => filename,
+      'original_file_name' => filename,
+      'label' => norm_name(filename),
+      'id_meta_copyright' => metadata['id_meta_copyright'],
+      'id_meta_author' => metadata['id_meta_author'],
+      'id_meta_source' => metadata['id_meta_source'],
+      'admin_comment' => metadata['admin_comment'],
+      'type' => metadata['type'],
+      'status' => metadata['status'],
+      'orient' => metadata['orient'],
+      'created_at' => Time.now.strftime("%Y-%m-%d %H:%M:%S")
+    }
+    data['entry_folder'] = entry_id if entry_id.to_s != ''
+    $mongo['media'].insert_one(data)
+
+    Net::SSH.start("files.dictio.info", $files_user, :key_data=>$files_keys){|ssh|
+      ssh.scp.upload!(filedata['tempfile'].path, '/home/adam/upload/'+@dictcode+'/'+filename)
+    }
+    return filename, mediaid.to_s
   end
 end
 

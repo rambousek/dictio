@@ -7,6 +7,7 @@ require 'bson'
 require 'open-uri'
 require 'i18n'
 require 'i18n/backend/fallbacks'
+require 'net/scp'
 
 require_relative 'lib/czj'
 require_relative 'lib/host-config'
@@ -321,6 +322,16 @@ class CzjApp < Sinatra::Base
         list = dict.get_relations(params['meaning_id'].to_s, params['type'].to_s)
         content_type :json
         body = list.to_json
+      end
+      post '/'+code+'/upload' do
+        $stderr.puts params
+        $stderr.puts JSON.parse(params['metadata'])
+        content_type :json
+        body = {'success'=>false, 'message'=>"Chyba při uploadu"}.to_json
+        if not params['filedata'].nil?
+          filename, mediaid = dict.save_uploaded_file(params['filedata'], JSON.parse(params['metadata'].to_s), params['entryid'].to_s)
+          body = {'success'=>true, 'message'=>"Soubor nahrán: #{filename} (#{mediaid})", 'mediaid'=>mediaid}.to_json
+        end
       end
     end
   }
