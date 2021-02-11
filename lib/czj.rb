@@ -491,8 +491,8 @@ class CZJDict < Object
             fullids << re['id']
           }
           search_cond = {'dict': dictcode, 'id': {'$nin': fullids}}
-          search_cond_title = {'$or': [{'lemma.title': {'$regex': /^#{search}/}}]}
-          search_cond_title[:$or] << {'lemma.title': {'$regex': /(^| )#{search}/}}
+          search_cond_title = {'$or': [{'lemma.title': {'$regex': /^#{search}/i}}]}
+          search_cond_title[:$or] << {'lemma.title': {'$regex': /(^| )#{search}/i}}
           if search != '' and more_params['slovni_druh'].to_s != ''
             search_cond[:$and] = [search_cond_title,{'lemma.grammar_note.@slovni_druh'=> more_params['slovni_druh'].to_s}]
           end
@@ -585,8 +585,8 @@ class CZJDict < Object
           search_cond_text[:$or] << {'lemma.title_var': search} 
           search_cond_text[:$or] << {'lemma.title_dia': search} 
           search_cond_text[:$or] << {'lemma.gram.form._text': search} 
-          search_cond_text[:$or] << {'lemma.title': {'$regex': /^#{search}/}}
-          search_cond_text[:$or] << {'lemma.title': {'$regex': /(^| )#{search}/}}
+          search_cond_text[:$or] << {'lemma.title': {'$regex': /^#{search}/i}}
+          search_cond_text[:$or] << {'lemma.title': {'$regex': /(^| )#{search}/i}}
           search_cond_rel = {'meanings.relation':{'$elemMatch': {'target': target, 'type': 'translation'}}}
           search_cond = {'dict': dictcode, '$and': [search_cond_text, search_cond_rel]}
           $stderr.puts search_cond
