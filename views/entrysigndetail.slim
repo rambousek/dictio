@@ -1,7 +1,7 @@
 .detail__head style="max-width:100%"
-  p.detail__badge.detail__badge--top class=((@is_edit? "detail__badge__#{@entry['dict']}":""))
+  - if @is_edit
+   p.detail__badge class="detail__badge__#{@entry['dict']}" #{@entry['dict']}-#{@entry['id']}
     | #{I18n.t("dict."+@entry['dict'])}
-    - if @is_edit
       span #{@entry['dict']}-#{@entry['id']}
   .video-top
     .video
