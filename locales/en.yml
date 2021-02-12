@@ -39,8 +39,8 @@ en:
     info: "Search for translations in several languages and explore various meanings of words and signs. There is more information than you expect."
     translations: "Translations"
     entries: "Entries"
-    lastsearch: "Poslední hledané"
-    mostsearch: "Nejčastěji hledané"
+    lastsearch: "Last searched"
+    mostsearch: "Most searched"
   menu:
     about: "About"
     contact: "Contact"
