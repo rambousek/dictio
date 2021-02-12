@@ -1,8 +1,8 @@
 .detail__head style="max-width:100%"
   - if @is_edit
-    p.detail__badge class="detail__badge__#{@entry['dict']}" #{@entry['dict']}-#{@entry['id']}
-    | #{I18n.t("dict."+@entry['dict'])}
-      span #{@entry['dict']}-#{@entry['id']}
+    p.detail__badge class="detail__badge__#{@entry['dict']}" 
+      | #{I18n.t("dict."+@entry['dict'])}
+      span  #{@entry['dict']}-#{@entry['id']}
   .video-top
     .video
       .video__content.video-front
