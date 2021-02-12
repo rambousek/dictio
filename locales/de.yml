@@ -40,9 +40,9 @@ de:
     translations: "Prekladov"
     entries: "Hesiel"
   menu:
-    about: "O slovníku"
+    about: "Über"
     contact: "Kontakt"
-    help: "Nápověda"
+    help: "Hilfe"
   search:
     translate_from: "Übersetzen von"
     translate_to: "übersetzen ins"
@@ -54,9 +54,9 @@ de:
     collocations: "beinhaltet Kollokation"
     entry_count: "Entries in total"
     load_next: "Show more"
-    pos: "-- PoS --"
-    advanced: "advanced..."
-    notfound: "entry not found"
+    pos: "-- lexikalische Kategorie --"
+    advanced: "Erweiterte..."
+    notfound: "nicht gefunden"
   entry:
     frontview: "Frontansicht"
     sideview: "Seitenansicht"
@@ -79,10 +79,10 @@ de:
     translations: "Übersetzungen"
     meaning_small: "Einzelheite"
     composed_from: "Komponente Anzeigen"
-    more_example: "více příkladů"
-    more_trans: "více překladů"
-    more_syno: "více synonym"
-    more_anto: "více antonym"
+    more_example: "Weitere Beispielsätze"
+    more_trans: "mehr Äquivalente"
+    more_syno: "mehr Synonyme "
+    more_anto: "mehr Antonyme "
   gram:
     region:
       cr: "gesamte Tsechien"
