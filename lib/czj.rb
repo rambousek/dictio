@@ -1485,6 +1485,9 @@ class CZJDict < Object
 
     Net::SSH.start("files.dictio.info", $files_user, :key_data=>$files_keys){|ssh|
       ssh.scp.upload!(filedata['tempfile'].path, '/home/adam/upload/'+@dictcode+'/'+filename)
+      command = '/home/adam/mkthumb.sh "'+filename+'" "'+@dictcode+'"'
+      $stderr.puts command
+      ssh.exec(command)
     }
     return filename, mediaid.to_s
   end
