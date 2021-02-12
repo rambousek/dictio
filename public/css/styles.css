@@ -3050,7 +3050,8 @@ a.btn {
     font-family: 'Roboto', sans-serif;
     font-size: 2rem;
     font-weight: 700;
-    text-transform: lowercase; }
+    // text-transform: lowercase; 
+    } 
     .mobile-menu__nav a:hover {
       color: #03c9a9; }
 
@@ -3078,7 +3079,7 @@ a.btn {
     font-weight: 700;
     line-height: 1.22;
     text-align: right;
-    text-transform: lowercase; }
+    // text-transform: lowercase; }
     .mobile-menu__lang a:hover {
       color: #03c9a9; }
 
