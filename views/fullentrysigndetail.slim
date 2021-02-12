@@ -174,7 +174,7 @@
           - if meaning['relation'].find{|rel| rel['type'] == 'synonym'}
             h4 = I18n.t("entry.synonyms")
             .row.row--start.translation-group-sign
-              - meaning['relation'].select{|rel| rel['type'] == 'synonym'}.each do |rel|
+              - meaning['relation'].select{|rel| rel['type'] == 'synonym' and rel['entry'] and rel['entry']['id']}.each do |rel|
                 - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id']
                 .col.col--2.col--precise
                   .video.video--small
@@ -201,7 +201,7 @@
           - if meaning['relation'].find{|rel| rel['type'] == 'antonym'}
             h4 = I18n.t("entry.antonyms")
             .row.row--start.translation-group-sign
-              - meaning['relation'].select{|rel| rel['type'] == 'antonym'}.each do |rel|
+              - meaning['relation'].select{|rel| rel['type'] == 'antonym' and rel['entry'] and rel['entry']['id']}.each do |rel|
                 - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id']
                 .col.col--2.col--precise
                   .video.video--small
