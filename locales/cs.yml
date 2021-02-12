@@ -39,6 +39,8 @@ cs:
     info: "Hledejte překlady (ekvivalenty) mezi jenotlivými jazyky, zkoumejte různé významy slov a znaků (znakových jazyků). Je toho více, než se zdá."
     translations: "Překladů"
     entries: "Hesel"
+    lastsearch: "Poslední hledané"
+    mostsearch: "Nejčastěji hledané"
   menu:
     about: "O slovníku"
     contact: "Kontakt"
