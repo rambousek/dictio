@@ -3536,7 +3536,7 @@ function create_media(entryid, upload, vidid) {
               Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox); 
             } else {
               if (xhr.status === 413) {
-                Ext.Msg.alert('Stav', 'file too large');
+                Ext.Msg.alert('Stav', 'Příliš velký soubor');
                 Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox); 
               } else {
                 Ext.Msg.alert('Stav', JSON.parse(xhr.responseText).message);
@@ -3910,8 +3910,7 @@ function callback(files) {
     for (let j=0; j < filesv.length; j++) {
       console.log(filesv[j])
       var formData = new FormData();
-      formData.append("filebutton", filesv[j], filesv[j].name);
-      formData.append('action', 'upload');
+      formData.append("filedata", filesv[j], filesv[j].name);
       formData.append('entryid', entryid);
       var mtype = '';
       switch(filesv[j].name.charAt(0)) {
@@ -3930,18 +3929,18 @@ function callback(files) {
       }
 
       var metadata = {
-        '@id_meta_author': Ext.getCmp('tabForm').query('component[name="defaultautor"]')[0].getValue(),
-        '@id_meta_copyright': Ext.getCmp('tabForm').query('component[name="defaultcopy"]')[0].getValue(),
-        '@id_meta_source': Ext.getCmp('tabForm').query('component[name="defaultzdroj"]')[0].getValue(),
-        '@admin_comment': '',
-        '@status': '',
-        '@type': mtype,
-        '@location': filesv[j].name,
-        '@orient': ''
+        'id_meta_author': Ext.getCmp('tabForm').query('component[name="defaultautor"]')[0].getValue(),
+        'id_meta_copyright': Ext.getCmp('tabForm').query('component[name="defaultcopy"]')[0].getValue(),
+        'id_meta_source': Ext.getCmp('tabForm').query('component[name="defaultzdroj"]')[0].getValue(),
+        'admin_comment': '',
+        'status': '',
+        'type': mtype,
+        'location': filesv[j].name,
+        'orient': ''
       };
-      formData.append('metadata', Ext.encode(metadata));
+      formData.append('metadata', JSON.stringify(metadata));
       xhr[j] = new XMLHttpRequest();
-      xhr[j].open('POST', '/'+dictcode, true);
+      xhr[j].open('POST', '/'+dictcode+'/upload', true);
       xhr[j].onload = function() {
         if (xhr[j].readyState == 4 && xhr[j].status === 200) {
           console.log('Upload Done', xhr[j].responseText);
