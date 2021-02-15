@@ -23,6 +23,9 @@ header.header role="banner" style=((@is_edit? "border-top: solid red 2px;"))
               a href="/help" class=('is-active' if @selected_page.to_s=='help') #{I18n.t("menu.help")}
             li
               a href="/contact" class=('is-active' if @selected_page.to_s=='contact') #{I18n.t("menu.contact")}
+            - if @is_edit
+              li
+                a href="/" class=('is-active' if @selected_page.to_s=='contact') #{I18n.t("menu.admin")}
             li
               a href="https://edit.dictio.info" class="nav__control"
                 span.icon.icon--login.nav__icon
