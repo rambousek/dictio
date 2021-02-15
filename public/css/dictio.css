@@ -36,15 +36,18 @@ video.video-link {
 }
 .detail__badge__cs, .trans__badge__cs {
   background-color: darkmagenta;
+  color: whitesmoke;
 }
 .detail__badge__is, .trans__badge__is {
   background-color: darkslateblue;
+  color: whitesmoke;
 }
 .detail__badge__asl, .trans__badge__asl {
   background-color: darkorange;
 }
 .detail__badge__en, .trans__badge__en {
   background-color: black;
+  color: whitesmoke;
 }
 .detail__badge__spj, .trans__badge__spj {
   background-color: mediumseagreen;
@@ -52,6 +55,14 @@ video.video-link {
 .detail__badge__sj, .trans__badge__sj {
   background-color: crimson;
 }
+.detail__badge__ogs, .trans__badge__ogs {
+  background-color: darkred;
+  color: whitesmoke;
+}
+.detail__badge__de, .trans__badge__de {
+  background-color: darkgoldenrod;
+}
+
 .trans__badge {
   position: absolute;
   top: 0px;
