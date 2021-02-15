@@ -2050,7 +2050,9 @@ a.btn {
           align-items: flex-end;
   -webkit-flex-wrap: wrap;
       -ms-flex-wrap: wrap;
-          flex-wrap: wrap; }
+          flex-wrap: wrap; 
+  width: 100%;
+  position: relative; }
 
 .detail-word__headline {
   margin: 0 10px 3px 0; }
