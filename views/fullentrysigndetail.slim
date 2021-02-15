@@ -2,7 +2,7 @@
   p.detail__badge.detail__badge--top class=((@is_edit? "detail__badge__#{@entry['dict']}":""))
     | #{I18n.t("dict."+@entry['dict'])}
     - if @is_edit
-      span  #{@entry['dict']}-#{@entry['id']}
+      span()  [#{@entry['dict']}-#{@entry['id']}]
   .video-top
     .video
       .video__content.video-front
