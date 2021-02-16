@@ -45,6 +45,7 @@ sk:
     about: "O slovníku"
     contact: "Kontakt"
     help: "Nápověda"
+    admin: "Administrácia"
   search:
     translate_from: "Preložiť z"
     translate_to: "Preložiť do"
