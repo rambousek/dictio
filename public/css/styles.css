@@ -3178,7 +3178,7 @@ a.btn {
   height: 100%;
   padding: 10px;
   color: #fff;
-  font-size: 0.875rem;
+  font-size: 1rem; /* 0.875rem; */
   font-weight: 700;
   text-transform: uppercase;
   background: #03c9a9;
