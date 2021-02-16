@@ -45,6 +45,7 @@ en:
     about: "About"
     contact: "Contact"
     help: "Help"
+    admin: "Admin-Tools"
   search:
     translate_from: "Translate from"
     translate_to: "Translate to"
