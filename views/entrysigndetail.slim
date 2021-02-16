@@ -54,12 +54,11 @@
                     img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
 
   - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'] != '' or gr['@mluv_komp'] != '' or gr['@oral_komp'] != '' or gr['_text'].to_s != '' or gr['variant'] != nil or gr['@region'] != ''}
-    hr.mobile-hide
 
     .block.mobile-hide
       - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh']!=''}
         p.naming 
-          | #{I18n.t("entry.lexical")}:
+          | #{I18n.t("entry.lexical")}: 
           span
             - slovni_druhy = []
             - @entry['lemma']['grammar_note'].each{|gr| slovni_druhy << gr['@slovni_druh']}
@@ -108,7 +107,7 @@
                         source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}" type="video/mp4"
       - unless @entry['lemma']['style_note'].nil? or @entry['lemma']['style_note'][0].nil? or @entry['lemma']['style_note'][0]['_text'].nil?
         p.naming 
-          | #{I18n.t("entry.style_details")}:
+          | #{I18n.t("entry.style_details")}: 
           span
             - gcount = 0
             - grtext = @entry['lemma']['style_note'][0]['_text'].gsub(/\[media_id=[0-9]+\]/) {|s| gcount+=1; 'viz video '+gcount.to_s}
@@ -126,7 +125,7 @@
                 .video__info
                   | video #{gcount}
       - if @entry['lemma']['style_note'] != nil and @entry['lemma']['style_note'].find{|gr| gr['variant'] != nil and gr['variant'].size > 0}
-        p.naming #{I18n.t("entry.style_variant")}:
+        p.naming #{I18n.t("entry.style_variant")}: 
         .row.row--start 
           - @entry['lemma']['style_note'].each do |gram|
             - if gram['variant'] != nil 
@@ -138,7 +137,7 @@
                         source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}" type="video/mp4"
       - unless  @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@region'] == ''
         p.naming 
-          | #{I18n.t("entry.distribution_area")}:
+          | #{I18n.t("entry.distribution_area")}: 
           span = I18n.t("gram.region."+@entry['lemma']['grammar_note'][0]['@region'])
 
 - if @entry['meanings']
