@@ -55,33 +55,33 @@
                     img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
 
   - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'] != '' or gr['@mluv_komp'] != '' or gr['@oral_komp'] != '' or gr['_text'].to_s != '' or gr['variant'] != nil or gr['@region'] != ''}
-    hr.mobile-hide
 
     .block.mobile-hide
       - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh']!=''}
-        p.naming #{I18n.t("entry.lexical")}:
-        p
-          - slovni_druhy = []
-          - @entry['lemma']['grammar_note'].each{|gr| slovni_druhy << gr['@slovni_druh']}
-          - slovni_druhy.uniq.each do |sd|
-            - if sd.to_s != ''
-              = I18n.t("gram.slovni_druh."+sd)
-              - unless sd.equal? slovni_druhy.uniq.last
-                | , 
+        p.naming 
+          | #{I18n.t("entry.lexical")}:
+          span
+            - slovni_druhy = []
+            - @entry['lemma']['grammar_note'].each{|gr| slovni_druhy << gr['@slovni_druh']}
+            - slovni_druhy.uniq.each do |sd|
+              - if sd.to_s != ''
+                = I18n.t("gram.slovni_druh."+sd)
+                - unless sd.equal? slovni_druhy.uniq.last
+                  | , 
       - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@mluv_komp'] == ''
-        p.naming #{I18n.t("entry.mouthing")}:
-        p
+        p.naming 
+          | #{I18n.t("entry.mouthing")}: 
           span style="text-transform: lowercase"
             | [#{@entry['lemma']['grammar_note'][0]['@mluv_komp']}] 
             - if @entry['lemma']['grammar_note'][0]['@mluv_komp_sel'] == 'povinny' or @entry['lemma']['grammar_note'][0]['@mluv_komp_sel'] == 'nepovinny'
               |  - #{I18n.t("gram."+@entry['lemma']['grammar_note'][0]['@mluv_komp_sel'])}
       - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@oral_komp'] == ''
-        p.naming #{I18n.t("entry.oralcomp")}:
-        p 
+        p.naming 
+          | #{I18n.t("entry.oralcomp")}: 
           span style="text-transform: lowercase" [#{@entry['lemma']['grammar_note'][0]['@oral_komp']}] - #{@entry['lemma']['grammar_note'][0]['@oral_komp_sel']}
       - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['_text'].nil?
         p.naming #{I18n.t("entry.grammar_details")}:
-        p
+          span
           - gcount = 0
           - grtext = @entry['lemma']['grammar_note'][0]['_text'].gsub(/\[media_id=[0-9]+\]/) {|s| gcount+=1; 'viz video '+gcount.to_s}
           = grtext
@@ -116,7 +116,7 @@
                             img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
       - unless @entry['lemma']['style_note'].nil? or @entry['lemma']['style_note'][0].nil? or @entry['lemma']['style_note'][0]['_text'].nil?
         p.naming #{I18n.t("entry.style_details")}:
-        p
+          span
           - gcount = 0
           - grtext = @entry['lemma']['style_note'][0]['_text'].gsub(/\[media_id=[0-9]+\]/) {|s| gcount+=1; 'viz video '+gcount.to_s}
           = grtext
