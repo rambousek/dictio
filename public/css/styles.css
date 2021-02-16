@@ -3370,13 +3370,15 @@ a.btn {
 
 .naming {
   position: relative;
-  display: inline-block;
+  /* display: inline-block; */
   margin: 0 0 16px 0;
   padding: 8px 11px 6px 0;
   color: #1c2641;
   font-family: 'Roboto', sans-serif;
   font-size: 1rem;
   font-weight: 700; }
+  .naming span {
+   font-weight: 400; }
   .naming:before {
     content: '';
     position: absolute;
@@ -3394,8 +3396,6 @@ a.btn {
       color: #1c2641;
       font-family: 'Montserrat', sans-serif;
       font-weight: 700; }
-      .naming span {
-       font-weight: 400; }
       .naming:before {
         display: none; } }
   .dropdown__item .naming:before {
