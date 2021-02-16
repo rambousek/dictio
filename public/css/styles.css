@@ -1945,9 +1945,9 @@ a.btn {
   left: 0;
   z-index: 99;
   margin: 1px 0 0 0;
-  background: #fff;
-  -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
-          box-shadow: 0 0 4px rgba(0, 0, 0, 0.1); }
+  background-color: whitesmoke;
+  -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0 4px rgba(0, 0, 0, 0.2); }
 
 .select-hide {
   display: none; }
