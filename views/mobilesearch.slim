@@ -14,22 +14,22 @@
               use xlink:href="/img/icons.svg#logo-symbol" x="0" y="0" width="100%" height="100%"
       .mobile-search__wrapper
         .mobile-search__select.mobile-search__source
-          .mobile-search__selected value="#{@dictcode}" = @dict_info[@dictcode]['label']
+          .mobile-search__selected value="#{@dictcode}" #{I18n.t("dict."+@dictcode)}
           .mobile-search__dropdown
             ul
               - @dict_info.each do |code, info|
                 - if info['type'] == 'write'
-                  li value="#{code}" selected=("selected" if @dictcode==code) #{I18n.t("dict_menu."+code)}
+                  li value="#{code}" selected=("selected" if @dictcode==code) #{I18n.t("dict."+code)}
         .mobile-search__input-wrap
           input type="text" placeholder="#{I18n.t('search.placeholder')}" value=@search
 
         .mobile-search__select.mobile-search__target
           - if @target != ''
-            .mobile-search__selected value="#{@target}" = @dict_info[@target]['label']
+            .mobile-search__selected value="#{@target}" #{I18n.t("dict."+@target)}
           .mobile-search__dropdown
             ul
               - @dict_info.each do |code, info|
-                li value="#{code}" selected=("selected" if @dictcode==code) #{I18n.t("dict_menu."+code)}
+                li value="#{code}" selected=("selected" if @dictcode==code) #{I18n.t("dict."+code)}
 
 <!-- mobilní vyhledávání -->
 
