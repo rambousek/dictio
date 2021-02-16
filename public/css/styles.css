@@ -3394,6 +3394,8 @@ a.btn {
       color: #1c2641;
       font-family: 'Montserrat', sans-serif;
       font-weight: 700; }
+      .naming span {
+       font-weight: 400; }
       .naming:before {
         display: none; } }
   .dropdown__item .naming:before {
