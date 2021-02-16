@@ -906,7 +906,7 @@ select {
   width: 100%;
   padding: 10px;
   color: #1c2641;
-  font-size: 0.75rem;
+  font-size: 1rem ; /* 0.75rem; */
   font-weight: 400;
   border: 0 solid transparent;
   border-radius: 0;
