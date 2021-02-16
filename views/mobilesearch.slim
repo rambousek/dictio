@@ -19,9 +19,9 @@
             ul
               - @dict_info.each do |code, info|
                 - if info['type'] == 'write'
-                  li value="#{code}" = info['label']
+                  li value="#{code}" selected=("selected" if @dictcode==code) #{I18n.t("dict_menu."+code)}
         .mobile-search__input-wrap
-          input type="text" placeholder="Searching for ..." value=@search
+          input type="text" placeholder="#{I18n.t('search.placeholder')}" value=@search
 
         .mobile-search__select.mobile-search__target
           - if @target != ''
@@ -29,7 +29,7 @@
           .mobile-search__dropdown
             ul
               - @dict_info.each do |code, info|
-                li value="#{code}" = info['label']
+                li value="#{code}" selected=("selected" if @dictcode==code) #{I18n.t("dict_menu."+code)}
 
 <!-- mobilní vyhledávání -->
 
