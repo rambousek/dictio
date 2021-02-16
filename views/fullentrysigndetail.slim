@@ -59,7 +59,7 @@
     .block.mobile-hide
       - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh']!=''}
         p.naming 
-          | #{I18n.t("entry.lexical")}:
+          | #{I18n.t("entry.lexical")}: 
           span
             - slovni_druhy = []
             - @entry['lemma']['grammar_note'].each{|gr| slovni_druhy << gr['@slovni_druh']}
@@ -80,7 +80,8 @@
           | #{I18n.t("entry.oralcomp")}: 
           span style="text-transform: lowercase" [#{@entry['lemma']['grammar_note'][0]['@oral_komp']}] - #{@entry['lemma']['grammar_note'][0]['@oral_komp_sel']}
       - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['_text'].nil?
-        p.naming #{I18n.t("entry.grammar_details")}:
+        p.naming 
+          | #{I18n.t("entry.grammar_details")}: 
           span
           - gcount = 0
           - grtext = @entry['lemma']['grammar_note'][0]['_text'].gsub(/\[media_id=[0-9]+\]/) {|s| gcount+=1; 'viz video '+gcount.to_s}
@@ -115,7 +116,7 @@
                           - selmedia['main_for_entry']['lemma']['sw'].each do |sw|
                             img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
       - unless @entry['lemma']['style_note'].nil? or @entry['lemma']['style_note'][0].nil? or @entry['lemma']['style_note'][0]['_text'].nil?
-        p.naming #{I18n.t("entry.style_details")}:
+        p.naming #{I18n.t("entry.style_details")}: 
           span
           - gcount = 0
           - grtext = @entry['lemma']['style_note'][0]['_text'].gsub(/\[media_id=[0-9]+\]/) {|s| gcount+=1; 'viz video '+gcount.to_s}
@@ -150,8 +151,9 @@
                           - selmedia['main_for_entry']['lemma']['sw'].each do |sw|
                             img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
       - unless  @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@region'] == ''
-        p.naming #{I18n.t("entry.distribution_area")}:
-        p = I18n.t("gram.region."+@entry['lemma']['grammar_note'][0]['@region'])
+        p.naming 
+          | #{I18n.t("entry.distribution_area")}: 
+          span = I18n.t("gram.region."+@entry['lemma']['grammar_note'][0]['@region'])
 
 - if @entry['meanings']
   - @entry["meanings"].each do |meaning|
