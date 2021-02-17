@@ -912,6 +912,9 @@ select {
   border-radius: 0;
   background: #e4ebee;
   caret-color: #03c9a9; }
+  background-image: ('gt.png');
+  background-repeat: norepeat;
+  background-position: right;
   @supports (-webkit-touch-callout: none) {
     input,
     textarea,
