@@ -34,3 +34,17 @@ html
     script src="/js/libs/jquery-1.12.4.min.js"
     script src="/js/scripts.js"
     script src="/js/dictio.js"
+    script
+      window.onscroll = function() {myFunction()};
+      var navbar = document.getElementById("navbar");
+      var mobilespacetop = document.getElementById("mobilespacetop");
+      var sticky = navbar.offsetTop;
+      function myFunction() {
+        if (window.pageYOffset >= sticky) {
+          navbar.classList.add("sticky");
+          mobilespacetop.classList.add("mobile-space-top")
+        } else {
+          navbar.classList.remove("sticky");
+          mobilespacetop.classList.remove("mobile-space-top");
+        }
+      }
