@@ -1463,7 +1463,7 @@ input[type='radio'] {
           flex-shrink: 0;
   padding: 14px 0 10px 0;
   color: #1c2641;
-  background: #e4ebee; }
+  background: #1c2641; /* #e4ebee; */}
   @media (min-width: 768px) {
     .footer {
       padding: 13px 0;
@@ -1493,7 +1493,7 @@ input[type='radio'] {
   font-size: 0.5625rem; }
   @media (min-width: 768px) {
     .footer__copy {
-      /* color: #e4ebee; */
+      color: #e4ebee; 
       font-size: 0.75rem; } }
   .footer__copy span {
     color: color: #e4ebee;  /* #03c9a9; */}
