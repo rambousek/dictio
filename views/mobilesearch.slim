@@ -2,16 +2,6 @@
 .mobile-search id="navbar" class="#{@msclass}" role="search"
   .container
     .mobile-search__top
-      <!-- - if @entry
-        a.mobile-search__back href="#{@tran_path}"
-          span.icon.icon--back
-            svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
-              use xlink:href="/img/icons.svg#back" x="0" y="0" width="100%" height="100%"
-      - elsif @search_type == 'translate'
-        a href="/"
-          span.icon.icon--logo-symbol.logo__symbol style="color:#03c9a9"
-            svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
-              use xlink:href="/img/icons.svg#logo-symbol" x="0" y="0" width="100%" height="100%" -->
       .mobile-search__wrapper
         .mobile-search__select.mobile-search__source
           .mobile-search__selected value="#{@dictcode}" #{I18n.t("dict."+@dictcode)}
