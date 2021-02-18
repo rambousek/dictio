@@ -23,5 +23,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run on view
-        run: ssh -o UserKnownHostsFile=/github/home/.ssh/known_hosts adam@beta.dictio.info "cd /srv/dictio; git pull"
-
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/private.key
+          ssh -i ~/.ssh/private.key -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@beta.dictio.info "cd /srv/dictio; git pull"
