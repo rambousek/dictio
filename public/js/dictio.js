@@ -450,3 +450,19 @@ $( document ).ready(function() {
     });
   });
 });
+// add class on scroll
+window.onscroll = function() {
+  if ($('main.homepage').length == 0) {
+    var navbar = document.getElementById("navbar");
+    if (navbar) {
+      var sticky = navbar.offsetTop;
+      if (window.pageYOffset >= sticky) {
+        navbar.classList.add("sticky");
+        $('#mobilespacetop').addClass("mobile-space-top")
+      } else {
+        navbar.classList.remove("sticky");
+        $('#mobilespacetop').removeClass("mobile-space-top")
+      }
+    }
+  }
+}
