@@ -450,10 +450,13 @@ $( document ).ready(function() {
     });
   });
 });
-// add class on scroll
+// add class on scroll for mobile search
 window.onscroll = function() {
   if ($('main.homepage').length == 0) {
     var navbar = document.getElementById("navbar");
+    var mobilespacetop = document.getElementById("mobilespacetop");
+    var sticky = navbar.offsetTop;
+ 
     if (navbar) {
       var sticky = navbar.offsetTop;
       if (window.pageYOffset >= sticky) {
