@@ -28,3 +28,4 @@ jobs:
           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/private.key
           chmod 400 ~/.ssh/private.key
           ssh -i ~/.ssh/private.key -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@beta.dictio.info "cd /srv/dictio; git pull"
+          ssh -i ~/.ssh/private.key -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@edit.dictio.info "cd /srv/dictio; git pull"
