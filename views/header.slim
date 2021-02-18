@@ -75,6 +75,8 @@ header.header role="banner" style=((@is_edit? "border-top: solid red 2px;":""))
                   li
                     a href="#{@langpath}#{(@langpath[-1]=='?')?'':'&'}lang=en" == I18n.t("locale.en")
                   li
+                    a href="#{@langpath}#{(@langpath[-1]=='?')?'':'&'}lang=sk" == I18n.t("locale.sk")
+                  li
                     a href="#{@langpath}#{(@langpath[-1]=='?')?'':'&'}lang=de" == I18n.t("locale.de")
               .mobile-menu__bottom
                 a.btn href="#" Full dictionary version
