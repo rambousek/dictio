@@ -23,5 +23,5 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run on view
-        run: ssh adam@beta.dictio.info "cd /srv/dictio; git pull"
+        run: ssh -o UserKnownHostsFile=/github/home/.ssh/known_hosts adam@beta.dictio.info "cd /srv/dictio; git pull"
 
