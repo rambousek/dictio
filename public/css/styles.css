@@ -911,10 +911,10 @@ select {
   border: 0 solid transparent;
   border-radius: 0;
   background: #e4ebee;
-  caret-color: #03c9a9; }
-  background-image: ('gt.png');
+  caret-color: #03c9a9; 
+  background-image: ('/img/gt.png');
   background-repeat: norepeat;
-  background-position: right;
+   background-position: right; }
   @supports (-webkit-touch-callout: none) {
     input,
     textarea,
