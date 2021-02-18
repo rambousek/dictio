@@ -1,0 +1,17 @@
+<!-- mobilní vyhledávání výklad -->
+.mobile-search id="navbar" class="#{@msclass}" role="search"
+  .container
+    .mobile-search__top
+      .mobile-search__wrapper
+        .mobile-search__select.mobile-search__source
+          .mobile-search__selected value="#{@dictcode}" #{I18n.t("dict."+@dictcode)}
+          .mobile-search__dropdown
+            ul
+              - @dict_info.each do |code, info|
+                - if info['type'] == 'write'
+                  li value="#{code}" selected=("selected" if @dictcode==code) #{I18n.t("dict."+code)}
+        .mobile-search__input-wrap
+          input type="text" placeholder="#{I18n.t('search.placeholder')}" value=@search
+
+<!-- mobilní vyhledávání výklad -->
+
