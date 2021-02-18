@@ -454,16 +454,13 @@ $( document ).ready(function() {
 window.onscroll = function() {
   if ($('main.homepage').length == 0) {
     var navbar = document.getElementById("navbar");
-    var mobilespacetop = document.getElementById("mobilespacetop");
-    var sticky = navbar.offsetTop;
- 
     if (navbar) {
       var sticky = navbar.offsetTop;
-      if (window.pageYOffset >= sticky) {
-        navbar.classList.add("sticky");
+      if (window.pageYOffset > sticky) {
+        $('#navbar').addClass("sticky");
         $('#mobilespacetop').addClass("mobile-space-top")
       } else {
-        navbar.classList.remove("sticky");
+        $('#navbar').removeClass("sticky");
         $('#mobilespacetop').removeClass("mobile-space-top")
       }
     }
