@@ -456,7 +456,7 @@ window.onscroll = function() {
     var navbar = document.getElementById("navbar");
     if (navbar) {
       var sticky = navbar.offsetTop;
-      if (window.pageYOffset > sticky) {
+      if ((window.pageYOffset-sticky)>64) {
         $('#navbar').addClass("sticky");
         $('#mobilespacetop').addClass("mobile-space-top")
       } else {
