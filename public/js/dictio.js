@@ -11,12 +11,12 @@ function do_translate() {
     window.location = url;
   }
 }
-function do_mobile_translate() {
-  var search = $('.mobile-search__input-wrap input').val();
+function do_mobile_translate(target) {
+  var searchParent = target.parents('.mobile-search')
+  var search = searchParent.find('.mobile-search__input-wrap input').val();
   if (search != '') {
-    var dict = $('.mobile-search__source .mobile-search__selected').attr('value');
-    var target = $('.mobile-search__target .mobile-search__selected').attr('value');
-    //var target = $('.search__wrapper #translate-to').val();
+    var dict = searchParent.find('.mobile-search__source .mobile-search__selected').attr('value');
+    var target = searchParent.find('.mobile-search__target .mobile-search__selected').attr('value');
     var url = '/'+dict+'/translate/'+target+'/text/'+search;
     var params = new Array();
     if ($('.search__wrapper [name=deklin]').prop('checked')) {
@@ -79,7 +79,7 @@ $( document ).ready(function() {
   $('.mobile-search__input-wrap input').keypress(function(event) {
     var keycode = (event.keyCode ? event.keyCode : event.which);
     if (keycode == '13') {
-      do_mobile_translate();
+      do_mobile_translate($(this));
     }
   });
 
