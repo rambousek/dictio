@@ -8,6 +8,7 @@ require 'open-uri'
 require 'i18n'
 require 'i18n/backend/fallbacks'
 require 'net/scp'
+require 'resolv'
 
 require_relative 'lib/czj'
 require_relative 'lib/host-config'
@@ -65,6 +66,40 @@ class CzjApp < Sinatra::Base
       end
       return false
     end
+
+    def get_hostname(ip)
+      begin
+        name = Resolv.getname(ip)
+      rescue
+        name = ip.to_s
+      end
+      return name
+    end
+
+    def lang_defaults
+      hostname = get_hostname(request.get_header('HTTP_X_FORWARDED_FOR'))
+      case
+      when hostname.end_with?('.cz')
+      when hostname =~ /^[0-9\.]*$/
+        default_locale = 'cs'
+        default_dict = 'cs'
+        default_target = 'czj'
+      when hostname.end_with?('.sk')
+        default_locale = 'sk'
+        default_dict = 'sj'
+        default_target = 'spj'
+      when hostname.end_with?('.at')
+      when hostname.end_with?('.de')
+        default_locale = 'de'
+        default_dict = 'de'
+        default_target = 'ogs'
+      else
+        default_locale = 'en'
+        default_dict = 'en'
+        default_target = 'is'
+      end
+      return default_locale, default_dict, default_target
+    end
   end
 
 
@@ -74,7 +109,8 @@ class CzjApp < Sinatra::Base
       session[:locale] = params['lang']
     end
     @selectlang = session[:locale]
-    @selectlang = 'cs' if @selectlang.nil?
+    default_locale, @default_dict, @default_target = lang_defaults
+    @selectlang = default_locale if @selectlang.nil?
     I18n.locale = @selectlang
     @langpath = request.fullpath.gsub(/lang=[a-z]*/,'').gsub(/&&*/,'&')
     @langpath += '?' unless @langpath.include?('?')
@@ -87,8 +123,8 @@ class CzjApp < Sinatra::Base
   get '/' do
     @dict_info = $dict_info
     @search_params = {}
-    @target = 'czj'
-    @dictcode = 'cs'
+    @target = @default_target
+    @dictcode = @default_dict
     stat = $mongo['entryStat'].find({}, :sort=>{'dateField'=>-1}).first
     @count_entry = stat['entries'][0]['count']
     @count_rels = ((stat['rel'][0]['count'].to_i+stat['usgrel'][0]['count'].to_i)/2).round
@@ -98,8 +134,8 @@ class CzjApp < Sinatra::Base
   get '/about' do
     @dict_info = $dict_info
     @search_params = {}
-    @target = 'czj'
-    @dictcode = 'cs'
+    @target = @default_target
+    @dictcode = @default_dict
     @selected_page = 'about'
     page = 'about-'+I18n.locale.to_s
     slim page.to_sym
@@ -108,8 +144,8 @@ class CzjApp < Sinatra::Base
   get '/help' do
     @dict_info = $dict_info
     @search_params = {}
-    @target = 'czj'
-    @dictcode = 'cs'
+    @target = @default_target
+    @dictcode = @default_dict
     @selected_page = 'help'
     page = 'help-'+I18n.locale.to_s
     slim page.to_sym
@@ -118,8 +154,8 @@ class CzjApp < Sinatra::Base
   get '/helpsign' do
     @dict_info = $dict_info
     @search_params = {}
-    @target = 'czj'
-    @dictcode = 'cs'
+    @target = @default_target
+    @dictcode = @default_dict
     @selected_page = 'help'
     page = 'helpsign-'+I18n.locale.to_s
     slim page.to_sym
@@ -128,8 +164,8 @@ class CzjApp < Sinatra::Base
   get '/contact' do
     @dict_info = $dict_info
     @search_params = {}
-    @target = 'czj'
-    @dictcode = 'cs'
+    @target = @default_target
+    @dictcode = @default_dict
     @selected_page = 'contact'
     page = 'contact-'+I18n.locale.to_s
     slim page.to_sym

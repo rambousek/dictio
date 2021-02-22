@@ -11,7 +11,7 @@ group add dictio
 ### view
 ```
 yum install nginx ruby-devel make gcc redhat-rpm-config certbot python3-certbot-apache mod_ssl
-gem install sinatra slim mongo i18n json bson puma net-scp ed25519 bcrypt_pbkdf
+gem install sinatra slim mongo i18n json bson puma net-scp ed25519 bcrypt_pbkdf resolv
 ```
 
 certifikát
