@@ -79,8 +79,7 @@ class CzjApp < Sinatra::Base
     def lang_defaults
       hostname = get_hostname(request.get_header('HTTP_X_FORWARDED_FOR'))
       case
-      when hostname.end_with?('.cz')
-      when hostname =~ /^[0-9\.]*$/
+      when hostname.end_with?('.cz'), hostname =~ /^[0-9\.]*$/
         default_locale = 'cs'
         default_dict = 'cs'
         default_target = 'czj'
@@ -88,8 +87,7 @@ class CzjApp < Sinatra::Base
         default_locale = 'sk'
         default_dict = 'sj'
         default_target = 'spj'
-      when hostname.end_with?('.at')
-      when hostname.end_with?('.de')
+      when hostname.end_with?('.at'), hostname.end_with?('.de')
         default_locale = 'de'
         default_dict = 'de'
         default_target = 'ogs'
@@ -109,6 +107,7 @@ class CzjApp < Sinatra::Base
       session[:locale] = params['lang']
     end
     @selectlang = session[:locale]
+    @hostname = get_hostname(request.get_header('HTTP_X_FORWARDED_FOR'))
     default_locale, @default_dict, @default_target = lang_defaults
     @selectlang = default_locale if @selectlang.nil?
     I18n.locale = @selectlang
