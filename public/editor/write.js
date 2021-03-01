@@ -1244,30 +1244,29 @@ function load_doc(id) {
                 transset.query('component[name="rellink"]')[0].setValue(trans['entry']['lemma']['title']);
               }
               if (trans['status']) change_stav(transset.query('component[name="stavcont"]')[0], trans['status']);
+              //zobrazeni textu nebo obrazku
+              if (target == 'cs' || target == 'en' || target == 'sj' || target == 'de' ) {
+                if (trans['entry'] && trans['entry']['lemma']['title']) {
+                  transset.query('component[name="vztahtitle"]')[0].update(trans['entry']['lemma']['title']);
+                }
+              } else {
+                if (trans['entry'] && trans['entry']['lemma']['video_front']) {
+                  var videoloc = trans['entry']['lemma']['video_front'];
+                  transset.query('component[name="vztahtitle"]')[0].update('<div class="videofancybox" data-ratio="0.8" class="usage" style="width:120px; cursor: zoom-in;"><video class='+target+' width="80px" poster="https://beta.dictio.info/thumb/video'+target+'/'+videoloc+'" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video'+target+'/'+videoloc+'"></source></video></div>')
+                  transset.query('component[name="vztahtitle"]')[0].setHeight(60);
+                }
+              }
+              var inner = transset.query('component[name="vztahtitle"]')[0].id + "-innerCt";
+              if (trans['title_only'] == 'true') {
+                add_class_rels[inner] = 'redtext';
+              } else {
+                add_class_rels[inner] = 'text-'+target;
+              }
+              vztahy.push({type:type, meaningid:trans['meaning_id'], link:transset});
             });
           }
         });
       }
-          //        //zobrazeni textu nebo obrazku
-          //        if (target == 'cs' || target == 'en' || target == 'de' || target == 'sj') {
-          //          if (Ext.DomQuery.selectValue('title', trans) != null) {
-          //            transset.query('component[name="vztahtitle"]')[0].update(Ext.DomQuery.selectValue('title', trans))
-          //          }
-          //        } else {
-          //          if (Ext.DomQuery.selectValue('file/location', trans) != null) {
-          //            var videoloc = Ext.DomQuery.selectValue('file/location', trans);
-          //            transset.query('component[name="vztahtitle"]')[0].update('<div class="videofancybox" data-ratio="0.8" class="usage" style="width:120px; cursor: zoom-in;"><video class='+target+' width="80px" poster="/media/video'+target+'/thumb/'+videoloc+'/thumb.jpg" onmouseover="this.play()" onmouseout="this.pause()"><source src="/media/video'+target+'/'+videoloc+'"></video></div>')
-          //            transset.query('component[name="vztahtitle"]')[0].setHeight(60);
-          //          }
-          //        }
-          //        var inner = transset.query('component[name="vztahtitle"]')[0].id + "-innerCt";
-          //        if (trans.getAttribute('title_only') == 'true') {
-          //          add_class_rels[inner] = 'redtext';
-          //        } else {
-          //          add_class_rels[inner] = 'text-'+target;
-          //        }
-          //        vztahy.push({type:type, meaningid:trans.getAttribute('meaning_id'), link:transset});
-          //      }
           //      //sort 
           //      var vztahysort = {synonym: 1, translation_cs: 2, translation_czj: 3, translation_en: 4, translation_is: 5, translation_asl: 6, translation_sj: 7, translation_spj: 8, translation_de: 9, translation_ogs: 10}
           //      vztahy.sort(function(a, b) {
