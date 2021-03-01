@@ -1264,30 +1264,29 @@ function load_doc(id) {
               }
               vztahy.push({type:type, meaningid:trans['meaning_id'], link:transset});
             });
+            //sort 
+            var vztahysort = {synonym: 1, translation_cs: 2, translation_czj: 3, translation_en: 4, translation_is: 5, translation_asl: 6, translation_sj: 7, translation_spj: 8, translation_de: 9, translation_ogs: 10}
+            vztahy.sort(function(a, b) {
+              var diff = vztahysort[a.type] - vztahysort[b.type];
+              if (diff != 0) {
+                return diff;
+              }
+              if (a.meaningid < b.meaningid) {
+                return -1;
+              }
+              if (a.meaningid > b.meaningid) {
+                return 1;
+              }
+              return 0;
+            });
+            //add sorted relation
+            var parentid = vyznam.query('component[name="relbox"]')[0].id;
+            vztahy.forEach(function(relation) {
+              Ext.getCmp(parentid).insert(Ext.getCmp(parentid).items.length-3, relation.link);
+            });
           }
         });
       }
-          //      //sort 
-          //      var vztahysort = {synonym: 1, translation_cs: 2, translation_czj: 3, translation_en: 4, translation_is: 5, translation_asl: 6, translation_sj: 7, translation_spj: 8, translation_de: 9, translation_ogs: 10}
-          //      vztahy.sort(function(a, b) {
-          //        var diff = vztahysort[a.type] - vztahysort[b.type];
-          //        if (diff != 0) {
-          //          return diff;
-          //        }
-          //        if (a.meaningid < b.meaningid) {
-          //          return -1;
-          //        }
-          //        if (a.meaningid > b.meaningid) {
-          //          return 1;
-          //        }
-          //        return 0;
-          //      });
-          //      //add sorted relation
-          //      var parentid = vyznam.query('component[name="relbox"]')[0].id;
-          //      vztahy.forEach(function(relation) {
-          //        Ext.getCmp(parentid).insert(Ext.getCmp(parentid).items.length-3, relation.link);
-          //      });
-          //    }
 
           //    /* usages */
           //    ar_priklady[meaning.getAttribute('id')] = 0;
