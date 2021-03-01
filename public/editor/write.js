@@ -1204,74 +1204,50 @@ function load_doc(id) {
 
       /* vyznamy */
       var add_class_rels = {};
-          //if (Ext.DomQuery.select('/entry/meanings/meaning', xmlDoc).length > 0) {
-          //  Ext.getCmp('vyznamy_box').query('component[name="vyznam"]')[0].destroy();
-          //  for (var i = 0; i < Ext.DomQuery.select('/entry/meanings/meaning', xmlDoc).length; i++) {
-          //    var meaning = Ext.DomQuery.select('/entry/meanings/meaning', xmlDoc).sort(function(a,b){return(parseInt(a.getAttribute('number')) - parseInt(b.getAttribute('number')))})[i];
-
-          //    var vyznam = create_vyznam(id, false, meaning.getAttribute('id'));
-          //    Ext.getCmp('vyznamy_box').insert(Ext.getCmp('vyznamy_box').items.length-1,vyznam);
-
-          //    Ext.getCmp(vyznam.id+'_copybox').query('component[name="copy_autor"]')[0].setValue(meaning.getAttribute('author'));
-          //    Ext.getCmp(vyznam.id+'_copybox').query('component[name="copy_admin"]')[0].setValue(meaning.getAttribute('admin'));
-          //    Ext.getCmp(vyznam.id+'_copybox').query('component[name="copy_zdroj"]')[0].setValue(meaning.getAttribute('source'));
-          //    /* Ext.getCmp(vyznam.id+'_copybox').query('component[name="copy_copy"]')[0].setValue(meaning.getAttribute('copyright')); */
-
-          //    vyznam.query('component[name="meaning_nr"]')[0].setValue(meaning.getAttribute('number'));
-          //    if (meaning.getAttribute('oblast') != null) {
-          //      vyznam.query('component[name="vyzn_oblast"]')[0].setValue(meaning.getAttribute('oblast').split(';'));
-          //    }
-          //    vyznam.query('component[name="pracskupina"]')[0].setValue(meaning.getAttribute('pracskupina'));
-          //    textval = '';
-          //    if (Ext.DomQuery.select('/text/p', meaning).length > 0) {
-          //      var textnode = '/text/p';
-          //    } else {
-          //      var textnode = '/text';
-          //    }
-          //    if (Ext.DomQuery.select(textnode, meaning).length > 0) {
-          //      for (var k = 0; k < Ext.DomQuery.select(textnode, meaning).length; k++) {
-          //        for (var j = 0; j < Ext.DomQuery.select(textnode, meaning)[k].childNodes.length; j++) {
-          //          if (Ext.DomQuery.select(textnode, meaning)[k].childNodes[j].nodeType == 3) {
-          //            textval += Ext.DomQuery.select(textnode, meaning)[k].childNodes[j].textContent;
-          //          }
-          //          if (Ext.DomQuery.select(textnode, meaning)[k].childNodes[j].nodeType == 1) { 
-          //            if (Ext.DomQuery.select(textnode, meaning)[k].childNodes[j].nodeName == 'file') {
-          //              textval += ' <file media_id="'+Ext.DomQuery.select(textnode, meaning)[k].childNodes[j].getAttribute('media_id')+'"/>';
-          //            } else {
-          //              textval += '<' + Ext.DomQuery.select(textnode, meaning)[k].childNodes[j].nodeName + '>' + Ext.DomQuery.select(textnode, meaning)[0].childNodes[j].textContent + '</' + Ext.DomQuery.select(textnode, meaning)[0].childNodes[j].nodeName + '>';
-          //            }
-          //          }
-          //        }
-          //      }
-          //    }
-          //    vyznam.query('component[name="'+vyznam.id+'_text"]')[0].setValue(textval);
-
-          //    change_stav(vyznam.query('component[name="stavcont"]')[0], Ext.DomQuery.selectValue('/status', meaning));
-          //    if (Ext.DomQuery.selectValue('is_translation_unknown', meaning) == '1') {
-          //      vyznam.query('component[name="translation_unknown"]')[0].setValue(true);
-          //    }
-          //    /* relations */
-          //    if (Ext.DomQuery.select('/relation', meaning).length > 0) {
-          //      var vztahy = new Array()
-          //      for (var j = 0; j < Ext.DomQuery.select('/relation', meaning).length; j++) {
-          //        var trans = Ext.DomQuery.select('/relation', meaning)[j];
-          //        var parentid = vyznam.query('component[name="relbox"]')[0].id;
-          //        var transset = create_vyznam_links(parentid);
-          //        //Ext.getCmp(parentid).insert(Ext.getCmp(parentid).items.length-1,transset);
-          //        var type = trans.getAttribute('type');
-          //        var target = dictcode;
-          //        if (type == 'translation') {
-          //          if (trans.getAttribute('target') == null || trans.getAttribute('target') == '') {
-          //            target = 'czj';
-          //          } else {
-          //            target = trans.getAttribute('target');
-          //          }
-          //          type = trans.getAttribute('type') + '_' + target;
-          //        }
-          //        transset.query('component[name="type"]')[0].setValue(type);
-          //        transset.query('component[name="type"]')[0].addCls('relation_'+type);
-          //        transset.query('component[name="rellink"]')[0].setValue(trans.getAttribute('meaning_id'));
-          //        change_stav(transset.query('component[name="stavcont"]')[0], trans.getAttribute('status'));
+      if (data['meanings'] && data['meanings'].length > 0) {
+        Ext.getCmp('vyznamy_box').query('component[name="vyznam"]')[0].destroy();
+        data['meanings'].sort(function(a,b) {return parseInt(a['number']) - parseInt(b['number'])}).forEach(function(meaning) {
+          var vyznam = create_vyznam(id, false, meaning['id']);
+          Ext.getCmp('vyznamy_box').insert(Ext.getCmp('vyznamy_box').items.length-1,vyznam);
+          if (meaning['author']) Ext.getCmp(vyznam.id+'_copybox').query('component[name="copy_autor"]')[0].setValue(meaning['author']);
+          if (meaning['admin']) Ext.getCmp(vyznam.id+'_copybox').query('component[name="copy_admin"]')[0].setValue(meaning['admin']);
+          if (meaning['source']) Ext.getCmp(vyznam.id+'_copybox').query('component[name="copy_zdroj"]')[0].setValue(meaning['source']);
+          if (meaning['number']) vyznam.query('component[name="meaning_nr"]')[0].setValue(meaning['number']);
+          if (meaning['style_region']) vyznam.query('component[name="meaning_nr"]')[0].setValue(meaning['style_region']);
+          if (meaning['pracskupina']) vyznam.query('component[name="pracskupina"]')[0].setValue(meaning['pracskupina']);
+          if (meaning['text'] && meaning['text']['_text']) {
+            vyznam.query('component[name="'+vyznam.id+'_text"]')[0].setValue($.trim(meaning['text']['_text']));
+          }
+          change_stav(vyznam.query('component[name="stavcont"]')[0], meaning['status']);
+          if (meaning['is_translation_unknown'] && meaning['is_translation_unknown'] == '1') vyznam.query('component[name="translation_unknown"]')[0].setValue(true);
+          /* relations */
+          if (meaning['relation']) {
+            var vztahy = new Array();
+            meaning['relation'].forEach(function(trans) {
+              var parentid = vyznam.query('component[name="relbox"]')[0].id;
+              var transset = create_vyznam_links(parentid);
+              var type = trans['type'];
+              var target = dictcode;
+              if (type == 'translation') {
+                if (trans['target'] == null || trans['target'] == '') {
+                  target = 'czj';
+                } else {
+                  target = trans['target'];
+                }
+                type = trans['type'] + '_' + target;
+              }
+              transset.query('component[name="type"]')[0].setValue(type);
+              transset.query('component[name="type"]')[0].addCls('relation_'+type);
+              if (trans['meaning_id'] != "") {
+                transset.query('component[name="rellink"]')[0].setValue(trans['meaning_id']);
+              } else if (trans['entry'] && trans['entry']['lemma']['title']) {
+                transset.query('component[name="rellink"]')[0].setValue(trans['entry']['lemma']['title']);
+              }
+              if (trans['status']) change_stav(transset.query('component[name="stavcont"]')[0], trans['status']);
+            });
+          }
+        });
+      }
           //        //zobrazeni textu nebo obrazku
           //        if (target == 'cs' || target == 'en' || target == 'de' || target == 'sj') {
           //          if (Ext.DomQuery.selectValue('title', trans) != null) {
