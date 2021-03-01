@@ -1,4 +1,3 @@
-var xmlDoc;
 var entrydata;
 Ext.require([
     'Ext.form.*',
