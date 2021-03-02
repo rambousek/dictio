@@ -1285,73 +1285,64 @@ function load_doc(id) {
               Ext.getCmp(parentid).insert(Ext.getCmp(parentid).items.length-3, relation.link);
             });
           }
+          /* usages */
+          ar_priklady[meaning['id']] = 0;
+          if (meaning['usages']) {
+            var j = 0;
+            meaning['usages'].forEach(function(usage) {
+              var usageid, usagec;
+              var priklad = create_priklad(vyznam.id+'_uziti', id, false, meaning['id']);
+              if (usage['id'] && usage['id'] != '') {
+                usageid = usage['id'];
+                usagec = parseInt(usageid.replace(/[0-9\-]*_us/,''));
+                priklad.query('[name="usage_id"]')[0].setValue(usageid);
+              } else {
+                usagec = j;
+              }
+              if (ar_priklady[meaning['id']] < usagec) {
+                ar_priklady[meaning['id']] = usagec;
+              }
+              Ext.getCmp(vyznam.id+'_uziti').insert(Ext.getCmp(vyznam.id+'_uziti').items.length-1, priklad);
+              if (usage['author']) Ext.getCmp(priklad.id+'copyright_copybox').query('component[name="copy_autor"]')[0].setValue(usage['author']);
+              if (usage['admin']) Ext.getCmp(priklad.id+'copyright_copybox').query('component[name="copy_admin"]')[0].setValue(usage['admin']);
+              if (usage['source']) Ext.getCmp(priklad.id+'copyright_copybox').query('component[name="copy_zdroj"]')[0].setValue(usage['source']);
+              if (usage['type'] == 'colloc') {
+                priklad.query('[inputValue=colloc]')[0].setValue(true);
+              } else {
+                priklad.query('[inputValue=sentence]')[0].setValue(true);
+              }
+              /* relations */
+              if (usage['relation']) {
+                usage['relation'].forEach(function(trans) {
+                  var parentid = priklad.query('component[name="exrelbox"]')[0].id;
+                  var transset = create_priklad_links(parentid);
+                  Ext.getCmp(parentid).insert(Ext.getCmp(parentid).items.length-1,transset);
+                  var type = trans['type'];
+                  var target = dictcode;
+                  if (type == 'translation') {
+                    if (trans['target'] == null || trans['target'] == '') {
+                      target = 'czj';
+                    } else {
+                      target = trans['target'];
+                    }
+                    type = trans['type'] + '_' + target;
+                  }
+                  transset.query('component[name="type"]')[0].setValue(type);
+                  transset.query('component[name="rellink"]')[0].setValue(trans['meaning_id']);
+                });
+              }
+
+              change_stav(priklad.query('component[name="stavcont"]')[0], usage['status']);
+              textval = '';
+              if (usage['text'] && usage['text']['_text']) textval = usage['text']['_text'];
+              priklad.query('component[name="'+priklad.id+'_text"]')[0].setValue($.trim(textval));
+              ar_priklady[meaning['id']]++;
+              j++;
+            });
+          }
         });
       }
 
-          //    /* usages */
-          //    ar_priklady[meaning.getAttribute('id')] = 0;
-          //    if (Ext.DomQuery.select('usages/usage', meaning).length > 0) {
-          //      for (var j = 0; j < Ext.DomQuery.select('usages/usage', meaning).length; j++) {
-          //        var usage = Ext.DomQuery.select('usages/usage', meaning)[j];
-          //        var usageid, usagec;
-          //        var priklad = create_priklad(vyznam.id+'_uziti', id, false, meaning.getAttribute('id'));
-          //        if (usage.getAttribute('id') != null && usage.getAttribute('id') != '') {
-          //          usageid = usage.getAttribute('id');
-          //          usagec = parseInt(usageid.replace(/[0-9\-]*_us/,''));
-          //          priklad.query('[name="usage_id"]')[0].setValue(usageid);
-          //        } else {
-          //          usagec = j;
-          //        }
-          //        if (ar_priklady[meaning.getAttribute('id')] < usagec) {
-          //          ar_priklady[meaning.getAttribute('id')] = usagec;
-          //        }
-          //        Ext.getCmp(vyznam.id+'_uziti').insert(Ext.getCmp(vyznam.id+'_uziti').items.length-1, priklad);
-
-          //        Ext.getCmp(priklad.id+'copyright_copybox').query('component[name="copy_autor"]')[0].setValue(usage.getAttribute('author'));
-          //        Ext.getCmp(priklad.id+'copyright_copybox').query('component[name="copy_admin"]')[0].setValue(usage.getAttribute('admin'));
-          //        Ext.getCmp(priklad.id+'copyright_copybox').query('component[name="copy_zdroj"]')[0].setValue(usage.getAttribute('source'));
-          //        // Ext.getCmp(priklad.id+'copyright_copybox').query('component[name="copy_copy"]')[0].setValue(usage.getAttribute('copyright'));
-
-          //        if (usage.getAttribute('type') == 'colloc') {
-          //          priklad.query('[inputValue=colloc]')[0].setValue(true);
-          //        } else {
-          //          priklad.query('[inputValue=sentence]')[0].setValue(true);
-          //        }
-          //        /* relations */
-          //        if (Ext.DomQuery.select('/relation', usage).length > 0) {
-          //          for (var k = 0; k < Ext.DomQuery.select('/relation', usage).length; k++) {
-          //            var trans = Ext.DomQuery.select('/relation', usage)[k];
-          //            var parentid = priklad.query('component[name="exrelbox"]')[0].id;
-          //            var transset = create_priklad_links(parentid);
-          //            Ext.getCmp(parentid).insert(Ext.getCmp(parentid).items.length-1,transset);
-          //            var type = trans.getAttribute('type');
-          //            var target = dictcode;
-          //            if (type == 'translation') {
-          //              if (trans.getAttribute('target') == null || trans.getAttribute('target') == '') {
-          //                target = 'czj';
-          //              } else {
-          //                target = trans.getAttribute('target');
-          //              }
-          //              type = trans.getAttribute('type') + '_' + target;
-          //            }
-          //            transset.query('component[name="type"]')[0].setValue(type);
-          //            transset.query('component[name="rellink"]')[0].setValue(trans.getAttribute('meaning_id'));
-          //          }
-          //        }
-          //        //priklad.query('component[name="colloc_link"]')[0].setValue(usage.getAttribute('colloc_link'));
-          //        change_stav(priklad.query('component[name="stavcont"]')[0], Ext.DomQuery.selectValue('status', usage));
-          //        textval = '';
-          //        textval = Ext.DomQuery.selectValue('/text', usage);
-          //        for (var k = 0; k < Ext.DomQuery.select('/text file', usage).length; k++) {
-          //          textval += ' <file media_id="'+Ext.DomQuery.select('/text file', usage)[k].getAttribute('media_id')+'"/>';
-          //        }
-          //        priklad.query('component[name="'+priklad.id+'_text"]')[0].setValue(textval);
-          //      }
-          //    }
-          //    ar_priklady[meaning.getAttribute('id')]++;
-
-          //  }
-          //}
       console.log('load end ' + new Date().getTime())
       update_stav();
       Ext.resumeLayouts(true);
