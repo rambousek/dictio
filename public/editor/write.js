@@ -1494,11 +1494,11 @@ function save_doc(id) {
   var grams = Ext.getCmp('gramcont').query('[name=gramitem]');
   for (var i = 0; i < grams.length; i++) {
     if (i == 0) {
-      data.entry.lemma.grammar_note[0]['@slovni_druh'] = grams[i].query('component[name="slovni_druh"]')[0].getValue();
-      data.entry.lemma.grammar_note[0]['@skupina'] = grams[i].query('component[name="skupina"]')[0].getValue().join(';');
-      data.entry.lemma.grammar_note[0]['@skupina2'] = grams[i].query('component[name="skupina2"]')[0].getValue().join(';');
+      data.lemma.grammar_note[0]['@slovni_druh'] = grams[i].query('component[name="slovni_druh"]')[0].getValue();
+      data.lemma.grammar_note[0]['@skupina'] = grams[i].query('component[name="skupina"]')[0].getValue().join(';');
+      data.lemma.grammar_note[0]['@skupina2'] = grams[i].query('component[name="skupina2"]')[0].getValue().join(';');
     } else {
-      data.entry.lemma.grammar_note.push({
+      data.lemma.grammar_note.push({
         '@slovni_druh': grams[i].query('component[name="slovni_druh"]')[0].getValue(),
         '@skupina': grams[i].query('component[name="skupina"]')[0].getValue().join(';'),
         '@skupina2': grams[i].query('component[name="skupina2"]')[0].getValue().join(';'),
@@ -1507,13 +1507,15 @@ function save_doc(id) {
   }
   /*slovni spojeni*/
   if (Ext.getCmp('tabForm').query('component[name="lemma_type"]')[0].getGroupValue() != null) {
-    data.entry.lemma.lemma_type = {'$': Ext.getCmp('tabForm').query('component[name="lemma_type"]')[0].getGroupValue()};
+    data.lemma.lemma_type = {'$': Ext.getCmp('tabForm').query('component[name="lemma_type"]')[0].getGroupValue()};
   }
-  data.entry.collocations = {'@status': Ext.getCmp('boxcolloc').query('component[name="stav"]')[0].getValue()};
-  data.entry.collocations.colloc = [];
-  var cols = Ext.getCmp('colbox').query('component[name="colitem"]');
-  for (var i = 0; i < cols.length; i++) {
-    data.entry.collocations.colloc.push({'@lemma_id': cols[i].query('component[name="colid"]')[0].getValue()});
+  if (data.lemma.lemma_type != 'single') {
+    data.collocations = {'status': Ext.getCmp('boxcolloc').query('component[name="stav"]')[0].getValue()};
+    data.collocations.colloc = [];
+    var cols = Ext.getCmp('colbox').query('component[name="colitem"]');
+    for (var i = 0; i < cols.length; i++) {
+      data.collocations.colloc.push(cols[i].query('component[name="colid"]')[0].getValue());
+    }
   }
   
   /*deklinace*/
@@ -1522,10 +1524,10 @@ function save_doc(id) {
     var tag = dekls[i].query('component[name="dekl_tag"]')[0].getValue();
     var tvar = dekls[i].query('component[name="dekl_tvar"]')[0].getValue();
     if (tvar != '') {
-      if (data.entry.lemma.gram == undefined) {
-        data.entry.lemma.gram = {'form': new Array()};
+      if (data.lemma.gram == undefined) {
+        data.lemma.gram = {'form': new Array()};
       }
-      data.entry.lemma.gram.form.push({'$': tvar, '@tag': tag});
+      data.lemma.gram.form.push({'_text': tvar, '@tag': tag});
     }
   }
 
@@ -1536,7 +1538,7 @@ function save_doc(id) {
     var varvid = variants[i].getValue();
     if (varvid != '' && variants_ar.indexOf(varvid) == -1) {
       variants_ar.push(varvid);
-      data.entry.lemma.style_note.variant.push({'$':varvid});
+      data.lemma.style_note.variant.push({'_text':varvid});
     }
   }
   var variants = Ext.getCmp('gramdesc').query('[name=varlink]');
@@ -1545,9 +1547,10 @@ function save_doc(id) {
     var varvid = variants[i].getValue();
     if (varvid != '' && variants_ar.indexOf(varvid) == -1) {
       variants_ar.push(varvid);
-      data.entry.lemma.grammar_note[0].variant.push({'$':varvid});
+      data.lemma.grammar_note[0].variant.push({'_text':varvid});
     }
   }
+  return data
 
   /* meanings */
   var maxnr = 0;
