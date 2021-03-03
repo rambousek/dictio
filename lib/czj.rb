@@ -1313,21 +1313,23 @@ class CZJDict < Object
   def get_relations(meaning_id, type)
     list = []
     entry = getdoc(meaning_id.split('-')[0].to_s)
-    entry['meanings'].each{|mean|
-      if mean['id'] == meaning_id
-        mean['relation'].each{|rel|
-          next if type != '' and rel['type'] != type
-          hash = {'type'=>rel['type'], 'target'=>rel['target'], 'meaning_id'=>rel['meaning_id']}
-          if rel['entry'] and rel['entry']['lemma'] and rel['entry']['lemma']['title']
-            hash['title'] = rel['entry']['lemma']['title']
-          end
-          if rel['entry'] and rel['entry']['media'] and rel['entry']['media']['video_front']
-            hash['title'] = rel['entry']['media']['video_front']['label']
-          end
-          list << hash
-        }
-      end
-    }
+    if entry['meaning']
+      entry['meanings'].each{|mean|
+        if mean['id'] == meaning_id
+          mean['relation'].each{|rel|
+            next if type != '' and rel['type'] != type
+            hash = {'type'=>rel['type'], 'target'=>rel['target'], 'meaning_id'=>rel['meaning_id']}
+            if rel['entry'] and rel['entry']['lemma'] and rel['entry']['lemma']['title']
+              hash['title'] = rel['entry']['lemma']['title']
+            end
+            if rel['entry'] and rel['entry']['media'] and rel['entry']['media']['video_front']
+              hash['title'] = rel['entry']['media']['video_front']['label']
+            end
+            list << hash
+          }
+        end
+      }
+    end
     return list
   end
 
