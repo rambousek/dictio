@@ -2409,7 +2409,7 @@ function create_vyznam_links(parentid) {
                 }
                 if (rinfo.charAt(0) == 'V') {
                   var videoloc = rinfo.substring(2);
-                  prevbox.update('<div class="videofancybox" data-ratio="0.8" class="usage" style="width:120px; cursor: zoom-in;"><video class='+target+' width="80px" poster="/media/video'+target+'/thumb/'+videoloc+'/thumb.jpg" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/webm" src="/media/video'+target+'/'+videoloc+'.webm"></source><source type="video/mp4" src="/media/video'+target+'/'+videoloc+'"></source></video></div>')
+                  prevbox.update('<div class="videofancybox" data-ratio="0.8" class="usage" style="width:120px; cursor: zoom-in;"><video width="80px" poster="https://beta.dictio.info/thumb/video'+target+'/'+videoloc+'" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video'+target+'/'+videoloc+'"></source></video></div>')
                   prevbox.setHeight(60);
                 }
                 document.getElementById(prevbox.id+"-innerCt").classList.add('text-'+target)
@@ -2440,7 +2440,7 @@ function create_vyznam_links(parentid) {
         }
       }*/
       tpl: new Ext.XTemplate(
-          '<tpl for="."><div class="x-boundlist-item"><b>{title}: {number}:</b> <i>{def}</i><tpl if="front!=&quot;&quot;"><div cursor: hand;"><video width="80px" poster="/media/video{target}/thumb/{front}/thumb.jpg" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/webm" src="/media/video{target}/{front}.webm"></video><source type="video/mp4" src="/media/video{target}/{front}"></video>{front}</div></tpl> <tpl if="loc!=&quot;&quot;"><div cursor: hand;"><video width="120px" poster="/media/video{target}/thumb/{loc}/thumb.jpg" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/webm" src="/media/video{target}/{loc}.webm"></source><source type="video/mp4" src="/media/video{target}/{loc}"></source></video>{loc}</div></tpl></div></tpl>'
+          '<tpl for="."><div class="x-boundlist-item"><b>{title}: {number}:</b> <i>{def}</i><tpl if="front!=&quot;&quot;"><div cursor: hand;"><video width="80px" poster="https://beta.dictio.info/thumb/video{target}/{front}" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video{target}/{front}"></video>{front}</div></tpl> <tpl if="loc!=&quot;&quot;"><div cursor: hand;"><video width="120px" poster="https://beta.dictio.info/thumb/video{target}/{loc}" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video{target}/{loc}"></source></video>{loc}</div></tpl></div></tpl>'
       ),
     },create_stav(),
     {
@@ -2519,7 +2519,7 @@ function create_priklad_links(parentid) {
           return '<div><b>{title}: {number}:</b> <i>{def}</i></div>';
         }
       }*/
-      tpl: Ext.create('Ext.XTemplate','<tpl for="."><div class="x-boundlist-item"><b>{title}: {number}:</b> <i>{def}</i><tpl if="loc!=\'\'"><br/><img src="/media/video{target}/thumb/{loc}/thumb.jpg" width="120" height="96"/></tpl></div></tpl>'),
+      tpl: Ext.create('Ext.XTemplate','<tpl for="."><div class="x-boundlist-item"><b>{title}: {number}:</b> <i>{def}</i><tpl if="loc!=\'\'"><br/><img src="https://beta.dictio.info/thumb/video{target}/{loc}" width="120" height="96"/></tpl></div></tpl>'),
     },{
       xtype: 'button',
       icon: '/editor/delete.png',
