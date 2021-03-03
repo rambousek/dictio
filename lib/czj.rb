@@ -1234,6 +1234,18 @@ class CZJDict < Object
     list = []
     if search != '' and target != ''
       if @write_dicts.include?(target)
+        query = {
+          'dict'=>target,
+          'lemma.completeness'=>{'$ne'=>'1'},
+          '$or'=>[
+            {'lemma.title'=>{'$regex'=>/^#{search.downcase}/i}},
+            {'lemma.title_dia'=>{'$regex'=>/^#{search.downcase}/i}},
+          ]
+        }
+        @entrydb.find(query).each{|entry|
+          title = entry['lemma']['title'].to_s
+          list << {'title'=>title, 'id'=>entry['id']}
+        }
       else
         # find media with label
         querym = {
