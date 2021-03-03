@@ -3769,24 +3769,30 @@ Ext.onReady(function(){
         icon: '/editor/img/savedisplay.png',
         name: 'savebutton',
         handler: function() {
-          var form = this.up('form').getForm();
+          Ext.Msg.alert('Stav', locale[lang].savemsg);
+          var waitBox = Ext.MessageBox.wait(locale[lang].savemsg);
           var data = save_doc(entryid);
-          /*form.submit({
-            params: {
-              data: Ext.encode(data),
-              action: 'savecs',
-              id: entryid,
-              fast: true
-            },
-            method: 'POST',
-            waitMsg: locale[lang].savemsg,
-            success: function(form, action) {
-              console.log(action.result)
-              Ext.Msg.alert('Stav', action.result.msg);
-              Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox);              
-              window.location = '/'+dictcode+'?action=search&getdoc='+entryid+'&lang='+lang+'&empty='+empty;
-            }
-          });*/
+          if (data != false) {
+            console.log('odeslat data');
+            Ext.Ajax.request({
+              url: '/'+dictcode+'/save',
+              params: {
+                data: JSON.stringify(data),
+              },
+              method: 'POST',
+              failure: function(response) {
+                console.log('fail')
+                console.log(response.responseText)
+              },
+              success: function(response) {
+                console.log(response.responseText)
+                var data = JSON.parse(response.responseText);
+                Ext.Msg.alert('Stav', data.msg);
+                Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox);
+                window.location = '/'+dictcode+'/show/'+entryid+'?lang='+lang;
+              }
+            });
+          }
         }
       },{
           xtype: 'tbspacer',
@@ -3827,93 +3833,68 @@ Ext.onReady(function(){
         items: [datatab]
       },
       buttons: [{
-        text: locale[lang].savenext,
-        name: 'savebutton',
-        icon: '/editor/img/savenext.png',                
-        handler: function() {
-          var form = this.up('form').getForm();
-          var data = save_doc(entryid);
-          form.submit({
-            params: {
-              data: Ext.encode(data),
-              action: 'savecs',
-              shownext: '1',
-              id: entryid,
-              fast: true,
-            },
-            method: 'POST',
-            waitMsg: locale[lang].savemsg,
-            success: function(form, action) {
-              console.log(action)
-              console.log(action.result)
-              Ext.Msg.alert('Stav', action.result.msg);
-              Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox);
-              if (action.result.shownext != undefined && action.result.shownext != "") {
-                window.location = '/editor'+dictcode+'/?id='+action.result.shownext+'&lang='+lang;
-              }
-            }
-          });
-        }
-      },{
         text: locale[lang].save,
         name: 'savebutton',
         icon: '/editor/img/save.png',        
         handler: function() {
-          var form = this.up('form').getForm();
+          Ext.Msg.alert('Stav', locale[lang].savemsg);
+          console.log('savedisplay horni');
+          var waitBox = Ext.MessageBox.wait(locale[lang].savemsg);
           var data = save_doc(entryid);
-          form.submit({
-            params: {
-              data: Ext.encode(data),
-              action: 'savecs',
-              id: entryid,
-            },
-            method: 'POST',
-            waitMsg: locale[lang].savemsg,
-            success: function(form, action) {
-              entry_updated = false;
-              entry_update_show(false);
-              console.log(action.result)
-              Ext.Msg.alert('Stav', action.result.msg);
-              Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox);
-              /* if (is_new_entry) { */
+          if (data != false) {
+            console.log('odeslat data');
+            Ext.Ajax.request({
+              url: '/'+dictcode+'/save',
+              params: {
+                data: JSON.stringify(data),
+              },
+              method: 'POST',
+              failure: function(response) {
+                console.log('fail')
+                console.log(response.responseText)
+              },
+              success: function(response) {
+                console.log(response.responseText)
+                var data = JSON.parse(response.responseText);
+                Ext.Msg.alert('Stav', data.msg);
+                Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox);
                 window.location = '/editor'+dictcode+'/?id='+entryid+'&lang='+lang;
-              /* } */
-            }
-          });
+              }
+            });
+          }
         }
       },{
         text: locale[lang].saveview,
         icon: '/editor/img/savedisplay.png',
         name: 'savebutton',
         handler: function() {
-          var form = this.up('form').getForm();
+          Ext.Msg.alert('Stav', locale[lang].savemsg);
+          console.log('savedisplay horni');
+          var waitBox = Ext.MessageBox.wait(locale[lang].savemsg);
           var data = save_doc(entryid);
-          form.submit({
-            params: {
-              data: Ext.encode(data),
-              action: 'savecs',
-              id: entryid,
-              fast: true
-            },
-            method: 'POST',
-            waitMsg: locale[lang].savemsg,
-            success: function(form, action) {
-              console.log(action.result)
-              Ext.Msg.alert('Stav', action.result.msg);
-              Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox);              
-              window.location = '/'+dictcode+'?action=search&getdoc='+entryid+'&lang='+lang+'&empty='+empty;
-            }
-          });
+          if (data != false) {
+            console.log('odeslat data');
+            Ext.Ajax.request({
+              url: '/'+dictcode+'/save',
+              params: {
+                data: JSON.stringify(data),
+              },
+              method: 'POST',
+              failure: function(response) {
+                console.log('fail')
+                console.log(response.responseText)
+              },
+              success: function(response) {
+                console.log(response.responseText)
+                var data = JSON.parse(response.responseText);
+                Ext.Msg.alert('Stav', data.msg);
+                Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox);
+                window.location = '/'+dictcode+'/show/'+entryid+'?lang='+lang;
+              }
+            });
+          }
         }
-      },/*{
-        text: 'Test',
-        handler: function() {
-          var form = this.up('form').getForm();
-          var data = save_doc(entryid);
-          console.log(data);
-          alert(JSON.stringify(data));
-        }
-      },*/{
+      },{
         text: locale[lang].viewplus,
         icon: '/editor/img/display.png',
         handler: function() {          
