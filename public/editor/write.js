@@ -1741,18 +1741,11 @@ function save_doc(id) {
 
 
 function reload_rel(search, field, target) {
-  if (target == 'cs' || target == 'en' || target == 'de' || target == 'sj') {
-    var action = 'relfindcs';
-  } else {
-    var action = 'relfind';
-  }
   relationlist.loadData([], false);
   Ext.Ajax.request({
-    url: '/'+dictcode,
+    url: '/'+dictcode+'/relfind',
     params: {
-      action: action,
       search: search,
-      target: target,
     },
     method: 'get',
     success: function(response) {
@@ -1770,12 +1763,11 @@ function reload_rel(search, field, target) {
     }
   });
 }
-function reload_link_cs(search, field) {
+function reload_link(search, field) {
   linklist.loadData([], false);
   Ext.Ajax.request({
-    url: '/'+dictcode,
+    url: '/'+dictcode+'/linkfind',
     params: {
-      action: 'linkcsfind',
       search: search,
     },
     method: 'get',
@@ -2157,7 +2149,7 @@ function create_variant(entryid) {
             },
             specialkey: function(field, e) {
               if (e.getKey() == e.ENTER) {
-                reload_link_cs(field.getValue(), field);
+                reload_link(field.getValue(), field);
               }
             }
           },
@@ -2280,9 +2272,8 @@ function get_selected_dict() {
 
 function load_link_relations(target, combo, name, parentid, set_rel) {
             Ext.Ajax.request({
-              url: '/'+target,
+              url: '/'+target+'/getrelations',
               params: {
-                action: 'get_relations',
                 meaning_id: combo.getValue(),
                 type: set_rel
               },
