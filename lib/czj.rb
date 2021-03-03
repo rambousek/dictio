@@ -94,7 +94,7 @@ class CZJDict < Object
     $stderr.puts 'GETSW, entry ' + entry['id'].to_s
     swdoc = $mongo['sw'].find({'id': entry['id'], 'dict': entry['dict']})
     $stderr.puts swdoc.first
-    if swdoc.first and swdoc.first['swmix'].length > 0
+    if swdoc.first and swdoc.first['swmix'] and swdoc.first['swmix'].length > 0
       entry['lemma']['swmix'] = swdoc.first['swmix']
     else
       entries_used = [entry['id']]
