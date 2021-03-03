@@ -385,7 +385,8 @@ $( document ).ready(function() {
     console.log(current_count)
     if (current_count < total_results) {
       var search_path = $('.load_next_search').data('search');
-      var slovniDruh = $('.search-alt__wrap #slovni_druh').val();
+      var dict = search_path.split('/')[1];
+      var slovniDruh = $('.search-alt__wrap #slovni_druh_'+dict).val();
       var search_url = search_path.replace('/search/', '/jsonsearch/') + '/' + current_count + '/10?slovni_druh='+slovniDruh;
       $.get(search_url, function(response) {
         if (response.entries) {
