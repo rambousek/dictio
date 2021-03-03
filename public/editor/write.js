@@ -1507,7 +1507,7 @@ function save_doc(id) {
   }
   /*slovni spojeni*/
   if (Ext.getCmp('tabForm').query('component[name="lemma_type"]')[0].getGroupValue() != null) {
-    data.lemma.lemma_type = {'$': Ext.getCmp('tabForm').query('component[name="lemma_type"]')[0].getGroupValue()};
+    data.lemma.lemma_type = Ext.getCmp('tabForm').query('component[name="lemma_type"]')[0].getGroupValue();
   }
   if (data.lemma.lemma_type != 'single') {
     data.collocations = {'status': Ext.getCmp('boxcolloc').query('component[name="stav"]')[0].getValue()};
