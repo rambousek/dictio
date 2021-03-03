@@ -926,14 +926,13 @@ function open_comments(box, type) {
           text: locale[lang].savechanges,
           handler: function() {
             Ext.Ajax.request({
-              url: '/'+dictcode,
+              url: '/'+dictcode+'/add_comment',
               params: {
-                action: 'add_comment',
                 entry: entryid,
                 box: type,
                 text: kwin.query('[name=newtext]')[0].getValue()
               },
-              method: 'get',
+              method: 'post',
               success: function(response) {
                 Ext.getCmp(box).query('[name=lastcomment]')[0].update(kwin.query('[name=newtext]')[0].getValue());
                 Ext.getCmp(box).query('[name=lastcomment]')[0].show(); 
@@ -947,12 +946,7 @@ function open_comments(box, type) {
     }
   });
   Ext.Ajax.request({
-    url: '/'+dictcode,
-    params: {
-      action: 'get_comments',
-      entry: entryid,
-      box: type,
-    },
+    url: '/'+dictcode+'/comments/'+entryid+'/'+type,
     method: 'get',
     success: function(response) {
       var data = JSON.parse(response.responseText);
@@ -981,11 +975,7 @@ function open_comments(box, type) {
             cidParam: cid,
             handler: function(btn) {
               Ext.Ajax.request({
-                url: '/'+dictcode,
-                params: {
-                  action: 'del_comment',
-                  id: btn.cidParam
-                },
+                url: '/'+dictcode+'/del_comment/'+btn.cidParam,
                 method: 'get',
                 success: function(response) {
                   var lasttext = '';
@@ -1034,35 +1024,31 @@ function new_entry() {
   Ext.suspendLayouts();
   loadMask.show();
   Ext.Ajax.request({
-    url: '/'+dictcode,
-    params: {
-      action: 'new_entry',
-    },
+    url: '/'+dictcode+'/newentry',
     method: 'get',
     success: function(response) {
       var data = JSON.parse(response.responseText);
-      entryid = data['newid'];
+      entryid = data['newid'].toString();
+      entrydata = {'meanings': [{'id': data['newid']+'-1','created_at': Ext.Date.format(new Date(), 'Y-m-d H:i:s')}], 'lemma': {'created_at': Ext.Date.format(new Date(), 'Y-m-d H:i:s')}};
       Ext.getCmp('tabForm').setTitle(locale[lang].entry+' id '+entryid);
       document.title = dictcode.toUpperCase()+' '+entryid;
-      Ext.getCmp('tabForm').query('component[name="userskupina"]')[0].setValue(data['user_skupina']);
-      Ext.getCmp('tabForm').query('component[name="userperm"]')[0].setValue(data['user_perm']);
+      Ext.getCmp('tabForm').query('component[name="userskupina"]')[0].setValue(data['user_info']['skupina'].join(','));
+      Ext.getCmp('tabForm').query('component[name="userperm"]')[0].setValue(data['user_info']['perm']);
       Ext.getCmp('tabForm').query('component[name="usersetrel"]')[0].setValue(data['set_rel']);
-      // Ext.getCmp('tabForm').query('component[name="defaultcopy"]')[0].setValue(data['default_copy']);
-      Ext.getCmp('tabForm').query('component[name="defaultzdroj"]')[0].setValue(data['default_zdroj']);
-      Ext.getCmp('tabForm').query('component[name="defaultautor"]')[0].setValue(data['default_autor']);
+      Ext.getCmp('tabForm').query('component[name="defaultzdroj"]')[0].setValue(data['user_info']['zdroj']);
+      Ext.getCmp('tabForm').query('component[name="defaultautor"]')[0].setValue(data['user_info']['autor']);
       Ext.getCmp('tabForm').query('component[name="completeness"]')[0].setValue('0');
-      if (data['user_skupina'] != '') {
-        var skupiny = data['user_skupina'].split(',');
+      if (data['user_info']['skupina'] != undefined) {
+        var skupiny = data['user_info']['skupina'];
         Ext.getCmp('tabForm').query('component[name="pracskupina"]')[0].setValue(skupiny[0]);
       }
-      Ext.getCmp('vyznamy_box').query('component[name="vyznam"]')[0].query('component[name="meaning_id"]')[0].setValue(data['newid']+'-1');
+      Ext.getCmp('vyznamy_box').remove(Ext.getCmp('vyznamy_box').query('component[name="vyznam"]')[0]);
+      Ext.getCmp('vyznamy_box').insert(Ext.getCmp('vyznamy_box').items.length-1, create_vyznam(data['newid'], true, data['newid']+'-1'));
       max_meaning = 1;
-      Ext.getCmp('vyznamy_box').query('component[name="vyznam"]')[0].query('component[name="meaning_nr"]')[0].setValue('1');
       var copys = Ext.getCmp('tabForm').query('[name=copybox]');
       for (var i = 0; i < copys.length; i++) {
-       // copys[i].query('[name=copy_copy]')[0].setValue(data['default_copy']);
-        copys[i].query('[name=copy_zdroj]')[0].setValue(data['default_zdroj']);
-        copys[i].query('[name=copy_autor]')[0].setValue(data['default_autor']);
+        copys[i].query('[name=copy_zdroj]')[0].setValue(data['user_info']['zdroj']);
+        copys[i].query('[name=copy_autor]')[0].setValue(data['user_info']['autor']);
       }
 
       console.log('new end ' + new Date().getTime())
@@ -3850,18 +3836,14 @@ Ext.onReady(function(){
             Ext.Msg.confirm('?', locale[lang].deletemsg, function(btn, text) {
               if (btn == 'yes') {
                 Ext.Ajax.request({
-                  url: '/'+dictcode,
-                  params: {
-                    action: 'delete',
-                    id: entryid
-                  },
-                  method: 'get',
+                  url: '/'+dictcode+'/delete/'+entryid,
+                  method: 'post',
                   success: function(response) {
                     console.log(response.responseText);
                     if (response.responseText.substring(0,7) == 'DELETED') {
                       Ext.Msg.alert(locale[lang].status, locale[lang].deleted);
                       Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox);
-                      window.location = '/'+dictcode+'?action=search'
+                      window.location = '/'+dictcode;
                     } else {
                       Ext.Msg.alert('Chyba', response.responseText);
                     }
