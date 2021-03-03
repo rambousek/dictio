@@ -1199,7 +1199,7 @@ function load_doc(id) {
           if (meaning['admin']) Ext.getCmp(vyznam.id+'_copybox').query('component[name="copy_admin"]')[0].setValue(meaning['admin']);
           if (meaning['source']) Ext.getCmp(vyznam.id+'_copybox').query('component[name="copy_zdroj"]')[0].setValue(meaning['source']);
           if (meaning['number']) vyznam.query('component[name="meaning_nr"]')[0].setValue(meaning['number']);
-          if (meaning['style_region']) vyznam.query('component[name="meaning_nr"]')[0].setValue(meaning['style_region']);
+          if (meaning['oblast']) vyznam.query('component[name="vyzn_oblast"]')[0].setValue(meaning['oblast']);
           if (meaning['pracskupina']) vyznam.query('component[name="pracskupina"]')[0].setValue(meaning['pracskupina']);
           if (meaning['text'] && meaning['text']['_text']) {
             vyznam.query('component[name="'+vyznam.id+'_text"]')[0].setValue($.trim(meaning['text']['_text']));
@@ -1550,48 +1550,45 @@ function save_doc(id) {
       data.lemma.grammar_note[0].variant.push({'_text':varvid});
     }
   }
-  return data
 
   /* meanings */
   var maxnr = 0;
   var meanings = Ext.getCmp('tabForm').query('component[name="vyznam"]');
   if (meanings.length > 0) {
-    data.entry.meanings = {'meaning': []};
+    data.meanings = [];
   }
   var mean_numbers = new Array();
   var max_mean = 0;
   for (var i = 0; i < meanings.length; i++) {
     var newmean = {
-      '@id': meanings[i].query('component[name="meaning_id"]')[0].getValue(),
-      'id': {'$': meanings[i].query('component[name="meaning_id"]')[0].getValue()},
-      'status': {'$': meanings[i].query('[name=vyznammeta]')[0].query('component[name="stav"]')[0].getValue()},
-      'updated_at': {'$': Ext.Date.format(new Date(), 'Y-m-d H:i:s')},      
+      'id': meanings[i].query('component[name="meaning_id"]')[0].getValue(),
+      'status': meanings[i].query('[name=vyznammeta]')[0].query('component[name="stav"]')[0].getValue(),
+      'updated_at': Ext.Date.format(new Date(), 'Y-m-d H:i:s'),
       'relation': [],
-      '@author': Ext.getCmp(meanings[i].id+'_copybox').query('component[name="copy_autor"]')[0].getValue(),
-     // '@copyright': Ext.getCmp(meanings[i].id+'_copybox').query('component[name="copy_copy"]')[0].getValue(),
-      '@source': Ext.getCmp(meanings[i].id+'_copybox').query('component[name="copy_zdroj"]')[0].getValue(),
-      '@admin': Ext.getCmp(meanings[i].id+'_copybox').query('component[name="copy_admin"]')[0].getValue(),
-      '@oblast': meanings[i].query('component[name="vyzn_oblast"]')[0].getValue().join(';'),
-      '@pracskupina': meanings[i].query('component[name="pracskupina"]')[0].getValue(),
+      'author': Ext.getCmp(meanings[i].id+'_copybox').query('component[name="copy_autor"]')[0].getValue(),
+      'source': Ext.getCmp(meanings[i].id+'_copybox').query('component[name="copy_zdroj"]')[0].getValue(),
+      'admin': Ext.getCmp(meanings[i].id+'_copybox').query('component[name="copy_admin"]')[0].getValue(),
+      'oblast': meanings[i].query('component[name="vyzn_oblast"]')[0].getValue().join(';'),
+      'pracskupina': meanings[i].query('component[name="pracskupina"]')[0].getValue(),
     };
     maxnr += 1;
     if (isNaN(parseInt(meanings[i].query('component[name="meaning_nr"]')[0].getValue()))) {
-      //newmean['@number'] = maxnr;
+      newmean['number'] = maxnr;
     } else {
-      newmean['@number'] = parseInt(meanings[i].query('component[name="meaning_nr"]')[0].getValue());
+      newmean['number'] = parseInt(meanings[i].query('component[name="meaning_nr"]')[0].getValue());
     }
-    mean_numbers.push(newmean['@number']);
-    if (max_mean < newmean['@number']) {
-      max_mean = newmean['@number'];
+    mean_numbers.push(newmean['number']);
+    if (max_mean < newmean['number']) {
+      max_mean = newmean['number'];
     }
 
     if (meanings[i].query('component[name="meaning_id"]')[0].getValue() != '') {
-      newmean.created_at = {'$': Ext.DomQuery.selectValue('/entry/meanings/meaning[@id="'+meanings[i].query('component[name="meaning_id"]')[0].getValue()+'"]/created_at', xmlDoc)};
+      newmean.created_at = entrydata['meanings'].filter(mean => mean['id'] == meanings[i].query('component[name="meaning_id"]')[0].getValue())[0]['created_at'];
     } else {
-      newmean.created_at = {'$': Ext.Date.format(new Date(), 'Y-m-d H:i:s')};
+      newmean.created_at = Ext.Date.format(new Date(), 'Y-m-d H:i:s');
     }
     if (meanings[i].query('component[name="translation_unknown"]')[0].getValue()) {
-      newmean.is_translation_unknown = {'$': '1'};
+      newmean.is_translation_unknown = '1';
     }
     /* preklady,odkazy */
     var trset = meanings[i].query('component[name="rellinkset"]');
@@ -1611,55 +1608,31 @@ function save_doc(id) {
         if ((trset_ar.indexOf(reltype+rellink+reltar) == -1) && (!(rellink.startsWith(id+'-')) || reltype == 'translation' || reltype == 'translation_colloc')) {
           trset_ar.push(reltype+rellink+reltar);
           newrel = {
-            '@meaning_id': rellink,
-            '@type': reltype,
-            '@target': reltar,
-            '@status': trset[j].query('component[name="stav"]')[0].getValue()
+            'meaning_id': rellink,
+            'type': reltype,
+            'target': reltar,
+            'status': trset[j].query('component[name="stav"]')[0].getValue()
           };
-          if (['sj','cs','de','en'].includes(reltar)) {
-            if (trset[j].query('component[name="vztahtitle"]')[0].getEl().dom.textContent != '') {
-              newrel.title = {'$': trset[j].query('component[name="vztahtitle"]')[0].getEl().dom.textContent};
-            } else {
-              newrel.title = {'$': rellink}
-            }
-            if (newrel.title['$'] == newrel['@meaning_id']) {
-              newrel['@title_only'] = 'true';
-            } else {
-              newrel['@title_only'] = '';
-              newrel['@lemma_id'] = newrel['@meaning_id'].split('-')[0];
-            }
-          } else {
-            newrel['@lemma_id'] = newrel['@meaning_id'].split('-')[0];
-            newrel['@title_only'] = '';
-            if (trset[j].query('component[name="vztahtitle"]')[0].getEl().dom.firstChild.querySelector('source[type="video/mp4"]') != null) {
-              var src = trset[j].query('component[name="vztahtitle"]')[0].getEl().dom.firstChild.querySelector('source[type="video/mp4"]').getAttribute('src');
-              var srca = src.split('/');
-              console.log(src)
-              newrel.file = {'location':{'$':srca[3]},'status':{'$':'published'}};
-            }
-          }
           newmean.relation.push(newrel);
         }
       }
     }
-    newmean.text = {'$': meanings[i].query('component[name="'+meanings[i].id+'_text"]')[0].getValue()};
+    newmean.text = {'_text': meanings[i].query('component[name="'+meanings[i].id+'_text"]')[0].getValue()};
     
     /*priklady*/
     var uses = meanings[i].query('component[name="usageset"]');
     if (uses.length > 0) {
-      newmean.usages = {'usage':[]};
+      newmean.usages = [];
     }
     for (var j = 0; j < uses.length; j++) {
       var newuse = {
-        '@id': uses[j].query('component[name="usage_id"]')[0].getValue(),
-        'updated_at': {'$': Ext.Date.format(new Date(), 'Y-m-d H:i:s')},
-        'status': {'$': uses[j].query('component[name="stav"]')[0].getValue()},
+        'id': uses[j].query('component[name="usage_id"]')[0].getValue(),
+        'updated_at': Ext.Date.format(new Date(), 'Y-m-d H:i:s'),
+        'status': uses[j].query('component[name="stav"]')[0].getValue(),
         'text': {},
-        '@author': uses[j].query('component[name="copy_autor"]')[0].getValue(),
-       // '@copyright': uses[j].query('component[name="copy_copy"]')[0].getValue(),
-        '@source': uses[j].query('component[name="copy_zdroj"]')[0].getValue(),
-        '@admin': uses[j].query('component[name="copy_admin"]')[0].getValue(),
-        //'@colloc_link': uses[j].query('component[name="colloc_link"]')[0].getValue(),
+        'author': uses[j].query('component[name="copy_autor"]')[0].getValue(),
+        'source': uses[j].query('component[name="copy_zdroj"]')[0].getValue(),
+        'admin': uses[j].query('component[name="copy_admin"]')[0].getValue(),
       };
       var trset = uses[j].query('component[name="exrellinkset"]');
       var trset_ar = new Array();
@@ -1681,29 +1654,29 @@ function save_doc(id) {
           if ((trset_ar.indexOf(reltype+rellink+reltar) == -1) && (!(rellink.startsWith(id+'-')) || reltype == 'translation' || reltype == 'translation_colloc')) {
             trset_ar.push(reltype+rellink+reltar);
             newuse.relation.push({
-              '@meaning_id': rellink,
-              '@type': reltype,
-              '@target': reltar,
+              'meaning_id': rellink,
+              'type': reltype,
+              'target': reltar,
             });
           }
         }
       }
       if (uses[j].query('[inputValue=colloc]')[0].getValue()) {
-        newuse['@type'] = 'colloc';
+        newuse['type'] = 'colloc';
       } else {
-        newuse['@type'] = 'sentence';
+        newuse['type'] = 'sentence';
       }
-      if (uses[j].query('component[name="usage_id"]')[0].getValue() != '') {
-        newuse.created_at = {'$': Ext.DomQuery.selectValue('//usage[@id="'+uses[j].query('component[name="usage_id"]')[0].getValue()+'"]/created_at', xmlDoc)};
+      if (uses[j].query('component[name="usage_id"]')[0].getValue() != '' && entrydata['meanings'].filter(mean => mean['id'] == meanings[i].query('component[name="meaning_id"]')[0].getValue())[0]['usages'] != undefined) {
+        newuse.created_at = entrydata['meanings'].filter(mean => mean['id'] == meanings[i].query('component[name="meaning_id"]')[0].getValue())[0]['usages'].filter(usg=>usg['id'] == uses[j].query('component[name="usage_id"]')[0].getValue())[0]['created_at'];
       } else {
         newuse.created_at = {'$': Ext.Date.format(new Date(), 'Y-m-d H:i:s')};
       }
-      newuse.text = {'$': uses[j].query('component[name="'+uses[j].id+'_text"]')[0].getValue()};
+      newuse.text = {'_text': uses[j].query('component[name="'+uses[j].id+'_text"]')[0].getValue()};
 
-      newmean.usages.usage.push(newuse);
+      newmean.usages.push(newuse);
     }
 
-    data.entry.meanings.meaning.push(newmean);
+    data.meanings.push(newmean);
   }
   var numbers_ok = true;
   for (var i = 1; i <= max_mean; i++) {
@@ -1714,8 +1687,7 @@ function save_doc(id) {
   if (numbers_ok == false) {
     alert('Pořadí významů neobsahuje všechny významy nebo obsahuje špatné pořadí.');
   }
-    console.log(data.entry.meanings)
-
+  console.log(data)
 
   return data;
 }
@@ -3799,7 +3771,6 @@ Ext.onReady(function(){
         handler: function() {
           var form = this.up('form').getForm();
           var data = save_doc(entryid);
-          console.log(data)
           /*form.submit({
             params: {
               data: Ext.encode(data),
