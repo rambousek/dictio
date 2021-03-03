@@ -378,6 +378,10 @@ class CzjApp < Sinatra::Base
           body = {'success'=>true, 'message'=>"Soubor nahrán: #{filename} (#{mediaid})", 'mediaid'=>mediaid}.to_json
         end
       end
+      get '/'+code+'/getgram/:id' do
+        content_type :json
+        body = dict.get_gram(params['id']).to_json
+      end
     end
   }
 

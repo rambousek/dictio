@@ -3536,11 +3536,7 @@ Ext.onReady(function(){
                   handler: function() {
                     var get_id = Ext.getCmp('deklcont').query('[name=get_deklin]')[0].getValue();
                     Ext.Ajax.request({
-                      url: '/'+dictcode,
-                      params: {
-                        action: 'getgram',
-                        id: get_id
-                      },
+                      url: '/'+dictcode+'/getgram/'+get_id,
                       method: 'get',
                       success: function(response) {
                         var data = JSON.parse(response.responseText);
@@ -3552,7 +3548,7 @@ Ext.onReady(function(){
                         for (var i = 0; i < data.form.length; i++) {
                           var sw = create_deklin(entryid);
                           sw.query('[name=dekl_tag]')[0].setValue(data.form[i]['@tag']);
-                          sw.query('[name=dekl_tvar]')[0].setValue(data.form[i]['$']);
+                          sw.query('[name=dekl_tvar]')[0].setValue(data.form[i]['_text']);
                           Ext.getCmp('deklcont').insert(Ext.getCmp('deklcont').items.length-2,sw);
                         }
                         Ext.resumeLayouts(true);

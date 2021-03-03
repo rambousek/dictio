@@ -1494,5 +1494,14 @@ class CZJDict < Object
     }
     return filename, mediaid.to_s
   end
+
+  def get_gram(entryid)
+    data = getone(@dictcode, entryid)
+    if data and data['lemma'] and data['lemma']['gram'] and data['lemma']['gram']['form']
+      return data['lemma']['gram']
+    else
+      return {'form'=>[]}
+    end
+  end
 end
 
