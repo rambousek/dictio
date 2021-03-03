@@ -1454,47 +1454,39 @@ function entry_update_show(updated) {
 function save_doc(id) {
   var tracking = changes.filter(function (value, index, self) { return self.indexOf(value) === index;}).join(", ");
   changes = new Array();
-  var data = {'entry':{
-    '@id': id,
-    'track_changes':{'$': tracking},
-    'media':[],
+  var data = {
+    'dict': dictcode,
+    'id': id.toString(),
+    'track_changes': tracking,
     'lemma':{
-      '@id': id,
-      '@lang': 'cs',
-      'id': {'$': id},
-      'updated_at': {'$': Ext.Date.format(new Date(), 'Y-m-d H:i:s')},
-      'iso_lang_code': {'$': 'cs'},
-      'created_at': {'$': Ext.DomQuery.selectValue('/entry/lemma/created_at', xmlDoc)},
-      'completeness': {'$': Ext.getCmp('tabForm').query('component[name="completeness"]')[0].getValue()},
-      'pracskupina': {'$': Ext.getCmp('tabForm').query('component[name="pracskupina"]')[0].getValue()},
-      'admin_comment': {'$': Ext.getCmp('tabForm').query('component[name="admin_comment"]')[0].getValue()},
-      'status': {'$': Ext.getCmp('tabForm').query('component[name="stav"]')[0].getValue()},
-      'title': {'$': Ext.getCmp('tabForm').query('component[name="lemma"]')[0].getValue()},
-      'title_var': {'$': Ext.getCmp('tabForm').query('component[name="lemma_var"]')[0].getValue()},
-      'pron': {'$': Ext.getCmp('tabForm').query('component[name="pron"]')[0].getValue()},
-      'puvod': {'$': Ext.getCmp('tabForm').query('component[name="puvod_slova"]')[0].getValue()},
-      'admin_comment': {'$': Ext.getCmp('tabForm').query('component[name="admin_comment"]')[0].getValue()},
+      'updated_at': Ext.Date.format(new Date(), 'Y-m-d H:i:s'),
+      'created_at': entrydata['lemma']['created_at'],
+      'completeness': Ext.getCmp('tabForm').query('component[name="completeness"]')[0].getValue(),
+      'pracskupina': Ext.getCmp('tabForm').query('component[name="pracskupina"]')[0].getValue(),
+      'admin_comment': Ext.getCmp('tabForm').query('component[name="admin_comment"]')[0].getValue(),
+      'status': Ext.getCmp('tabForm').query('component[name="stav"]')[0].getValue(),
+      'title': Ext.getCmp('tabForm').query('component[name="lemma"]')[0].getValue(),
+      'title_var': Ext.getCmp('tabForm').query('component[name="lemma_var"]')[0].getValue(),
+      'pron': Ext.getCmp('tabForm').query('component[name="pron"]')[0].getValue(),
+      'puvod': Ext.getCmp('tabForm').query('component[name="puvod_slova"]')[0].getValue(),
       'grammar_note': [{
-        '$': Ext.getCmp('tabForm').query('component[name="gramatikatext_text"]')[0].getValue(), 
+        '_text': Ext.getCmp('tabForm').query('component[name="gramatikatext_text"]')[0].getValue(), 
         '@flexe_neskl': Ext.getCmp('gramdesc').query('component[name="flexe_neskl"]')[0].getValue(),
         '@author': Ext.getCmp('gramdesc').query('component[name="copy_autor"]')[0].getValue(),
-        // '@copyright': Ext.getCmp('gramdesc').query('component[name="copy_copy"]')[0].getValue(),
         '@source': Ext.getCmp('gramdesc').query('component[name="copy_zdroj"]')[0].getValue(),
         '@admin': Ext.getCmp('gramdesc').query('component[name="copy_admin"]')[0].getValue(),
         '@status': Ext.getCmp('gramdesc').query('component[name="stav"]')[0].getValue(),
         'variant': []
       }],
       'style_note': {
-        '$': Ext.getCmp('tabForm').query('component[name="styltext_text"]')[0].getValue(), 
+        '_text': Ext.getCmp('tabForm').query('component[name="styltext_text"]')[0].getValue(), 
         '@kategorie': Ext.getCmp('styldesc').query('component[name="kategorie"]')[0].getValue().join(';'),
         '@stylpriznak': Ext.getCmp('styldesc').query('component[name="stylpriznak"]')[0].getValue().join(';'),
         '@author': Ext.getCmp('styldesc').query('component[name="copy_autor"]')[0].getValue(),
-        // '@copyright': Ext.getCmp('styldesc').query('component[name="copy_copy"]')[0].getValue(),
         '@source': Ext.getCmp('styldesc').query('component[name="copy_zdroj"]')[0].getValue(),
         '@admin': Ext.getCmp('styldesc').query('component[name="copy_admin"]')[0].getValue(),
         '@status': Ext.getCmp('styldesc').query('component[name="stav"]')[0].getValue(),
         'variant': []
-      },
       },
     }
   };
@@ -3804,7 +3796,8 @@ Ext.onReady(function(){
         handler: function() {
           var form = this.up('form').getForm();
           var data = save_doc(entryid);
-          form.submit({
+          console.log(data)
+          /*form.submit({
             params: {
               data: Ext.encode(data),
               action: 'savecs',
@@ -3819,7 +3812,7 @@ Ext.onReady(function(){
               Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox);              
               window.location = '/'+dictcode+'?action=search&getdoc='+entryid+'&lang='+lang+'&empty='+empty;
             }
-          });
+          });*/
         }
       },{
           xtype: 'tbspacer',
