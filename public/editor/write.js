@@ -1743,7 +1743,7 @@ function save_doc(id) {
 function reload_rel(search, field, target) {
   relationlist.loadData([], false);
   Ext.Ajax.request({
-    url: '/'+dictcode+'/relfind',
+    url: '/'+target+'/relfind',
     params: {
       search: search,
     },
@@ -2271,65 +2271,65 @@ function get_selected_dict() {
 }
 
 function load_link_relations(target, combo, name, parentid, set_rel) {
-            Ext.Ajax.request({
-              url: '/'+target+'/getrelations',
-              params: {
-                meaning_id: combo.getValue(),
-                type: set_rel
-              },
-              method: 'get',
-              failure: function() {
-                //waitBoxRels.hide();
-                Ext.Array.each(Ext.getCmp('tabForm').query('[name=relsadd]'), function(item) {item.show()});
-                Ext.Array.each(Ext.getCmp('tabForm').query('[name=relswait]'), function(item) {item.hide()});
-              },
-              success: function(response) {
-                //waitBoxRels.hide();
-                var trset = Ext.getCmp(name).up().query('component[name="rellinkset"]');
-                var trset_ar = new Array();
-                var selected_dicts = get_selected_dict();
-                for (var j = 0; j < trset.length; j++) {
-                  if (trset[j].query('component[name="rellink"]')[0].getValue() != null && trset[j].query('component[name="rellink"]')[0].getValue() != "" && trset[j].query('component[name="type"]')[0].getValue() != "") {
-                    var rellink = trset[j].query('component[name="rellink"]')[0].getValue();
-                    var reltype = trset[j].query('component[name="type"]')[0].getValue();
-                    var reltar = dictcode;
-                    if (reltype.startsWith('translation_')) {
-                      reltar = reltype.split('_')[1];
-                      reltype = 'translation';
-                    }
-                    trset_ar.push(reltype+rellink+reltar);
-                  }
-                }
-                var linkrels = JSON.parse(response.responseText);
-                Ext.each(linkrels, function(relitem) {
-                  //eg. synonym in other dictionary is translation for this dictionary
-                  //translation to this dictionary is synonym
-                  if (relitem.type != 'translation' && relitem.target != dictcode) {
-                    relitem.type = 'translation';
-                  }
-                  if (relitem.type == 'translation' && relitem.target == dictcode) {
-                    relitem.type = 'synonym';
-                  }
-                  var newtype = relitem.type;
-                  if (relitem.type == 'translation') {
-                    newtype = 'translation_' + relitem.target;
-                  }
-                  //skip the same entry, skip if same link already present
-                  if ((!(relitem.target == dictcode && relitem.meaning_id.startsWith(entryid+'-'))) && (trset_ar.indexOf(relitem.type+relitem.title+relitem.target) == -1) && (trset_ar.indexOf(relitem.type+relitem.meaning_id+relitem.target) == -1) && selected_dicts.includes(relitem.target)) {
-                    //add
-                    var newrel = create_vyznam_links(parentid);
-                    Ext.getCmp(parentid).insert(Ext.getCmp(parentid).items.length-3, newrel);
-                    newrel.query('component[name="type"]')[0].setValue(newtype);
-                    newrel.query('component[name="rellink"]')[0].setValue(relitem.title);
-                    newrel.query('component[name="vztahtitle"]')[0].update(relitem.meaning_id);
-                    var inner = newrel.query('component[name="vztahtitle"]')[0].id + '-innerCt';
-                    document.getElementById(inner).classList.add('redtext');
-                  }
-                });
-                Ext.Array.each(Ext.getCmp('tabForm').query('[name=relsadd]'), function(item) {item.show()});
-                Ext.Array.each(Ext.getCmp('tabForm').query('[name=relswait]'), function(item) {item.hide()});
-              }
-            });
+  Ext.Ajax.request({
+    url: '/'+target+'/getrelations',
+    params: {
+      meaning_id: combo.getValue(),
+      type: set_rel
+    },
+    method: 'get',
+    failure: function() {
+      //waitBoxRels.hide();
+      Ext.Array.each(Ext.getCmp('tabForm').query('[name=relsadd]'), function(item) {item.show()});
+      Ext.Array.each(Ext.getCmp('tabForm').query('[name=relswait]'), function(item) {item.hide()});
+    },
+    success: function(response) {
+      //waitBoxRels.hide();
+      var trset = Ext.getCmp(name).up().query('component[name="rellinkset"]');
+      var trset_ar = new Array();
+      var selected_dicts = get_selected_dict();
+      for (var j = 0; j < trset.length; j++) {
+        if (trset[j].query('component[name="rellink"]')[0].getValue() != null && trset[j].query('component[name="rellink"]')[0].getValue() != "" && trset[j].query('component[name="type"]')[0].getValue() != "") {
+          var rellink = trset[j].query('component[name="rellink"]')[0].getValue();
+          var reltype = trset[j].query('component[name="type"]')[0].getValue();
+          var reltar = dictcode;
+          if (reltype.startsWith('translation_')) {
+            reltar = reltype.split('_')[1];
+            reltype = 'translation';
+          }
+          trset_ar.push(reltype+rellink+reltar);
+        }
+      }
+      var linkrels = JSON.parse(response.responseText);
+      Ext.each(linkrels, function(relitem) {
+        //eg. synonym in other dictionary is translation for this dictionary
+        //translation to this dictionary is synonym
+        if (relitem.type != 'translation' && relitem.target != dictcode) {
+          relitem.type = 'translation';
+        }
+        if (relitem.type == 'translation' && relitem.target == dictcode) {
+          relitem.type = 'synonym';
+        }
+        var newtype = relitem.type;
+        if (relitem.type == 'translation') {
+          newtype = 'translation_' + relitem.target;
+        }
+        //skip the same entry, skip if same link already present
+        if ((!(relitem.target == dictcode && relitem.meaning_id.startsWith(entryid+'-'))) && (trset_ar.indexOf(relitem.type+relitem.title+relitem.target) == -1) && (trset_ar.indexOf(relitem.type+relitem.meaning_id+relitem.target) == -1) && selected_dicts.includes(relitem.target)) {
+          //add
+          var newrel = create_vyznam_links(parentid);
+          Ext.getCmp(parentid).insert(Ext.getCmp(parentid).items.length-3, newrel);
+          newrel.query('component[name="type"]')[0].setValue(newtype);
+          newrel.query('component[name="rellink"]')[0].setValue(relitem.title);
+          newrel.query('component[name="vztahtitle"]')[0].update(relitem.meaning_id);
+          var inner = newrel.query('component[name="vztahtitle"]')[0].id + '-innerCt';
+          document.getElementById(inner).classList.add('redtext');
+        }
+      });
+      Ext.Array.each(Ext.getCmp('tabForm').query('[name=relsadd]'), function(item) {item.show()});
+      Ext.Array.each(Ext.getCmp('tabForm').query('[name=relswait]'), function(item) {item.hide()});
+    }
+  });
 }
 
 function create_vyznam_links(parentid) {
