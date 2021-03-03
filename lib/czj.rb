@@ -485,10 +485,11 @@ class CZJDict < Object
           end
           $stderr.puts search_cond
           cursor = @entrydb.find(search_cond, :sort => {'lemma.title'=>1})
-          fullcount = cursor.count_documents
+          fullcount = 0
+          fullcount = cursor.count_documents if search != ''
           cursor.each{|re|
-            res << re if fullcount > start
-            fullids << re['id']
+            res << re if fullcount > start and more_params['slovni_druh'].to_s == ''
+            fullids << re['id'] if more_params['slovni_druh'].to_s == ''
           }
           search_cond = {'dict': dictcode, 'id': {'$nin': fullids}}
           search_cond_title = {'$or': [{'lemma.title': {'$regex': /^#{search}/i}}]}
