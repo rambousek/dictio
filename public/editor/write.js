@@ -2395,9 +2395,8 @@ function create_vyznam_links(parentid) {
             }
             //ajax load preview
             Ext.Ajax.request({
-              url: '/'+target,
+              url: '/'+target+'/relationinfo',
               params: {
-                action: 'get_relation_info',
                 meaning_id: combo.getValue()
               },
               method: 'get',
