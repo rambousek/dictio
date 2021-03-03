@@ -861,9 +861,11 @@ class CZJDict < Object
     end
 
     #add fsw
-    data['lemma']['sw'].each{|sw|
-      sw['@fsw'] = get_fsw(sw['_text']) if sw['@fsw'] == ''
-    }
+    if data['lemma']['sw']
+      data['lemma']['sw'].each{|sw|
+        sw['@fsw'] = get_fsw(sw['_text']) if sw['@fsw'] == ''
+      }
+    end
     data.delete('track_changes')
     data.delete('update_video')
     $stderr.puts data
