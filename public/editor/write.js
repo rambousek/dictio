@@ -1478,7 +1478,7 @@ function save_doc(id) {
         '@status': Ext.getCmp('gramdesc').query('component[name="stav"]')[0].getValue(),
         'variant': []
       }],
-      'style_note': {
+      'style_note': [{
         '_text': Ext.getCmp('tabForm').query('component[name="styltext_text"]')[0].getValue(), 
         '@kategorie': Ext.getCmp('styldesc').query('component[name="kategorie"]')[0].getValue().join(';'),
         '@stylpriznak': Ext.getCmp('styldesc').query('component[name="stylpriznak"]')[0].getValue().join(';'),
@@ -1487,7 +1487,7 @@ function save_doc(id) {
         '@admin': Ext.getCmp('styldesc').query('component[name="copy_admin"]')[0].getValue(),
         '@status': Ext.getCmp('styldesc').query('component[name="stav"]')[0].getValue(),
         'variant': []
-      },
+      }],
     }
   };
   /* gramatika */
