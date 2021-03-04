@@ -15,12 +15,14 @@ class CZJDict < Object
   def getdoc(id)
     $stderr.puts id
     $stderr.puts @dictcode
-
+    
+    $stderr.puts 'START getdoc '+Time.now.to_s
     data = getone(@dictcode, id)
     $stderr.puts data
     if data != nil
       entry = full_entry(data)
       entry = add_rels(entry)
+      $stderr.puts 'END getdoc '+Time.now.to_s
       return entry
     else
       return {}
@@ -28,7 +30,9 @@ class CZJDict < Object
   end
 
   def getone(dict, id)
+    $stderr.puts 'START getone '+Time.now.to_s
     data = @entrydb.find({'id': id, 'dict': dict, 'empty': {'$exists': false}}).first
+    $stderr.puts 'END getone '+Time.now.to_s
     return data
   end
 
@@ -49,9 +53,11 @@ class CZJDict < Object
   end
 
   def full_entry(entry, getsw=true)
+    $stderr.puts 'START fullentry '+Time.now.to_s
     entry = add_media(entry)
     entry = add_colloc(entry)
     entry = get_sw(entry)
+    $stderr.puts 'END fullentry '+Time.now.to_s
     return entry
   end
 
