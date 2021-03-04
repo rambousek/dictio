@@ -398,4 +398,21 @@ class CzjApp < Sinatra::Base
     body = params['callback'] + '(' + data.to_json.to_s + ')'
   end
 
+  get '/korpus' do
+    apikey = '0a632cda5add424b97432ffb28806ffd'
+    newurl = 'https://api.sketchengine.eu/bonito/run.cgi/first?corpname=preloaded%2Fcstenten17_mj2&iquery='+params['lemma']+'&queryselector=iqueryrow&default_attr=word&fc_lemword_window_type=both&fc_lemword_wsize=5&gdex_enabled=1&viewmode=sentence&refs==doc.url&pagesize=40&format=json';
+    $stderr.puts 'PROXY '+ newurl
+    require 'net/http'
+    require 'net/https'
+    require 'openssl'
+    uri = URI(newurl)
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    request = Net::HTTP::Get.new(uri.request_uri, {'Authorization'=>'Bearer '+apikey})
+    response = http.request(request)
+    content_type :json
+    body = response.body
+  end
+
 end

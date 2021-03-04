@@ -2546,8 +2546,7 @@ function create_priklad(parentid, entryid, add_copy, meaning_id) {
               success: function(response) {
                 var data = JSON.parse(response.responseText);
                 var lemma = Ext.getCmp('tabForm').query('[name=lemma]')[0].getValue();
-                //var url = 'https://ske.fi.muni.cz/bonito/run.cgi/first?corpname=preloaded%2Fcztenten12_8&iquery='+encodeURI(lemma)+'&queryselector=iqueryrow&default_attr=word&fc_lemword_window_type=both&fc_lemword_wsize=5&gdex_enabled=1&viewmode=sentence&refs==doc.url';
-                var url = 'https://app.sketchengine.eu/#concordance?corpname=preloaded%2Fcstenten17_mj2&tab=basic&keyword='+encodeURI(lemma)+'&viewmode=sen&gdex_enabled=1&gdexcnt=50&structs=s%2Cg&refs=%3Ddoc.url&showresults=1&gdexconf=__default__&operations=%5B%7B%22name%22%3A%22iquery%22%2C%22arg%22%3A%22slovo%22%2C%22active%22%3Atrue%2C%22query%22%3A%7B%22queryselector%22%3A%22iqueryrow%22%2C%22iquery%22%3A%22slovo%22%7D%2C%22id%22%3A4653%7D%5D';
+                var url = 'https://app.sketchengine.eu/#concordance?corpname=preloaded%2Fcstenten17_mj2&tab=basic&keyword='+encodeURI(lemma)+'&viewmode=sen&gdex_enabled=1&gdexcnt=50&structs=s%2Cg&refs=%3Ddoc.url&showresults=1&gdexconf=__default__';
                 var korwin = Ext.create('Ext.window.Window', {
                   title: 'Korpus',
                   autoScroll: true,
@@ -2622,8 +2621,7 @@ function create_priklad(parentid, entryid, add_copy, meaning_id) {
           text: locale[lang].corpusweb,
           handler: function() {
             var lemma = Ext.getCmp('tabForm').query('[name=lemma]')[0].getValue();
-            //var url = 'https://ske.fi.muni.cz/bonito/run.cgi/first?corpname=preloaded%2Fcztenten12_8&iquery='+encodeURI(lemma)+'&queryselector=iqueryrow&default_attr=word&fc_lemword_window_type=both&fc_lemword_wsize=5&gdex_enabled=1&viewmode=sentence&refs==doc.url';
-            var url = 'https://app.sketchengine.eu/#concordance?corpname=preloaded%2Fcstenten17_mj2&tab=basic&keyword='+encodeURI(lemma)+'&viewmode=sen&gdex_enabled=1&gdexcnt=50&structs=s%2Cg&refs=%3Ddoc.url&showresults=1&gdexconf=__default__&operations=%5B%7B%22name%22%3A%22iquery%22%2C%22arg%22%3A%22slovo%22%2C%22active%22%3Atrue%2C%22query%22%3A%7B%22queryselector%22%3A%22iqueryrow%22%2C%22iquery%22%3A%22slovo%22%7D%2C%22id%22%3A4653%7D%5D';
+            var url = 'https://app.sketchengine.eu/#concordance?corpname=preloaded%2Fcstenten17_mj2&tab=basic&keyword='+encodeURI(lemma)+'&viewmode=sen&gdex_enabled=1&gdexcnt=50&structs=s%2Cg&refs=%3Ddoc.url&showresults=1&gdexconf=__default__';
             koncwindow = window.open(url);
           }
         },{
