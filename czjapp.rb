@@ -198,10 +198,12 @@ class CzjApp < Sinatra::Base
     end
     get '/'+code+'/json/:id' do 
       content_type :json
+      $stderr.puts 'START json'+Time.now.to_s
       doc = dict.getdoc(params['id'])
       if $is_edit
         doc['user_info'] = @user_info
       end
+      $stderr.puts 'END json'+Time.now.to_s
       body = doc.to_json
     end
     get '/'+code+'/jsonsearch/:type/:search(/:start)?(/:limit)?' do 
