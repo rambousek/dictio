@@ -68,11 +68,14 @@ class CzjApp < Sinatra::Base
     end
 
     def get_hostname(ip)
+      $stderr.puts 'START getname '+Time.now.to_s
       begin
-        name = Resolv.getname(ip)
+        #name = Resolv.getname(ip)
+        name = ip.to_s
       rescue
         name = ip.to_s
       end
+      $stderr.puts 'END getname '+Time.now.to_s
       return name
     end
 
@@ -107,7 +110,7 @@ class CzjApp < Sinatra::Base
       session[:locale] = params['lang']
     end
     @selectlang = session[:locale]
-    @hostname = get_hostname(request.get_header('HTTP_X_FORWARDED_FOR'))
+    #@hostname = get_hostname(request.get_header('HTTP_X_FORWARDED_FOR'))
     default_locale, @default_dict, @default_target = lang_defaults
     @selectlang = default_locale if @selectlang.nil?
     I18n.locale = @selectlang
