@@ -1333,7 +1333,7 @@ class CZJDict < Object
   def get_relations(meaning_id, type)
     list = []
     entry = getdoc(meaning_id.split('-')[0].to_s)
-    if entry['meaning']
+    if entry['meanings']
       entry['meanings'].each{|mean|
         if mean['id'] == meaning_id
           mean['relation'].each{|rel|
