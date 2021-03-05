@@ -2217,7 +2217,6 @@ function get_selected_dict() {
     if (el.startsWith('dict-') && el.endsWith('=true')) {
       var selcode = el.substring(5, el.indexOf('='))
       selected.push(selcode);
-      if (selcode == 'cj') {selected.push('cs');}
     }
   });
   return selected;
