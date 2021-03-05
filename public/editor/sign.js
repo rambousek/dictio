@@ -2801,6 +2801,7 @@ function create_vyznam_links(parentid) {
       emptyText: locale[lang].search_entry,
       queryMode: 'local',
       width: 200,
+      opened: false,
       listeners:{
         'blur': function(combo) {
           if ((!(Ext.getCmp(name).query('component[name="type"]')[0].getValue().startsWith('translation_'))) && combo.getValue().startsWith(entryid+'-')) {
@@ -2854,6 +2855,17 @@ function create_vyznam_links(parentid) {
             Ext.Array.each(Ext.getCmp('tabForm').query('[name=relswait]'), function(item) {item.show()});
             var set_rel = Ext.getCmp('tabForm').query('[name=usersetrel]')[0].getValue()
             load_link_relations(target, combo, name, parentid, set_rel);
+          }
+        },
+        'expand': function(field, e) {
+          if (/^[0-9]+-[0-9]+$/.test(field.getValue()) == false && this.opened == false) {
+            this.opened = true;
+            if (Ext.getCmp(name).query('component[name="type"]')[0].getValue().startsWith('translation_')) {
+              var reltar = Ext.getCmp(name).query('component[name="type"]')[0].getValue().split('_')[1];
+              reload_rel(field.getValue(), field, reltar);
+            } else {
+              reload_rel(field.getValue(), field, dictcode);
+            }
           }
         },
         specialkey: function(field, e) {
