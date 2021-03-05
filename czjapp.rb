@@ -70,8 +70,7 @@ class CzjApp < Sinatra::Base
     def get_hostname(ip)
       $stderr.puts 'START getname '+Time.now.to_s
       begin
-        #name = Resolv.getname(ip)
-        name = ip.to_s
+        name = Resolv.getname(ip)
       rescue
         name = ip.to_s
       end
