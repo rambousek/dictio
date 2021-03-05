@@ -9,6 +9,7 @@ require 'i18n'
 require 'i18n/backend/fallbacks'
 require 'net/scp'
 require 'resolv'
+require 'sinatra/cookies'
 
 require_relative 'lib/czj'
 require_relative 'lib/host-config'
@@ -41,7 +42,7 @@ class CzjApp < Sinatra::Base
   dict_array = {}
 
   @user_info = nil
-
+  helpers Sinatra::Cookies
   helpers do
     def protected!
       return if authorized?
@@ -117,6 +118,7 @@ class CzjApp < Sinatra::Base
     @langpath += '?' unless @langpath.include?('?')
     @search_limit = 10
     @translate_limit = 9
+    cookies.set(:dictio_pref, {:httponly=>false, :value=>(write_dicts+sign_dicts).map{|i| 'dict-'+i+'=true'}.join(';')})
     @is_edit = $is_edit
     protected! if $is_edit
   end
