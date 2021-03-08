@@ -3,6 +3,9 @@
   - if @is_edit
     p.detail__badge class="detail__badge--top detail__badge__#{@entry['dict']}" 
      a href="/editor#{@entry['dict']}/?id=#{@entry['id']}" #{@entry['dict']}-#{@entry['id']}
+       span.icon.icon--edit
+        svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+         use xlink:href="/img/icons.svg#edit" x="0" y="0" width="100%" height="100%"
   - if @entry['lemma']['pron'] and @entry['lemma']['pron'] != ""
     span() [#{@entry['lemma']['pron']}]
 - if @entry['lemma']['title_var'] and @entry['lemma']['title_var'] != ""
