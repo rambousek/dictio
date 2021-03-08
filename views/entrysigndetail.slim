@@ -1,7 +1,11 @@
 .detail__head style="max-width:100%"
   - if @is_edit
     p.detail__badge.detail__badge--top class="detail__badge__#{@entry['dict']}"
-      span  #{@entry['dict']}-#{@entry['id']}
+       a class="edit" href="/editor#{@entry['dict']}/?id=#{@entry['id']}" 
+      | #{@entry['dict']}-#{@entry['id']}
+      span.icon.icon--edit
+       svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+        use xlink:href="/img/icons.svg#edit" x="0" y="0" width="100%" height="100%"
   .video-top
     .video
       .video__content.video-front
