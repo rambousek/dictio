@@ -2,7 +2,7 @@
   h1.detail-word__headline #{@entry['lemma']['title']}
   - if @is_edit
     p.detail__badge class="detail__badge--top detail__badge__#{@entry['dict']}" 
-     a href="/editor#{@entry['dict']}/?id=#{@entry['id']}" 
+     a class="edit" href="/editor#{@entry['dict']}/?id=#{@entry['id']}" 
       | #{@entry['dict']}-#{@entry['id']}
       span.icon.icon--edit
        svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
