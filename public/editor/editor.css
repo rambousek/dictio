@@ -1,5 +1,7 @@
-label {font-size: 0.9rem; margin: 0} /* docasna uprava pro prechod na noy vzhled */
-input, textarea, select {font-size: 0.9rem; font-weight:200;} /* docasna uprava pro prechod na noy vzhled */
+label {font-size: 0.9rem; margin: 0} /* docasna uprava pro prechod na novy vzhled */
+#tabForm {border-top: solid 1px;}
+.x-body {background-color: #e4ebee;}
+input, textarea, select {font-size: 0.9rem; font-weight:200;} /* docasna uprava pro prechod na novy vzhled */
 
 .x-panel-body-default {
   background: white;
