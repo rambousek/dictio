@@ -843,7 +843,7 @@ a {
   a:hover, a:focus {
     color: #0366c9; }
 a.edit {color: white; text-decoration: none;}
-a.edit:hover {color: #0366c9;}
+a.edit:hover {color: #03c9a9;}
 
 p {
   margin-top: 0;
