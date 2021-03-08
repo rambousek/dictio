@@ -1108,6 +1108,11 @@ input[type='radio'] {
   .icon--zoom:before {
     padding-top: 100%; }
 
+.icon--edit {
+  width: 16px; }
+  .icon--edit:before {
+    padding-top: 100%; }
+
 .header {
   z-index: 100;
   padding: 8px 0;
