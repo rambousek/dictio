@@ -1,9 +1,9 @@
 .detail__head
   p.detail__badge.detail__badge--top class=((@is_edit? "detail__badge__#{@entry['dict']}":""))
-    | #{I18n.t("dict."+@entry['dict'])}
+    | #{I18n.t("dict."+@entry['dict'])} 
     - if @is_edit
      a class="edit" href="/editor#{@entry['dict']}/?id=#{@entry['id']}" 
-      | #{@entry['dict']}-#{@entry['id']}
+      | [#{@entry['dict']}-#{@entry['id']}]
       span.icon.icon--edit
        svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
         use xlink:href="/img/icons.svg#edit" x="0" y="0" width="100%" height="100%"
