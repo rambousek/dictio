@@ -1,0 +1,26 @@
+doctype html
+html style="height: auto"
+  head
+    title #{@dictcode.upcase}
+    meta charset="utf-8"
+    javascript:
+      var dictcode = '#{@dictcode}';
+    script type="text/javascript" charset="utf-8" src="/editor/lib/ext-all.js"
+    script  src="https://code.jquery.com/jquery-1.12.4.min.js"  integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="  crossorigin="anonymous"
+    script type="text/javascript" charset="utf-8" src="/editor/locale.js"
+    script type="text/javascript" charset="utf-8" src="/editor/#{@dict_info[@dictcode]['type']}.js"
+    script type="text/javascript" charset="utf-8" src="/editor/swfobject/swfobject.js"
+    link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Roboto&subset=latin,latin-ext'
+    link href="/editor/lib/ext-all.css" rel="stylesheet" type="text/css"
+    link href="/editor/ext-theme-classic/editor2.css" rel="stylesheet" type="text/css"
+    link href="/editor/#{@dictcode}.css" rel="stylesheet" type="text/css"
+    link href="/editor/editor.css" rel="stylesheet" type="text/css"
+    script type="text/javascript" src="/editor/fancybox/jquery.fancybox.min.js"
+    link rel="stylesheet" href="/editor/fancybox/jquery.fancybox.min.css" type="text/css" media="screen" 
+    link rel="stylesheet" href="/css/styles.css" type="text/css"
+  body
+    javascript:
+      parent.$('.fancybox-content').width("100%");
+    == slim :header
+    div.droppable id="topdiv"
+    div id="inform"

@@ -388,6 +388,11 @@ class CzjApp < Sinatra::Base
         content_type :json
         body = dict.get_gram(params['id']).to_json
       end
+      get '/editor'+code do
+        @dictcode = code
+        @dict_info = $dict_info
+        slim :editor, :layout=>false
+      end
     end
   }
 
