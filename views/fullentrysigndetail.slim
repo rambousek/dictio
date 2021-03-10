@@ -86,10 +86,10 @@
       - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['_text'].nil?
         p.naming 
           | #{I18n.t("entry.grammar_details")}: 
-          span
-          - gcount = 0
-          - grtext = @entry['lemma']['grammar_note'][0]['_text'].gsub(/\[media_id=[0-9]+\]/) {|s| gcount+=1; 'viz video '+gcount.to_s}
-          = grtext
+          span  
+            - gcount = 0
+            - grtext = @entry['lemma']['grammar_note'][0]['_text'].gsub(/\[media_id=[0-9]+\]/) {|s| gcount+=1; 'viz video '+gcount.to_s}
+            = grtext
         - if @entry['lemma']['grammar_note'][0]['_text'] =~ /media_id=/
           .row.row--start
             - gcount = 0
@@ -122,9 +122,9 @@
       - unless @entry['lemma']['style_note'].nil? or @entry['lemma']['style_note'][0].nil? or @entry['lemma']['style_note'][0]['_text'].nil?
         p.naming #{I18n.t("entry.style_details")}: 
           span
-          - gcount = 0
-          - grtext = @entry['lemma']['style_note'][0]['_text'].gsub(/\[media_id=[0-9]+\]/) {|s| gcount+=1; 'viz video '+gcount.to_s}
-          = grtext
+            - gcount = 0
+            - grtext = @entry['lemma']['style_note'][0]['_text'].gsub(/\[media_id=[0-9]+\]/) {|s| gcount+=1; 'viz video '+gcount.to_s}
+            = grtext
         - if @entry['lemma']['style_note'][0]['_text'] =~ /media_id=/
           .row.row--start
             - gcount = 0
