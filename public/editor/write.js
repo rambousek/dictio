@@ -14,14 +14,10 @@ var g_entryid;
 var ar_priklady = new Array();
 var koncwindow = null;
 var entry_updated = false;
-var lang = 'cz';
 var empty = '';
 var changes = new Array();
 
 var params = Ext.Object.fromQueryString(window.location.search.substring(1));
-if (params.lang != null && params.lang != '') {
-  lang = params.lang;
-}
 if (params.empty != null && params.empty != '') {
   empty = params.empty;
 }
