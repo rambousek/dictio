@@ -3914,7 +3914,7 @@ Ext.onReady(function(){
     });
 
     /* RENDER */
-    entryform.render(document.body);
+    entryform.render(document.getElementById('topdiv'),0);
 
     /* LOAD params */
     if (params.id != null && params.id != '') {
