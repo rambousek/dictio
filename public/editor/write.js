@@ -1665,7 +1665,7 @@ function save_doc(id) {
       if (uses[j].query('component[name="usage_id"]')[0].getValue() != '' && entrydata['meanings'].filter(mean => mean['id'] == meanings[i].query('component[name="meaning_id"]')[0].getValue())[0]['usages'] != undefined && entrydata['meanings'].filter(mean => mean['id'] == meanings[i].query('component[name="meaning_id"]')[0].getValue())[0]['usages'].filter(usg=>usg['id'] == uses[j].query('component[name="usage_id"]')[0].getValue())[0] != undefined) {
         newuse.created_at = entrydata['meanings'].filter(mean => mean['id'] == meanings[i].query('component[name="meaning_id"]')[0].getValue())[0]['usages'].filter(usg=>usg['id'] == uses[j].query('component[name="usage_id"]')[0].getValue())[0]['created_at'];
       } else {
-        newuse.created_at = {'$': Ext.Date.format(new Date(), 'Y-m-d H:i:s')};
+        newuse.created_at = Ext.Date.format(new Date(), 'Y-m-d H:i:s');
       }
       newuse.text = {'_text': uses[j].query('component[name="'+uses[j].id+'_text"]')[0].getValue()};
 
