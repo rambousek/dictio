@@ -120,8 +120,9 @@
                           - selmedia['main_for_entry']['lemma']['sw'].each do |sw|
                             img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
       - unless @entry['lemma']['style_note'].nil? or @entry['lemma']['style_note'][0].nil? or @entry['lemma']['style_note'][0]['_text'].nil?
-        p.naming #{I18n.t("entry.style_details")}: 
-          span
+        p.naming 
+          | #{I18n.t("entry.style_details")}: 
+          span  
             - gcount = 0
             - grtext = @entry['lemma']['style_note'][0]['_text'].gsub(/\[media_id=[0-9]+\]/) {|s| gcount+=1; 'viz video '+gcount.to_s}
             = grtext
