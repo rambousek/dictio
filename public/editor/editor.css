@@ -17,6 +17,7 @@ input, textarea, select {font-size: 0.9rem; font-weight:200;} /* docasna uprava 
 .stav-display div {
   text-align: right;
   font-weight: bold;
+  font-family: 'Montserrat', sans-serif; 
 }
 .ssc_html b {color:red}
 .ssc_html small {color:green} 
