@@ -3769,7 +3769,7 @@ Ext.onReady(function(){
           text: locale[lang].viewplus,
           icon: '/editor/img/display.png',
           handler: function() {           
-            var odkaz = '/'+dictcode+'?action=search&getdoc='+entryid+'&lang='+lang;
+            var odkaz = '/'+dictcode+'/show/'+entryid+'?lang='+lang;
             window.open(odkaz);
           }
         },{
@@ -3907,7 +3907,7 @@ Ext.onReady(function(){
         text: locale[lang].viewplus,
         icon: '/editor/img/display.png',
         handler: function() {          
-   	   var odkaz = '/'+dictcode+'?action=search&getdoc='+entryid+'&lang='+lang;
+   	   var odkaz = '/'+dictcode+'/show/'+entryid+'?lang='+lang;
           window.open(odkaz);
         }
       }]
