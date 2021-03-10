@@ -253,7 +253,7 @@
                   |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
               - else
                 = rel['entry']['lemma']['title']
-      - if meaning['usages'].size > 0
+      - if meaning['usages'] and meaning['usages'].size > 0
         h4 #{I18n.t("entry.examples")}:
         - meaning['usages'].each do |usg|
           p.example
@@ -272,7 +272,7 @@
             - colloc['meanings'].each do |meaning|
               p.naming #{I18n.t("entry.meaning")} #{meaning['number']}:
               p == meaning['text']['_text']
-              - if meaning['usages'].size > 0
+              - if meaning['usages'] and meaning['usages'].size > 0
                 p.naming #{I18n.t("entry.examples")}:
                 - meaning['usages'].each do |usg|
                   p: em = usg['text']['_text']

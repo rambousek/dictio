@@ -257,7 +257,7 @@
                   .video__content
                     video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{colloc['dict']}/#{colloc['media'][meaning["text"]["file"]["@media_id"]]['location']}"
                       source src="https://files.dictio.info/video#{colloc['dict']}/#{colloc['media'][meaning["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
-              - if meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.size > 0
+              - if meaning['usages'] and meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.size > 0
                 p.naming #{I18n.t("entry.examples")}:
                 .row.row--start
                   - meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.each do |usg|
