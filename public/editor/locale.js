@@ -1,5 +1,5 @@
 var locale = {
-  cz: {
+  cs: {
     pub_auto: 'automaticky (publikovat až úplné heslo)',
     pub_hide: 'nepublikovat (neveřejné heslo)',
     pub_nonempty: 'publikovat vyplněné části *',
