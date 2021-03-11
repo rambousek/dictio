@@ -34,7 +34,11 @@ main id="mobilespacetop" role="main"
             a.btn.load_next_search data-search=@search_path #{I18n.t("search.load_next")}
         .col.col--2.col--start.layout-aside
           - if @result['count'] == 0
-            div Nenalezeno
+            div style="width: 100%" 
+             span class="icon icon--magnifier nav__icon"
+              svg class="icon__svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+               use height="200%" width="200%" x="0" xlink:href="/img/icons.svg#magnifier" y="0"
+             Nic takového se nám bohužel nepodařilo najít..
           - if @entry != nil
             - if @dict_info[@dictcode]['type'] == 'sign'
               == slim :entrysigndetail
