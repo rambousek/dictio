@@ -9,7 +9,7 @@ main id="mobilespacetop" role="main"
              span class="icon icon--magnifier nav__icon"
               svg class="icon__svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                use height="100%" width="100%" x="0" xlink:href="/img/icons.svg#magnifier" y="0"
-             p :( .. #{I18n.t("search.notfound")} ..
+             p #{I18n.t("search.notfound")}
         == slim :transresultlist
       - if @result['count'].to_i > @result['entries'].size
         a.btn.load_next_trans data-search=@tran_path #{I18n.t("search.load_next")}
