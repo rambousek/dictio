@@ -59,7 +59,7 @@ de:
     load_next: "Show more"
     pos: "-- lexikalische Kategorie --"
     advanced: "Erweiterte..."
-    notfound: "nicht gefunden"
+    notfound: ":(  Es tut mir leid, aber ich habe so etwas nicht gefunden.. "
   entry:
     frontview: "Frontansicht"
     sideview: "Seitenansicht"
