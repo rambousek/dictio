@@ -37,7 +37,7 @@
           - if rel['entry'] and rel['entry']['id']
             p
               a.link href="#{@tran_path}/#{@target}-#{rel['entry']['id']}"  #{rel['entry']['lemma']['title']} 
-              | (#{I18n.t("entry.meaning")} #{rel['meaning_nr']})
+              |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
           - else
             p = rel['meaning_id']
         - else
