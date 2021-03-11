@@ -58,8 +58,8 @@ sk:
     entry_count: "Entries in total"
     load_next: "Show more"
     pos: "-- slovní druh --"
-    advanced: "rozšířené..."
-    notfound: "heslo nenalezeno"
+    advanced: "rozšírené..."
+    notfound: ":( Je nám ľúto, ale nič také sme tu nenašli.."
   entry:
     frontview: "Čelný pohľad"
     sideview: "Bočný pohľad"
