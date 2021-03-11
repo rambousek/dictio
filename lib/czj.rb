@@ -1234,7 +1234,7 @@ class CZJDict < Object
         }
       end
     end
-    return list.sort_by{|x| [x['title'], x['number'].to_i]}
+    return list.uniq.sort_by{|x| [x['title'], x['number'].to_i]}
   end
 
   def find_link(search)
