@@ -2219,6 +2219,8 @@ function get_selected_dict() {
 }
 
 function load_link_relations(target, combo, name, parentid, set_rel) {
+  Ext.Array.each(Ext.getCmp('tabForm').query('[name=relsadd]'), function(item) {item.hide()});
+  Ext.Array.each(Ext.getCmp('tabForm').query('[name=relswait]'), function(item) {item.show()});
   Ext.Ajax.request({
     url: '/'+target+'/getrelations',
     params: {
