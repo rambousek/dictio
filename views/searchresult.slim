@@ -33,6 +33,8 @@ main id="mobilespacetop" role="main"
           - if @result['count'].to_i > @result['entries'].size
             a.btn.load_next_search data-search=@search_path #{I18n.t("search.load_next")}
         .col.col--2.col--start.layout-aside
+          - if @result['count'] == 0
+            div Nenalezeno
           - if @entry != nil
             - if @dict_info[@dictcode]['type'] == 'sign'
               == slim :entrysigndetail
