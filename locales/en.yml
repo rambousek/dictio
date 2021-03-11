@@ -59,7 +59,7 @@ en:
     load_next: "Show more"
     pos: "-- PoS --"
     advanced: "advanced..."
-    notfound: "entry not found"
+    notfound: ":( I am sorry, but nothing like that seems to be in my database.. "
   entry:
     frontview: "Front view"
     sideview: "Profile view"
