@@ -2202,8 +2202,6 @@ function refresh_relations(parentid, set_rel) {
   changes.push("obnovit preklady");
   track_change();
 
-  Ext.Array.each(Ext.getCmp('tabForm').query('[name=relsadd]'), function(item) {item.show()});
-  Ext.Array.each(Ext.getCmp('tabForm').query('[name=relswait]'), function(item) {item.hide()});
 }
 
 function get_selected_dict() {
