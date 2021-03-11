@@ -59,7 +59,7 @@ cs:
     load_next: "Načíst další"
     pos: "-- slovní druh --"
     advanced: "rozšířené..."
-    notfound: "heslo nenalezeno"
+    notfound: ":(  Nic takového se nám bohužel nepodařilo najít.. "
   entry:
     frontview: "Čelní pohled"
     sideview: "Boční pohled"
