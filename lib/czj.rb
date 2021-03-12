@@ -580,7 +580,9 @@ class CZJDict < Object
       search = search.downcase
       if search =~ /^[0-9]*$/
         @entrydb.find({'dict': dictcode, 'id': search}).each{|re|
-          res << full_entry(re)
+          entry = add_rels(re, true, 'translation', target)
+          entry = get_sw(entry)
+          res << entry
           resultcount = 1
         }
       else
