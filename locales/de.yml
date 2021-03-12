@@ -60,6 +60,8 @@ de:
     pos: "-- lexikalische Kategorie --"
     advanced: "Erweiterte..."
     notfound: ":(  Es tut mir leid, aber ich habe so etwas nicht gefunden.. "
+    try_search: "Einträge mit dieser ID enthalten keine Entsprechungen in der Zielsprache.  "
+    link: "Zeigen Sie den Eintrag im Wörterbuch an."
   entry:
     frontview: "Frontansicht"
     sideview: "Seitenansicht"
