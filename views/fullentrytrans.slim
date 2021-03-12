@@ -39,9 +39,10 @@
                     span.icon.icon--open-new-window
                       svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                         use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
-                - if rel['entry'] and rel['entry']['lemma'] and rel['entry']['lemma']['sw']
+                - if rel['entry'] and rel['entry']['lemma'] and rel['entry']['lemma']['swmix']
                   span.video__sign
-                    img src="/sw/signwriting.png?generator[sw]=#{rel['entry']['lemma']['sw'][0]['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+                    - rel['entry']['lemma']['swmix'].each do |sw|
+                      img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
             .video__info
               p #{I18n.t("entry.meaning_small")} #{rel['meaning_nr']}
         p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_trans')
