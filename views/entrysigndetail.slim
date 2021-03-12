@@ -83,7 +83,7 @@
           | #{I18n.t("entry.oralcomp")}: 
           span style="text-transform: lowercase" [#{@entry['lemma']['grammar_note'][0]['@oral_komp']}] - #{@entry['lemma']['grammar_note'][0]['@oral_komp_sel']}
       - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['_text'].nil?
-         p.naming 
+        p.naming 
           | #{I18n.t("entry.grammar_details")}: 
           span  
             - gcount = 0
