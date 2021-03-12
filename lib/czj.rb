@@ -579,7 +579,8 @@ class CZJDict < Object
     when 'text'
       search = search.downcase
       if search =~ /^[0-9]*$/
-        @entrydb.find({'dict': dictcode, 'id': search}).each{|re|
+        resultcount = 0
+        @entrydb.find({'dict': dictcode, 'id': search, 'meanings.relation.target': target}).each{|re|
           entry = add_rels(re, true, 'translation', target)
           entry = get_sw(entry)
           res << entry
