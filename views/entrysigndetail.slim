@@ -87,7 +87,7 @@
           | #{I18n.t("entry.grammar_details")}: 
           span  
             - gcount = 0
-            - grtext = @entry['lemma']['grammar_note'][0]['_text'].gsub(/\[media_id=[0-9]+\]/) {|s| gcount+=1; #{I18n.t("entry.see_video")} +gcount.to_s}
+            - grtext = @entry['lemma']['grammar_note'][0]['_text'].gsub(/\[media_id=[0-9]+\]/) {|s| gcount+=1; 'viz video '+gcount.to_s}
             = grtext
         - if @entry['lemma']['grammar_note'][0]['_text'] =~ /media_id=/
           .row.row--start
