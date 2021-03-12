@@ -10,8 +10,8 @@ main id="mobilespacetop" role="main"
               svg class="icon__svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                 use height="100%" width="100%" x="0" xlink:href="/img/icons.svg#magnifier" y="0"
             - if @search =~ /^[0-9]*$/
-              p ID nema preklady 
-               a href="/search/#{@entry['dict']}/#{@url_params}" jednojazyčné hledání
+              p #{I18n.t("search.try_search")}
+               a href="/search/" #{I18n.t("search.link")}
             - else
               p #{I18n.t("search.notfound")}
         == slim :transresultlist
