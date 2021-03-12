@@ -599,13 +599,17 @@ class CZJDict < Object
           search_cond_text[:$or] << {'lemma.title': {'$regex': /(^| )#{search}/i}}
           search_cond_rel = {'meanings.relation':{'$elemMatch': {'target': target, 'type': 'translation'}}}
           search_cond = {'dict': dictcode, '$and': [search_cond_text, search_cond_rel]}
+          search_cond2 = {'dict': target, 'meanings.relation': {'$elemMatch': {'target': dictcode, 'meaning_id': {'$regex': search}}}}
           $stderr.puts search_cond
           ## > db.entries.aggregate([{'$match':{dict:"cs", '$and':[{'$or':[{"lemma.title":"bratranec"},{"lemma.title":"bratr"}]}, {"meanings.relation":{'$elemMatch':{target:"czj", type:"translation"}}}]}}, {'$unwind':'$meanings'}, {'$unwind':'$meanings.relation'},{'$match':{'meanings.relation.target':'czj'}},{'$project':{'meanings.relation':1, 'id':1}},{'$limit':2}])
+          ## > db.entries.aggregate([{'$match':{"$or":[{dict:"czj","meanings.relation":{"$elemMatch":{"target":"cs","meaning_id":{"$regex":"dům"}}}},{dict:"cs", '$and':[{'$or':[{"lemma.title":"bratranec"},{"lemma.title":"bratr"}]}, {"meanings.relation":{'$elemMatch':{target:"czj", type:"translation"}}}]}]}}, {'$unwind':'$meanings'}, {'$unwind':'$meanings.relation'},{'$match':{"$or":[{'meanings.relation.target':'czj'},{'meanings.relation.target':'cs'}]}},{'$project':{'meanings.relation':1, 'id':1,'dict':1}},{'$limit':5}])
           pipeline = [
-            {'$match' => search_cond},
+            {'$match' => {'$or':[search_cond,search_cond2]}},
             {'$unwind' => '$meanings'},
             {'$unwind' => '$meanings.relation'},
-            {'$match' => {'meanings.relation.target'=>target}},
+            {'$match' => {'meanings.relation.type'=>'translation','$or':[{'meanings.relation.target'=>target},{'meanings.relation.target'=>dictcode}]}},
+            #{'$group' => {'_id' => {'_id'=>'$_id', 'dict'=> '$dict', 'id'=> '$id', 'meanings'=>'$meanings'}}},
+            #{'$project' => {'dict'=>'$_id.dict','id'=>'$_id.id','meanings'=>'$_id.meanings'}},
             {'$sort' => {'lemma.title'=>1}}
           ]
           @entrydb.aggregate(pipeline+[{'$count'=>'total'}]).each{|re|
@@ -618,6 +622,7 @@ class CZJDict < Object
             re['meanings']['relation'] = [re['meanings']['relation']]
             re['meanings'] = [re['meanings']]
             entry = add_rels(re, true, 'translation', target)
+            entry = add_rels(entry, true, 'translation', dictcode)
             entry = get_sw(entry)
             res << entry
           }

@@ -1,16 +1,16 @@
 - @result['entries'].each do |entry|
   - rellemmaused = []
   - entry['meanings'].each do |mean|
-    - mean['relation'].select{|rel| rel['target'] == @target and not rellemmaused.include?(rel['target']+rel['meaning_id']) and rel['entry']}.each do |rel|
+    - mean['relation'].select{|rel| (rel['target'] == @target or rel['target'] == @dictcode) and not rellemmaused.include?(rel['target']+rel['meaning_id']) and rel['entry']}.each do |rel|
       - rellemmaused << rel['target']+rel['meaning_id']
       .col.col--3.col--precise
         - if @dict_info[@dictcode]['type'] == 'write'
           p
-            - if entry['id']
+            - if entry['dict'] == @dictcode
               a.btn.btn--simple.btn--simple--lg href="#{@tran_path}/#{entry['id']}" = entry['lemma']['title']
             - else
               span.btn.btn--simple.btn--simple--lg style="cursor:auto"
-                em = entry['lemma']['title']
+                em = rel['entry']['lemma']['title']
         - else
           .video.video--shrink.video--small
             .video__content
@@ -41,22 +41,26 @@
           - else
             p = rel['meaning_id']
         - else
+          - if entry['dict'] == @target
+            - use_entry = entry
+          - else
+            - use_entry = rel['entry']
           .video.video--small
             .video__content
-              - if rel['entry']['media'] and rel['entry']['media']['video_front'] and rel['entry']['media']['video_front']['orient']
-                span.video-orient = rel['entry']['media']['video_front']['orient'][0].upcase
+              - if use_entry['media'] and use_entry['media']['video_front'] and use_entry['media']['video_front']['orient']
+                span.video-orient = use_entry['media']['video_front']['orient'][0].upcase
               - else
                 span.video-orient R
-              video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url="#{@tran_path}/#{@target}-#{rel['entry']['id']}" poster="/thumb/video#{@target}/#{rel['entry']['lemma']['video_front']}" muted="muted"
-                source src="https://files.dictio.info/video#{@target}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
+              video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url="#{@tran_path}/#{@target}-#{use_entry['id']}" poster="/thumb/video#{@target}/#{use_entry['lemma']['video_front']}" muted="muted"
+                source src="https://files.dictio.info/video#{@target}/#{use_entry['lemma']['video_front']}" type="video/mp4"
             .video__controls
               - if @is_edit
-                span.trans__badge class="trans__badge__#{@target}" #{@target}-#{rel['entry']['id']}
-              a.video__link href="/#{@dictcode}/translate/#{@target}/#{@params['type']}/#{@search}/#{@target}-#{rel['entry']['id']}"
+                span.trans__badge class="trans__badge__#{@target}" #{@target}-#{use_entry['id']}
+              a.video__link href="/#{@dictcode}/translate/#{@target}/#{@params['type']}/#{@search}/#{@target}-#{use_entry['id']}"
                 span.icon.icon--open-new-window
                   svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                     use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
-              - unless rel['entry']['lemma']['swmix'].nil?
+              - unless use_entry['lemma']['swmix'].nil?
                 span.video__sign
-                  - rel['entry']['lemma']['swmix'].each do |sw|
+                  - use_entry['lemma']['swmix'].each do |sw|
                     img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
