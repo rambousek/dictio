@@ -83,10 +83,12 @@
           | #{I18n.t("entry.oralcomp")}: 
           span style="text-transform: lowercase" [#{@entry['lemma']['grammar_note'][0]['@oral_komp']}] - #{@entry['lemma']['grammar_note'][0]['@oral_komp_sel']}
       - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['_text'].nil?
-        p.naming #{I18n.t("entry.grammar_details")}: 
-          - gcount = 0
-          - grtext = @entry['lemma']['grammar_note'][0]['_text'].gsub(/\[media_id=[0-9]+\]/) {|s| gcount+=1; 'viz video '+gcount.to_s}
-          = grtext
+         p.naming 
+          | #{I18n.t("entry.grammar_details")}: 
+          span  
+            - gcount = 0
+            - grtext = @entry['lemma']['grammar_note'][0]['_text'].gsub(/\[media_id=[0-9]+\]/) {|s| gcount+=1; 'viz video'+gcount.to_s}
+            = grtext
         - if @entry['lemma']['grammar_note'][0]['_text'] =~ /media_id=/
           .row.row--start
             - gcount = 0
