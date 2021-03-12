@@ -60,6 +60,8 @@ cs:
     pos: "-- slovní druh --"
     advanced: "rozšířené..."
     notfound: ":(  Nic takového se nám bohužel nepodařilo najít.. "
+    try_search: "Hledané heslo neobsahuje překlady do cílového jazyka. Zkuste "
+    search_link: "jednojazyčné hledání."
   entry:
     frontview: "Čelní pohled"
     sideview: "Boční pohled"
