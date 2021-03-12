@@ -60,8 +60,8 @@ sk:
     pos: "-- slovní druh --"
     advanced: "rozšírené..."
     notfound: ":( Je nám ľúto, ale nič také sme tu nenašli.."
-    try_search: "Heslo s týmto ID neobsahuje žiadne preklady do cielového jazyka. "
-    link: "Zobraziť heslo v jednojazyčném slovníku."
+    try_search: "Heslo s týmto ID neobsahuje žiadných ekvivalentov v cíelovom jazyku. "
+    link: "Zobraziť heslo v jednojazyčnom slovníku."
   entry:
     frontview: "Čelný pohľad"
     sideview: "Bočný pohľad"
