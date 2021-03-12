@@ -1,5 +1,5 @@
+- rellemmaused = []
 - @result['entries'].each do |entry|
-  - rellemmaused = []
   - entry['meanings'].each do |mean|
     - mean['relation'].select{|rel| (rel['target'] == @target or rel['target'] == @dictcode) and not rellemmaused.include?(rel['target']+rel['meaning_id']) and rel['entry']}.each do |rel|
       - rellemmaused << rel['target']+rel['meaning_id']
