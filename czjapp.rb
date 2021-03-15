@@ -173,6 +173,16 @@ class CzjApp < Sinatra::Base
     page = 'contact-'+I18n.locale.to_s
     slim page.to_sym
   end
+  
+  get '/admin' do
+    @dict_info = $dict_info
+    @search_params = {}
+    @target = @default_target
+    @dictcode = @default_dict
+    @selected_page = 'admin'
+    page = 'admin-'+I18n.locale.to_s
+    slim page.to_sym
+  end
 
   (write_dicts+sign_dicts).each{|code|
   	$stderr.puts code
