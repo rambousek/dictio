@@ -25,8 +25,15 @@ header.header role="banner" style=((@is_edit? "border-top: solid red 2px;":""))
               a href="/contact" class=('is-active' if @selected_page.to_s=='contact') #{I18n.t("menu.contact")}
             - if @is_edit
               li
-                a href="/" class=('is-active' if @selected_page.to_s=='contact') #{I18n.t("menu.admin")}
+                a href="" class=('is-active' if @selected_page.to_s=='admin') #{I18n.t("menu.admin")}
+            - if @is_edit
             li
+              a href="https://beta.dictio.info" class="nav__control" onclick="logout()"
+                span.icon.icon--login.nav__icon
+                  svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                    use xlink:href="/img/icons.svg#login" x="0" y="0" width="100%" height="100%"
+            - else
+             li
               a href="https://edit.dictio.info" class="nav__control"
                 span.icon.icon--login.nav__icon
                   svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
