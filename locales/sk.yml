@@ -153,3 +153,5 @@ sk:
       versub: "verbálné substantívum"
   admin:
     text1: "Administrácia ešte neieje k dispozícii. Pre prístup do editácie hesiel použite bežné hledání v slovníku (hľadať môžete aj podľa ID). V detailu hesla kliknete na ID hesla s ikonou tužky."      
+    head1: "Upozornenie"
+    text2: "Tuto verziu zatial nepoužívejte pre běžnú práci. Veškeré zmeny, budú uchovány iba do pôlnoci daného dňa. Po pôlnoci budú smazány. Toto platí do 20. 3. 2021."
