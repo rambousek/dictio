@@ -180,7 +180,7 @@ class CzjApp < Sinatra::Base
     @target = @default_target
     @dictcode = @default_dict
     @selected_page = 'admin'
-    page = 'admin-'+I18n.locale.to_s
+    page = 'admin'
     slim page.to_sym
   end
 
