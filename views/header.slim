@@ -27,7 +27,7 @@ header.header role="banner" style=((@is_edit? "border-top: solid red 2px;":""))
               li
                 a href="" class=('is-active' if @selected_page.to_s=='admin') #{I18n.t("menu.admin")}
             - if @is_edit
-            li
+             li
               a href="https://beta.dictio.info" class="nav__control" onclick="logout()"
                 span.icon.icon--login.nav__icon
                   svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
