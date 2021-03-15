@@ -476,3 +476,30 @@ window.onscroll = function() {
        else
           e.style.display = 'block';
     }
+
+function logout() {
+  // HTTPAuth Logout code based on: http://tom-mcgee.com/blog/archives/4435
+  try {
+    // This is for Firefox
+    $.ajax({
+      // This can be any path on your same domain which requires HTTPAuth
+      url: "/",
+      username: "reset",
+      password: "reset",
+      // If the return is 401, refresh the page to request new details.
+      statusCode: { 401: function() {
+          document.location = 'https://beta.dictio.info';
+        }
+      }
+    });
+  } catch (exception) {
+    // Firefox throws an exception since we didn't handle anything but a 401 above
+    // This line works only in IE
+    if (!document.execCommand("ClearAuthenticationCache")) {
+      // exeCommand returns false if it didn't work (which happens in Chrome) so as a last
+      // resort refresh the page providing new, invalid details.
+      document.location = "https://reset:reset@" + document.location.hostname;
+    }
+  }
+}
+
