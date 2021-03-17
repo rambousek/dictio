@@ -7,7 +7,9 @@
         - if @dict_info[@dictcode]['type'] == 'write'
           p
             - if entry['dict'] == @dictcode
-              a.btn.btn--simple.btn--simple--lg href="#{@tran_path}/#{entry['id']}" = entry['lemma']['title']
+              a.btn.btn--simple.btn--simple--lg href="#{@tran_path}/#{entry['id']}" = entry['lemma']['title'] 
+              - if @is_edit
+                span.trans__badge style="position: relative;" class="trans__badge__#{@target}" #{@target}-#{rel['entry']['id']}
             - else
               span.btn.btn--simple.btn--simple--lg style="cursor:auto"
                 em = rel['entry']['lemma']['title']
