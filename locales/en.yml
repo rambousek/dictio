@@ -152,6 +152,7 @@ en:
       prechzs: "Präsenspartizip feminine, neuter"
       versub: "verbal substantive"
   admin:
+    user: "logged user "
     text1: "Admin-tools are currently not available yet. To edit an entry, search for it via dictionary search, enter detailed view of an entry and click on ID number with an pencil icon at the top of the page."
     head1: "Warning"
     text2: "Please do not use this DICTIO version for regular work. All your changes will be by the midnight of the day reversed (deleted). Applicable up to 20th March 2021."
