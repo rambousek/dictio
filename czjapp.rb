@@ -128,6 +128,7 @@ class CzjApp < Sinatra::Base
     @search_params = {}
     @target = @default_target
     @dictcode = @default_dict
+    @request = request
     stat = $mongo['entryStat'].find({}, :sort=>{'dateField'=>-1}).first
     @count_entry = stat['entries'][0]['count']
     @count_rels = ((stat['rel'][0]['count'].to_i+stat['usgrel'][0]['count'].to_i)/2).round
@@ -139,6 +140,7 @@ class CzjApp < Sinatra::Base
     @search_params = {}
     @target = @default_target
     @dictcode = @default_dict
+    @request = request
     @selected_page = 'about'
     page = 'about-'+I18n.locale.to_s
     slim page.to_sym
@@ -149,6 +151,7 @@ class CzjApp < Sinatra::Base
     @search_params = {}
     @target = @default_target
     @dictcode = @default_dict
+    @request = request
     @selected_page = 'help'
     page = 'help-'+I18n.locale.to_s
     slim page.to_sym
@@ -159,6 +162,7 @@ class CzjApp < Sinatra::Base
     @search_params = {}
     @target = @default_target
     @dictcode = @default_dict
+    @request = request
     @selected_page = 'help'
     page = 'helpsign-'+I18n.locale.to_s
     slim page.to_sym
@@ -169,6 +173,7 @@ class CzjApp < Sinatra::Base
     @search_params = {}
     @target = @default_target
     @dictcode = @default_dict
+    @request = request
     @selected_page = 'contact'
     page = 'contact-'+I18n.locale.to_s
     slim page.to_sym
@@ -179,6 +184,7 @@ class CzjApp < Sinatra::Base
     @search_params = {}
     @target = @default_target
     @dictcode = @default_dict
+    @request = request
     @selected_page = 'admin'
     page = 'admin'
     slim page.to_sym
