@@ -41,8 +41,6 @@
           - elsif entry['dict'] == @target
             p
               a.link href="#{@tran_path}/#{@target}-#{entry['id']}"  #{entry['lemma']['title']} 
-             - if @is_edit
-               span.trans__badge class="trans__badge__#{@target}" #{@target}-#{use_entry['id']}
           - else
             p
               em = rel['entry']['lemma']['title']
