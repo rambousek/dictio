@@ -20,7 +20,7 @@ html
     link rel="stylesheet" href="/css/styles.css" type="text/css"
     link rel="stylesheet" href="/css/dictio.css" type="text/css"
   body
-    .content style=((@is_edit? "border: solid red 2px;":""))
+    .content
       == slim :header
       == yield
     - @msclass = "mobile-search--modal"
