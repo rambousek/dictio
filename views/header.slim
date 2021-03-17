@@ -1,4 +1,7 @@
 <!-- hlavička -->
+- if @is_edit
+  div style="background-color: red; width: 100%; height: 20px; font-size: 12px; position: fixed; text-align: right; z-index: 101;"
+   div.content #{I18n.t("admin.user")} ()
 header.header role="banner"
   .container.container--wide
     .header__wrapper
