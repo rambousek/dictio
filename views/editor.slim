@@ -19,7 +19,9 @@ html style="height: auto"
     link rel="stylesheet" href="/editor/fancybox/jquery.fancybox.min.css" type="text/css" media="screen" 
     link rel="stylesheet" href="/css/styles.css" type="text/css"
     link href="/editor/editor.css" rel="stylesheet" type="text/css"
-  body style="border: 2px solid red;"
+  body
+    div style="background-color: red; width: 100%; height: 20px; font-size: 12px; position: fixed; text-align: right;"
+     div.content #{I18n.t("admin.user")} ()
     javascript:
       parent.$('.fancybox-content').width("100%");
     == slim :header    
