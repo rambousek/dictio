@@ -1523,6 +1523,39 @@ class CZJDict < Object
     return filename, mediaid.to_s
   end
 
+  def attach_file(location, entry_id, metadata)
+    media = get_media_location(location, @dictcode)
+    if media == {}
+      cursor = $mongo['media'].find({'dict' => @dictcode}, {:projection => {'id':1}, :collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'id' => -1}})
+      cursor = cursor.limit(1)
+      mediaid = 1
+      cursor.each{|r|
+        mediaid = r['id'].to_i + 1
+      }
+      media = {
+        'id' => mediaid.to_s,
+        'dict' => @dictcode,
+        'location' => location,
+        'original_file_name' => location,
+        'label' => norm_name(location),
+        'id_meta_copyright' => metadata['id_meta_copyright'],
+        'id_meta_author' => metadata['id_meta_author'],
+        'id_meta_source' => metadata['id_meta_source'],
+        'admin_comment' => metadata['admin_comment'],
+        'type' => metadata['type'],
+        'status' => metadata['status'],
+        'orient' => metadata['orient'],
+        'created_at' => Time.now.strftime("%Y-%m-%d %H:%M:%S")
+      }
+    else
+      mediaid = media['id']
+      $mongo['media'].find({'dict'=> @dictcode, 'id'=> mediaid}).delete_many
+    end
+    media['entry_folder'] = entry_id if entry_id.to_s != ''
+    $mongo['media'].insert_one(media)
+    return mediaid
+  end
+
   def get_gram(entryid)
     data = getone(@dictcode, entryid)
     if data and data['lemma'] and data['lemma']['gram'] and data['lemma']['gram']['form']
