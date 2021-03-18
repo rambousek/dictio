@@ -1229,7 +1229,7 @@ input[type='radio'] {
   padding: 10px;
   cursor: pointer; }
 
-.nav-lang, nav-user {
+.nav-lang, .nav-user {
   position: relative;
   display: -webkit-box;
   display: -webkit-flex;
@@ -1247,12 +1247,12 @@ input[type='radio'] {
       -ms-user-select: none;
           user-select: none; }
   @media (min-width: 992px) {
-    .nav-lang, nav-user {
+    .nav-lang, .nav-user {
       display: -webkit-box;
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex; } }
-  .nav-lang:hover, .nav-lang.is-open, nav-user:hover, .nav-user.is-open {
+  .nav-lang:hover, .nav-lang.is-open, .nav-user:hover, .nav-user.is-open {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -1266,11 +1266,11 @@ input[type='radio'] {
     .nav-user:hover .nav__icon, .nav-user.is-open .nav-user__selected,
     .nav-user.is-open .nav__icon {
       color: #fff; }
-  .nav-lang.is-open .nav-lang__dropdown, .nav-user.is-open .nav-user__dropdown
+  .nav-lang.is-open .nav-lang__dropdown, .nav-user.is-open .nav-user__dropdown {
     -webkit-transform: scale(-1);
         -ms-transform: scale(-1);
             transform: scale(-1); }
-  .nav-lang.is-open .nav-lang__choose, nav-user.is-open .nav-user__choose {
+  .nav-lang.is-open .nav-lang__choose, .nav-user.is-open .nav-user__choose {
     display: block; }
 
 .nav-lang__dropdown,
@@ -1300,7 +1300,7 @@ input[type='radio'] {
   min-width: 225px;
   background: #1c2641;
   cursor: default; }
-  .nav-lang__choose:before, .nav-lang__choose:after, nav-user__choose:before, nav-user__choose:after {
+  .nav-lang__choose:before, .nav-lang__choose:after, .nav-user__choose:before, .nav-user__choose:after {
     content: '';
     position: absolute;
     right: 40px;
@@ -1309,17 +1309,17 @@ input[type='radio'] {
     height: 0;
     border: solid transparent;
     pointer-events: none; }
-  .nav-lang__choose:before, nav-user__choose:before {
+  .nav-lang__choose:before, .nav-user__choose:before {
     margin-left: -7px;
     border-width: 7px;
     border-color: rgba(255, 255, 255, 0);
     border-bottom-color: #1c2641; }
-  .nav-lang__choose:after, nav-user_choose:after {
+  .nav-lang__choose:after, .nav-user_choose:after {
     margin-left: -7px;
     border-width: 7px;
     border-color: rgba(255, 255, 255, 0);
     border-bottom-color: #1c2641; }
-  .nav-lang__choose ul, nav-user__choose ul {
+  .nav-lang__choose ul, .nav-user__choose ul {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -1340,14 +1340,14 @@ input[type='radio'] {
     margin: 0;
     padding: 10px 0;
     list-style: none; }
-  .nav-lang__choose li, .nav-lang_choose li, .nav-user__choose li, .nav-user_choose li {
+  .nav-lang__choose li, .nav-user__choose li {
     display: block;
     margin: 0;
     padding: 0; }
-  .nav-lang__choose a, nav-lang__choose a, .nav-user__choose a, nav-user__choose a {
+  .nav-lang__choose a, nav-user__choose a {
     display: inline-block;
     text-align: right; }
-    .nav-lang__choose a:hover, .nav-lang__choose a:hover, .nav-user__choose a:hover, .nav-user__choose a:hover {
+    .nav-lang__choose a:hover, .nav-user__choose a:hover {
       color: #03c9a9; }
 
 .nav-switcher {
