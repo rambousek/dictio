@@ -46,6 +46,8 @@ cs:
     contact: "Kontakt"
     help: "Nápověda"
     admin: "Administrace"
+    logout: "Odhlásit"
+    settings: "Nastavení"
   search:
     translate_from: "Přeložit z"
     translate_to: "Přeložit do"
