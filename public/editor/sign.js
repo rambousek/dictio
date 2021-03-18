@@ -4704,19 +4704,19 @@ Ext.onReady(function(){
           handler: function() {
             var data = {};
             data.update_video = []
-              var mar = Ext.getCmp('mediabox').query('[name=mediaitem]');
+            var mar = Ext.getCmp('mediabox').query('[name=mediaitem]');
             for (var i = 0; i < mar.length; i++) {
               data.update_video.push({
-                  '@id': mar[i].query('component[name="mediaid"]')[0].getValue(),
-                  '@id_meta_author': mar[i].query('component[name="copy_autor"]')[0].getValue(),
-                  '@id_meta_copyright': mar[i].query('component[name="copy_copy"]')[0].getValue(),
-                  '@id_meta_source': mar[i].query('component[name="copy_zdroj"]')[0].getValue(),
-                  '@admin_comment': mar[i].query('component[name="copy_admin"]')[0].getValue(),
-                  '@location': mar[i].query('component[name="vidid"]')[0].getValue(),
-                  '@status': mar[i].query('component[name="stav"]')[0].getValue(),
-                  '@orient': mar[i].query('component[name="'+mar[i].id+'orient"]')[0].getGroupValue(),
-                  '@type': mar[i].query('component[name="type"]')[0].getValue(),
-                  });
+                  'id': mar[i].query('component[name="mediaid"]')[0].getValue(),
+                  'id_meta_author': mar[i].query('component[name="copy_autor"]')[0].getValue(),
+                  'id_meta_copyright': mar[i].query('component[name="copy_copy"]')[0].getValue(),
+                  'id_meta_source': mar[i].query('component[name="copy_zdroj"]')[0].getValue(),
+                  'admin_comment': mar[i].query('component[name="copy_admin"]')[0].getValue(),
+                  'location': mar[i].query('component[name="vidid"]')[0].getValue(),
+                  'status': mar[i].query('component[name="stav"]')[0].getValue(),
+                  'orient': mar[i].query('component[name="'+mar[i].id+'orient"]')[0].getGroupValue(),
+                  'type': mar[i].query('component[name="type"]')[0].getValue(),
+              });
             }
             console.log(data);
             Ext.MessageBox.show({
@@ -4727,11 +4727,9 @@ Ext.onReady(function(){
               waitConfig: {interval:200}
             });
             Ext.Ajax.request({
-              url: '/'+dictcode,
+              url: '/'+dictcode+'/update_video',
               timeout: 240000,
               params: {
-                action: 'update_video',
-                id: entryid,
                 data: Ext.encode(data)
               },
               method: 'post',

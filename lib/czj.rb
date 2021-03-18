@@ -1566,8 +1566,23 @@ class CZJDict < Object
 
   def save_media(data)
     if data['id'].to_s != ''
+      media = get_media(data['id'].to_s, @dictcode)
+      media['id'] = data['id'].to_s
+      media['dict'] = @dictcode
+      media['location'] = data['location'].to_s
+      media['original_file_name'] = data['original_file_name'].to_s
+      media['label'] = data['label'].to_s
+      media['id_meta_copyright'] = data['id_meta_copyright'].to_s
+      media['id_meta_author'] = data['id_meta_author'].to_s
+      media['id_meta_source'] = data['id_meta_source'].to_s
+      media['admin_comment'] = data['admin_comment'].to_s
+      media['type'] = data['type'].to_s
+      media['status'] = data['status'].to_s
+      media['orient'] = data['orient'].to_s
+      media['created_at'] = data['created_at'].to_s
+      media['updated_at'] = Time.now.strftime("%Y-%m-%d %H:%M:%S")
       $mongo['media'].find({'dict'=> @dictcode, 'id'=> data['id']}).delete_many
-      $mongo['media'].insert_one(data)
+      $mongo['media'].insert_one(media)
     end
     return data['id'].to_s
   end

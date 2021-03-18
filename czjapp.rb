@@ -340,6 +340,16 @@ class CzjApp < Sinatra::Base
           end
         end
       end
+      post '/'+code+'/update_video' do
+        data = JSON.parse(params['data'])
+        if data['update_video']
+          data['update_video'].each{|uv|
+            dict.save_media(uv)
+          }
+        end
+        content_type :json
+        body = '{"success":true,"msg":"Uloženo"}'
+      end
       post '/'+code+'/add_comment' do
         user = ''
         if params['box'] != '' and params['entry'] != '' and params['type'] != ''
