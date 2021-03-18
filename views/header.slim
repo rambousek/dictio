@@ -38,7 +38,8 @@ header.header role="banner"
                       use xlink:href="/img/icons.svg#arrow-down" x="0" y="0" width="100%" height="100%"
                   .nav-user__choose
                     ul
-                      li #{@user_info['name']}                        
+                      li 
+                        span style="margin-right: 8px" #{@user_info['name']}                        
                       li
                         a href="https://beta.dictio.info" class="nav__control" onclick="logout()" #{I18n.t("menu.logout")}
             - else
