@@ -46,6 +46,7 @@ cs:
     contact: "Kontakt"
     help: "Nápověda"
     admin: "Administrace"
+    login: "Přihlásit se"
     logout: "Odhlásit"
     settings: "Nastavení"
   search:
