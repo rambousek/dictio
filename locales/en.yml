@@ -46,6 +46,7 @@ en:
     contact: "Contact"
     help: "Help"
     admin: "Admin-Tools"
+    login: "Log in"
     logout: "Log out"
     settings: "Settings"
   search:
