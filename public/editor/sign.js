@@ -1409,369 +1409,377 @@ function load_doc(id) {
       Ext.getCmp('tabForm').setTitle(locale[lang].entry+' '+dictcode.toUpperCase()+' id '+id);
       document.title = dictcode.toUpperCase()+' '+id;
 
-      /* heslo */
-      Ext.getCmp('tabForm').query('component[name="userskupina"]')[0].setValue(data['user_info']['skupina'].join(','));
-      Ext.getCmp('tabForm').query('component[name="userperm"]')[0].setValue(data['user_info']['perm']);
-      Ext.getCmp('tabForm').query('component[name="usersetrel"]')[0].setValue(data['set_rel']);
-      Ext.getCmp('tabForm').query('component[name="defaultcopy"]')[0].setValue(data['user_info']['copy']);
-      Ext.getCmp('tabForm').query('component[name="defaultzdroj"]')[0].setValue(data['user_info']['zdroj']);
-      Ext.getCmp('tabForm').query('component[name="defaultautor"]')[0].setValue(data['user_info']['autor']);
-      Ext.getCmp('tabForm').query('component[name="media_folder_id"]')[0].setValue(data['lemma']['media_folder_id']);
-      Ext.getCmp('tabForm').query('component[name="completeness"]')[0].setValue(data['lemma']['completeness']);
-      Ext.getCmp('tabForm').query('component[name="pracskupina"]')[0].setValue(data['lemma']['pracskupina']);
-      Ext.getCmp('tabForm').query('component[name="puvod_slova"]')[0].setValue(data['lemma']['puvod']);
-      Ext.getCmp('tabForm').query('component[name="admin_comment"]')[0].setValue(data['lemma']['admin_comment']);
-      if (data['collocations'] && data['collocations']['swcompos'] && data['collocations']['swcompos'] != "") {
-        Ext.getCmp('tabForm').query('component[name="swcompos"]')[0].setValue(data['collocations']['swcompos'].toUpperCase());
-      }
+      if (data['lemma'] != undefined) {
+        /* heslo */
+        Ext.getCmp('tabForm').query('component[name="userskupina"]')[0].setValue(data['user_info']['skupina'].join(','));
+        Ext.getCmp('tabForm').query('component[name="userperm"]')[0].setValue(data['user_info']['perm']);
+        Ext.getCmp('tabForm').query('component[name="usersetrel"]')[0].setValue(data['set_rel']);
+        Ext.getCmp('tabForm').query('component[name="defaultcopy"]')[0].setValue(data['user_info']['copy']);
+        Ext.getCmp('tabForm').query('component[name="defaultzdroj"]')[0].setValue(data['user_info']['zdroj']);
+        Ext.getCmp('tabForm').query('component[name="defaultautor"]')[0].setValue(data['user_info']['autor']);
+        Ext.getCmp('tabForm').query('component[name="media_folder_id"]')[0].setValue(data['lemma']['media_folder_id']);
+        Ext.getCmp('tabForm').query('component[name="completeness"]')[0].setValue(data['lemma']['completeness']);
+        Ext.getCmp('tabForm').query('component[name="pracskupina"]')[0].setValue(data['lemma']['pracskupina']);
+        Ext.getCmp('tabForm').query('component[name="puvod_slova"]')[0].setValue(data['lemma']['puvod']);
+        Ext.getCmp('tabForm').query('component[name="admin_comment"]')[0].setValue(data['lemma']['admin_comment']);
+        if (data['collocations'] && data['collocations']['swcompos'] && data['collocations']['swcompos'] != "") {
+          Ext.getCmp('tabForm').query('component[name="swcompos"]')[0].setValue(data['collocations']['swcompos'].toUpperCase());
+        }
 
-      /* videa */
-      if (data['lemma']['video_front'] && data['lemma']['video_front'].length > 0) {
-        var vid = create_video(id, false, data['lemma']['video_front']);
-        Ext.getCmp('videobox').insert(Ext.getCmp('videobox').items.length-1, vid);
-        vid.query('component[name="vidid"]')[0].setValue(data['lemma']['video_front']);
-        vid.query('component[name="type"]')[0].setValue('front');
-        var file = data['media']['video_front'];
-        vid.query('component[name="mediaid"]')[0].setValue(file['id']);
-        vid.query('component[name="copy_admin"]')[0].setValue(file['admin_comment']);
-        vid.query('component[name="copy_autor"]')[0].setValue(file['id_meta_author']);
-        vid.query('component[name="copy_copy"]')[0].setValue(file['id_meta_copyright']);
-        vid.query('component[name="copy_zdroj"]')[0].setValue(file['id_meta_source']);
-        vid.query('component[name="original"]')[0].setValue(file['original_file_name']);
-        change_stav(vid.query('component[name="stavcont"]')[0], file['status']);
-        if (file['orient'] == 'lr') {
-          vid.query('component[inputValue="lr"]')[0].setValue(true);
+        /* videa */
+        if (data['lemma']['video_front'] && data['lemma']['video_front'].length > 0) {
+          var vid = create_video(id, false, data['lemma']['video_front']);
+          Ext.getCmp('videobox').insert(Ext.getCmp('videobox').items.length-1, vid);
+          vid.query('component[name="vidid"]')[0].setValue(data['lemma']['video_front']);
+          vid.query('component[name="type"]')[0].setValue('front');
+          var file = data['media']['video_front'];
+          vid.query('component[name="mediaid"]')[0].setValue(file['id']);
+          vid.query('component[name="copy_admin"]')[0].setValue(file['admin_comment']);
+          vid.query('component[name="copy_autor"]')[0].setValue(file['id_meta_author']);
+          vid.query('component[name="copy_copy"]')[0].setValue(file['id_meta_copyright']);
+          vid.query('component[name="copy_zdroj"]')[0].setValue(file['id_meta_source']);
+          vid.query('component[name="original"]')[0].setValue(file['original_file_name']);
+          change_stav(vid.query('component[name="stavcont"]')[0], file['status']);
+          if (file['orient'] == 'lr') {
+            vid.query('component[inputValue="lr"]')[0].setValue(true);
+          } else {
+            vid.query('component[inputValue="pr"]')[0].setValue(true);
+          }
+        } 
+        if (data['lemma']['video_side'] && data['lemma']['video_side'].length > 0) {
+          var vid = create_video(id, false, data['lemma']['video_side']);
+          Ext.getCmp('videobox').insert(Ext.getCmp('videobox').items.length-1, vid);
+          vid.query('component[name="vidid"]')[0].setValue(data['lemma']['video_side']);
+          vid.query('component[name="type"]')[0].setValue('side');
+          var file = data['media']['video_side'];
+          vid.query('component[name="mediaid"]')[0].setValue(file['id']);
+          vid.query('component[name="copy_admin"]')[0].setValue(file['admin_comment']);
+          vid.query('component[name="copy_autor"]')[0].setValue(file['id_meta_author']);
+          vid.query('component[name="copy_copy"]')[0].setValue(file['id_meta_copyright']);
+          vid.query('component[name="copy_zdroj"]')[0].setValue(file['id_meta_source']);
+          vid.query('component[name="original"]')[0].setValue(file['original_file_name']);
+          change_stav(vid.query('component[name="stavcont"]')[0], file['status']);
+          if (file['orient'] == 'lr') {
+            vid.query('component[inputValue="lr"]')[0].setValue(true);
+          } else {
+            vid.query('component[inputValue="pr"]')[0].setValue(true);
+          }
+        } 
+
+        /* gramatika */
+        if (data['lemma']['grammar_note'] && data['lemma']['grammar_note'].length > 0) {
+          var gram = data['lemma']['grammar_note'][0];
+          if (gram['_text']) Ext.getCmp('tabForm').query('component[name="gramatikatext_text"]')[0].setValue(gram['_text']);
+          if (gram['@author']) Ext.getCmp('gramdesc').query('component[name="copy_autor"]')[0].setValue(gram['@author']);
+          if (gram['@admin']) Ext.getCmp('gramdesc').query('component[name="copy_admin"]')[0].setValue(gram['@admin']);
+          if (gram['@source']) Ext.getCmp('gramdesc').query('component[name="copy_zdroj"]')[0].setValue(gram['@source']);
+          if (gram['@copyright']) Ext.getCmp('gramdesc').query('component[name="copy_copy"]')[0].setValue(gram['@copyright']);
+          if (gram['@mluv_komp']) Ext.getCmp('gramdesc').query('component[name="mluv_komp"]')[0].setValue(gram['@mluv_komp']);
+          if (gram['@mluv_komp_sel']) Ext.getCmp('gramdesc').query('component[name="mluv_komp_sel"]')[0].setValue(gram['@mluv_komp_sel']);
+          if (gram['@oral_komp']) Ext.getCmp('gramdesc').query('component[name="oral_komp"]')[0].setValue(gram['@oral_komp']);
+          if (gram['@oral_komp_sel']) Ext.getCmp('gramdesc').query('component[name="oral_komp_sel"]')[0].setValue(gram['@oral_komp_sel']);
+          change_stav(Ext.getCmp('gramdesc').query('component[name="stavcont"]')[0], gram['@status']);
+          /* gram. kategorie */
+          Ext.getCmp('gramcont').query('[name=gramitem]')[0].destroy();
+          data['lemma']['grammar_note'].forEach(function(gram) {
+            var gramit = create_gram(id);
+            Ext.getCmp('gramcont').insert(Ext.getCmp('gramcont').items.length-1,gramit);
+            /* zmena skupiny */
+            Ext.getCmp(gramit.id).query('component[name="slovni_druh"]')[0].setValue(gram['@slovni_druh']);
+            change_gram(gramit.id, gram['@slovni_druh']);
+            change_gram(gramit.id, gram['@slovni_druh'], gram['@skupina']);
+            Ext.getCmp(gramit.id).query('component[name="skupina"]')[0].setValue(gram['@skupina']);
+            if (gram['@skupina2'] != null) {
+              Ext.getCmp(gramit.id).query('component[name="skupina2"]')[0].setValue(gram['@skupina2'].split(';'));
+            }
+            if (gram['@skupina3'] != null) {
+              Ext.getCmp(gramit.id).query('component[name="skupina3"]')[0].setValue(gram['@skupina3'].split(';'));
+            }
+          });
+        }
+        /* stylistika */
+        if (data['lemma']['style_note'] && data['lemma']['style_note'].length > 0) {
+          var gram = data['lemma']['style_note'][0];
+          Ext.getCmp('tabForm').query('component[name="styltext_text"]')[0].setValue(gram['_text']);
+          if (gram['@generace'] != null) {
+            Ext.getCmp('styldesc').query('component[name="generace"]')[0].setValue(gram['@generace'].split(';'));
+          }
+          Ext.getCmp('styldesc').query('component[name="kategorie"]')[0].setValue(gram['@kategorie']);
+          Ext.getCmp('styldesc').query('component[name="gender"]')[0].setValue(gram['@gender']);
+          Ext.getCmp('styldesc').query('component[name="copy_autor"]')[0].setValue(gram['@author']);
+          Ext.getCmp('styldesc').query('component[name="copy_admin"]')[0].setValue(gram['@admin']);
+          Ext.getCmp('styldesc').query('component[name="copy_zdroj"]')[0].setValue(gram['@source']);
+          Ext.getCmp('styldesc').query('component[name="copy_copy"]')[0].setValue(gram['@copyright']);
+          change_stav(Ext.getCmp('styldesc').query('component[name="stavcont"]')[0], gram['@status']);
+        }
+        /* varianty */
+        if (data['lemma']['grammar_note'] && data['lemma']['grammar_note'][0] && data['lemma']['grammar_note'][0]['variant']) {
+          data['lemma']['grammar_note'][0]['variant'].forEach(function(gramvar) {
+            console.log(gramvar)
+            var variant = create_variant(id);
+            Ext.getCmp('gvarbox').insert(Ext.getCmp('gvarbox').items.length-1, variant);
+            variant.query('component[name="variant"]')[0].setValue(gramvar['_text']);
+            variant.query('component[name="variant_desc"]')[0].setValue(gramvar['@desc']);
+            variant.query('component[name="variant_sw"]')[0].setValue(gramvar['@sw']);
+          });
+        }
+        if (data['lemma']['style_note'] && data['lemma']['style_note'][0] && data['lemma']['style_note'][0]['variant']) {
+          data['lemma']['style_note'][0]['variant'].forEach(function(gramvar) {
+            var variant = create_variant(id);
+            Ext.getCmp('varbox').insert(Ext.getCmp('varbox').items.length-1, variant);
+            variant.query('component[name="variant"]')[0].setValue(gramvar['_text']);
+            variant.query('component[name="variant_desc"]')[0].setValue(gramvar['@desc']);
+            variant.query('component[name="variant_sw"]')[0].setValue(gramvar['@sw']);
+          });
+        }
+
+        /* transkripce */          
+        if (data['lemma']['sw'] && data['lemma']['sw'].length > 0) {
+          data['lemma']['sw'].forEach(function(swx) {
+            var sw = create_sw(id);
+            Ext.getCmp('swbox').insert(Ext.getCmp('swbox').items.length-1,sw);
+            if (swx['@id']) sw.query('component[name="swid"]')[0].setValue(swx['@id']);
+            if (swx['@fsw']) sw.query('component[name="fsw"]')[0].setValue(swx['@fsw']);
+            if (swx['@misto']) sw.query('component[name="misto"]')[0].setValue(swx['@misto'].split(';'));
+            if (swx['@primary'] && swx['@primary'] == 'true') sw.query('component[name="primary_sw"]')[0].setValue(true);
+            if (swx['_text']) sw.query('component[name="swdata"]')[0].setValue(swx['_text']);
+            //copyright
+            if (swx['@author']) sw.query('component[name="copy_autor"]')[0].setValue(swx['@author']);
+            if (swx['@copyright']) sw.query('component[name="copy_copy"]')[0].setValue(swx['@copyright']);
+            if (swx['@source']) sw.query('component[name="copy_zdroj"]')[0].setValue(swx['@source']);
+            if (swx['@admin']) sw.query('component[name="copy_admin"]')[0].setValue(swx['@admin']);
+          });
+        }
+        change_stav(Ext.getCmp('swfieldset').query('component[name="stavcont"]')[0], data['lemma']['@swstatus']);
+
+        /*kolokace*/
+        if (data['lemma']['lemma_type'] && ['derivat', 'collocation', 'kompozitum', 'fingerspell'].includes(data['lemma']['lemma_type'])) {
+          Ext.getCmp('tabForm').query('component[inputValue="'+data['lemma']['lemma_type']+'"]')[0].setValue(true);
+          Ext.getCmp('boxcolloc').query('component[name="collocationinfo"]')[0].show();            
         } else {
-          vid.query('component[inputValue="pr"]')[0].setValue(true);
+          Ext.getCmp('tabForm').query('component[inputValue="single"]')[0].setValue(true);
         }
-      } 
-      if (data['lemma']['video_side'] && data['lemma']['video_side'].length > 0) {
-        var vid = create_video(id, false, data['lemma']['video_side']);
-        Ext.getCmp('videobox').insert(Ext.getCmp('videobox').items.length-1, vid);
-        vid.query('component[name="vidid"]')[0].setValue(data['lemma']['video_side']);
-        vid.query('component[name="type"]')[0].setValue('side');
-        var file = data['media']['video_side'];
-        vid.query('component[name="mediaid"]')[0].setValue(file['id']);
-        vid.query('component[name="copy_admin"]')[0].setValue(file['admin_comment']);
-        vid.query('component[name="copy_autor"]')[0].setValue(file['id_meta_author']);
-        vid.query('component[name="copy_copy"]')[0].setValue(file['id_meta_copyright']);
-        vid.query('component[name="copy_zdroj"]')[0].setValue(file['id_meta_source']);
-        vid.query('component[name="original"]')[0].setValue(file['original_file_name']);
-        change_stav(vid.query('component[name="stavcont"]')[0], file['status']);
-        if (file['orient'] == 'lr') {
-          vid.query('component[inputValue="lr"]')[0].setValue(true);
-        } else {
-          vid.query('component[inputValue="pr"]')[0].setValue(true);
+        if (data['collocations'] && data['collocations']['status']) {
+          change_stav(Ext.getCmp('boxcolloc').query('component[name="stavcont"]')[0], data['collocations']['status']);
         }
-      } 
-
-      /* gramatika */
-      if (data['lemma']['grammar_note'] && data['lemma']['grammar_note'].length > 0) {
-        var gram = data['lemma']['grammar_note'][0];
-        if (gram['_text']) Ext.getCmp('tabForm').query('component[name="gramatikatext_text"]')[0].setValue(gram['_text']);
-        if (gram['@author']) Ext.getCmp('gramdesc').query('component[name="copy_autor"]')[0].setValue(gram['@author']);
-        if (gram['@admin']) Ext.getCmp('gramdesc').query('component[name="copy_admin"]')[0].setValue(gram['@admin']);
-        if (gram['@source']) Ext.getCmp('gramdesc').query('component[name="copy_zdroj"]')[0].setValue(gram['@source']);
-        if (gram['@copyright']) Ext.getCmp('gramdesc').query('component[name="copy_copy"]')[0].setValue(gram['@copyright']);
-        if (gram['@mluv_komp']) Ext.getCmp('gramdesc').query('component[name="mluv_komp"]')[0].setValue(gram['@mluv_komp']);
-        if (gram['@mluv_komp_sel']) Ext.getCmp('gramdesc').query('component[name="mluv_komp_sel"]')[0].setValue(gram['@mluv_komp_sel']);
-        if (gram['@oral_komp']) Ext.getCmp('gramdesc').query('component[name="oral_komp"]')[0].setValue(gram['@oral_komp']);
-        if (gram['@oral_komp_sel']) Ext.getCmp('gramdesc').query('component[name="oral_komp_sel"]')[0].setValue(gram['@oral_komp_sel']);
-        change_stav(Ext.getCmp('gramdesc').query('component[name="stavcont"]')[0], gram['@status']);
-        /* gram. kategorie */
-        Ext.getCmp('gramcont').query('[name=gramitem]')[0].destroy();
-        data['lemma']['grammar_note'].forEach(function(gram) {
-          var gramit = create_gram(id);
-          Ext.getCmp('gramcont').insert(Ext.getCmp('gramcont').items.length-1,gramit);
-          /* zmena skupiny */
-          Ext.getCmp(gramit.id).query('component[name="slovni_druh"]')[0].setValue(gram['@slovni_druh']);
-          change_gram(gramit.id, gram['@slovni_druh']);
-          change_gram(gramit.id, gram['@slovni_druh'], gram['@skupina']);
-          Ext.getCmp(gramit.id).query('component[name="skupina"]')[0].setValue(gram['@skupina']);
-          if (gram['@skupina2'] != null) {
-            Ext.getCmp(gramit.id).query('component[name="skupina2"]')[0].setValue(gram['@skupina2'].split(';'));
-          }
-          if (gram['@skupina3'] != null) {
-            Ext.getCmp(gramit.id).query('component[name="skupina3"]')[0].setValue(gram['@skupina3'].split(';'));
-          }
-        });
-      }
-      /* stylistika */
-      if (data['lemma']['style_note'] && data['lemma']['style_note'].length > 0) {
-        var gram = data['lemma']['style_note'][0];
-        Ext.getCmp('tabForm').query('component[name="styltext_text"]')[0].setValue(gram['_text']);
-        if (gram['@generace'] != null) {
-          Ext.getCmp('styldesc').query('component[name="generace"]')[0].setValue(gram['@generace'].split(';'));
+        if (data['collocations'] && data['collocations']['colloc']) {
+          data['collocations']['colloc'].forEach(function(colloc) {
+            var col = create_colloc(id);
+            Ext.getCmp('colbox').insert(Ext.getCmp('colbox').items.length-1, col);
+            col.query('component[name="colid"]')[0].setValue(colloc);
+          });
         }
-        Ext.getCmp('styldesc').query('component[name="kategorie"]')[0].setValue(gram['@kategorie']);
-        Ext.getCmp('styldesc').query('component[name="gender"]')[0].setValue(gram['@gender']);
-        Ext.getCmp('styldesc').query('component[name="copy_autor"]')[0].setValue(gram['@author']);
-        Ext.getCmp('styldesc').query('component[name="copy_admin"]')[0].setValue(gram['@admin']);
-        Ext.getCmp('styldesc').query('component[name="copy_zdroj"]')[0].setValue(gram['@source']);
-        Ext.getCmp('styldesc').query('component[name="copy_copy"]')[0].setValue(gram['@copyright']);
-        change_stav(Ext.getCmp('styldesc').query('component[name="stavcont"]')[0], gram['@status']);
-      }
-      /* varianty */
-      if (data['lemma']['grammar_note'] && data['lemma']['grammar_note'][0] && data['lemma']['grammar_note'][0]['variant']) {
-        data['lemma']['grammar_note'][0]['variant'].forEach(function(gramvar) {
-          console.log(gramvar)
-          var variant = create_variant(id);
-          Ext.getCmp('gvarbox').insert(Ext.getCmp('gvarbox').items.length-1, variant);
-          variant.query('component[name="variant"]')[0].setValue(gramvar['_text']);
-          variant.query('component[name="variant_desc"]')[0].setValue(gramvar['@desc']);
-          variant.query('component[name="variant_sw"]')[0].setValue(gramvar['@sw']);
-        });
-      }
-      if (data['lemma']['style_note'] && data['lemma']['style_note'][0] && data['lemma']['style_note'][0]['variant']) {
-        data['lemma']['style_note'][0]['variant'].forEach(function(gramvar) {
-          var variant = create_variant(id);
-          Ext.getCmp('varbox').insert(Ext.getCmp('varbox').items.length-1, variant);
-          variant.query('component[name="variant"]')[0].setValue(gramvar['_text']);
-          variant.query('component[name="variant_desc"]')[0].setValue(gramvar['@desc']);
-          variant.query('component[name="variant_sw"]')[0].setValue(gramvar['@sw']);
-        });
-      }
 
-      /* transkripce */          
-      if (data['lemma']['sw'] && data['lemma']['sw'].length > 0) {
-        data['lemma']['sw'].forEach(function(swx) {
-          var sw = create_sw(id);
-          Ext.getCmp('swbox').insert(Ext.getCmp('swbox').items.length-1,sw);
-          if (swx['@id']) sw.query('component[name="swid"]')[0].setValue(swx['@id']);
-          if (swx['@fsw']) sw.query('component[name="fsw"]')[0].setValue(swx['@fsw']);
-          if (swx['@misto']) sw.query('component[name="misto"]')[0].setValue(swx['@misto'].split(';'));
-          if (swx['@primary'] && swx['@primary'] == 'true') sw.query('component[name="primary_sw"]')[0].setValue(true);
-          if (swx['_text']) sw.query('component[name="swdata"]')[0].setValue(swx['_text']);
-          //copyright
-          if (swx['@author']) sw.query('component[name="copy_autor"]')[0].setValue(swx['@author']);
-          if (swx['@copyright']) sw.query('component[name="copy_copy"]')[0].setValue(swx['@copyright']);
-          if (swx['@source']) sw.query('component[name="copy_zdroj"]')[0].setValue(swx['@source']);
-          if (swx['@admin']) sw.query('component[name="copy_admin"]')[0].setValue(swx['@admin']);
-        });
-      }
-      change_stav(Ext.getCmp('swfieldset').query('component[name="stavcont"]')[0], data['lemma']['@swstatus']);
-
-      /*kolokace*/
-      if (data['lemma']['lemma_type'] && ['derivat', 'collocation', 'kompozitum', 'fingerspell'].includes(data['lemma']['lemma_type'])) {
-        Ext.getCmp('tabForm').query('component[inputValue="'+data['lemma']['lemma_type']+'"]')[0].setValue(true);
-        Ext.getCmp('boxcolloc').query('component[name="collocationinfo"]')[0].show();            
-      } else {
-        Ext.getCmp('tabForm').query('component[inputValue="single"]')[0].setValue(true);
-      }
-      if (data['collocations'] && data['collocations']['status']) {
-        change_stav(Ext.getCmp('boxcolloc').query('component[name="stavcont"]')[0], data['collocations']['status']);
-      }
-      if (data['collocations'] && data['collocations']['colloc']) {
-        data['collocations']['colloc'].forEach(function(colloc) {
-          var col = create_colloc(id);
-          Ext.getCmp('colbox').insert(Ext.getCmp('colbox').items.length-1, col);
-          col.query('component[name="colid"]')[0].setValue(colloc);
-        });
-      }
-
-      /* hamnosys */
-      if (data['lemma']['hamnosys']) {
-        if (data['lemma']['hamnosys']['_text']) Ext.getCmp('tabForm').query('component[name="hamndata"]')[0].setValue(data['lemma']['hamnosys']['_text']);
-        if (Ext.getCmp('tabForm').query('component[name="hamndata"]')[0].getValue() != '') {
-          Ext.getCmp('tabForm').query('component[name="hamnimg"]')[0].el.setHTML('<img src="http://znaky.zcu.cz/proxy/tts/tex2img.png?generator[template]=hamnosys&generator[dpi]=200&generator[engine]=x&generator[tex]='+encodeURI(Ext.getCmp('tabForm').query('component[name="hamndata"]')[0].getValue())+'"/>');
-          Ext.getCmp('tabForm').query('component[name="hamnbutton"]')[0].hide();
+        /* hamnosys */
+        if (data['lemma']['hamnosys']) {
+          if (data['lemma']['hamnosys']['_text']) Ext.getCmp('tabForm').query('component[name="hamndata"]')[0].setValue(data['lemma']['hamnosys']['_text']);
+          if (Ext.getCmp('tabForm').query('component[name="hamndata"]')[0].getValue() != '') {
+            Ext.getCmp('tabForm').query('component[name="hamnimg"]')[0].el.setHTML('<img src="http://znaky.zcu.cz/proxy/tts/tex2img.png?generator[template]=hamnosys&generator[dpi]=200&generator[engine]=x&generator[tex]='+encodeURI(Ext.getCmp('tabForm').query('component[name="hamndata"]')[0].getValue())+'"/>');
+            Ext.getCmp('tabForm').query('component[name="hamnbutton"]')[0].hide();
+          }
+          if (data['lemma']['hamnosys']['@author']) Ext.getCmp('hamnosys_copybox').query('component[name="copy_autor"]')[0].setValue(data['lemma']['hamnosys']['@author']);
+          if (data['lemma']['hamnosys']['@admin']) Ext.getCmp('hamnosys_copybox').query('component[name="copy_admin"]')[0].setValue(data['lemma']['hamnosys']['@admin']);
+          if (data['lemma']['hamnosys']['@source']) Ext.getCmp('hamnosys_copybox').query('component[name="copy_zdroj"]')[0].setValue(data['lemma']['hamnosys']['@source']);
+          if (data['lemma']['hamnosys']['@copyright']) Ext.getCmp('hamnosys_copybox').query('component[name="copy_copy"]')[0].setValue(data['lemma']['hamnosys']['@copyright']);
+          if (data['lemma']['hamnosys']['@status']) change_stav(Ext.getCmp('hamnbox').query('component[name="stavcont"]')[0], data['lemma']['hamnosys']['@status']);
         }
-        if (data['lemma']['hamnosys']['@author']) Ext.getCmp('hamnosys_copybox').query('component[name="copy_autor"]')[0].setValue(data['lemma']['hamnosys']['@author']);
-        if (data['lemma']['hamnosys']['@admin']) Ext.getCmp('hamnosys_copybox').query('component[name="copy_admin"]')[0].setValue(data['lemma']['hamnosys']['@admin']);
-        if (data['lemma']['hamnosys']['@source']) Ext.getCmp('hamnosys_copybox').query('component[name="copy_zdroj"]')[0].setValue(data['lemma']['hamnosys']['@source']);
-        if (data['lemma']['hamnosys']['@copyright']) Ext.getCmp('hamnosys_copybox').query('component[name="copy_copy"]')[0].setValue(data['lemma']['hamnosys']['@copyright']);
-        if (data['lemma']['hamnosys']['@status']) change_stav(Ext.getCmp('hamnbox').query('component[name="stavcont"]')[0], data['lemma']['hamnosys']['@status']);
-      }
 
-      /* vyznamy */
-      var add_class_rels = {};
-      if (data['meanings'] && data['meanings'].length > 0) {
-        Ext.getCmp('vyznamy_box').query('component[name="vyznam"]')[0].destroy();
-        data['meanings'].sort(function(a,b) {return parseInt(a['number']) - parseInt(b['number'])}).forEach(function(meaning) {
-          var vyznam = create_vyznam(id, false, meaning['id']);
-          Ext.getCmp('vyznamy_box').insert(Ext.getCmp('vyznamy_box').items.length-1,vyznam);
-          if (meaning['author']) Ext.getCmp(vyznam.id+'_copybox').query('component[name="copy_autor"]')[0].setValue(meaning['author']);
-          if (meaning['admin']) Ext.getCmp(vyznam.id+'_copybox').query('component[name="copy_admin"]')[0].setValue(meaning['admin']);
-          if (meaning['source']) Ext.getCmp(vyznam.id+'_copybox').query('component[name="copy_zdroj"]')[0].setValue(meaning['source']);
-          if (meaning['copyright']) Ext.getCmp(vyznam.id+'_copybox').query('component[name="copy_copy"]')[0].setValue(meaning['copyright']);
-          if (meaning['number']) vyznam.query('component[name="meaning_nr"]')[0].setValue(meaning['number']);
-          textval = '';
-          var previews = new Array();
-          if (meaning['text'] && meaning['text']['file']) {
-            textval += ' <file media_id="'+meaning['text']['file']['@media_id']+'"/>';
-            previews.push(meaning['text']['file']['@media_id']);
-          }
-          vyznam.query('component[name="'+vyznam.id+'_text_text"]')[0].setValue($.trim(textval));
-          var previewstext = '';
-          for (var p = 0; p < previews.length; p++) {
-            var prevloc = data['media'][previews[p]]['location'];
-            previewstext += '<div class="videofancybox" data-ratio="0.8" class="usage" style="width:120px; cursor: zoom-in;"><video width="120px" poster="https://beta.dictio.info/thumb/video'+dictcode+'/'+prevloc+'" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video'+dictcode+'/'+prevloc+'"></source></video></div><br/>';
-          }
-          vyznam.query('component[name="vyznampreviews"]')[0].update(previewstext);
-          change_stav(vyznam.query('component[name="stavcont"]')[0], meaning['status']);
-          if (meaning['category'].length > 0) {
-            var categ_array = new Array();
-            meaning['category'].forEach(function(cat) {
-              categ_array.push(cat);
-            });
-            vyznam.query('component[name="obor"]')[0].setValue(categ_array);
-          }
-          if (meaning['style_region']) vyznam.query('component[name="region"]')[0].setValue(meaning['style_region'].split(';'));
-          if (meaning['pracskupina']) vyznam.query('component[name="pracskupina"]')[0].setValue(meaning['pracskupina']);
-          if (meaning['is_translation_unknown'] && meaning['is_translation_unknown'] == '1') vyznam.query('component[name="translation_unknown"]')[0].setValue(true);
+        /* vyznamy */
+        var add_class_rels = {};
+        if (data['meanings'] && data['meanings'].length > 0) {
+          Ext.getCmp('vyznamy_box').query('component[name="vyznam"]')[0].destroy();
+          data['meanings'].sort(function(a,b) {return parseInt(a['number']) - parseInt(b['number'])}).forEach(function(meaning) {
+            var vyznam = create_vyznam(id, false, meaning['id']);
+            Ext.getCmp('vyznamy_box').insert(Ext.getCmp('vyznamy_box').items.length-1,vyznam);
+            if (meaning['author']) Ext.getCmp(vyznam.id+'_copybox').query('component[name="copy_autor"]')[0].setValue(meaning['author']);
+            if (meaning['admin']) Ext.getCmp(vyznam.id+'_copybox').query('component[name="copy_admin"]')[0].setValue(meaning['admin']);
+            if (meaning['source']) Ext.getCmp(vyznam.id+'_copybox').query('component[name="copy_zdroj"]')[0].setValue(meaning['source']);
+            if (meaning['copyright']) Ext.getCmp(vyznam.id+'_copybox').query('component[name="copy_copy"]')[0].setValue(meaning['copyright']);
+            if (meaning['number']) vyznam.query('component[name="meaning_nr"]')[0].setValue(meaning['number']);
+            textval = '';
+            var previews = new Array();
+            if (meaning['text'] && meaning['text']['file']) {
+              textval += ' <file media_id="'+meaning['text']['file']['@media_id']+'"/>';
+              previews.push(meaning['text']['file']['@media_id']);
+            }
+            vyznam.query('component[name="'+vyznam.id+'_text_text"]')[0].setValue($.trim(textval));
+            var previewstext = '';
+            for (var p = 0; p < previews.length; p++) {
+              var prevloc = data['media'][previews[p]]['location'];
+              previewstext += '<div class="videofancybox" data-ratio="0.8" class="usage" style="width:120px; cursor: zoom-in;"><video width="120px" poster="https://beta.dictio.info/thumb/video'+dictcode+'/'+prevloc+'" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video'+dictcode+'/'+prevloc+'"></source></video></div><br/>';
+            }
+            vyznam.query('component[name="vyznampreviews"]')[0].update(previewstext);
+            change_stav(vyznam.query('component[name="stavcont"]')[0], meaning['status']);
+            if (meaning['category'].length > 0) {
+              var categ_array = new Array();
+              meaning['category'].forEach(function(cat) {
+                categ_array.push(cat);
+              });
+              vyznam.query('component[name="obor"]')[0].setValue(categ_array);
+            }
+            if (meaning['style_region']) vyznam.query('component[name="region"]')[0].setValue(meaning['style_region'].split(';'));
+            if (meaning['pracskupina']) vyznam.query('component[name="pracskupina"]')[0].setValue(meaning['pracskupina']);
+            if (meaning['is_translation_unknown'] && meaning['is_translation_unknown'] == '1') vyznam.query('component[name="translation_unknown"]')[0].setValue(true);
 
-          /* relations */
-          if (meaning['relation']) {
-            var vztahy = new Array();
-            meaning['relation'].forEach(function(trans) {
-              var parentid = vyznam.query('component[name="relbox"]')[0].id;
-              var transset = create_vyznam_links(parentid);
-              var type = trans['type'];
-              var target = dictcode;
-              if (type == 'translation') {
-                if (trans['target'] == null || trans['target'] == '') {
-                  target = 'cs';
-                } else {
-                  target = trans['target'];
-                }
-                type = trans['type'] + '_' + target;
-              }
-              transset.query('component[name="type"]')[0].setValue(type);
-              transset.query('component[name="type"]')[0].addCls('relation_'+type);
-              if (trans['meaning_id'] != "") {
-                transset.query('component[name="rellink"]')[0].setValue(trans['meaning_id']);
-              } else if (trans['entry'] && trans['entry']['lemma']['title']) {
-                transset.query('component[name="rellink"]')[0].setValue(trans['entry']['lemma']['title']);
-              }
-              if (trans['status']) change_stav(transset.query('component[name="stavcont"]')[0], trans['status']);
-              //zobrazeni textu nebo obrazku
-              if (target == 'cs' || target == 'en' || target == 'sj' || target == 'de' ) {
-                if (trans['entry'] && trans['entry']['lemma']['title']) {
-                  transset.query('component[name="vztahtitle"]')[0].update(trans['entry']['lemma']['title']);
-                }
-              } else {
-                if (trans['entry'] && trans['entry']['lemma']['video_front']) {
-                  var videoloc = trans['entry']['lemma']['video_front'];
-                  transset.query('component[name="vztahtitle"]')[0].update('<div class="videofancybox" data-ratio="0.8" class="usage" style="width:120px; cursor: zoom-in;"><video class='+target+' width="80px" poster="https://beta.dictio.info/thumb/video'+target+'/'+videoloc+'" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video'+target+'/'+videoloc+'"></source></video></div>')
-                  transset.query('component[name="vztahtitle"]')[0].setHeight(60);
-                }
-              }
-              var inner = transset.query('component[name="vztahtitle"]')[0].id + "-innerCt";
-              if (trans['title_only'] == 'true') {
-                add_class_rels[inner] = 'redtext';
-              } else {
-                add_class_rels[inner] = 'text-'+target;
-              }
-              vztahy.push({type:type, meaningid:trans['meaning_id'], link:transset});
-            });
-            //sort 
-            var vztahysort = {synonym: 1, translation_cs: 2, translation_czj: 3, translation_en: 4, translation_is: 5, translation_asl: 6, translation_sj: 7, translation_spj: 8, translation_de: 9, translation_ogs: 10}
-            vztahy.sort(function(a, b) {
-              var diff = vztahysort[a.type] - vztahysort[b.type];
-              if (diff != 0) {
-                return diff;
-              }
-              if (a.meaningid < b.meaningid) {
-                return -1;
-              }
-              if (a.meaningid > b.meaningid) {
-                return 1;
-              }
-              return 0;
-            });
-            //add sorted relation
-            var parentid = vyznam.query('component[name="relbox"]')[0].id;
-            vztahy.forEach(function(relation) {
-              Ext.getCmp(parentid).insert(Ext.getCmp(parentid).items.length-3, relation.link);
-            });
-          }
-
-          /* usages */
-          ar_priklady[meaning['id']] = 0;
-          if (meaning['usages']) {
-            var j = 0;
-            meaning['usages'].forEach(function(usage) {
-              var usageid, usagec;
-              var priklad = create_priklad(vyznam.id+'_uziti', id, false, meaning['id']);
-              if (usage['id'] && usage['id'] != '') {
-                usageid = usage['id'];
-                usagec = parseInt(usageid.replace(/[0-9\-]*_us/,''));
-                priklad.query('[name="usage_id"]')[0].setValue(usageid);
-              } else {
-                usagec = j;
-              }
-              if (ar_priklady[meaning['id']] < usagec) {
-                ar_priklady[meaning['id']] = usagec;
-              }
-              Ext.getCmp(vyznam.id+'_uziti').insert(Ext.getCmp(vyznam.id+'_uziti').items.length-1, priklad);
-              if (usage['author']) Ext.getCmp(priklad.id+'copyright_copybox').query('component[name="copy_autor"]')[0].setValue(usage['author']);
-              if (usage['admin']) Ext.getCmp(priklad.id+'copyright_copybox').query('component[name="copy_admin"]')[0].setValue(usage['admin']);
-              if (usage['source']) Ext.getCmp(priklad.id+'copyright_copybox').query('component[name="copy_zdroj"]')[0].setValue(usage['source']);
-              if (usage['copyright']) Ext.getCmp(priklad.id+'copyright_copybox').query('component[name="copy_copy"]')[0].setValue(usage['copyright']);
-              if (usage['type'] == 'colloc') {
-                priklad.query('[inputValue=colloc]')[0].setValue(true);
-              } else {
-                priklad.query('[inputValue=sentence]')[0].setValue(true);
-              }
-              /* relations */
-              if (usage['relation']) {
-                usage['relation'].forEach(function(trans) {
-                  var parentid = priklad.query('component[name="exrelbox"]')[0].id;
-                  var transset = create_priklad_links(parentid);
-                  Ext.getCmp(parentid).insert(Ext.getCmp(parentid).items.length-1,transset);
-                  var type = trans['type'];
-                  var target = dictcode;
-                  if (type == 'translation') {
-                    if (trans['target'] == null || trans['target'] == '') {
-                      target = 'cs';
-                    } else {
-                      target = trans['target'];
-                    }
-                    type = trans['type'] + '_' + target;
+            /* relations */
+            if (meaning['relation']) {
+              var vztahy = new Array();
+              meaning['relation'].forEach(function(trans) {
+                var parentid = vyznam.query('component[name="relbox"]')[0].id;
+                var transset = create_vyznam_links(parentid);
+                var type = trans['type'];
+                var target = dictcode;
+                if (type == 'translation') {
+                  if (trans['target'] == null || trans['target'] == '') {
+                    target = 'cs';
+                  } else {
+                    target = trans['target'];
                   }
-                  transset.query('component[name="type"]')[0].setValue(type);
+                  type = trans['type'] + '_' + target;
+                }
+                transset.query('component[name="type"]')[0].setValue(type);
+                transset.query('component[name="type"]')[0].addCls('relation_'+type);
+                if (trans['meaning_id'] != "") {
                   transset.query('component[name="rellink"]')[0].setValue(trans['meaning_id']);
-                });
-              }
+                } else if (trans['entry'] && trans['entry']['lemma']['title']) {
+                  transset.query('component[name="rellink"]')[0].setValue(trans['entry']['lemma']['title']);
+                }
+                if (trans['status']) change_stav(transset.query('component[name="stavcont"]')[0], trans['status']);
+                //zobrazeni textu nebo obrazku
+                if (target == 'cs' || target == 'en' || target == 'sj' || target == 'de' ) {
+                  if (trans['entry'] && trans['entry']['lemma']['title']) {
+                    transset.query('component[name="vztahtitle"]')[0].update(trans['entry']['lemma']['title']);
+                  }
+                } else {
+                  if (trans['entry'] && trans['entry']['lemma']['video_front']) {
+                    var videoloc = trans['entry']['lemma']['video_front'];
+                    transset.query('component[name="vztahtitle"]')[0].update('<div class="videofancybox" data-ratio="0.8" class="usage" style="width:120px; cursor: zoom-in;"><video class='+target+' width="80px" poster="https://beta.dictio.info/thumb/video'+target+'/'+videoloc+'" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video'+target+'/'+videoloc+'"></source></video></div>')
+                    transset.query('component[name="vztahtitle"]')[0].setHeight(60);
+                  }
+                }
+                var inner = transset.query('component[name="vztahtitle"]')[0].id + "-innerCt";
+                if (trans['title_only'] == 'true') {
+                  add_class_rels[inner] = 'redtext';
+                } else {
+                  add_class_rels[inner] = 'text-'+target;
+                }
+                vztahy.push({type:type, meaningid:trans['meaning_id'], link:transset});
+              });
+              //sort 
+              var vztahysort = {synonym: 1, translation_cs: 2, translation_czj: 3, translation_en: 4, translation_is: 5, translation_asl: 6, translation_sj: 7, translation_spj: 8, translation_de: 9, translation_ogs: 10}
+              vztahy.sort(function(a, b) {
+                var diff = vztahysort[a.type] - vztahysort[b.type];
+                if (diff != 0) {
+                  return diff;
+                }
+                if (a.meaningid < b.meaningid) {
+                  return -1;
+                }
+                if (a.meaningid > b.meaningid) {
+                  return 1;
+                }
+                return 0;
+              });
+              //add sorted relation
+              var parentid = vyznam.query('component[name="relbox"]')[0].id;
+              vztahy.forEach(function(relation) {
+                Ext.getCmp(parentid).insert(Ext.getCmp(parentid).items.length-3, relation.link);
+              });
+            }
 
-              change_stav(priklad.query('component[name="stavcont"]')[0], usage['status']);
-              textval = '';
-              var previews = new Array();
-              if (usage['text'] && usage['text']['file'] && usage['text']['file']['@media_id']) {
-                textval += ' <file media_id="'+usage['text']['file']['@media_id']+'"/>';
-                previews.push(usage['text']['file']['@media_id']);
-              } 
-              if (usage['text'] && usage['text']['_text']) textval = usage['text']['_text'];
-              priklad.query('component[name="'+priklad.id+'text_text"]')[0].setValue($.trim(textval));
-              var previewstext = '';
-              for (var p = 0; p < previews.length; p++) {
-                var prevloc = data['media'][previews[p]]['location'];
-                previewstext += '<div class="videofancybox" data-ratio="0.8" class="usage" style="width:120px; cursor: zoom-in;"><video width="120px" poster="https://beta.dictio.info/thumb/video'+dictcode+'/'+prevloc+'" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video'+dictcode+'/'+prevloc+'"></source></video></div><br/>';
-              }
-              priklad.query('component[name="vyznampreviews"]')[0].update(previewstext);
-              ar_priklady[meaning['id']]++;
-              j++;
-            });
-          }
+            /* usages */
+            ar_priklady[meaning['id']] = 0;
+            if (meaning['usages']) {
+              var j = 0;
+              meaning['usages'].forEach(function(usage) {
+                var usageid, usagec;
+                var priklad = create_priklad(vyznam.id+'_uziti', id, false, meaning['id']);
+                if (usage['id'] && usage['id'] != '') {
+                  usageid = usage['id'];
+                  usagec = parseInt(usageid.replace(/[0-9\-]*_us/,''));
+                  priklad.query('[name="usage_id"]')[0].setValue(usageid);
+                } else {
+                  usagec = j;
+                }
+                if (ar_priklady[meaning['id']] < usagec) {
+                  ar_priklady[meaning['id']] = usagec;
+                }
+                Ext.getCmp(vyznam.id+'_uziti').insert(Ext.getCmp(vyznam.id+'_uziti').items.length-1, priklad);
+                if (usage['author']) Ext.getCmp(priklad.id+'copyright_copybox').query('component[name="copy_autor"]')[0].setValue(usage['author']);
+                if (usage['admin']) Ext.getCmp(priklad.id+'copyright_copybox').query('component[name="copy_admin"]')[0].setValue(usage['admin']);
+                if (usage['source']) Ext.getCmp(priklad.id+'copyright_copybox').query('component[name="copy_zdroj"]')[0].setValue(usage['source']);
+                if (usage['copyright']) Ext.getCmp(priklad.id+'copyright_copybox').query('component[name="copy_copy"]')[0].setValue(usage['copyright']);
+                if (usage['type'] == 'colloc') {
+                  priklad.query('[inputValue=colloc]')[0].setValue(true);
+                } else {
+                  priklad.query('[inputValue=sentence]')[0].setValue(true);
+                }
+                /* relations */
+                if (usage['relation']) {
+                  usage['relation'].forEach(function(trans) {
+                    var parentid = priklad.query('component[name="exrelbox"]')[0].id;
+                    var transset = create_priklad_links(parentid);
+                    Ext.getCmp(parentid).insert(Ext.getCmp(parentid).items.length-1,transset);
+                    var type = trans['type'];
+                    var target = dictcode;
+                    if (type == 'translation') {
+                      if (trans['target'] == null || trans['target'] == '') {
+                        target = 'cs';
+                      } else {
+                        target = trans['target'];
+                      }
+                      type = trans['type'] + '_' + target;
+                    }
+                    transset.query('component[name="type"]')[0].setValue(type);
+                    transset.query('component[name="rellink"]')[0].setValue(trans['meaning_id']);
+                  });
+                }
+
+                change_stav(priklad.query('component[name="stavcont"]')[0], usage['status']);
+                textval = '';
+                var previews = new Array();
+                if (usage['text'] && usage['text']['file'] && usage['text']['file']['@media_id']) {
+                  textval += ' <file media_id="'+usage['text']['file']['@media_id']+'"/>';
+                  previews.push(usage['text']['file']['@media_id']);
+                } 
+                if (usage['text'] && usage['text']['_text']) textval = usage['text']['_text'];
+                priklad.query('component[name="'+priklad.id+'text_text"]')[0].setValue($.trim(textval));
+                var previewstext = '';
+                for (var p = 0; p < previews.length; p++) {
+                  var prevloc = data['media'][previews[p]]['location'];
+                  previewstext += '<div class="videofancybox" data-ratio="0.8" class="usage" style="width:120px; cursor: zoom-in;"><video width="120px" poster="https://beta.dictio.info/thumb/video'+dictcode+'/'+prevloc+'" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video'+dictcode+'/'+prevloc+'"></source></video></div><br/>';
+                }
+                priklad.query('component[name="vyznampreviews"]')[0].update(previewstext);
+                ar_priklady[meaning['id']]++;
+                j++;
+              });
+            }
+          });
+        }
+
+        Ext.getCmp('hamnosys').hide();
+        console.log('load end ' + new Date().getTime())
+        update_stav();
+        Ext.resumeLayouts(true);
+        //check_perm(Ext.getCmp('tabForm').query('[name=pracskupina]')[0].getValue(), Ext.getCmp('tabForm').query('[name=userskupina]')[0].getValue(), Ext.getCmp('tabForm').query('[name=userperm]')[0].getValue());
+        loadMask.hide();
+        console.log('after mask ' + new Date().getTime())
+        add_preview_main();
+        add_video_fancybox();
+        for (let [key, value] of Object.entries(add_class_rels)) {
+          document.getElementById(key).classList.add(value);
+        }
+        console.log('layout end ' + new Date().getTime())
+        reload_files(id, '', false, true);
+        track_change();
+        entry_updated = false;
+      } else {
+        Ext.resumeLayouts(true);
+        loadMask.hide();
+        Ext.Msg.alert('Error', locale[lang]['no_entry']+': '+dictcode.toUpperCase()+' '+id, function() {
+          window.location = '/';
         });
       }
-
-      Ext.getCmp('hamnosys').hide();
-      console.log('load end ' + new Date().getTime())
-      update_stav();
-      Ext.resumeLayouts(true);
-          //check_perm(Ext.getCmp('tabForm').query('[name=pracskupina]')[0].getValue(), Ext.getCmp('tabForm').query('[name=userskupina]')[0].getValue(), Ext.getCmp('tabForm').query('[name=userperm]')[0].getValue());
-      loadMask.hide();
-      console.log('after mask ' + new Date().getTime())
-      add_preview_main();
-      add_video_fancybox();
-      for (let [key, value] of Object.entries(add_class_rels)) {
-        document.getElementById(key).classList.add(value);
-      }
-      console.log('layout end ' + new Date().getTime())
-      reload_files(id, '', false, true);
-      track_change();
-      entry_updated = false;
     }
   });
 }

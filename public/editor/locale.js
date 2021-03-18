@@ -1,5 +1,6 @@
 var locale = {
   cs: {
+    no_entry: 'heslo neexistuje',
     pub_auto: 'automaticky (publikovat až úplné heslo)',
     pub_hide: 'nepublikovat (neveřejné heslo)',
     pub_nonempty: 'publikovat vyplněné části *',
@@ -448,6 +449,7 @@ buttonyes: 'ano ',
 buttonno: 'ne',
 },
   sk: {
+    no_entry: 'heslo neexistuje',
     pub_auto: 'automaticky (publikovať až kompletné heslo)',
     pub_hide: 'nepublikovať (neverejné heslo)',
     pub_nonempty: 'publikovať vyplnené časti *',
@@ -843,6 +845,7 @@ buttonyes: 'ano',
 buttonno: 'nie',
 },
 en: {
+    no_entry: 'unknown entry',
     pub_auto: ' automatic (if complete)',
     pub_hide: 'hide (not public)',
     pub_nonempty: 'all non empty parts *',
@@ -1289,6 +1292,7 @@ buttonyes: 'yes',
 buttonno: 'no',
   },
 de: {
+    no_entry: 'unknown entry',
     pub_auto: 'automatisch (wenn vollständig)',
     pub_hide: 'verdecken',
     pub_nonempty: 'alle nicht-leeren Teile *',
