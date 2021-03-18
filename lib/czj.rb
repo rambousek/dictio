@@ -880,8 +880,16 @@ class CZJDict < Object
         sw['@fsw'] = get_fsw(sw['_text']) if sw['@fsw'] == ''
       }
     end
+
+    #save media info
+    if data['update_video']
+      data['update_video'].each{|uv|
+        save_media(uv)
+      }
+      data.delete('update_video')
+    end
+
     data.delete('track_changes')
-    data.delete('update_video')
     $stderr.puts data
 
     @entrydb.find({'dict':dict, 'id': entryid}).delete_many
@@ -1554,6 +1562,14 @@ class CZJDict < Object
     media['entry_folder'] = entry_id if entry_id.to_s != ''
     $mongo['media'].insert_one(media)
     return mediaid
+  end
+
+  def save_media(data)
+    if data['id'].to_s != ''
+      $mongo['media'].find({'dict'=> @dictcode, 'id'=> data['id']}).delete_many
+      $mongo['media'].insert_one(data)
+    end
+    return data['id'].to_s
   end
 
   def get_gram(entryid)
