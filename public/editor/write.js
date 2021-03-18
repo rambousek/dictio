@@ -1140,7 +1140,7 @@ function load_doc(id) {
             Ext.getCmp('styldesc').query('component[name="generace"]')[0].setValue(gram['@generace'].split(';'));
           }
           if (gram['@kategorie']) Ext.getCmp('styldesc').query('component[name="kategorie"]')[0].setValue(gram['@kategorie']);
-          if (gram['@stylpriznak']) Ext.getCmp('styldesc').query('component[name="gender"]')[0].setValue(gram['@stylpriznak']);
+          if (gram['@stylpriznak']) Ext.getCmp('styldesc').query('component[name="stylpriznak"]')[0].setValue(gram['@stylpriznak']);
           if (gram['@author']) Ext.getCmp('styldesc').query('component[name="copy_autor"]')[0].setValue(gram['@author']);
           if (gram['@admin']) Ext.getCmp('styldesc').query('component[name="copy_admin"]')[0].setValue(gram['@admin']);
           if (gram['@source']) Ext.getCmp('styldesc').query('component[name="copy_zdroj"]')[0].setValue(gram['@source']);
