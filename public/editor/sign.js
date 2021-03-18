@@ -1258,10 +1258,10 @@ function reload_files(id, search, add_preview, load_variant, type) {
         med.query('component[name="vidid"]')[0].setValue(data[i].location);
         med.query('component[name="type"]')[0].setValue(data[i].type);
         med.query('component[name="copy_admin"]')[0].setValue(data[i].admin_comment);
-        med.query('component[name="copy_autor"]')[0].setValue(data[i].author);
-        med.query('component[name="copy_copy"]')[0].setValue(data[i].copyright);
-        med.query('component[name="copy_zdroj"]')[0].setValue(data[i].source);
-        med.query('component[name="original"]')[0].setValue(data[i].original);
+        med.query('component[name="copy_autor"]')[0].setValue(data[i].id_meta_author);
+        med.query('component[name="copy_copy"]')[0].setValue(data[i].id_meta_copyright);
+        med.query('component[name="copy_zdroj"]')[0].setValue(data[i].id_meta_source);
+        med.query('component[name="original"]')[0].setValue(data[i].original_file_name);
         if (data[i].orient == 'lr') {
           med.query('component[inputValue="lr"]')[0].setValue(true);
         } else {
@@ -1270,7 +1270,7 @@ function reload_files(id, search, add_preview, load_variant, type) {
 
         change_stav(med.query('component[name="stavcont"]')[0], data[i].status);
 
-        filelist.add({id: data[i].id, location: data[i].location, author: data[i].author, source: data[i].source, admin: data[i].admin_comment, copyright: data[i].copyright, status: data[i].status, original: data[i].original, orient: data[i].orient, type: data[i].type});
+        filelist.add({id: data[i].id, location: data[i].location, author: data[i].id_meta_author, source: data[i].id_meta_source, admin: data[i].admin_comment, copyright: data[i].id_meta_copyright, status: data[i].status, original: data[i].original_file_name, orient: data[i].orient, type: data[i].type});
       }
       Ext.resumeLayouts(true);
       console.log('reload files end ' + new Date().getTime());
