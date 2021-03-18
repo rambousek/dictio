@@ -1314,7 +1314,7 @@ input[type='radio'] {
     border-width: 7px;
     border-color: rgba(255, 255, 255, 0);
     border-bottom-color: #1c2641; }
-  .nav-lang__choose:after, .nav-user_choose:after {
+  .nav-lang__choose:after, .nav-user__choose:after {
     margin-left: -7px;
     border-width: 7px;
     border-color: rgba(255, 255, 255, 0);
@@ -1344,7 +1344,7 @@ input[type='radio'] {
     display: block;
     margin: 0;
     padding: 0; }
-  .nav-lang__choose a, nav-user__choose a {
+  .nav-lang__choose a, .nav-user__choose a {
     display: inline-block;
     text-align: right; }
     .nav-lang__choose a:hover, .nav-user__choose a:hover {
