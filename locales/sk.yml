@@ -46,6 +46,7 @@ sk:
     contact: "Kontakt"
     help: "Pomôc"
     admin: "Administrácia"
+    login: "Přihlásiť sa"
     logout: "Odhlásiť"
     settings: "Nastavenie"
   search:
