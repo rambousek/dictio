@@ -46,6 +46,7 @@ de:
     contact: "Kontakt"
     help: "Hilfe"
     admin: "Verwaltung"
+    login: "Einloggen"
     logout: "Ausloggen"
     settings: "Einstellungen"
   search:
