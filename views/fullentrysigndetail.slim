@@ -270,23 +270,24 @@
                             img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
 
               div.dropdown__item__detail
-                - colloc['meanings'].each do |meaning|
-                  p.naming #{I18n.t("entry.meaning")} #{meaning['number']}:
-                  - if meaning["text"] and meaning["text"]["file"]
-                    .video.video--small
-                      .video__content
-                        video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{colloc['dict']}/#{colloc['media'][meaning["text"]["file"]["@media_id"]]['location']}"
-                          source src="https://files.dictio.info/video#{colloc['dict']}/#{colloc['media'][meaning["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
-                  - if meaning['usages'] and meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.size > 0
-                    p.naming #{I18n.t("entry.examples")}:
-                    .row.row--start
-                      - meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.each do |usg|
-                        - if usg["text"] and usg["text"]["file"]
-                          .col.col--2.col--precise
-                            .video.video--small
-                              .video__content
-                                video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{colloc['dict']}/#{colloc['media'][usg["text"]["file"]["@media_id"]]['location']}"
-                                  source src="https://files.dictio.info/video#{colloc['dict']}/#{colloc['media'][usg["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
+                - if colloc['meanings']
+                  - colloc['meanings'].each do |meaning|
+                    p.naming #{I18n.t("entry.meaning")} #{meaning['number']}:
+                    - if meaning["text"] and meaning["text"]["file"]
+                      .video.video--small
+                        .video__content
+                          video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{colloc['dict']}/#{colloc['media'][meaning["text"]["file"]["@media_id"]]['location']}"
+                            source src="https://files.dictio.info/video#{colloc['dict']}/#{colloc['media'][meaning["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
+                    - if meaning['usages'] and meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.size > 0
+                      p.naming #{I18n.t("entry.examples")}:
+                      .row.row--start
+                        - meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.each do |usg|
+                          - if usg["text"] and usg["text"]["file"]
+                            .col.col--2.col--precise
+                              .video.video--small
+                                .video__content
+                                  video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{colloc['dict']}/#{colloc['media'][usg["text"]["file"]["@media_id"]]['location']}"
+                                    source src="https://files.dictio.info/video#{colloc['dict']}/#{colloc['media'][usg["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
                 - relid = (colloc['dict'] == @dictcode) ? colloc['id'] : colloc['dict']+'-'+colloc['id'].to_s
                 p
                   - if @search.to_s != ''
