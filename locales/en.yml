@@ -46,6 +46,8 @@ en:
     contact: "Contact"
     help: "Help"
     admin: "Admin-Tools"
+    logout: "Log out"
+    settings: "Settings"
   search:
     translate_from: "Translate from"
     translate_to: "Translate to"
