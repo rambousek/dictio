@@ -1023,6 +1023,11 @@ input[type='radio'] {
   .icon--book:before {
     padding-top: 100%; }
 
+.icon--user {
+  width: 16px; }
+  .icon--user:before {
+    padding-top: 100%; }
+
 .icon--check {
   width: 16px; }
   .icon--check:before {
@@ -1224,7 +1229,7 @@ input[type='radio'] {
   padding: 10px;
   cursor: pointer; }
 
-.nav-lang {
+.nav-lang, nav-user {
   position: relative;
   display: -webkit-box;
   display: -webkit-flex;
@@ -1242,36 +1247,41 @@ input[type='radio'] {
       -ms-user-select: none;
           user-select: none; }
   @media (min-width: 992px) {
-    .nav-lang {
+    .nav-lang, nav-user {
       display: -webkit-box;
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex; } }
-  .nav-lang:hover, .nav-lang.is-open {
+  .nav-lang:hover, .nav-lang.is-open, nav-user:hover, .nav-user.is-open {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex; }
-    .nav-lang:hover .nav-lang__dropdown, .nav-lang.is-open .nav-lang__dropdown {
+    .nav-lang:hover .nav-lang__dropdown, .nav-lang.is-open .nav-lang__dropdown, .nav-user:hover .nav-user__dropdown, .nav-user.is-open .nav-user__dropdown {
       color: #fff; }
     .nav-lang:hover .nav-lang__selected,
     .nav-lang:hover .nav__icon, .nav-lang.is-open .nav-lang__selected,
-    .nav-lang.is-open .nav__icon {
+    .nav-lang.is-open .nav__icon,
+    .nav-user:hover .nav-user__selected,
+    .nav-user:hover .nav__icon, .nav-user.is-open .nav-user__selected,
+    .nav-user.is-open .nav__icon {
       color: #fff; }
-  .nav-lang.is-open .nav-lang__dropdown {
+  .nav-lang.is-open .nav-lang__dropdown, .nav-user.is-open .nav-user__dropdown
     -webkit-transform: scale(-1);
         -ms-transform: scale(-1);
             transform: scale(-1); }
-  .nav-lang.is-open .nav-lang__choose {
+  .nav-lang.is-open .nav-lang__choose, nav-user.is-open .nav-user__choose {
     display: block; }
 
-.nav-lang__dropdown {
+.nav-lang__dropdown,
+.nav-user__dropdown {
   width: 12px;
   -webkit-transition: all 200ms ease;
   -o-transition: all 200ms ease;
   transition: all 200ms ease; }
 
-.nav-lang__selected {
+.nav-lang__selected,
+.nav-user__selected {
   padding: 0 4px 0 5px;
   color: #1c2641;
   font-size: 0.875rem;
@@ -1281,7 +1291,8 @@ input[type='radio'] {
   -o-transition: all 200ms ease;
   transition: all 200ms ease; }
 
-.nav-lang__choose {
+.nav-lang__choose,
+.nav-user__choose {
   position: absolute;
   top: calc( 100% + 10px);
   right: 0;
@@ -1289,7 +1300,7 @@ input[type='radio'] {
   min-width: 225px;
   background: #1c2641;
   cursor: default; }
-  .nav-lang__choose:before, .nav-lang__choose:after {
+  .nav-lang__choose:before, .nav-lang__choose:after, nav-user__choose:before, nav-user__choose:after {
     content: '';
     position: absolute;
     right: 40px;
@@ -1298,17 +1309,17 @@ input[type='radio'] {
     height: 0;
     border: solid transparent;
     pointer-events: none; }
-  .nav-lang__choose:before {
+  .nav-lang__choose:before, nav-user__choose:before {
     margin-left: -7px;
     border-width: 7px;
     border-color: rgba(255, 255, 255, 0);
     border-bottom-color: #1c2641; }
-  .nav-lang__choose:after {
+  .nav-lang__choose:after, nav-user_choose:after {
     margin-left: -7px;
     border-width: 7px;
     border-color: rgba(255, 255, 255, 0);
     border-bottom-color: #1c2641; }
-  .nav-lang__choose ul {
+  .nav-lang__choose ul, nav-user__choose ul {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -1329,14 +1340,14 @@ input[type='radio'] {
     margin: 0;
     padding: 10px 0;
     list-style: none; }
-  .nav-lang__choose li {
+  .nav-lang__choose li, .nav-lang_choose li, .nav-user__choose li, .nav-user_choose li {
     display: block;
     margin: 0;
     padding: 0; }
-  .nav-lang__choose a {
+  .nav-lang__choose a, nav-lang__choose a, .nav-user__choose a, nav-user__choose a {
     display: inline-block;
     text-align: right; }
-    .nav-lang__choose a:hover {
+    .nav-lang__choose a:hover, .nav-lang__choose a:hover, .nav-user__choose a:hover, .nav-user__choose a:hover {
       color: #03c9a9; }
 
 .nav-switcher {
