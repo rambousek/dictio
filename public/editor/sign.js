@@ -1996,26 +1996,17 @@ function save_doc(id) {
       data.lemma.video_side = vids[i].query('component[name="vidid"]')[0].getValue();
     }
     data.update_video.push({
-      '@id': vids[i].query('component[name="mediaid"]')[0].getValue(),
-      '@id_meta_author': vids[i].query('component[name="copy_autor"]')[0].getValue(),
-      '@id_meta_copyright': vids[i].query('component[name="copy_copy"]')[0].getValue(),
-      '@id_meta_source': vids[i].query('component[name="copy_zdroj"]')[0].getValue(),
-      '@admin_comment': vids[i].query('component[name="copy_admin"]')[0].getValue(),
-      '@location': vids[i].query('component[name="vidid"]')[0].getValue(),
-      '@status': vids[i].query('component[name="stav"]')[0].getValue(),
-      '@type': 'sign_'+vids[i].query('component[name="type"]')[0].getValue(),
-      '@orient': vids[i].query('component[name="'+vids[i].id+'orient"]')[0].getGroupValue(),
+      'id': vids[i].query('component[name="mediaid"]')[0].getValue(),
+      'id_meta_author': vids[i].query('component[name="copy_autor"]')[0].getValue(),
+      'id_meta_copyright': vids[i].query('component[name="copy_copy"]')[0].getValue(),
+      'id_meta_source': vids[i].query('component[name="copy_zdroj"]')[0].getValue(),
+      'admin_comment': vids[i].query('component[name="copy_admin"]')[0].getValue(),
+      'location': vids[i].query('component[name="vidid"]')[0].getValue(),
+      'status': vids[i].query('component[name="stav"]')[0].getValue(),
+      'type': 'sign_'+vids[i].query('component[name="type"]')[0].getValue(),
+      'orient': vids[i].query('component[name="'+vids[i].id+'orient"]')[0].getGroupValue(),
     });
   }
-  /*var mar = Ext.getCmp('mediabox').query('component[name=mediaitem]');
-  for (var i = 0; i < mar.length; i++) {
-    var loc = mar[i].query('component[name="vidid"]')[0].getValue();
-    data.media.push({'file':{
-      '@id': mar[i].query('component[name="mediaid"]')[0].getValue(),
-      'location': {'$': loc},
-      'status': {'$': 'published'}
-    }});
-  }*/
 
   /* transkripce */
   data.lemma.hamnosys = {
