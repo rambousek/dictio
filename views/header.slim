@@ -97,7 +97,7 @@ header.header role="banner"
                     a href="#{@langpath}#{(@langpath[-1]=='?')?'':'&'}lang=de" == I18n.t("locale.de")
               .mobile-menu__bottom
                  img src="/img/user.png" style="height: 24px" 
-                 span #{@user_info['login']}  
+                 span class="" #{@user_info['name']}  
                  a.btn href="https://beta.dictio.info" onclick="logout()" #{I18n.t("menu.logout")}
         .nav__mobile
           .nav__mobile-search
