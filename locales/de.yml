@@ -46,6 +46,8 @@ de:
     contact: "Kontakt"
     help: "Hilfe"
     admin: "Verwaltung"
+    logout: "Ausloggen"
+    settings: "Einstellungen"
   search:
     translate_from: "Übersetzen von"
     translate_to: "übersetzen ins"
