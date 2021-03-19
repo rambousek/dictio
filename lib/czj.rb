@@ -61,14 +61,15 @@ class CZJDict < Object
     return entry
   end
 
-  def add_colloc(entry, add_rev=true)
+  def add_colloc(entry, add_rev=true, collocs_used=[])
     if entry['collocations'] and entry['collocations']['colloc']
       entry['collocations']['entries'] = []
       entry['collocations']['colloc'].uniq.each{|coll|
-        if coll != entry['id']
+        if coll != entry['id'] and not collocs_used.include?(coll)
+          collocs_used << coll
           ce = getone(entry['dict'], coll)
           unless ce.nil?
-            ce = add_colloc(ce, add_rev)
+            ce, collocs_used = add_colloc(ce, add_rev, collocs_used)
             ce = get_sw(ce)
             entry['collocations']['entries'] << ce
           end
@@ -94,7 +95,7 @@ class CZJDict < Object
       }
     end
 
-    return entry
+    return entry, collocs_used
   end
 
   def get_sw(entry)
@@ -150,12 +151,12 @@ class CZJDict < Object
     if ['collocation','derivat','kompozitum','fingerspell'].include?(entry['lemma']['lemma_type'])
       if entry['collocations']
         # pridat colloc
-        entry = add_colloc(entry, false)
+        entry, collocs_used = add_colloc(entry, false)
         if entry['collocations']['entries']
           entry['collocations']['entries'].each{|ce|
             # nejdriv cache SW pro colloc, kdyz nemaji
-            if ce['lemma']['swmix'].nil?
-              cache_sw(ce)
+            if ce['lemma']['swmix'].nil? and not collocs_used.include?(ce['id'])
+              collocs_used = cache_sw(ce)
               ce = get_sw(ce)
             end
           }
