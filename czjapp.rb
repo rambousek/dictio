@@ -312,7 +312,7 @@ class CzjApp < Sinatra::Base
       slim :transresultlist, :layout=>false
     end
     get '/'+code+'/cache_all_sw' do
-      count = dict.cache_all_sw
+      count = dict.cache_all_sw(false)
       content_type :json
       body = {'count': count}.to_json
     end

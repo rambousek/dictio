@@ -110,23 +110,29 @@ class CZJDict < Object
     return entry
   end
 
-  def cache_all_sw
-    count = {'single' => 0, 'compos' => 0}
-    res = $mongo['sw'].find({'dict': @dictcode}).delete_many
-    count['deleted'] = res.deleted_count
+  def cache_all_sw(delete_existing=true)
+    count = {'single' => 0, 'compos' => 0, 'deleted' => 0}
+    swids = []
+    if delete_existing
+      res = $mongo['sw'].find({'dict': @dictcode}).delete_many
+      count['deleted'] = res.deleted_count
+    end
+    res = $mongo['sw'].find({'dict': @dictcode}).each{|sw|
+      swids << sw['id']
+    }
     # nejprve jednoduche hesla
-    @entrydb.find({'dict': @dictcode, 'lemma.lemma_type': 'single'}).each{|entry|
+    @entrydb.find({'dict': @dictcode, 'id': {'$nin': swids}, 'lemma.lemma_type': 'single'}).each{|entry|
       count['single'] += 1
       cache_sw(entry)
     }
 
     # slozene hesla, bez casti
-    @entrydb.find({'dict': @dictcode, 'lemma.lemma_type': {'$ne': 'single'}, 'collocations.colloc': []}).each{|entry|
+    @entrydb.find({'dict': @dictcode, 'id': {'$nin': swids}, 'lemma.lemma_type': {'$ne': 'single'}, 'collocations.colloc': []}).each{|entry|
       count['compos'] += 1
       cache_sw(entry)
     }
     # slozene hesla, s castmi
-    @entrydb.find({'dict': @dictcode, 'lemma.lemma_type': {'$ne': 'single'}, 'collocations.colloc': {'$exists': true, '$ne': []}}).each{|entry|
+    @entrydb.find({'dict': @dictcode, 'id': {'$nin': swids}, 'lemma.lemma_type': {'$ne': 'single'}, 'collocations.colloc': {'$exists': true, '$ne': []}}).each{|entry|
       count['compos'] += 1
       cache_sw(entry)
     }
