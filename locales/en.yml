@@ -156,7 +156,7 @@ en:
       versub: "verbal substantive"
   admin:
     user: "logged user "
-    text1: "Admin-tools are currently not available yet. To edit an entry, search for it via dictionary search, enter detailed view of an entry and click on ID number with an pencil icon at the top of the page."
+    text1: "Admin-tools are currently not available yet. To edit an entry, search for it via dictionary search, enter detailed view of an entry and click on ID number with an pencil icon at the top of the page. You can use old list of entries listed bellow as well. "
     head1: "Warning"
     text2: "Please do not use this DICTIO version for regular work. All your changes will be by the midnight of the day reversed (deleted). Applicable up to 20th March 2021."
     reports_old: "Former list of entries (last updated on March 19 2021)"
