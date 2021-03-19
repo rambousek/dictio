@@ -311,6 +311,11 @@ class CzjApp < Sinatra::Base
       @result = dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
       slim :transresultlist, :layout=>false
     end
+    get '/'+code+'/cache_all_sw' do
+      count = dict.cache_all_sw
+      content_type :json
+      body = {'count': count}.to_json
+    end
     if $is_edit
       get '/'+code+'/newentry' do
         newid = dict.get_new_id
