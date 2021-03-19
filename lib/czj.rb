@@ -55,7 +55,7 @@ class CZJDict < Object
   def full_entry(entry, getsw=true)
     $stderr.puts 'START fullentry '+Time.now.to_s
     entry = add_media(entry)
-    entry = add_colloc(entry)
+    entry, cu = add_colloc(entry)
     entry = get_sw(entry)
     $stderr.puts 'END fullentry '+Time.now.to_s
     return entry
@@ -104,7 +104,6 @@ class CZJDict < Object
     end
     $stderr.puts 'GETSW, entry ' + entry['id'].to_s
     swdoc = $mongo['sw'].find({'id': entry['id'], 'dict': entry['dict']})
-    $stderr.puts swdoc.first
     if swdoc.first and swdoc.first['swmix'] and swdoc.first['swmix'].length > 0
       entry['lemma']['swmix'] = swdoc.first['swmix']
     end
@@ -338,7 +337,7 @@ class CZJDict < Object
             rel['meaning_nr'] = rela[1]
             relentry = getone(rel['target'], lemmaid)
             next if relentry.nil?
-            relentry = add_colloc(relentry) if getsw
+            relentry, cu = add_colloc(relentry) if getsw
             relentry = get_sw(relentry) if getsw
             relentry = add_media(relentry, true)
             rel['entry'] = relentry
