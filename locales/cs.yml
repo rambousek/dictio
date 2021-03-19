@@ -156,7 +156,7 @@ cs:
       versub: "verbální substantivum"
   admin:
     user: "přihlášený uživatel "
-    text1: "Administrace v tuto chvíli ještě není k dispozici. Pro přístup do editace hesel využijte běžné hledání v daném slovníku (vyhledávat hesla můžete i podle ID). Následně v detailu hesla klikněte na ID hesla s ikonou tužky."
+    text1: "Administrace v tuto chvíli ještě není k dispozici. Pro přístup do editace hesel si požadované heslo dohledejte pomocí běžného hledání ve slovníku (vyhledávat hesla můžete i podle ID). Následně v detailu hesla klikněte na ID hesla s ikonou tužky. Využít můžete také staré přehledy hesel níže. "
     head1: "Upozornění"
     text2: "Tuto verzi zatím nepoužívejte pro běžnou práci. Veškeré změny, budou uchovány pouze do půlnoci daného dne. Pak budou opět smazány. Tento stav platí do 20. 3. 2021"
     reports_old: "Staré přehledy hesel (stav k 19. 3. 2021)"
