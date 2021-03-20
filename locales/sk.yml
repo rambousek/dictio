@@ -51,9 +51,9 @@ sk:
     settings: "Nastavenie"
   search:
     translate_from: "Preložiť z"
-    translate_to: "Preložiť do"
+    translate_to: "do"
     expression: "Výraz"
-    placeholder: "Zadajte hledaný výraz"
+    placeholder: "hľadaný výraz"
     search_in: "Hľadať v"
     inflicted: "hľadať slovné tvary"
     diacritics: "hľadať bez diakritiky"
