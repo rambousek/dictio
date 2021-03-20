@@ -51,9 +51,9 @@ cs:
     settings: "Nastavení"
   search:
     translate_from: "Přeložit z"
-    translate_to: "Přeložit do"
+    translate_to: "do"
     expression: "Výraz"
-    placeholder: "Zadejte hledaný výraz"
+    placeholder: "hledaný výraz"
     search_in: "Hledat v"
     inflicted: "hledat slovní tvary"
     diacritics: "hledat bez diakritiky"
