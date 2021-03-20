@@ -51,7 +51,7 @@ de:
     settings: "Einstellungen"
   search:
     translate_from: "Übersetzen von"
-    translate_to: "übersetzen ins"
+    translate_to: "ins"
     expression: "Ausdruck"
     placeholder: "Ausdruck, den Sie suchen"
     search_in: "Suchen in"
