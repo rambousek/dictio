@@ -58,7 +58,7 @@ cs:
     inflicted: "hledat slovní tvary"
     diacritics: "hledat bez diakritiky"
     collocations: "hledat slovní spojení"
-    entry_count: "Celkem hesel"
+    entry_count: "Nalezeno hesel"
     load_next: "Načíst další"
     pos: "-- slovní druh --"
     advanced: "rozšířené..."
