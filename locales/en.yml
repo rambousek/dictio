@@ -51,9 +51,9 @@ en:
     settings: "Settings"
   search:
     translate_from: "Translate from"
-    translate_to: "Translate to"
-    expression: "Expression"
-    placeholder: "Enter search expression"
+    translate_to: "to"
+    expression: "expression"
+    placeholder: "expression or phrase"
     search_in: "Search in"
     inflicted: "cover inflicted forms"
     diacritics: "ignore diacritics"
