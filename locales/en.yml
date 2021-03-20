@@ -58,7 +58,7 @@ en:
     inflicted: "cover inflicted forms"
     diacritics: "ignore diacritics"
     collocations: "cover collocations"
-    entry_count: "Entries in total"
+    entry_count: "Entries found"
     load_next: "Show more"
     pos: "-- PoS --"
     advanced: "advanced..."
