@@ -22,7 +22,8 @@
     - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh']!=''}
       h2.detail-category 
         - if @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh']!='ustalene'}
-          | #{I18n.t("entry.lexical")}: 
+         - if @is_edit
+           | #{I18n.t("entry.lexical")}: 
         span
           - slovni_druhy = []
           - @entry['lemma']['grammar_note'].each{|gr| slovni_druhy << gr['@slovni_druh']}
