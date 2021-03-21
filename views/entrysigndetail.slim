@@ -61,16 +61,17 @@
 
     .block.mobile-hide
       - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh']!=''}
-        p.naming 
-          | #{I18n.t("entry.lexical")}: 
-          span
-            - slovni_druhy = []
-            - @entry['lemma']['grammar_note'].each{|gr| slovni_druhy << gr['@slovni_druh']}
-            - slovni_druhy.uniq.each do |sd|
-              - if sd.to_s != ''
-                =  I18n.t("gram.slovni_druh."+sd.to_s)
-                - unless sd.equal? slovni_druhy.uniq.last
-                  | , 
+        h2.detail-category
+         - if @is_edit
+           | #{I18n.t("entry.lexical")}: 
+           span
+             - slovni_druhy = []
+             - @entry['lemma']['grammar_note'].each{|gr| slovni_druhy << gr['@slovni_druh']}
+             - slovni_druhy.uniq.each do |sd|
+               - if sd.to_s != ''
+                 =  I18n.t("gram.slovni_druh."+sd.to_s)
+                 - unless sd.equal? slovni_druhy.uniq.last
+                   | , 
       - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@mluv_komp'] == ''
         p.naming 
           | #{I18n.t("entry.mouthing")}: 
