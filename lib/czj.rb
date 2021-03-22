@@ -1090,7 +1090,7 @@ class CZJDict < Object
     list = []
     entry = getone(@dictcode, entry_id)
 
-    query = {'dict'=> 'czj'}
+    query = {'dict'=> @dictcode}
     query[:$or] = [{'entry_folder' => entry_id}]
 
     if entry != nil
