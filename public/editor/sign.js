@@ -2642,6 +2642,12 @@ function create_text_video(idstart, entryid, label, show_copy, video_type) {
 }
 
 function refresh_relations(parentid, set_rel) {
+  window.setTimeout(function() {
+    console.log('refresh timeout');
+    Ext.Array.each(Ext.getCmp('tabForm').query('[name=relsadd]'), function(item) {item.show()});
+    Ext.Array.each(Ext.getCmp('tabForm').query('[name=relswait]'), function(item) {item.hide()});
+  }, 90*1000);
+
   var trset = Ext.getCmp(parentid).query('component[name="rellinkset"]');
   for (var j = 0; j < trset.length; j++) {
     Ext.Array.each(Ext.getCmp('tabForm').query('[name=relsadd]'), function(item) {item.hide()});
@@ -2846,7 +2852,11 @@ function create_vyznam_links(parentid) {
               }
             });
             //ajax load linked relations
-            //var waitBoxRels = Ext.MessageBox.wait('',locale[lang]['get_relations']);
+            window.setTimeout(function() {
+              console.log('refresh timeout');
+              Ext.Array.each(Ext.getCmp('tabForm').query('[name=relsadd]'), function(item) {item.show()});
+              Ext.Array.each(Ext.getCmp('tabForm').query('[name=relswait]'), function(item) {item.hide()});
+            }, 60*1000);
             Ext.Array.each(Ext.getCmp('tabForm').query('[name=relsadd]'), function(item) {item.hide()});
             Ext.Array.each(Ext.getCmp('tabForm').query('[name=relswait]'), function(item) {item.show()});
             var set_rel = Ext.getCmp('tabForm').query('[name=usersetrel]')[0].getValue()
