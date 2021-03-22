@@ -2682,6 +2682,7 @@ function get_selected_dict() {
 function load_link_relations(target, combo, name, parentid, set_rel) {
   Ext.Ajax.request({
     url: '/'+target+'/getrelations',
+    timeout: 10000,
     params: {
       meaning_id: combo.getValue(),
       type: set_rel
