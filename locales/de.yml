@@ -93,7 +93,9 @@ de:
     more_anto: "mehr Antonyme "
     see_video: "siehe Video "
     all_translations: "Alle Äquivalente anzeigen "
-    link: "Share this"
+    share: "Share this"
+    link_current: "Current link"
+    link_public: "Public link"
   gram:
     region:
       cr: "gesamte Tsechien"
