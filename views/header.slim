@@ -120,8 +120,9 @@ header.header role="banner"
 .showlink id="showlink" style="display: none"
   span.closebtn onclick="this.parentElement.style.display='none';" 
    | ×   
-  div 
-    | #{I18n.t("entry.link_public")}: 
+  div
+    - if @is_edit
+      | #{I18n.t("entry.link_public")}: 
     input onclick="this.select();" value="https://www.dictio.info#{@request.fullpath}"
   - if @is_edit
     div 
