@@ -94,6 +94,8 @@ cs:
     see_video: "viz video"
     all_translations: "zobrazit všechny ekvivalenty"
     link: "adresa pro sdílení"
+    link_current: "aktuální adresa"
+    link_public: "veřejná adresa"
   gram:
     region:
       cr: "celá ČR"
