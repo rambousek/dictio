@@ -113,11 +113,11 @@ header.header role="banner"
 div.showlink style="display: none"
   span.closebtn onclick="this.parentElement.style.display='none';" 
    | ×   
-   div 
-     | #{I18n.t("entry.link_curr")}: 
-     input onclick="this.select();" value="https://dictio.info/#{@request.fullpath}"
-   - if @is_edit
-     div 
-       | #{I18n.t("entry.link_public")}: 
-       input onclick="this.select();" value="https://edit.dictio.info/#{@request.fullpath}"
+  div 
+    | #{I18n.t("entry.link_current")}: 
+    input onclick="this.select();" value="https://dictio.info/#{@request.fullpath}"
+  - if @is_edit
+    div 
+      | #{I18n.t("entry.link_public")}: 
+      input onclick="this.select();" value="https://edit.dictio.info/#{@request.fullpath}"
   
