@@ -122,9 +122,9 @@ header.header role="banner"
    | ×   
   div 
     | #{I18n.t("entry.link_current")}: 
-    input onclick="this.select();" value="https://edit.dictio.info/#{@request.fullpath}"
+    input onclick="this.select();" value="https://edit.dictio.info#{@request.fullpath}"
   - if @is_edit
     div 
       | #{I18n.t("entry.link_public")}: 
-      input onclick="this.select();" value="https://www.dictio.info/#{@request.fullpath}"
+      input onclick="this.select();" value="https://www.dictio.info#{@request.fullpath}"
   
