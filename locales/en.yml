@@ -93,7 +93,9 @@ en:
     more_anto: "more antonyms"
     see_video: "see video "
     all_translations: "Display all equivalents"
-    link: "Share this page"
+    share: "Share this"
+    link_current: "Current link"
+    link_public: "Public link"
   gram:
     region:
       cr: "Entire Czech Republic"
