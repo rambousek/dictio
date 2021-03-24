@@ -1494,6 +1494,9 @@ function save_doc(id) {
       }],
     }
   };
+  if (entrydata['html'] != undefined && entrydata['html'] != '') {
+    data['html'] = entrydata['html'];
+  }
   /* gramatika */
   var grams = Ext.getCmp('gramcont').query('[name=gramitem]');
   for (var i = 0; i < grams.length; i++) {
