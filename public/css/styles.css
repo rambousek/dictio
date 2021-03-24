@@ -4317,7 +4317,7 @@ a.btn {
   .no, object, .noprint, nav, .nav, iframe, form, .form, button, .button {
     display: none !important; } }
 
-div.showlink {position: absolute; text-align: center; width: 280px; background-color: rgb(28, 38, 65); height: 60px; z-index: 51; top: 63px; right:0; padding: 10px; color: silver;}
+div.showlink {position: absolute; text-align: center; width: 100%; background-color: rgb(28, 38, 65); height: 60px; z-index: 51; top: 63px; right:0; padding: 10px; color: silver;}
 div.showlink input {padding: 0; padding-left: 0px; font-size: 0.9rem; padding-left: 5px; max-width: 400px; background: black; color: lightgray;}
 span.closebtn {margin-right: 10px; color: white; font-weight: bold; float: right; font-size: 22px; line-height: 20px;  cursor: pointer;  transition: 0.3s;}
 /*# sourceMappingURL=styles.css.map */
