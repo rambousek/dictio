@@ -160,7 +160,8 @@ sk:
       versub: "verbálné substantívum"
   admin:
     user: "prihlásený použivaťeľ "
-    text1: "Administrátorske nástroje ešte niesú k dispozícii. Pre prístup do editácie hesiel použite bežné hledání v slovníku (hľadať môžete aj podľa ID). V detailu hesla kliknete na ID hesla s ikonou tužky. Alebo využijte staré prehledy hesiel dole."      
+    text1: "Administrátorske nástroje ešte niesú k dispozícii. Pre prístup do editácie hesiel použite bežné hledání v slovníku (hľadať môžete aj podľa ID). V detailu hesla kliknete na ID hesla s ikonou tužky. Alebo využijte staré prehledy hesiel dole. Pre založenie nových lém použijte odkazy v Rozcestniku."      
     head1: "Upozornenie"
     text2: "Tuto verziu zatial nepoužívejte pre běžnú práci. Veškeré zmeny, budú uchovány iba do pôlnoci daného dňa. Po pôlnoci budú smazány. Toto platí do 20. 3. 2021."
     reports_old: "Staré prehľady heseel (stav k 19. 3. 2021)"
+    report_old_main: "Rozcestnik"
