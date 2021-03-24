@@ -681,6 +681,9 @@ class CZJDict < Object
             entry = add_rels(entry, true, 'translation', dictcode)
             $stderr.puts 'start getsw '+re['id']+' '+Time.now.to_s
             entry = get_sw(entry)
+            if re['dict'] == target
+              entry = add_media(entry, true)
+            end
             $stderr.puts 'end '+re['id']+' '+Time.now.to_s
             res << entry
           }
