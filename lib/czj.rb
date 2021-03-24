@@ -674,9 +674,14 @@ class CZJDict < Object
           cursor.each{|re|
             re['meanings']['relation'] = [re['meanings']['relation']]
             re['meanings'] = [re['meanings']]
+            $stderr.puts 'start res<e '+re['id']+' '+Time.now.to_s
+            $stderr.puts 'start addrels '+re['id']+' '+Time.now.to_s
             entry = add_rels(re, true, 'translation', target)
+            $stderr.puts 'start addrels2 '+re['id']+' '+Time.now.to_s
             entry = add_rels(entry, true, 'translation', dictcode)
+            $stderr.puts 'start getsw '+re['id']+' '+Time.now.to_s
             entry = get_sw(entry)
+            $stderr.puts 'end '+re['id']+' '+Time.now.to_s
             res << entry
           }
         else
