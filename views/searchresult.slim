@@ -29,7 +29,10 @@ main id="mobilespacetop" role="main"
           - else 
             ul.entries.search-results-write
               - @result['entries'].each do |entry|
-                li: a href="#{@search_path}/#{entry['id']}" = entry['lemma']['title'] 
+                li
+                  - if @is_edit
+                    span.trans__badge style="position: relative;" class="trans__badge__#{@dictcode}" #{@dictcode}-#{entry['id']}
+                  a href="#{@search_path}/#{entry['id']}" = entry['lemma']['title'] 
           - if @result['count'].to_i > @result['entries'].size
             a.btn.load_next_search data-search=@search_path #{I18n.t("search.load_next")}
         .col.col--2.col--start.layout-aside
