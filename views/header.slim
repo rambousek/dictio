@@ -112,7 +112,7 @@ header.header role="banner"
 <!-- /hlavička -->
 .block class="mobile-hide"
   - if not @request.path.start_with?('/editor')
-    .share style="text-align:right; position:absolute; width:100%; padding-top:10px; padding-right:125px; font-size:0.75rem; cursor:pointer; z-index: 50;" onclick="document.getElementById('showlink').style.display='inline'" 
+    .share style="text-align:right; position:absolute; width:280px; padding-top:10px; padding-right:125px; right: 63px; font-size:0.75rem; cursor:pointer; z-index: 50;" onclick="document.getElementById('showlink').style.display='inline'" 
       | #{I18n.t("entry.share")} 
       span.icon.icon--share
         svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
