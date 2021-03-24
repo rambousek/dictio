@@ -353,7 +353,9 @@ class CZJDict < Object
                   rm['usages'].each{|ru|
                     if ru['id'] == rel['meaning_id']
                       if ru['text']['file'] != nil and ru['text']['file']['@media_id'] != nil
-                        rel['entry']['lemma']['video_front'] = get_media(ru['text']['file']['@media_id'], rel['target'])['location']
+                        usmedia = get_media(ru['text']['file']['@media_id'], rel['target'])
+                        rel['entry']['lemma']['video_front'] = usmedia['location']
+                        rel['entry']['media'] = {'video_front'=>usmedia}
                       end
                       if ru['text']['_text'] != nil
                         rel['entry']['lemma']['title'] = ru['text']['_text']
@@ -674,7 +676,7 @@ class CZJDict < Object
           cursor.each{|re|
             re['meanings']['relation'] = [re['meanings']['relation']]
             re['meanings'] = [re['meanings']]
-            $stderr.puts 'start res<e '+re['id']+' '+Time.now.to_s
+            $stderr.puts 'start res<e '+re['dict']+re['id']+' '+Time.now.to_s
             $stderr.puts 'start addrels '+re['id']+' '+Time.now.to_s
             entry = add_rels(re, true, 'translation', target)
             $stderr.puts 'start addrels2 '+re['id']+' '+Time.now.to_s
@@ -682,6 +684,7 @@ class CZJDict < Object
             $stderr.puts 'start getsw '+re['id']+' '+Time.now.to_s
             entry = get_sw(entry)
             if re['dict'] == target
+              $stderr.puts 'start addmedia '+re['id']+' '+Time.now.to_s
               entry = add_media(entry, true)
             end
             $stderr.puts 'end '+re['id']+' '+Time.now.to_s
