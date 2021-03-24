@@ -7,10 +7,10 @@
         - if @dict_info[@dictcode]['type'] == 'write'
           p
             - if entry['dict'] == @dictcode
+              - if @is_edit
+                  span.trans__badge style="position: relative; margin-right: 5px;" class="trans__badge__#{@dictcode}" #{@dictcode}-#{entry['id']}
               a.btn.btn--simple.btn--simple--lg href="#{@tran_path}/#{entry['id']}" 
-                | #{entry['lemma']['title']}
-                - if @is_edit
-                  span.trans__badge style="position: relative;" class="trans__badge__#{@dictcode}" #{@dictcode}-#{entry['id']}
+                | #{entry['lemma']['title']}               
             - else
               - if rel['entry']['id']
                 - if @is_edit
