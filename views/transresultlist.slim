@@ -13,10 +13,10 @@
                   span.trans__badge style="position: relative;" class="trans__badge__#{@dictcode}" #{@dictcode}-#{entry['id']}
             - else
               - if rel['entry']['id']
+                - if @is_edit
+                    span.trans__badge style="position: relative;" class="trans__badge__#{@dictcode}" #{@dictcode}-#{rel['entry']['id']} 
                 a.btn.btn--simple.btn--simple--lg.x href="#{@tran_path}/#{rel['entry']['id']}" 
-                  | #{rel['entry']['lemma']['title']}
-                  - if @is_edit
-                    span.trans__badge style="position: relative;" class="trans__badge__#{@dictcode}" #{@dictcode}-#{rel['entry']['id']}
+                  | #{rel['entry']['lemma']['title']}                  
               - else
                 span.btn.btn--simple.btn--simple--lg style="cursor:auto"
                   em = rel['entry']['lemma']['title']
