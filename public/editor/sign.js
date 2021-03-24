@@ -3393,7 +3393,7 @@ function create_video(entryid, selectnew, vidid) {
                     if (data.type == 'sign_side') {
                       cont.query('component[name="type"]')[0].setValue('side');
                     }
-                    cont.query('component[name="videoimg"]')[0].el.setHTML('<div id="flowvideo'+data.id+'" data-width="150" data-ratio="0.8" style="width:150px; height: 120px; background:#777) no-repeat; background-size: 150px 120px"><video poster="https://www.dictio.info/thumb/video'+dictcode+'/'+data.location+'" width="150px" height="120px" loop="loop" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/webm" src="https://files.dictio.info/video'+dictcode+'/'+data.location+'"></source></video></div>');
+                    cont.query('component[name="videoimg"]')[0].el.setHTML('<div id="flowvideo'+data.id+'" data-width="150" data-ratio="0.8" style="width:150px; height: 120px; background:#777) no-repeat; background-size: 150px 120px"><video poster="https://www.dictio.info/thumb/video'+dictcode+'/'+data.location+'" width="150px" height="120px" loop="loop" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video'+dictcode+'/'+data.location+'"></source></video></div>');
                    // activate_player('#flowvideo'+data.id);
                   }
                 },
