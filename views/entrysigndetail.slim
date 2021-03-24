@@ -9,7 +9,7 @@
   .video-top
     .video
       .video__content.video-front
-        - if @entry['media']['video_front'] and @entry['media']['video_front']['orient']
+        - if @entry['media']['video_front'] and @entry['media']['video_front']['orient'] and @entry['media']['video_front']['orient'].to_s != ''
           span.video-orient = @entry['media']['video_front']['orient'].to_s[0].to_s.upcase
         - else
           span.video-orient R

@@ -15,8 +15,8 @@
   .video-top
     .video
       .video__content.video-front
-        - if @entry['media']['video_front'] and @entry['media']['video_front']['orient']
-          span.video-orient = @entry['media']['video_front']['orient'][0].upcase
+        - if @entry['media']['video_front'] and @entry['media']['video_front']['orient'] and @entry['media']['video_front']['orient'].to_s != ''
+          span.video-orient = @entry['media']['video_front']['orient'].to_s[0].upcase
         - else
           span.video-orient R
         video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{@show_dictcode}/#{@entry['lemma']['video_front']}"
