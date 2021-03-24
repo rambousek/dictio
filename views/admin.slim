@@ -8,14 +8,11 @@ main role="main"
     .container
       .row
         article.col.col--start role="article"
-         p #{I18n.t("admin.text1")}
-         
-         h2 
-          | #{I18n.t("admin.reports_old")}
-          span 
-           a href="https://old.dictio.info/admin" 
-            | (#{I18n.t("admin.report_old_main")})
+         p #{I18n.t("admin.text1")}         
+         h2 #{I18n.t("admin.reports_old")}
          ul
+          li 
+            a href="https://old.dictio.info/admin" #{I18n.t("admin.report_old_main")}
           li
             a href="https://old.dictio.info/admin?action=reportcs" #{I18n.t("dict.cs")}
           li
