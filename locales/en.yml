@@ -162,5 +162,6 @@ en:
     user: "logged user "
     text1: "Admin-tools are currently not available yet. To edit an entry, search for it via dictionary search, enter detailed view of an entry and click on ID number with an pencil icon at the top of the page. You can use former list of entries listed bellow as well. "
     head1: "Warning"
-    text2: "Please do not use this DICTIO version for regular work. All your changes will be by the midnight of the day reversed (deleted). Applicable up to 20th March 2021."
+    text2: "Please do not use this DICTIO version for regular work. All your changes will be by the midnight of the day reversed (deleted). Applicable up to 20th March 2021. For creating new entries open Main directory."
     reports_old: "Former list of entries (last updated on March 19 2021)"
+    report_old_main: "Main directory"
