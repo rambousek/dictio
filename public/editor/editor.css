@@ -13,7 +13,7 @@ input, textarea, select {font-size: 0.9rem; font-weight:200; border-radius: 10px
   background-color: #E1EFF6;
   /*#d1e8dc;  */
 }
-#textfield-1107-inputEl { font-size: 20px; font-weight: bold;  font-family: 'Montserrat', sans-serif; }
+#textfield-1107-inputEl { font-size: 22px; font-weight: 800;  font-family: 'Montserrat', sans-serif; }
 .stav-display div {
   text-align: right;
   font-weight: bold;
