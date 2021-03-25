@@ -23,7 +23,7 @@
         - else
           .video.video--shrink.video--small
             .video__content
-              - if entry['media'] and entry['media']['video_front']
+              - if use_entry['media'] and use_entry['media']['video_front'] and use_entry['media']['video_front']['orient']
                 span.video-orient = entry['media']['video_front']['orient'][0].upcase
               - else
                 span.video-orient R
