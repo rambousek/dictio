@@ -333,7 +333,7 @@ class CzjApp < Sinatra::Base
         data = JSON.parse(params['data'])
         dict.save_doc(data)
         content_type :json
-        body = '{"success":true,"msg":"Uloženo"}'
+        body = {"success"=>true,"msg"=>"Uloženo"}.to_json
       end
       post '/'+code+'/delete/:id' do
         if params['id'].to_s != ''
@@ -355,7 +355,7 @@ class CzjApp < Sinatra::Base
           }
         end
         content_type :json
-        body = '{"success":true,"msg":"Uloženo"}'
+        body = {"success"=>true,"msg"=>"Uloženo"}.to_json
       end
       post '/'+code+'/remove_video' do
         content_type :json
@@ -372,14 +372,14 @@ class CzjApp < Sinatra::Base
           dict.comment_add(@user_info['login'], params['entry'], params['box'], params['text'])
         end
         content_type :json
-        body = '{"success":true,"msg":"Uloženo"}'
+        body = {"success"=>true,"msg"=>"Uloženo"}.to_json
       end
       get '/'+code+'/del_comment/:cid' do
         if params['cid'] != ''
           dict.comment_del(params['cid'])
         end
         content_type :json
-        body = '{"success":true,"msg":"Uloženo"}'
+        body = {"success"=>true,"msg"=>"Uloženo"}.to_json
       end
       get '/'+code+'/filelist/:id' do
         list = dict.get_entry_files(params['id'])
