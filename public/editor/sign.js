@@ -3959,7 +3959,7 @@ function callback(files) {
       xhr[j].open('POST', '/'+dictcode+'/upload', true);
       xhr[j].onerror = function() {
         Ext.Msg.alert('Chyba uploadu');
-        Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox); 
+        Ext.Function.defer(Ext.MessageBox.hide, 3000, Ext.MessageBox); 
       }
       xhr[j].onload = function() {
         if (xhr[j].readyState == 4 && xhr[j].status === 200) {
@@ -4041,14 +4041,12 @@ function callback(files) {
               }
               break;
           }
-          Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox); 
+          Ext.Function.defer(Ext.MessageBox.hide, 3000, Ext.MessageBox);
         } else {
           if (xhr[j].status === 413) {
             Ext.Msg.alert('Stav', 'Příliš velký soubor');
-            Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox); 
           } else {
             Ext.Msg.alert('Stav', JSON.parse(xhr.responseText).message);
-            Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox); 
           }
         }
       };
