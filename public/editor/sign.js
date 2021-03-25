@@ -3087,7 +3087,7 @@ function create_sw(entryid, add_copy) {
     id: name,
     name: 'switem',
     border: 1,
-    style: {borderColor:'#000000', borderStyle:'solid', borderWidth:'1px'},    
+    style: {borderColor:'silver', borderStyle:'solid', borderWidth:'1px'},    
     items: [{
       xtype: 'container',
       layout: {
@@ -3313,7 +3313,7 @@ function create_video(entryid, selectnew, vidid) {
     layout: {
       type: 'vbox'
     },
-    style: {borderColor:'#000000', borderStyle:'solid', borderWidth:'1px'},    
+    style: {borderColor:'silver', borderStyle:'solid', borderWidth:'1px'},    
     id: name,
     name: 'viditem',
     items: [
@@ -4167,7 +4167,7 @@ Ext.onReady(function(){
         xtype: 'fieldset',
         title: locale[lang].formaldesc,
         id: 'formaldesc',
-        style: {backgroundColor:'#D7E1E4;'},   
+        style: {/*backgroundColor:'#D7E1E4;'*/},   
         cls: 'formaltop',
         items: [
         {
