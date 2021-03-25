@@ -3674,7 +3674,7 @@ function create_vyznam(entryid, add_copy, meaning_id) {
     },
     id: name,
     name: 'vyznam',
-    style: {border-bottom: 'dashed 2px #1c2641'},
+    style: {borderColor:'#1c2641', borderStyle:'dashed', borderBottomWidth:'2px'},
     frame: true,
     items: [{
       xtype: 'container',
