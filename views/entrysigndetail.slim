@@ -82,7 +82,7 @@
         p.naming 
           | #{I18n.t("entry.oralcomp")}: 
           span style="text-transform: lowercase" [#{@entry['lemma']['grammar_note'][0]['@oral_komp']}] - #{@entry['lemma']['grammar_note'][0]['@oral_komp_sel']}
-      - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['_text'].nil?
+      - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['_text'].nil? or @entry['lemma']['grammar_note'][0]['_text'].to_s == ''
         p.naming 
           | #{I18n.t("entry.grammar_details")}: 
           span  
@@ -114,7 +114,7 @@
                         .video__content
                           video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}"
                             source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}" type="video/mp4"
-      - unless @entry['lemma']['style_note'].nil? or @entry['lemma']['style_note'][0].nil? or @entry['lemma']['style_note'][0]['_text'].nil?
+      - unless @entry['lemma']['style_note'].nil? or @entry['lemma']['style_note'][0].nil? or @entry['lemma']['style_note'][0]['_text'].nil? or @entry['lemma']['style_note'][0]['_text'].to_s == ''
         p.naming 
           | #{I18n.t("entry.style_details")}: 
           span
