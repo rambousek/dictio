@@ -709,6 +709,7 @@ class CZJDict < Object
           cursor = cursor.limit(limit) if limit.to_i > 0
           cursor.each{|e|
             entry = add_rels(e, true, 'translation', target)
+            entry = add_media(entry)
             entry = get_sw(entry)
             res << entry
           }
