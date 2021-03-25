@@ -3911,7 +3911,7 @@ function makeDroppable(element, callback) {
 }
 
 function callback(files) {
-  // Here, we simply log the Array of files to the console.
+  var waitBox = Ext.MessageBox.wait('Upload');
   console.log(files);
   var filesv = new Array();
   for (var i = 0; i < files.length; i++) {
@@ -3957,13 +3957,17 @@ function callback(files) {
       formData.append('metadata', JSON.stringify(metadata));
       xhr[j] = new XMLHttpRequest();
       xhr[j].open('POST', '/'+dictcode+'/upload', true);
+      xhr[j].onerror = function() {
+        Ext.Msg.alert('Chyba uploadu');
+        Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox); 
+      }
       xhr[j].onload = function() {
         if (xhr[j].readyState == 4 && xhr[j].status === 200) {
           console.log('Upload Done', xhr[j].responseText);
           var updata = JSON.parse(xhr[j].responseText);
           var mediaid = updata.mediaid;
           Ext.getCmp('tabpanel');
-          Ext.Msg.alert('Stav', locale[lang].fileupload);
+          Ext.Msg.alert('Stav', locale[lang].fileupload + ' ' + updata.filename);
           console.log('upload DONE');
           console.log(filesv[j]);
 
@@ -4039,7 +4043,13 @@ function callback(files) {
           }
           Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox); 
         } else {
-          //alert('An error occurred!');
+          if (xhr[j].status === 413) {
+            Ext.Msg.alert('Stav', 'Příliš velký soubor');
+            Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox); 
+          } else {
+            Ext.Msg.alert('Stav', JSON.parse(xhr.responseText).message);
+            Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox); 
+          }
         }
       };
       xhr[j].send(formData);

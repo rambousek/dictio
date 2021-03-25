@@ -419,17 +419,18 @@ class CzjApp < Sinatra::Base
       post '/'+code+'/upload' do
         $stderr.puts params
         $stderr.puts JSON.parse(params['metadata'])
-        content_type :json
         body = {'success'=>false, 'message'=>"Chyba při uploadu"}.to_json
         metadata = JSON.parse(params['metadata'].to_s)
         if not params['filedata'].nil? and params['filedata'] != 'undefined'
           filename, mediaid = dict.save_uploaded_file(params['filedata'], metadata, params['entryid'].to_s)
-          body = {'success'=>true, 'message'=>"Soubor nahrán: #{filename} (#{mediaid})", 'mediaid'=>mediaid}.to_json
+          body = {'success'=>true, 'message'=>"Soubor nahrán: #{filename} (#{mediaid})", 'mediaid'=>mediaid, 'filename'=>filename}.to_json
         end
         if (params['filedata'].nil? or params['filedata'] == 'undefined') and metadata['location'].to_s != ''
           dict.attach_file(metadata['location'].to_s, params['entryid'].to_s, metadata)
           body = {'success'=>true, 'message'=>"Soubor připojen: #{metadata['@location']}"}.to_json
         end
+        content_type :json
+        body
       end
       get '/'+code+'/getgram/:id' do
         content_type :json
