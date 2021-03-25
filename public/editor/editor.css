@@ -2,6 +2,7 @@ label {font-size: 0.82rem; margin: 0; font-weight: 500;} /* docasna uprava pro p
 #tabForm {border-top: solid 5px #1c2641;}
 .x-body {background-color: #e4ebee;}
 input, textarea, select {font-size: 0.9rem; font-weight:200; border-radius: 10px;} /* docasna uprava pro prechod na novy vzhled */
+.ssc_html {background-color: lightblue;}
 
 .x-panel-body-default {
   background: white;
