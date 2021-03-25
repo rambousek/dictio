@@ -2918,6 +2918,7 @@ function create_vyznam(entryid, add_copy, meaning_id) {
     },
     id: name,
     name: 'vyznam',
+    style: {borderColor:'#1c2641', borderBottomStyle:'dashed', borderBottomWidth:'2px'},
     frame: true,
     items: [{
       xtype: 'container',
@@ -3241,7 +3242,7 @@ Ext.onReady(function(){
         }]
       },{
         xtype: 'fieldset',
-        style: {backgroundColor:'#D7E1E4;'},
+        style: {/*backgroundColor:'#D7E1E4;'*/},
         title: locale[lang].formaldesc,
         id: 'formaldesc',
         cls: 'formaltop',
