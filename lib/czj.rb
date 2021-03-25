@@ -250,13 +250,15 @@ class CZJDict < Object
     return entry
   end
 
-  def get_media(media_id, dict)
+  def get_media(media_id, dict, add_entries=true)
     media = $mongo['media'].find({'id': media_id, 'dict': dict})
     if media.first
       media_info = media.first
-      entries = $mongo['entries'].find({'dict': dict, 'lemma.video_front': media_info['location']})
-      if entries.first
-        media_info['main_for_entry'] = entries.first
+      if add_entries
+        entries = $mongo['entries'].find({'dict': dict, 'lemma.video_front': media_info['location']})
+        if entries.first
+          media_info['main_for_entry'] = entries.first
+        end
       end
       return media_info
     else
@@ -1649,6 +1651,16 @@ class CZJDict < Object
       $mongo['media'].insert_one(media)
     end
     return data['id'].to_s
+  end
+
+  def remove_video(entryid, mediaid)
+    media = get_media(mediaid, @dictcode, false)
+    if media != {}
+      media.delete('entry_folder')
+      media.delete('media_folder_id')
+      $mongo['media'].find({'dict'=> @dictcode, 'id'=> media['id']}).delete_many
+      $mongo['media'].insert_one(media)
+    end
   end
 
   def get_gram(entryid)

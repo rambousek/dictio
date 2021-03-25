@@ -3619,13 +3619,12 @@ function create_media(entryid, upload, vidid) {
       icon: '/editor/delete.png',
       handler: function() {
         Ext.Ajax.request({
-          url: '/'+dictcode,
+          url: '/'+dictcode+'/remove_video',
           params: {
-            action: 'remove_file',
             entry_id: entryid,
             media_id: sw.query('[name=mediaid]')[0].getValue()
           },
-          method: 'get',
+          method: 'post',
           success: function(response) {
             Ext.getCmp(name).destroy();
           }

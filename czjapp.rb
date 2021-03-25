@@ -357,6 +357,15 @@ class CzjApp < Sinatra::Base
         content_type :json
         body = '{"success":true,"msg":"Uloženo"}'
       end
+      post '/'+code+'/remove_video' do
+        content_type :json
+        if params['entry_id'].to_s != '' and params['media_id'].to_s != ''
+          dict.remove_video(params['entry_id'].to_s, params['media_id'].to_s)
+          body = {"success"=>true, "message"=>"Soubor odebrán"}.to_json
+        else
+          body = {'success'=>false, 'message'=>"Chybí parametry videa"}.to_json
+        end
+      end
       post '/'+code+'/add_comment' do
         user = ''
         if params['box'] != '' and params['entry'] != '' and params['type'] != ''
