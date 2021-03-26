@@ -1317,13 +1317,14 @@ class CZJDict < Object
             hash['front'] = rel['lemma']['video_front'].to_s
           end
           rel['meanings'].each{|mean|
-            hash['number'] = mean['number'].to_s
-            hash['id'] = mean['id'].to_s
+            hash2 = hash.clone
+            hash2['number'] = mean['number'].to_s
+            hash2['id'] = mean['id'].to_s
             if mean['text'] and mean['text']['file'] and mean['text']['file']['@media_id']
-              hash['def'] = mean['text']['file']['@media_id'].to_s
-              hash['loc'] = get_media(mean['text']['file']['@media_id'].to_s, target)['location']
+              hash2['def'] = mean['text']['file']['@media_id'].to_s
+              hash2['loc'] = get_media(mean['text']['file']['@media_id'].to_s, target)['location']
             end
-            list << hash
+            list << hash2
           }
         }
       end
