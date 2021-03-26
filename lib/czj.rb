@@ -654,9 +654,9 @@ class CZJDict < Object
           search_cond_text[:$or] << {'lemma.gram.form._text': search} 
           search_cond_text[:$or] << {'lemma.title': {'$regex': /^#{search}/i}}
           search_cond_text[:$or] << {'lemma.title': {'$regex': /(^| )#{search}/i}}
-          search_cond_rel = {'meanings.relation':{'$elemMatch': {'target': target, 'type': 'translation'}}}
+          search_cond_rel = {'meanings.relation':{'$elemMatch': {'target': target, 'type': 'translation', 'status': 'published'}}}
           search_cond = {'dict': dictcode, '$and': [search_cond_text, search_cond_rel]}
-          search_cond2 = {'dict': target, 'meanings.relation': {'$elemMatch': {'target': dictcode, 'meaning_id': {'$regex': search}}}}
+          search_cond2 = {'dict': target, 'meanings.relation': {'$elemMatch': {'target': dictcode, 'meaning_id': {'$regex': search}, 'status': 'published'}}}
           $stderr.puts search_cond
           ## > db.entries.aggregate([{'$match':{dict:"cs", '$and':[{'$or':[{"lemma.title":"bratranec"},{"lemma.title":"bratr"}]}, {"meanings.relation":{'$elemMatch':{target:"czj", type:"translation"}}}]}}, {'$unwind':'$meanings'}, {'$unwind':'$meanings.relation'},{'$match':{'meanings.relation.target':'czj'}},{'$project':{'meanings.relation':1, 'id':1}},{'$limit':2}])
           ## > db.entries.aggregate([{'$match':{"$or":[{dict:"czj","meanings.relation":{"$elemMatch":{"target":"cs","meaning_id":{"$regex":"dům"}}}},{dict:"cs", '$and':[{'$or':[{"lemma.title":"bratranec"},{"lemma.title":"bratr"}]}, {"meanings.relation":{'$elemMatch':{target:"czj", type:"translation"}}}]}]}}, {'$unwind':'$meanings'}, {'$unwind':'$meanings.relation'},{'$match':{"$or":[{'meanings.relation.target':'czj'},{'meanings.relation.target':'cs'}]}},{'$project':{'meanings.relation':1, 'id':1,'dict':1}},{'$limit':5}])
@@ -688,6 +688,7 @@ class CZJDict < Object
             entry['meanings'].each{|m|
               oldrels = m['relation']
               m['relation'] = []
+              next if m['is_translation_unknown'].to_s == '1'
               oldrels.each{|r|
                 if r['target'] == target 
                   m['relation'] << r
