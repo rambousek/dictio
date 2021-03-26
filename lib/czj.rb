@@ -685,6 +685,17 @@ class CZJDict < Object
             entry = add_rels(entry, true, 'translation', dictcode)
             $stderr.puts 'start getsw '+re['id']+' '+Time.now.to_s
             entry = get_sw(entry)
+            entry['meanings'].each{|m|
+              oldrels = m['relation']
+              m['relation'] = []
+              oldrels.each{|r|
+                if r['target'] == target 
+                  m['relation'] << r
+                elsif r['target'] == source and r['entry'] and r['entry']['lemma'] and r['entry']['lemma']['title'].to_s =~ /#{search}/i
+                  m['relation'] << r
+                end
+              }
+            }
             if re['dict'] == target
               $stderr.puts 'start addmedia '+re['id']+' '+Time.now.to_s
               entry = add_media(entry, true)
