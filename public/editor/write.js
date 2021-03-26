@@ -2282,7 +2282,9 @@ function load_link_relations(target, combo, name, parentid, set_rel) {
           newrel.query('component[name="rellink"]')[0].setValue(relitem.title);
           newrel.query('component[name="vztahtitle"]')[0].update(relitem.meaning_id);
           var inner = newrel.query('component[name="vztahtitle"]')[0].id + '-innerCt';
-          document.getElementById(inner).classList.add('redtext');
+          if (document.getElementById(inner) != null) {
+            document.getElementById(inner).classList.add('redtext');
+          }
         }
       });
       Ext.Array.each(Ext.getCmp('tabForm').query('[name=relsadd]'), function(item) {item.show()});
