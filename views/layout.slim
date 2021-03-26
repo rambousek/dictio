@@ -19,6 +19,13 @@ html
     meta name="theme-color" content="#03c9a9"
     link rel="stylesheet" href="/css/styles.css" type="text/css"
     link rel="stylesheet" href="/css/dictio.css" type="text/css"
+    script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-60803528-1"
+    javascript:
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-60803528-1');
+
   body
     .content
       == slim :header
