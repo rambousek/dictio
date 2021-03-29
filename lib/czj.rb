@@ -715,7 +715,7 @@ class CZJDict < Object
               }
             end
           }
-          cursor = $mongo['entries'].find({'dict'=>dictcode, 'meanings.relation'=>{'$elemMatch'=>{'target'=>search_in,'meaning_id'=>{'$in'=>csl}}}})
+          cursor = $mongo['entries'].find({'dict'=>dictcode, 'meanings.relation'=>{'$elemMatch'=>{'target'=>search_in,'status'=>'published','meaning_id'=>{'$in'=>csl}}}})
           resultcount = cursor.count_documents
           cursor = cursor.skip(start)
           cursor = cursor.limit(limit) if limit.to_i > 0
@@ -729,7 +729,7 @@ class CZJDict < Object
       end
     when 'key'
       search_cond_text = {'$or': get_key_search(search)}
-      search_cond_rel = {'meanings.relation':{'$elemMatch': {'target': target, 'type': 'translation'}}}
+      search_cond_rel = {'meanings.relation':{'$elemMatch': {'target': target, 'type': 'translation', 'status': 'published'}}}
       search_cond = {'dict': dictcode, '$and': [search_cond_text, search_cond_rel]}
       $stderr.puts search_cond
           pipeline = [
