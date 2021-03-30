@@ -518,6 +518,7 @@ class CZJDict < Object
     case type
     when 'text'
       search = '' if search == '_'
+      search_orig = search.clone
       search = search.downcase
       if search =~ /^[0-9]+$/
         @entrydb.find({'dict': dictcode, 'id': search}).each{|re|
@@ -584,7 +585,7 @@ class CZJDict < Object
         else
           search_in = 'cs'
           search_in = @dict_info[dictcode]['search_in'] unless @dict_info[dictcode]['search_in'].nil?
-          csl = [search]
+          csl = [search, search_orig]
           if search != ''
             $mongo['entries'].find({'dict'=>search_in, 'lemma.title'=> search}, {'projection'=>{'meanings.id'=>1, '_id'=>0}}).each{|re|
               unless re['meanings'].nil?
