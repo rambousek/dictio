@@ -596,7 +596,10 @@ class CZJDict < Object
             }
           end
           search_cond = {'dict'=>dictcode}
-          search_cond_title = {'meanings.relation'=>{'$elemMatch'=>{'target'=>search_in,'meaning_id'=>{'$in'=>csl}}}}
+          search_cond_title = {'$or'=>[
+            {'meanings.relation'=>{'$elemMatch'=>{'target'=>search_in,'meaning_id'=>{'$in'=>csl}}}},
+            {'meanings.relation'=>{'$elemMatch'=>{'target'=>search_in,'meaning_id'=>{'$regex'=>/^#{search}$/i}}}}
+          ]}
           if search != '' and more_params['slovni_druh'].to_s != ''
             search_cond[:$and] = [search_cond_title,{'lemma.grammar_note.@slovni_druh'=> more_params['slovni_druh'].to_s}]
           end
@@ -604,7 +607,7 @@ class CZJDict < Object
             search_cond['lemma.grammar_note.@slovni_druh'] = more_params['slovni_druh'].to_s
           end
           if search != '' and more_params['slovni_druh'].to_s == ''
-            search_cond['meanings.relation'] = search_cond_title['meanings.relation']
+            search_cond = search_cond_title
           end
           $stderr.puts search_cond
           cursor = $mongo['entries'].find(search_cond)
