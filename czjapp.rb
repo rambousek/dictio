@@ -279,10 +279,8 @@ class CzjApp < Sinatra::Base
       @search = params['search']
       @input_type = params['type']
       @dictcode = code
-      if selected.nil?
-        @result = dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, 0, @translate_limit)
-        slim :transresult
-      else
+      @entry = nil
+      if selected != nil
         if selected.include?('-')
           @show_target = code
           sela = selected.split('-')
@@ -293,7 +291,12 @@ class CzjApp < Sinatra::Base
           @show_dictcode = @dictcode
           @entry = dict.getdoc(selected)
         end
-        slim :fullentry 
+      end
+      if @entry != nil and @entry != {}
+          slim :fullentry
+      else
+        @result = dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, 0, @translate_limit)
+        slim :transresult
       end
     end
     get '/'+code+'/translatelist/:target/:type/:search(/:start)?(/:limit)?' do
