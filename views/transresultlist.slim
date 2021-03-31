@@ -50,9 +50,7 @@
               a.link href="#{@tran_path}/#{@target}-#{rel['entry']['id']}"  #{rel['entry']['lemma']['title']} 
               |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
               - if @is_edit
-                span.trans__badge style="position: relative;" class="trans__badge__#{@target}" 
-                 a.edit href="/editor#{@entry['dict']}/?id=#{@entry['id']}" 
-                 | #{@dictcode}-#{entry['id']} 
+                span.trans__badge style="position: relative;" class="trans__badge__#{@target}" #{@dictcode}-#{entry['id']} 
           - elsif entry['dict'] == @target
             p
               a.link href="#{@tran_path}/#{@target}-#{entry['id']}"  #{entry['lemma']['title']} 
