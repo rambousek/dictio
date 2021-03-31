@@ -8,8 +8,7 @@
           p
             - if entry['dict'] == @dictcode
               - if @is_edit
-                  span.trans__badge style="position: relative; margin-right: 5px;" class="trans__badge__#{@dictcode}"
-                   a.edit href="/editor#{@entry['dict']}/?id=#{@entry['id']}" #{@dictcode}-#{entry['id']} 
+                  span.trans__badge style="position: relative; margin-right: 5px;" class="trans__badge__#{@dictcode}" #{@dictcode}-#{entry['id']} 
               a.btn.btn--simple.btn--simple--lg href="#{@tran_path}/#{entry['id']}" 
                 | #{entry['lemma']['title']}               
             - else
