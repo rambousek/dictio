@@ -31,36 +31,41 @@ video.video-link {
   font-weight: bold;
 }
 
-.detail__badge__czj, .trans__badge__czj {
+.detail__badge__czj, .trans__badge__czj, .trans__badge__czj a {
   background-color: #19B5FE;
+  color: black;
 }
-.detail__badge__cs, .trans__badge__cs {
+.detail__badge__cs, .trans__badge__cs, .trans__badge__cs a {
   background-color: darkmagenta;
   color: whitesmoke;
 }
-.detail__badge__is, .trans__badge__is {
+.detail__badge__is, .trans__badge__is, .trans__badge__is a {
   background-color: darkslateblue;
   color: whitesmoke;
 }
-.detail__badge__asl, .trans__badge__asl {
+.detail__badge__asl, .trans__badge__asl, .trans__badge__asl a {
   background-color: darkorange;
+  color: black;
 }
-.detail__badge__en, .trans__badge__en {
+.detail__badge__en, .trans__badge__en, .trans__badge__en a {
   background-color: black;
   color: whitesmoke;
 }
-.detail__badge__spj, .trans__badge__spj {
+.detail__badge__spj, .trans__badge__spj, .trans__badge__spj a {
   background-color: mediumseagreen;
+  color: black;
 }
-.detail__badge__sj, .trans__badge__sj {
+.detail__badge__sj, .trans__badge__sj, .trans__badge__sj a {
   background-color: crimson;
+  color:black;
 }
-.detail__badge__ogs, .trans__badge__ogs {
+.detail__badge__ogs, .trans__badge__ogs, .trans__badge__ogs a {
   background-color: darkred;
   color: whitesmoke;
 }
-.detail__badge__de, .trans__badge__de {
+.detail__badge__de, .trans__badge__de, .trans__badge__de a {
   background-color: darkgoldenrod;
+  color: black;
 }
 
 .trans__badge {
