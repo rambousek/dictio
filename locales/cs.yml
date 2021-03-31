@@ -41,6 +41,7 @@ cs:
     entries: "Hesel"
     lastsearch: "Poslední hledané"
     mostsearch: "Nejčastěji hledané"
+    mostsearchweek: "Nejhledanější v týdnu"
   menu:
     about: "O slovníku"
     contact: "Kontakt"
