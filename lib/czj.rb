@@ -607,7 +607,7 @@ class CZJDict < Object
             search_cond['lemma.grammar_note.@slovni_druh'] = more_params['slovni_druh'].to_s
           end
           if search != '' and more_params['slovni_druh'].to_s == ''
-            search_cond = search_cond_title
+            search_cond[:$or] = search_cond_title['$or']
           end
           $stderr.puts search_cond
           cursor = $mongo['entries'].find(search_cond)
