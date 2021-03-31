@@ -46,7 +46,7 @@ main id="mobilespacetop" role="main"
               svg class="icon__svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                use height="100%" width="100%" x="0" xlink:href="/img/icons.svg#magnifier" y="0"
              p #{I18n.t("search.notfound")}
-          - if @entry != nil
+          - if @entry != nil and @entry != {}
             - if @dict_info[@dictcode]['type'] == 'sign'
               == slim :entrysigndetail
             - else
