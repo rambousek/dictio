@@ -165,10 +165,10 @@
               video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{@entry['dict']}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}"
                 source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
   
-      - if meaning['relation'] and meaning['relation'].find{|rel| rel['type'] == 'synonym'}
+      - if meaning['relation'] and meaning['relation'].find{|rel| rel['type'] == 'synonym' and rel['entry']}
         h4 = I18n.t("entry.synonyms")
         .row.row--start.translation-group-sign
-          - meaning['relation'].select{|rel| rel['type'] == 'synonym'}.each do |rel|
+          - meaning['relation'].select{|rel| rel['type'] == 'synonym' and rel['entry']}.each do |rel|
             - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id']
             .col.col--2.col--precise
               .video.video--small
@@ -192,10 +192,10 @@
                         img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
           p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_syno')
   
-      - if meaning['relation'] and meaning['relation'].find{|rel| rel['type'] == 'antonym'}
+      - if meaning['relation'] and meaning['relation'].find{|rel| rel['type'] == 'antonym' and rel['entry']}
         h4 = I18n.t("entry.antonyms")
         .row.row--start.translation-group-sign
-          - meaning['relation'].select{|rel| rel['type'] == 'antonym'}.each do |rel|
+          - meaning['relation'].select{|rel| rel['type'] == 'antonym' and rel['entry']}.each do |rel|
             - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id']
             .col.col--2.col--precise
               .video.video--small
