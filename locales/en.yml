@@ -41,6 +41,7 @@ en:
     entries: "Entries"
     lastsearch: "Last searched"
     mostsearch: "Most searched"
+    mostsearchweek: "Most searched this week"
   menu:
     about: "About"
     contact: "Contact"
