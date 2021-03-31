@@ -9,7 +9,8 @@ main id="mobilespacetop" role="main"
             div.search-results-sign
               - @result['entries'].each do |entry|
                   - if @is_edit
-                    span.trans__badge style="position: relative;" class="trans__badge__#{@dictcode}" #{@dictcode}-#{entry['id']}
+                    span.trans__badge style="position: relative;" class="trans__badge__#{@dictcode}" 
+                     a.edit href="/editor#{@entry['dict']}/?id=#{@entry['id']}" #{@dictcode}-#{entry['id']} 
                   div style="width:70%"
                     .video.video--small
                       .video__content
