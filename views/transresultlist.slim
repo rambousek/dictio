@@ -8,13 +8,15 @@
           p
             - if entry['dict'] == @dictcode
               - if @is_edit
-                  span.trans__badge style="position: relative; margin-right: 5px;" class="trans__badge__#{@dictcode}" #{@dictcode}-#{entry['id']} 
+                  span.trans__badge style="position: relative; margin-right: 5px;" class="trans__badge__#{@dictcode}"
+                    a.edit href="/editor#{@dictcode}/?id=#{entry['id']}" #{@dictcode}-#{entry['id']}
               a.btn.btn--simple.btn--simple--lg href="#{@tran_path}/#{entry['id']}" 
                 | #{entry['lemma']['title']}               
             - else
               - if rel['entry']['id']
                 - if @is_edit
-                    span.trans__badge style="position: relative;" class="trans__badge__#{@dictcode}" #{@dictcode}-#{rel['entry']['id']} 
+                    span.trans__badge style="position: relative;" class="trans__badge__#{@dictcode}"
+                      a.edit href="/editor#{@dictcode}/?id=#{rel['entry']['id']}" #{@dictcode}-#{rel['entry']['id']}
                 a.btn.btn--simple.btn--simple--lg.x href="#{@tran_path}/#{rel['entry']['id']}" 
                   | #{rel['entry']['lemma']['title']}                  
               - else
@@ -31,7 +33,8 @@
                 source src="https://files.dictio.info/video#{@dictcode}/#{entry['lemma']['video_front']}" type="video/mp4"
             .video__controls
               - if @is_edit
-                span.trans__badge class="trans__badge__#{@dictcode}" #{@dictcode}-#{entry['id']}
+                span.trans__badge class="trans__badge__#{@dictcode}"
+                  a.edit href="/editor#{@dictcode}/?id=#{entry['id']}" #{@dictcode}-#{entry['id']}
               a.video__link href="/#{@tran_path}/#{entry['id']}"
                 span.icon.icon--open-new-window
                   svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -50,7 +53,8 @@
               a.link href="#{@tran_path}/#{@target}-#{rel['entry']['id']}"  #{rel['entry']['lemma']['title']} 
               |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
               - if @is_edit
-                span.trans__badge style="position: relative;" class="trans__badge__#{@target}" #{@dictcode}-#{entry['id']} 
+                span.trans__badge style="position: relative;" class="trans__badge__#{@target}" 
+                  a.edit href="/editor#{@target}/?id=#{rel['entry']['id']}" #{@target}-#{rel['entry']['id']}
           - elsif entry['dict'] == @target
             p
               a.link href="#{@tran_path}/#{@target}-#{entry['id']}"  #{entry['lemma']['title']} 
@@ -73,7 +77,8 @@
                 source src="https://files.dictio.info/video#{@target}/#{use_entry['lemma']['video_front']}" type="video/mp4"
             .video__controls
               - if @is_edit
-                span.trans__badge class="trans__badge__#{@target}" #{@target}-#{use_entry['id']}
+                span.trans__badge class="trans__badge__#{@target}"
+                  a.edit href="/editor#{@target}/?id=#{use_entry['id']}" #{@target}-#{use_entry['id']}
               a.video__link href="/#{@dictcode}/translate/#{@target}/#{@params['type']}/#{@search}/#{@target}-#{use_entry['id']}"
                 span.icon.icon--open-new-window
                   svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
