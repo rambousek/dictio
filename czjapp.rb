@@ -22,6 +22,7 @@ class CzjApp < Sinatra::Base
     set :bind, '0.0.0.0'
     set :server, :puma
     set :strict_paths, false
+    set :logging, true
     I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
     I18n.load_path = Dir[File.join(settings.root, 'locales', '*.yml')]
     I18n.backend.load_translations
