@@ -35,7 +35,8 @@ main id="mobilespacetop" role="main"
                 li
                   a href="#{@search_path}/#{entry['id']}" = entry['lemma']['title']  
                   - if @is_edit
-                    span.trans__badge style="position: relative; margin-left: 5px" class="trans__badge__#{@dictcode}" #{@dictcode}-#{entry['id']}
+                    span.trans__badge style="position: relative; margin-left: 5px" class="trans__badge__#{@dictcode}" 
+                     a.edit href="/editor#{@entry['dict']}/?id=#{@entry['id']}" #{@dictcode}-#{entry['id']} 
           - if @result['count'].to_i > @result['entries'].size
             a.btn.load_next_search data-search=@search_path #{I18n.t("search.load_next")}
         .col.col--2.col--start.layout-aside
