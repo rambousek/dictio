@@ -13,16 +13,16 @@ class CZJDict < Object
   end
 
   def getdoc(id)
-    $stderr.puts id
-    $stderr.puts @dictcode
+    $stdout.puts id
+    $stdout.puts @dictcode
     
-    $stderr.puts 'START getdoc '+Time.now.to_s
+    $stdout.puts 'START getdoc '+Time.now.to_s
     data = getone(@dictcode, id)
-    $stderr.puts data
+    $stdout.puts data
     if data != nil
       entry = full_entry(data)
       entry = add_rels(entry)
-      $stderr.puts 'END getdoc '+Time.now.to_s
+      $stdout.puts 'END getdoc '+Time.now.to_s
       return entry
     else
       return {}
@@ -30,9 +30,9 @@ class CZJDict < Object
   end
 
   def getone(dict, id)
-    $stderr.puts 'START getone '+Time.now.to_s
+    $stdout.puts 'START getone '+Time.now.to_s
     data = @entrydb.find({'id': id, 'dict': dict, 'empty': {'$exists': false}}).first
-    $stderr.puts 'END getone '+Time.now.to_s
+    $stdout.puts 'END getone '+Time.now.to_s
     return data
   end
 
@@ -53,11 +53,11 @@ class CZJDict < Object
   end
 
   def full_entry(entry, getsw=true)
-    $stderr.puts 'START fullentry '+Time.now.to_s
+    $stdout.puts 'START fullentry '+Time.now.to_s
     entry = add_media(entry)
     entry, cu = add_colloc(entry)
     entry = get_sw(entry)
-    $stderr.puts 'END fullentry '+Time.now.to_s
+    $stdout.puts 'END fullentry '+Time.now.to_s
     return entry
   end
 
@@ -102,7 +102,7 @@ class CZJDict < Object
     if @write_dicts.include?(entry['dict'])
       return entry
     end
-    $stderr.puts 'GETSW, entry ' + entry['id'].to_s
+    $stdout.puts 'GETSW, entry ' + entry['id'].to_s
     swdoc = $mongo['sw'].find({'id': entry['id'], 'dict': entry['dict']})
     if swdoc.first and swdoc.first['swmix'] and swdoc.first['swmix'].length > 0
       entry['lemma']['swmix'] = swdoc.first['swmix']
@@ -144,7 +144,7 @@ class CZJDict < Object
     if @write_dicts.include?(entry['dict'])
       return entry
     end
-    $stderr.puts 'CACHE SW, entry ' + @dictcode + ' ' + entry['id'].to_s
+    $stdout.puts 'CACHE SW, entry ' + @dictcode + ' ' + entry['id'].to_s
     entries_used = [entry['id']]
     entry['lemma']['swmix'] = []
     if ['collocation','derivat','kompozitum','fingerspell'].include?(entry['lemma']['lemma_type'])
@@ -182,14 +182,14 @@ class CZJDict < Object
           #vyplnene SW compos
           entry['collocations']['swcompos'].split(',').each{|swid|
             swid.strip!
-            $stderr.puts 'sw part '+swid
+            $stdout.puts 'sw part '+swid
             if swid[0,2].upcase == 'SW'
               #copy from this entry
               swn = swid[2..-1].to_i-1
               entry['lemma']['swmix'] << entry['lemma']['sw'][swn].dup unless entry['lemma']['sw'][swn].nil?
             elsif swid.upcase =~ /^[A-Z]$/
               #copy from this entry
-              $stderr.puts 'get SW char from this entry ' + swid + ' = ' + (swid[0].ord-65).to_s
+              $stdout.puts 'get SW char from this entry ' + swid + ' = ' + (swid[0].ord-65).to_s
               swn = swid[0].ord-65
               entry['lemma']['swmix'] << entry['lemma']['sw'][swn].dup unless entry['lemma']['sw'].nil? or entry['lemma']['sw'][swn].nil?
             else
@@ -198,7 +198,7 @@ class CZJDict < Object
                 # copy one char
                 match = /([0-9]+)([A-Z]+)/.match(swid.upcase)
                 unless match.nil?
-                  $stderr.puts 'copy char '+swid+' ('+(match[1].to_i-1).to_s+':'+(match[2][0].ord-65).to_s+')'
+                  $stdout.puts 'copy char '+swid+' ('+(match[1].to_i-1).to_s+':'+(match[2][0].ord-65).to_s+')'
                   if entry['collocations'] and entry['collocations']['entries']
                     unless entry['collocations']['entries'][match[1].to_i-1].nil?
                       unless entry['collocations']['entries'][match[1].to_i-1]['lemma']['sw'].first.nil?
@@ -213,7 +213,7 @@ class CZJDict < Object
                 end
               else
                 # copy full
-                $stderr.puts 'copy full '+swid
+                $stdout.puts 'copy full '+swid
                 if entry['collocations'] and entry['collocations']['entries']
                   unless entry['collocations']['entries'][swid.to_i-1].nil?
                     if entry['collocations']['entries'][swid.to_i-1]['lemma']['swmix'].nil? or entry['collocations']['entries'][swid.to_i-1]['lemma']['swmix'].size == 0
@@ -390,7 +390,7 @@ class CZJDict < Object
       search_jedno = []
       search_obe_ruzne = []
       search_obe_stejne = []
-      $stderr.puts search_shape
+      $stdout.puts search_shape
       search_shape.each{|e|
         #jednorucni, rotace jen 0-7
         search_jedno << {
@@ -547,7 +547,7 @@ class CZJDict < Object
           if search != '' and more_params['slovni_druh'].to_s == ''
             search_cond[:$or] = search_cond_title[:$or]
           end
-          $stderr.puts search_cond
+          $stdout.puts search_cond
           cursor = @entrydb.find(search_cond, :sort => {'lemma.title'=>1})
           fullcount = 0
           fullcount = cursor.count_documents if search != ''
@@ -567,7 +567,7 @@ class CZJDict < Object
           if search != '' and more_params['slovni_druh'].to_s == ''
             search_cond[:$or] = search_cond_title[:$or]
           end
-          $stderr.puts search_cond
+          $stdout.puts search_cond
           start = start - fullcount if start > 0
           cursor = @entrydb.find(search_cond, {:collation => {'locale'=>locale}, :sort => {'lemma.title'=>1}})
           resultcount = fullcount + cursor.count_documents
@@ -576,8 +576,8 @@ class CZJDict < Object
             limit = limit - fullcount if fullcount > start
             cursor = cursor.limit(limit)
           end
-          $stderr.puts 'START='+start.to_s
-          $stderr.puts 'LIMIT='+limit.to_s
+          $stdout.puts 'START='+start.to_s
+          $stdout.puts 'LIMIT='+limit.to_s
           
           cursor.each{|re|
             res << re #full_entry(re)
@@ -609,7 +609,7 @@ class CZJDict < Object
           if search != '' and more_params['slovni_druh'].to_s == ''
             search_cond[:$or] = search_cond_title['$or']
           end
-          $stderr.puts search_cond
+          $stdout.puts search_cond
           cursor = $mongo['entries'].find(search_cond)
           resultcount = cursor.count_documents
           cursor = cursor.skip(start)
@@ -621,7 +621,7 @@ class CZJDict < Object
       end
     when 'key'
       search_query = {'dict'=>dictcode, '$or'=>get_key_search(search)}
-      $stderr.puts search_query
+      $stdout.puts search_query
       cursor = $mongo['entries'].find(search_query)
       resultcount = cursor.count_documents
       cursor = cursor.skip(start)
@@ -661,8 +661,8 @@ class CZJDict < Object
           search_cond_rel = {'meanings.relation':{'$elemMatch': {'target': target, 'type': 'translation', 'status': 'published'}}}
           search_cond = {'dict': dictcode, '$and': [search_cond_text, search_cond_rel]}
           search_cond2 = {'dict': target, 'meanings.relation': {'$elemMatch': {'target': dictcode, 'meaning_id': {'$regex': /(^| )#{search}/i}, 'status': 'published'}}}
-          $stderr.puts search_cond
-          $stderr.puts search_cond2
+          $stdout.puts search_cond
+          $stdout.puts search_cond2
           ## > db.entries.aggregate([{'$match':{dict:"cs", '$and':[{'$or':[{"lemma.title":"bratranec"},{"lemma.title":"bratr"}]}, {"meanings.relation":{'$elemMatch':{target:"czj", type:"translation"}}}]}}, {'$unwind':'$meanings'}, {'$unwind':'$meanings.relation'},{'$match':{'meanings.relation.target':'czj'}},{'$project':{'meanings.relation':1, 'id':1}},{'$limit':2}])
           ## > db.entries.aggregate([{'$match':{"$or":[{dict:"czj","meanings.relation":{"$elemMatch":{"target":"cs","meaning_id":{"$regex":"dům"}}}},{dict:"cs", '$and':[{'$or':[{"lemma.title":"bratranec"},{"lemma.title":"bratr"}]}, {"meanings.relation":{'$elemMatch':{target:"czj", type:"translation"}}}]}]}}, {'$unwind':'$meanings'}, {'$unwind':'$meanings.relation'},{'$match':{"$or":[{'meanings.relation.target':'czj'},{'meanings.relation.target':'cs'}]}},{'$project':{'meanings.relation':1, 'id':1,'dict':1}},{'$limit':5}])
           pipeline = [
@@ -683,12 +683,12 @@ class CZJDict < Object
           cursor.each{|re|
             re['meanings']['relation'] = [re['meanings']['relation']]
             re['meanings'] = [re['meanings']]
-            $stderr.puts 'start res<e '+re['dict']+re['id']+' '+Time.now.to_s
-            $stderr.puts 'start addrels '+re['id']+' '+Time.now.to_s
+            $stdout.puts 'start res<e '+re['dict']+re['id']+' '+Time.now.to_s
+            $stdout.puts 'start addrels '+re['id']+' '+Time.now.to_s
             entry = add_rels(re, true, 'translation', target)
-            $stderr.puts 'start addrels2 '+re['id']+' '+Time.now.to_s
+            $stdout.puts 'start addrels2 '+re['id']+' '+Time.now.to_s
             entry = add_rels(entry, true, 'translation', dictcode)
-            $stderr.puts 'start getsw '+re['id']+' '+Time.now.to_s
+            $stdout.puts 'start getsw '+re['id']+' '+Time.now.to_s
             entry = get_sw(entry)
             entry['meanings'].each{|m|
               oldrels = m['relation']
@@ -703,10 +703,10 @@ class CZJDict < Object
               }
             }
             if re['dict'] == target
-              $stderr.puts 'start addmedia '+re['id']+' '+Time.now.to_s
+              $stdout.puts 'start addmedia '+re['id']+' '+Time.now.to_s
               entry = add_media(entry, true)
             end
-            $stderr.puts 'end '+re['id']+' '+Time.now.to_s
+            $stdout.puts 'end '+re['id']+' '+Time.now.to_s
             res << entry
           }
         else
@@ -736,7 +736,7 @@ class CZJDict < Object
       search_cond_text = {'$or': get_key_search(search)}
       search_cond_rel = {'meanings.relation':{'$elemMatch': {'target': target, 'type': 'translation', 'status': 'published'}}}
       search_cond = {'dict': dictcode, '$and': [search_cond_text, search_cond_rel]}
-      $stderr.puts search_cond
+      $stdout.puts search_cond
           pipeline = [
             {'$match' => search_cond},
             {'$unwind' => '$meanings'},
@@ -771,12 +771,12 @@ class CZJDict < Object
         }
       end
     }.each{|entry| 
-      $stderr.puts entry['id']
-      $stderr.puts 'add translation'
+      $stdout.puts entry['id']
+      $stdout.puts 'add translation'
       entry = add_rels(entry, true, 'translation', target)
-      $stderr.puts 'add syno'
+      $stdout.puts 'add syno'
       entry = add_rels(entry, true, 'synonym', source)
-      $stderr.puts 'add anto'
+      $stdout.puts 'add anto'
       entry = add_rels(entry, true, 'antonym', source)
       entry = get_sw(entry)
       entry['meanings'].each{|mean|
@@ -876,13 +876,13 @@ class CZJDict < Object
           }
         end
       }
-      $stderr.puts oldrels
+      $stdout.puts oldrels
       #removed meanings?
       oldmeans.each{|mi|
         if data['meanings'].nil? or data['meanings'].select{|m| m['id']==mi}.length == 0
-          $stderr.puts 'REMOVED meaning'+mi
+          $stdout.puts 'REMOVED meaning'+mi
           oldrels[mi].each{|olr|
-            $stderr.puts 'smazat relation '+olr['meaning_id']
+            $stdout.puts 'smazat relation '+olr['meaning_id']
             if olr['type'] == 'translation'
               target = olr['target'].to_s
             else
@@ -897,7 +897,7 @@ class CZJDict < Object
         if oldrels[m['id']]
           oldrels[m['id']].each{|olr|
             if m['relation'] and m['relation'].select{|r| r['meaning_id']==olr['meaning_id'] and r['type']==olr['type']}.length == 0
-              $stderr.puts 'smazat relation '+olr['meaning_id']
+              $stdout.puts 'smazat relation '+olr['meaning_id']
               if olr['type'] == 'translation'
                 target = olr['target'].to_s
               else
@@ -910,7 +910,7 @@ class CZJDict < Object
         #add relations
         if m['relation']
           m['relation'].each{|rel|
-            $stderr.puts 'pridat relation '+rel['meaning_id']
+            $stdout.puts 'pridat relation '+rel['meaning_id']
             if rel['type'] == 'translation'
               target = rel['target'].to_s
             else
@@ -928,7 +928,7 @@ class CZJDict < Object
             if oldrels[usg['id']]
               oldrels[usg['id']].each{|olr|
                 if usg['relation'].nil? or usg['relation'].select{|r| r['meaning_id']==olr['meaning_id'] and r['type']==olr['type']}.length == 0
-                  $stderr.puts 'smazat relation '+olr['meaning_id']
+                  $stdout.puts 'smazat relation '+olr['meaning_id']
                   if olr['type'] == 'translation'
                     target = olr['target'].to_s
                   else
@@ -941,7 +941,7 @@ class CZJDict < Object
             #add relations in usages
             if usg['relation']
               usg['relation'].each{|rel|
-                $stderr.puts 'pridat relation '+rel['meaning_id']
+                $stdout.puts 'pridat relation '+rel['meaning_id']
                 if rel['type'] == 'translation'
                   target = rel['target'].to_s
                 else
@@ -974,7 +974,7 @@ class CZJDict < Object
     end
 
     data.delete('track_changes')
-    $stderr.puts data
+    $stdout.puts data
 
     @entrydb.find({'dict':dict, 'id': entryid}).delete_many
     @entrydb.insert_one(data)
@@ -1001,7 +1001,7 @@ class CZJDict < Object
           }
         end
       }
-      $stderr.puts 'update doc remove relations '+doc['dict']+doc['id']
+      $stdout.puts 'update doc remove relations '+doc['dict']+doc['id']
       @entrydb.find({'dict'=>doc['dict'], 'id'=>doc['id']}).delete_many
       @entrydb.insert_one(doc)
     }
@@ -1043,7 +1043,7 @@ class CZJDict < Object
         end
       }
       if changed
-        $stderr.puts 'update doc add relations '+doc['dict']+doc['id']
+        $stdout.puts 'update doc add relations '+doc['dict']+doc['id']
         @entrydb.find({'dict'=>doc['dict'], 'id'=>doc['id']}).delete_many
         @entrydb.insert_one(doc)
       end
@@ -1065,7 +1065,7 @@ class CZJDict < Object
         end
       }
       if changed
-        $stderr.puts 'update doc publish relations '+doc['dict']+doc['id']
+        $stdout.puts 'update doc publish relations '+doc['dict']+doc['id']
         @entrydb.find({'dict'=>doc['dict'], 'id'=>doc['id']}).delete_many
         @entrydb.insert_one(doc)
       end
@@ -1109,7 +1109,7 @@ class CZJDict < Object
       'user' => user,
       'time' => Time.new.strftime('%Y-%m-%d %H:%M')
     }
-    $stderr.puts comment_data
+    $stdout.puts comment_data
     $mongo['koment'].insert_one(comment_data)
   end
 
@@ -1315,7 +1315,7 @@ class CZJDict < Object
             {'meanings.id'=>{'$in'=>trans}}
           ]
         }
-        $stderr.puts query
+        $stdout.puts query
         @entrydb.find(query).each{|rel|
           hash = {'title'=>rel['id'], 'target'=>target, 'front'=>'', 'def'=>''}
           if rel['lemma']['video_front'].to_s != '' 
@@ -1405,7 +1405,7 @@ class CZJDict < Object
             {'meanings.id'=>{'$in'=>trans}}
           ]
         }
-        $stderr.puts query
+        $stdout.puts query
         @entrydb.find(query).each{|rel|
           hash = {'id'=>rel['id'], 'title'=>'', 'label'=>'', 'loc'=>''}
           if rel['lemma']['video_front'].to_s != '' 
@@ -1487,7 +1487,7 @@ class CZJDict < Object
     query = {'dict'=>@dictcode, 'collocations.colloc'=>entry_id}
     @entrydb.find(query).each{|doc|
       doc['collocations']['colloc'].delete(entry_id)
-      $stderr.puts doc['collocations']
+      $stdout.puts doc['collocations']
       @entrydb.find({'dict'=>doc['dict'], 'id'=>doc['id']}).delete_many
       @entrydb.insert_one(doc)
     }
@@ -1576,7 +1576,7 @@ class CZJDict < Object
   def save_uploaded_file(filedata, metadata, entry_id)
     filename = filedata['filename'].gsub(/[^\w^\.^_^-]/, '')
     filename = filename[0,2]+filename[2..-1].gsub('_','')
-    $stderr.puts filename
+    $stdout.puts filename
     media = get_media_location(filename, @dictcode)
     if media == {}
       cursor = $mongo['media'].find({'dict' => @dictcode}, {:projection => {'id':1}, :collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'id' => -1}})
@@ -1610,7 +1610,7 @@ class CZJDict < Object
     Net::SSH.start("files.dictio.info", $files_user, :key_data=>$files_keys){|ssh|
       ssh.scp.upload!(filedata['tempfile'].path, '/home/adam/upload/'+@dictcode+'/'+filename)
       command = '/home/adam/mkthumb.sh "'+filename+'" "'+@dictcode+'"'
-      $stderr.puts command
+      $stdout.puts command
       ssh.exec(command)
     }
     return filename, mediaid.to_s

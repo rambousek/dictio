@@ -69,13 +69,13 @@ class CzjApp < Sinatra::Base
     end
 
     def get_hostname(ip)
-      $stderr.puts 'START getname '+Time.now.to_s
+      $stdout.puts 'START getname '+Time.now.to_s
       begin
         name = Resolv.getname(ip)
       rescue
         name = ip.to_s
       end
-      $stderr.puts 'END getname '+Time.now.to_s
+      $stdout.puts 'END getname '+Time.now.to_s
       return name
     end
 
@@ -191,7 +191,7 @@ class CzjApp < Sinatra::Base
   end
 
   (write_dicts+sign_dicts).each{|code|
-  	$stderr.puts code
+  	$stdout.puts code
     dict = CZJDict.new(code)
     dict.write_dicts = write_dicts
     dict.sign_dicts = sign_dicts
@@ -218,12 +218,12 @@ class CzjApp < Sinatra::Base
     end
     get '/'+code+'/json/:id' do 
       content_type :json
-      $stderr.puts 'START json'+Time.now.to_s
+      $stdout.puts 'START json'+Time.now.to_s
       doc = dict.getdoc(params['id'])
       if $is_edit
         doc['user_info'] = @user_info
       end
-      $stderr.puts 'END json'+Time.now.to_s
+      $stdout.puts 'END json'+Time.now.to_s
       body = doc.to_json
     end
     get '/'+code+'/jsonsearch/:type/:search(/:start)?(/:limit)?' do 
@@ -250,7 +250,7 @@ class CzjApp < Sinatra::Base
       end
       @url_params = url_pars.join('&')
       @result = dict.search(code, params['search'].to_s.strip, params['type'].to_s, 0, @search_limit, more_params)
-      $stderr.puts(@result['count'])
+      $stdout.puts(@result['count'])
       @entry = nil
       if params['selected'] != nil
         @entry = dict.getdoc(params['selected']) 
@@ -417,8 +417,8 @@ class CzjApp < Sinatra::Base
         body = list.to_json
       end
       post '/'+code+'/upload' do
-        $stderr.puts params
-        $stderr.puts JSON.parse(params['metadata'])
+        $stdout.puts params
+        $stdout.puts JSON.parse(params['metadata'])
         body = {'success'=>false, 'message'=>"Chyba při uploadu"}.to_json
         metadata = JSON.parse(params['metadata'].to_s)
         if not params['filedata'].nil? and params['filedata'] != 'undefined'
@@ -460,7 +460,7 @@ class CzjApp < Sinatra::Base
   get '/korpus' do
     apikey = '0a632cda5add424b97432ffb28806ffd'
     newurl = 'https://api.sketchengine.eu/bonito/run.cgi/first?corpname=preloaded%2Fcstenten17_mj2&iquery='+params['lemma']+'&queryselector=iqueryrow&default_attr=word&fc_lemword_window_type=both&fc_lemword_wsize=5&gdex_enabled=1&viewmode=sentence&refs==doc.url&pagesize=40&format=json';
-    $stderr.puts 'PROXY '+ newurl
+    $stdout.puts 'PROXY '+ newurl
     require 'net/http'
     require 'net/https'
     require 'openssl'
