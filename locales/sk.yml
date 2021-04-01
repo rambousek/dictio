@@ -134,6 +134,7 @@ sk:
       adv: "príslovka"
       prep: "predložka"
       ust: "ustálený predložkový výraz"
+      con: "spojka"
       int: "citoslovce"
       sprezka: "príslovečná sprežka"
       zkratka: "zkratka"
