@@ -326,7 +326,7 @@ class CZJDict < Object
     return entry
   end
 
-  def add_rels(entry, getsw=true, type=nil, target=nil)
+  def add_rels(entry, add_rev=true, type=nil, target=nil)
     return entry if entry['meanings'].nil?
     entry['meanings'].each{|mean|
       if mean['relation']
@@ -339,8 +339,8 @@ class CZJDict < Object
             rel['meaning_nr'] = rela[1]
             relentry = getone(rel['target'], lemmaid)
             next if relentry.nil?
-            relentry, cu = add_colloc(relentry) if getsw
-            relentry = get_sw(relentry) if getsw
+            relentry, cu = add_colloc(relentry) if add_rev
+            relentry = get_sw(relentry)
             relentry = add_media(relentry, true)
             rel['entry'] = relentry
           elsif rel['meaning_id'] =~ /^[0-9]*-[0-9]*_us[0-9]*$/
