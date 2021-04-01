@@ -450,7 +450,12 @@ class CzjApp < Sinatra::Base
 
   get '/swapi/symbol_definition/:id.json' do
     data = $mongo['symbol'].find({'id'=>params['id']}).first
-    body = params['callback'] + '(' + data.to_json.to_s + ')'
+    if params['callback'].to_s == ''
+      content_type :json
+      body = data.to_json
+    else
+      body = params['callback'] + '(' + data.to_json.to_s + ')'
+    end
   end
 
   get '/swapi/symbol_table/sg.:sg.bs.:bs.json' do
@@ -458,7 +463,12 @@ class CzjApp < Sinatra::Base
     $mongo['symbol'].find({'sg'=>params['sg'], 'bs'=>params['bs']}).each{|sy|
       data[sy['id']] = sy
     }
-    body = params['callback'] + '(' + data.to_json.to_s + ')'
+    if params['callback'].to_s == ''
+      content_type :json
+      body = data.to_json
+    else
+      body = params['callback'] + '(' + data.to_json.to_s + ')'
+    end
   end
 
   get '/korpus' do
