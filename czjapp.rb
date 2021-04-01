@@ -209,7 +209,7 @@ class CzjApp < Sinatra::Base
       @search_params = {}
       @search_type = 'search'
       @target = ''
-      @entry = dict.getdoc(params['id'])
+      @entry = dict.getdoc(params['id'], false)
       if @entry != {}
         @title = $dict_info[code]['label'] + ' ' + params['id']
         slim :fullentry 
