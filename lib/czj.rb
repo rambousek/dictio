@@ -21,7 +21,7 @@ class CZJDict < Object
     $stdout.puts data
     if data != nil
       entry = full_entry(data, add_rev)
-      entry = add_rels(entry)
+      entry = add_rels(entry, add_rev)
       $stdout.puts 'END getdoc '+Time.now.to_s
       return entry
     else
