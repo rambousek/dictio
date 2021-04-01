@@ -978,6 +978,11 @@ class CZJDict < Object
 
     @entrydb.find({'dict':dict, 'id': entryid}).delete_many
     @entrydb.insert_one(data)
+
+    # update SW cache
+    $mongo['sw'].find({'dict': dict, 'entries_used': entryid}).delete_many
+    cache_all_sw(false)
+
     return true
   end
 
