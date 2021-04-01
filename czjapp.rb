@@ -220,7 +220,7 @@ class CzjApp < Sinatra::Base
     get '/'+code+'/json/:id' do 
       content_type :json
       $stdout.puts 'START json'+Time.now.to_s
-      doc = dict.getdoc(params['id'])
+      doc = dict.getdoc(params['id'], false)
       if $is_edit
         doc['user_info'] = @user_info
       end

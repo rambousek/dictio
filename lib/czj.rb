@@ -12,7 +12,7 @@ class CZJDict < Object
     @entrydb = $mongo['entries']
   end
 
-  def getdoc(id)
+  def getdoc(id, add_rev=true)
     $stdout.puts id
     $stdout.puts @dictcode
     
@@ -20,7 +20,7 @@ class CZJDict < Object
     data = getone(@dictcode, id)
     $stdout.puts data
     if data != nil
-      entry = full_entry(data)
+      entry = full_entry(data, add_rev)
       entry = add_rels(entry)
       $stdout.puts 'END getdoc '+Time.now.to_s
       return entry
@@ -52,10 +52,10 @@ class CZJDict < Object
     return {'comments':coms}
   end
 
-  def full_entry(entry, getsw=true)
+  def full_entry(entry, add_rev=true)
     $stdout.puts 'START fullentry '+Time.now.to_s
     entry = add_media(entry)
-    entry, cu = add_colloc(entry)
+    entry, cu = add_colloc(entry, add_rev)
     entry = get_sw(entry)
     $stdout.puts 'END fullentry '+Time.now.to_s
     return entry
