@@ -1152,14 +1152,14 @@ function load_doc(id) {
           data['lemma']['grammar_note'][0]['variant'].forEach(function(gramvar) {
             var variant = create_variant(id);
             Ext.getCmp('gvarbox').insert(Ext.getCmp('gvarbox').items.length-1, variant);
-            variant.query('component[name="variant"]')[0].setValue(gramvar['_text']);
+            variant.query('component[name="varlink"]')[0].setValue(gramvar['_text']);
           });
         }
         if (data['lemma']['style_note'] && data['lemma']['style_note'][0] && data['lemma']['style_note'][0]['variant']) {
           data['lemma']['style_note'][0]['variant'].forEach(function(gramvar) {
             var variant = create_variant(id);
             Ext.getCmp('varbox').insert(Ext.getCmp('varbox').items.length-1, variant);
-            variant.query('component[name="variant"]')[0].setValue(gramvar['_text']);
+            variant.query('component[name="varlink"]')[0].setValue(gramvar['_text']);
           });
         }
 
