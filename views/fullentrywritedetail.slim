@@ -115,18 +115,18 @@
           td 
             - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nPc7'}
               = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc7'}[0]['_text']
-  - if  @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nS'}.size > 0
-    table.table.table--no-margin
-      tr
-        th = I18n.t("gram.detail.jednotne")
-        th = I18n.t("gram.detail.mnozne")
-      tr
-        td
-          - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nS'}
-            = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nS'}[0]['_text']
-        td 
-          - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nP'}
-            = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nP'}[0]['_text']
+    - if  @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nS'}.size > 0
+      table.table.table--no-margin
+        tr
+          th = I18n.t("gram.detail.jednotne")
+          th = I18n.t("gram.detail.mnozne")
+        tr
+          td
+            - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nS'}
+              = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nS'}[0]['_text']
+          td 
+            - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nP'}
+              = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nP'}[0]['_text']
     - if  @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mIp1nS'}.size > 0
       table.table.table--no-margin
         tr
