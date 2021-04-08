@@ -1701,11 +1701,12 @@ class CZJDict < Object
   end
 
   def get_report(params, user_info)
-    report = {'entries'=>[]}
+    report = {'query'=>{},'entries'=>[]}
     search_cond, trans_used = get_search_cond(params, user_info)
-    @entrydb.find({'$and': search_cond}).each{|res|
+    @entrydb.find({'$and': search_cond}, :collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'id' => 1}).each{|res|
       report['entries'] << res['id']
     }
+    report['query'] = search_cond
     return report
   end
 
@@ -1720,16 +1721,39 @@ class CZJDict < Object
       vids = []
       $mongo['media'].find({'dict': @dictcode, 'status': 'published'}).each{|m| vids << m['location']}
       if params['schvcelni'].to_s == 'ano'
-      search_cond << {'lemma.video_front': {'$in': vids}}
+        search_cond << {'lemma.video_front': {'$in': vids}}
       else
-      search_cond << {'lemma.video_front': {'$nin': vids}}
+        search_cond << {'lemma.video_front': {'$nin': vids}}
       end
     end
-    #bocni video schvalene
-    if params['schvcelni'].to_s != ''
+
+    # bocni video schvalene
+    if params['schvbocni'].to_s != ''
       vids = []
       $mongo['media'].find({'dict': @dictcode, 'status': 'published'}).each{|m| vids << m['location']}
-      search_cond << {'lemma.video_front': {'$in': vids}}
+      if params['schvbocni'].to_s == 'ano'
+        search_cond << {'lemma.video_side': {'$in': vids}}
+      else
+        search_cond << {'lemma.video_side': {'$nin': vids}}
+      end
+    end
+
+    # schvalena definice
+    if params['vyznam'].to_s != ''
+      if params['vyznam'].to_s == 'ano'
+        search_cond << {'$and':[{'meanings.status':{'$ne':'hidden'}},{'meanings.text.file':{'$not':{'$exists':false}}}]}
+      else
+        search_cond << {'$or':[{'meanings.status':{'$ne':'published'}},{'meanings.text.file':{'$exists':false}}]}
+      end
+    end
+
+    # zadana definice
+    if params['vyznamvid'].to_s != ''
+      if params['vyznamvid'].to_s == 'ano'
+        search_cond << {'meanings': {'$not':{'$elemMatch': {'text.file': {'$exists': false}}}}}
+      else
+        search_cond << {'meanings': {'$elemMatch': {'text.file': {'$exists': false}}}}
+      end
     end
 
     return search_cond, trans_used
