@@ -1756,6 +1756,17 @@ class CZJDict < Object
       end
     end
 
+    # pracovni skupina
+    if params['skup'].to_s != '' and params['def_skup'].length > 0
+      $stderr.puts params
+      if params['skup'].to_s == 'ano'
+        search_cond << {'lemma.pracskupina': {'$nin': params['def_skup']}}
+      else
+        search_cond << {'lemma.pracskupina': {'$in': params['def_skup']}}
+      end
+    end
+
+
     return search_cond, trans_used
   end
 end
