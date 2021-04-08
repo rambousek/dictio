@@ -1695,5 +1695,40 @@ class CZJDict < Object
       return {'form'=>[]}
     end
   end
+
+  def get_report(params, user_info)
+    report = {'entries'=>[]}
+    search_cond, trans_used = get_search_cond(params, user_info)
+    @entrydb.find({'$and': search_cond}).each{|res|
+      report['entries'] << res['id']
+    }
+    return report
+  end
+
+  def get_search_cond(params, user_info)
+    search_cond = []
+    trans_used = []
+
+    search_cond << {'dict': @dictcode}
+
+    # celni video schvalene
+    if params['schvcelni'].to_s != ''
+      vids = []
+      $mongo['media'].find({'dict': @dictcode, 'status': 'published'}).each{|m| vids << m['location']}
+      if params['schvcelni'].to_s == 'ano'
+      search_cond << {'lemma.video_front': {'$in': vids}}
+      else
+      search_cond << {'lemma.video_front': {'$nin': vids}}
+      end
+    end
+    #bocni video schvalene
+    if params['schvcelni'].to_s != ''
+      vids = []
+      $mongo['media'].find({'dict': @dictcode, 'status': 'published'}).each{|m| vids << m['location']}
+      search_cond << {'lemma.video_front': {'$in': vids}}
+    end
+
+    return search_cond, trans_used
+  end
 end
 

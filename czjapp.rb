@@ -323,6 +323,7 @@ class CzjApp < Sinatra::Base
       content_type :json
       body = {'count': count}.to_json
     end
+
     if $is_edit
       get '/'+code+'/newentry' do
         newid = dict.get_new_id
@@ -445,6 +446,13 @@ class CzjApp < Sinatra::Base
         @dictcode = code
         @dict_info = $dict_info
         slim :editor, :layout=>false
+      end
+    end
+
+    if $is_admin
+      get '/'+code+'/report' do
+        content_type :json
+        body = dict.get_report(params, @user_info).to_json
       end
     end
   }
