@@ -2,6 +2,9 @@
 - if @is_edit
   div style="background-color: red; width: 100%; height: 15px; font-size: 12px; position: fixed; text-align: right; z-index: 101;"
    div.container class="container--wide" #{I18n.t("admin.user")} (#{@user_info['login']})
+- if @is_admin
+  div style="background-color: lightblue; width: 100%; height: 15px; font-size: 12px; position: fixed; text-align: right; z-index: 101;"
+   div.container class="container--wide" #{I18n.t("admin.user")} (#{@user_info['login']})
 header.header role="banner"
   .container.container--wide
     .header__wrapper

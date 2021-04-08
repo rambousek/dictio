@@ -121,7 +121,8 @@ class CzjApp < Sinatra::Base
     @translate_limit = 9
     cookies.set(:dictio_pref, {:httponly=>false, :value=>(write_dicts+sign_dicts).map{|i| 'dict-'+i+'=true'}.join(';')})
     @is_edit = $is_edit
-    protected! if $is_edit
+    @is_admin = $is_admin
+    protected! if $is_edit or $is_admin
   end
 
   get '/' do
