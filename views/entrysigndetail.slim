@@ -235,7 +235,7 @@
   - if @is_edit
     p.mobile-hide style="float: right;margin-top: 50px;"
       a class="btn btn-secondary" style="background-color: dimgray; font-size: 0.7rem" href="/#{@entry['dict']}/show/#{@entry['id']}"
-        | #{I18n.t("entry.translate_view")}
+        | #{I18n.t("search.translate_view")}
 
 - if @entry['revcollocations'] and @entry['revcollocations']['entries'].size > 0
   .detail__block.detail__block--line
