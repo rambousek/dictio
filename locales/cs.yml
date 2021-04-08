@@ -98,6 +98,7 @@ cs:
     share: "adresa pro sdílení"
     link_current: "aktuální adresa"
     link_public: "veřejná adresa"
+    nocontent: "Tato část hesla není dosud zpracovaná."
   gram:
     region:
       cr: "celá ČR"
