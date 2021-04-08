@@ -857,25 +857,27 @@ class CZJDict < Object
     if olddata != nil
       oldrels = {}
       oldmeans = []
-      olddata['meanings'].each{|m|
-        oldmeans << m['id']
-        oldrels[m['id']] = []
-        if m['relation']
-          m['relation'].each{|r|
-            oldrels[m['id']] << r
-          }
-        end
-        if m['usages']
-          m['usages'].each{|u|
-            if u['relation']
-              oldrels[u['id']] = []
-              u['relation'].each{|ur|
-                oldrels[u['id']] << ur
-              }
-            end
-          }
-        end
-      }
+      if olddata['meanings']
+        olddata['meanings'].each{|m|
+          oldmeans << m['id']
+          oldrels[m['id']] = []
+          if m['relation']
+            m['relation'].each{|r|
+              oldrels[m['id']] << r
+            }
+          end
+          if m['usages']
+            m['usages'].each{|u|
+              if u['relation']
+                oldrels[u['id']] = []
+                u['relation'].each{|ur|
+                  oldrels[u['id']] << ur
+                }
+              end
+            }
+          end
+        }
+      end
       $stdout.puts oldrels
       #removed meanings?
       oldmeans.each{|mi|
