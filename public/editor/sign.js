@@ -2086,7 +2086,7 @@ function save_doc(id) {
     for (var ci=0; ci < categ_array.length; ci++) {
       newmean.category.push(categ_array[ci]);
     }
-    if (meanings[i].query('component[name="meaning_id"]')[0].getValue() != '' && entrydata['meanings'].filter(mean => mean['id'] == meanings[i].query('component[name="meaning_id"]')[0].getValue())[0] != undefined) {
+    if (meanings[i].query('component[name="meaning_id"]')[0].getValue() != '' && entrydata['meanings'] && entrydata['meanings'].filter(mean => mean['id'] == meanings[i].query('component[name="meaning_id"]')[0].getValue())[0] != undefined) {
       newmean.created_at = entrydata['meanings'].filter(mean => mean['id'] == meanings[i].query('component[name="meaning_id"]')[0].getValue())[0]['created_at'];
     } else {
       newmean.created_at = Ext.Date.format(new Date(), 'Y-m-d H:i:s');
