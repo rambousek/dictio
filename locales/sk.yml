@@ -66,6 +66,7 @@ sk:
     notfound: ":( Je nám ľúto, ale nič také sme tu nenašli.."
     try_search: "Heslo s týmto ID neobsahuje žiadných ekvivalentov v cíelovom jazyku. "
     link: "Zobraziť heslo v jednojazyčnom slovníku."
+    translate_view: "Zobraziť v prekladovom slovníku"
   entry:
     frontview: "Čelný pohľad"
     sideview: "Bočný pohľad"
