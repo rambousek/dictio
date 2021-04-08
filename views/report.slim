@@ -1,0 +1,14 @@
+table border="1"
+  - @report['entries'].each do |entry|
+    tr
+      td 
+        a href="/#{@dictcode}/show/#{entry['id']}" target="_blank" = entry['id']
+      td 
+        - if entry['lemma']['video_front']
+          = entry['lemma']['video_front']
+          br
+          video class=@dictcode width="177" height="142" onmouseover="this.play()" onmouseout="this.pause()"
+            source type="video/mp4" src="https://files.dictio.info/video#{@dictcode}/#{entry['lemma']['video_front']}"
+      td 
+        a href="https://edit.dictio.info/editor#{@dictcode}/?id=#{entry['id']}" target="_blank" edit
+

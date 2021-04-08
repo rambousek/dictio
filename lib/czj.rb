@@ -1704,7 +1704,7 @@ class CZJDict < Object
     report = {'query'=>{},'entries'=>[]}
     search_cond, trans_used = get_search_cond(params, user_info)
     @entrydb.find({'$and': search_cond}, :collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'id' => 1}).each{|res|
-      report['entries'] << res['id']
+      report['entries'] << res
     }
     report['query'] = search_cond
     return report

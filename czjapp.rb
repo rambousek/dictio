@@ -451,6 +451,13 @@ class CzjApp < Sinatra::Base
 
     if $is_admin
       get '/'+code+'/report' do
+        @dictcode = code
+        @target = ''
+        @dict_info = $dict_info
+        @report = dict.get_report(params, @user_info)
+        slim :report
+      end
+      get '/'+code+'/jsonreport' do
         content_type :json
         body = dict.get_report(params, @user_info).to_json
       end
