@@ -66,6 +66,7 @@ cs:
     notfound: ":(  Nic takového se nám bohužel nepodařilo najít.. "
     try_search: "Heslo s tímto ID neobsahuje žádné ekvivalenty v cílovém jazyce. "
     link: "Zobrazit heslo v jednojazyčném slovníku."
+    translate_view: "Zobrazit v překladovém slovníku"
   entry:
     frontview: "Čelní pohled"
     sideview: "Boční pohled"
