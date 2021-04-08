@@ -1758,7 +1758,6 @@ class CZJDict < Object
 
     # pracovni skupina
     if params['skup'].to_s != '' and params['def_skup'].length > 0
-      $stderr.puts params
       if params['skup'].to_s == 'ano'
         search_cond << {'lemma.pracskupina': {'$nin': params['def_skup']}}
       else
@@ -1766,6 +1765,14 @@ class CZJDict < Object
       end
     end
 
+    # zverejnovani
+    if params['completeness'].to_s != '' and params['completenessbox'].to_s != ''
+      if params['completeness'].to_s == 'ano'
+        search_cond << {'lemma.completeness': {'$ne': params['completenessbox']}}
+      else
+        search_cond << {'lemma.completeness': params['completenessbox']}
+      end
+    end
 
     return search_cond, trans_used
   end
