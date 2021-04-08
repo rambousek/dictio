@@ -66,6 +66,7 @@ en:
     notfound: ":( I am sorry, but nothing like that seems to be in my database.. "
     try_search: "Entry with this ID does not contain any equivalents in the target language. "
     link: "Show the entry in the dictionary."
+    translate_view: "Display in multilingual dictionary"
   entry:
     frontview: "Front view"
     sideview: "Profile view"
