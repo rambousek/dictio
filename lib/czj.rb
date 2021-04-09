@@ -669,7 +669,7 @@ class CZJDict < Object
             {'$match' => {'$or':[search_cond,search_cond2]}},
             {'$unwind' => '$meanings'},
             {'$unwind' => '$meanings.relation'},
-            {'$match' => {'meanings.relation.type'=>'translation','$or':[{'meanings.relation.target'=>target},{'meanings.relation.target'=>dictcode}]}},
+            {'$match' => {'meanings.relation.type'=>'translation', '$and'=>[{'$or'=>[{'meanings.relation.target'=>target}, {'meanings.relation.target'=>dictcode}]}, {'$or'=>[{'meanings.relation.meaning_id'=>{'$regex'=>/(^| )#{search}/i}}, {'meanings.relation.meaning_id'=>{'$regex'=>/^[0-9]+-[0-9]+(_us[0-9]+)?/}}]}]}},
             #{'$group' => {'_id' => {'_id'=>'$_id', 'dict'=> '$dict', 'id'=> '$id', 'meanings'=>'$meanings'}}},
             #{'$project' => {'dict'=>'$_id.dict','id'=>'$_id.id','meanings'=>'$_id.meanings'}},
             {'$sort' => {'lemma.title'=>1}}
