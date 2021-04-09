@@ -454,6 +454,7 @@ class CzjApp < Sinatra::Base
         @dictcode = code
         @target = ''
         @dict_info = $dict_info
+        @params = params
         @report = dict.get_report(params, @user_info)
         slim :report
       end
