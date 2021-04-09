@@ -10,7 +10,9 @@ main role="main"
         article.col.col--start role="article"
           p 
             -if @params['schvcelni'] 
-              celni celni
+              a.btn class="btn-secondary" href="" style="background-color: dimgray; font-size: 0.7rem" celni
+            -if @params['vyznamvid'] 
+              a.btn class="btn-secondary" href="" style="background-color: dimgray; font-size: 0.7rem" vyznam
           table.table class="table--no-margin"
             - @report['entries'].each do |entry|
               tr
