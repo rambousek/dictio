@@ -29,10 +29,10 @@ header.header role="banner"
               a href="/help" class=('is-active' if @selected_page.to_s=='help') #{I18n.t("menu.help")}
             li
               a href="/contact" class=('is-active' if @selected_page.to_s=='contact') #{I18n.t("menu.contact")}
-            - if @is_edit
+            - if @is_edit or @is_admin
               li
                 a href="/admin" class=('is-active' if @selected_page.to_s=='admin') #{I18n.t("menu.admin")}
-            - if @is_edit
+            - if @is_edit or @is_admin
               li               
                 .nav-user
                   img src="/img/user.png" style="height: 24px"
