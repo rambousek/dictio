@@ -9,10 +9,10 @@ main role="main"
       .row
         article.col.col--start role="article"
 
-          table border="1"
+          table.table class="table--no-margin"
             - @report['entries'].each do |entry|
               tr
-                td 
+                td width="10%"
                   a href="/#{@dictcode}/show/#{entry['id']}" target="_blank" = entry['id']
                 td 
                   - if entry['lemma']['video_front']
@@ -20,6 +20,6 @@ main role="main"
                     br
                     video class=@dictcode width="177" height="142" onmouseover="this.play()" onmouseout="this.pause()"
                       source type="video/mp4" src="https://files.dictio.info/video#{@dictcode}/#{entry['lemma']['video_front']}"
-                td 
+                td width="10%"
                   a href="https://edit.dictio.info/editor#{@dictcode}/?id=#{entry['id']}" target="_blank" edit
 
