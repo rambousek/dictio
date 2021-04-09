@@ -8,7 +8,9 @@ main role="main"
     .container
       .row
         article.col.col--start role="article"
-
+          p 
+            -if @params['schvcelni'] 
+              celni celni
           table.table class="table--no-margin"
             - @report['entries'].each do |entry|
               tr
