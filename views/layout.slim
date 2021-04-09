@@ -19,7 +19,7 @@ html
     meta name="theme-color" content="#03c9a9"
     link rel="stylesheet" href="/css/styles.css" type="text/css"
     link rel="stylesheet" href="/css/dictio.css" type="text/css"
-    - if not @is_edit or if not @is_admin
+    - if not @is_edit or not @is_admin
       script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-60803528-1"
       javascript:
         window.dataLayer = window.dataLayer || [];
