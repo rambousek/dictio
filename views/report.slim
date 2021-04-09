@@ -9,14 +9,14 @@ main role="main"
       .row
         article.col.col--start role="article"
           p 
-            -if @params['schvcelni'] 
-              a.btn class="btn-secondary" href="" style="background-color: green; font-size: 0.7rem" #{I18n.t("admin.schvcelni")}
-            -if @params['vyznamvid'] 
-              a.btn class="btn-secondary" href="" style="background-color: green; font-size: 0.7rem" #{I18n.t("admin.vyznamvid")}
-            -if @params['vyznam'] 
-              a.btn class="btn-secondary" href="" style="background-color: green; font-size: 0.7rem" #{I18n.t("admin.vyznam")}
+            -if @params['schvcelni'] == 'ano'
+              a.btn class="btn-secondary" href="" style="background-color: dimgray; font-size: 0.7rem" #{I18n.t("admin.schvcelni")}
+            -if @params['vyznamvid'] == 'ano'
+              a.btn class="btn-secondary" href="" style="background-color: dimgray; font-size: 0.7rem" #{I18n.t("admin.vyznamvid")}
+            -if @params['vyznam'] == 'ano' 
+              a.btn class="btn-secondary" href="" style="background-color: dimgray; font-size: 0.7rem" #{I18n.t("admin.vyznam")}
             - else 
-              a.btn class="btn-secondary" href="" style="background-color: red; font-size: 0.7rem" #{I18n.t("admin.vyznam")}
+              a.btn class="btn-secondary" href="" style="background-color: darkred; font-size: 0.7rem" #{I18n.t("admin.vyznam")}
           table.table class="table--no-margin"
             - @report['entries'].each do |entry|
               tr
