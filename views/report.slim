@@ -1,14 +1,25 @@
-table border="1"
-  - @report['entries'].each do |entry|
-    tr
-      td 
-        a href="/#{@dictcode}/show/#{entry['id']}" target="_blank" = entry['id']
-      td 
-        - if entry['lemma']['video_front']
-          = entry['lemma']['video_front']
-          br
-          video class=@dictcode width="177" height="142" onmouseover="this.play()" onmouseout="this.pause()"
-            source type="video/mp4" src="https://files.dictio.info/video#{@dictcode}/#{entry['lemma']['video_front']}"
-      td 
-        a href="https://edit.dictio.info/editor#{@dictcode}/?id=#{entry['id']}" target="_blank" edit
+main role="main"
+  section.section role="region" style="background-color: #1c2641"
+    .container
+      .row
+        article.col.col--2.col--start role="article"
+          h1 style="color: white" #{I18n.t("menu.admin")} - #{@dictcode}
+  section.section 
+    .container
+      .row
+        article.col.col--start role="article"
+
+          table border="1"
+            - @report['entries'].each do |entry|
+              tr
+                td 
+                  a href="/#{@dictcode}/show/#{entry['id']}" target="_blank" = entry['id']
+                td 
+                  - if entry['lemma']['video_front']
+                    = entry['lemma']['video_front']
+                    br
+                    video class=@dictcode width="177" height="142" onmouseover="this.play()" onmouseout="this.pause()"
+                      source type="video/mp4" src="https://files.dictio.info/video#{@dictcode}/#{entry['lemma']['video_front']}"
+                td 
+                  a href="https://edit.dictio.info/editor#{@dictcode}/?id=#{entry['id']}" target="_blank" edit
 
