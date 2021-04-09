@@ -35,18 +35,32 @@ video.video-link {
   background-color: #19B5FE;
   color: black;
 }
+
+video.czj {
+  border-left: solid 4px #19B5FE;
+}
+
 .detail__badge__cs, .trans__badge__cs, .trans__badge__cs a {
   background-color: darkmagenta;
   color: whitesmoke;
 }
+
 .detail__badge__is, .trans__badge__is, .trans__badge__is a {
   background-color: darkslateblue;
   color: whitesmoke;
 }
+video.is {
+  border-left: solid 4px darkslateblue;
+}
+
 .detail__badge__asl, .trans__badge__asl, .trans__badge__asl a {
   background-color: darkorange;
   color: black;
 }
+video.asl {
+  border-left: solid 4px darkorange;
+}
+
 .detail__badge__en, .trans__badge__en, .trans__badge__en a {
   background-color: black;
   color: whitesmoke;
@@ -55,14 +69,23 @@ video.video-link {
   background-color: mediumseagreen;
   color: black;
 }
+video.spj {
+  border-left: solid 4px mediumseagreen;
+}
+
 .detail__badge__sj, .trans__badge__sj, .trans__badge__sj a {
   background-color: crimson;
   color:black;
 }
+
 .detail__badge__ogs, .trans__badge__ogs, .trans__badge__ogs a {
   background-color: darkred;
   color: whitesmoke;
 }
+video.ogs {
+  border-left: solid 4px darkred;
+}
+
 .detail__badge__de, .trans__badge__de, .trans__badge__de a {
   background-color: darkgoldenrod;
   color: black;
