@@ -13,11 +13,11 @@
           span.video-orient = @entry['media']['video_front']['orient'].to_s[0].to_s.upcase
         - else
           span.video-orient R
-        video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{@entry['dict']}/#{@entry['lemma']['video_front']}"
+        video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@entry['lemma']['video_front']}"
           source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['lemma']['video_front']}" type="video/mp4"
       - if @entry['lemma']['video_side'] != ''
         .video__content.video-side style="display:none"
-          video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{@entry['dict']}/#{@entry['lemma']['video_side']}"
+          video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@entry['lemma']['video_side']}"
             source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['lemma']['video_side']}" type="video/mp4"
       .video__controls
         - unless @entry['lemma']['swmix'].nil?
@@ -49,7 +49,7 @@
         .col.col--3.col--precise
           .video.video--small
             .video__content
-              video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url=(@search.to_s != ''? "#{@search_path}/#{relid}" : "/#{coll['dict']}/show/#{coll['id']}") poster="/thumb/video#{coll['dict']}/#{coll['lemma']['video_front']}"
+              video.video-link width="100%" onmouseover="this.play()" onmouseout=""  data-url=(@search.to_s != ''? "#{@search_path}/#{relid}" : "/#{coll['dict']}/show/#{coll['id']}") poster="/thumb/video#{coll['dict']}/#{coll['lemma']['video_front']}"
                 source src="https://files.dictio.info/video#{coll['dict']}/#{coll['lemma']['video_front']}" type="video/mp4"
             .video__controls
               - unless coll['lemma']['swmix'].nil?
@@ -97,7 +97,7 @@
               .col.col--3.col--precise
                 .video.video--small
                   .video__content
-                    video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{@entry['dict']}/#{@entry['media'][gm[0]]['location']}"
+                    video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@entry['media'][gm[0]]['location']}"
                       source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][gm[0]]['location']}" type="video/mp4"
                 .video__info
                   | video #{gcount}
@@ -112,7 +112,7 @@
                     .col.col--3.col--precise
                       .video.video--small
                         .video__content
-                          video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}"
+                          video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}"
                             source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}" type="video/mp4"
       - unless @entry['lemma']['style_note'].nil? or @entry['lemma']['style_note'][0].nil? or @entry['lemma']['style_note'][0]['_text'].nil? or @entry['lemma']['style_note'][0]['_text'].to_s == ''
         p.naming 
@@ -129,7 +129,7 @@
               .col.col--3.col--precise
                 .video.video--small
                   .video__content
-                    video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{@entry['dict']}/#{@entry['media'][gm[0]]['location']}"
+                    video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@entry['media'][gm[0]]['location']}"
                       source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][gm[0]]['location']}" type="video/mp4"
                 .video__info
                   | video #{gcount}
@@ -142,7 +142,7 @@
                 .col.col--3.col--precise
                   .video.video--small
                     .video__content
-                      video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}"
+                      video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}"
                         source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}" type="video/mp4"
       - unless  @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@region'] == ''
         p.naming 
@@ -162,7 +162,7 @@
         - if meaning["text"] and meaning["text"]["file"]
           .video.video--shrink
             .video__content
-              video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{@entry['dict']}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}"
+              video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}"
                 source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
         - else 
          .info.is-pushed style="margin-top: 0; padding: 0"
@@ -178,7 +178,7 @@
             .col.col--2.col--precise
               .video.video--small
                 .video__content
-                    video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url=(@search.to_s != ''? "#{@search_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") poster="/thumb/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}"
+                    video.video-link width="100%" onmouseover="this.play()" onmouseout=""  data-url=(@search.to_s != ''? "#{@search_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") poster="/thumb/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}"
                       source src="https://files.dictio.info/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
                 .video__controls
                   - if @search.to_s != ''
@@ -205,7 +205,7 @@
             .col.col--2.col--precise
               .video.video--small
                 .video__content
-                    video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url=(@search.to_s != ''? "#{@search_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") poster="/thumb/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}"
+                    video.video-link width="100%" onmouseover="this.play()" onmouseout=""  data-url=(@search.to_s != ''? "#{@search_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") poster="/thumb/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}"
                       source src="https://files.dictio.info/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
                 .video__controls
                   - if @search.to_s != ''
@@ -232,7 +232,7 @@
                 .col.col--2.col--precise
                   .video.video--small
                     .video__content
-                      video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{@entry['dict']}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}"
+                      video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}"
                         source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
             p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_example')
 
@@ -254,7 +254,7 @@
               .col.col--2.col--precise
                 .video.video--small
                   .video__content
-                    video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{colloc['dict']}/#{colloc['lemma']['video_front']}"
+                    video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{colloc['dict']}/#{colloc['lemma']['video_front']}"
                       source src="https://files.dictio.info/video#{colloc['dict']}/#{colloc['lemma']['video_front']}" type="video/mp4"
               .col.col--2.col--precise
                   - if colloc['lemma'] and colloc['lemma']['swmix']
@@ -269,7 +269,7 @@
                 - if meaning["text"] and meaning["text"]["file"]
                   .video.video--small
                     .video__content
-                      video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{colloc['dict']}/#{colloc['media'][meaning["text"]["file"]["@media_id"]]['location']}"
+                      video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{colloc['dict']}/#{colloc['media'][meaning["text"]["file"]["@media_id"]]['location']}"
                         source src="https://files.dictio.info/video#{colloc['dict']}/#{colloc['media'][meaning["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
                 - if meaning['usages'] and meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.size > 0
                   p.naming #{I18n.t("entry.examples")}:
@@ -279,7 +279,7 @@
                         .col.col--2.col--precise
                           .video.video--small
                             .video__content
-                              video width="100%" controls="" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{colloc['dict']}/#{colloc['media'][usg["text"]["file"]["@media_id"]]['location']}"
+                              video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{colloc['dict']}/#{colloc['media'][usg["text"]["file"]["@media_id"]]['location']}"
                                 source src="https://files.dictio.info/video#{colloc['dict']}/#{colloc['media'][usg["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
             p
               a.btn.btn--secondary href="#{@search_path}/#{colloc['id']}" == I18n.t("entry.full_details")
