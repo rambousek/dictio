@@ -935,7 +935,7 @@ en: {
     varianty: 'variants',
     gramvariant: 'gram. variants',
     stylvariant: 'styl. variants',
-    styldesc: 'Stylistic description',
+    styldesc: 'Style description',
     gender: 'gender',
     meanings: 'Meanings',
     fileupload: 'file uploaded',
