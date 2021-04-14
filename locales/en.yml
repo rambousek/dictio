@@ -98,7 +98,7 @@ en:
     share: "Share this"
     link_current: "Current link"
     link_public: "Public link"
-    nocontent: "This part has not been proceeded yet."
+    nocontent: "This part has not been processed yet."
   gram:
     region:
       cr: "Entire Czech Republic"
