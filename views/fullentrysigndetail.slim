@@ -167,6 +167,18 @@
         p.naming 
           | #{I18n.t("entry.distribution_area")}: 
           span = I18n.t("gram.region."+@entry['lemma']['grammar_note'][0]['@region'])
+      - unless  @entry['lemma']['puvod'] == ''
+        p.naming 
+          | #{I18n.t("entry.origin")}: 
+          span = I18n.t("gram.origin."+@entry['lemma']['puvod'])
+      - unless  @entry['lemma']['style_note'].nil? or @entry['lemma']['style_note'][0].nil? or @entry['lemma']['style_note'][0]['@kategorie'] == ''
+        p.naming 
+          | #{I18n.t("entry.category")}: 
+          span = I18n.t("gram.category."+@entry['lemma']['style_note'][0]['@kategorie'])
+      - unless  @entry['lemma']['style_note'].nil? or @entry['lemma']['style_note'][0].nil? or @entry['lemma']['style_note'][0]['@gender'] == ''
+        p.naming 
+          | #{I18n.t("entry.gender")}: 
+          span = I18n.t("gram.gender."+@entry['lemma']['style_note'][0]['@gender'])
 
 - if @entry['meanings']
   - @entry["meanings"].each do |meaning|
