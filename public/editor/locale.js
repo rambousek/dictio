@@ -931,7 +931,7 @@ en: {
     hamnosys: 'HamNoSys',
     gramdesc: 'Grammatical description',
     mluvkomp: 'mouthing',
-    oralkomp: 'oral component',
+    oralkomp: 'mouth gesture',
     varianty: 'variants',
     gramvariant: 'gram. variants',
     stylvariant: 'styl. variants',
