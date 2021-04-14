@@ -237,10 +237,10 @@
           == mtext
       - else 
          .info.is-pushed style="margin-top: 0; padding: 0"
-            span.icon.icon--info.info__icon style="margin-top: 0; color: red" 
+            span.icon.icon--info.info__icon style="margin-top: 0; color: darkred" 
              svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
               use xlink:href="/img/icons.svg#info" x="0" y="0" width="100%" height="100%"
-            p style="color: red" #{I18n.t("entry.nocontent")}
+            p style="color: darkred" #{I18n.t("entry.nocontent")}
       - if meaning['relation'].find{|rel| rel['type'] == 'synonym'}
         h4 #{I18n.t("entry.synonyms")}:
         - meaning['relation'].select{|rel| rel['type'] == 'synonym'}.each do |rel|
