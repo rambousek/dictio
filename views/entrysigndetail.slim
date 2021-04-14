@@ -71,14 +71,14 @@
                  =  I18n.t("gram.slovni_druh."+sd.to_s)
                  - unless sd.equal? slovni_druhy.uniq.last
                    | , 
-      - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@mluv_komp'] == ''
+      - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@mluv_komp'].to_s.strip == ''
         p.naming 
           | #{I18n.t("entry.mouthing")}: 
           span style="text-transform: lowercase" 
             |  [#{@entry['lemma']['grammar_note'][0]['@mluv_komp']}]
             - if @entry['lemma']['grammar_note'][0]['@mluv_komp_sel'] == 'povinny' or @entry['lemma']['grammar_note'][0]['@mluv_komp_sel'] == 'nepovinny'
               |  - #{I18n.t("gram."+@entry['lemma']['grammar_note'][0]['@mluv_komp_sel'])}
-      - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@oral_komp'] == ''
+      - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@oral_komp'].to_s.strip == ''
         p.naming 
           | #{I18n.t("entry.oralcomp")}: 
           span style="text-transform: uppercase" [#{@entry['lemma']['grammar_note'][0]['@oral_komp']}] 
