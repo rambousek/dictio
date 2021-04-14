@@ -80,6 +80,7 @@ cs:
     style_details: "Styl. poznámka"
     style_variant: "Styl. varianty"
     distribution_area: "Oblast rozšíření"
+    origin: "Přejato z"
     meaning: "Význam"
     synonyms: "Synonyma"
     antonyms: "Antonyma"
@@ -259,7 +260,6 @@ cs:
       prechm: "přechodník, m."
       prechzs: "přechodník, ž. + s."
       versub: "verbální substantivum"
-    orig: "Přejato z"
     origin: 
       czj: "ČZJ"
       spj: "SPJ"
