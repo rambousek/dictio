@@ -98,7 +98,7 @@ sk:
     share: "adresa pre zdílenie"
     link_current: "aktuálna adresa"
     link_public: "verejná adresa"
-    nocontent: "Tato časť zatial nie je spracovaná."
+    nocontent: "Táto časť zatiaľ nie je spracovaná."
   gram:
     region:
       cr: "celá ČR"
