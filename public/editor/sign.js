@@ -47,6 +47,8 @@ var posStore = Ext.create('Ext.data.Store',{
     {'value': '', 'text':'-'},
     {'value': 'subst', 'text':locale[lang].lex_subst},
     {'value': 'verb', 'text':locale[lang].lex_verb},
+    {'value': 'adj', 'text':locale[lang].lex_adj},
+    {'value': 'adv', 'text':locale[lang].lex_adv},
     {'value': 'modif', 'text':locale[lang].lex_modif},
     {'value': 'pron', 'text':locale[lang].lex_pron},
     {'value': 'num', 'text':locale[lang].lex_num},
