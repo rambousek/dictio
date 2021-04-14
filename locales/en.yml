@@ -80,6 +80,7 @@ en:
     style_details: "Style details"
     style_variant: "Style variants"
     distribution_area: "Distribution area"
+    origin: "Originally from"
     meaning: "Meaning"
     synonyms: "Synonyms"
     antonyms: "Antonyms"
@@ -259,6 +260,19 @@ en:
       prechm: "Präsenspartizip masculine"
       prechzs: "Präsenspartizip feminine, neuter"
       versub: "verbal substantive"
+     origin: 
+      czj: "ČZJ"
+      spj: "SPJ"
+      pjm: "PJM"
+      asl: "ASL"
+      bsl: "BSL" 
+      ogs: "ÖGS"
+    category: 
+      neo: "neologism"
+      arch: "archaism"
+    gender:
+      m: "male expression"
+      f: "female expression"
   admin:
     user: "logged user "
     text1: "Admin-tools are currently not available yet. To edit an entry, search for it via dictionary search, enter detailed view of an entry and click on ID number with an pencil icon at the top of the page. You can use former list of entries listed bellow as well. "
