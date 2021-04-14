@@ -99,6 +99,7 @@ sk:
     link_current: "aktuálna adresa"
     link_public: "verejná adresa"
     nocontent: "Táto časť zatiaľ nie je spracovaná."
+    category: "obor"
   gram:
     region:
       cr: "celá ČR"

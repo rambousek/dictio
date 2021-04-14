@@ -99,6 +99,7 @@ de:
     link_current: "Current link"
     link_public: "Public link"
     nocontent: "Dieser Teil wurde noch nicht fortgesetzt."
+    category: "obor"
   gram:
     region:
       cr: "gesamte Tsechien"

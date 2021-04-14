@@ -239,6 +239,11 @@
       .col.col--2
         .detail__block.detail__block--line
           h3 id="meaning#{meaning['number']}" #{I18n.t("entry.meaning")} #{meaning['number']}
+          - if meaning['category'] and meaning['category'].length > 0
+            p.naming
+              | #{I18n.t("entry.category")}: 
+              - meaning['category'].each do |cat|
+                span = cat
           - if meaning['text'] and meaning['text']['_text']
             p 
               - mtext = meaning['text']['_text'].gsub(/\[[0-9]+(-[0-9]+)?\]/) {|rl| rla=rl[1..-2].split('-'); "<a href='/#{@entry['dict']}/show/#{rla[0]}'>#{meaning['def_relations'][rla[0]]}"+(rla[1].to_s==''?"":" (#{rla[1]})")+"</a>"}

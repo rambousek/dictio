@@ -169,6 +169,11 @@
     .detail__block.detail__block--line
       .video-simple
         h3 id="meaning#{meaning['number']}" #{I18n.t("entry.meaning")} #{meaning['number']}
+        - if meaning['category'] and meaning['category'].length > 0
+          p.naming
+            | #{I18n.t("entry.category")}: 
+            - meaning['category'].each do |cat|
+              span = cat
         /.mobile-text
         /  p 
         /    | Semantic region: 

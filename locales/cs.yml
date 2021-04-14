@@ -99,6 +99,7 @@ cs:
     link_current: "aktuální adresa"
     link_public: "veřejná adresa"
     nocontent: "Tato část hesla není dosud zpracovaná."
+    category: "obor"
   gram:
     region:
       cr: "celá ČR"

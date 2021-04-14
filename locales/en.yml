@@ -99,6 +99,7 @@ en:
     link_current: "Current link"
     link_public: "Public link"
     nocontent: "This part has not been processed yet."
+    category: "category"
   gram:
     region:
       cr: "Entire Czech Republic"
