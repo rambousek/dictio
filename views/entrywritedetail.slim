@@ -231,10 +231,10 @@
     - @meaning = meaning
     .detail__block.detail__block--line
       h3 id="meaning#{meaning['number']}" #{I18n.t("entry.meaning")} #{meaning['number']}
-      - if meaning['category'] and meaning['category'].length > 0
+      - if meaning['category'] and meaning['category'].find{|cat| not cat.nil?}
         p.naming
           | #{I18n.t("entry.category")}: 
-          - meaning['category'].each do |cat|
+          - meaning['category'].select{|cat| not cat.nil?}.each do |cat|
             span = cat
       - if meaning['text'] and meaning['text']['_text']
         p 
