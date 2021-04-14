@@ -259,12 +259,14 @@ cs:
       prechm: "přechodník, m."
       prechzs: "přechodník, ž. + s."
       versub: "verbální substantivum"
+    orig: "Přejato z"
     origin: 
       czj: "ČZJ"
       spj: "SPJ"
       pjm: "PJM"
       asl: "ASL"
-      bsl: "BSL"   
+      bsl: "BSL" 
+      ogs: "ÖGS"
     category: 
       neo: "neologismus"
       arch: "archaismus"
