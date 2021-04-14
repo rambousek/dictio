@@ -62,6 +62,7 @@
     .block.mobile-hide
       - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh']!=''}
         h2.detail-category
+         - if @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh']!='ustalene'}
           | #{I18n.t("entry.lexical")}: 
           span
              - slovni_druhy = []
