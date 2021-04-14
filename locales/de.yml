@@ -80,6 +80,7 @@ de:
     style_details: "Styl. Anmerkung"
     style_variant: "Styl. Varianten"
     distribution_area: "Anwendungsbereich"
+    origin: "Ursprünglich aus"
     meaning: "Bedeutung"
     synonyms: "Synonyme"
     antonyms: "Antonyme"
@@ -259,6 +260,19 @@ de:
       prechm: "Transgressiv masculinum"
       prechzs: "Transgressiv femininum und neutrum"
       versub: "Verbalsubstantiv"
+     origin: 
+      czj: "ČZJ"
+      spj: "SPJ"
+      pjm: "PJM"
+      asl: "ASL"
+      bsl: "BSL" 
+      ogs: "ÖGS"
+    category: 
+      neo: Nneologismus"
+      arch: "Archaismus"
+    gender:
+      m: "männliche Gebärde"
+      f: "frauliche Gebärde"
   admin:
     user: "angemeldeter Benutzer "
     text1: "Wervaltung sind derzeit noch nicht verfügbar. Um einen Eintrag zu bearbeiten, suchen Sie ihn über die Wörterbuchsuche, geben Sie eine Detailansicht eines Eintrags ein und klicken Sie oben auf der Seite auf die ID-Nummer mit einem Stiftsymbol. Sie können auch die alte Liste der unten aufgeführten Einträge verwenden. Um neue Einträge zu erstellen, öffnen Sie das Hauptverzeichnis."
