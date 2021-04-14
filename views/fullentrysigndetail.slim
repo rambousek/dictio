@@ -192,7 +192,7 @@
               p.naming
                 | #{I18n.t("entry.category")}: 
                 - meaning['category'].select{|cat| not cat.nil?}.each do |cat|
-                  span = cat
+                  span #{I18n.t("entry.kat_"+cat)}
             /.mobile-text
             /  p 
             /    | Semantic region: 
