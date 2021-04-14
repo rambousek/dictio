@@ -153,7 +153,7 @@
           span = I18n.t("gram.region."+@entry['lemma']['grammar_note'][0]['@region'])
       - unless  @entry['lemma']['puvod'] == ''
         p.naming 
-          | #{I18n.t("entry.orig")}: 
+          | #{I18n.t("entry.origin")}: 
           span = I18n.t("gram.origin."+@entry['lemma']['puvod'])
       - unless  @entry['lemma']['style_note'].nil? or @entry['lemma']['style_note'][0].nil? or @entry['lemma']['style_note'][0]['@kategorie'] == ''
         p.naming           
