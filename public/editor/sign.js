@@ -56,6 +56,7 @@ var posStore = Ext.create('Ext.data.Store',{
     {'value': 'kat', 'text':locale[lang].lex_kat},
     {'value': 'klf', 'text':locale[lang].lex_klf},
     {'value': 'spc', 'text':locale[lang].lex_spc},
+    {'value': 'ustalene', 'text':locale[lang].lemma_colloc},
   ]
 });
 var emptyStore = Ext.create('Ext.data.Store',{
@@ -4246,7 +4247,7 @@ Ext.onReady(function(){
             handler: function(ctl, val) {
             if (val) {
               Ext.getCmp('boxcolloc').query('component[name="collocationinfo"]')[0].show();                           
-              Ext.each(Ext.getCmp('tabForm').query('[name=slovni_druh]'), function(item) {item.setValue('')});
+              Ext.each(Ext.getCmp('tabForm').query('[name=slovni_druh]'), function(item) {item.setValue('ustalene')});
               Ext.getCmp('gramcont').setDisabled(true);              
               }
             }
