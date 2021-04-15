@@ -3425,6 +3425,8 @@ a.btn {
   .dropdown__item .naming:before {
     display: none; }
 
+.naming2 {color: darkgray;}
+
 .recent {
   padding: 19px 0;
   background: #fff; }
