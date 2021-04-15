@@ -235,7 +235,7 @@
         p.naming
           / | #{I18n.t("entry.category")}: 
           - meaning['oblast'].to_s.split(';').each do |cat|
-            | span #{I18n.t("entry.kat_"+cat)}
+            | #{I18n.t("entry.kat_"+cat)}
       - if meaning['text'] and meaning['text']['_text']
         p 
           - mtext = meaning['text']['_text'].gsub(/\[[0-9]+(-[0-9]+)?\]/) {|rl| rla=rl[1..-2].split('-'); "<a href='/#{@entry['dict']}/show/#{rla[0]}'>#{meaning['def_relations'][rla[0]]}"+(rla[1].to_s==''?"":" (#{rla[1]})")+"</a>"}
