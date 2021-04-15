@@ -8,25 +8,34 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  deploy:
-    # The type of runner that the job will run on
+  deploy-view:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
-      # Runs a single command using the runners shell
       - name: Run on view
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/private.key
           chmod 400 ~/.ssh/private.key
-          ssh -i ~/.ssh/private.key -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@www.dictio.info "cd /srv/dictio; git pull; pumactl -F puma.rb stop; pumactl -F puma.rb start"
-          ssh -i ~/.ssh/private.key -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@edit.dictio.info "cd /srv/dictio; git pull; pumactl -F puma.rb stop; pumactl -F puma.rb start"
-          ssh -i ~/.ssh/private.key -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@admin.dictio.info "cd /srv/dictio; git pull; pumactl -F puma.rb stop; pumactl -F puma.rb start"
+          ssh -i ~/.ssh/private.key -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@www.dictio.info "cd /srv/dictio; git pull; ./restart.sh"
+  deploy-edit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run on view
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/private.key
+          chmod 400 ~/.ssh/private.key
+          ssh -i ~/.ssh/private.key -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@edit.dictio.info "cd /srv/dictio; git pull; ./restart.sh"
+  deploy-admin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run on view
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/private.key
+          chmod 400 ~/.ssh/private.key
+          ssh -i ~/.ssh/private.key -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@admin.dictio.info "cd /srv/dictio; git pull; ./restart.sh"
