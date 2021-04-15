@@ -510,4 +510,18 @@ class CzjApp < Sinatra::Base
     body = response.body
   end
 
+  not_found do
+    @dict_info = $dict_info
+    @search_params = {}
+    @target = @default_target
+    @dictcode = @default_dict
+    slim :error404, :status=>404
+  end
+  error do
+    @dict_info = $dict_info
+    @search_params = {}
+    @target = @default_target
+    @dictcode = @default_dict
+    slim :error500, :status=>500
+  end
 end
