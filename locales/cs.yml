@@ -104,6 +104,7 @@ cs:
     category: "obor"
     kat_28: 'biologie'
     kat_6: 'informatika'
+    kat_informatika: "informatika"
     kat_27: 'matematika'
     kat_14: 'podnikání'
     kat_anat: 'anatomie'
