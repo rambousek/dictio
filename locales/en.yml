@@ -273,6 +273,11 @@ en:
     gender:
       m: "male expression"
       f: "female expression"
+    generace:
+      mlada: 'youth'
+      stredni: 'middle age people'
+      starsi: 'elderly people'
+      deti: 'children'
   admin:
     user: "logged user "
     text1: "Admin-tools are currently not available yet. To edit an entry, search for it via dictionary search, enter detailed view of an entry and click on ID number with an pencil icon at the top of the page. You can use former list of entries listed bellow as well. "

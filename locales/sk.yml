@@ -273,6 +273,11 @@ sk:
     gender:
       m: "mužský posunok"
       f: "ženský posunok"
+    generace:
+      mlada: 'mládež'
+      stredni: 'stredná generácia'
+      starsi: 'seniori'
+      deti: 'deti (detský posunok)'
   admin:
     user: "prihlásený používateľ "
     text1: "Administrátorske nástroje ešte niesú k dispozícii. Pre prístup do editácie hesiel použite bežné hledání v slovníku (hľadať môžete aj podľa ID). V detailu hesla kliknete na ID hesla s ikonou tužky. Alebo využijte staré prehledy hesiel dole. Pre založenie nových lém použijte odkazy v Rozcestniku."      
