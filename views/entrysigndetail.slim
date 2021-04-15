@@ -173,7 +173,7 @@
       .video-simple
         h3 id="meaning#{meaning['number']}" #{I18n.t("entry.meaning")} #{meaning['number']}
         - if meaning['category'] and meaning['category'].find{|cat| not cat.nil?}
-          p.naming
+          p.naming class="naming2"
             / | #{I18n.t("entry.category")}: 
             - meaning['category'].select{|cat| not cat.nil?}.each do |cat|
               | #{I18n.t("entry.kat_"+cat)}
