@@ -510,6 +510,9 @@ class CzjApp < Sinatra::Base
     body = response.body
   end
 
+  get '/testerror' do
+    raise ZeroDivisionError
+  end
   not_found do
     @dict_info = $dict_info
     @search_params = {}
