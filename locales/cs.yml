@@ -281,7 +281,7 @@ cs:
       deti: 'děti (dětský znak)'
   error: 
     notfound: ":( stránka nenalezena"
-    internal: ":( chyba serveru
+    internal: ":( chyba serveru"
     internal-text: "Zkuste to prosím později."
   admin:    
     user: "přihlášený uživatel "
