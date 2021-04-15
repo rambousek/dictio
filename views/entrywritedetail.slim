@@ -232,7 +232,7 @@
     .detail__block.detail__block--line
       h3 id="meaning#{meaning['number']}" #{I18n.t("entry.meaning")} #{meaning['number']}
       - if meaning['oblast'].to_s != '' 
-        p.naming style="naming2"
+        p.naming class="naming2"
           / | #{I18n.t("entry.category")}: 
           - meaning['oblast'].to_s.split(';').each do |cat|
             | #{I18n.t("entry.kat_"+cat)}
