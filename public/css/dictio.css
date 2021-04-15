@@ -97,3 +97,6 @@ video.ogs {
   right: 0px;
   font-size: 90%;
 }
+
+h2.error {color: gray}
+img.error {align-self: center}
