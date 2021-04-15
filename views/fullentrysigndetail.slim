@@ -188,9 +188,9 @@
             h3 id="meaning#{meaning['number']}" #{I18n.t("entry.meaning")} #{meaning['number']}
             - if meaning['category'] and meaning['category'].find{|cat| not cat.nil?}
               p.naming
-                | #{I18n.t("entry.category")}: 
+                 / | #{I18n.t("entry.category")}: 
                 - meaning['category'].select{|cat| not cat.nil?}.each do |cat|
-                  span #{I18n.t("entry.kat_"+cat)}
+                  | #{I18n.t("entry.kat_"+cat)}
             /.mobile-text
             /  p 
             /    | Semantic region: 
