@@ -280,7 +280,7 @@ en:
       deti: 'children'
   error: 
     notfound: ":( Page not found"
-    internal: ":( Internal error
+    internal: ":( Internal error"
     internal-text: "Try it later please."
   admin:
     user: "logged user "
