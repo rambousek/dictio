@@ -279,7 +279,8 @@ cs:
       stredni: 'lidé středního věku'
       starsi: 'senioři'
       deti: 'děti (dětský znak)'
-
+  error: 
+    notfound: ":( stránka nenalezena"
   admin:    
     user: "přihlášený uživatel "
     text1: "Administrátorské nástroje v tuto chvíli ještě nejsou k dispozici. Pro přístup do editace hesel si požadované heslo dohledejte pomocí běžného hledání ve slovníku (vyhledávat hesla můžete i podle ID). Následně v detailu hesla klikněte na ID hesla s ikonou tužky. Využít můžete také staré přehledy hesel níže. Odkazy na zakládání nových hesel jsou přístupné z rozcestníku."
