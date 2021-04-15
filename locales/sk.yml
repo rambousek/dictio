@@ -103,6 +103,7 @@ sk:
     category: "obor"
     kat_28: 'biológia'
     kat_6: 'informatika'
+    kat_informatika: "informatika"
     kat_27: 'matematika'
     kat_14: 'podnikanie'
     kat_anat: 'anatómia'
