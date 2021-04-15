@@ -3,4 +3,6 @@ main role="main"
     .container
       .row
         article.col.col--2.col--start role="article"
-          h1 error
+          h2.error #{I18n.t('error.internal')}
+          img.error src="/img/505.png"
+          #{I18n.t('error.internal-text')}
