@@ -1180,11 +1180,13 @@ class CZJDict < Object
         }
         @entrydb.find(query).each{|rel|
           title = rel['lemma']['title'].to_s
-          rel['meanings'].each{|relm|
-            hash = {'title'=>title, 'number'=>relm['number'].to_s, 'id'=>relm['id']}
-            hash['def'] = relm['text']['_text'] if relm['text'] and relm['text']['_text'].to_s != ''
-            list << hash
-          }
+          if rel['meanings']
+            rel['meanings'].each{|relm|
+              hash = {'title'=>title, 'number'=>relm['number'].to_s, 'id'=>relm['id']}
+              hash['def'] = relm['text']['_text'] if relm['text'] and relm['text']['_text'].to_s != ''
+              list << hash
+            }
+          end
         }
       else
         # find media with label
