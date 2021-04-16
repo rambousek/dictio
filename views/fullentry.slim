@@ -2,7 +2,13 @@ main id="mobilespacetop" role="main"
   == slim :searchbox
   section.detail role="region"
     article.container role="article"
-            - if @dict_info[@show_dictcode]['type'] == 'sign'
-              == slim :fullentrysigndetail
-            - else
-              == slim :fullentrywritedetail
+      - if @is_edit or @is_admin
+        - if @dict_info[@show_dictcode]['type'] == 'sign'
+          == slim :fullentrysigndetail_edit
+        - else
+          == slim :fullentrywritedetail_edit
+      - else
+        - if @dict_info[@show_dictcode]['type'] == 'sign'
+          == slim :fullentrysigndetail
+        - else
+          == slim :fullentrywritedetail

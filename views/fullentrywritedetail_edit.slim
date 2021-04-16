@@ -1,0 +1,322 @@
+.detail__head
+  p.detail__badge.detail__badge--top class=((@is_edit? "detail__badge__#{@entry['dict']}":""))
+    | #{I18n.t("dict."+@entry['dict'])} 
+    - if @is_edit
+     a class="edit" href="/editor#{@entry['dict']}/?id=#{@entry['id']}" 
+      | [#{@entry['dict']}-#{@entry['id']}]
+      span.icon.icon--edit
+       svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+        use xlink:href="/img/edit.svg#Capa_1" x="0" y="0" width="100%" height="100%"
+  .detail-word
+    h1.detail-word__headline #{@entry['lemma']['title']} 
+    - if @entry['lemma']['pron'] and @entry['lemma']['pron'] != ""
+      span() [#{@entry['lemma']['pron']}]
+    - if @entry['lemma']['title_var'] and @entry['lemma']['title_var'] != ""
+      h2.detail-category #{@entry['lemma']['title_var']}
+  - if @entry['collocations'] and @entry['collocations']['entries'] and @entry['collocations']['entries'].size > 0
+    h2.detail-category 
+      | #{I18n.t("entry.composed_collocation")}: 
+      - @entry['collocations']['entries'].each do |coll|
+        - if @search.to_s != ''
+          a href="#{@tran_path}/#{coll['id']}" #{coll['lemma']['title']}
+        - else
+          a href="/#{@dictcode}/show/#{coll['id']}" #{coll['lemma']['title']}
+        - unless coll.equal?(@entry['collocations']['entries'].last)
+          | , 
+  - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'].to_s != ''}
+      - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'].to_s != ''}
+        h2.detail-category 
+          - if @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'] != 'ustalene'}
+            | #{I18n.t("entry.lexical")}: 
+          span
+            - slovni_druhy = []
+            - @entry['lemma']['grammar_note'].each{|gr| slovni_druhy << gr['@slovni_druh']}
+            - slovni_druhy.uniq.each do |sd|
+              - if sd.to_s != ''
+                = I18n.t("gram.slovni_druh."+sd)
+                - unless sd.equal?(slovni_druhy.uniq.last)
+                  | , 
+  - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gram| gram['variant'] and gram['variant'].size > 0}
+    h2.detail-category 
+      | #{I18n.t("entry.grammar_variant")}:
+      span
+        - @entry['lemma']['grammar_note'].each do |gram|
+          - if gram['variant']
+            - gram['variant'].each do |var|
+              = var['_text']
+              |,
+  - if @entry['lemma']['gram'] and @entry['lemma']['gram']['form']
+    - if  @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc1'}.size > 0
+      table.table.table--no-margin
+        tr
+          th
+          th = I18n.t("gram.detail.jednotne")
+          th = I18n.t("gram.detail.mnozne")
+        tr
+          td
+            strong = I18n.t("gram.detail.1pad")
+          td
+            - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nSc1'}
+              = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc1'}[0]['_text']
+          td 
+            - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nPc1'}
+              = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc1'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.2pad")
+          td 
+            - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nSc2'}
+              = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc2'}[0]['_text']
+          td 
+            - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nPc2'}
+              = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc2'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.3pad")
+          td 
+            - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nSc3'}
+              = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc3'}[0]['_text']
+          td 
+            - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nPc3'}
+              = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc3'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.4pad")
+          td 
+            - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nSc4'}
+              = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc4'}[0]['_text']
+          td 
+            - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nPc4'}
+              = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc4'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.5pad")
+          td 
+            - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nSc5'}
+              = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc5'}[0]['_text']
+          td 
+            - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nPc5'}
+              = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc5'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.6pad")
+          td 
+            - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nSc6'}
+              = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc6'}[0]['_text']
+          td 
+            - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nPc6'}
+              = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc6'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.7pad")
+          td 
+            - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nSc7'}
+              = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc7'}[0]['_text']
+          td 
+            - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nPc7'}
+              = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc7'}[0]['_text']
+    - if  @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nS'}.size > 0
+      table.table.table--no-margin
+        tr
+          th = I18n.t("gram.detail.jednotne")
+          th = I18n.t("gram.detail.mnozne")
+        tr
+          td
+            - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nS'}
+              = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nS'}[0]['_text']
+          td 
+            - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nP'}
+              = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nP'}[0]['_text']
+    - if  @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mIp1nS'}.size > 0
+      table.table.table--no-margin
+        tr
+          th
+          th = I18n.t("gram.detail.jednotne")
+          th = I18n.t("gram.detail.mnozne")
+        tr
+          td
+            strong = I18n.t("gram.detail.1osoba")
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mIp1nS'}[0]['_text']
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mIp1nP'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.2osoba")
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mIp2nS'}[0]['_text']
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mIp2nP'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.3osoba")
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mIp3nS'}[0]['_text']
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mIp3nP'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.rozkazovaci")
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mRp2nS'}[0]['_text']
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mRp2nP'}[0]['_text']
+        - if @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mAgMnS'}.size > 0
+          tr
+            td
+              strong = I18n.t("gram.detail.pricinne")
+            td colspan="2" = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mAgMnS'}[0]['_text']
+        - if @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mNgMnS'}.size > 0
+          tr
+            td
+              strong = I18n.t("gram.detail.pritrpne")
+            td colspan="2" = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mNgMnS'}[0]['_text']
+        - if @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mSgMnS'}.size > 0
+          tr
+            td
+              strong = I18n.t("gram.detail.prechm")
+            td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mSgMnS'}[0]['_text']
+            td rowspan="2" = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mSgMnP'}[0]['_text']
+          tr
+            td
+              strong = I18n.t("gram.detail.prechzs")
+            td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mSgFnS'}[0]['_text']
+        - if @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mDgMnS'}.size > 0
+          tr
+            td
+              strong = I18n.t("gram.detail.prechm")
+            td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mDgMnS'}[0]['_text']
+            td rowspan="2" = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mDgMnP'}[0]['_text']
+          tr
+            td
+              strong = I18n.t("gram.detail.prechzs")
+            td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'mDgFnS'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.versub")
+          td colspan="2" 
+            - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'gNnSc1'}
+              | = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'gNnSc1'}[0]['_text']
+    - if  @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'd2'}.size > 0
+      table.table.table--no-margin
+        tr
+          td
+            strong = I18n.t("gram.detail.2stupen")
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'd2'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.3stupen")
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'd3'}[0]['_text']
+    - if  @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c1'}.size > 0
+      table.table.table--no-margin
+        tr
+          td
+            strong = I18n.t("gram.detail.1pad")
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c1'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.2pad")
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c2'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.3pad")
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c3'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.4pad")
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c4'}[0]['_text']
+        - if  @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c5'}.size > 0
+          tr
+            td
+              strong = I18n.t("gram.detail.5pad")
+            td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c5'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.6pad")
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c6'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.7pad")
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c7'}[0]['_text']
+
+
+- if @entry['meanings']
+  - @entry['meanings'].each do |meaning|
+    - @meaning = meaning
+    .row
+      .col.col--2
+        .detail__block.detail__block--line
+          h3 id="meaning#{meaning['number']}" #{I18n.t("entry.meaning")} #{meaning['number']}
+          - if meaning['oblast'].to_s != '' 
+            p.naming class="naming2"
+              / | #{I18n.t("entry.category")}: 
+              - meaning['oblast'].to_s.split(';').each do |cat|
+                | #{I18n.t("entry.kat_"+cat)}
+          - if meaning['text'] and meaning['text']['_text']
+            p 
+              - mtext = meaning['text']['_text'].gsub(/\[[0-9]+(-[0-9]+)?\]/) {|rl| rla=rl[1..-2].split('-'); "<a href='/#{@entry['dict']}/show/#{rla[0]}'>#{meaning['def_relations'][rla[0]]}"+(rla[1].to_s==''?"":" (#{rla[1]})")+"</a>"}
+              == mtext
+          - else 
+              .info.is-pushed style="margin-top: 0; padding: 0"
+                 span.icon.icon--info.info__icon style="margin-top: 0; color: red" 
+                  svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                    use xlink:href="/img/icons.svg#info" x="0" y="0" width="100%" height="100%"
+                 p style="color: red" #{I18n.t("entry.nocontent")}
+          - if meaning['relation'].find{|rel| rel['type'] == 'synonym'}
+            h4 #{I18n.t("entry.synonyms")}:
+            - meaning['relation'].select{|rel| rel['type'] == 'synonym'}.each do |rel|
+              - if rel['entry']
+                - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id'].to_s
+                p
+                  - if rel['entry']['id']
+                    - if @search.to_s != ''
+                      a.link href="#{@tran_path}/#{relid}" #{rel['entry']['lemma']['title']}
+                      |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
+                    - else
+                      a.link href="/#{rel['target']}/show/#{rel['entry']['id']}"  #{rel['entry']['lemma']['title']}
+                      |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
+                  - else
+                    = rel['entry']['lemma']['title']
+          - if meaning['relation'].find{|rel| rel['type'] == 'antonym'}
+            h4 #{I18n.t("entry.antonyms")}:
+            - meaning['relation'].select{|rel| rel['type'] == 'antonym'}.each do |rel|
+              - if rel['entry']
+                - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id'].to_s
+                p
+                  - if rel['entry']['id']
+                    - if @search.to_s != ''
+                      a.link href="#{@tran_path}/#{relid}" #{rel['entry']['lemma']['title']}
+                      |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
+                    - else
+                      a.link href="/#{rel['target']}/show/#{rel['entry']['id']}"  #{rel['entry']['lemma']['title']}
+                      |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
+                  - else
+                    = rel['entry']['lemma']['title']
+          - if meaning['usages'] and meaning['usages'].size > 0
+            h4 #{I18n.t("entry.examples")}:
+            - meaning['usages'].each do |usg|
+              p.example
+                em = usg['text']['_text']
+            p.more-example.link style="display:none;cursor:pointer" = I18n.t('entry.more_example')
+  
+      .col.col--2
+        .detail__block.detail__block--wide
+          == slim :fullentrytrans_edit
+
+- if @entry['revcollocations'] and @entry['revcollocations']['entries'].size > 0
+  .row.row--start
+    .col.col--2.col--precise
+      .detail__block.detail__block--line
+        div.detail-block
+          h3.headline.detail-block__headline = I18n.t("entry.collocation_with_this")
+          div.dropdown
+          - @entry['revcollocations']['entries'].each do |colloc|
+            div.dropdown__item
+              div.dropdown__item__name = colloc['lemma']['title']
+              div.dropdown__item__detail
+                - if colloc['meanings']
+                  - colloc['meanings'].each do |meaning|
+                    p.naming #{I18n.t("entry.meaning")} #{meaning['number']}:
+                    p == meaning['text']['_text']
+                    - if meaning['usages'] and meaning['usages'].size > 0
+                      p.naming #{I18n.t("entry.examples")}:
+                      - meaning['usages'].each do |usg|
+                        p: em = usg['text']['_text']
+                - relid = (colloc['dict'] == @dictcode) ? colloc['id'] : colloc['dict']+'-'+colloc['id'].to_s
+                p
+                  - if @search.to_s != ''
+                    a.btn.btn--secondary href="#{@tran_path}/#{relid}" = I18n.t("entry.full_details")
+                  - else
+                    a.btn.btn--secondary href="/#{colloc['dict']}/show/#{colloc['id']}" = I18n.t("entry.full_details")
