@@ -1620,6 +1620,7 @@ class CZJDict < Object
     @entrydb.find({'$and': search_cond}, :collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'id' => 1}).each{|res|
       report['entries'] << res
     }
+    $stdout.puts search_cond
     report['query'] = search_cond
     return report
   end
@@ -1689,6 +1690,24 @@ class CZJDict < Object
     end
 
     # schvaleny preklad
+    if params['pubtranscs'].to_s != ''
+      trantarget = 'cs'
+      if params['pubtranscs'].to_s == 'ano'
+      else
+        search_cond << {'$or':[
+          {'meanings.relation': {'$not': {'$elemMatch': {'type': 'translation', 'target': trantarget}}}},
+          {'meanings.relation': {'$elemMatch': {'type': 'translation', 'target': trantarget, 'status': 'hidden'}}}
+        ]}
+      end
+    end
+
+    if params['pubtranscs'].to_s == 'ne' and params['translationcs'].to_s == 'ano'
+      trantarget = 'cs'
+      search_cond << {
+        'meanings.relation': {'$elemMatch': {'status': {'$ne': 'published'}, 'target': trantarget, 'type': 'translation', 'meaning_id': {'$regex':/^[-0-9]*(_us[0-9]*)?$/}}}
+      }
+    end
+
 
     #'region',
     #'mkok',
