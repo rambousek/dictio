@@ -81,8 +81,13 @@ server {
         proxy_set_header Host $http_host;
         proxy_redirect off;
         proxy_pass http://sinatra;
-  }
+    }
 
+    error_page 502 /502.html;
+    location = /502.html {
+        root /srv/dictio/public/;
+        internal;
+    }
 }
 ```
 
