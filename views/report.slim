@@ -9,7 +9,7 @@ main role="main"
       .row
         article.col.col--start role="article"
           p 
-            -if @params['schvcelni'] != ''
+            -if @params['schvcelni'] 
               -if @params['schvcelni'] == 'ano'
                 a.btn class="btn-secondary" href="" style="background-color: darkgreen; font-size: 0.7rem" #{I18n.t("admin.schvcelni")}
               - else
@@ -19,17 +19,17 @@ main role="main"
                 a.btn class="btn-secondary" href="" style="background-color: darkgreen; font-size: 0.7rem" #{I18n.t("admin.vyznamvid")}
               - else 
                 a.btn class="btn-secondary" href="" style="background-color: darkred; font-size: 0.7rem" #{I18n.t("admin.vyznamvid")}
-            -if @params['vyznam'] != ''     
+            -if @params['vyznam']     
               -if @params['vyznam'] == 'ano' 
                 a.btn class="btn-secondary" href="" style="background-color: darkgreen; font-size: 0.7rem" #{I18n.t("admin.vyznam")}
               - else 
                 a.btn class="btn-secondary" href="" style="background-color: darkred; font-size: 0.7rem" #{I18n.t("admin.vyznam")}
-            -if @params['pubtranscs'] != ''     
+            -if @params['pubtranscs']      
               -if @params['pubtranscs'] == 'ano' 
                 a.btn class="btn-secondary" href="" style="background-color: darkgreen; font-size: 0.7rem" #{I18n.t("admin.pubtranscs")}
               - else 
                 a.btn class="btn-secondary" href="" style="background-color: darkred; font-size: 0.7rem" #{I18n.t("admin.pubtranscs")}
-            -if @params['translationcs'] != ''     
+            -if @params['translationcs']     
               -if @params['translationcs'] == 'ano' 
                 a.btn class="btn-secondary" href="" style="background-color: darkgreen; font-size: 0.7rem" #{I18n.t("admin.translationcs")}
               - else 
