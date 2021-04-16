@@ -24,16 +24,16 @@ main role="main"
                 a.btn class="btn-secondary" href="" style="background-color: darkgreen; font-size: 0.7rem" #{I18n.t("admin.vyznam")}
               - else 
                 a.btn class="btn-secondary" href="" style="background-color: darkred; font-size: 0.7rem" #{I18n.t("admin.vyznam")}
-            -if @params['pubtranscs']      
-              -if @params['pubtranscs'] == 'ano' 
-                a.btn class="btn-secondary" href="" style="background-color: darkgreen; font-size: 0.7rem" #{I18n.t("admin.pubtranscs")}
-              - else 
-                a.btn class="btn-secondary" href="" style="background-color: darkred; font-size: 0.7rem" #{I18n.t("admin.pubtranscs")}
             -if @params['translationcs']     
               -if @params['translationcs'] == 'ano' 
                 a.btn class="btn-secondary" href="" style="background-color: darkgreen; font-size: 0.7rem" #{I18n.t("admin.translationcs")}
               - else 
                 a.btn class="btn-secondary" href="" style="background-color: darkred; font-size: 0.7rem" #{I18n.t("admin.translationcs")}
+            -if @params['pubtranscs']      
+              -if @params['pubtranscs'] == 'ano' 
+                a.btn class="btn-secondary" href="" style="background-color: darkgreen; font-size: 0.7rem" #{I18n.t("admin.pubtranscs")}
+              - else 
+                a.btn class="btn-secondary" href="" style="background-color: darkred; font-size: 0.7rem" #{I18n.t("admin.pubtranscs")}
       
       table.table class="table--no-margin"
             - @report['entries'].each do |entry|
