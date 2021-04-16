@@ -63,12 +63,12 @@
                   - coll['lemma']['swmix'].each do |sw|
                     img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
 
-  - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'] != '' or gr['@mluv_komp'] != '' or gr['@oral_komp'] != '' or gr['_text'].to_s != '' or gr['variant'] != nil or gr['@region'] != ''}
+  - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'].to_s != '' or gr['@mluv_komp'].to_s != '' or gr['@oral_komp'].to_s != '' or gr['_text'].to_s != '' or gr['variant'] != nil or gr['@region'].to_s != ''}
 
     .block.mobile-hide
-      - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh']!=''}
+      - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'].to_s != ''}
         h2.detail-category
-          - if @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh']!='ustalene'}
+          - if @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'] != 'ustalene'}
             | #{I18n.t("entry.lexical")}: 
           span
             - slovni_druhy = []

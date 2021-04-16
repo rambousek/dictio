@@ -23,10 +23,10 @@
           a href="/#{@dictcode}/show/#{coll['id']}" #{coll['lemma']['title']}
         - unless coll.equal?(@entry['collocations']['entries'].last)
           | , 
-  - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'] != ''}
-      - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh']!=''}
+  - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'].to_s != ''}
+      - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'].to_s != ''}
         h2.detail-category 
-          - if @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh']!='ustalene'}
+          - if @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'] != 'ustalene'}
             | #{I18n.t("entry.lexical")}: 
           span
             - slovni_druhy = []
