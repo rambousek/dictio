@@ -14,7 +14,7 @@ main role="main"
                 a.btn class="btn-secondary" href="" style="background-color: darkgreen; font-size: 0.7rem" #{I18n.t("admin.schvcelni")}
               - else
                 a.btn class="btn-secondary" href="" style="background-color: darkred; font-size: 0.7rem" #{I18n.t("admin.schvcelni")}
-            -if @params['vyznamvid'] != ''
+            -if @params['vyznamvid'] 
               -if @params['vyznamvid'] == 'ano'
                 a.btn class="btn-secondary" href="" style="background-color: darkgreen; font-size: 0.7rem" #{I18n.t("admin.vyznamvid")}
               - else 
