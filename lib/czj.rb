@@ -587,7 +587,7 @@ class CZJDict < Object
           search_in = @dict_info[dictcode]['search_in'] unless @dict_info[dictcode]['search_in'].nil?
           csl = [search, search_orig]
           if search != ''
-            $mongo['entries'].find({'dict'=>search_in, 'lemma.title'=> search}, {'projection'=>{'meanings.id'=>1, '_id'=>0}}).each{|re|
+            $mongo['entries'].find({'dict'=>search_in, 'lemma.title'=> {'$regex'=>/^#{search}/i}}, {'projection'=>{'meanings.id'=>1, '_id'=>0}}).each{|re|
               unless re['meanings'].nil?
                 re['meanings'].each{|rl| 
                   csl << rl['id']
@@ -1685,6 +1685,8 @@ class CZJDict < Object
         search_cond << {'lemma.completeness': params['completenessbox']}
       end
     end
+
+    # schvaleny preklad
 
     #'region',
     #'mkok',
