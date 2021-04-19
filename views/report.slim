@@ -39,7 +39,7 @@ main role="main"
             - @report['entries'].each do |entry|
               tr
                 td width="10%"
-                  a href="/#{@dictcode}/show/#{entry['id']}" target="_blank" = entry['id']
+                  a href="https://edit.dictio.info/#{@dictcode}/show/#{entry['id']}" target="_blank" = entry['id']
                 td 
                   - if entry['lemma']['video_front']
                     = entry['lemma']['video_front']
