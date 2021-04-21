@@ -237,9 +237,9 @@ class CZJDict < Object
     else
       # jednoduche
       if entry['lemma']['sw']
-        if entry['lemma']['sw'].find{|sw| sw['@primary'] == 'true'}
+        if entry['lemma']['sw'].find{|sw| sw['@primary'].to_s == 'true'}
           # primary SW
-          entry['lemma']['swmix'] = entry['lemma']['sw'].select{|sw| sw['@primary'] == 'true'}
+          entry['lemma']['swmix'] = entry['lemma']['sw'].select{|sw| sw['@primary'].to_s == 'true'}
         else
           # no primary SW
           entry['lemma']['swmix'] = entry['lemma']['sw'].dup
