@@ -1545,7 +1545,7 @@ function load_doc(id) {
             if (swx['@id']) sw.query('component[name="swid"]')[0].setValue(swx['@id']);
             if (swx['@fsw']) sw.query('component[name="fsw"]')[0].setValue(swx['@fsw']);
             if (swx['@misto']) sw.query('component[name="misto"]')[0].setValue(swx['@misto'].split(';'));
-            if (swx['@primary'] && swx['@primary'] == 'true') sw.query('component[name="primary_sw"]')[0].setValue(true);
+            if (swx['@primary'] && (swx['@primary'] == 'true' || swx['@primary'] == true)) sw.query('component[name="primary_sw"]')[0].setValue(true);
             if (swx['_text']) sw.query('component[name="swdata"]')[0].setValue(swx['_text']);
             //copyright
             if (swx['@author']) sw.query('component[name="copy_autor"]')[0].setValue(swx['@author']);
