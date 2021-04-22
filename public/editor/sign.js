@@ -2126,8 +2126,8 @@ function save_doc(id) {
       }
     }
     var textval = meanings[i].query('component[name="'+meanings[i].id+'_text_text"]')[0].getValue();
-    if (textval.match(/[media_id=[0-9]*]/)) {
-      var tmed = textval.match(/[media_id=([0-9]*)]/)[1];
+    if (textval.match(/\[media_id=[0-9]*\]/)) {
+      var tmed = textval.match(/\[media_id=([0-9]*)\]/)[1];
       newmean.text = {'file':{'@media_id': tmed}};
     } else {
       newmean.text = {'_text': textval};
@@ -2187,8 +2187,8 @@ function save_doc(id) {
         newuse.created_at = Ext.Date.format(new Date(), 'Y-m-d H:i:s');
       }
       var textval = uses[j].query('component[name="'+uses[j].id+'text_text"]')[0].getValue();
-      if (textval.match(/[media_id=[0-9]*]/)) {
-        var tmed = textval.match(/[media_id=([0-9]*)]/)[1];
+      if (textval.match(/\[media_id=[0-9]*\]/)) {
+        var tmed = textval.match(/\[media_id=([0-9]*)\]/)[1];
         newuse.text = {'file':{'@media_id': tmed}};
       } else {
         newuse.text = {'_text': textval};
