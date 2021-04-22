@@ -2,12 +2,16 @@ doctype html
 html style="height: auto"
   head
     title #{@dictcode.upcase}
+    link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png"
+    link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png"
+    link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png"
+    link rel="manifest" href="/favicon/site.webmanifest"
     meta charset="utf-8"
     javascript:
       var dictcode = '#{@dictcode}';
       var lang = '#{@selectlang}';
     script type="text/javascript" charset="utf-8" src="/editor/lib/ext-all.js"
-    script  src="https://code.jquery.com/jquery-1.12.4.min.js"  integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="  crossorigin="anonymous"
+    script src="https://code.jquery.com/jquery-1.12.4.min.js"  integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="  crossorigin="anonymous"
     script type="text/javascript" charset="utf-8" src="/editor/locale.js"
     script type="text/javascript" charset="utf-8" src="/editor/#{@dict_info[@dictcode]['type']}.js"
     script type="text/javascript" charset="utf-8" src="/editor/swfobject/swfobject.js"
