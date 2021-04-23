@@ -100,3 +100,6 @@ video.ogs {
 
 h2.error {color: gray}
 img.error {align-self: center}
+
+.report-ano {background-color: darkgreen; font-size: 0.7rem;}
+.report-ne {background-color: darkred; font-size: 0.7rem;}

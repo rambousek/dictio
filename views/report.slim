@@ -11,30 +11,30 @@ main role="main"
           p 
             - if @params['schvcelni'] 
               - if @params['schvcelni'] == 'ano'
-                a.btn class="btn-secondary" href="" style="background-color: darkgreen; font-size: 0.7rem" #{I18n.t("admin.schvcelni")}
+                a.btn class="btn-secondary report-ano" href="" #{I18n.t("admin.schvcelni")}
               - else
-                a.btn class="btn-secondary" href="" style="background-color: darkred; font-size: 0.7rem" #{I18n.t("admin.schvcelni")}
+                a.btn class="btn-secondary report-ne" href="" #{I18n.t("admin.schvcelni")}
             - if @params['vyznamvid'] 
               - if @params['vyznamvid'] == 'ano'
-                a.btn class="btn-secondary" href="" style="background-color: darkgreen; font-size: 0.7rem" #{I18n.t("admin.vyznamvid")}
+                a.btn class="btn-secondary report-ano" href="" #{I18n.t("admin.vyznamvid")}
               - else 
-                a.btn class="btn-secondary" href="" style="background-color: darkred; font-size: 0.7rem" #{I18n.t("admin.vyznamvid")}
+                a.btn class="btn-secondary report-ne" href="" #{I18n.t("admin.vyznamvid")}
             - if @params['vyznam']     
               - if @params['vyznam'] == 'ano' 
-                a.btn class="btn-secondary" href="" style="background-color: darkgreen; font-size: 0.7rem" #{I18n.t("admin.vyznam")}
+                a.btn class="btn-secondary report-ano" href="" #{I18n.t("admin.vyznam")}
               - else 
-                a.btn class="btn-secondary" href="" style="background-color: darkred; font-size: 0.7rem" #{I18n.t("admin.vyznam")}
+                a.btn class="btn-secondary report-ne" href="" #{I18n.t("admin.vyznam")}
             - $dict_info.each do |code,hash|
               - if @params['translation'+code]
                 - if @params['translation'+code] == 'ano'
-                  a.btn class="btn-secondary" href="" style="background-color: darkgreen; font-size: 0.7rem" #{I18n.t("admin.translation"+code)}
+                  a.btn class="btn-secondary report-ano" href="" #{I18n.t("admin.translation"+code)}
                 - else 
-                  a.btn class="btn-secondary" href="" style="background-color: darkred; font-size: 0.7rem" #{I18n.t("admin.translation"+code)}
+                  a.btn class="btn-secondary report-ne" href="" #{I18n.t("admin.translation"+code)}
               - if @params['pubtrans'+code]
                 - if @params['pubtrans'+code] == 'ano'
-                  a.btn class="btn-secondary" href="" style="background-color: darkgreen; font-size: 0.7rem" #{I18n.t("admin.pubtrans"+code)}
+                  a.btn class="btn-secondary report-ano" href="" #{I18n.t("admin.pubtrans"+code)}
                 - else 
-                  a.btn class="btn-secondary" href="" style="background-color: darkred; font-size: 0.7rem" #{I18n.t("admin.pubtrans"+code)}
+                  a.btn class="btn-secondary report-ne" href="" #{I18n.t("admin.pubtrans"+code)}
       
       table.table class="table--no-margin"
             - @report['entries'].each do |entry|
