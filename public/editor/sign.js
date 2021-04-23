@@ -1545,7 +1545,7 @@ function load_doc(id) {
             if (swx['@id']) sw.query('component[name="swid"]')[0].setValue(swx['@id']);
             if (swx['@fsw']) sw.query('component[name="fsw"]')[0].setValue(swx['@fsw']);
             if (swx['@misto']) sw.query('component[name="misto"]')[0].setValue(swx['@misto'].split(';'));
-            if (swx['@primary'] && swx['@primary'] == 'true') sw.query('component[name="primary_sw"]')[0].setValue(true);
+            if (swx['@primary'] && (swx['@primary'] == 'true' || swx['@primary'] == true)) sw.query('component[name="primary_sw"]')[0].setValue(true);
             if (swx['_text']) sw.query('component[name="swdata"]')[0].setValue(swx['_text']);
             //copyright
             if (swx['@author']) sw.query('component[name="copy_autor"]')[0].setValue(swx['@author']);
@@ -1603,7 +1603,7 @@ function load_doc(id) {
             textval = '';
             var previews = new Array();
             if (meaning['text'] && meaning['text']['file']) {
-              textval += ' <file media_id="'+meaning['text']['file']['@media_id']+'"/>';
+              textval += ' [media_id='+meaning['text']['file']['@media_id']+']';
               previews.push(meaning['text']['file']['@media_id']);
             }
             vyznam.query('component[name="'+vyznam.id+'_text_text"]')[0].setValue($.trim(textval));
@@ -1743,7 +1743,7 @@ function load_doc(id) {
                 textval = '';
                 var previews = new Array();
                 if (usage['text'] && usage['text']['file'] && usage['text']['file']['@media_id']) {
-                  textval += ' <file media_id="'+usage['text']['file']['@media_id']+'"/>';
+                  textval += ' [media_id='+usage['text']['file']['@media_id']+']';
                   previews.push(usage['text']['file']['@media_id']);
                 } 
                 if (usage['text'] && usage['text']['_text']) textval = usage['text']['_text'];
@@ -2126,8 +2126,8 @@ function save_doc(id) {
       }
     }
     var textval = meanings[i].query('component[name="'+meanings[i].id+'_text_text"]')[0].getValue();
-    if (textval.match(/<file media_id="[0-9]*"\/>/)) {
-      var tmed = textval.match(/<file media_id="([0-9]*)"\/>/)[1];
+    if (textval.match(/\[media_id=[0-9]*\]/)) {
+      var tmed = textval.match(/\[media_id=([0-9]*)\]/)[1];
       newmean.text = {'file':{'@media_id': tmed}};
     } else {
       newmean.text = {'_text': textval};
@@ -2187,8 +2187,8 @@ function save_doc(id) {
         newuse.created_at = Ext.Date.format(new Date(), 'Y-m-d H:i:s');
       }
       var textval = uses[j].query('component[name="'+uses[j].id+'text_text"]')[0].getValue();
-      if (textval.match(/<file media_id="[0-9]*"\/>/)) {
-        var tmed = textval.match(/<file media_id="([0-9]*)"\/>/)[1];
+      if (textval.match(/\[media_id=[0-9]*\]/)) {
+        var tmed = textval.match(/\[media_id=([0-9]*)\]/)[1];
         newuse.text = {'file':{'@media_id': tmed}};
       } else {
         newuse.text = {'_text': textval};
@@ -2631,7 +2631,7 @@ function create_text_video(idstart, entryid, label, show_copy, video_type) {
             },
             'select': function(combo, record, index) {
               if (combo.getValue() != '') {
-                Ext.getCmp('tabForm').query('component[name="'+idstart+'_text"]')[0].setValue(Ext.getCmp('tabForm').query('component[name="'+idstart+'_text"]')[0].getValue()+' <file media_id="'+combo.getValue()+'"/>');
+                Ext.getCmp('tabForm').query('component[name="'+idstart+'_text"]')[0].setValue(Ext.getCmp('tabForm').query('component[name="'+idstart+'_text"]')[0].getValue()+' [media_id='+combo.getValue()+']');
               }
             },
           },

@@ -478,10 +478,17 @@ class CzjApp < Sinatra::Base
 
   get '/swapi/symbol_table/sg.:sg.bs.:bs.json' do
     data = {}
-    $mongo['symbol'].find({'id'=>params['sg']}).each{|sy|
-      data[sy['id']] = sy
-      data[sy['id']]['sid'] = sy['id']
-    }
+    if params['bs'].to_s == '0'
+      $mongo['symbol'].find({'id'=>params['sg']}).each{|sy|
+        data[sy['id']] = sy
+        data[sy['id']]['sid'] = sy['id']
+      }
+    else
+      $mongo['symbol'].find({'id'=>params['bs']}).each{|sy|
+        data[sy['id']] = sy
+        data[sy['id']]['sid'] = sy['id']
+      }
+    end
     $mongo['symbol'].find({'sg'=>params['sg'], 'bs'=>params['bs']}).each{|sy|
       data[sy['id']] = sy
     }

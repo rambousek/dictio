@@ -14,7 +14,7 @@ main id="mobilespacetop" role="main"
                   div style="width:70%"
                     .video.video--small
                       .video__content
-                        - if entry['media'] and entry['media']['video_front'] and entry['media']['video_front']['orient']
+                        - if entry['media'] and entry['media']['video_front'] and entry['media']['video_front']['orient'].to_s != ''
                           span.video-orient = entry['media']['video_front']['orient'].to_s[0].to_s.upcase
                         - else
                           span.video-orient P

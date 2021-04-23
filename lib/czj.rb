@@ -237,9 +237,9 @@ class CZJDict < Object
     else
       # jednoduche
       if entry['lemma']['sw']
-        if entry['lemma']['sw'].find{|sw| sw['@primary'] == 'true'}
+        if entry['lemma']['sw'].find{|sw| sw['@primary'].to_s == 'true'}
           # primary SW
-          entry['lemma']['swmix'] = entry['lemma']['sw'].select{|sw| sw['@primary'] == 'true'}
+          entry['lemma']['swmix'] = entry['lemma']['sw'].select{|sw| sw['@primary'].to_s == 'true'}
         else
           # no primary SW
           entry['lemma']['swmix'] = entry['lemma']['sw'].dup
@@ -587,7 +587,7 @@ class CZJDict < Object
           search_in = @dict_info[dictcode]['search_in'] unless @dict_info[dictcode]['search_in'].nil?
           csl = [search, search_orig]
           if search != ''
-            $mongo['entries'].find({'dict'=>search_in, 'lemma.title'=> search}, {'projection'=>{'meanings.id'=>1, '_id'=>0}}).each{|re|
+            $mongo['entries'].find({'dict'=>search_in, 'lemma.title'=> {'$regex'=>/^#{search}/i}}, {'projection'=>{'meanings.id'=>1, '_id'=>0}}).each{|re|
               unless re['meanings'].nil?
                 re['meanings'].each{|rl| 
                   csl << rl['id']
@@ -1180,11 +1180,13 @@ class CZJDict < Object
         }
         @entrydb.find(query).each{|rel|
           title = rel['lemma']['title'].to_s
-          rel['meanings'].each{|relm|
-            hash = {'title'=>title, 'number'=>relm['number'].to_s, 'id'=>relm['id']}
-            hash['def'] = relm['text']['_text'] if relm['text'] and relm['text']['_text'].to_s != ''
-            list << hash
-          }
+          if rel['meanings']
+            rel['meanings'].each{|relm|
+              hash = {'title'=>title, 'number'=>relm['number'].to_s, 'id'=>relm['id']}
+              hash['def'] = relm['text']['_text'] if relm['text'] and relm['text']['_text'].to_s != ''
+              list << hash
+            }
+          end
         }
       else
         # find media with label
@@ -1618,6 +1620,7 @@ class CZJDict < Object
     @entrydb.find({'$and': search_cond}, :collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'id' => 1}).each{|res|
       report['entries'] << res
     }
+    $stdout.puts search_cond
     report['query'] = search_cond
     return report
   end
@@ -1685,6 +1688,82 @@ class CZJDict < Object
         search_cond << {'lemma.completeness': params['completenessbox']}
       end
     end
+
+    # schvaleny preklad
+    if params['pubtranscs'].to_s != ''
+      trantarget = 'cs'
+      if params['pubtranscs'].to_s == 'ano'
+      else
+        search_cond << {'$or':[
+          {'meanings.relation': {'$not': {'$elemMatch': {'type': 'translation', 'target': trantarget}}}},
+          {'meanings.relation': {'$elemMatch': {'type': 'translation', 'target': trantarget, 'status': 'hidden'}}}
+        ]}
+      end
+    end
+
+    if params['pubtranscs'].to_s == 'ne' and params['translationcs'].to_s == 'ano'
+      trantarget = 'cs'
+      search_cond << {
+        'meanings.relation': {'$elemMatch': {'status': {'$ne': 'published'}, 'target': trantarget, 'type': 'translation', 'meaning_id': {'$regex':/^[-0-9]*(_us[0-9]*)?$/}}}
+      }
+    end
+
+
+    #'region',
+    #'mkok',
+    #'mluvkomp',
+    #'oralkomp',
+    #'bez_sw',
+    #'bez_hns',
+    #'nes_sw',
+    #'nes_hns',
+    #'rucne',
+    #'vztahy',
+    #'videa',
+    #'noupdate',
+    #'translation',
+    #'usage',
+    #'videa2',
+    #'artik',
+    #'koment',
+    #'komentbox',
+    #'koment_user',
+    #'usagecs' ,
+    #'usagecszad' ,
+    #'vyznamcs',
+    #'vyznamcszad',
+    #'coll',
+    #'usagevid',
+    #'pubtrans',
+    #'autocomp',
+    #'autocompbox',
+    #'translationczj',
+    #'translationis',
+    #'translationasl',
+    #'translationen',
+    #'translationcs',
+    #'translationde',
+    #'translationogs',
+    #'pubtransczj',
+    #'pubtransasl',
+    #'pubtransis',
+    #'pubtransen',
+    #'pubtranscs',
+    #'pubtransde',
+    #'pubtransogs',
+    #'sldruh',
+    #'slovni_druh',
+    #'relpub',
+    #'texttranslationen',
+    #'translationsj',
+    #'translationspj',
+    #'pubtransspj',
+    #'pubtranssj',
+    #'koment_moje',
+    #'typhesla',
+    #'seltyphesla',
+    #'trpriklad'
+
 
     return search_cond, trans_used
   end
