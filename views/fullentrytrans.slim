@@ -44,5 +44,6 @@
                     - rel['entry']['lemma']['swmix'].each do |sw|
                       img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
             .video__info
-              p #{I18n.t("entry.meaning_small")} #{rel['meaning_nr']}
+              - if rel['meaning_nr']
+                p #{I18n.t("entry.meaning_small")} #{rel['meaning_nr']}
         p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_trans')
