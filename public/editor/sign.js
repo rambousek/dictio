@@ -1481,7 +1481,7 @@ function load_doc(id) {
           if (gram['@mluv_komp_sel']) Ext.getCmp('gramdesc').query('component[name="mluv_komp_sel"]')[0].setValue(gram['@mluv_komp_sel']);
           if (gram['@oral_komp']) Ext.getCmp('gramdesc').query('component[name="oral_komp"]')[0].setValue(gram['@oral_komp']);
           if (gram['@oral_komp_sel']) Ext.getCmp('gramdesc').query('component[name="oral_komp_sel"]')[0].setValue(gram['@oral_komp_sel']);
-          if (gram['@region']) Ext.getCmp('styldesc').query('component[name="region"]')[0].setValue(gram['@region']);
+          if (gram['@region']) Ext.getCmp('styldesc').query('component[name="region"]')[0].setValue(gram['@region'].split(';'));
           change_stav(Ext.getCmp('gramdesc').query('component[name="stavcont"]')[0], gram['@status']);
           /* gram. kategorie */
           Ext.getCmp('gramcont').query('[name=gramitem]')[0].destroy();
