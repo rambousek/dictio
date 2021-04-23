@@ -1708,6 +1708,30 @@ class CZJDict < Object
     if params['pubtranscs'].to_s != ''
       search_cond << pubtrans_cond(params['pubtranscs'], 'cs')
     end
+    if params['pubtransczj'].to_s != ''
+      search_cond << pubtrans_cond(params['pubtransczj'], 'czj')
+    end
+    if params['pubtransogs'].to_s != ''
+      search_cond << pubtrans_cond(params['pubtransogs'], 'ogs')
+    end
+    if params['pubtransde'].to_s != ''
+      search_cond << pubtrans_cond(params['pubtransde'], 'de')
+    end
+    if params['pubtranssj'].to_s != ''
+      search_cond << pubtrans_cond(params['pubtranssj'], 'sj')
+    end
+    if params['pubtransspj'].to_s != ''
+      search_cond << pubtrans_cond(params['pubtransspj'], 'spj')
+    end
+    if params['pubtransis'].to_s != ''
+      search_cond << pubtrans_cond(params['pubtransis'], 'is')
+    end
+    if params['pubtransasl'].to_s != ''
+      search_cond << pubtrans_cond(params['pubtransasl'], 'asl')
+    end
+    if params['pubtransen'].to_s != ''
+      search_cond << pubtrans_cond(params['pubtransen'], 'en')
+    end
     # kombinace schvaleny, publikovany preklad TODO
     if params['pubtranscs'].to_s == 'ne' and params['translationcs'].to_s == 'ano'
       trantarget = 'cs'
