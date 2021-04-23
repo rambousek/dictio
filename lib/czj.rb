@@ -1614,6 +1614,21 @@ class CZJDict < Object
     end
   end
 
+  def pubtrans_cond(val, target)
+    if val == 'ano'
+      return {'$or': [
+        {'meanings.relation': {'$elemMatch': {'type': 'translation', 'target': target, 'status': 'published'}}},
+        {'meanings.usages.relation': {'$elemMatch': {'type': 'translation', 'target': target, 'status': 'published'}}}
+      ]}
+    else
+      return {'$or': [
+        {'meanings.relation': {'$not': {'$elemMatch': {'type': 'translation', 'target': target}}}},
+        {'meanings.relation': {'$elemMatch': {'type': 'translation', 'target': target, 'status': 'hidden'}}},
+        {'meanings.usages.relation': {'$elemMatch': {'type': 'translation', 'target': target, 'status': 'hidden'}}}
+      ]}
+    end
+  end
+
   def get_report(params, user_info)
     report = {'query'=>{},'entries'=>[]}
     search_cond, trans_used = get_search_cond(params, user_info)
@@ -1691,15 +1706,7 @@ class CZJDict < Object
 
     # schvaleny preklad
     if params['pubtranscs'].to_s != ''
-      trantarget = 'cs'
-      if params['pubtranscs'].to_s == 'ano'
-        #TODO
-      else
-        search_cond << {'$or':[
-          {'meanings.relation': {'$not': {'$elemMatch': {'type': 'translation', 'target': trantarget}}}},
-          {'meanings.relation': {'$elemMatch': {'type': 'translation', 'target': trantarget, 'status': 'hidden'}}}
-        ]}
-      end
+      search_cond << pubtrans_cond(params['pubtranscs'], 'cs')
     end
     # kombinace schvaleny, publikovany preklad TODO
     if params['pubtranscs'].to_s == 'ne' and params['translationcs'].to_s == 'ano'
