@@ -80,6 +80,7 @@ sk:
     style_details: "Styl. poznámka"
     style_variant: "Styl. varianty"
     distribution_area: "Oblasť rozšírenia"
+    circumloc: "Opisný preklad. Víz príklady použitia."
     origin: "Prevzaté od"
     meaning: "Význam"
     synonyms: "Synonymá"

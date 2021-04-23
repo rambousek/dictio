@@ -47,5 +47,5 @@
               - if rel['meaning_nr']
                 p #{I18n.t("entry.meaning_small")} #{rel['meaning_nr']}
               - if rel['meaning_id'].include?('_us')
-                p příklad
+                p style="font-size: smaller; font-style: italic" #{I18n.t("entry.circumloc")}
         p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_trans')
