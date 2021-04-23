@@ -1693,6 +1693,7 @@ class CZJDict < Object
     if params['pubtranscs'].to_s != ''
       trantarget = 'cs'
       if params['pubtranscs'].to_s == 'ano'
+        #TODO
       else
         search_cond << {'$or':[
           {'meanings.relation': {'$not': {'$elemMatch': {'type': 'translation', 'target': trantarget}}}},
@@ -1700,12 +1701,19 @@ class CZJDict < Object
         ]}
       end
     end
-
+    # kombinace schvaleny, publikovany preklad TODO
     if params['pubtranscs'].to_s == 'ne' and params['translationcs'].to_s == 'ano'
       trantarget = 'cs'
       search_cond << {
         'meanings.relation': {'$elemMatch': {'status': {'$ne': 'published'}, 'target': trantarget, 'type': 'translation', 'meaning_id': {'$regex':/^[-0-9]*(_us[0-9]*)?$/}}}
       }
+    end
+
+    # komentare
+    if params['koment'].to_s != '' and params['komentbox'].to_s != ''
+      if params['koment'].to_s == 'ano'
+      else
+      end
     end
 
 
@@ -1725,8 +1733,6 @@ class CZJDict < Object
     #'usage',
     #'videa2',
     #'artik',
-    #'koment',
-    #'komentbox',
     #'koment_user',
     #'usagecs' ,
     #'usagecszad' ,
