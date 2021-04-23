@@ -150,7 +150,9 @@
       - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@region'].to_s == ''
         p.naming 
           | #{I18n.t("entry.distribution_area")}: 
-          span = I18n.t("gram.region."+@entry['lemma']['grammar_note'][0]['@region'])
+          - @entry['lemma']['grammar_note'][0]['@region'].to_s.split(';').each do |reg|
+            - if reg.to_s != ''
+              span = I18n.t("gram.region."+reg)
       - unless @entry['lemma']['puvod'].to_s == ''
         p.naming 
           | #{I18n.t("entry.origin")}: 
