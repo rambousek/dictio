@@ -1632,11 +1632,20 @@ class CZJDict < Object
   def get_report(params, user_info)
     report = {'query'=>{},'entries'=>[]}
     search_cond, trans_used = get_search_cond(params, user_info)
+    entry_ids = []
     @entrydb.find({'$and': search_cond}, :collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'id' => 1}).each{|res|
       report['entries'] << res
+      entry_ids << res['id']
     }
     $stdout.puts search_cond
     report['query'] = search_cond
+    if params['koment'].to_s != ''
+      report['koment'] = {}
+      $mongo['koment'].find({'dict': @dictcode, 'entry': {'$in': entry_ids}}).each{|kom|
+        report['koment'][kom['entry']] = [] if report['koment'][kom['entry']].nil?
+        report['koment'][kom['entry']] << kom
+      }
+    end
     return report
   end
 
