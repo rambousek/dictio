@@ -46,4 +46,6 @@
             .video__info
               - if rel['meaning_nr']
                 p #{I18n.t("entry.meaning_small")} #{rel['meaning_nr']}
+              - if rel['meaning_id'].include?('_us')
+                p příklad
         p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_trans')
