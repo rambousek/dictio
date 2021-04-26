@@ -507,4 +507,16 @@ function URLChange (param,value) {
     var queryParams = new URLSearchParams(window.location.search);      
     queryParams.set(param, value);
     window.location.href = 'report?' + queryParams;
-  }
+}
+  
+function URLAppend (param,value) {
+    var queryParams = new URLSearchParams(window.location.search);      
+    queryParams.set(param, value);
+    window.location.href = 'report?' + queryParams + '&' + param + '=ano';
+}  
+  
+function URLRemove (param) {
+    var queryParams = new URLSearchParams(window.location.search);      
+    queryParams.delete(param)    
+    window.location.href = 'report?' + queryParams;
+}

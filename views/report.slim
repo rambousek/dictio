@@ -62,13 +62,13 @@
           h2 #{I18n.t("admin.moreopt")}
           p
             - unless @params['schvcelni']
-              a.btn class="btn-secondary report-" onclick="URLChange('schvcelni','ano')" #{I18n.t("admin.schvcelni")}
+              a.btn class="btn-secondary report-" onclick="URLAppend('schvcelni')" #{I18n.t("admin.schvcelni")}
             - unless @params['schvbocni']
-              a.btn class="btn-secondary report-" onclick="URLChange('schvcelni','ano')" #{I18n.t("admin.schvbocni")}
+              a.btn class="btn-secondary report-" onclick="URLAppend('schvbocni')" #{I18n.t("admin.schvbocni")}
             - unless @params['vyznamvid']
-              a.btn class="btn-secondary report-" onclick="URLChange('vyznamvid','')" #{I18n.t("admin.vyznamvid")}
+              a.btn class="btn-secondary report-" onclick="URLAppend('vyznamvid')" #{I18n.t("admin.vyznamvid")}
             - unless @params['vyznam']
-              a.btn class="btn-secondary report-" onclick="URLChange('vyznam','ano')" #{I18n.t("admin.vyznam")}    
+              a.btn class="btn-secondary report-" onclick="URLAppend('vyznam')" #{I18n.t("admin.vyznam")}    
       
       table.table class="table--no-margin"
         tr
