@@ -3,7 +3,7 @@
     .container
       .row
         article.col.col--2.col--start role="article"
-          h1 style="color: white" #{I18n.t("menu.admin")} - #{@dictcode}
+          h1 style="color: white" #{I18n.t("menu.admin")} - #{I18n.t("menu.dict§'+dictcode")}
   section.section 
     .container
       .row
@@ -60,17 +60,17 @@
                   a.btn class="btn-secondary report-" onclick="URLChange('pubtrans#{code}','')" #{I18n.t("admin.pubtrans")} #{code}
           hr style="margin: 5px;"
           h2 #{I18n.t("admin.moreopt")}
-          p
+          div
             - unless @params['schvcelni']
               a.btn class="btn-secondary report-" onclick="URLAppend('schvcelni')" #{I18n.t("admin.schvcelni")}
             - unless @params['schvbocni']
               a.btn class="btn-secondary report-" onclick="URLAppend('schvbocni')" #{I18n.t("admin.schvbocni")}
-          p
+          div
             - unless @params['vyznamvid']
               a.btn class="btn-secondary report-" onclick="URLAppend('vyznamvid')" #{I18n.t("admin.vyznamvid")}
             - unless @params['vyznam']
               a.btn class="btn-secondary report-" onclick="URLAppend('vyznam')" #{I18n.t("admin.vyznam")}    
-          p
+          div
             - unless @params['translationcs']
               a.btn class="btn-secondary report-" onclick="URLAppend('translationcs')" #{I18n.t("admin.translation")} CS              
             - unless @params['pubtranscs']
