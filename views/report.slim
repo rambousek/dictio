@@ -38,7 +38,7 @@ main role="main"
       
       table.table class="table--no-margin"
         tr
-          th
+          th width="10%"
           th
           - if @params['komentbox'] 
             th
@@ -67,10 +67,11 @@ main role="main"
                - if @params['komentbox'] == '_us' 
                 | příklady užití
                - if @params['komentbox'] == 'vazby' 
-                | ekvivalenty           
+                | ekvivalenty  
+            th width="10%"        
         - @report['entries'].each do |entry|
               tr
-                td width="10%"
+                td 
                   a href="https://edit.dictio.info/#{@dictcode}/show/#{entry['id']}" target="_blank" = entry['id']
                 td 
                   - if entry['lemma']['video_front']
@@ -84,6 +85,6 @@ main role="main"
                       - @report['koment'][entry['id']].each do |koment|
                         - if @params['komentbox'].to_s == '' or koment['box'].include?(@params['komentbox'].to_s)
                           li #{koment['text']} (#{koment['user']}, #{koment['time']})
-                td width="10%"
+                td "
                   a href="https://edit.dictio.info/editor#{@dictcode}/?id=#{entry['id']}" target="_blank" edit
 
