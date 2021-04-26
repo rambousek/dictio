@@ -298,7 +298,7 @@ de:
     vyznam: "genehmigt Definition"
     translation: "bestätigt Äquivalent in "
     pubtrans: "genehmigt Äquivalent in "
-     presets:
+    presets:
       revdef: "definitions to approve"
       comdef: "commented definitions"
       revtrans: "equivalents to approve"
