@@ -85,6 +85,6 @@ main role="main"
                       - @report['koment'][entry['id']].each do |koment|
                         - if @params['komentbox'].to_s == '' or koment['box'].include?(@params['komentbox'].to_s)
                           li #{koment['text']} (#{koment['user']}, #{koment['time']})
-                td "
+                td
                   a href="https://edit.dictio.info/editor#{@dictcode}/?id=#{entry['id']}" target="_blank" edit
 
