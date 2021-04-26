@@ -503,3 +503,8 @@ function logout() {
   }
 }
 
+function URLChange (param,value) {
+    var queryParams = new URLSearchParams(window.location.search);      
+    queryParams.set("param", "value");
+    window.location.href = queryParams;
+  }
