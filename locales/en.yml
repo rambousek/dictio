@@ -293,6 +293,7 @@ en:
     report_old_main: "Main directory"
     activeopt: "Listing entries according following options:"
     moreopt: "Available options:"
+    dict: "Dictionary"
     not: "not "
     schvcelni: "Approved front view"
     schvbocni: "approved side view"
