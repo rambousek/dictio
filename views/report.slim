@@ -23,23 +23,7 @@ main role="main"
               - if @params['vyznam'] == 'ano' 
                 a.btn class="btn-secondary report-ano" href="" #{I18n.t("admin.vyznam")}
               - else 
-                a.btn class="btn-secondary report-ne" href="" #{I18n.t("admin.vyznam")}
-          p
-             - if @params['komentbox'] 
-               - if @params['koment'] == 'ne' Komentáře v poli
-               - if @params['koment'] == 'ano' Bez komentářů v poli  
-               - if @params['komentbox'] == '' neurčeno
-               - if @params['komentbox'] == 'boxlemma' technické info
-               - if @params['komentbox'] == 'boxcolloc' typ hesla
-               - if @params['komentbox'] == 'video' záhlaví (video)
-               - if @params['komentbox'] == 'swfieldset' SW
-               - if @params['komentbox'] == 'hamnbox' HNS 
-               - if @params['komentbox'] == 'gramdesc' gramatika
-               - if @params['komentbox'] == 'styldesc' stylistika
-               - if @params['komentbox'] == 'vyznam' význam
-               - if @params['komentbox'] == '_us' příklady užití
-               - if @params['komentbox'] == 'vazby' ekvivalenty      
-                
+                a.btn class="btn-secondary report-ne" href="" #{I18n.t("admin.vyznam")}                          
             - $dict_info.each do |code,hash|
               - if @params['translation'+code]
                 - if @params['translation'+code] == 'ano'
@@ -50,7 +34,35 @@ main role="main"
                 - if @params['pubtrans'+code] == 'ano'
                   a.btn class="btn-secondary report-ano" href="" #{I18n.t("admin.pubtrans"+code)}
                 - else 
-                  a.btn class="btn-secondary report-ne" href="" #{I18n.t("admin.pubtrans"+code)}          
+                  a.btn class="btn-secondary report-ne" href="" #{I18n.t("admin.pubtrans"+code)} 
+          p
+             - if @params['komentbox'] 
+               - if @params['koment'] == 'ne' 
+                | Komentáře v poli
+               - if @params['koment'] == 'ano' 
+                | Bez komentářů v poli  
+               - if @params['komentbox'] == '' 
+                | neurčeno
+               - if @params['komentbox'] == 'boxlemma' 
+                | technické info
+               - if @params['komentbox'] == 'boxcolloc' 
+                | typ hesla
+               - if @params['komentbox'] == 'video' 
+                | záhlaví (video)
+               - if @params['komentbox'] == 'swfieldset' 
+                | SW
+               - if @params['komentbox'] == 'hamnbox' 
+                | HNS 
+               - if @params['komentbox'] == 'gramdesc' 
+                | gramatika
+               - if @params['komentbox'] == 'styldesc' 
+                | stylistika
+               - if @params['komentbox'] == 'vyznam' 
+                | význam
+               - if @params['komentbox'] == '_us' 
+                | příklady užití
+               - if @params['komentbox'] == 'vazby' 
+                | ekvivalenty                 
       
       table.table class="table--no-margin"
             - @report['entries'].each do |entry|
