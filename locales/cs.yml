@@ -292,8 +292,13 @@ cs:
     text2: "Tuto verzi zatím nepoužívejte pro běžnou práci. Veškeré změny, budou uchovány pouze do půlnoci daného dne. Pak budou opět smazány. Tento stav platí do 20. 3. 2021"
     reports_old: "Staré přehledy hesel (stav k 19. 3. 2021)"
     report_old_main: "Rozcestník"
+    activeopt: "Zobrazena hesla na základě následujících voleb:"
+    moreopt: "Další možné volby:"
     schvcelni: "schválené čelní video"
+    schvbocni: "schválené boční video"
     vyznamvid: "zadaná definice"
     vyznam: "schválená definice"
-    translationcs: "zadaný ekvivalent ČJ"
-    pubtranscs: "schválený ekvivalent ČJ"
+    translation: "zadaný ekvivalent "
+    pubtrans: "schválený ekvivalent "
+    
+    

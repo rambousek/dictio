@@ -8,7 +8,8 @@
     .container
       .row
         article.col.col--start role="article"
-          p 
+          h2 #{I18n.t("admin.activeopt")}
+          p  
             - if @params['schvcelni'] 
               - if @params['schvcelni'] == 'ano'
                 a.btn class="btn-secondary report-ano" onclick="URLChange('schvcelni','ne')" #{I18n.t("admin.schvcelni")}
@@ -44,20 +45,21 @@
             - $dict_info.each do |code,hash|
               - if @params['translation'+code]
                 - if @params['translation'+code] == 'ano'
-                  a.btn class="btn-secondary report-ano" onclick="URLChange('translation'+code],'ne')" #{I18n.t("admin.translation"+code)}
+                  a.btn class="btn-secondary report-ano" onclick="URLChange('translation'+code],'ne')" #{I18n.t("admin.translation")} #{@code}
                 - if @params['translation'+code] == 'ne'
-                  a.btn class="btn-secondary report-ne" onclick="URLChange('translation'+code],'')" #{I18n.t("admin.translation"+code)}
+                  a.btn class="btn-secondary report-ne" onclick="URLChange('translation'+code],'')" #{I18n.t("admin.translation")} #{@code}
                 - if @params['translation'+code] == '' 
-                  a.btn class="btn-secondary report-ne" onclick="URLChange('translation'+code],'ano')" #{I18n.t("admin.translation"+code)}
+                  a.btn class="btn-secondary report-ne" onclick="URLChange('translation'+code],'ano')" #{I18n.t("admin.translation")} #{@code}
 
               - if @params['pubtrans'+code]
                 - if @params['pubtrans'+code] == 'ano'
-                  a.btn class="btn-secondary report-ano" onclick="URLChange('pubtrans'+code],'ne')" #{I18n.t("admin.pubtrans"+code)}
+                  a.btn class="btn-secondary report-ano" onclick="URLChange('pubtrans'+code],'ne')" #{I18n.t("admin.pubtrans"} #{@code}
                 - if @params['pubtrans'+code] == 'ne'
-                  a.btn class="btn-secondary report-ne" onclick="URLChange('pubtrans'+code],'')" #{I18n.t("admin.pubtrans"+code)}
+                  a.btn class="btn-secondary report-ne" onclick="URLChange('pubtrans'+code],'')" #{I18n.t("admin.pubtrans"} #{@code}
                 - if @params['pubtrans'+code] == '' 
-                  a.btn class="btn-secondary report-" onclick="URLChange('pubtrans'+code],'')" #{I18n.t("admin.pubtrans"+code)}                             
-          hr
+                  a.btn class="btn-secondary report-" onclick="URLChange('pubtrans'+code],'')" #{I18n.t("admin.pubtrans")} #{@code}                             
+          hr style="margin: 5px;"
+          h2 #{I18n.t("admin.moreopt")}
           p
             - unless @params['schvcelni']
               a.btn class="btn-secondary report-" onclick="URLChange('schvcelni','ano')" #{I18n.t("admin.schvcelni")}
