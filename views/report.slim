@@ -24,17 +24,6 @@ main role="main"
                 a.btn class="btn-secondary report-ano" href="" #{I18n.t("admin.vyznam")}
               - else 
                 a.btn class="btn-secondary report-ne" href="" #{I18n.t("admin.vyznam")}
-            - $dict_info.each do |code,hash|
-              - if @params['translation'+code]
-                - if @params['translation'+code] == 'ano'
-                  a.btn class="btn-secondary report-ano" href="" #{I18n.t("admin.translation"+code)}
-                - else 
-                  a.btn class="btn-secondary report-ne" href="" #{I18n.t("admin.translation"+code)}
-              - if @params['pubtrans'+code]
-                - if @params['pubtrans'+code] == 'ano'
-                  a.btn class="btn-secondary report-ano" href="" #{I18n.t("admin.pubtrans"+code)}
-                - else 
-                  a.btn class="btn-secondary report-ne" href="" #{I18n.t("admin.pubtrans"+code)}
           p
              - if @params['komentbox'] 
                - if @params['koment'] == 'ne' Komentáře v poli
@@ -49,7 +38,19 @@ main role="main"
                - if @params['komentbox'] == 'styldesc' stylistika
                - if @params['komentbox'] == 'vyznam' význam
                - if @params['komentbox'] == '_us' příklady užití
-               - if @params['komentbox'] == 'vazby' ekvivalenty
+               - if @params['komentbox'] == 'vazby' ekvivalenty      
+                
+            - $dict_info.each do |code,hash|
+              - if @params['translation'+code]
+                - if @params['translation'+code] == 'ano'
+                  a.btn class="btn-secondary report-ano" href="" #{I18n.t("admin.translation"+code)}
+                - else 
+                  a.btn class="btn-secondary report-ne" href="" #{I18n.t("admin.translation"+code)}
+              - if @params['pubtrans'+code]
+                - if @params['pubtrans'+code] == 'ano'
+                  a.btn class="btn-secondary report-ano" href="" #{I18n.t("admin.pubtrans"+code)}
+                - else 
+                  a.btn class="btn-secondary report-ne" href="" #{I18n.t("admin.pubtrans"+code)}          
       
       table.table class="table--no-margin"
             - @report['entries'].each do |entry|
