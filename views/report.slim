@@ -1,3 +1,10 @@
+script 
+  function URLChange (param,value) {
+    var queryParams = new URLSearchParams(window.location.search)      
+    queryParams.set("param", "value")
+    window.location.href = queryParams
+  }
+  
 main role="main"
   section.section role="region" style="background-color: #1c2641"
     .container
@@ -11,9 +18,14 @@ main role="main"
           p 
             - if @params['schvcelni'] 
               - if @params['schvcelni'] == 'ano'
-                a.btn class="btn-secondary report-ano" href="" #{I18n.t("admin.schvcelni")}
+                a.btn class="btn-secondary report-ano" href="" oncClick="URLChange('schvcelni','ne')" #{I18n.t("admin.schvcelni")}
               - else
                 a.btn class="btn-secondary report-ne" href="" #{I18n.t("admin.schvcelni")}
+            - if @params['schvbocni'] 
+              - if @params['schvbocni'] == 'ano'
+                a.btn class="btn-secondary report-ano" href="" #{I18n.t("admin.schvbocni")}
+              - else
+                a.btn class="btn-secondary report-ne" href="" #{I18n.t("admin.schvbocni")}
             - if @params['vyznamvid'] 
               - if @params['vyznamvid'] == 'ano'
                 a.btn class="btn-secondary report-ano" href="" #{I18n.t("admin.vyznamvid")}
