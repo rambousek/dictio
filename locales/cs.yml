@@ -303,5 +303,10 @@ cs:
     vyznam: "schválená definice"
     translation: "zadaný ekvivalent "
     pubtrans: "schválený ekvivalent "
+    presets:
+      redef: "definice ke schválení"
+      comdef: "komentované definice"
+      retrans: "ekvivalenty ke schválení"
+      comtrans: "komentované ekvivalanty"
     
     
