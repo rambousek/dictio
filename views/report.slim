@@ -22,7 +22,7 @@
               - if @params['schvbocni'] == 'ano'
                 a.btn class="btn-secondary report-ano" onclick="URLChange('schvbocni','ne')" #{I18n.t("admin.schvbocni")}
               - if @params['schvbocni'] == 'ne'
-                a.btn class="btn-secondary report-ne" onclick="URLChange('schvbocni','')" #{I18n.t("admin.schvbocni")}
+                a.btn class="btn-secondary report-ne" onclick="URLChange('schvbocni','')" #{I18n.t("admin.not")}#{I18n.t("admin.schvbocni")}
               - if @params['schvbocni'] == ''
                 a.btn class="btn-secondary report-" onclick="URLChange('schvbocni','ano')" #{I18n.t("admin.schvbocni")}
           p
@@ -30,7 +30,7 @@
               - if @params['vyznamvid'] == 'ano'
                 a.btn class="btn-secondary report-ano" onclick="URLChange('vyznamvid','ne')" #{I18n.t("admin.vyznamvid")}
               - if @params['vyznamvid'] == 'ne'
-                a.btn class="btn-secondary report-ne" onclick="URLChange('vyznamvid','')" #{I18n.t("admin.vyznamvid")}
+                a.btn class="btn-secondary report-ne" onclick="URLChange('vyznamvid','')" #{I18n.t("admin.not")}#{I18n.t("admin.vyznamvid")}
               - if @params['vyznamvid'] == '' 
                 a.btn class="btn-secondary report-ne" onclick="URLChange('vyznamvid','')" #{I18n.t("admin.vyznamvid")}
 
@@ -38,7 +38,7 @@
               - if @params['vyznam'] == 'ano' 
                 a.btn class="btn-secondary report-ano" onclick="URLChange('vyznam','ne')" #{I18n.t("admin.vyznam")}
               - if @params['vyznam'] == 'ne' 
-                a.btn class="btn-secondary report-ne" onclick="URLChange('vyznam','')" #{I18n.t("admin.vyznam")}  
+                a.btn class="btn-secondary report-ne" onclick="URLChange('vyznam','')" #{I18n.t("admin.not")}#{I18n.t("admin.vyznam")}  
               - if @params['vyznam'] == '' 
                 a.btn class="btn-secondary report-" onclick="URLChange('vyznam','ano')" #{I18n.t("admin.vyznam")}                          
           p
@@ -47,7 +47,7 @@
                 - if @params['translation'+code] == 'ano'
                   a.btn class="btn-secondary report-ano" onclick="URLChange('translation#{code}','ne')" #{I18n.t("admin.translation")} #{code}
                 - if @params['translation'+code] == 'ne'
-                  a.btn class="btn-secondary report-ne" onclick="URLChange('translation#{code}','')" #{I18n.t("admin.translation")} #{code}
+                  a.btn class="btn-secondary report-ne" onclick="URLChange('translation#{code}','')" #{I18n.t("admin.not")}#{I18n.t("admin.translation")} #{code}
                 - if @params['translation'+code] == '' 
                   a.btn class="btn-secondary report-ne" onclick="URLChange('translation#{code}','ano')" #{I18n.t("admin.translation")} #{code}
 
@@ -55,7 +55,7 @@
                 - if @params['pubtrans'+code] == 'ano'
                   a.btn class="btn-secondary report-ano" onclick="URLChange('pubtrans#{code}','ne')" #{I18n.t("admin.pubtrans")} #{code}
                 - if @params['pubtrans'+code] == 'ne'
-                  a.btn class="btn-secondary report-ne" onclick="URLChange('pubtrans#{code}','')" #{I18n.t("admin.pubtrans")} #{code}
+                  a.btn class="btn-secondary report-ne" onclick="URLChange('pubtrans#{code}','')" #{I18n.t("admin.not")}#{I18n.t("admin.pubtrans")} #{code}
                 - if @params['pubtrans'+code] == '' 
                   a.btn class="btn-secondary report-" onclick="URLChange('pubtrans#{code}','')" #{I18n.t("admin.pubtrans")} #{code}
           hr style="margin: 5px;"
