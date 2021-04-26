@@ -305,5 +305,5 @@ en:
     presets:
       revdef: "definitions to approve"
       comdef: "commented definitions"
-      revrans: "equivalents to approve"
+      revtrans: "equivalents to approve"
       comtrans: "commented equivalents"

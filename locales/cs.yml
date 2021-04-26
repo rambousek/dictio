@@ -306,5 +306,5 @@ cs:
     presets:
       revdef: "definice ke schválení"
       comdef: "komentované definice"
-      revrans: "ekvivalenty ke schválení"
+      revtrans: "ekvivalenty ke schválení"
       comtrans: "komentované ekvivalanty"
