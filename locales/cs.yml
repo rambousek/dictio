@@ -307,6 +307,4 @@ cs:
       revdef: "definice ke schválení"
       comdef: "komentované definice"
       revtrans: "ekvivalenty ke schválení"
-      comtrans: "komentované ekvivalenty"
-    
-    
+      comtrans: "komentované ekvivalenty" 
