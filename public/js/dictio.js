@@ -510,9 +510,10 @@ function URLChange (param,value) {
 }
   
 function URLAppend (param) {
-    var queryParams = new URLSearchParams(window.location.search);      
+    var queryParams = new URLSearchParams(window.location.search);
+    var value = 'ano';      
     queryParams.set(param, value);
-    window.location.href = 'report?' + queryParams + '&' + param + '=ano';
+    window.location.href = 'report?' + queryParams;
 }  
   
 function URLRemove (param) {
