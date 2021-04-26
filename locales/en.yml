@@ -302,3 +302,8 @@ en:
     vyznam: "approved definition"
     translation: "existing equivalent in "
     pubtrans: "approved equivalent in "
+    presets:
+      revdef: "definitions to approve"
+      comdef: "commented definitions"
+      revtrans: "equivalents to approve"
+      comtrans: "commented equivalents""

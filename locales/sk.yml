@@ -298,3 +298,8 @@ sk:
     vyznam: "schválená definícia"
     translation: "zadaný ekvivalent "
     pubtrans: "schválený ekvivalent "
+    presets:
+      revdef: "definície k schválenie"
+      comdef: "komentované definície"
+      revtrans: "ekvivalenty k schválenie"
+      comtrans: "komentované ekvivalenty"
