@@ -270,7 +270,7 @@ de:
       bsl: "BSL" 
       ogs: "ÖGS"
     category: 
-      neo: Nneologismus"
+      neo: "Neologismus"
       arch: "Archaismus"
     gender:
       m: "männliche Gebärde"
@@ -281,9 +281,19 @@ de:
       starsi: 'ältere Menschen'
       deti: 'Kinder'
   admin:
-    user: "angemeldeter Benutzer "
+    user: "angemeldeter Benutzer"
     text1: "Wervaltung sind derzeit noch nicht verfügbar. Um einen Eintrag zu bearbeiten, suchen Sie ihn über die Wörterbuchsuche, geben Sie eine Detailansicht eines Eintrags ein und klicken Sie oben auf der Seite auf die ID-Nummer mit einem Stiftsymbol. Sie können auch die alte Liste der unten aufgeführten Einträge verwenden. Um neue Einträge zu erstellen, öffnen Sie das Hauptverzeichnis."
     head1: "Achtung"
     text2: "Bitte verwenden Sie diese DICTIO-Version nicht für reguläre Arbeiten. Alle Ihre Änderungen werden bis Mitternacht des Tages rückgängig gemacht (gelöscht). Anwendbar bis 20. März 2021. "
     reports_old: "frühere Liste der Einträge (zuletzt aktualisiert am 19. 3. 2021"
-    report_old_main: "Hauptverzeichnis"
+    report_old_main: "Hauptverzeichnis "
+    activeopt: "Einträge nach folgenden Optionen anzeigen: "
+    moreopt: "Verfügbare Optionen:"
+    dict: "Wörterbuch "
+    not: "nicht "
+    schvcelni: "genehmigt Frontvideo"
+    schvbocni: "genehmigt Seitenvideo "
+    vyznamvid: "bestätigt Definition"
+    vyznam: "genehmigt Definition"
+    translation: "bestätigt Äquivalent in "
+    pubtrans: "genehmigt Äquivalent in "
