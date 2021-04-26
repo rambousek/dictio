@@ -102,4 +102,8 @@ h2.error {color: gray}
 img.error {align-self: center}
 
 .report-ano {background-color: darkgreen !important; font-size: 0.7rem !important;}
+.report-ano:hover {background-color: darkred !important; font-size: 0.7rem !important;}
 .report-ne {background-color: darkred !important; font-size: 0.7rem !important;}
+.report-ne:hover {background-color: lightgray !important; font-size: 0.7rem !important;}
+.report- {background-color: gray !important; font-size: 0.7rem !important;}
+.report-:hover {background-color: darkgreen !important; font-size: 0.7rem !important;}

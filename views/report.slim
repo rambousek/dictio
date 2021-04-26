@@ -11,24 +11,36 @@
           p 
             - if @params['schvcelni'] 
               - if @params['schvcelni'] == 'ano'
-                a.btn class="btn-secondary report-ano" href="" oncclick="URLChange('schvcelni','ne')" #{I18n.t("admin.schvcelni")}
+                a.btn class="btn-secondary report-ano" onclick="URLChange('schvcelni','ne')" #{I18n.t("admin.schvcelni")}
+              - if @params['schvcelni'] == 'ne'
+                a.btn class="btn-secondary report-ne" onclick="URLChange('schvcelni','')" #{I18n.t("admin.schvcelni")}
               - else
-                a.btn class="btn-secondary report-ne" href="" #{I18n.t("admin.schvcelni")}
+                a.btn class="btn-secondary report-" onclick="URLChange('schvcelni','ano')" #{I18n.t("admin.schvcelni")}   
+
             - if @params['schvbocni'] 
               - if @params['schvbocni'] == 'ano'
-                a.btn class="btn-secondary report-ano" href="" #{I18n.t("admin.schvbocni")}
+                a.btn class="btn-secondary report-ano" onclick="URLChange('schvbocni','ne')" #{I18n.t("admin.schvbocni")}
+              - if @params['schvbocni'] == 'ne'
+                a.btn class="btn-secondary report-ne" onclick="URLChange('schvbocni','')" #{I18n.t("admin.schvbocni")}
               - else
-                a.btn class="btn-secondary report-ne" href="" #{I18n.t("admin.schvbocni")}
+                a.btn class="btn-secondary report-" onclick="URLChange('schvbocni','ano')" #{I18n.t("admin.schvbocni")}
+
             - if @params['vyznamvid'] 
               - if @params['vyznamvid'] == 'ano'
-                a.btn class="btn-secondary report-ano" href="" #{I18n.t("admin.vyznamvid")}
+                a.btn class="btn-secondary report-ano" onclick="URLChange('vyznamvid','ne')" #{I18n.t("admin.vyznamvid")}
+              - if @params['vyznamvid'] == 'ne'
+                a.btn class="btn-secondary report-ne" onclick="URLChange('vyznamvid','')" #{I18n.t("admin.vyznamvid")}
               - else 
-                a.btn class="btn-secondary report-ne" href="" #{I18n.t("admin.vyznamvid")}
+                a.btn class="btn-secondary report-ne" onclick="URLChange('vyznamvid','')" #{I18n.t("admin.vyznamvid")}
+
             - if @params['vyznam']     
               - if @params['vyznam'] == 'ano' 
-                a.btn class="btn-secondary report-ano" href="" #{I18n.t("admin.vyznam")}
+                a.btn class="btn-secondary report-ano" onclick="URLChange('vyznam','ne')" #{I18n.t("admin.vyznam")}
+              - if @params['vyznam'] == 'ne' 
+                a.btn class="btn-secondary report-ne" onclick="URLChange('vyznam','')" #{I18n.t("admin.vyznam")}  
               - else 
-                a.btn class="btn-secondary report-ne" href="" #{I18n.t("admin.vyznam")}                          
+                a.btn class="btn-secondary report-" onclick="URLChange('vyznam','ano')" #{I18n.t("admin.vyznam")}                          
+
             - $dict_info.each do |code,hash|
               - if @params['translation'+code]
                 - if @params['translation'+code] == 'ano'
