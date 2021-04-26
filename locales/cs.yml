@@ -294,6 +294,7 @@ cs:
     report_old_main: "Rozcestník"
     activeopt: "Zobrazena hesla na základě následujících voleb:"
     moreopt: "Další možné volby:"
+    not: "ne"
     schvcelni: "schválené čelní video"
     schvbocni: "schválené boční video"
     vyznamvid: "zadaná definice"
