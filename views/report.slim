@@ -50,7 +50,7 @@
                 - if @params['translation'+code] == 'ne'
                   a.btn class="btn-secondary report-ne" onclick="URLChange('translation#{code}','')" #{I18n.t("admin.not")}#{I18n.t("admin.translation")} #{code}
                 - if @params['translation'+code] == '' 
-                  a.btn class="btn-secondary report-ne" onclick="URLChange('translation#{code}','ano')" #{I18n.t("admin.translation")} #{code}
+                  a.btn class="btn-secondary report-" onclick="URLChange('translation#{code}','ano')" #{I18n.t("admin.translation")} #{code}
 
               - if @params['pubtrans'+code]
                 - if @params['pubtrans'+code] == 'ano'
