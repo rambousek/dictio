@@ -40,12 +40,12 @@ video.czj {
   border-left: solid 4px #19B5FE;
 }
 
-.detail__badge__cs, .trans__badge__cs, btn-cs, .trans__badge__cs a {
+.detail__badge__cs, .trans__badge__cs, .btn-cs, .trans__badge__cs a {
   background-color: darkmagenta;
   color: whitesmoke;
 }
 
-.detail__badge__is, .trans__badge__is, btn-is, .trans__badge__is a {
+.detail__badge__is, .trans__badge__is, .btn-is, .trans__badge__is a {
   background-color: darkslateblue;
   color: whitesmoke;
 }
@@ -53,7 +53,7 @@ video.is {
   border-left: solid 4px darkslateblue;
 }
 
-.detail__badge__asl, .trans__badge__asl, btn-asl, .trans__badge__asl a {
+.detail__badge__asl, .trans__badge__asl, .btn-asl, .trans__badge__asl a {
   background-color: darkorange;
   color: black;
 }
@@ -61,11 +61,11 @@ video.asl {
   border-left: solid 4px darkorange;
 }
 
-.detail__badge__en, .trans__badge__en, btn-en, .trans__badge__en a {
+.detail__badge__en, .trans__badge__en, .btn-en, .trans__badge__en a {
   background-color: black;
   color: whitesmoke;
 }
-.detail__badge__spj, .trans__badge__spj, btn-spj, .trans__badge__spj a {
+.detail__badge__spj, .trans__badge__spj, .btn-spj, .trans__badge__spj a {
   background-color: mediumseagreen;
   color: black;
 }
@@ -73,12 +73,12 @@ video.spj {
   border-left: solid 4px mediumseagreen;
 }
 
-.detail__badge__sj, .trans__badge__sj, btn-sj, .trans__badge__sj a {
+.detail__badge__sj, .trans__badge__sj, .btn-sj, .trans__badge__sj a {
   background-color: crimson;
   color:black;
 }
 
-.detail__badge__ogs, .trans__badge__ogs, btn-ogs, .trans__badge__ogs a {
+.detail__badge__ogs, .trans__badge__ogs, .btn-ogs, .trans__badge__ogs a {
   background-color: darkred;
   color: whitesmoke;
 }
@@ -86,7 +86,7 @@ video.ogs {
   border-left: solid 4px darkred;
 }
 
-.detail__badge__de, .trans__badge__de, btn-de, .trans__badge__de a {
+.detail__badge__de, .trans__badge__de, .btn-de, .trans__badge__de a {
   background-color: darkgoldenrod;
   color: black;
 }
