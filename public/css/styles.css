@@ -1992,7 +1992,7 @@ a.btn {
       padding: 70px 0px 30px 10px; } }
   @media (min-width: 992px) {
     .detail__head {
-      padding: 70px 0px 30px 10px; } }
+      padding: 70px 15px 30px 10px; } }
 
 .detail__badge {
   display: inline-block;
