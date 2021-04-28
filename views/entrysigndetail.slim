@@ -252,7 +252,7 @@
           h4.detail-block__name = I18n.t("entry.examples")
           .row.row--start.translation-group-sign
             - meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.each do |usg|
-              - if usg["text"] and usg["text"]["file"]
+              - if usg["text"] and usg["text"]["file"] and usg["text"]["file"].is_a?(Hash)
                 .col.col--2.col--precise
                   .video.video--small
                     .video__content
