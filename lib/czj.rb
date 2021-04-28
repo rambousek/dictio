@@ -283,7 +283,16 @@ class CZJDict < Object
           entry['media'][mean['text']['file']['@media_id']] = get_media(mean['text']['file']['@media_id'], entry['dict']) if mean['text'] and mean['text']['file']
           if mean['usages']
             mean['usages'].each{|usg|
-              entry['media'][usg['text']['file']['@media_id']] = get_media(usg['text']['file']['@media_id'], entry['dict']) if usg['text'] and usg['text']['file']
+              if usg['text'] and usg['text']['file'] 
+                if usg['text']['file'].is_a?(Hash)
+                  entry['media'][usg['text']['file']['@media_id']] = get_media(usg['text']['file']['@media_id'], entry['dict'])
+                end
+                if usg['text']['file'].is_a?(Array)
+                  usg['text']['file'].each{|fm|
+                    entry['media'][fm['@media_id']] = get_media(fm['@media_id'], entry['dict'])
+                  }
+                end
+              end
             }
           end
         }
