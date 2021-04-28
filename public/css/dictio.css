@@ -31,7 +31,7 @@ video.video-link {
   font-weight: bold;
 }
 
-.detail__badge__czj, .trans__badge__czj, btn-czj, .trans__badge__czj a {
+.detail__badge__czj, .trans__badge__czj, .btn-czj, .trans__badge__czj a {
   background-color: #19B5FE !important;
   color: black;
 }
