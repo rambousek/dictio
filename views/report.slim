@@ -156,8 +156,12 @@
                   td
                     ul
                       - @report['koment'][entry['id']].each do |koment|
-                        - if @params['komentbox'].to_s == '' or koment['box'].include?(@params['komentbox'].to_s)
+                        - if @params['komentbox'].to_s == '' or (koment['box'].include?(@params['komentbox'].to_s) and @params['komentbox'].to_s != 'vyznam')
                           li #{koment['text']} (#{koment['user']}, #{koment['time']})
+                        - if @params['komentbox'].to_s == 'vyznam'
+                          - entry['meanings'].each do |km|
+                            - if koment['box'] == 'vyznam'+km['id']
+                              li #{koment['text']} (#{koment['user']}, #{koment['time']})
                 td
                   a href="https://edit.dictio.info/editor#{@dictcode}/?id=#{entry['id']}" target="_blank" edit
 

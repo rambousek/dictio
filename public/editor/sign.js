@@ -1742,9 +1742,18 @@ function load_doc(id) {
                 change_stav(priklad.query('component[name="stavcont"]')[0], usage['status']);
                 textval = '';
                 var previews = new Array();
-                if (usage['text'] && usage['text']['file'] && usage['text']['file']['@media_id']) {
-                  textval += ' [media_id='+usage['text']['file']['@media_id']+']';
-                  previews.push(usage['text']['file']['@media_id']);
+                if (usage['text'] && usage['text']['file']) {
+                  if (Array.isArray(usage['text']['file'])) {
+                    usage['text']['file'].forEach(function(mf) {
+                      textval += ' [media_id='+mf['@media_id']+']';
+                      previews.push(mf['@media_id']);
+                    });
+                  } else {
+                    if (usage['text']['file']['@media_id']) {
+                      textval += ' [media_id='+usage['text']['file']['@media_id']+']';
+                      previews.push(usage['text']['file']['@media_id']);
+                    }
+                  }
                 } 
                 if (usage['text'] && usage['text']['_text']) textval = usage['text']['_text'];
                 priklad.query('component[name="'+priklad.id+'text_text"]')[0].setValue($.trim(textval));
