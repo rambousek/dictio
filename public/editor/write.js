@@ -1673,7 +1673,7 @@ function save_doc(id) {
       } else {
         newuse['type'] = 'sentence';
       }
-      if (uses[j].query('component[name="usage_id"]')[0].getValue() != '' && entrydata['meanings'].filter(mean => mean['id'] == meanings[i].query('component[name="meaning_id"]')[0].getValue())[0]['usages'] != undefined && entrydata['meanings'].filter(mean => mean['id'] == meanings[i].query('component[name="meaning_id"]')[0].getValue())[0]['usages'].filter(usg=>usg['id'] == uses[j].query('component[name="usage_id"]')[0].getValue())[0] != undefined) {
+      if (uses[j].query('component[name="usage_id"]')[0].getValue() != '' && entrydata['meanings'].filter(mean => mean['id'] == meanings[i].query('component[name="meaning_id"]')[0].getValue())[0] != undefined && entrydata['meanings'].filter(mean => mean['id'] == meanings[i].query('component[name="meaning_id"]')[0].getValue())[0]['usages'] != undefined && entrydata['meanings'].filter(mean => mean['id'] == meanings[i].query('component[name="meaning_id"]')[0].getValue())[0]['usages'].filter(usg=>usg['id'] == uses[j].query('component[name="usage_id"]')[0].getValue())[0] != undefined) {
         newuse.created_at = entrydata['meanings'].filter(mean => mean['id'] == meanings[i].query('component[name="meaning_id"]')[0].getValue())[0]['usages'].filter(usg=>usg['id'] == uses[j].query('component[name="usage_id"]')[0].getValue())[0]['created_at'];
       } else {
         newuse.created_at = Ext.Date.format(new Date(), 'Y-m-d H:i:s');
@@ -2335,14 +2335,16 @@ function create_vyznam_links(parentid) {
       opened: false,
       listeners:{
         'blur': function(combo) {
-          if ((!(Ext.getCmp(name).query('component[name="type"]')[0].getValue().startsWith('translation_'))) && combo.getValue().startsWith(entryid+'-')) {
-            Ext.Msg.alert('',locale[lang]['warn_same_entry']);
-          }
-          var rellink = combo.getValue();
-          if (rellink.match(/^[0-9]*-[0-9]*/) == null) {
-            var prevbox = Ext.getCmp(combo.id).up().query('component[name="vztahtitle"]')[0];
-            prevbox.update(rellink);
-            document.getElementById(prevbox.id+"-innerCt").classList.add('redtext');
+          if (Ext.getCmp(name).query('component[name="type"]')[0].getValue() != null && combo.getValue() != null) {
+            if ((!(Ext.getCmp(name).query('component[name="type"]')[0].getValue().startsWith('translation_'))) && combo.getValue().startsWith(entryid+'-')) {
+              Ext.Msg.alert('',locale[lang]['warn_same_entry']);
+            }
+            var rellink = combo.getValue();
+            if (rellink.match(/^[0-9]*-[0-9]*/) == null) {
+              var prevbox = Ext.getCmp(combo.id).up().query('component[name="vztahtitle"]')[0];
+              prevbox.update(rellink);
+              document.getElementById(prevbox.id+"-innerCt").classList.add('redtext');
+            }
           }
         },
         'select': function(combo, record, index) {
