@@ -156,11 +156,16 @@
                   td
                     ul
                       - @report['koment'][entry['id']].each do |koment|
-                        - if @params['komentbox'].to_s == '' or (koment['box'].include?(@params['komentbox'].to_s) and @params['komentbox'].to_s != 'vyznam')
+                        - if @params['komentbox'].to_s == '' or (koment['box'].include?(@params['komentbox'].to_s) and @params['komentbox'].to_s != 'vyznam' and @params['komentbox'].to_s != 'video')
                           li #{koment['text']} (#{koment['user']}, #{koment['time']})
                         - if @params['komentbox'].to_s == 'vyznam'
                           - entry['meanings'].each do |km|
                             - if koment['box'] == 'vyznam'+km['id']
+                              li #{koment['text']} (#{koment['user']}, #{koment['time']})
+                        - if @params['komentbox'].to_s == 'video'
+                          - if entry['lemma']['video_front'] and koment['box'] == 'video'+entry['lemma']['video_front']
+                              li #{koment['text']} (#{koment['user']}, #{koment['time']})
+                          - if entry['lemma']['video_side'] and koment['box'] == 'video'+entry['lemma']['video_side']
                               li #{koment['text']} (#{koment['user']}, #{koment['time']})
                 td
                   a href="https://edit.dictio.info/editor#{@dictcode}/?id=#{entry['id']}" target="_blank" edit
