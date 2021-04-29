@@ -960,7 +960,7 @@ function open_comments(box, type) {
           html: data.comments[i].text + '<br/><i>' + data.comments[i].user + ', ' + data.comments[i].time + '</i>',
           name: 'commenthtml'
         });
-        var cid = data.comments[i].id;
+        var cid = data.comments[i]['_id']['$oid'];
         var nrow = Ext.create('Ext.container.Container',{
           layout: {
             type: 'hbox'
