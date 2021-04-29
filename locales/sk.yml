@@ -72,7 +72,8 @@ sk:
     sideview: "Bočný pohľad"
     lexical: "Slovný druh"
     composed_collocation: "Časti slovného spojenia"
-    composed_deriv: "Výraz vznikol zložením posunkov"
+    composed_deriv: "Výraz vznikol odvodením od posunkov"
+    composed_comp: "Výraz vznikol zložením posunkov"
     mouthing: "Hovorený komponent"
     oralcomp: "Orálný komponent"
     grammar_details: "Gram. poznámka"
@@ -97,6 +98,7 @@ sk:
     more_anto: "viac antoným"
     see_video: "viz video "
     all_translations: "zobrazit všetky ekvivalenty"
+    circumloc: "Opisný preklad. Viď príklady použitia."
     share: "adresa pre zdílenie"
     link_current: "aktuálna adresa"
     link_public: "verejná adresa"
@@ -280,6 +282,10 @@ sk:
       stredni: 'stredná generácia'
       starsi: 'seniori'
       deti: 'deti (detský posunok)'
+  error: 
+    notfound: ":( stránka nebola naleznutá"
+    internal: ":( chyba serveru"
+    internal-text: "Zkúste to prosím neskôr."
   admin:
     user: "prihlásený používateľ "
     text1: "Niektoré administrátorske nástroje ešte niesú k dispozícii. Pre prístup do editácie hesiel použite bežné hledání v slovníku (hľadať môžete aj podľa ID). Môžete tiež využíť prehľady dole. "      
@@ -298,3 +304,8 @@ sk:
     vyznam: "schválená definícia"
     translation: "zadaný ekvivalent "
     pubtrans: "schválený ekvivalent " 
+    presets:
+      revdef: "definície na schválenie"
+      comdef: "komentované definície"
+      revtrans: "ekvivalenty na schválenie"
+      comtrans: "komentované ekvivalenty"

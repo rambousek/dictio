@@ -72,7 +72,8 @@ de:
     sideview: "Seitenansicht"
     lexical: "Lexikalische Kategorie"
     composed_collocation: "Komponente Anzeigen"
-    composed_deriv: "Einzelheiten Anzeigen"
+    composed_deriv: "Abgeleitet von Einträgen"
+    composed_comp: "Einzelheiten Anzeigen"    
     mouthing: "Mundbild"
     oralcomp: "Mundgestik"
     grammar_details: "Gram. Anmerkung"
@@ -81,6 +82,7 @@ de:
     style_variant: "Styl. Varianten"
     distribution_area: "Anwendungsbereich"
     origin: "Ursprünglich aus"
+    generace: "Typically used by"
     meaning: "Bedeutung"
     synonyms: "Synonyme"
     antonyms: "Antonyme"
@@ -280,6 +282,10 @@ de:
       stredni: 'Menschen mittleren Alters'
       starsi: 'ältere Menschen'
       deti: 'Kinder'
+  error: 
+    notfound: ":( Seite nicht gefunden"
+    internal: ":( Internal error"
+    internal-text: "Versuchen Sie es später bitte."
   admin:
     user: "angemeldeter Benutzer"
     text1: "Wervaltung sind derzeit noch nicht verfügbar. Um einen Eintrag zu bearbeiten, suchen Sie ihn über die Wörterbuchsuche, geben Sie eine Detailansicht eines Eintrags ein und klicken Sie oben auf der Seite auf die ID-Nummer mit einem Stiftsymbol. Sie können auch die alte Liste der unten aufgeführten Einträge verwenden. Um neue Einträge zu erstellen, öffnen Sie das Hauptverzeichnis."
@@ -297,4 +303,9 @@ de:
     vyznamvid: "bestätigt Definition"
     vyznam: "genehmigt Definition"
     translation: "bestätigt Äquivalent in "
-    pubtrans: "genehmigt Äquivalent in "     
+    pubtrans: "genehmigt Äquivalent in " 
+    presets:
+      revdef: "Definition zu genehmigen"
+      comdef: "komentiert Definitione"
+      revtrans: "Äquivalenten zu genehmigen"
+      comtrans: "komentiert Äquivalenten"    
