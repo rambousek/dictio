@@ -41,8 +41,10 @@
   - if @entry['lemma']['lemma_type'] != 'single' and @entry['collocations'] and @entry['collocations']['entries'] and @entry['collocations']['entries'].size > 0
     - if @entry['lemma']['lemma_type'] == "collocation"
       p.naming #{I18n.t("entry.composed_collocation")}:
-    - else
+    - if @entry['lemma']['lemma_type'] == "derivat"
       p.naming #{I18n.t("entry.composed_deriv")}:
+    - if @entry['lemma']['lemma_type'] == "kompozitum"
+      p.naming #{I18n.t("entry.composed_comp")}:
     .row.row--start
       - @entry['collocations']['entries'].each do |coll|
         - relid = (coll['dict'] == @dictcode) ? coll['id'] : coll['dict']+'-'+coll['id'].to_s
