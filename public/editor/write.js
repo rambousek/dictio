@@ -1545,7 +1545,7 @@ function save_doc(id) {
     var varvid = variants[i].getValue();
     if (varvid != '' && variants_ar.indexOf(varvid) == -1) {
       variants_ar.push(varvid);
-      data.lemma.style_note.variant.push({'_text':varvid});
+      data.lemma.style_note[0].variant.push({'_text':varvid});
     }
   }
   var variants = Ext.getCmp('gramdesc').query('[name=varlink]');
