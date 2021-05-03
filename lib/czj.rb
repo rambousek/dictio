@@ -1850,6 +1850,7 @@ class CZJDict < Object
       end
     end
 
+    # typ hesla
     if params['typhesla'].to_s != '' and params['seltyphesla'].to_s != ''
       if params['typhesla'].to_s == 'ne'
         search_cond << {'lemma.lemma_type': params['seltyphesla'].to_s}
