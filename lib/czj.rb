@@ -1850,6 +1850,21 @@ class CZJDict < Object
       end
     end
 
+    # schvaleny SW
+    if params['nes_sw'].to_s != ''
+      if params['nes_sw'].to_s == 'ano' # schvaleny SW
+        search_cond << {'$or': [
+          {'lemma.lemma_type': {'$in': ['single','derivat','kompozitum']}, 'lemma.@swstatus': 'published'},
+          {'lemma.lemma_type': {'$in': ['fingerspell','collocation']}, '$and': [{'collocations.swcompos': {'$exists': true}}, {'collocations.swcompos': {'$ne': ''}}]}
+        ]}
+      else # neschvaleny SW
+        search_cond << {'$or': [
+          {'lemma.lemma_type': {'$in': ['single','derivat','kompozitum']},'$or': [{'lemma.@swstatus': {'$exists': false}}, {'lemma.@swstatus': {'$ne': 'published'}}]},
+          {'lemma.lemma_type': {'$in': ['fingerspell','collocation']},'$or': [{'collocations.swcompos': {'$exists': false}}, {'collocations.swcompos': ''}]}
+        ]}
+      end
+    end
+
     # typ hesla
     if params['typhesla'].to_s != '' and params['seltyphesla'].to_s != ''
       if params['typhesla'].to_s == 'ne'
@@ -1864,7 +1879,6 @@ class CZJDict < Object
     #'mluvkomp',
     #'oralkomp',
     #'bez_hns',
-    #'nes_sw',
     #'nes_hns',
     #'rucne',
     #'vztahy',
