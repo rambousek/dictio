@@ -17,8 +17,8 @@
               - if @params['schvcelni'] == 'ne'
                 a.btn class="btn-secondary report-ne" onclick="URLChange('schvcelni','')" #{I18n.t("admin.not")}#{I18n.t("admin.schvcelni")}
               - if @params['schvcelni'] == ''
-                a.btn class="btn-secondary report-" onclick="URLChange('schvcelni','ano')" #{I18n.t("admin.schvcelni")}   
-          
+                a.btn class="btn-secondary report-" onclick="URLChange('schvcelni','ano')" #{I18n.t("admin.schvcelni")}               
+                
             - if @params['schvbocni'] 
               - if @params['schvbocni'] == 'ano'
                 a.btn class="btn-secondary report-ano" onclick="URLChange('schvbocni','ne')" #{I18n.t("admin.schvbocni")}
@@ -26,6 +26,22 @@
                 a.btn class="btn-secondary report-ne" onclick="URLChange('schvbocni','')" #{I18n.t("admin.not")}#{I18n.t("admin.schvbocni")}
               - if @params['schvbocni'] == ''
                 a.btn class="btn-secondary report-" onclick="URLChange('schvbocni','ano')" #{I18n.t("admin.schvbocni")}
+                
+            - if @params['bez_sw'] 
+              - if @params['bez_sw'] == 'ano'
+                a.btn class="btn-secondary report-ano" onclick="URLChange('bez_sw','ne')" #{I18n.t("admin.sw")}
+              - if @params['bez_sw'] == 'ne'
+                a.btn class="btn-secondary report-ne" onclick="URLChange('bez_sw','')" #{I18n.t("admin.not")}#{I18n.t("admin.sw")}
+              - if @params['bez_sw'] == ''
+                a.btn class="btn-secondary report-" onclick="URLChange('bez_sw','ano')" #{I18n.t("admin.sw")}
+
+            - if @params['nes_sw'] 
+              - if @params['nes_sw'] == 'ano'
+                a.btn class="btn-secondary report-ano" onclick="URLChange('nes_sw','ne')" #{I18n.t("admin.schvsw")}
+              - if @params['nes_sw'] == 'ne'
+                a.btn class="btn-secondary report-ne" onclick="URLChange('nes_sw','')" #{I18n.t("admin.not")}#{I18n.t("admin.schvsw")}
+              - if @params['nes_sw'] == ''
+                a.btn class="btn-secondary report-" onclick="URLChange('nes_sw','ano')" #{I18n.t("admin.schvsw")}
           p
             - if @params['vyznamvid'] 
               - if @params['vyznamvid'] == 'ano'
@@ -33,7 +49,7 @@
               - if @params['vyznamvid'] == 'ne'
                 a.btn class="btn-secondary report-ne" onclick="URLChange('vyznamvid','')" #{I18n.t("admin.not")}#{I18n.t("admin.vyznamvid")}
               - if @params['vyznamvid'] == '' 
-                a.btn class="btn-secondary report-ne" onclick="URLChange('vyznamvid','')" #{I18n.t("admin.vyznamvid")}
+                a.btn class="btn-secondary report-ne" onclick="URLChange('vyznamvid','ano')" #{I18n.t("admin.vyznamvid")}
 
             - if @params['vyznam']     
               - if @params['vyznam'] == 'ano' 
