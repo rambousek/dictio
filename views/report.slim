@@ -75,6 +75,9 @@
                   a.btn class="btn-secondary report-ne" onclick="URLChange('pubtrans#{code}','')" #{I18n.t("admin.not")}#{I18n.t("admin.pubtrans")} #{code}
                 - if @params['pubtrans'+code] == '' 
                   a.btn class="btn-secondary report-" onclick="URLChange('pubtrans#{code}','ano')" #{I18n.t("admin.pubtrans")} #{code}
+          p
+            - if @params['seltyphesla']
+              - if @params['typhesla'] #{I18n.t("admin.#{@typhesla}")}    
           hr style="margin: 5px;"
           h2 #{I18n.t("admin.moreopt")}
           div
