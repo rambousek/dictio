@@ -9,7 +9,7 @@
     .container
       .row
         article.col.col--start role="article"
-          h2 #{I18n.t("admin.activeopt")}
+          h2 #{I18n.t("admin.activeopt")} (#{@report['entries'].size})
           p  
             - if @params['schvcelni'] 
               - if @params['schvcelni'] == 'ano'
