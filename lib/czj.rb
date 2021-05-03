@@ -1835,12 +1835,27 @@ class CZJDict < Object
       search_cond << {'id': {'$in': koment_ids}}
     end
 
+    # zadany SW
+    if params['bez_sw'].to_s != ''
+      if params['bez_sw'].to_s == 'ano' # zadany SW
+        search_cond << {'$or': [
+          {'lemma.lemma_type': {'$in': ['single','derivat','kompozitum']}, '$and': [{'lemma.sw': {'$exists': true}}, {'lemma.sw': {'$not': {'$size': 0}}}]},
+          {'lemma.lemma_type': {'$in': ['fingerspell','collocation']}, '$and': [{'collocations.swcompos': {'$exists': true}}, {'collocations.swcompos': {'$ne': ''}}]}
+        ]}
+      else # nezadany SW
+        search_cond << {'$or': [
+          {'lemma.lemma_type': {'$in': ['single','derivat','kompozitum']},'$or': [{'lemma.sw': {'$exists': false}}, {'lemma.sw': {'$size': 0}}]},
+          {'lemma.lemma_type': {'$in': ['fingerspell','collocation']},'$or': [{'collocations.swcompos': {'$exists': false}}, {'collocations.swcompos': {'$eq': ''}}]}
+        ]}
+      end
+    end
+
+
 
     #'region',
     #'mkok',
     #'mluvkomp',
     #'oralkomp',
-    #'bez_sw',
     #'bez_hns',
     #'nes_sw',
     #'nes_hns',
