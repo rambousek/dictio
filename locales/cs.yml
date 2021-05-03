@@ -309,3 +309,5 @@ cs:
       comdef: "komentované definice"
       revtrans: "ekvivalenty ke schválení"
       comtrans: "komentované ekvivalenty"
+      sw: "zadaný SW"
+      schvsw: "schválený SW"

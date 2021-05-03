@@ -82,6 +82,10 @@
               a.btn class="btn-secondary report-" onclick="URLAppend('schvcelni')" #{I18n.t("admin.schvcelni")}
             - unless @params['schvbocni']
               a.btn class="btn-secondary report-" onclick="URLAppend('schvbocni')" #{I18n.t("admin.schvbocni")}
+            - unless @params['bez_sw']
+              a.btn class="btn-secondary report-" onclick="URLAppend('bez_sw')" #{I18n.t("admin.sw")}
+            - unless @params['nes_sw']
+              a.btn class="btn-secondary report-" onclick="URLAppend('nes_sw')" #{I18n.t("admin.schvsw")}
           div
             - unless @params['vyznamvid']
               a.btn class="btn-secondary report-" onclick="URLAppend('vyznamvid')" #{I18n.t("admin.vyznamvid")}
