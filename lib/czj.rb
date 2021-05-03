@@ -1845,12 +1845,18 @@ class CZJDict < Object
       else # nezadany SW
         search_cond << {'$or': [
           {'lemma.lemma_type': {'$in': ['single','derivat','kompozitum']},'$or': [{'lemma.sw': {'$exists': false}}, {'lemma.sw': {'$size': 0}}]},
-          {'lemma.lemma_type': {'$in': ['fingerspell','collocation']},'$or': [{'collocations.swcompos': {'$exists': false}}, {'collocations.swcompos': {'$eq': ''}}]}
+          {'lemma.lemma_type': {'$in': ['fingerspell','collocation']},'$or': [{'collocations.swcompos': {'$exists': false}}, {'collocations.swcompos': ''}]}
         ]}
       end
     end
 
-
+    if params['typhesla'].to_s != '' and params['seltyphesla'].to_s != ''
+      if params['typhesla'].to_s == 'ne'
+        search_cond << {'lemma.lemma_type': params['seltyphesla'].to_s}
+      else
+        search_cond << {'lemma.lemma_type': {'$ne': params['seltyphesla'].to_s}}
+      end
+    end
 
     #'region',
     #'mkok',
@@ -1888,8 +1894,6 @@ class CZJDict < Object
     #'translationsj',
     #'translationspj',
     #'koment_moje',
-    #'typhesla',
-    #'seltyphesla',
     #'trpriklad'
 
 
