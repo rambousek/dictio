@@ -155,25 +155,25 @@
           div
             | #{I18n.t("admin.comments")}:  
             - unless @params['komment'] and @params['komentbox'] == 'boxlemma'
-              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','boxlemma','komentbox','ne')" #{I18n.t("admin.koment.boxlemma")}      
+              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','boxlemma','koment','ne')" #{I18n.t("admin.koment.boxlemma")}      
             - unless @params['komment'] and @params['komentbox'] == 'boxcolloc'
-              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','boxcolloc','komentbox','ne')" #{I18n.t("admin.koment.boxcolloc")}
+              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','boxcolloc','koment','ne')" #{I18n.t("admin.koment.boxcolloc")}
             - unless @params['komment'] and @params['komentbox'] == 'video'
-              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','video','komentbox','ne')" #{I18n.t("admin.koment.video")}
+              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','video','koment','ne')" #{I18n.t("admin.koment.video")}
             - unless @params['komment'] and @params['komentbox'] == 'swfield'
-              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','swfield','komentbox','ne')" #{I18n.t("admin.koment.swfield")}
+              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','swfield','koment','ne')" #{I18n.t("admin.koment.swfield")}
             - unless @params['komment'] and @params['komentbox'] == 'hamnbox'
-              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','hamnbox','komentbox','ne')" #{I18n.t("admin.koment.hamnbox")}
+              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','hamnbox','koment','ne')" #{I18n.t("admin.koment.hamnbox")}
             - unless @params['komment'] and @params['komentbox'] == 'gramdesc'
-              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','gramdesc','komentbox','ne')" #{I18n.t("admin.koment.gramdesc")}
+              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','gramdesc','koment','ne')" #{I18n.t("admin.koment.gramdesc")}
             - unless @params['komment'] and @params['komentbox'] == 'styldesc'
-              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','styldesc','komentbox','ne')" #{I18n.t("admin.koment.styldesc")}
+              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','styldesc','koment','ne')" #{I18n.t("admin.koment.styldesc")}
             - unless @params['komment'] and @params['komentbox'] == 'vyznam'
-              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','vyznam','komentbox','ne')" #{I18n.t("admin.koment.vyznam")}
+              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','vyznam','koment','ne')" #{I18n.t("admin.koment.vyznam")}
             - unless @params['komment'] and @params['komentbox'] == '_us'
-              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','_us','komentbox','ne')" #{I18n.t("admin.koment._us")}
+              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','_us','koment','ne')" #{I18n.t("admin.koment._us")}
             - unless @params['komment'] and @params['komentbox'] == 'vazby'
-              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','vazby','komentbox','ne')" #{I18n.t("admin.koment.vazby")}
+              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','vazby','koment','ne')" #{I18n.t("admin.koment.vazby")}
       table.table class="table--no-margin"
         tr
           th width="10%"
