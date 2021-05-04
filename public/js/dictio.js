@@ -508,6 +508,13 @@ function URLChange (param,value) {
     queryParams.set(param, value);
     window.location.href = 'report?' + queryParams;
 }
+
+function URLChange2 (param1,value1,param2,value2) {
+    var queryParams = new URLSearchParams(window.location.search);      
+    queryParams.set(param1, value1);
+    queryParams.set(param2, value2);
+    window.location.href = 'report?' + queryParams;
+}
   
 function URLAppend (param) {
     var queryParams = new URLSearchParams(window.location.search);
