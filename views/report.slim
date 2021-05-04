@@ -44,14 +44,14 @@
                 a.btn class="btn-secondary report-ano" onclick="URLChange('vyznamvid','ne')" #{I18n.t("admin.vyznamvid")}
               - if @params['vyznamvid'] == 'ne'
                 a.btn class="btn-secondary report-ne" onclick="URLChange('vyznamvid','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.vyznamvid")}
-              span.closebtn2 onclick="URLRemove('vyznamvid}')" x
+              span.closebtn2 onclick="URLRemove('vyznamvid')" x
 
             - if @params['vyznam']     
               - if @params['vyznam'] == 'ano' 
                 a.btn class="btn-secondary report-ano" onclick="URLChange('vyznam','ne')" #{I18n.t("admin.vyznam")}
               - if @params['vyznam'] == 'ne' 
                 a.btn class="btn-secondary report-ne" onclick="URLChange('vyznam','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.vyznam")}  
-              span.closebtn2 onclick="URLRemove('vyznam')" x                          
+              span.closebtn2 onclick="URLRemove('vyznam')" x                      
           p
             - $dict_info.each do |code,hash|
               - if @params['translation'+code]
