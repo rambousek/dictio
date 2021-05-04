@@ -80,6 +80,9 @@
           hr style="margin: 5px;"
           h2 #{I18n.t("admin.moreopt")}
           div
+            - unless @params['typhesla'] and @params['seltyphesla'] == 'single'
+              a.btn class="btn-secondary report-" onclick="URLChange('seltyphesla','single')" #{I18n.t("admin.single")}            
+          div
             | #{I18n.t("admin.lemma")}:  
             - unless @params['schvcelni']
               a.btn class="btn-secondary report-" onclick="URLAppend('schvcelni')" #{I18n.t("admin.schvcelni")}
