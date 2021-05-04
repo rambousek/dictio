@@ -115,43 +115,45 @@
             - unless @params['vyznam']
               a.btn class="btn-secondary report-" onclick="URLAppend('vyznam')" #{I18n.t("admin.vyznam")}    
           div
-            | #{I18n.t("admin.ekv")}:  
+            | #{I18n.t("admin.ekv")}: 
+            | #{I18n.t("admin.translation")}:               
             - unless @params['translationcs']
-              a.btn class="btn-secondary report-" onclick="URLAppend('translationcs')" #{I18n.t("admin.translation")} CS              
-            - unless @params['pubtranscs']
-              a.btn class="btn-secondary report-" onclick="URLAppend('pubtranscs')" #{I18n.t("admin.pubtrans")} CS
+              a.btn class="btn-secondary report-" onclick="URLAppend('translationcs')" CS              
             - unless @params['translationczj']
-              a.btn class="btn-secondary report-" onclick="URLAppend('translationczj')" #{I18n.t("admin.translation")} ČZJ              
-            - unless @params['pubtransczj']
-              a.btn class="btn-secondary report-" onclick="URLAppend('pubtransczj')" #{I18n.t("admin.pubtrans")} ČZJ
+              a.btn class="btn-secondary report-" onclick="URLAppend('translationczj')" ČZJ              
             - unless @params['translationen']
-              a.btn class="btn-secondary report-" onclick="URLAppend('translationen')" #{I18n.t("admin.translation")} EN              
-            - unless @params['pubtransen']
-              a.btn class="btn-secondary report-" onclick="URLAppend('pubtransen')" #{I18n.t("admin.pubtrans")} EN
+              a.btn class="btn-secondary report-" onclick="URLAppend('translationen')" EN
             - unless @params['translationasl']
-              a.btn class="btn-secondary report-" onclick="URLAppend('translationasl')" #{I18n.t("admin.translation")} ASL              
-            - unless @params['pubtransasl']
-              a.btn class="btn-secondary report-" onclick="URLAppend('pubtransasl')" #{I18n.t("admin.pubtrans")} ASL
+              a.btn class="btn-secondary report-" onclick="URLAppend('translationasl')" ASL
             - unless @params['translationis']
-              a.btn class="btn-secondary report-" onclick="URLAppend('translationis')" #{I18n.t("admin.translation")} IS
-            - unless @params['pubtransis']
-              a.btn class="btn-secondary report-" onclick="URLAppend('pubtransis')" #{I18n.t("admin.pubtrans")} IS
+              a.btn class="btn-secondary report-" onclick="URLAppend('translationis')" IS
             - unless @params['translationsj']
-              a.btn class="btn-secondary report-" onclick="URLAppend('translationsj')" #{I18n.t("admin.translation")} SJ 
-            - unless @params['pubtransj']
-              a.btn class="btn-secondary report-" onclick="URLAppend('pubtranssj')" #{I18n.t("admin.pubtrans")} SJ
+              a.btn class="btn-secondary report-" onclick="URLAppend('translationsj')" SJ
             - unless @params['translationspj']
-              a.btn class="btn-secondary report-" onclick="URLAppend('translationspj')" #{I18n.t("admin.translation")} SPJ
-            - unless @params['pubtransspj']
-              a.btn class="btn-secondary report-" onclick="URLAppend('pubtransspj')" #{I18n.t("admin.pubtrans")} SPJ
+              a.btn class="btn-secondary report-" onclick="URLAppend('translationspj')" SPJ
             - unless @params['translationde']
-              a.btn class="btn-secondary report-" onclick="URLAppend('translationde')" #{I18n.t("admin.translation")} DE
-            - unless @params['pubtransde']
-              a.btn class="btn-secondary report-" onclick="URLAppend('pubtransde')" #{I18n.t("admin.pubtrans")} DE
+              a.btn class="btn-secondary report-" onclick="URLAppend('translationde')" DE                            
             - unless @params['translationogs']
-              a.btn class="btn-secondary report-" onclick="URLAppend('translationogs')" #{I18n.t("admin.translation")} ÖGS
+              a.btn class="btn-secondary report-" onclick="URLAppend('translationogs')" ÖGS
+            | #{I18n.t("admin.pubtrans")}:
+            - unless @params['pubtranscs']                       
+              a.btn class="btn-secondary report-" onclick="URLAppend('pubtranscs')" CS
+            - unless @params['pubtransczj']
+              a.btn class="btn-secondary report-" onclick="URLAppend('pubtransczj')" ČZJ            
+            - unless @params['pubtransen']
+              a.btn class="btn-secondary report-" onclick="URLAppend('pubtransen')" EN              
+            - unless @params['pubtransasl']
+              a.btn class="btn-secondary report-" onclick="URLAppend('pubtransasl')" ASL
+            - unless @params['pubtransis']
+              a.btn class="btn-secondary report-" onclick="URLAppend('pubtransis')" IS
+            - unless @params['pubtransj']
+              a.btn class="btn-secondary report-" onclick="URLAppend('pubtranssj')" SJ
+            - unless @params['pubtransspj']
+              a.btn class="btn-secondary report-" onclick="URLAppend('pubtransspj')" SPJ
+            - unless @params['pubtransde']
+              a.btn class="btn-secondary report-" onclick="URLAppend('pubtransde')" DE
             - unless @params['pubtransogs']
-              a.btn class="btn-secondary report-" onclick="URLAppend('pubtransczj')" #{I18n.t("admin.pubtrans")} ÖGS
+              a.btn class="btn-secondary report-" onclick="URLAppend('pubtransczj')" ÖGS
           div
             | #{I18n.t("admin.comments")}:  
             - unless @params['koment'] and @params['komentbox'] == 'boxlemma'
