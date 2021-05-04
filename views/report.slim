@@ -80,10 +80,19 @@
           hr style="margin: 5px;"
           h2 #{I18n.t("admin.moreopt")}
           div
-            - unless @params['typhesla'] and @params['seltyphesla'] == 'single'
-              a.btn class="btn-secondary report-" onclick="URLChange('seltyphesla','single')" #{I18n.t("admin.single")}            
-          div
             | #{I18n.t("admin.lemma")}:  
+            - unless @params['typhesla'] and @params['seltyphesla'] == 'single'
+              a.btn class="btn-secondary report-" onclick="URLChange('seltyphesla','single'); URLChange('typhesla','ne')" #{I18n.t("admin.single")}            
+            - unless @params['typhesla'] and @params['seltyphesla'] == 'derivat'
+              a.btn class="btn-secondary report-" onclick="URLChange('seltyphesla','derivat'); URLChange('typhesla','ne')" #{I18n.t("admin.single")}
+            - unless @params['typhesla'] and @params['seltyphesla'] == 'kompozitum'
+              a.btn class="btn-secondary report-" onclick="URLChange('seltyphesla','kompozitum'); URLChange('typhesla','ne')" #{I18n.t("admin.single")}
+            - unless @params['typhesla'] and @params['seltyphesla'] == 'fingerspell'
+              a.btn class="btn-secondary report-" onclick="URLChange('seltyphesla','fingerspell'); URLChange('typhesla','ne')" #{I18n.t("admin.single")}              
+            - unless @params['typhesla'] and @params['seltyphesla'] == 'collocation'
+              a.btn class="btn-secondary report-" onclick="URLChange('seltyphesla','collocation'); URLChange('typhesla','ne')" #{I18n.t("admin.single")}
+              
+          div            
             - unless @params['schvcelni']
               a.btn class="btn-secondary report-" onclick="URLAppend('schvcelni')" #{I18n.t("admin.schvcelni")}
             - unless @params['schvbocni']
