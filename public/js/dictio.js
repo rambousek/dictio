@@ -521,3 +521,10 @@ function URLRemove (param) {
     queryParams.delete(param)    
     window.location.href = 'report?' + queryParams;
 }
+
+function URLRemove2 (param1, param2) {
+    var queryParams = new URLSearchParams(window.location.search);      
+    queryParams.delete(param1)    
+    queryParams.delete(param2)
+    window.location.href = 'report?' + queryParams;
+}
