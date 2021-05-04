@@ -64,23 +64,21 @@
                 - if @params['translation'+code] == 'ano'
                   a.btn class="btn-secondary report-ano" onclick="URLChange('translation#{code}','ne')" #{I18n.t("admin.translation")} #{code}
                 - if @params['translation'+code] == 'ne'
-                  a.btn class="btn-secondary report-ne" onclick="URLChange('translation#{code}','')" #{I18n.t("admin.not")}#{I18n.t("admin.translation")} #{code}
-                - if @params['translation'+code] == '' 
-                  a.btn class="btn-secondary report-" onclick="URLChange('translation#{code}','ano')" #{I18n.t("admin.translation")} #{code}
+                  a.btn class="btn-secondary report-ne" onclick="URLChange('translation#{code}','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.translation")} #{code}
+                span.closebnt2 onclick="URLRemove('translation#{code}')" x
 
               - if @params['pubtrans'+code]
                 - if @params['pubtrans'+code] == 'ano'
                   a.btn class="btn-secondary report-ano" onclick="URLChange('pubtrans#{code}','ne')" #{I18n.t("admin.pubtrans")} #{code}
                 - if @params['pubtrans'+code] == 'ne'
-                  a.btn class="btn-secondary report-ne" onclick="URLChange('pubtrans#{code}','')" #{I18n.t("admin.not")}#{I18n.t("admin.pubtrans")} #{code}
-                - if @params['pubtrans'+code] == '' 
-                  a.btn class="btn-secondary report-" onclick="URLChange('pubtrans#{code}','ano')" #{I18n.t("admin.pubtrans")} #{code}
+                  a.btn class="btn-secondary report-ne" onclick="URLChange('pubtrans#{code}','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.pubtrans")} #{code}
+                span.closebnt2 onclick="URLRemove2('pubtrans#{code}')" x
           p
             - if @params['typhesla'] == 'ne' and @params['seltyphesla'] != ''
-              a.btn.btn-secondary.report-ano onclick="URLChange('typhesla','ano')" #{I18n.t("admin."+@params['seltyphesla'])}
-              a onclick="URLRemove('typhesla','seltyphesla')" X
+              a.btn.btn-secondary.report-ano onclick="URLChange('typhesla','ano')" #{I18n.t("admin."+@params['seltyphesla'])}              
             - if @params['typhesla'] == 'ano' and @params['seltyphesla'] != ''
               a.btn.btn-secondary.report-ne onclick="URLChange('typhesla','ne')" #{I18n.t("admin.not")} #{I18n.t("admin."+@params['seltyphesla'])}
+            span.closebnt2 onclick="URLRemove2('typhesla','seltyphesla')" x
           hr style="margin: 5px;"
           h2 #{I18n.t("admin.moreopt")}
           div
