@@ -320,7 +320,7 @@ cs:
       boxcolloc: "typ hesla"
       video: "záhlaví (video)"
       swfield: "signwriting"
-      hamnobox: "hamnosys"
+      hamnbox: "hamnosys"
       gramdesc: "gramatický popis"
       styldesc: "stylistický popis"
       vyznam: "význam"
