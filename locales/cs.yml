@@ -314,6 +314,18 @@ cs:
     vyznam: "schválená definice"
     translation: "zadaný ekvivalent "
     pubtrans: "schválený ekvivalent "    
+    comments: "komentáře"
+    koment:
+      boxlemma: "technické informace"
+      boxcolloc: "typ hesla"
+      video: "záhlaví (video)"
+      swfield: "signwriting"
+      hamnobox: "hamnosys"
+      gramdesc: "gramatický popis"
+      styldesc: "stylistický popis"
+      vyznam: "význam"
+      _us: "příklady užití"
+      vazby: "ekvivalenty"
     presets:
       revdef: "definice ke schválení"
       comdef: "komentované definice"
