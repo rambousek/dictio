@@ -152,7 +152,7 @@
               a.btn class="btn-secondary report-" onclick="URLAppend('translationogs')" #{I18n.t("admin.translation")} ÖGS
             - unless @params['pubtransogs']
               a.btn class="btn-secondary report-" onclick="URLAppend('pubtransczj')" #{I18n.t("admin.pubtrans")} ÖGS
-           div
+          div
             | #{I18n.t("admin.comments")}:  
             - unless @params['komment'] and @params['komentbox'] == 'boxlemma'
               a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','boxlemma','komentbox','ne')" #{I18n.t("admin.koment.boxlemma")}      
