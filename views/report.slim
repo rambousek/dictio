@@ -79,10 +79,10 @@
           p 
             | #{I18n.t("admin.comments")}:
             - if @params['koment'] == 'ne' and @params['komentbox'] != ''
-              a.btn.btn-secondary.report-ano onclick="URLChange('koment','ano')" #{I18n.t("admin.koment"+@params['komentbox'])}
+              a.btn.btn-secondary.report-ano onclick="URLChange('koment','ano')" #{I18n.t("admin.koment."+@params['komentbox'])}
               span.closebtn2 onclick="URLRemove2('koment','komentbox')" x              
             - if @params['koment'] == 'ano' and @params['seltyphesla'] != ''
-              a.btn.btn-secondary.report-ne onclick="URLChange('koment','ne')" #{I18n.t("admin.not")} #{I18n.t("admin.koment"+@params['komentbox'])}
+              a.btn.btn-secondary.report-ne onclick="URLChange('koment','ne')" #{I18n.t("admin.not")} #{I18n.t("admin.koment."+@params['komentbox'])}
               span.closebtn2 onclick="URLRemove2('koment','komentbox')" x       
           hr style="margin: 5px;"
           h2 #{I18n.t("admin.moreopt")}
