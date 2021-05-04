@@ -9,7 +9,7 @@
     .container
       .row
         article.col.col--start role="article"
-          h2 #{I18n.t("admin.activeopt")} (#{@report['entries'].size})
+          h2 #{I18n.t("admin.activeopt")} 
           p 
             | #{I18n.t("admin.lemma")}:  
             - if @params['typhesla'] == 'ne' and @params['seltyphesla'] != ''
@@ -177,9 +177,10 @@
               a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','_us','koment','ne')" #{I18n.t("admin.koment._us")}
             - unless @params['koment'] and @params['komentbox'] == 'vazby'
               a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','vazby','koment','ne')" #{I18n.t("admin.koment.vazby")}
+
       table.table class="table--no-margin"
         tr
-          th width="10%"
+          th width="10%" (#{@report['entries'].size})
           th
           - if @params['komentbox'] 
             th
