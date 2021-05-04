@@ -74,7 +74,7 @@
                   a.btn class="btn-secondary report-ano" onclick="URLChange('pubtrans#{code}','ne')" #{I18n.t("admin.pubtrans")} #{code}
                 - if @params['pubtrans'+code] == 'ne'
                   a.btn class="btn-secondary report-ne" onclick="URLChange('pubtrans#{code}','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.pubtrans")} #{code}
-                span.closebtn2 onclick="URLRemove2('pubtrans#{code}')" 
+                span.closebtn2 onclick="URLRemove('pubtrans#{code}')" 
             
           hr style="margin: 5px;"
           h2 #{I18n.t("admin.moreopt")}
