@@ -76,21 +76,28 @@
                 - if @params['pubtrans'+code] == 'ne'
                   a.btn class="btn-secondary report-ne" onclick="URLChange('pubtrans#{code}','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.pubtrans")} #{code}
                 span.closebtn2 onclick="URLRemove('pubtrans#{code}')" x
-            
+          p 
+            | #{I18n.t("admin.comments")}:
+            - if @params['koment'] == 'ne' and @params['komentbox'] != ''
+              a.btn.btn-secondary.report-ano onclick="URLChange('koment','ano')" #{I18n.t("admin.koment"+@params['komentbox'])}
+              span.closebtn2 onclick="URLRemove2('koment','komentbox')" x              
+            - if @params['koment'] == 'ano' and @params['seltyphesla'] != ''
+              a.btn.btn-secondary.report-ne onclick="URLChange('koment','ne')" #{I18n.t("admin.not")} #{I18n.t("admin.koment"+@params['komentbox'])}
+              span.closebtn2 onclick="URLRemove2('koment','komentbox')" x       
           hr style="margin: 5px;"
           h2 #{I18n.t("admin.moreopt")}
           div
             | #{I18n.t("admin.lemma")}:  
             - unless @params['typhesla'] and @params['seltyphesla'] == 'single'
-              a.btn class="btn-secondary report-" onclick="URLChange('seltyphesla','single'); URLChange('typhesla','ne')" #{I18n.t("admin.single")}            
+              a.btn class="btn-secondary report-" onclick="URLChange2('seltyphesla','single','typhesla','ne')" #{I18n.t("admin.single")}            
             - unless @params['typhesla'] and @params['seltyphesla'] == 'derivat'
-              a.btn class="btn-secondary report-" onclick="URLChange('seltyphesla','derivat'); URLChange('typhesla','ne')" #{I18n.t("admin.derivat")}
+              a.btn class="btn-secondary report-" onclick="URLChange2('seltyphesla','derivat','typhesla','ne')" #{I18n.t("admin.derivat")}
             - unless @params['typhesla'] and @params['seltyphesla'] == 'kompozitum'
-              a.btn class="btn-secondary report-" onclick="URLChange('seltyphesla','kompozitum'); URLChange('typhesla','ne')" #{I18n.t("admin.kompozitum")}
+              a.btn class="btn-secondary report-" onclick="URLChange('seltyphesla','kompozitum','typhesla','ne')" #{I18n.t("admin.kompozitum")}
             - unless @params['typhesla'] and @params['seltyphesla'] == 'fingerspell'
-              a.btn class="btn-secondary report-" onclick="URLChange('seltyphesla','fingerspell'); URLChange('typhesla','ne')" #{I18n.t("admin.fingerspell")}              
+              a.btn class="btn-secondary report-" onclick="URLChange('seltyphesla','fingerspell','typhesla','ne')" #{I18n.t("admin.fingerspell")}              
             - unless @params['typhesla'] and @params['seltyphesla'] == 'collocation'
-              a.btn class="btn-secondary report-" onclick="URLChange('seltyphesla','collocation'); URLChange('typhesla','ne')" #{I18n.t("admin.collocation")}
+              a.btn class="btn-secondary report-" onclick="URLChange('seltyphesla','collocation','typhesla','ne')" #{I18n.t("admin.collocation")}
               
           div            
             - unless @params['schvcelni']
@@ -145,7 +152,28 @@
               a.btn class="btn-secondary report-" onclick="URLAppend('translationogs')" #{I18n.t("admin.translation")} ÖGS
             - unless @params['pubtransogs']
               a.btn class="btn-secondary report-" onclick="URLAppend('pubtransczj')" #{I18n.t("admin.pubtrans")} ÖGS
-      
+           div
+            | #{I18n.t("admin.comments")}:  
+            - unless @params['komment'] and @params['komentbox'] == 'boxlemma'
+              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','boxlemma','komentbox','ne')" #{I18n.t("admin.koment.boxlemma")}      
+            - unless @params['komment'] and @params['komentbox'] == 'boxcolloc'
+              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','boxcolloc','komentbox','ne')" #{I18n.t("admin.koment.boxcolloc")}
+            - unless @params['komment'] and @params['komentbox'] == 'video'
+              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','video','komentbox','ne')" #{I18n.t("admin.koment.video")}
+            - unless @params['komment'] and @params['komentbox'] == 'swfield'
+              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','swfield','komentbox','ne')" #{I18n.t("admin.koment.swfield")}
+            - unless @params['komment'] and @params['komentbox'] == 'hamnbox'
+              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','hamnbox','komentbox','ne')" #{I18n.t("admin.koment.hamnbox")}
+            - unless @params['komment'] and @params['komentbox'] == 'gramdesc'
+              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','gramdesc','komentbox','ne')" #{I18n.t("admin.koment.gramdesc")}
+            - unless @params['komment'] and @params['komentbox'] == 'styldesc'
+              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','styldesc','komentbox','ne')" #{I18n.t("admin.koment.styldesc")}
+            - unless @params['komment'] and @params['komentbox'] == 'vyznam'
+              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','vyznam','komentbox','ne')" #{I18n.t("admin.koment.vyznam")}
+            - unless @params['komment'] and @params['komentbox'] == '_us'
+              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','_us','komentbox','ne')" #{I18n.t("admin.koment._us")}
+            - unless @params['komment'] and @params['komentbox'] == 'vazby'
+              a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','vazby','komentbox','ne')" #{I18n.t("admin.koment.vazby")}
       table.table class="table--no-margin"
         tr
           th width="10%"
