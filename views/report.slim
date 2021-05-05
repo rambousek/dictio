@@ -61,22 +61,22 @@
                 a.btn class="btn-secondary report-ne" onclick="URLChange('vyznam','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.vyznam")}  
               span.closebtn2 onclick="URLRemove('vyznam')" x                      
           p
-            | #{I18n.t("admin.ekv")}:  
+            | #{I18n.t("admin.translation")}:  
             - $dict_info.each do |code,hash|
               - if @params['translation'+code]
                 - if @params['translation'+code] == 'ano'
-                  a.btn class="btn-secondary report-ano" onclick="URLChange('translation#{code}','ne')" #{I18n.t("admin.translation")} #{code}
+                  a.btn class="btn-secondary report-ano" onclick="URLChange('translation#{code}','ne')" #{code}
                 - if @params['translation'+code] == 'ne'
-                  a.btn class="btn-secondary report-ne" onclick="URLChange('translation#{code}','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.translation")} #{code}
+                  a.btn class="btn-secondary report-ne" onclick="URLChange('translation#{code}','ano')" #{I18n.t("admin.not")} #{code}
                 span.closebtn2 onclick="URLRemove('translation#{code}')" x
           p
             | #{I18n.t("admin.pubtrans")}:
             - $dict_info.each do |code,hash|
               - if @params['pubtrans'+code]
                 - if @params['pubtrans'+code] == 'ano'
-                  a.btn class="btn-secondary report-ano" onclick="URLChange('pubtrans#{code}','ne')" #{I18n.t("admin.pubtrans")} #{code}
+                  a.btn class="btn-secondary report-ano" onclick="URLChange('pubtrans#{code}','ne')" #{code}
                 - if @params['pubtrans'+code] == 'ne'
-                  a.btn class="btn-secondary report-ne" onclick="URLChange('pubtrans#{code}','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.pubtrans")} #{code}
+                  a.btn class="btn-secondary report-ne" onclick="URLChange('pubtrans#{code}','ano')" #{I18n.t("admin.not")} #{code}
                 span.closebtn2 onclick="URLRemove('pubtrans#{code}')" x
           p 
             | #{I18n.t("admin.comments")}:
