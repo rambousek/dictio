@@ -1883,10 +1883,32 @@ class CZJDict < Object
       end
     end
 
+    # mluv komp
+    if params['mluvkomp'].to_s != ''
+      if params['mluvkomp'].to_s == 'ano'
+        search_cond << {'lemma.grammar_note.0.@mluv_komp': {'$exists': true, '$ne': ''}}
+      else
+        search_cond << {'$or': [
+          {'lemma.grammar_note.0.@mluv_komp': {'$exists': false}},
+          {'lemma.grammar_note.0.@mluv_komp': ''}
+        ]}
+      end
+    end
+
+    # oral komp
+    if params['oralkomp'].to_s != ''
+      if params['oralkomp'].to_s == 'ano'
+        search_cond << {'lemma.grammar_note.0.@oral_komp': {'$exists': true, '$ne': ''}}
+      else
+        search_cond << {'$or': [
+          {'lemma.grammar_note.0.@oral_komp': {'$exists': false}},
+          {'lemma.grammar_note.0.@oral_komp': ''}
+        ]}
+      end
+    end
+
     #'region',
     #'mkok',
-    #'mluvkomp',
-    #'oralkomp',
     #'bez_hns',
     #'nes_hns',
     #'rucne',
