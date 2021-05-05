@@ -1874,6 +1874,15 @@ class CZJDict < Object
       end
     end
 
+    # slovni druh
+    if params['sldruh'].to_s != '' and params['slovni_druh'].to_s != ''
+      if params['sldruh'].to_s == 'ne'
+        search_cond << {'lemma.grammar_note.0.@slovni_druh': params['slovni_druh'].to_s}
+      else
+        search_cond << {'lemma.grammar_note.0.@slovni_druh': {'$ne': params['slovni_druh'].to_s}}
+      end
+    end
+
     #'region',
     #'mkok',
     #'mluvkomp',
@@ -1902,8 +1911,6 @@ class CZJDict < Object
     #'translationcs',
     #'translationde',
     #'translationogs',
-    #'sldruh',
-    #'slovni_druh',
     #'relpub',
     #'texttranslationen',
     #'translationsj',
