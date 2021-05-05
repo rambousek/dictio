@@ -1907,8 +1907,28 @@ class CZJDict < Object
       end
     end
 
+    # MK/OK
+    if params['mkok'].to_s != ''
+      if params['mkok'].to_s == 'ano'
+        search_cond << {'$or': [
+          {'lemma.grammar_note.0.@mluv_komp': {'$exists': true, '$ne': ''}},
+          {'lemma.grammar_note.0.@oral_komp': {'$exists': true, '$ne': ''}}
+        ]}
+      else
+        search_cond << {'$and': [
+          {'$or': [
+            {'lemma.grammar_note.0.@mluv_komp': {'$exists': false}},
+            {'lemma.grammar_note.0.@mluv_komp': ''}
+          ]},
+          {'$or': [
+            {'lemma.grammar_note.0.@oral_komp': {'$exists': false}},
+            {'lemma.grammar_note.0.@oral_komp': ''}
+          ]}
+        ]}
+      end
+    end
+
     #'region',
-    #'mkok',
     #'bez_hns',
     #'nes_hns',
     #'rucne',
