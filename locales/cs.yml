@@ -269,6 +269,7 @@ cs:
       spj: "SPJ"
       pjm: "PJM"
       asl: "ASL"
+      dgs: "DGS"
       bsl: "BSL" 
       ogs: "ÖGS"
     category: 
