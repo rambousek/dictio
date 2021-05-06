@@ -173,7 +173,7 @@
           div
             span onclick="showhide('sldruh')" style="cursor: pointer"
               | #{I18n.t("entry.lexical")}: >>
-            div id="sldruh"
+            div id="sldruh" style="display: none"
               - unless @params['sldruh'] and @params['slovni_druh'] == 'subst'
                 a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','subst','sldruh','ne')" #{I18n.t("gram.slovni_druh.subst")}
               - unless @params['sldruh'] and @params['slovni_druh'] == 'adj'
@@ -248,7 +248,7 @@
           div
             span onclick="showhide('comm')" style="cursor: pointer"
               | #{I18n.t("admin.comments")}: >>
-            div id="comm"  
+            div id="comm" style="display: none" 
               - unless @params['koment'] and @params['komentbox'] == 'boxlemma'
                 a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','boxlemma','koment','ne')" #{I18n.t("admin.koment.boxlemma")}      
               - unless @params['koment'] and @params['komentbox'] == 'boxcolloc'
