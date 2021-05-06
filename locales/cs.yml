@@ -310,6 +310,7 @@ cs:
     derivat: "derivát"
     kompozitum: "kompozitum"
     fingerspell: "spelovaný znak"
+    desc: "popis"
     collocation: "slovní spojení"
     vyznamvid: "zadaná definice"
     vyznam: "schválená definice"
