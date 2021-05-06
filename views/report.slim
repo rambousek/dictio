@@ -111,7 +111,7 @@
           hr style="margin: 5px;"
           h2 #{I18n.t("admin.moreopt")}
           div
-            span onclick="showhide=(skupina)" #{I18n.t("admin.lemma")}>>            
+            span onclick="showhide=(skupina)" #{I18n.t("admin.lemma")}            
               span id="skupina" style="display: none"
                 | #{I18n.t("admin.lemma")}:
                 - unless @params['skup'] and @params['def_skup[]'] == 'teiresias_w'
