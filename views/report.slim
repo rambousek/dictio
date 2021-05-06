@@ -46,6 +46,20 @@
                 a.btn class="btn-secondary report-ne" onclick="URLChange('nes_sw','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.schvsw")}
               span.closebtn2 onclick="URLRemove('nes_sw')" x
           p
+            | #{I18n.t("admin.desc")}:
+            - if @params['mkok'] 
+              - if @params['mkok'] == 'ano'
+                a.btn class="btn-secondary report-ano" onclick="URLChange('mkok','ne')" #{I18n.t("admin.mkok")}
+              - if @params['vyznamvid'] == 'ne'
+                a.btn class="btn-secondary report-ne" onclick="URLChange('mkok','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.mkok")}
+              span.closebtn2 onclick="URLRemove('mkok')" x
+            - if @params['sldruh'] == 'ne' and @params['slovni_druh'] != ''
+              a.btn.btn-secondary.report-ano onclick="URLChange('sldruh','ano')" #{I18n.t("admin.lex."+@params['slovni_druh'])}
+              span.closebtn2 onclick="URLRemove2('sldruh','slovni_druh')" x              
+            - if @params['sldruh'] == 'ano' and @params['slovni_druh'] != ''
+              a.btn.btn-secondary.report-ne onclick="URLChange('sldruh','ne')" #{I18n.t("admin.not")} #{I18n.t("admin.lex."+@params['slovni_druh'])}
+              span.closebtn2 onclick="URLRemove2('sldruh','slovni_druh')" x                
+          p
             | #{I18n.t("admin.sem")}:  
             - if @params['vyznamvid'] 
               - if @params['vyznamvid'] == 'ano'
@@ -99,8 +113,7 @@
             - unless @params['typhesla'] and @params['seltyphesla'] == 'fingerspell'
               a.btn class="btn-secondary report-" onclick="URLChange('seltyphesla','fingerspell','typhesla','ne')" #{I18n.t("admin.fingerspell")}              
             - unless @params['typhesla'] and @params['seltyphesla'] == 'collocation'
-              a.btn class="btn-secondary report-" onclick="URLChange('seltyphesla','collocation','typhesla','ne')" #{I18n.t("admin.collocation")}
-              
+              a.btn class="btn-secondary report-" onclick="URLChange('seltyphesla','collocation','typhesla','ne')" #{I18n.t("admin.collocation")}              
           div            
             - unless @params['schvcelni']
               a.btn class="btn-secondary report-" onclick="URLAppend('schvcelni')" #{I18n.t("admin.schvcelni")}
@@ -110,6 +123,34 @@
               a.btn class="btn-secondary report-" onclick="URLAppend('bez_sw')" #{I18n.t("admin.sw")}
             - unless @params['nes_sw']
               a.btn class="btn-secondary report-" onclick="URLAppend('nes_sw')" #{I18n.t("admin.schvsw")}
+          div
+            - unless @params['sldruh'] and @params['slovni_druh'] == 'subst'
+              a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','subst','sldruh','ne')" #{I18n.t("admin.lex.subst")}
+            - unless @params['sldruh'] and @params['slovni_druh'] == 'adj'
+              a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','adj','sldruh','ne')" #{I18n.t("admin.lex.adj")}                                          
+            - unless @params['sldruh'] and @params['slovni_druh'] == 'pron'
+              a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','pron','sldruh','ne')" #{I18n.t("admin.lex.pron")}
+            - unless @params['sldruh'] and @params['slovni_druh'] == 'num'
+              a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','num','sldruh','ne')" #{I18n.t("admin.lex.num")}
+            - unless @params['sldruh'] and @params['slovni_druh'] == 'verb'
+              a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','verb','sldruh','ne')" #{I18n.t("admin.lex.verb")}
+            - unless @params['sldruh'] and @params['slovni_druh'] == 'adv'
+              a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','adv','sldruh','ne')" #{I18n.t("admin.lex.adv")}
+            - unless @params['sldruh'] and @params['slovni_druh'] == 'modif'
+              a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','modif','sldruh','ne')" #{I18n.t("admin.lex.modif")}
+            - unless @params['sldruh'] and @params['slovni_druh'] == 'part'          
+              a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','part','sldruh','ne')" #{I18n.t("admin.lex.part")}              
+            - unless @params['sldruh'] and @params['slovni_druh'] == 'konj'                      
+              a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','konj','sldruh','ne')" #{I18n.t("admin.lex.konj")}
+            - unless @params['sldruh'] and @params['slovni_druh'] == 'kat'
+              a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','kat','sldruh','ne')" #{I18n.t("admin.lex.kat")}                          
+            - unless @params['sldruh'] and @params['slovni_druh'] == 'klf'            
+              a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','klf','sldruh','ne')" #{I18n.t("admin.lex.klf")}
+            - unless @params['sldruh'] and @params['slovni_druh'] == 'spc'
+              a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','spc','sldruh','ne')" #{I18n.t("admin.lex.spc")}                                                                                   
+          div
+            - unless @params['mkok']
+              a.btn class="btn-secondary report-" onclick="URLAppend('mkok')" #{I18n.t("admin.mkok")}
           div
             | #{I18n.t("admin.sem")}:  
             - unless @params['vyznamvid']
