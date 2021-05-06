@@ -110,10 +110,8 @@
               span.closebtn2 onclick="URLRemove2('koment','komentbox')" x       
           hr style="margin: 5px;"
           h2 #{I18n.t("admin.moreopt")}
-          div
-            | #{I18n.t("admin.lemma")}:
-            span onclick="showhide('skupina')" 
-              | #{I18n.t("admin.koment.boxcolloc")}>>            
+          span onclick="showhide('skupina')" 
+              | #{I18n.t("admin.workgroup")}>>            
             span id="skupina" style="display: none"              
               - unless @params['skup'] and @params['def_skup[]'] == 'teiresias_w'
                 a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','teiresias_w','skup','ne')" #{I18n.t("admin.group.teiresias_w")}
@@ -144,7 +142,9 @@
               - unless @params['skup'] and @params['def_skup[]'] == 'mdd'
                 a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','mdd','skup','ne')" #{I18n.t("admin.group.mdd")}
               - unless @params['skup'] and @params['def_skup[]'] == 'ls'
-                a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','ls','skup','ne')" #{I18n.t("admin.group.ls")}                            
+                a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','ls','skup','ne')" #{I18n.t("admin.group.ls")}
+          div
+            | #{I18n.t("admin.lemma")}:                                        
           div
             - unless @params['typhesla'] and @params['seltyphesla'] == 'single'
               a.btn class="btn-secondary report-" onclick="URLChange2('seltyphesla','single','typhesla','ne')" #{I18n.t("admin.single")}            

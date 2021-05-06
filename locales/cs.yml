@@ -313,6 +313,7 @@ cs:
     desc: "popis"
     mkok: "mluvní / orální komponent"
     collocation: "slovní spojení"
+    workgroup: "pracovní skupina"
     group:
       biologie: "terminologie biologie MU"
       informatika: "terminologie informatika MU"
