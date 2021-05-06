@@ -311,6 +311,7 @@ cs:
     kompozitum: "kompozitum"
     fingerspell: "spelovaný znak"
     desc: "popis"
+    mkok: "mluvní / orální komponent"
     collocation: "slovní spojení"
     vyznamvid: "zadaná definice"
     vyznam: "schválená definice"
