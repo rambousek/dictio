@@ -14,16 +14,18 @@
             | #{I18n.t("admin.lemma")}:  
             - if @params['typhesla'] == 'ne' and @params['seltyphesla'] != ''
               a.btn.btn-secondary.report-ano onclick="URLChange('typhesla','ano')" #{I18n.t("admin."+@params['seltyphesla'])}
-              span.closebtn2 onclick="URLRemove2('typhesla','seltyphesla')" x              
+              span.closebtn2 onclick="URLRemove2('typhesla','seltyphesla')" x
             - if @params['typhesla'] == 'ano' and @params['seltyphesla'] != ''
               a.btn.btn-secondary.report-ne onclick="URLChange('typhesla','ne')" #{I18n.t("admin.not")} #{I18n.t("admin.group."+@params['seltyphesla'])}
               span.closebtn2 onclick="URLRemove2('typhesla','seltyphesla')" x
-            - if @params['skup'] == 'ne' and @params['defskup[]'] != ''
-              a.btn.btn-secondary.report-ano onclick="URLChange('skup','ano')" #{I18n.t("admin.group."+@params['defskup[]'])}
-              span.closebtn2 onclick="URLRemove2('skup','defskup[]')" x              
-            - if @params['skup'] == 'ano' and @params['defskup[]'] != ''
-              a.btn.btn-secondary.report-ne onclick="URLChange('skup','ne')" #{I18n.t("admin.not")} #{I18n.t("admin.group."+@params['defskup[]'])}
-              span.closebtn2 onclick="URLRemove2('skup','defskup[]')" x                    
+            - if @params['skup'] == 'ne' and @params['def_skup'].length > 0
+              - @params['def_skup'].each do |skup|
+                a.btn.btn-secondary.report-ano onclick="URLChange('skup','ano')" #{I18n.t("admin.group."+skup)}
+                span.closebtn2 onclick="URLRemove2('skup','def_skup[]')" x
+            - if @params['skup'] == 'ano' and @params['def_skup'].length > 0
+              - @params['def_skup'].each do |skup|
+                a.btn.btn-secondary.report-ne onclick="URLChange('skup','ne')" #{I18n.t("admin.not")} #{I18n.t("admin.group."+skup)}
+                span.closebtn2 onclick="URLRemove2('skup','def_skup[]')" x
             - if @params['schvcelni'] 
               - if @params['schvcelni'] == 'ano'
                 a.btn class="btn-secondary report-ano" onclick="URLChange('schvcelni','ne')" #{I18n.t("admin.schvcelni")}
