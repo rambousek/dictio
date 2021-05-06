@@ -54,7 +54,7 @@
                 a.btn class="btn-secondary report-ne" onclick="URLChange('mkok','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.mkok")}
               span.closebtn2 onclick="URLRemove('mkok')" x
             - if @params['sldruh'] == 'ne' and @params['slovni_druh'] != ''
-              a.btn.btn-secondary.report-ano onclick="URLChange('sldruh','ano')" #{I18n.t("slovni_druh."+@params['slovni_druh'])}
+              a.btn.btn-secondary.report-ano onclick="URLChange('sldruh','ano')" #{I18n.t("gram.slovni_druh."+@params['slovni_druh'])}
               span.closebtn2 onclick="URLRemove2('sldruh','slovni_druh')" x              
             - if @params['sldruh'] == 'ano' and @params['slovni_druh'] != ''
               a.btn.btn-secondary.report-ne onclick="URLChange('sldruh','ne')" #{I18n.t("admin.not")} #{I18n.t("gram.slovni_druh."+@params['slovni_druh'])}
