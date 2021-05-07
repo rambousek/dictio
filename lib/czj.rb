@@ -1755,7 +1755,8 @@ class CZJDict < Object
     # schvaleny preklad
     $dict_info.each{|code,hash| 
       if params['pubtrans'+code].to_s != '' or params['translation'+code].to_s != ''
-        search_cond << trans_cond(params['pubtrans'+code].to_s, params['translation'+code].to_s, code)
+        trans_cond = trans_cond(params['pubtrans'+code].to_s, params['translation'+code].to_s, code)
+        search_cond << trans_cond if trans_cond != nil
       end
     }
 
