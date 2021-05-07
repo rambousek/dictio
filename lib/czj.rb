@@ -1725,6 +1725,13 @@ class CZJDict < Object
 
     search_cond << {'dict': @dictcode}
 
+    # zadane ID
+    if params['idsf'].to_s != ''
+      idfa = params['idsf'].to_s.strip.split(/[,;\s]/)
+      idfa.reject!(&:empty?)
+      search_cond << {'id': {'$in': idfa}}
+    end
+
     # celni video schvalene
     if params['schvcelni'].to_s != ''
       vids = []
