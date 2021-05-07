@@ -331,6 +331,8 @@ cs:
       ls: "terminologie mobilita (LangSkills)"      
     vyznamvid: "zadaná definice"
     vyznam: "schválená definice"
+    usagevid: "zadaný příklad"
+    usage: "schválený příklad"
     translation: "zadaný ekvivalent"
     pubtrans: "schválený ekvivalent"
     comments: "komentáře"

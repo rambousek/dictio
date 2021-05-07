@@ -331,6 +331,8 @@ de:
       ls: "mobility (LangSkills)"   
     vyznamvid: "bestätigt Definition"
     vyznam: "genehmigt Definition"
+    usagevid: "bestätigt Beispielsätze"
+    usage: "genehmigt Beispielsätze"
     translation: "bestätigt Äquivalent in "
     pubtrans: "genehmigt Äquivalent in "
     comments: "Kommentare"
