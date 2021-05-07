@@ -2000,18 +2000,8 @@ class CZJDict < Object
     #'usagevid',
     #'autocomp',
     #'autocompbox',
-    #'translationczj',
-    #'translationis',
-    #'translationasl',
-    #'translationen',
-    #'translationcs',
-    #'translationde',
-    #'translationogs',
     #'relpub',
     #'texttranslationen',
-    #'translationsj',
-    #'translationspj',
-    #'koment_moje',
     #'trpriklad'
 
 
