@@ -1624,7 +1624,7 @@ class CZJDict < Object
   end
 
   def trans_cond(pubtrans, trans, target)
-    trans_cond = ''
+    trans_cond = nil
     # jen pubtrans, schvaleny preklad
     if pubtrans != '' and trans == ''
       if pubtrans == 'ano'
@@ -1633,11 +1633,11 @@ class CZJDict < Object
           {'meanings.usages.relation': {'$elemMatch': {'type': 'translation', 'target': target, 'status': 'published'}}}
         ]}
       else
-        trans_cond = {'$or': [
+        trans_cond = {'meanings': {'$elemMatch': {'is_translation_unknown': {'$ne': '1'}, '$or': [
           {'meanings.relation': {'$not': {'$elemMatch': {'type': 'translation', 'target': target}}}},
           {'meanings.relation': {'$elemMatch': {'type': 'translation', 'target': target, 'status': 'hidden'}}},
           {'meanings.usages.relation': {'$elemMatch': {'type': 'translation', 'target': target, 'status': 'hidden'}}}
-        ]}
+        ]}}}
       end
     end
 
@@ -1645,23 +1645,52 @@ class CZJDict < Object
     if pubtrans == '' and trans != ''
       if trans == 'ano'
         trans_cond = {'meanings': {'$elemMatch': {'$or': [
-          {'relation': {'$elemMatch': {'type': 'translation', 'target': 'czj', 'meaning_id': {'$regex':/^[-0-9]*(_us[0-9]*)?$/}}}},
-          {'usages.relation': {'$elemMatch': {'type': 'translation', 'target': 'czj', 'meaning_id': {'$regex':/^[-0-9]*(_us[0-9]*)?$/}}}}
+          {'relation': {'$elemMatch': {'type': 'translation', 'target': target, 'meaning_id': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}},
+          {'usages.relation': {'$elemMatch': {'type': 'translation', 'target': target, 'meaning_id': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}
         ]}}}
       else
         trans_cond = {'meanings': {'$not': {'$elemMatch': {'$or': [
-          {'relation': {'$elemMatch': {'type': 'translation', 'target': 'czj', 'meaning_id': {'$regex':/^[-0-9]*(_us[0-9]*)?$/}}}},
-          {'usages.relation': {'$elemMatch': {'type': 'translation', 'target': 'czj', 'meaning_id': {'$regex':/^[-0-9]*(_us[0-9]*)?$/}}}}
+          {'relation': {'$elemMatch': {'type': 'translation', 'target': target, 'meaning_id': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}},
+          {'usages.relation': {'$elemMatch': {'type': 'translation', 'target': target, 'meaning_id': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}
         ]}}}}
       end
     end
 
-
     # kombinace schvaleny a zadany
+    # zadane+neschvalene = alespon jeden vyznam ma ciselny neschvaleny preklad
     if pubtrans == 'ne' and trans == 'ano'
-      trans_cond = {
-        'meanings.relation': {'$elemMatch': {'status': {'$ne': 'published'}, 'target': code, 'type': 'translation', 'meaning_id': {'$regex':/^[-0-9]*(_us[0-9]*)?$/}}}
-      }
+      trans_cond = {'meanings': {'$elemMatch': {'$or': [
+        {'relation': {'$elemMatch': {'status': {'$ne': 'published'}, 'target': target, 'type': 'translation', 'meaning_id': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}},
+        {'usages.relation': {'$elemMatch': {'status': {'$ne': 'published'}, 'target': target, 'type': 'translation', 'meaning_id': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}
+      ]}}}
+    end
+
+    # nezadane+neschvalene = alespon jeden vyznam ma neciselny neschvaleny preklad, nebo nema zadny preklad
+    if pubtrans == 'ne' and trans == 'ne'
+      trans_cond = {'meanings': {'$elemMatch': {'$or': [
+        {'relation': {'$elemMatch': {'status': {'$ne': 'published'}, 'target': target, 'type': 'translation', 'meaning_id': {'$not': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}},
+        {'usages.relation': {'$elemMatch': {'status': {'$ne': 'published'}, 'target': target, 'type': 'translation', 'meaning_id': {'$not': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}},
+        {'$and': [
+          {'relation': {'$not': {'$elemMatch': {'type': 'translation', 'target': target}}}},
+          {'usages.relation': {'$not': {'$elemMatch': {'type': 'translation', 'target': target}}}}
+        ]}
+      ]}}}
+    end
+
+    #zadane+schvalene = alespon jeden vyznam ma ciselny schvaleny preklad
+    if pubtrans == 'ano' and trans == 'ano'
+      trans_cond = {'meanings': {'$elemMatch': {'$or': [
+        {'relation': {'$elemMatch': {'status': 'published', 'target': target, 'type': 'translation', 'meaning_id': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}},
+        {'usages.relation': {'$elemMatch': {'status': 'published', 'target': target, 'type': 'translation', 'meaning_id': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}
+      ]}}}
+    end
+
+    # nezadane+schvalene = alespon jeden vyznam ma neciselny schvaleny preklad
+    if pubtrans == 'ano' and trans == 'ne'
+      trans_cond = {'meanings': {'$elemMatch': {'$or': [
+        {'relation': {'$elemMatch': {'status': 'published', 'target': target, 'type': 'translation', 'meaning_id': {'$not': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}},
+        {'usages.relation': {'$elemMatch': {'status': 'published', 'target': target, 'type': 'translation', 'meaning_id': {'$not': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}}
+      ]}}}
     end
 
     $stdout.puts trans_cond
