@@ -2010,7 +2010,17 @@ class CZJDict < Object
     # sign, zadany priklad
     if params['usagevid'].to_s != ''
       if params['usagevid'].to_s == 'ano'
+        search_cond << {'meanings': {'$not': {'$elemMatch': {'$or': [
+          {'usages': {'$size': 0}},
+          {'usages': {'$exists': false}},
+          {'usages.text.file.@media_id': ''}
+        ]}}}}
       else
+        search_cond << {'meanings': {'$elemMatch': {'$or': [
+          {'usages': {'$size': 0}},
+          {'usages': {'$exists': false}},
+          {'usages.text.file.@media_id': ''}
+        ]}}}
       end
     end
 
