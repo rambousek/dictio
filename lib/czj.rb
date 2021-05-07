@@ -2112,8 +2112,6 @@ class CZJDict < Object
     #'noupdate',
     #'videa2',
     #'artik',
-    #'vyznamcs',
-    #'vyznamcszad',
     #'coll',
     #'autocomp',
     #'autocompbox',
