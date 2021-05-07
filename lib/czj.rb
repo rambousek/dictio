@@ -1991,14 +1991,14 @@ class CZJDict < Object
           {'usages': {'$size': 0}},
           {'usages': {'$exists': false}},
           {'usages': {'$elemMatch': {'$or': [
-            {'status': {'$ne': 'published'}}, 
+            {'status': {'$ne': 'published'}},
             {'text.file.@media_id': ''}
           ]}}}
         ]}}}}
       else
         search_cond << {'$or': [
           {'meanings.usages': {'$elemMatch': {'$or': [
-            {'status': {'$ne': 'published'}}, 
+            {'status': {'$ne': 'published'}},
             {'text.file.@media_id': ''}
           ]}}},
           {'meanings': {'$elemMatch': {'$or': [
@@ -2031,7 +2031,25 @@ class CZJDict < Object
     # write, schvaleny priklad
     if params['usagecs'].to_s != ''
       if params['usagecs'].to_s == 'ano'
+        search_cond << {'meanings': {'$not': {'$elemMatch': {'$or': [
+          {'usages': {'$size': 0}},
+          {'usages': {'$exists': false}},
+          {'usages': {'$elemMatch': {'$or': [
+            {'status': {'$ne': 'published'}},
+            {'text._text': ''}
+          ]}}}
+        ]}}}}
       else
+        search_cond << {'$or': [
+          {'meanings.usages': {'$elemMatch': {'$or': [
+            {'status': {'$ne': 'published'}},
+            {'text._text': ''}
+          ]}}},
+          {'meanings': {'$elemMatch': {'$or': [
+            {'usages': {'$exists': false}},
+            {'usages': {'$size': 0}}
+          ]}}}
+        ]}
       end
     end
 
