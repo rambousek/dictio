@@ -1772,6 +1772,30 @@ class CZJDict < Object
       end
     end
 
+    # write, schvalena definice
+    if params['vyznamcs'].to_s != ''
+      if params['vyznamcs'].to_s == 'ano'
+        search_cond << {'$and':[{'meanings.status':{'$ne':'hidden'}},{'meanings.text._text':{'$not':{'$exists':false}}}]}
+      else
+        search_cond << {'$or':[{'meanings.status':{'$ne':'published'}},{'meanings.text._text':{'$exists':false}}]}
+      end
+    end
+
+    # write, zadana definice
+    if params['vyznamcszad'].to_s != ''
+      if params['vyznamcszad'].to_s == 'ano'
+        search_cond << {'meanings': {'$not': {'$elemMatch': {'$or': [
+          {'text._text': {'$exists': false}},
+          {'text._text': ''}
+        ]}}}}
+      else
+        search_cond << {'meanings': {'$elemMatch': {'$or': [
+          {'text._text': {'$exists': false}},
+          {'text._text': ''}
+        ]}}}
+      end
+    end
+
     # pracovni skupina
     if params['skup'].to_s != '' and params['def_skup'].length > 0
       if params['skup'].to_s == 'ano'
