@@ -331,8 +331,8 @@ cs:
       ls: "terminologie mobilita (LangSkills)"      
     vyznamvid: "zadaná definice"
     vyznam: "schválená definice"
-    translation: "zadaný ekvivalent "
-    pubtrans: "schválený ekvivalent "    
+    translation: "zadaný ekvivalent"
+    pubtrans: "schválený ekvivalent"
     comments: "komentáře"
     koment:
       boxlemma: "technické informace"
@@ -349,4 +349,4 @@ cs:
       revdef: "definice ke schválení"
       comdef: "komentované definice"
       revtrans: "ekvivalenty ke schválení"
-      comtrans: "komentované ekvivalenty"      
+      comtrans: "komentované ekvivalenty"
