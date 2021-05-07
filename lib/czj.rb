@@ -1623,19 +1623,49 @@ class CZJDict < Object
     end
   end
 
-  def pubtrans_cond(val, target)
-    if val == 'ano'
-      return {'$or': [
-        {'meanings.relation': {'$elemMatch': {'type': 'translation', 'target': target, 'status': 'published'}}},
-        {'meanings.usages.relation': {'$elemMatch': {'type': 'translation', 'target': target, 'status': 'published'}}}
-      ]}
-    else
-      return {'$or': [
-        {'meanings.relation': {'$not': {'$elemMatch': {'type': 'translation', 'target': target}}}},
-        {'meanings.relation': {'$elemMatch': {'type': 'translation', 'target': target, 'status': 'hidden'}}},
-        {'meanings.usages.relation': {'$elemMatch': {'type': 'translation', 'target': target, 'status': 'hidden'}}}
-      ]}
+  def trans_cond(pubtrans, trans, target)
+    trans_cond = ''
+    # jen pubtrans, schvaleny preklad
+    if pubtrans != '' and trans == ''
+      if pubtrans == 'ano'
+        trans_cond = {'$or': [
+          {'meanings.relation': {'$elemMatch': {'type': 'translation', 'target': target, 'status': 'published'}}},
+          {'meanings.usages.relation': {'$elemMatch': {'type': 'translation', 'target': target, 'status': 'published'}}}
+        ]}
+      else
+        trans_cond = {'$or': [
+          {'meanings.relation': {'$not': {'$elemMatch': {'type': 'translation', 'target': target}}}},
+          {'meanings.relation': {'$elemMatch': {'type': 'translation', 'target': target, 'status': 'hidden'}}},
+          {'meanings.usages.relation': {'$elemMatch': {'type': 'translation', 'target': target, 'status': 'hidden'}}}
+        ]}
+      end
     end
+
+    # jen trans, zadany preklad
+    if pubtrans == '' and trans != ''
+      if trans == 'ano'
+        trans_cond = {'meanings': {'$elemMatch': {'$or': [
+          {'relation': {'$elemMatch': {'type': 'translation', 'target': 'czj', 'meaning_id': {'$regex':/^[-0-9]*(_us[0-9]*)?$/}}}},
+          {'usages.relation': {'$elemMatch': {'type': 'translation', 'target': 'czj', 'meaning_id': {'$regex':/^[-0-9]*(_us[0-9]*)?$/}}}}
+        ]}}}
+      else
+        trans_cond = {'meanings': {'$not': {'$elemMatch': {'$or': [
+          {'relation': {'$elemMatch': {'type': 'translation', 'target': 'czj', 'meaning_id': {'$regex':/^[-0-9]*(_us[0-9]*)?$/}}}},
+          {'usages.relation': {'$elemMatch': {'type': 'translation', 'target': 'czj', 'meaning_id': {'$regex':/^[-0-9]*(_us[0-9]*)?$/}}}}
+        ]}}}}
+      end
+    end
+
+
+    # kombinace schvaleny a zadany
+    if pubtrans == 'ne' and trans == 'ano'
+      trans_cond = {
+        'meanings.relation': {'$elemMatch': {'status': {'$ne': 'published'}, 'target': code, 'type': 'translation', 'meaning_id': {'$regex':/^[-0-9]*(_us[0-9]*)?$/}}}
+      }
+    end
+
+    $stdout.puts trans_cond
+    return trans_cond
   end
 
   def get_report(params, user_info)
@@ -1724,14 +1754,8 @@ class CZJDict < Object
 
     # schvaleny preklad
     $dict_info.each{|code,hash| 
-      if params['pubtrans'+code].to_s != ''
-        search_cond << pubtrans_cond(params['pubtrans'+code], code)
-      end
-      # kombinace schvaleny, publikovany preklad TODO
-      if params['pubtrans'+code].to_s == 'ne' and params['translation'+code].to_s == 'ano'
-        search_cond << {
-          'meanings.relation': {'$elemMatch': {'status': {'$ne': 'published'}, 'target': code, 'type': 'translation', 'meaning_id': {'$regex':/^[-0-9]*(_us[0-9]*)?$/}}}
-        }
+      if params['pubtrans'+code].to_s != '' or params['translation'+code].to_s != ''
+        search_cond << trans_cond(params['pubtrans'+code].to_s, params['translation'+code].to_s, code)
       end
     }
 
