@@ -1700,12 +1700,14 @@ class CZJDict < Object
   def get_report(params, user_info)
     report = {'query'=>{},'entries'=>[]}
     search_cond, trans_used = get_search_cond(params, user_info)
-    entry_ids = []
-    @entrydb.find({'$and': search_cond}, :collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'id' => 1}).each{|res|
-      report['entries'] << res
-      entry_ids << res['id']
-    }
     $stdout.puts search_cond
+    entry_ids = []
+    if search_cond.length > 1
+      @entrydb.find({'$and': search_cond}, :collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'id' => 1}).each{|res|
+        report['entries'] << res
+        entry_ids << res['id']
+      }
+    end
     report['query'] = search_cond
     if params['koment'].to_s != ''
       report['koment'] = {}
