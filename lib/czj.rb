@@ -1984,18 +1984,60 @@ class CZJDict < Object
 
     # sign, schvaleny priklad
     if params['usage'].to_s != ''
+      if params['usage'].to_s == 'ano'
+        search_cond << {'meanings': {'$not': {'$elemMatch': {'$or': [
+          {'usages': {'$size': 0}},
+          {'usages': {'$exists': false}},
+          {'usages': {'$elemMatch': {'$or': [
+            {'status': {'$ne': 'published'}}, 
+            {'text.file.@media_id': ''}
+          ]}}}
+        ]}}}}
+      else
+        search_cond << {'$or': [
+          {'meanings.usages': {'$elemMatch': {'$or': [
+            {'status': {'$ne': 'published'}}, 
+            {'text.file.@media_id': ''}
+          ]}}},
+          {'meanings': {'$elemMatch': {'$or': [
+            {'usages': {'$exists': false}},
+            {'usages': {'$size': 0}}
+          ]}}}
+        ]}
+      end
     end
 
     # sign, zadany priklad
     if params['usagevid'].to_s != ''
+      if params['usagevid'].to_s == 'ano'
+        search_cond << {'meanings': {'$not': {'$elemMatch': {'$or': [
+          {'usages': {'$size': 0}},
+          {'usages': {'$exists': false}},
+          {'usages.text.file.@media_id': {'$exists': false}},
+          {'usages.text.file.@media_id': ''}
+        ]}}}}
+      else
+        search_cond << {'meanings': {'$elemMatch': {'$or': [
+          {'usages': {'$size': 0}},
+          {'usages': {'$exists': false}},
+          {'usages.text.file.@media_id': {'$exists': false}},
+          {'usages.text.file.@media_id': ''}
+        ]}}}
+      end
     end
 
     # write, schvaleny priklad
     if params['usagecs'].to_s != ''
+      if params['usagecs'].to_s == 'ano'
+      else
+      end
     end
 
     # write, zadany priklad
     if params['usagecszad'].to_s != ''
+      if params['usagecszad'].to_s == 'ano'
+      else
+      end
     end
 
     #'region',
