@@ -326,8 +326,7 @@
                 td 
                   a href="https://edit.dictio.info/#{@dictcode}/show/#{entry['id']}" target="_blank" = entry['id']
                 td 
-                  - if @dict_info[@dictcode]['type'] == 'write'
-                    entry['lemma']                    
+                  - if @dict_info[@dictcode]['type'] == 'write'                                       
                   - if entry['lemma']['video_front']
                     = entry['lemma']['video_front']
                     br
