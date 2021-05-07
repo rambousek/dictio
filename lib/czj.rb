@@ -2038,7 +2038,19 @@ class CZJDict < Object
     # write, zadany priklad
     if params['usagecszad'].to_s != ''
       if params['usagecszad'].to_s == 'ano'
+        search_cond << {'meanings': {'$not': {'$elemMatch': {'$or': [
+          {'usages': {'$size': 0}},
+          {'usages': {'$exists': false}},
+          {'usages.text._text': {'$exists': false}},
+          {'usages.text._text': ''}
+        ]}}}}
       else
+        search_cond << {'meanings': {'$elemMatch': {'$or': [
+          {'usages': {'$size': 0}},
+          {'usages': {'$exists': false}},
+          {'usages.text._text': {'$exists': false}},
+          {'usages.text._text': ''}
+        ]}}}
       end
     end
 
