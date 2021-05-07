@@ -1982,6 +1982,22 @@ class CZJDict < Object
       end
     end
 
+    # sign, schvaleny priklad
+    if params['usage'].to_s != ''
+    end
+
+    # sign, zadany priklad
+    if params['usagevid'].to_s != ''
+    end
+
+    # write, schvaleny priklad
+    if params['usagecs'].to_s != ''
+    end
+
+    # write, zadany priklad
+    if params['usagecszad'].to_s != ''
+    end
+
     #'region',
     #'bez_hns',
     #'nes_hns',
@@ -1989,15 +2005,11 @@ class CZJDict < Object
     #'vztahy',
     #'videa',
     #'noupdate',
-    #'usage',
     #'videa2',
     #'artik',
-    #'usagecs' ,
-    #'usagecszad' ,
     #'vyznamcs',
     #'vyznamcszad',
     #'coll',
-    #'usagevid',
     #'autocomp',
     #'autocompbox',
     #'relpub',
