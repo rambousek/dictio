@@ -7,6 +7,10 @@
           h2 class="btn btn-#{@dictcode}" style="color: white" #{I18n.t("admin.dict")} #{I18n.t("dict_menu.#{@dictcode}")}
   section.section 
     .container
+      - if @dict_info[@dictcode]['type'] == 'sign'
+        h2 sign
+      - if @dict_info[@dictcode]['type'] == 'write'
+        h2 write
       .search-top style="border-radius: 20px; padding: 15px;"
         article.col.col--start role="article" 
           h2 #{I18n.t("admin.activeopt")} 
