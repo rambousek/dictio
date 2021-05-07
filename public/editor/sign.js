@@ -233,6 +233,7 @@ var pracskupinaStore = Ext.create('Ext.data.Store',{
   {'value': 'krest', 'text': 'křesťanství'},
   {'value': 'mdd', 'text': 'MobiDeafDict'},
   {'value': 'test', 'text': 'test (MobiDeafDict)'},
+  {'value': 'ls', 'text': 'LangSkills'},
     {'value': '', 'text': ''},
   ]
 });
