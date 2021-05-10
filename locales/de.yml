@@ -350,5 +350,6 @@ de:
     presets:
       revdef: "Definition zu genehmigen"
       comdef: "komentiert Definitione"
+      trans: "Äquivalenten zu verbinden"
       revtrans: "Äquivalenten zu genehmigen"
       comtrans: "komentiert Äquivalenten"

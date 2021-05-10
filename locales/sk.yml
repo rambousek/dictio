@@ -350,5 +350,6 @@ sk:
     presets:
       revdef: "definícia na schválenie"
       comdef: "komentované definície"
+      trans: "ekvivalenty na zpracovanie"
       revtrans: "ekvivalenty na schválenie"
       comtrans: "komentované ekvivalenty"
