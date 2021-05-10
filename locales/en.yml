@@ -289,7 +289,7 @@ en:
     internal-text: "Try it later please."
   admin:
     user: "logged user "
-    text1: "Not all Admin-tools are currently available. To edit an entry, search for it via dictionary. You can also use former list of entries listed bellow. "
+    text1: "Warning: It is possible that some options are not available in dictionaries admin tools."
     head1: "Warning"
     text2: "Please do not use this DICTIO version for regular work. All your changes will be by the midnight of the day reversed (deleted). Applicable up to 20th March 2021. For creating new entries open Main directory."
     reports_old: "Former list of entries (last updated on March 19 2021)"

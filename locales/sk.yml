@@ -289,7 +289,7 @@ sk:
     internal-text: "Zkúste to prosím neskôr."
   admin:
     user: "prihlásený používateľ "
-    text1: "Niektoré administrátorske nástroje ešte niesú k dispozícii. Pre prístup do editácie hesiel použite bežné hledání v slovníku (hľadať môžete aj podľa ID). Môžete tiež využíť prehľady dole. "      
+    text1: "Upozornenie: Niektoré volby nemusí býť v administrátorských nástrojoch k dispozícii."      
     head1: "Upozornenie"
     text2: "Tuto verziu zatial nepoužívejte pre běžnú práci. Veškeré zmeny, budú uchovány iba do pôlnoci daného dňa. Po pôlnoci budú smazány. Toto platí do 20. 3. 2021."
     reports_old: "Staré prehľady heseel (stav k 19. 3. 2021)"
