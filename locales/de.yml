@@ -295,6 +295,7 @@ de:
     reports_old: "frühere Liste der Einträge (zuletzt aktualisiert am 19. 3. 2021"
     report_old_main: "Hauptverzeichnis "
     activeopt: "Einträge nach folgenden Optionen anzeigen: "
+    idsel: "nur Einträge mit id"
     moreopt: "Verfügbare Optionen:"
     dict: "Wörterbuch "
     newentry: "Neuen Eintrag erstellen in"

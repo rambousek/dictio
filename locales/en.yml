@@ -297,6 +297,7 @@ en:
     dict: "Dictionary"
     newentry: "Create new entry in "
     activeopt: "Listing entries according following options:"
+    idsel: "Only entries with ID"
     moreopt: "Available options:"    
     not: "not "
     lemma: "lemma"

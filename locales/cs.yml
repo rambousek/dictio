@@ -297,6 +297,7 @@ cs:
     dict: "Slovník"
     newentry: "založit nové lemma v"
     activeopt: "Zobrazena hesla na základě následujících voleb:"
+    idsel: "Pouze hesla s ID"
     moreopt: "Další možné volby:"
     not: "ne"
     lemma: "záhlaví"

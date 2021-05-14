@@ -295,6 +295,7 @@ sk:
     reports_old: "Staré prehľady heseel (stav k 19. 3. 2021)"
     report_old_main: "Rozcestnik"
     activeopt: "Zobrazujú sa heslá podľa následujícich volieb:"
+    idsel: "Iba heslá s ID"
     moreopt: "Ďalší možné voľby:"
     dict: "Slovník"
     newentry: "Založiť novou lemu v"
