@@ -10,6 +10,8 @@
       .search-top style="border-radius: 20px; padding: 15px;"
         article.col.col--start role="article" 
           h2 #{I18n.t("admin.activeopt")} 
+          - if @params['idsf'] 
+            | #{I18n.t("admin.idsel")}: @params['idsf']            
           p 
             | #{I18n.t("admin.lemma")}:  
             - if @params['typhesla'] == 'ne' and @params['seltyphesla'] != ''
