@@ -651,7 +651,7 @@ class CZJDict < Object
       if search =~ /^[0-9]*$/
         resultcount = 0
         @entrydb.find({'dict': dictcode, 'id': search, 'meanings.relation.target': target}).each{|re|
-          entry = add_rels(re, true, 'translation', target)
+          entry = add_rels(re, false, 'translation', target)
           entry = get_sw(entry)
           res << entry
           resultcount = 1
@@ -660,61 +660,59 @@ class CZJDict < Object
         if @write_dicts.include?(source)
           locale = source
           locale = 'sk' if source == 'sj'
-          search_cond_text = {'$or': []}
-          search_cond_text[:$or] << {'lemma.title': search} 
-          search_cond_text[:$or] << {'lemma.title_var': search} 
-          search_cond_text[:$or] << {'lemma.title_dia': search} 
-          search_cond_text[:$or] << {'lemma.gram.form._text': search} 
-          search_cond_text[:$or] << {'lemma.title': {'$regex': /^#{search}/i}}
-          search_cond_text[:$or] << {'lemma.title': {'$regex': /(^| )#{search}/i}}
-          search_cond_rel = {'meanings.relation':{'$elemMatch': {'target': target, 'type': 'translation', 'status': 'published'}}}
-          search_cond = {'dict': dictcode, '$and': [search_cond_text, search_cond_rel]}
-          search_cond2 = {'dict': target, 'meanings.relation': {'$elemMatch': {'target': dictcode, 'meaning_id': {'$regex': /(^| )#{search}/i}, 'status': 'published'}}}
-          $stdout.puts search_cond
+          search_cond_text = []
+          search_cond_text << {'lemma.title': search} 
+          search_cond_text << {'lemma.title_var': search} 
+          search_cond_text << {'lemma.title_dia': search} 
+          search_cond_text << {'lemma.gram.form._text': search} 
+          search_cond_text << {'lemma.title': {'$regex': /^#{search}/i}}
+          search_cond_text << {'lemma.title': {'$regex': /(^| )#{search}/i}}
+          search_cond1 = {'dict': dictcode, '$or': search_cond_text}
+          search_cond2 = {'dict': target, '$or': [{'meanings.relation': {'$elemMatch': {'target': dictcode, 'type': 'translation', 'meaning_id': {'$regex': /(^| )#{search}/i}, 'status': 'published'}}},{'meanings.usages.relation': {'$elemMatch': {'target': dictcode, 'type': 'translation', 'meaning_id': {'$regex': /(^| )#{search}/i}, 'status': 'published'}}}]}
+          search_cond_rel1 = {'meanings.relation.target': target, 'meanings.relation.type': 'translation', 'meanings.relation.status': 'published', 'meanings.relation.meaning_id': {'$regex': /^[0-9]+-[0-9]+(_us[0-9]+)?/}}
+          search_cond_rel2 = {'meanings.relation.target': dictcode, 'meanings.relation.type': 'translation', 'meanings.relation.status': 'published', 'meanings.relation.meaning_id': {'$regex': /(^| )#{search}/i}}
+          $stdout.puts search_cond1
           $stdout.puts search_cond2
-          ## > db.entries.aggregate([{'$match':{dict:"cs", '$and':[{'$or':[{"lemma.title":"bratranec"},{"lemma.title":"bratr"}]}, {"meanings.relation":{'$elemMatch':{target:"czj", type:"translation"}}}]}}, {'$unwind':'$meanings'}, {'$unwind':'$meanings.relation'},{'$match':{'meanings.relation.target':'czj'}},{'$project':{'meanings.relation':1, 'id':1}},{'$limit':2}])
-          ## > db.entries.aggregate([{'$match':{"$or":[{dict:"czj","meanings.relation":{"$elemMatch":{"target":"cs","meaning_id":{"$regex":"dům"}}}},{dict:"cs", '$and':[{'$or':[{"lemma.title":"bratranec"},{"lemma.title":"bratr"}]}, {"meanings.relation":{'$elemMatch':{target:"czj", type:"translation"}}}]}]}}, {'$unwind':'$meanings'}, {'$unwind':'$meanings.relation'},{'$match':{"$or":[{'meanings.relation.target':'czj'},{'meanings.relation.target':'cs'}]}},{'$project':{'meanings.relation':1, 'id':1,'dict':1}},{'$limit':5}])
           pipeline = [
-            {'$match' => {'$or':[search_cond,search_cond2]}},
-            {'$unwind' => '$meanings'},
-            {'$unwind' => '$meanings.relation'},
-            {'$match' => {'meanings.relation.type'=>'translation', '$and'=>[{'$or'=>[{'meanings.relation.target'=>target}, {'meanings.relation.target'=>dictcode}]}, {'$or'=>[{'meanings.relation.meaning_id'=>{'$regex'=>/(^| )#{search}/i}}, {'meanings.relation.meaning_id'=>{'$regex'=>/^[0-9]+-[0-9]+(_us[0-9]+)?/}}]}]}},
-            #{'$group' => {'_id' => {'_id'=>'$_id', 'dict'=> '$dict', 'id'=> '$id', 'meanings'=>'$meanings'}}},
-            #{'$project' => {'dict'=>'$_id.dict','id'=>'$_id.id','meanings'=>'$_id.meanings'}},
-            {'$sort' => {'lemma.title'=>1}}
+            {'$match': search_cond1},
+            {'$unwind': '$meanings'},
+            {'$unwind': '$meanings.relation'},
+            {'$match': search_cond_rel1},
+            {'$project': {'dict': 1, 'id': 1, 'meanings': 1, 'lemma': 1, 'title': '$lemma.title'}},
+            {'$unionWith': {
+              'coll': 'entries',
+              'pipeline': [
+                {'$match': search_cond2},
+                {'$unwind': '$meanings'},
+                {'$unwind': '$meanings.relation'},
+                {'$match': search_cond_rel2},
+                {'$project': {'dict': 1, 'id': 1, 'meanings': 1, 'lemma': 1, 'title': '$meanings.relation.meaning_id'}}
+              ]
+            }},
+            {'$sort': {'title'=>1}}
           ]
           @entrydb.aggregate(pipeline+[{'$count'=>'total'}]).each{|re|
             resultcount = re['total'].to_i
           }
           pipeline << {'$skip' => start.to_i}
           pipeline << {'$limit' => limit.to_i} if limit.to_i > 0
-          cursor = @entrydb.aggregate(pipeline, :allow_disk_use => true)
+          cursor = @entrydb.aggregate(pipeline, {:allow_disk_use => true, :collation => {'locale' => locale}})
           cursor.each{|re|
             re['meanings']['relation'] = [re['meanings']['relation']]
             re['meanings'] = [re['meanings']]
             $stdout.puts 'start res<e '+re['dict']+re['id']+' '+Time.now.to_s
-            $stdout.puts 'start addrels '+re['id']+' '+Time.now.to_s
-            entry = add_rels(re, true, 'translation', target)
-            $stdout.puts 'start addrels2 '+re['id']+' '+Time.now.to_s
-            entry = add_rels(entry, true, 'translation', dictcode)
-            $stdout.puts 'start getsw '+re['id']+' '+Time.now.to_s
-            entry = get_sw(entry)
-            entry['meanings'].each{|m|
-              oldrels = m['relation']
-              m['relation'] = []
-              next if m['is_translation_unknown'].to_s == '1'
-              oldrels.each{|r|
-                if r['target'] == target 
-                  m['relation'] << r
-                elsif r['target'] == source and r['entry'] and r['entry']['lemma'] and r['entry']['lemma']['title'].to_s =~ /#{search}/i
-                  m['relation'] << r
-                end
-              }
-            }
+            if re['dict'] == dictcode
+              $stdout.puts 'start addrels '+re['id']+' '+Time.now.to_s
+              entry = add_rels(re, false, 'translation', target)
+            end
             if re['dict'] == target
+              $stdout.puts 'start addrels2 '+re['id']+' '+Time.now.to_s
+              entry = add_rels(re, false, 'translation', dictcode)
               $stdout.puts 'start addmedia '+re['id']+' '+Time.now.to_s
               entry = add_media(entry, true)
             end
+            $stdout.puts 'start getsw '+re['id']+' '+Time.now.to_s
+            entry = get_sw(entry)
             $stdout.puts 'end '+re['id']+' '+Time.now.to_s
             res << entry
           }
