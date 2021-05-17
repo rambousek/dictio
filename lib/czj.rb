@@ -1723,7 +1723,7 @@ class CZJDict < Object
     search_cond = []
     trans_used = []
 
-    search_cond << {'dict': @dictcode}
+    search_cond << {'dict': @dictcode, 'empty': {'$exists': false}}
 
     # zadane ID
     if params['idsf'].to_s != ''
