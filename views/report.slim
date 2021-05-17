@@ -72,7 +72,7 @@
             - if @params['sldruh'] == 'ano' and @params['slovni_druh'] != ''
               a.btn.btn-secondary.report-ne onclick="URLChange('sldruh','ne')" #{I18n.t("admin.not")} #{I18n.t("gram.slovni_druh."+@params['slovni_druh'])}
               span.closebtn2 onclick="URLRemove2('sldruh','slovni_druh')" x                
-          - if @params.count{|k,_| k =~ /^vyznam/} > 0
+          - if @params.count{|k,_| k =~ /^vyznam/} > 0 or @params.count{|k,_| k =~ /^usage/} > 0
             p
               | #{I18n.t("admin.sem")}:  
               - if @params['vyznamcszad'] 
