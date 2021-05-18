@@ -596,7 +596,14 @@ class CZJDict < Object
           search_in = @dict_info[dictcode]['search_in'] unless @dict_info[dictcode]['search_in'].nil?
           csl = [search, search_orig]
           if search != ''
-            $mongo['entries'].find({'dict'=>search_in, 'lemma.title'=> {'$regex'=>/^#{search}/i}}, {'projection'=>{'meanings.id'=>1, '_id'=>0}}).each{|re|
+            search_cond_text = []
+            search_cond_text << {'lemma.title': search}
+            search_cond_text << {'lemma.title_var': search}
+            search_cond_text << {'lemma.title_dia': search}
+            search_cond_text << {'lemma.gram.form._text': search}
+            search_cond_text << {'lemma.title': {'$regex': /^#{search}/i}}
+            search_cond_text << {'lemma.title': {'$regex': /(^| )#{search}/i}}
+            $mongo['entries'].find({'dict'=>search_in, '$or'=>search_cond_text}, {'projection'=>{'meanings.id'=>1, '_id'=>0}}).each{|re|
               unless re['meanings'].nil?
                 re['meanings'].each{|rl| 
                   csl << rl['id']
@@ -661,10 +668,10 @@ class CZJDict < Object
           locale = source
           locale = 'sk' if source == 'sj'
           search_cond_text = []
-          search_cond_text << {'lemma.title': search} 
-          search_cond_text << {'lemma.title_var': search} 
-          search_cond_text << {'lemma.title_dia': search} 
-          search_cond_text << {'lemma.gram.form._text': search} 
+          search_cond_text << {'lemma.title': search}
+          search_cond_text << {'lemma.title_var': search}
+          search_cond_text << {'lemma.title_dia': search}
+          search_cond_text << {'lemma.gram.form._text': search}
           search_cond_text << {'lemma.title': {'$regex': /^#{search}/i}}
           search_cond_text << {'lemma.title': {'$regex': /(^| )#{search}/i}}
           search_cond1 = {'dict': dictcode, '$or': search_cond_text}
@@ -720,7 +727,14 @@ class CZJDict < Object
           search_in = 'cs'
           search_in = @dict_info[dictcode]['search_in'] unless @dict_info[dictcode]['search_in'].nil?
           csl = [search]
-          $mongo['entries'].find({'dict'=>search_in, 'lemma.title'=> {'$regex': /^#{search}/i}}, {'projection'=>{'meanings.id'=>1, '_id'=>0}}).each{|re|
+          search_cond_text = []
+          search_cond_text << {'lemma.title': search}
+          search_cond_text << {'lemma.title_var': search}
+          search_cond_text << {'lemma.title_dia': search}
+          search_cond_text << {'lemma.gram.form._text': search}
+          search_cond_text << {'lemma.title': {'$regex': /^#{search}/i}}
+          search_cond_text << {'lemma.title': {'$regex': /(^| )#{search}/i}}
+          $mongo['entries'].find({'dict'=>search_in, '$or'=>search_cond_text}, {'projection'=>{'meanings.id'=>1, '_id'=>0}}).each{|re|
             unless re['meanings'].nil?
               re['meanings'].each{|rl| 
                 csl << rl['id']
