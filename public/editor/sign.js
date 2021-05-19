@@ -1203,7 +1203,7 @@ function reload_rel(search, field, target) {
       Ext.suspendLayouts();
       var html = '';
       for (i = 0; i < data.length; i++) {
-        if (data[i] && data[i].id && !(data[i].id.startsWith(entryid+'-'))) {
+        if (data[i] != undefined && data[i].id && !(data[i].id.startsWith(entryid+'-'))) {
           relationlist.add({id: data[i].id, title: data[i].title, number: data[i].number, def: data[i].def, loc: data[i].loc, target: target, front: data[i].front});
         }
       }
