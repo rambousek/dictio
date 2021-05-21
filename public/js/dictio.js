@@ -450,6 +450,24 @@ $( document ).ready(function() {
       });
     });
   });
+
+  // load more report results
+  $('.load_next_report').click(function() {
+    var current_count = $('.report-row').length;
+    var report_url = '/' + $('.load_next_report').data('dict') + '/reportlist/' + current_count + '/15' + window.location.search;
+    console.log(report_url)
+    $.get(report_url, function(response) {
+      $('.report-table').append(response);
+    }).always(function() {
+      // after adding
+      // maybe hide button
+      current_count = $('.report-row').length;
+      maxcount = $('.report-table').data('resultcount');
+      if (current_count >= maxcount) {
+        $('.load_next_report').hide();
+      }
+    });
+  });
 });
 // add class on scroll for mobile search
 window.onscroll = function() {

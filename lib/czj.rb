@@ -1714,13 +1714,17 @@ class CZJDict < Object
     return trans_cond
   end
 
-  def get_report(params, user_info)
-    report = {'query'=>{},'entries'=>[]}
+  def get_report(params, user_info, start=0, limit=nil)
+    report = {'query'=>{},'entries'=>[], 'resultcount'=>0}
     search_cond, trans_used = get_search_cond(params, user_info)
     $stdout.puts search_cond
     entry_ids = []
     if search_cond.length > 1
-      @entrydb.find({'$and': search_cond}, :collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'id' => 1}).each{|res|
+      cursor = @entrydb.find({'$and': search_cond}, :collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'id' => 1})
+      report['resultcount'] = cursor.count_documents
+      cursor = cursor.skip(start)
+      cursor = cursor.limit(limit) if limit.to_i > 0
+      cursor.each{|res|
         report['entries'] << res
         entry_ids << res['id']
       }

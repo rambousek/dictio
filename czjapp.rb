@@ -120,6 +120,7 @@ class CzjApp < Sinatra::Base
     @langpath += '?' unless @langpath.include?('?')
     @search_limit = 10
     @translate_limit = 9
+    @report_limit = 15
     cookies.set(:dictio_pref, {:httponly=>false, :value=>(write_dicts+sign_dicts).map{|i| 'dict-'+i+'=true'}.join(';')})
     @is_edit = $is_edit
     @is_admin = $is_admin
@@ -456,8 +457,16 @@ class CzjApp < Sinatra::Base
         @target = ''
         @dict_info = $dict_info
         @params = params
-        @report = dict.get_report(params, @user_info)
+        @report = dict.get_report(params, @user_info, 0, @report_limit)
         slim :report
+      end
+      get '/'+code+'/reportlist(/:start)?(/:limit)?' do
+        @dictcode = code
+        @target = ''
+        @dict_info = $dict_info
+        @params = params
+        @report = dict.get_report(params, @user_info, params['start'].to_i, params['limit'].to_i)
+        slim :reportresultlist, :layout=>false
       end
       get '/'+code+'/jsonreport' do
         content_type :json
