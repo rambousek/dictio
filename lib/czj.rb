@@ -1719,16 +1719,14 @@ class CZJDict < Object
     search_cond, trans_used = get_search_cond(params, user_info)
     $stdout.puts search_cond
     entry_ids = []
-    if search_cond.length > 1
-      cursor = @entrydb.find({'$and': search_cond}, :collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'id' => 1})
-      report['resultcount'] = cursor.count_documents
-      cursor = cursor.skip(start)
-      cursor = cursor.limit(limit) if limit.to_i > 0
-      cursor.each{|res|
-        report['entries'] << res
-        entry_ids << res['id']
-      }
-    end
+    cursor = @entrydb.find({'$and': search_cond}, :collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'id' => 1})
+    report['resultcount'] = cursor.count_documents
+    cursor = cursor.skip(start)
+    cursor = cursor.limit(limit) if limit.to_i > 0
+    cursor.each{|res|
+      report['entries'] << res
+      entry_ids << res['id']
+    }
     report['query'] = search_cond
     if params['koment'].to_s != ''
       report['koment'] = {}
