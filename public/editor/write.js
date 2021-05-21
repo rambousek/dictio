@@ -3108,6 +3108,7 @@ function create_vyznam(entryid, add_copy, meaning_id) {
       id: name+'_uziti',
       cls: 'priklady',
       name: 'usagebox',
+      style: {marginTop: 55px},
       fieldLabel: locale[lang].usages,
       labelWidth: 50,
       layout: {
