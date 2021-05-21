@@ -895,6 +895,7 @@ class CZJDict < Object
 
     #add fsw
     if data['lemma']['sw']
+      $stdout.puts "update sw"
       data['lemma']['sw'].each{|sw|
         sw['@fsw'] = get_fsw(sw['_text']) if sw['@fsw'] == ''
       }
@@ -902,6 +903,7 @@ class CZJDict < Object
 
     #save media info
     if data['update_video']
+      $stdout.puts "update video"
       data['update_video'].each{|uv|
         save_media(uv)
       }
@@ -915,8 +917,11 @@ class CZJDict < Object
     @entrydb.insert_one(data)
 
     # update SW cache
-    $mongo['sw'].find({'dict': dict, 'entries_used': entryid}).delete_many
-    cache_all_sw(false)
+    if @sign_dicts.include?(dict)
+      $stdout.puts "update sw cache"
+      $mongo['sw'].find({'dict': dict, 'entries_used': entryid}).delete_many
+      cache_all_sw(false)
+    end
 
     return true
   end
