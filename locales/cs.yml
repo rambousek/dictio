@@ -102,6 +102,7 @@ cs:
     link_current: "aktuální adresa"
     link_public: "veřejná adresa"
     nocontent: "Tato část hesla není dosud zpracovaná."
+    nopubtrans: "Pro tento význam nejsou dostupné žádné veřejné překlady."
     circumloc: "Opisný překlad. Viz příklady užití."
     category: "obor"
     kat_28: 'biologie'
