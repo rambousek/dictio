@@ -1622,6 +1622,7 @@ class CZJDict < Object
       media['orient'] = data['orient'].to_s
       media['created_at'] = data['created_at'].to_s
       media['updated_at'] = Time.now.strftime("%Y-%m-%d %H:%M:%S")
+      media.delete('main_for_entry')
       $mongo['media'].find({'dict'=> @dictcode, 'id'=> data['id']}).delete_many
       $mongo['media'].insert_one(media)
     end
