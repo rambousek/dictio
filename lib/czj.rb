@@ -547,6 +547,8 @@ class CZJDict < Object
           search_cond_title ={'$or': [{'lemma.title': search}, {'lemma.title_var': search}]}
           search_cond_title[:$or] << {'lemma.title_dia': search} 
           search_cond_title[:$or] << {'lemma.gram.form._text': search} 
+          search_cond_title[:$or] << {'lemma.grammar_note.variant._text': {'$regex': /(^| )#{search}/i}}
+          search_cond_title[:$or] << {'lemma.style_note.variant._text': {'$regex': /(^| )#{search}/i}}
           if search != '' and more_params['slovni_druh'].to_s != ''
             search_cond[:$and] = [search_cond_title,{'lemma.grammar_note.@slovni_druh'=> more_params['slovni_druh'].to_s}]
           end
@@ -674,6 +676,8 @@ class CZJDict < Object
           search_cond_text << {'lemma.gram.form._text': search}
           search_cond_text << {'lemma.title': {'$regex': /^#{search}/i}}
           search_cond_text << {'lemma.title': {'$regex': /(^| )#{search}/i}}
+          search_cond_text << {'lemma.grammar_note.variant._text': {'$regex': /(^| )#{search}/i}}
+          search_cond_text << {'lemma.style_note.variant._text': {'$regex': /(^| )#{search}/i}}
           search_cond1 = {'dict': dictcode, '$or': search_cond_text}
           search_cond2 = {'dict': target, '$or': [{'meanings.relation': {'$elemMatch': {'target': dictcode, 'type': 'translation', 'meaning_id': {'$regex': /(^| )#{search}/i}, 'status': 'published'}}},{'meanings.usages.relation': {'$elemMatch': {'target': dictcode, 'type': 'translation', 'meaning_id': {'$regex': /(^| )#{search}/i}, 'status': 'published'}}}]}
           search_cond_rel1 = {'meanings.relation.target': target, 'meanings.relation.type': 'translation', 'meanings.relation.status': 'published', 'meanings.relation.meaning_id': {'$regex': /^[0-9]+-[0-9]+(_us[0-9]+)?/}}
@@ -734,6 +738,8 @@ class CZJDict < Object
           search_cond_text << {'lemma.gram.form._text': search}
           search_cond_text << {'lemma.title': {'$regex': /^#{search}/i}}
           search_cond_text << {'lemma.title': {'$regex': /(^| )#{search}/i}}
+          search_cond_text << {'lemma.grammar_note.variant._text': {'$regex': /(^| )#{search}/i}}
+          search_cond_text << {'lemma.style_note.variant._text': {'$regex': /(^| )#{search}/i}}
           $mongo['entries'].find({'dict'=>search_in, '$or'=>search_cond_text}, {'projection'=>{'meanings.id'=>1, '_id'=>0}}).each{|re|
             unless re['meanings'].nil?
               re['meanings'].each{|rl| 

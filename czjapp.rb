@@ -210,7 +210,7 @@ class CzjApp < Sinatra::Base
       @dictcode = code
       @show_dictcode = code
       @search_params = {}
-      @search_type = 'search'
+      @search_type = 'show'
       @target = ''
       @entry = dict.getdoc(params['id'], false)
       if @entry != {}
