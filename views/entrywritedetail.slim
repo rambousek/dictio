@@ -283,6 +283,11 @@
             em = usg['text']['_text']
         p.more-example.link style="display:none;cursor:pointer" = I18n.t('entry.more_example')
 
+- if @search_type == 'search'
+  p.mobile-hide style="float: right;margin-top: 50px;"
+    a class="btn btn-secondary" style="background-color: dimgray; font-size: 0.7rem" href="/#{@entry['dict']}/show/#{@entry['id']}"
+      | #{I18n.t("search.translate_view")}
+
 - if @entry['revcollocations'] and @entry['revcollocations']['entries'].size > 0
   .detail__block.detail__block--line
     div.detail-block
