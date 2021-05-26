@@ -1530,7 +1530,7 @@ class CZJDict < Object
   # upload file, store metadata
   def save_uploaded_file(filedata, metadata, entry_id)
     filename = filedata['filename'].gsub(/[^\w^\.^_^-]/, '')
-    filename = filename[0,2]+filename[2..-1].gsub('_','')
+    filename = filename[0,2]+filename[2..-1].gsub('_','-')
     $stdout.puts filename
     media = get_media_location(filename, @dictcode)
     if media == {}
@@ -1560,6 +1560,7 @@ class CZJDict < Object
       'created_at' => Time.now.strftime("%Y-%m-%d %H:%M:%S")
     }
     data['entry_folder'] = entry_id if entry_id.to_s != ''
+    $stdout.puts data
     $mongo['media'].insert_one(data)
 
     Net::SSH.start("files.dictio.info", $files_user, :key_data=>$files_keys){|ssh|
