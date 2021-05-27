@@ -77,6 +77,13 @@ class CZJDict < Object
       }
     end
 
+    # count revcolloc
+    revcount = @entrydb.find({'dict': entry['dict'], 'collocations.colloc': entry['id'], 'lemma.lemma_type': 'collocation'}).count_documents
+    if revcount > 0
+      entry['revcollocations'] = {} if entry['revcollocations'].nil?
+      entry['revcollocations']['count'] = revcount
+    end
+
     if add_rev
       entry['revcollocations'] = {} if entry['revcollocations'].nil?
       entry['revcollocations']['entries'] = []
