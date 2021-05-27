@@ -206,12 +206,12 @@
                 - unless @params['typhesla'] and @params['seltyphesla'] == 'derivat'
                   a.btn class="btn-secondary report-" onclick="URLChange2('seltyphesla','derivat','typhesla','ne')" #{I18n.t("admin.derivat")}
                 - unless @params['typhesla'] and @params['seltyphesla'] == 'kompozitum'
-                  a.btn class="btn-secondary report-" onclick="URLChange('seltyphesla','kompozitum','typhesla','ne')" #{I18n.t("admin.kompozitum")}
+                  a.btn class="btn-secondary report-" onclick="URLChange2('seltyphesla','kompozitum','typhesla','ne')" #{I18n.t("admin.kompozitum")}
                 - if @dict_info[@dictcode]['type'] == 'sign'
                   - unless @params['typhesla'] and @params['seltyphesla'] == 'fingerspell'
-                    a.btn class="btn-secondary report-" onclick="URLChange('seltyphesla','fingerspell','typhesla','ne')" #{I18n.t("admin.fingerspell")}              
+                    a.btn class="btn-secondary report-" onclick="URLChange2('seltyphesla','fingerspell','typhesla','ne')" #{I18n.t("admin.fingerspell")}              
                 - unless @params['typhesla'] and @params['seltyphesla'] == 'collocation'
-                  a.btn class="btn-secondary report-" onclick="URLChange('seltyphesla','collocation','typhesla','ne')" #{I18n.t("admin.collocation")}              
+                  a.btn class="btn-secondary report-" onclick="URLChange2('seltyphesla','collocation','typhesla','ne')" #{I18n.t("admin.collocation")}              
 
               - if @dict_info[@dictcode]['type'] == 'sign'
                 div            
