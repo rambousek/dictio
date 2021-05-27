@@ -223,7 +223,9 @@ class CzjApp < Sinatra::Base
     get '/'+code+'/json/:id' do 
       content_type :json
       $stdout.puts 'START json'+Time.now.to_s
-      doc = dict.getdoc(params['id'], false)
+      add_rev = false
+      add_rev = true if params['add_rev'] == 'true'
+      doc = dict.getdoc(params['id'], add_rev)
       if $is_edit
         doc['user_info'] = @user_info
       end
@@ -293,7 +295,7 @@ class CzjApp < Sinatra::Base
         else
           @show_target = @target
           @show_dictcode = @dictcode
-          @entry = dict.getdoc(selected)
+          @entry = dict.getdoc(selected, false)
         end
       end
       if @entry != nil and @entry != {}
