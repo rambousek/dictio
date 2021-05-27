@@ -1,0 +1,19 @@
+- if @entry['revcollocations'] and @entry['revcollocations']['entries'].size > 0
+  - @entry['revcollocations']['entries'].each do |colloc|
+    div.dropdown__item
+      div.dropdown__item__name = colloc['lemma']['title']
+      div.dropdown__item__detail
+        - if colloc['meanings']
+          - colloc['meanings'].each do |meaning|
+            p.naming #{I18n.t("entry.meaning")} #{meaning['number']}:
+            p == meaning['text']['_text']
+            - if meaning['usages'] and meaning['usages'].size > 0
+              p.naming #{I18n.t("entry.examples")}:
+              - meaning['usages'].each do |usg|
+                p: em = usg['text']['_text']
+        - relid = (colloc['dict'] == @dictcode) ? colloc['id'] : colloc['dict']+'-'+colloc['id'].to_s
+        p
+          - if @search.to_s != ''
+            a.btn.btn--secondary href="#{@tran_path}/#{relid}" = I18n.t("entry.full_details")
+          - else
+            a.btn.btn--secondary href="/#{colloc['dict']}/show/#{colloc['id']}" = I18n.t("entry.full_details")

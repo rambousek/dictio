@@ -320,6 +320,14 @@ class CzjApp < Sinatra::Base
       @result = dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
       slim :transresultlist, :layout=>false
     end
+    get '/'+code+'/revcolloc/:id' do
+      @entry = dict.getdoc(params['id'], true)
+      if $dict_info['type'] == 'write'
+        slim :revcollocwrite, :layout=>false
+      else
+        slim :revcollocsign, :layout=>false
+      end
+    end
     get '/'+code+'/cache_all_sw' do
       purge = false
       purge = true if params['purge'] == '1'
