@@ -162,6 +162,14 @@ $( document ).ready(function() {
     }
   });
 
+  /* load revcolloc */
+  $('.revcolloc-headline').click(function(event) {
+    var load_url = $('.revcolloc-headline').data('url');
+    $.get(load_url, function(response) {
+      $('#revcolloc').append(response);
+    });
+  });
+
   /* show keyboard */
   $('#expression_search').on('focus', function(event) {
     var dict = $('.search-alt__wrap .translate-from').val();

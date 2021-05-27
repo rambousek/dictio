@@ -298,28 +298,10 @@
         .detail__block.detail__block--wide
           == slim :fullentrytrans
 
-- if @entry['revcollocations'] and @entry['revcollocations']['entries'].size > 0
+- if @entry['revcollocations'] and @entry['revcollocations']['count'] > 0
   .row.row--start
     .col.col--2.col--precise
       .detail__block.detail__block--line
         div.detail-block
-          h3.headline.detail-block__headline = I18n.t("entry.collocation_with_this")
-          div.dropdown
-          - @entry['revcollocations']['entries'].each do |colloc|
-            div.dropdown__item
-              div.dropdown__item__name = colloc['lemma']['title']
-              div.dropdown__item__detail
-                - if colloc['meanings']
-                  - colloc['meanings'].each do |meaning|
-                    p.naming #{I18n.t("entry.meaning")} #{meaning['number']}:
-                    p == meaning['text']['_text']
-                    - if meaning['usages'] and meaning['usages'].size > 0
-                      p.naming #{I18n.t("entry.examples")}:
-                      - meaning['usages'].each do |usg|
-                        p: em = usg['text']['_text']
-                - relid = (colloc['dict'] == @dictcode) ? colloc['id'] : colloc['dict']+'-'+colloc['id'].to_s
-                p
-                  - if @search.to_s != ''
-                    a.btn.btn--secondary href="#{@tran_path}/#{relid}" = I18n.t("entry.full_details")
-                  - else
-                    a.btn.btn--secondary href="/#{colloc['dict']}/show/#{colloc['id']}" = I18n.t("entry.full_details")
+          h3.headline.detail-block__headline.revcolloc-headline data-url="/#{@dictcode}/revcolloc/#{@entry['id']}" == I18n.t("entry.collocation_with_this")
+          div.dropdown id="revcolloc"
