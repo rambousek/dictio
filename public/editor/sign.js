@@ -2702,7 +2702,7 @@ function get_selected_dict() {
 function load_link_relations(target, combo, name, parentid, set_rel) {
   Ext.Ajax.request({
     url: '/'+target+'/getrelations',
-    timeout: 10000,
+    timeout: 30000,
     params: {
       meaning_id: combo.getValue(),
       type: set_rel
@@ -2756,10 +2756,14 @@ function load_link_relations(target, combo, name, parentid, set_rel) {
           console.log('length='+Ext.getCmp(parentid).items.length);
           Ext.getCmp(parentid).insert(Ext.getCmp(parentid).items.length-3, newrel);
           newrel.query('component[name="type"]')[0].setValue(newtype);
-          newrel.query('component[name="rellink"]')[0].setValue(relitem.title);
+          if (relitem.title != '') {
+            newrel.query('component[name="rellink"]')[0].setValue(relitem.title);
+          } else {
+            newrel.query('component[name="rellink"]')[0].setValue(relitem.meaning_id.split('-')[0]);
+          }
           newrel.query('component[name="vztahtitle"]')[0].update(relitem.meaning_id);
           var inner = newrel.query('component[name="vztahtitle"]')[0].id + '-innerCt';
-          if (document.getElementById(inner) != null) {
+          if (inner != '' && document.getElementById(inner) != null) {
             document.getElementById(inner).classList.add('redtext');
           }
         }
