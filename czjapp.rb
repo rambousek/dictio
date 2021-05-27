@@ -322,7 +322,7 @@ class CzjApp < Sinatra::Base
     end
     get '/'+code+'/revcolloc/:id' do
       @entry = dict.getdoc(params['id'], true)
-      if $dict_info['type'] == 'write'
+      if $dict_info[code]['type'] == 'write'
         slim :revcollocwrite, :layout=>false
       else
         slim :revcollocsign, :layout=>false
