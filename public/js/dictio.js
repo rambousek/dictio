@@ -170,6 +170,9 @@ $( document ).ready(function() {
     $.get(load_url, function(response) {
       $('#revcolloc').append(response);
       $('.revcolloc-headline').removeClass('waiting');
+      $("#revcolloc .dropdown__item__name").click(function(e) {
+        $(this).parent().hasClass("is-open") ? ($(this).next(".dropdown__item__detail").slideUp(200), $(this).parent().removeClass("is-open")) : ($(this).next(".dropdown__item__detail").slideDown(200), $(this).parent().addClass("is-open"))
+      });
     });
   });
 
