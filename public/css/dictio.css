@@ -108,3 +108,14 @@ img.error {align-self: center}
 .report-ne:hover {background-color: darkgreen !important; font-size: 0.7rem !important;}
 .report- {background-color: gray !important; font-size: 0.7rem !important;}
 .report-:hover {background-color: darkgreen !important; font-size: 0.7rem !important;}
+
+.revcolloc-headline {
+  cursor: pointer;
+}
+.revcolloc-headline.waiting:after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: url(../img/magnifier.svg) no-repeat center;
+}

@@ -164,9 +164,12 @@ $( document ).ready(function() {
 
   /* load revcolloc */
   $('.revcolloc-headline').click(function(event) {
+    $('#revcolloc').empty();
+    $('.revcolloc-headline').addClass('waiting');
     var load_url = $('.revcolloc-headline').data('url');
     $.get(load_url, function(response) {
       $('#revcolloc').append(response);
+      $('.revcolloc-headline').removeClass('waiting');
     });
   });
 
