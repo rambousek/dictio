@@ -462,6 +462,9 @@ $( document ).ready(function() {
       if (current_count >= maxcount) {
         $('.load_next_trans').hide();
       }
+      if (maxcount == 0 || maxcount == "") {
+        $('#no-search-results').show();
+      }
       //activate video links
       $('.video-link').on('click', function(event) {
         event.preventDefault();
