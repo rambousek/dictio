@@ -488,6 +488,12 @@ $( document ).ready(function() {
     });
   });
 });
+
+// run translation on document load
+$( document ).ready(function() {
+  $('.load_next_trans').click();
+});
+
 // add class on scroll for mobile search
 window.onscroll = function() {
   if ($('main.homepage').length == 0) {
