@@ -441,6 +441,7 @@ $( document ).ready(function() {
 
   // load more translate results
   $('.load_next_trans').click(function() {
+    $('.load_next_trans').addClass('waiting');
     var current_count;
     current_count = $('.translate-results > div').length;
     console.log(current_count);
@@ -452,6 +453,7 @@ $( document ).ready(function() {
     }).always(function() {
       // after adding
       // maybe hide button
+      $('.load_next_trans').removeClass('waiting');
       current_count = $('.translate-results > div').length;
       $('.translate-results').data('resultcount', $('.col[data-resultcount]').data('resultcount'));
       maxcount = $('.translate-results').data('resultcount');

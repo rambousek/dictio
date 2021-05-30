@@ -130,3 +130,17 @@ img.error {align-self: center}
   background: url(../img/loading.svg) no-repeat center;
   background-size: cover;
 }
+.load_next_trans.waiting {
+  visibility: hidden;
+}
+.load_next_trans.waiting:after {
+  visibility: visible;
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 0px;
+  left: 0px;
+  background: url(../img/loading.svg) no-repeat center;
+  background-size: cover;
+}
