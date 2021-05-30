@@ -2228,11 +2228,8 @@ function get_selected_dict() {
 }
 
 function load_link_relations(target, combo, name, parentid, set_rel) {
-  if (entrydata.user_info.login == 'najbrtova' && target != 'cs') {
-    return true;
-  }
   if (entrydata.user_info.login == 'najbrtova') {
-    set_rel = 'synonym';
+    return true;
   }
   Ext.Array.each(Ext.getCmp('tabForm').query('[name=relsadd]'), function(item) {item.hide()});
   Ext.Array.each(Ext.getCmp('tabForm').query('[name=relswait]'), function(item) {item.show()});
