@@ -112,10 +112,21 @@ img.error {align-self: center}
 .revcolloc-headline {
   cursor: pointer;
 }
+.revcolloc-headline:after {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 10px;
+  background: url(../img/arrow-down.svg) no-repeat center;
+  top: 30%;
+  background-size: cover;
+}
 .revcolloc-headline.waiting:after {
   content: '';
   position: absolute;
-  width: 20px;
-  height: 20px;
-  background: url(../img/magnifier.svg) no-repeat center;
+  width: 40px;
+  height: 40px;
+  top: 0px;
+  background: url(../img/loading.svg) no-repeat center;
+  background-size: cover;
 }
