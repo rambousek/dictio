@@ -388,6 +388,7 @@ $( document ).ready(function() {
 
   // load more search results
   $('.load_next_search').click(function() {
+    $('.load_next_search').addClass('waiting');
     var total_results = $('.result-count').data('count');
     var current_count;
     if ($('.search-results-write').length) {
@@ -426,6 +427,7 @@ $( document ).ready(function() {
         }
       }).always(function() {
         // after adding
+        $('.load_next_search').removeClass('waiting');
         // maybe hide button
         if (current_count >= total_results) {
           $('.load_next_search').hide();
