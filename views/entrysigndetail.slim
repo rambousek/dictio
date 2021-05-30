@@ -267,45 +267,8 @@
     a class="btn btn-secondary" style="background-color: dimgray; font-size: 0.7rem" href="/#{@entry['dict']}/show/#{@entry['id']}"
       | #{I18n.t("search.translate_view")}
 
-- if @entry['revcollocations'] and @entry['revcollocations']['entries'].size > 0
+- if @entry['revcollocations'] and @entry['revcollocations']['count'].to_i > 0
   .detail__block.detail__block--line
     div.detail-block
-      h3.headline.detail-block__headline == I18n.t("entry.collocation_with_this")
-      div.dropdown
-      - @entry['revcollocations']['entries'].each do |colloc|
-        div.dropdown__item
-          div.dropdown__item__name
-            .row.row--start
-              .col.col--2.col--precise
-                .video.video--small
-                  .video__content
-                    video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{colloc['dict']}/#{colloc['lemma']['video_front']}"
-                      source src="https://files.dictio.info/video#{colloc['dict']}/#{colloc['lemma']['video_front']}" type="video/mp4"
-              .col.col--2.col--precise
-                  - if colloc['lemma'] and colloc['lemma']['swmix']
-                    span.video__sign style="margin-right: 20px;"
-                      - colloc['lemma']['swmix'].each do |sw|
-                        img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
-
-          div.dropdown__item__detail
-            - if colloc['meanings']
-              - colloc['meanings'].each do |meaning|
-                p.naming #{I18n.t("entry.meaning")} #{meaning['number']}:
-                - if meaning["text"] and meaning["text"]["file"]
-                  .video.video--small
-                    .video__content
-                      video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{colloc['dict']}/#{colloc['media'][meaning["text"]["file"]["@media_id"]]['location']}"
-                        source src="https://files.dictio.info/video#{colloc['dict']}/#{colloc['media'][meaning["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
-                - if meaning['usages'] and meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.size > 0
-                  p.naming #{I18n.t("entry.examples")}:
-                  .row.row--start
-                    - meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.each do |usg|
-                      - if usg["text"] and usg["text"]["file"]
-                        .col.col--2.col--precise
-                          .video.video--small
-                            .video__content
-                              video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{colloc['dict']}/#{colloc['media'][usg["text"]["file"]["@media_id"]]['location']}"
-                                source src="https://files.dictio.info/video#{colloc['dict']}/#{colloc['media'][usg["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
-            p
-              a.btn.btn--secondary href="#{@search_path}/#{colloc['id']}" == I18n.t("entry.full_details")
-
+      h3.headline.detail-block__headline.revcolloc-headline data-url="/#{@dictcode}/revcolloc/#{@entry['id']}" == I18n.t("entry.collocation_with_this")
+      div.dropdown id="revcolloc"
