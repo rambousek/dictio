@@ -16,5 +16,5 @@ main id="mobilespacetop" role="main"
             - else
               p #{I18n.t("search.notfound")}
         == slim :transresultlist
-      - if @result['count'].to_i > @result['entries'].size
+      - if @result['count'].to_i > @result['entries'].size or @result['initial']
         a.btn.load_next_trans data-search=@tran_path #{I18n.t("search.load_next")}

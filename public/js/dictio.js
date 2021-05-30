@@ -453,6 +453,7 @@ $( document ).ready(function() {
       // after adding
       // maybe hide button
       current_count = $('.translate-results > div').length;
+      $('.translate-results').data('resultcount', $('.col[data-resultcount]').data('resultcount'));
       maxcount = $('.translate-results').data('resultcount');
       if (current_count >= maxcount) {
         $('.load_next_trans').hide();

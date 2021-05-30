@@ -3,7 +3,7 @@
   - entry['meanings'].each do |mean|
     - mean['relation'].select{|rel| (rel['target'] == @target or rel['target'] == @dictcode) and not rellemmaused.include?(mean['id']+rel['target']+rel['meaning_id']) and rel['entry'] and rel['status'] == 'published'}.each do |rel|
       - rellemmaused << rel['target']+rel['meaning_id']
-      .col.col--3.col--precise
+      .col.col--3.col--precise data-resultcount="#{@result['count']}"
         - if @dict_info[@dictcode]['type'] == 'write'
           p
             - if entry['dict'] == @dictcode

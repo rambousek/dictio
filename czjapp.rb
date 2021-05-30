@@ -301,7 +301,8 @@ class CzjApp < Sinatra::Base
       if @entry != nil and @entry != {}
           slim :fullentry
       else
-        @result = dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, 0, @translate_limit)
+        #@result = dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, 0, @translate_limit)
+        @result = {'entries'=>[], 'initial'=>true}
         slim :transresult
       end
     end
