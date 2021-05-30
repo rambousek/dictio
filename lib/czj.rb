@@ -96,13 +96,41 @@ class CZJDict < Object
       end
 
       @entrydb.find({'dict': entry['dict'], 'collocations.colloc': entry['id'], 'lemma.lemma_type': 'collocation'}, collate).each{|ce|
-        ce = add_media(ce)
-        ce = get_sw(ce)
+        if @sign_dicts.include?(entry['dict'])
+          ce = add_media(ce)
+          ce = get_sw(ce)
+        end
         entry['revcollocations']['entries'] << ce
       }
     end
 
     return entry, collocs_used
+  end
+
+  def get_revcolloc(entry_id)
+    entry = getone(@dictcode, entry_id)
+    if entry != nil
+      entry['revcollocations'] = {} if entry['revcollocations'].nil?
+      entry['revcollocations']['entries'] = []
+      if @write_dicts.include?(entry['dict'])
+        locale = entry['dict']
+        locale = 'sk' if entry['dict'] == 'sj'
+        collate = {:collation => {'locale' => locale}, :sort => {'lemma.title' => 1}}
+      else
+        collate = { :sort => {'id'=>1}}
+      end
+
+      @entrydb.find({'dict': entry['dict'], 'collocations.colloc': entry['id'], 'lemma.lemma_type': 'collocation'}, collate).each{|ce|
+        if @sign_dicts.include?(entry['dict'])
+          ce = add_media(ce)
+          ce = get_sw(ce)
+        end
+        entry['revcollocations']['entries'] << ce
+      }
+      return entry
+    else
+      return {'revcollocations'=>{}}
+    end
   end
 
   def get_sw(entry)

@@ -321,7 +321,7 @@ class CzjApp < Sinatra::Base
       slim :transresultlist, :layout=>false
     end
     get '/'+code+'/revcolloc/:id' do
-      @entry = dict.getdoc(params['id'], true)
+      @entry = dict.get_revcolloc(params['id'])
       if $dict_info[code]['type'] == 'write'
         slim :revcollocwrite, :layout=>false
       else
