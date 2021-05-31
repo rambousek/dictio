@@ -377,8 +377,9 @@
                - if @params['komentbox'] == '_us' 
                 | příklady užití
                - if @params['komentbox'] == 'vazby' 
-                | ekvivalenty  
-          th width="10%"        
+                 | ekvivalenty
+          - if @is_admin
+            th width="10%"        
         == slim :reportresultlist
       - if @report['resultcount'].to_i > @report['entries'].size
         a.btn.load_next_report data-dict=@dictcode #{I18n.t("search.load_next")}

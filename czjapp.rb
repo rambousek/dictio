@@ -462,27 +462,25 @@ class CzjApp < Sinatra::Base
       end
     end
 
-    if $is_admin
-      get '/'+code+'/report' do
-        @dictcode = code
-        @target = ''
-        @dict_info = $dict_info
-        @params = params
-        @report = dict.get_report(params, @user_info, 0, @report_limit)
-        slim :report
-      end
-      get '/'+code+'/reportlist(/:start)?(/:limit)?' do
-        @dictcode = code
-        @target = ''
-        @dict_info = $dict_info
-        @params = params
-        @report = dict.get_report(params, @user_info, params['start'].to_i, params['limit'].to_i)
-        slim :reportresultlist, :layout=>false
-      end
-      get '/'+code+'/jsonreport' do
-        content_type :json
-        body = dict.get_report(params, @user_info).to_json
-      end
+    get '/'+code+'/report' do
+      @dictcode = code
+      @target = ''
+      @dict_info = $dict_info
+      @params = params
+      @report = dict.get_report(params, @user_info, 0, @report_limit)
+      slim :report
+    end
+    get '/'+code+'/reportlist(/:start)?(/:limit)?' do
+      @dictcode = code
+      @target = ''
+      @dict_info = $dict_info
+      @params = params
+      @report = dict.get_report(params, @user_info, params['start'].to_i, params['limit'].to_i)
+      slim :reportresultlist, :layout=>false
+    end
+    get '/'+code+'/jsonreport' do
+      content_type :json
+      body = dict.get_report(params, @user_info).to_json
     end
   }
 

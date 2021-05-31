@@ -1,8 +1,11 @@
 - @report['entries'].each do |entry|
       tr.report-row
-        td 
-          a href="https://edit.dictio.info/#{@dictcode}/show/#{entry['id']}" target="_blank" = entry['id']
-        td 
+        td
+          - if @is_admin
+            a href="https://edit.dictio.info/#{@dictcode}/show/#{entry['id']}" target="_blank" = entry['id']
+          - else
+            a href="https://www.dictio.info/#{@dictcode}/show/#{entry['id']}" target="_blank" = entry['id']
+        td
           - if @dict_info[@dictcode]['type'] == 'write'
             h3 #{entry['lemma']['title']}                                       
           - if entry['lemma']['video_front']
@@ -24,7 +27,8 @@
                   - if entry['lemma']['video_front'] and koment['box'] == 'video'+entry['lemma']['video_front']
                       li #{koment['text']} (#{koment['user']}, #{koment['time']})
                   - if entry['lemma']['video_side'] and koment['box'] == 'video'+entry['lemma']['video_side']
-                      li #{koment['text']} (#{koment['user']}, #{koment['time']})
-        td
-          a href="https://edit.dictio.info/editor#{@dictcode}/?id=#{entry['id']}" target="_blank" edit
+                    li #{koment['text']} (#{koment['user']}, #{koment['time']})
+        - if @is_admin
+          td
+            a href="https://edit.dictio.info/editor#{@dictcode}/?id=#{entry['id']}" target="_blank" edit
 
