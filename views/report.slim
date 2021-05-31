@@ -350,34 +350,34 @@
         tr
           th width="10%" (#{@report['resultcount']})
           th
-          - if @params['komentbox'] 
+          - if @params['komentbox']
             th
-               - if @params['koment'] == 'ne' 
+              - if @params['koment'] == 'ne'
                 | Komentáře v poli: 
-               - if @params['koment'] == 'ano' 
+              - if @params['koment'] == 'ano'
                 | Bez komentářů v poli  
-               - if @params['komentbox'] == '' 
+              - if @params['komentbox'] == ''
                 | neurčeno
-               - if @params['komentbox'] == 'boxlemma' 
+              - if @params['komentbox'] == 'boxlemma'
                 | technické info
-               - if @params['komentbox'] == 'boxcolloc' 
+              - if @params['komentbox'] == 'boxcolloc'
                 | typ hesla
-               - if @params['komentbox'] == 'video' 
+              - if @params['komentbox'] == 'video'
                 | záhlaví (video)
-               - if @params['komentbox'] == 'swfieldset' 
+              - if @params['komentbox'] == 'swfieldset'
                 | SW
-               - if @params['komentbox'] == 'hamnbox' 
+              - if @params['komentbox'] == 'hamnbox'
                 | HNS 
-               - if @params['komentbox'] == 'gramdesc' 
+              - if @params['komentbox'] == 'gramdesc'
                 | gramatika
-               - if @params['komentbox'] == 'styldesc' 
+              - if @params['komentbox'] == 'styldesc'
                 | stylistika
-               - if @params['komentbox'] == 'vyznam' 
+              - if @params['komentbox'] == 'vyznam'
                 | význam
-               - if @params['komentbox'] == '_us' 
+              - if @params['komentbox'] == '_us'
                 | příklady užití
-               - if @params['komentbox'] == 'vazby' 
-                 | ekvivalenty
+              - if @params['komentbox'] == 'vazby'
+                | ekvivalenty
           - if @is_admin
             th width="10%"        
         == slim :reportresultlist
