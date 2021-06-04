@@ -1,7 +1,7 @@
 - if @meaning['relation'].find{|rel| rel['type'] == 'translation' and (rel['target'] == @show_target or @target == '')}
   h3 #{I18n.t("entry.translations")}:
   - @meaning['relation'].select{|rel| rel['type'] == 'translation' and (rel['target'] == @show_target or @target == '')}.uniq{|rel| rel['target']}.each do |rels|
-    p.detail__badge class=(("detail__badge__#{rels['target']}":"")) = I18n.t("dict."+rels['target'])
+    p.detail__badge class=((@is_edit? "detail__badge__#{rels['target']}":"")) = I18n.t("dict."+rels['target'])
     - if @dict_info[rels['target']]['type'] == 'write'
       div.translation-group-write
         - @meaning['relation'].select{|rel| rel['type'] == 'translation' and (rel['target'] == rels['target']) and rel['entry']}.each do |rel|
