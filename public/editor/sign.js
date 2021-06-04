@@ -483,6 +483,8 @@ var komptypeStore = Ext.create('Ext.data.Store',{
 var mediatypeStore = Ext.create('Ext.data.Store',{
   fields: ['value', 'text'],
   data: [
+    {'value': 'sign_style', 'text':locale[lang].style_video},
+    {'value': 'sign_grammar', 'text':locale[lang].grammar_video},
     {'value': 'sign_usage_example', 'text':locale[lang].usage_video},
     {'value': 'sign_definition', 'text':locale[lang].def_video},
     {'value': 'sign_front', 'text':locale[lang].frontvideo},
