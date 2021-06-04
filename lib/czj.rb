@@ -1143,7 +1143,6 @@ class CZJDict < Object
         query[:$or] << {'location' => entry['lemma']['video_side'].to_s}
       end
     end
-
     $mongo['media'].find(query).each{|re| list << re}
 
     return list
