@@ -5,9 +5,9 @@
 .detail__head
   p.detail__badge.detail__badge--top class=(("detail__badge__#{@entry['dict']}":""))
     | #{I18n.t("dict."+@entry['dict'])} 
-     a class="edit" href="/editor#{@entry['dict']}/?id=#{@entry['id']}" 
-      | [#{@entry['dict']}-#{@entry['id']}]
-      span.icon.icon--edit
+    a class="edit" href="/editor#{@entry['dict']}/?id=#{@entry['id']}" 
+     | [#{@entry['dict']}-#{@entry['id']}]
+     span.icon.icon--edit
        svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
         use xlink:href="/img/edit.svg#Capa_1" x="0" y="0" width="100%" height="100%"
   .detail-word
