@@ -454,6 +454,21 @@ $( document ).ready(function() {
       $('.translate-results').append(response);
     }).always(function() {
       // after adding
+      // hide duplicate
+      var rels = {};
+      $('div.translate-box').each(function() {
+        if (rels[$(this).data('relinfo')] == undefined) {
+          rels[$(this).data('relinfo')] = 1;
+        } else {
+          rels[$(this).data('relinfo')] += 1;
+        }
+      });
+      Object.entries(rels).forEach(([rel,count])=>{
+        if (count > 1) {
+          $('[data-relinfo='+rel+']:gt(0)').hide();
+          $('[data-relinfo='+rel+']:eq(0) span.pluscount').html('+ ' + (count-1));
+        }
+      });
       // maybe hide button
       $('.load_next_trans').removeClass('waiting');
       current_count = $('.translate-results > div.translate-box').length;
