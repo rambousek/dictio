@@ -8,7 +8,7 @@ main id="mobilespacetop" role="main"
           - if @dict_info[@dictcode]['type'] == 'sign'
             div.search-results-sign
               - @result['entries'].each do |entry|
-                  - if @is_edit
+                  - if (@is_edit or @is_admin)
                     span.trans__badge style="position: relative;" class="trans__badge__#{@dictcode}" 
                      a.edit href="/editor#{@entry['dict']}/?id=#{entry['id']}" #{@dictcode}-#{entry['id']} 
                   div style="width:70%"
@@ -34,7 +34,7 @@ main id="mobilespacetop" role="main"
               - @result['entries'].each do |entry|
                 li
                   a href="#{@search_path}/#{entry['id']}" = entry['lemma']['title']  
-                  - if @is_edit
+                  - if (@is_edit or @is_admin)
                     span.trans__badge style="position: relative; margin-left: 5px" class="trans__badge__#{@dictcode}" 
                      a.edit href="/editor#{@entry['dict']}/?id=#{entry['id']}" #{@dictcode}-#{entry['id']} 
           - if @result['count'].to_i > @result['entries'].size
