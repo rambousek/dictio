@@ -1641,26 +1641,35 @@ class CZJDict < Object
   end
 
   def save_media(data)
-    if data['id'].to_s != ''
+    if data['id'].to_s == ''
+      cursor = $mongo['media'].find({'dict' => @dictcode}, {:projection => {'id':1}, :collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'id' => -1}})
+      cursor = cursor.limit(1)
+      mediaid = 1
+      cursor.each{|r|
+        mediaid = r['id'].to_i + 1
+      }
+      media = {'id' => mediaid}
+    else
       media = get_media(data['id'].to_s, @dictcode)
-      media['id'] = data['id'].to_s
-      media['dict'] = @dictcode
-      media['location'] = data['location'].to_s
-      media['original_file_name'] = data['original_file_name'].to_s
-      media['label'] = data['label'].to_s
-      media['id_meta_copyright'] = data['id_meta_copyright'].to_s
-      media['id_meta_author'] = data['id_meta_author'].to_s
-      media['id_meta_source'] = data['id_meta_source'].to_s
-      media['admin_comment'] = data['admin_comment'].to_s
-      media['type'] = data['type'].to_s
-      media['status'] = data['status'].to_s
-      media['orient'] = data['orient'].to_s
-      media['created_at'] = data['created_at'].to_s
-      media['updated_at'] = Time.now.strftime("%Y-%m-%d %H:%M:%S")
-      media.delete('main_for_entry')
-      $mongo['media'].find({'dict'=> @dictcode, 'id'=> data['id']}).delete_many
-      $mongo['media'].insert_one(media)
     end
+
+    media['id'] = data['id'].to_s
+    media['dict'] = @dictcode
+    media['location'] = data['location'].to_s
+    media['original_file_name'] = data['original_file_name'].to_s
+    media['label'] = data['label'].to_s
+    media['id_meta_copyright'] = data['id_meta_copyright'].to_s
+    media['id_meta_author'] = data['id_meta_author'].to_s
+    media['id_meta_source'] = data['id_meta_source'].to_s
+    media['admin_comment'] = data['admin_comment'].to_s
+    media['type'] = data['type'].to_s
+    media['status'] = data['status'].to_s
+    media['orient'] = data['orient'].to_s
+    media['created_at'] = data['created_at'].to_s
+    media['updated_at'] = Time.now.strftime("%Y-%m-%d %H:%M:%S")
+    media.delete('main_for_entry')
+    $mongo['media'].find({'dict'=> @dictcode, 'id'=> data['id']}).delete_many
+    $mongo['media'].insert_one(media)
     return data['id'].to_s
   end
 
