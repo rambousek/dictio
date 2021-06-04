@@ -6,7 +6,7 @@
   p.detail__badge.detail__badge--top class=((@is_edit? "detail__badge__#{@entry['dict']}":""))
     | #{I18n.t("dict."+@entry['dict'])} 
     - if (@is_edit or @is_admin)
-     a class="edit" href="/editor#{@entry['dict']}/?id=#{@entry['id']}" 
+     a class="edit" href="https://edit.dictio.info/editor#{@entry['dict']}/?id=#{@entry['id']}" 
       | [#{@entry['dict']}-#{@entry['id']}]
       span.icon.icon--edit
        svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
