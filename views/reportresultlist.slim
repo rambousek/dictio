@@ -19,7 +19,7 @@
               span.video__sign
                 - @entry['lemma']['swmix'].each do |sw|
                   img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
-          - if @params['koment'].to_s != ''
+        - if @params['koment'].to_s != ''
           td
             ul
               - @report['koment'][entry['id']].each do |koment|
