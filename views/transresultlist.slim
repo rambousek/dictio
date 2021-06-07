@@ -10,8 +10,10 @@
                   span.trans__badge style="position: relative; margin-right: 5px;" class="trans__badge__#{@dictcode}"
                     a.edit href="/editor#{@dictcode}/?id=#{entry['id']}" #{@dictcode}-#{entry['id']}
               a.btn.btn--simple.btn--simple--lg href="#{@tran_path}/#{entry['id']}" 
-                | #{entry['lemma']['title']} (#{entry['meanings'][0]['number']})
-              span.pluscount
+                | #{entry['lemma']['title']} 
+                / (#{entry['meanings'][0]['number']})
+              - if (@is_edit or @is_admin)
+                span.pluscount
             - else
               - if rel['entry']['id']
                 - if (@is_edit or @is_admin)
@@ -19,7 +21,8 @@
                       a.edit href="/editor#{@dictcode}/?id=#{rel['entry']['id']}" #{@dictcode}-#{rel['entry']['id']}
                 a.btn.btn--simple.btn--simple--lg.x href="#{@tran_path}/#{rel['entry']['id']}" 
                   | #{rel['entry']['lemma']['title']}
-                span.pluscount
+                - if (@is_edit or @is_admin)
+                  span.pluscount
               - else
                 span.btn.btn--simple.btn--simple--lg style="cursor:auto"
                   em = rel['entry']['lemma']['title']
@@ -36,7 +39,8 @@
               - if (@is_edit or @is_admin)
                 span.trans__badge class="trans__badge__#{@dictcode}"
                   a.edit href="/editor#{@dictcode}/?id=#{entry['id']}" #{@dictcode}-#{entry['id']}
-              span.pluscount
+              - if (@is_edit or @is_admin)
+                span.pluscount
               a.video__link href="/#{@tran_path}/#{entry['id']}"
                 span.icon.icon--open-new-window
                   svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
