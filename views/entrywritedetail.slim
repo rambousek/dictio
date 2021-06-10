@@ -226,6 +226,27 @@
           strong = I18n.t("gram.detail.7pad")
         td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c7'}[0]['_text']
 
+- unless @entry['lemma']['style_note'].nil? or @entry['lemma']['style_note'][0].nil? or @entry['lemma']['style_note'][0]['_text'].nil? or @entry['lemma']['style_note'][0]['_text'].to_s == ''
+  p.naming 
+    | #{I18n.t("entry.style_details")}: 
+    span  
+      = @entry['lemma']['style_note'][0]['_text']
+- unless @entry['lemma']['style_note'].nil? or @entry['lemma']['style_note'][0].nil? or @entry['lemma']['style_note'][0]['@kategorie'].to_s == ''
+  p.naming 
+    span = I18n.t("gram.category."+@entry['lemma']['style_note'][0]['@kategorie'])
+- unless @entry['lemma']['style_note'].nil? or @entry['lemma']['style_note'][0].nil? or @entry['lemma']['style_note'][0]['@stylpriznak'].to_s == ''
+  p.naming 
+    span = I18n.t("gram.stylpriznak."+@entry['lemma']['style_note'][0]['@stylpriznak'])
+- if @entry['lemma']['style_note'] and @entry['lemma']['style_note'].find{|gram| gram['variant'] and gram['variant'].size > 0}
+  h2.detail-category 
+    | #{I18n.t("entry.style_variant")}:
+    span
+      - @entry['lemma']['style_note'].each do |gram|
+        - if gram['variant']
+          - gram['variant'].each do |var|
+            = var['_text']
+            |,
+
 - if @entry['meanings']
   - @entry['meanings'].each do |meaning|
     - @meaning = meaning
