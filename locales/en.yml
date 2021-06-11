@@ -142,6 +142,7 @@ en:
     kat_hut: 'metallurgy'
     kat_hvězd: 'astronomy'
     kat_chem: 'chemistry'
+    kat_biochem: 'biochemistry'
     kat_ideal: 'idealism'
     kat_jad: 'informatics'
     kat_jaz: 'nuclear physics'
@@ -276,6 +277,15 @@ en:
     category: 
       neo: "neologism"
       arch: "archaism"
+      argot: 'argot'
+      hovorove: 'colloquially'
+      morav: 'regional Moravian expression'
+      narec: 'dialect expression'
+      neologismus: 'neologism'
+      obecne: 'generally Czech'
+      oblast: 'regional expression'
+      slang: 'slang expression'
+      spisovne: 'standard expression'
     gender:
       m: "male expression"
       f: "female expression"
@@ -284,6 +294,35 @@ en:
       stredni: 'middle age people'
       starsi: 'elderly people'
       deti: 'children'
+    stylpriznak:  
+      abstrakt: 'abstract expression'
+      basnicky: 'poetic expression'
+      biblicky: 'biblical expression'
+      detsky: 'children expression'
+      domacke: 'Hypocorism'
+      duverny: 'confidential expression'
+      eufem: 'euphemism'
+      expres: 'expressive expression'
+      famil: 'familiar expression'
+      hanlivy: 'defamatory expression'
+      ironicky: 'ironic'
+      kladny: 'positive expression'
+      knizni: 'book expression'
+      konkretni: 'a specific term'
+      lidovy: 'folk expression'
+      lichotivy: 'flattering expression'
+      mazlivy: 'diminutive'
+      odborny: 'technical term'
+      pohadkovy: 'fairy tale'
+      publ: 'a publicistic expression'
+      prenes: 'transferred'
+      zdvor: 'courtesy expression'
+      zhrubely: 'a rough expression'
+      zert: 'joking expression'
+      zlomkovy: 'fractional expression'
+      zdrob: 'diminutive'
+      zastar: 'obsolete expression'
+      cirkev: 'church expression'
   error: 
     notfound: ":( Page not found"
     internal: ":( Internal error"

@@ -141,7 +141,8 @@ de:
     kat_hud: 'Musikwissenschaft'
     kat_hut: 'Metallurgie'
     kat_hvězd: 'Astronomie'
-    kat_chem: 'Variable'
+    kat_chem: 'Chemie'
+    kat_biochem: 'Biochemie'
     kat_ideal: 'Idealismus'
     kat_jad: 'Kernphysik'
     kat_jaz: 'Linguistik'
@@ -276,6 +277,15 @@ de:
     category: 
       neo: "Neologismus"
       arch: "Archaismus"
+      argot: 'Argot'
+      hovorove: 'umgangssprachlich'
+      morav: 'regionaler mährischer Ausdruck'
+      narec: 'dialektischer Ausdruck'
+      neologismus: 'Neologismus'
+      obecne: 'Standard Tschechisch'
+      oblast: 'regionaler Ausdruck'
+      slang: 'Slang-Ausdruck'
+      spisovne: 'Standard'      
     gender:
       m: "männliche Gebärde"
       f: "frauliche Gebärde"
@@ -284,6 +294,35 @@ de:
       stredni: 'Menschen mittleren Alters'
       starsi: 'ältere Menschen'
       deti: 'Kinder'
+    stylpriznak:  
+      abstrakt: 'abstrakter Ausdruck'
+      basnicky: 'poetischer Ausdruck'
+      biblicky: 'biblischer Ausdruck'
+      detsky: 'kindlicher Ausdruck'
+      domacke: 'Hypokoristikum'
+      duverny: 'intimer Ausdruck'
+      eufem: 'Euphemismus'
+      expres: 'Ausdruck, Äußerung'
+      famil: 'vertraute Ausdrucksformen'
+      hanlivy: 'abfälliger Ausdruck'
+      ironicky: 'ironisch'
+      kladny: 'positiver Ausdruck'
+      knizni: 'literarischer Ausdruck'
+      konkretni: 'spezifischer Ausdruck'
+      lidovy: 'Volksausdruck'
+      lichotivy: 'schmeichelhafter Ausdruck'
+      mazlivy: 'Verkleinerung'
+      odborny: 'professioneller Ausdruck'
+      pohadkovy: 'Märchen'
+      publ: 'publizistischer Ausdruck'
+      prenes: 'übertragen'
+      zdvor: 'Höflichkeitsausdruck'
+      zhrubely: 'grober Ausdruck'
+      zert: 'scherzhafter Ausdruck'
+      zlomkovy: 'Bruchausdruck'
+      zdrob: 'winzig'
+      zastar: 'veralteter Ausdruck'
+      cirkev: 'kirliche Äußerung'
   error: 
     notfound: ":( Seite nicht gefunden"
     internal: ":( Internal error"

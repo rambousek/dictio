@@ -142,6 +142,7 @@ cs:
     kat_hut: 'hutnictví'
     kat_hvězd: 'astronomie'
     kat_chem: 'chemie'
+    kat_biochem: 'biochemie'
     kat_ideal: 'idealismus'
     kat_jad: 'jaderná fyzika'
     kat_jaz: 'jazykověda'
@@ -276,6 +277,15 @@ cs:
     category: 
       neo: "neologismus"
       arch: "archaismus"
+      argot: 'argot'
+      hovorove: 'hovorově'
+      morav: 'oblastní moravský výraz'
+      narec: 'nářeční výraz'
+      neologismus: 'neologismus'
+      obecne: 'obecně česky'
+      oblast: 'oblastní výraz'
+      slang: 'slangový výraz'
+      spisovne: 'spisovně'
     gender:
       m: "mužský znak"
       f: "ženský znak"
@@ -284,6 +294,35 @@ cs:
       stredni: 'lidé středního věku'
       starsi: 'senioři'
       deti: 'děti (dětský znak)'
+    stylpriznak:
+      abstrakt: 'abstraktní výraz'
+      basnicky: 'básnický výraz'
+      biblicky: 'biblický výraz'
+      detsky: 'dětský výraz'
+      domacke: 'domácké slovo'
+      duverny: 'důvěrný výraz'
+      eufem: 'eufemismus'
+      expres: 'expresivní výraz'
+      famil: 'familiární výraz'
+      hanlivy: 'hanlivý výraz'
+      ironicky: 'ironicky'
+      kladny: 'kladný výraz'
+      knizni: 'knižní výraz'
+      konkretni: 'konkrétní výraz'
+      lidovy: 'lidový výraz'
+      lichotivy: 'lichotivý výraz'
+      mazlivy: 'mazlivý výraz'
+      odborny: 'odborný výraz'
+      pohadkovy: 'pohádkový výraz'
+      publ: 'publicistický výraz'
+      prenes: 'přeneseně'
+      zdvor: 'zdvořilostní výraz'
+      zhrubely: 'zhrubělý výraz'
+      zert: 'žertovný výraz'
+      zlomkovy: 'zlomkový výraz'
+      zdrob: 'zdrobnělina'
+      zastar: 'zastaralý výraz'
+      cirkev: 'církevní výraz'
   error: 
     notfound: ":( stránka nenalezena"
     internal: ":( chyba serveru"
