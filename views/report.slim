@@ -379,7 +379,8 @@
               - if @params['komentbox'] == 'vazby'
                 | ekvivalenty
           - if @is_admin
-            th
+            - if @params.count{|k,_| k =~ /sw/} > 0
+              th
             th width="10%"        
         == slim :reportresultlist
       - if @report['resultcount'].to_i > @report['entries'].size
