@@ -512,6 +512,58 @@ $( document ).ready(function() {
   $('.load_next_trans').click();
 });
 
+// user admin
+$( document ).ready(function() {
+  $('.save-user').click(function() {
+    var table = $(this).parents('.user-info');
+    var user = {};
+    user.login = table.find('[name=login]').val()
+    if (table.find('[name=pass]').val() != '') {
+      user.password = table.find('[name=pass]').val();
+    } else {
+      user.password = '';
+    }
+    user.name = table.find('[name=name]').val()
+    user.email = table.find('[name=email]').val()
+    user.autor = table.find('[name=autor]').val()
+    user.copy = table.find('[name=copy]').val()
+    user.zdroj = table.find('[name=zdroj]').val()
+    if (table.find('[name=admin]').is(':checked')) {
+      user.admin = true;
+    } else {
+      user.admin = false;
+    }
+    user.editor = [];
+    user.revizor = [];
+    user.lang = [];
+    user.skupina = [];
+    table.find('[name=editor] option:selected').each(function() {
+      user.editor.push($(this).val());
+    });
+    table.find('[name=revizor] option:selected').each(function() {
+      user.revizor.push($(this).val());
+    });
+    table.find('[name=skupina] option:selected').each(function() {
+      user.skupina.push($(this).val());
+    });
+    table.find('[name=langs] option:selected').each(function() {
+      user.lang.push($(this).val());
+    });
+    console.log(user)
+    $.post('/users/save', {user: JSON.stringify(user)}, (response) => {
+      console.log(response)
+      if (response.success) {
+        $(this).val('uloženo');
+        if (table.hasClass('new-user')) {
+          document.location.reload();
+        }
+      } else {
+        alert(response.msg);
+      }
+    });
+  });
+});
+
 // add class on scroll for mobile search
 window.onscroll = function() {
   if ($('main.homepage').length == 0) {

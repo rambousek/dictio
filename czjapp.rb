@@ -492,6 +492,17 @@ class CzjApp < Sinatra::Base
       @users = dict_array['czj'].get_users
       slim :users
     end
+
+    post '/users/save' do
+      data = JSON.parse(params['user'])
+      res = dict_array['czj'].save_user(data)
+      content_type :json
+      if res == true
+        body = {"success"=>true,"msg"=>"Uloženo"}.to_json
+      else
+        body = {"success"=>false,"msg"=>res}.to_json
+      end
+    end
   end
 
   get '/swapi/symbol_definition/:id.json' do

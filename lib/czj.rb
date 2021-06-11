@@ -2204,5 +2204,23 @@ class CZJDict < Object
     }
     return res
   end
+
+  def save_user(data)
+    if data['login'].to_s != ''
+      user = $mongo['users'].find({'login': data['login']}).first
+      if data['password'].to_s == '' and user != nil
+        data['password'] = user['password']
+      elsif data['password'].to_s != ''
+        data['password'] = data['password'].crypt((Random.rand(1900)+100).to_s(16)[0,2])
+      else
+        data['password'] = (Random.rand(19000000)+200000000).to_s(16).crypt((Random.rand(1900)+100).to_s(16)[0,2])
+      end
+      $mongo['users'].find({'login': data['login']}).delete_many
+      $mongo['users'].insert_one(data)
+      return true
+    else
+      return 'chybí login'
+    end
+  end
 end
 
