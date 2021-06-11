@@ -1,40 +1,40 @@
 - @report['entries'].each do |entry|
-      tr.report-row
-        td
-          - if @is_admin
-            a href="https://edit.dictio.info/#{@dictcode}/show/#{entry['id']}" target="_blank" = entry['id']
-          - else
-            a href="https://www.dictio.info/#{@dictcode}/show/#{entry['id']}" target="_blank" = entry['id']
-        td
-          - if @dict_info[@dictcode]['type'] == 'write'
-            h3 #{entry['lemma']['title']}                                       
-          - if entry['lemma']['video_front']
-            = entry['lemma']['video_front']
-            br
-            video class=@dictcode width="177" height="142" onmouseover="this.play()" onmouseout="this.pause()"
-              source type="video/mp4" src="https://files.dictio.info/video#{@dictcode}/#{entry['lemma']['video_front']}"
-        - if @params.count{|k,_| k =~ /sw/} > 0
-          td
-            - unless entry['lemma']['swmix'].nil?
-              span.video__sign
-                - entry['lemma']['swmix'].each do |sw|
-                  img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
-        - if @params['koment'].to_s != ''
-          td
-            ul
-              - @report['koment'][entry['id']].each do |koment|
-                - if @params['komentbox'].to_s == '' or (koment['box'].include?(@params['komentbox'].to_s) and @params['komentbox'].to_s != 'vyznam' and @params['komentbox'].to_s != 'video')
+  tr.report-row
+    td
+      - if @is_admin
+        a href="https://edit.dictio.info/#{@dictcode}/show/#{entry['id']}" target="_blank" = entry['id']
+      - else
+        a href="https://www.dictio.info/#{@dictcode}/show/#{entry['id']}" target="_blank" = entry['id']
+    td
+      - if @dict_info[@dictcode]['type'] == 'write'
+        h3 #{entry['lemma']['title']}                                       
+      - if entry['lemma']['video_front']
+        = entry['lemma']['video_front']
+        br
+        video class=@dictcode width="177" height="142" onmouseover="this.play()" onmouseout="this.pause()"
+          source type="video/mp4" src="https://files.dictio.info/video#{@dictcode}/#{entry['lemma']['video_front']}"
+    - if @params.count{|k,_| k =~ /sw/} > 0
+      td
+        - unless entry['lemma']['swmix'].nil?
+          span.video__sign
+            - entry['lemma']['swmix'].each do |sw|
+              img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+    - if @params['koment'].to_s != ''
+      td
+        ul
+          - @report['koment'][entry['id']].each do |koment|
+            - if @params['komentbox'].to_s == '' or (koment['box'].include?(@params['komentbox'].to_s) and @params['komentbox'].to_s != 'vyznam' and @params['komentbox'].to_s != 'video')
+              li #{koment['text']} (#{koment['user']}, #{koment['time']})
+            - if @params['komentbox'].to_s == 'vyznam'
+              - entry['meanings'].each do |km|
+                - if koment['box'] == 'vyznam'+km['id']
                   li #{koment['text']} (#{koment['user']}, #{koment['time']})
-                - if @params['komentbox'].to_s == 'vyznam'
-                  - entry['meanings'].each do |km|
-                    - if koment['box'] == 'vyznam'+km['id']
-                      li #{koment['text']} (#{koment['user']}, #{koment['time']})
-                - if @params['komentbox'].to_s == 'video'
-                  - if entry['lemma']['video_front'] and koment['box'] == 'video'+entry['lemma']['video_front']
-                      li #{koment['text']} (#{koment['user']}, #{koment['time']})
-                  - if entry['lemma']['video_side'] and koment['box'] == 'video'+entry['lemma']['video_side']
-                    li #{koment['text']} (#{koment['user']}, #{koment['time']})
-        - if @is_admin
-          td
-            a href="https://edit.dictio.info/editor#{@dictcode}/?id=#{entry['id']}" target="_blank" edit
+            - if @params['komentbox'].to_s == 'video'
+              - if entry['lemma']['video_front'] and koment['box'] == 'video'+entry['lemma']['video_front']
+                  li #{koment['text']} (#{koment['user']}, #{koment['time']})
+              - if entry['lemma']['video_side'] and koment['box'] == 'video'+entry['lemma']['video_side']
+                li #{koment['text']} (#{koment['user']}, #{koment['time']})
+    - if @is_admin
+      td
+        a href="https://edit.dictio.info/editor#{@dictcode}/?id=#{entry['id']}" target="_blank" edit
 
