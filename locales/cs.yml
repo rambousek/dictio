@@ -410,6 +410,7 @@ cs:
       autom_autor: "autor"
       autom_copy: "autor videa"
       autom_zdroj: "zdroj"
+      langs: "jazyky"
       editor:
         transkripce: "transkripce SW, HNS"
         preklad: "vazby (překlady, synonyma)"
