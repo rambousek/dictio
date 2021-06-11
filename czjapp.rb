@@ -484,6 +484,16 @@ class CzjApp < Sinatra::Base
     end
   }
 
+  if $is_admin
+    get '/users' do
+      @dictcode = 'czj'
+      @target = ''
+      @dict_info = $dict_info
+      @users = dict_array['czj'].get_users
+      slim :users
+    end
+  end
+
   get '/swapi/symbol_definition/:id.json' do
     data = $mongo['symbol'].find({'id'=>params['id']}).first
     if params['callback'].to_s == ''

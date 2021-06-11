@@ -2196,5 +2196,13 @@ class CZJDict < Object
 
     return search_cond, trans_used
   end
+
+  def get_users
+    res = []
+    $mongo['users'].find({}, :sort => {'login' => 1}).each{|us|
+      res << us
+    }
+    return res
+  end
 end
 
