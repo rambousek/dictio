@@ -503,6 +503,16 @@ class CzjApp < Sinatra::Base
         body = {"success"=>false,"msg"=>res}.to_json
       end
     end
+
+    post '/users/delete' do
+      res = dict_array['czj'].delete_user(params['login'])
+      content_type :json
+      if res == true
+        body = {"success"=>true,"msg"=>"Uloženo"}.to_json
+      else
+        body = {"success"=>false,"msg"=>res}.to_json
+      end
+    end
   end
 
   get '/swapi/symbol_definition/:id.json' do

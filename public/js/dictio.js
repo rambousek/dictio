@@ -517,7 +517,7 @@ $( document ).ready(function() {
   $('.save-user').click(function() {
     var table = $(this).parents('.user-info');
     var user = {};
-    user.login = table.find('[name=login]').val()
+    user.login = table.find('[name=login]').val();
     if (table.find('[name=pass]').val() != '') {
       user.password = table.find('[name=pass]').val();
     } else {
@@ -551,7 +551,6 @@ $( document ).ready(function() {
     });
     console.log(user)
     $.post('/users/save', {user: JSON.stringify(user)}, (response) => {
-      console.log(response)
       if (response.success) {
         $(this).val('uloženo');
         if (table.hasClass('new-user')) {
@@ -561,6 +560,19 @@ $( document ).ready(function() {
         alert(response.msg);
       }
     });
+  });
+  $('.delete-user').click(function() {
+    if (confirm('opravdu smazat?')) {
+      var table = $(this).parents('.user-info');
+      var login = table.find('[name=login]').val();
+      $.post('/users/delete', {login: login}, (response) => {
+        if (response.success) {
+          document.location.reload();
+        } else {
+          alert(response.msg);
+        }
+      });
+    }
   });
 });
 

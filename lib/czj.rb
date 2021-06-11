@@ -2222,5 +2222,13 @@ class CZJDict < Object
       return 'chybí login'
     end
   end
+  def delete_user(login)
+    if login.to_s != ''
+      $mongo['users'].find({'login': login.to_s}).delete_many
+      return true
+    else
+      return 'chybí login'
+    end
+  end
 end
 
