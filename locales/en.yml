@@ -370,6 +370,7 @@ en:
       mdd: "mobility (MobiDeafDict)"
       test: "test bank (MobiDeafDict)"
       ls: "mobility (LangSkills)"   
+      all: "all groups"
     vyznamvid: "existing definition"
     vyznam: "approved definition"
     usagevid: "existing example sentence"

@@ -370,6 +370,7 @@ de:
       mdd: "mobility (MobiDeafDict)"
       test: "test Gebärden (MobiDeafDict)"
       ls: "mobility (LangSkills)"   
+      all: "all groups"
     vyznamvid: "bestätigt Definition"
     vyznam: "genehmigt Definition"
     usagevid: "bestätigt Beispielsätze"

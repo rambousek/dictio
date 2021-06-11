@@ -370,6 +370,7 @@ sk:
       mdd: "terminológia mobilita (MobiDeafDict)"
       test: "testovacia sada (MobiDeafDict)"
       ls: "terminológia mobilita (LangSkills)"      
+      all: "všechny skupiny"
     vyznamvid: "zadaná definícia"
     vyznam: "schválená definícia"
     usagevid: "zadaný príklad použitia"
