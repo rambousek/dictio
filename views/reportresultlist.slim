@@ -13,11 +13,11 @@
             br
             video class=@dictcode width="177" height="142" onmouseover="this.play()" onmouseout="this.pause()"
               source type="video/mp4" src="https://files.dictio.info/video#{@dictcode}/#{entry['lemma']['video_front']}"
-        - if @params.count{|k,_| k =~ /^sw/} > 0
+        - if @params.count{|k,_| k =~ /sw/} > 0
           td
-            - unless @entry['lemma']['swmix'].nil?
+            - unless entry['lemma']['swmix'].nil?
               span.video__sign
-                - @entry['lemma']['swmix'].each do |sw|
+                - entry['lemma']['swmix'].each do |sw|
                   img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
         - if @params['koment'].to_s != ''
           td
