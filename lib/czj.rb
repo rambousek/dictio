@@ -1775,7 +1775,11 @@ class CZJDict < Object
     cursor = cursor.skip(start)
     cursor = cursor.limit(limit) if limit.to_i > 0
     cursor.each{|res|
-      report['entries'] << res
+      entry = res
+      if params['nes_sw'].to_s != '' or params['bez_sw'].to_s != ''
+        entry = get_sw(entry)
+      end
+      report['entries'] << entry
       entry_ids << res['id']
     }
     report['query'] = search_cond
