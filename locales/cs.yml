@@ -407,6 +407,9 @@ cs:
       revizorright: "Revizorská práva"
       pracskup: "prac. skupina"
       autom: "Automaticky vyplňovaná pole"
+      autom_autor: "autor"
+      autom_copy: "autor videa"
+      autom_zdroj: "zdroj"
       editor:
         transkripce: "transkripce SW, HNS"
         preklad: "vazby (překlady, synonyma)"
