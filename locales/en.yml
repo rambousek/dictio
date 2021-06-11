@@ -401,6 +401,7 @@ en:
       email: "e-mail"
       name: "jméno a příjmení"
       save: "uložit"
+      delete: "smazat"
       pass: "heslo"
       admin: "administrátor"
       editorright: "Editorská práva"
