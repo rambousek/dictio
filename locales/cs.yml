@@ -415,3 +415,11 @@ cs:
         cjformal: "formální část MJ"
         cjlemma: "technické informace MJ"
         czjlemma: "technické informace ZJ"
+      revizor:
+        transkripce: "transkripce SW, HNS"
+        lingvist: "formální část ZJ"
+        video: "upload a správa videí"
+        lemmaczj: "technické informace ZJ"
+        cjlingvist: "formální část MJ"
+        lemmacj: "technické informace MJ"
+        preklad: "vazby (překlady, synonyma)"
