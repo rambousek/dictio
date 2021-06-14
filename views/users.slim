@@ -49,7 +49,7 @@ main role="main"
                     - ['transkripce', 'lingvist', 'video', 'lemmaczj', 'cjlingvist', 'lemmacj', 'preklad'].each do |item|
                       option value="#{item}" selected=("selected" if user['revizor'] and user['revizor'].include?(item)) #{I18n.t('admin.users.revizor.'+item)}
                 td
-                  | #{I18n.t("admin.users.pracskup")}:
+                  strong #{I18n.t("admin.users.pracskup")}:
                   br
                   select name="skupina" multiple="multiple" size="5" style="font-size: 0.87rem"
                     - ['biologie', 'informatika', 'matematika', 'podnikani', 'upol', 'obecna', 'spec', 'mdd', 'test', 'all'].each do |item|
@@ -121,7 +121,7 @@ main role="main"
                   - ['transkripce', 'lingvist', 'video', 'lemmaczj', 'cjlingvist', 'lemmacj', 'preklad'].each do |item|
                     option value="#{item}" #{I18n.t('admin.users.revizor.'+item)}
               td
-                | #{I18n.t("admin.users.pracskup")}:
+                strong #{I18n.t("admin.users.pracskup")}:
                 br
                 select name="skupina" multiple="multiple" size="5" style="font-size: 0.87rem"
                   - ['biologie', 'informatika', 'matematika', 'podnikani', 'upol', 'obecna', 'spec', 'mdd', 'test', 'all'].each do |item|
@@ -134,7 +134,8 @@ main role="main"
                     option value="#{code}" #{I18n.t("dict."+code)}
             tr
               td
-                strong #{I18n.t("admin.users.autom")}:
+                label
+                  | #{I18n.t("admin.users.autom")}:
               td
                 strong #{I18n.t("admin.users.autom_autor")}
                 input type="text" name="autor"
