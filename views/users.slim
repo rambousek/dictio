@@ -16,7 +16,7 @@ main role="main"
                 td colspan="2" 
                   label
                     | #{I18n.t("admin.users.login")}:
-                    input type="text" name="" value = user['login'] style="background-color: transparent" disabled 
+                    input type="text" name="" value = user['login'] style="background-color: transparent" disabled="disabled"  
                 td colspan="2"
                   label
                     | #{I18n.t("admin.users.pass")}
@@ -66,13 +66,13 @@ main role="main"
                     | #{I18n.t("admin.users.autom")}:
                 td  
                   strong #{I18n.t("admin.users.autom_autor")}
-                    input type="text" name="autor" value="#{user['autor']}"
+                  input type="text" name="autor" value="#{user['autor']}"
                 td
                   strong #{I18n.t("admin.users.autom_copy")}
-                    input type="text" name="copy" value="#{user['copy']}"
+                  input type="text" name="copy" value="#{user['copy']}"
                 td
                   strong #{I18n.t("admin.users.autom_zdroj")}
-                    input type="text" name="zdroj" value="#{user['zdroj']}"
+                  input type="text" name="zdroj" value="#{user['zdroj']}"
               tr
                 td
                 td
