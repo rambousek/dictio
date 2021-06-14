@@ -2482,6 +2482,24 @@ a.btn {
   @media (min-width: 992px) {
     .layout-column:first-child {
       padding: 33px 80px 70px 10px; } }
+      
+.layout-aside:first-child-admin {
+  position: relative;
+  padding: 30px 10px;
+  background: #f2f6f8; }
+  .layout-aside:first-child:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    width: 100vw;
+    height: 100%;
+    background: #f2f6f8; }
+  @media (min-width: 992px) {
+    .layout-aside:first-child {
+      max-width: 190px;
+      padding: 88px 63px 70px 10px; } }      
 
 .layout-column:last-child {
   position: relative;
