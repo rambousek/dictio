@@ -2483,11 +2483,11 @@ a.btn {
     .layout-column:first-child {
       padding: 33px 80px 70px 10px; } }
       
-.layout-aside:first-child-admin {
+.layout-aside-admin:first-child {
   position: relative;
   padding: 30px 10px;
   background: #f2f6f8; }
-  .layout-aside:first-child:before {
+  .layout-aside-admin:first-child:before {
     content: '';
     position: absolute;
     top: 0;
