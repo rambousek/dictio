@@ -2497,7 +2497,7 @@ a.btn {
     height: 100%;
     background: #f2f6f8; }
   @media (min-width: 992px) {
-    .layout-aside:first-child {
+    .layout-aside-admin:first-child {
       max-width: 190px;
       padding: 88px 63px 70px 10px; } }      
 
