@@ -407,10 +407,11 @@ en:
       editorright: "Editor's permitions"
       revizorright: "Supervisor's permitions"
       pracskup: "Workgroup"
+      langs: "Dictionaries"
       autom: "Presets"
       autom_autor: "Autor"
       autom_copy: "Author of the record"
-      autom_zdroj: "Source"
+      autom_zdroj: "Source"      
       editor:
         transkripce: "Transcription SW, HNS"
         preklad: "Equivalents"
