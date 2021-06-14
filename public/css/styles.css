@@ -2378,6 +2378,10 @@ a.btn {
     .info p:last-child {
       margin: 0; }
 
+.user-info {
+  margin-bottom: 10px;
+}
+
 .info__icon {
   position: absolute;
   top: 20px;
