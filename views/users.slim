@@ -14,29 +14,27 @@ main role="main"
               input type="hidden" name="login" value="#{user['login']}"
               tr
                 td colspan="2" 
-                  | #{I18n.t("admin.users.login")}:
-                  b = user['login']
-                td colspan="2" 
                   label
-                    | #{I18n.t("admin.users.email")}
-                    input type="text" name="email" value="#{user['email']}" size="40"
-                td
-                  input.btn.save-user type="button" value="#{I18n.t("admin.users.save")}"
+                    | #{I18n.t("admin.users.login")}:
+                    b = user['login']
+                td colspan="2"
+                  label
+                    | #{I18n.t("admin.users.pass")}
+                    input type="password" name="pass"                                                   
               tr
                 td colspan="2" 
                   label
                     | #{I18n.t("admin.users.name")}
                     input type="text" name="name" value="#{user['name']}" 
-                  br
-                  label
-                    | #{I18n.t("admin.users.pass")}
-                    input type="password" name="pass" 
+                td colspan="2"
+                   label
+                    | #{I18n.t("admin.users.email")}
+                    input type="text" name="email" value="#{user['email']}" size="40"
+              tr
                 td colspan="2"
                   label
                     input type="checkbox" name="admin" checked=("checked" if user['admin'])
-                    | #{I18n.t("admin.users.admin")}
-                td
-                  input.btn.delete-user type="button" value="#{I18n.t("admin.users.delete")}"
+                    | #{I18n.t("admin.users.admin")}                
               tr
                 td
                   strong #{I18n.t("admin.users.editorright")}:
@@ -57,25 +55,33 @@ main role="main"
                     - ['biologie', 'informatika', 'matematika', 'podnikani', 'upol', 'obecna', 'spec', 'mdd', 'test', 'all'].each do |item|
                       option value="#{item}" selected=("selected" if user['skupina'] and user['skupina'].include?(item)) #{I18n.t('admin.group.'+item)}
                 td
-                  strong #{I18n.t("admin.users.autom")}:
-                  br
-                  label
-                    | #{I18n.t("admin.users.autom_autor")}
-                    input type="text" name="autor" value="#{user['autor']}"
-                  br
-                  label
-                    | #{I18n.t("admin.users.autom_copy")}
-                    input type="text" name="copy" value="#{user['copy']}"
-                  br
-                  label
-                    | #{I18n.t("admin.users.autom_zdroj")}
-                    input type="text" name="zdroj" value="#{user['zdroj']}"
-                td
                   strong #{I18n.t("admin.users.langs")}:
                   br
                   select name="langs" multiple="multiple" size="7"
                     - @dict_info.each do |code, info|
                       option value="#{code}" selected=("selected" if user['lang'] and user['lang'].include?(code)) #{I18n.t("dict."+code)}
+              tr
+                td
+                  strong #{I18n.t("admin.users.autom")}:
+                td  
+                  label
+                    | #{I18n.t("admin.users.autom_autor")}
+                    input type="text" name="autor" value="#{user['autor']}"
+                td
+                  label
+                    | #{I18n.t("admin.users.autom_copy")}
+                    input type="text" name="copy" value="#{user['copy']}"
+                td
+                  label
+                    | #{I18n.t("admin.users.autom_zdroj")}
+                    input type="text" name="zdroj" value="#{user['zdroj']}"
+              tr
+                td
+                td
+                td
+                  input.btn.delete-user type="button" value="#{I18n.t("admin.users.delete")}"
+                td
+                  input.btn.save-user type="button" value="#{I18n.t("admin.users.save")}"
           br
 
         table.info.user-info.new-user
