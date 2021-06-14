@@ -16,7 +16,7 @@ main role="main"
                 td colspan="2" 
                   label
                     | #{I18n.t("admin.users.login")}:
-                    b = user['login']
+                    input type="text" name="" value = user['login'] style="background-color: transparent" disabled 
                 td colspan="2"
                   label
                     | #{I18n.t("admin.users.pass")}
@@ -39,47 +39,45 @@ main role="main"
                 td
                   strong #{I18n.t("admin.users.editorright")}:
                   br
-                  select name="editor" multiple="multiple" size="7"
+                  select name="editor" multiple="multiple" size="5" style="font-size: 0.87rem"
                     - ['transkripce', 'preklad', 'komparator', 'formal', 'video', 'cjformal', 'cjlemma', 'czjlemma'].each do |item|
                       option value="#{item}" selected=("selected" if user['editor'] and user['editor'].include?(item)) #{I18n.t('admin.users.editor.'+item)}
                 td
                   strong #{I18n.t("admin.users.revizorright")}:
                   br
-                  select name="revizor" multiple="multiple" size="7"
+                  select name="revizor" multiple="multiple" size="5" style="font-size: 0.87rem"
                     - ['transkripce', 'lingvist', 'video', 'lemmaczj', 'cjlingvist', 'lemmacj', 'preklad'].each do |item|
                       option value="#{item}" selected=("selected" if user['revizor'] and user['revizor'].include?(item)) #{I18n.t('admin.users.revizor.'+item)}
                 td
                   | #{I18n.t("admin.users.pracskup")}:
                   br
-                  select name="skupina" multiple="multiple" size="7"
+                  select name="skupina" multiple="multiple" size="5" style="font-size: 0.87rem"
                     - ['biologie', 'informatika', 'matematika', 'podnikani', 'upol', 'obecna', 'spec', 'mdd', 'test', 'all'].each do |item|
                       option value="#{item}" selected=("selected" if user['skupina'] and user['skupina'].include?(item)) #{I18n.t('admin.group.'+item)}
                 td
                   strong #{I18n.t("admin.users.langs")}:
                   br
-                  select name="langs" multiple="multiple" size="7"
+                  select name="langs" multiple="multiple" size="5" style="font-size: 0.87rem"
                     - @dict_info.each do |code, info|
                       option value="#{code}" selected=("selected" if user['lang'] and user['lang'].include?(code)) #{I18n.t("dict."+code)}
               tr
                 td
-                  strong #{I18n.t("admin.users.autom")}:
-                td  
                   label
-                    | #{I18n.t("admin.users.autom_autor")}
+                    | #{I18n.t("admin.users.autom")}:
+                td  
+                  strong #{I18n.t("admin.users.autom_autor")}
                     input type="text" name="autor" value="#{user['autor']}"
                 td
-                  label
-                    | #{I18n.t("admin.users.autom_copy")}
+                  strong #{I18n.t("admin.users.autom_copy")}
                     input type="text" name="copy" value="#{user['copy']}"
                 td
-                  label
-                    | #{I18n.t("admin.users.autom_zdroj")}
+                  strong #{I18n.t("admin.users.autom_zdroj")}
                     input type="text" name="zdroj" value="#{user['zdroj']}"
               tr
                 td
                 td
                 td
-                  input.btn.delete-user type="button" value="#{I18n.t("admin.users.delete")}"
+                  input.btn.delete-user type="button" style="background-color: darkred" value="#{I18n.t("admin.users.delete")}"
                 td
                   input.btn.save-user type="button" value="#{I18n.t("admin.users.save")}"
           br
