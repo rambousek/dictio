@@ -327,6 +327,7 @@ cs:
     notfound: ":( stránka nenalezena"
     internal: ":( chyba serveru"
     internal-text: "Zkuste to prosím později."
+    access: "nemáte přístup"
   admin:    
     reports: "přehledy hesel"
     user: "přihlášený uživatel "

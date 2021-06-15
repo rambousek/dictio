@@ -485,7 +485,17 @@ class CzjApp < Sinatra::Base
   }
 
   if $is_admin
-    get '/users' do
+    set (:admin) {|value| condition { @user_info['admin'] == value } }
+
+    get '/users', :admin => false do
+      @dict_info = $dict_info
+      @search_params = {}
+      @target = @default_target
+      @dictcode = @default_dict
+      slim :error401, :status=>401
+    end
+
+    get '/users', :admin => true do
       @dictcode = 'czj'
       @target = ''
       @dict_info = $dict_info
@@ -493,7 +503,7 @@ class CzjApp < Sinatra::Base
       slim :users
     end
 
-    post '/users/save' do
+    post '/users/save', :admin => true do
       data = JSON.parse(params['user'])
       res = dict_array['czj'].save_user(data)
       content_type :json
@@ -504,7 +514,7 @@ class CzjApp < Sinatra::Base
       end
     end
 
-    post '/users/delete' do
+    post '/users/delete', :admin => true do
       res = dict_array['czj'].delete_user(params['login'])
       content_type :json
       if res == true
