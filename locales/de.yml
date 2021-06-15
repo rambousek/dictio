@@ -328,6 +328,7 @@ de:
     internal: ":( Internal error"
     internal-text: "Versuchen Sie es später bitte."
   admin:
+    reports: "Liste der Einträge"
     user: "angemeldeter Benutzer"
     text1: ""
     head1: "Achtung"

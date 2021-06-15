@@ -9,11 +9,11 @@ main role="main"
       article.col.col--start role="article"
          .row
             aside.col.col--2.col--start.layout-aside-admin role="complementary"
-              ul
+              ul style="list-type: none;"
                 li
-                  a href="/admin" Přehledy hesel
+                  a.btn.btn--secondary href="/admin" #{I18n.t("admin.reports")} 
                 li
-                  a href="/users" #{I18n.t("admin.users.title")}                  
+                  a.btn.btn--secondary href="/users" #{I18n.t("admin.users.title")}                  
             .col.col--2.col--start.layout-aside 
               - @users.each do |user|
                 table.info.user-info

@@ -328,6 +328,7 @@ cs:
     internal: ":( chyba serveru"
     internal-text: "Zkuste to prosím později."
   admin:    
+    reports: "přehledy hesel"
     user: "přihlášený uživatel "
     text1: "Upozornění: Některé volby nemusí být v administrátorských filtrech dočasně k dispozici."
     head1: "Upozornění"

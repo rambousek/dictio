@@ -328,6 +328,7 @@ sk:
     internal: ":( chyba serveru"
     internal-text: "Skúste to, prosím, neskôr."
   admin:
+    reports: "prehľady hesiel"
     user: "prihlásený používateľ "
     text1: "Upozornenie: Niektoré voľby nemusia byť v administrátorských nástrojoch k dispozícii."      
     head1: "Upozornenie"
