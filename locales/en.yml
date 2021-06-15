@@ -327,6 +327,7 @@ en:
     notfound: ":( Page not found"
     internal: ":( Internal error"
     internal-text: "Try it later please."
+    access: "nemáte přístup"
   admin:
     reports: "List of entries"
     user: "logged user "

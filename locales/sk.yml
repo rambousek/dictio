@@ -327,6 +327,7 @@ sk:
     notfound: ":( stránka nebola nájdená"
     internal: ":( chyba serveru"
     internal-text: "Skúste to, prosím, neskôr."
+    access: "nemáte přístup"
   admin:
     reports: "prehľady hesiel"
     user: "prihlásený používateľ "
