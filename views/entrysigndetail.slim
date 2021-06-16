@@ -158,7 +158,7 @@
         p.naming
           | #{I18n.t("entry.generace")}: 
           span = I18n.t("gram.generace."+@entry['lemma']['style_note'][0]['@generace'])
-            - if @entry['lemma']['style_note'] != nil and @entry['lemma']['style_note'].find{|gr| gr['variant'] != nil and gr['variant'].size > 0}
+      - if @entry['lemma']['style_note'] != nil and @entry['lemma']['style_note'].find{|gr| gr['variant'] != nil and gr['variant'].size > 0}
         p.naming #{I18n.t("entry.style_variant")}:  
         .row.row--start 
           - @entry['lemma']['style_note'].each do |gram|
