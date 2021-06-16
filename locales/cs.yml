@@ -395,6 +395,7 @@ cs:
       revdef: "definice ke schválení"
       comdef: "komentované definice"
       trans: "ekvivalenty ke zpracování"
+      nodef: "(bez definic)"
       revtrans: "ekvivalenty ke schválení"
       comtrans: "komentované ekvivalenty"
     users:

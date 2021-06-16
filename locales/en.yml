@@ -395,6 +395,7 @@ en:
       revdef: "definitions to approve"
       comdef: "commented definitions"
       trans: "equivalents to connect"
+      nodef: "(without definitions)"
       revtrans: "equivalents to approve"
       comtrans: "commented equivalents"
     users:

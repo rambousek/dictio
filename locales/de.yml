@@ -393,8 +393,9 @@ de:
       vazby: "Verbindungen"
     presets:
       revdef: "Definition zu genehmigen"
-      comdef: "komentiert Definitione"
+      comdef: "komentiert Definitione"      
       trans: "Äquivalenten zu verbinden"
+      nodef: "(ohne Definitionen)"
       revtrans: "Äquivalenten zu genehmigen"
       comtrans: "komentiert Äquivalenten"
     users:
