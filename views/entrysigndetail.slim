@@ -86,7 +86,7 @@
             - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@mluv_komp'].to_s.strip == ''
               |  / 
             | #{I18n.t("entry.oralcomp")}: 
-            span style="text-transform: none" [#{@entry['lemma']['grammar_note'][0]['@oral_komp']}] 
+            span style="text-transform: capitalize" [#{@entry['lemma']['grammar_note'][0]['@oral_komp']}] 
             - if @entry['lemma']['grammar_note'][0]['@oral_komp_sel'] == 'povinny' or @entry['lemma']['grammar_note'][0]['@oral_komp_sel'] == 'nepovinny'
               span - #{I18n.t("gram."+@entry['lemma']['grammar_note'][0]['@oral_komp_sel'])} 
       - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['_text'].nil? or @entry['lemma']['grammar_note'][0]['_text'].to_s == ''
