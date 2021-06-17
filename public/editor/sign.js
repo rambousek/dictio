@@ -598,7 +598,7 @@ function update_stav() {
   //preklad
   var trset = Ext.getCmp('tabForm').query('component[name="rellinkset"]');
   for (var j = 0; j < trset.length; j++) {
-    if (trset[j].query('component[name="rellink"]')[0].getValue() != "" && trset[j].query('component[name="type"]')[0].getValue().startsWith("translation")) {
+    if (trset[j].query('component[name="rellink"]')[0].getValue() != "" && trset[j].query('component[name="type"]')[0].getValue() != null && trset[j].query('component[name="type"]')[0].getValue().startsWith("translation")) {
       if (trset[j].query('component[name="stav"]')[0].getValue() == 'published') {
         preklad_vyplneno = true;
       }
