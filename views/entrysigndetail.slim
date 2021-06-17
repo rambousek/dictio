@@ -119,8 +119,12 @@
                     .col.col--3.col--precise
                       .video.video--small
                         .video__content
-                          video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}"
-                            source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}" type="video/mp4"
+                          - if @entry['media'][var['_text']]['main_for_entry']
+                            video.video-link width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}" data-url="/#{@entry['media'][var['_text']]['main_for_entry']['dict']}/show/#{@entry['media'][var['_text']]['main_for_entry']['id']}"
+                              source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}" type="video/mp4"
+                          - else
+                            video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}"
+                              source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}" type="video/mp4"
       - unless @entry['lemma']['style_note'].nil? or @entry['lemma']['style_note'][0].nil? or @entry['lemma']['style_note'][0]['_text'].nil? or @entry['lemma']['style_note'][0]['_text'].to_s == ''
         p.naming 
           | #{I18n.t("entry.style_details")}: 
@@ -169,8 +173,12 @@
                 .col.col--3.col--precise
                   .video.video--small
                     .video__content
-                      video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}"
-                        source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}" type="video/mp4"
+                      - if @entry['media'][var['_text']]['main_for_entry']
+                        video.video-link width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}" data-url="/#{@entry['media'][var['_text']]['main_for_entry']['dict']}/show/#{@entry['media'][var['_text']]['main_for_entry']['id']}"
+                          source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}" type="video/mp4"
+                      - else
+                        video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}"
+                          source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}" type="video/mp4"
 
 - if @entry['meanings']
   - @entry["meanings"].each do |meaning|
