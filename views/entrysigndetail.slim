@@ -74,7 +74,7 @@
                  =  I18n.t("gram.slovni_druh."+sd.to_s)
                  - unless sd.equal? slovni_druhy.uniq.last
                    | , 
-      - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@oral_komp'].to_s.strip == '' or @entry['lemma']['grammar_note'][0]['@mluv_komp'].to_s.strip == '' 
+      - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@oral_komp'].to_s.strip == '' and @entry['lemma']['grammar_note'][0]['@mluv_komp'].to_s.strip == '' 
         p.naming
           - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@mluv_komp'].to_s.strip == ''
             | #{I18n.t("entry.mouthing")}: 
