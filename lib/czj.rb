@@ -744,8 +744,8 @@ class CZJDict < Object
                 {'$match': {"meanings.usages.text._text": {'$regex':/(^| )#{search}/i}}},
                 {'$unwind': '$meanings.usages.relation'},
                 {'$match': {'meanings.usages.relation.type': 'translation', 'meanings.usages.relation.target': target, 'meanings.usages.relation.meaning_id': {'$regex':/^[0-9]+-[0-9]+(_us[0-9]+)?/}}},
-                {'$group': {'_id': '$_id', 'dict': {'$first': '$dict'}, 'id': {'$first': '$id'}, 'lemma': {'$first': '$lemma'}, 'title': {'$first': '$meanings.usages.text._text'}, 'relation': {'$first': '$meanings.usages.relation'}}},
-                {'$project': {'dict': 1, 'id': 1, 'title': 1, 'meanings.relation': '$relation', 'lemma.title': '$title'}}
+                {'$group': {'_id': '$_id', 'dict': {'$first': '$dict'}, 'id': {'$first': '$id'}, 'lemma': {'$first': '$lemma'}, 'title': {'$first': '$meanings.usages.text._text'}, 'relation': {'$first': '$meanings.usages.relation'}, 'usagestatus': {'$first': '$meanings.usages.status'}}},
+                {'$project': {'dict': 1, 'id': 1, 'title': 1, 'meanings.relation': '$relation', 'lemma.title': '$title', 'usagestatus': '$usagestatus'}}
               ]
             }},
             {'$sort': {'title'=>1}}
@@ -757,6 +757,9 @@ class CZJDict < Object
           pipeline << {'$limit' => limit.to_i} if limit.to_i > 0
           cursor = @entrydb.aggregate(pipeline, {:allow_disk_use => true, :collation => {'locale' => locale}})
           cursor.each{|re|
+            if re['usagestatus'].to_s != '' and re['meanings']['relation']['status'].to_s == ''
+              re['meanings']['relation']['status'] = re['usagestatus'].to_s
+            end
             re['meanings']['relation'] = [re['meanings']['relation']]
             re['meanings'] = [re['meanings']]
             $stdout.puts 'start res<e '+re['dict']+re['id']+' '+Time.now.to_s
