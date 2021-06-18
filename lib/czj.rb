@@ -735,6 +735,19 @@ class CZJDict < Object
                 {'$project': {'dict': 1, 'id': 1, 'meanings': 1, 'lemma': 1, 'title': '$meanings.relation.meaning_id'}}
               ]
             }},
+            {'$unionWith': {
+              'coll': 'entries',
+              'pipeline': [
+                {'$match': {'dict': dictcode, 'meanings.usages.text._text': {'$regex': /(^| )#{search}/i}}},
+                {'$unwind': '$meanings'},
+                {'$unwind': '$meanings.usages'},
+                {'$match': {"meanings.usages.text._text": {'$regex':/(^| )#{search}/i}}},
+                {'$unwind': '$meanings.usages.relation'},
+                {'$match': {'meanings.usages.relation.type': 'translation', 'meanings.usages.relation.target': target, 'meanings.usages.relation.meaning_id': {'$regex':/^[0-9]+-[0-9]+(_us[0-9]+)?/}}},
+                {'$group': {'_id': '$_id', 'dict': {'$first': '$dict'}, 'id': {'$first': '$id'}, 'lemma': {'$first': '$lemma'}, 'title': {'$first': '$meanings.usages.text._text'}, 'relation': {'$first': '$meanings.usages.relation'}}},
+                {'$project': {'dict': 1, 'id': 1, 'title': 1, 'meanings.relation': '$relation', 'lemma.title': '$title'}}
+              ]
+            }},
             {'$sort': {'title'=>1}}
           ]
           @entrydb.aggregate(pipeline+[{'$count'=>'total'}]).each{|re|
