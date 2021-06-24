@@ -760,8 +760,8 @@ class CZJDict < Object
                 {'$match': {'meanings.usages.status': 'published'}},
                 {'$unwind': '$meanings.usages.relation'},
                 {'$match': search_cond_rel3},
-                {'$group': {'_id': '$_id', 'dict': {'$first': '$dict'}, 'id': {'$first': '$id'}, 'lemma': {'$first': '$lemma'}, 'title': {'$first': '$meanings.usages.relation.meaning_id'}, 'relation': {'$first': '$meanings.usages.relation'}, 'usagestatus': {'$first': '$meanings.usages.status'}}},
-                {'$project': {'dict': 1, 'id': 1, 'title': 1, 'meanings.relation': '$relation', 'lemma.title': '$title', 'usagestatus': '$usagestatus'}}
+                {'$group': {'_id': '$_id', 'dict': {'$first': '$dict'}, 'id': {'$first': '$id'}, 'lemma': {'$first': '$lemma'}, 'title': {'$first': '$meanings.usages.relation.meaning_id'}, 'relation': {'$first': '$meanings.usages.relation'}, 'usagestatus': {'$first': '$meanings.usages.status'}, 'usagemedia': {'$first': '$meanings.usages.text.file.@media_id'}}},
+                {'$project': {'dict': 1, 'id': 1, 'title': 1, 'meanings.relation': '$relation', 'lemma.title': '$title', 'usagestatus': '$usagestatus', 'usagemedia': 1}}
               ]
             }},
             {'$sort': {'title'=>1}}
@@ -775,6 +775,9 @@ class CZJDict < Object
           cursor.each{|re|
             if re['usagestatus'].to_s != '' and re['meanings']['relation']['status'].to_s == ''
               re['meanings']['relation']['status'] = re['usagestatus'].to_s
+            end
+            if re['usagemedia'].to_s != ''
+              re['lemma']['video_front'] = get_media(re['usagemedia'].to_s, re['dict'])['location']
             end
             re['meanings']['relation'] = [re['meanings']['relation']]
             re['meanings'] = [re['meanings']]
