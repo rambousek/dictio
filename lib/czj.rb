@@ -714,11 +714,14 @@ class CZJDict < Object
           search_cond_text << {'lemma.grammar_note.variant._text': {'$regex': /(^| )#{search}/i}}
           search_cond_text << {'lemma.style_note.variant._text': {'$regex': /(^| )#{search}/i}}
           search_cond1 = {'dict': dictcode, '$or': search_cond_text}
-          search_cond2 = {'dict': target, '$or': [{'meanings.relation': {'$elemMatch': {'target': dictcode, 'type': 'translation', 'meaning_id': {'$regex': /(^| )#{search}/i}, 'status': 'published'}}},{'meanings.usages.relation': {'$elemMatch': {'target': dictcode, 'type': 'translation', 'meaning_id': {'$regex': /(^| )#{search}/i}, 'status': 'published'}}}]}
+          search_cond2 = {'dict': target, 'meanings.relation': {'$elemMatch': {'target': dictcode, 'type': 'translation', 'meaning_id': {'$regex': /(^| )#{search}/i}, 'status': 'published'}}}
+          search_cond3 = {'dict': target, 'meanings.usages': {'$elemMatch': {'status': 'published', 'relation': {'$elemMatch': {'target': dictcode, 'type': 'translation', 'meaning_id': {'$regex': /(^| )#{search}/i}}}}}}
           search_cond_rel1 = {'meanings.relation.target': target, 'meanings.relation.type': 'translation', 'meanings.relation.status': 'published', 'meanings.relation.meaning_id': {'$regex': /^[0-9]+-[0-9]+(_us[0-9]+)?/}}
           search_cond_rel2 = {'meanings.relation.target': dictcode, 'meanings.relation.type': 'translation', 'meanings.relation.status': 'published', 'meanings.relation.meaning_id': {'$regex': /(^| )#{search}/i}}
+          search_cond_rel3 = {'meanings.usages.relation.target': dictcode, 'meanings.usages.relation.type': 'translation', 'meanings.usages.relation.meaning_id': {'$regex': /(^| )#{search}/i}}
           $stdout.puts search_cond1
           $stdout.puts search_cond2
+          $stdout.puts search_cond3
           pipeline = [
             {'$match': search_cond1},
             {'$unwind': '$meanings'},
@@ -745,6 +748,19 @@ class CZJDict < Object
                 {'$unwind': '$meanings.usages.relation'},
                 {'$match': {'meanings.usages.relation.type': 'translation', 'meanings.usages.relation.target': target, 'meanings.usages.relation.meaning_id': {'$regex':/^[0-9]+-[0-9]+(_us[0-9]+)?/}}},
                 {'$group': {'_id': '$_id', 'dict': {'$first': '$dict'}, 'id': {'$first': '$id'}, 'lemma': {'$first': '$lemma'}, 'title': {'$first': '$meanings.usages.text._text'}, 'relation': {'$first': '$meanings.usages.relation'}, 'usagestatus': {'$first': '$meanings.usages.status'}}},
+                {'$project': {'dict': 1, 'id': 1, 'title': 1, 'meanings.relation': '$relation', 'lemma.title': '$title', 'usagestatus': '$usagestatus'}}
+              ]
+            }},
+            {'$unionWith': {
+              'coll': 'entries',
+              'pipeline': [
+                {'$match': search_cond3},
+                {'$unwind': '$meanings'},
+                {'$unwind': '$meanings.usages'},
+                {'$match': {'meanings.usages.status': 'published'}},
+                {'$unwind': '$meanings.usages.relation'},
+                {'$match': search_cond_rel3},
+                {'$group': {'_id': '$_id', 'dict': {'$first': '$dict'}, 'id': {'$first': '$id'}, 'lemma': {'$first': '$lemma'}, 'title': {'$first': '$meanings.usages.relation.meaning_id'}, 'relation': {'$first': '$meanings.usages.relation'}, 'usagestatus': {'$first': '$meanings.usages.status'}}},
                 {'$project': {'dict': 1, 'id': 1, 'title': 1, 'meanings.relation': '$relation', 'lemma.title': '$title', 'usagestatus': '$usagestatus'}}
               ]
             }},
