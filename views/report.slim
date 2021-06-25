@@ -378,7 +378,7 @@ main role="main"
                 | příklady užití
               - if @params['komentbox'] == 'vazby'
                 | ekvivalenty
-          - if @is_admin
+          - if @is_admin or @is_edit
             - if @params.count{|k,_| k =~ /sw/} > 0
               th
             th width="10%"        
