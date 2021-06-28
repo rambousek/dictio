@@ -25,7 +25,7 @@
           - @report['koment'][entry['id']].each do |koment|
             - if @params['komentbox'].to_s == '' or (koment['box'].include?(@params['komentbox'].to_s) and @params['komentbox'].to_s != 'vyznam' and @params['komentbox'].to_s != 'video')
               li #{koment['text']} (#{koment['user']}, #{koment['time']})
-            - if @params['komentbox'].to_s == 'vyznam'
+            - if @params['komentbox'].to_s == 'vyznam' and entry['meanings']
               - entry['meanings'].each do |km|
                 - if koment['box'] == 'vyznam'+km['id']
                   li #{koment['text']} (#{koment['user']}, #{koment['time']})
