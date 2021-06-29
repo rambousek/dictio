@@ -2265,5 +2265,48 @@ class CZJDict < Object
       return 'chybí login'
     end
   end
+
+  def get_duplicate(start=0, limit=nil)
+    if @dict_info[@dictcode]['type'] == 'write'
+      pipeline = [
+        {'$match': {'dict': @dictcode}},
+        {'$group': {
+          '_id': {'lemma': '$lemma.title'}, 
+          'ids': {'$addToSet': '$id'}, 
+          'pos': {'$addToSet': '$lemma.grammar_note.@slovni_druh'}, 
+          'count': {'$sum': 1}
+        }},
+        {'$match': { 
+          'count': {'$gt': 1}, 
+          '$or':[
+            {'pos':{'$size':1}},
+            {'pos': {'$in':[[]]}}
+          ]
+        }},
+        {'$sort': {'_id.lemma': 1}}
+      ]
+      locale = @dictcode
+      locale = 'sk' if @dictcode == 'sj'
+    else
+      pipeline = [
+        {'$match': {'dict': @dictcode}},
+      ]
+      locale = 'cs'
+    end
+    pipeline << {'$skip' => start.to_i}
+    pipeline << {'$limit' => limit.to_i} if limit.to_i > 0
+
+    res = {'count'=> 0, 'duplicate'=> []}
+    @entrydb.aggregate(pipeline+[{'$count'=>'total'}]).each{|re|
+      res['count'] = re['total'].to_i
+    }
+    cursor = @entrydb.aggregate(pipeline, {:allow_disk_use => true, :collation => {'locale' => locale}})
+    $stderr.puts res
+    $stderr.puts res['duplicate']
+    cursor.each{|re|
+      res['duplicate'] << re
+    }
+    return res
+  end
 end
 

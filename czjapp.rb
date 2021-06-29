@@ -482,6 +482,25 @@ class CzjApp < Sinatra::Base
       content_type :json
       body = dict.get_report(params, @user_info).to_json
     end
+
+    if $is_admin
+      get '/'+code+'/jsonduplicate' do
+        content_type :json
+        body = dict.get_duplicate.to_json
+      end
+      get '/'+code+'/duplicatelist(/:start)?(/:limit)?' do
+        content_type :json
+        body = dict.get_duplicate(params['start'].to_i, params['limit'].to_i).to_json
+      end
+      get '/'+code+'/duplicate' do
+        @dictcode = code
+        @target = ''
+        @dict_info = $dict_info
+        @params = params
+        @report = dict.get_duplicate
+        slim :duplicate
+      end
+    end
   }
 
   if $is_admin
