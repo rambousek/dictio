@@ -2266,47 +2266,42 @@ class CZJDict < Object
     end
   end
 
+  def get_duplicate_pipeline(dict)
+    if @dict_info[dict]['type'] == 'write'
+      group = {'lemma': '$lemma.title'}
+      sort = {'_id.lemma': 1}
+    else
+      group = {'front': '$lemma.video_front', 'side': '$lemma.video_side'}
+      sort = {'_id.front': 1}
+    end
+
+    pipeline = [
+      {'$match': {'dict': dict}},
+      {'$group': {
+        '_id': group,
+        'ids': {'$addToSet': '$id'}, 
+        'pos': {'$addToSet': '$lemma.grammar_note.@slovni_druh'}, 
+        'count': {'$sum': 1}
+      }},
+      {'$match': { 
+        'count': {'$gt': 1}, 
+        '$or':[
+          {'pos':{'$size':1}},
+          {'pos': {'$in':[[]]}},
+          {'pos': {'$in':[['']]}}
+        ]
+      }},
+      {'$sort': sort}
+    ]
+    return pipeline
+  end
+
   def get_duplicate(start=0, limit=nil)
+    pipeline = get_duplicate_pipeline(@dictcode)
     if @dict_info[@dictcode]['type'] == 'write'
-      pipeline = [
-        {'$match': {'dict': @dictcode}},
-        {'$group': {
-          '_id': {'lemma': '$lemma.title'}, 
-          'ids': {'$addToSet': '$id'}, 
-          'pos': {'$addToSet': '$lemma.grammar_note.@slovni_druh'}, 
-          'count': {'$sum': 1}
-        }},
-        {'$match': { 
-          'count': {'$gt': 1}, 
-          '$or':[
-            {'pos':{'$size':1}},
-            {'pos': {'$in':[[]]}},
-            {'pos': {'$in':[['']]}}
-          ]
-        }},
-        {'$sort': {'_id.lemma': 1}}
-      ]
       locale = @dictcode
       locale = 'sk' if @dictcode == 'sj'
     else
-      pipeline = [
-        {'$match': {'dict': @dictcode}},
-        {'$group': {
-          '_id': {'front': '$lemma.video_front', 'side': '$lemma.video_side'}, 
-          'ids': {'$addToSet': '$id'}, 
-          'pos': {'$addToSet': '$lemma.grammar_note.@slovni_druh'}, 
-          'count': {'$sum': 1}
-        }},
-        {'$match': { 
-          'count': {'$gt': 1}, 
-          '$or':[
-            {'pos':{'$size':1}},
-            {'pos': {'$in':[[]]}},
-            {'pos': {'$in':[['']]}}
-          ]
-        }},
-        {'$sort': {'_id.front': 1}}
-      ]
       locale = 'cs'
     end
     pipeline << {'$skip' => start.to_i}
@@ -2317,8 +2312,6 @@ class CZJDict < Object
       res['count'] = re['total'].to_i
     }
     cursor = @entrydb.aggregate(pipeline, {:allow_disk_use => true, :collation => {'locale' => locale}})
-    $stderr.puts res
-    $stderr.puts res['duplicate']
     cursor.each{|re|
       res['duplicate'] << re
     }
