@@ -12,11 +12,17 @@ main role="main"
           p celkem: #{@report['count']}
           table
             tr
-              th lemma
+              - if @dict_info[@dictcode]['type'] == 'write'
+                th lemma
+              - else
+                th video
               th hesla
             - @report['duplicate'].each do |dup|
               tr
-                td #{dup['_id']['lemma']}
+                - if @dict_info[@dictcode]['type'] == 'write'
+                  td #{dup['_id']['lemma'].to_s}
+                - else
+                  td #{dup['_id']['front'].to_s}
                 td 
                   - dup['ids'].each do |id|
                     a href="https://edit.dictio.info/editor#{@dictcode}/?id=#{id}" #{id}

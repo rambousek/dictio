@@ -2280,7 +2280,8 @@ class CZJDict < Object
           'count': {'$gt': 1}, 
           '$or':[
             {'pos':{'$size':1}},
-            {'pos': {'$in':[[]]}}
+            {'pos': {'$in':[[]]}},
+            {'pos': {'$in':[['']]}}
           ]
         }},
         {'$sort': {'_id.lemma': 1}}
@@ -2290,6 +2291,21 @@ class CZJDict < Object
     else
       pipeline = [
         {'$match': {'dict': @dictcode}},
+        {'$group': {
+          '_id': {'front': '$lemma.video_front', 'side': '$lemma.video_side'}, 
+          'ids': {'$addToSet': '$id'}, 
+          'pos': {'$addToSet': '$lemma.grammar_note.@slovni_druh'}, 
+          'count': {'$sum': 1}
+        }},
+        {'$match': { 
+          'count': {'$gt': 1}, 
+          '$or':[
+            {'pos':{'$size':1}},
+            {'pos': {'$in':[[]]}},
+            {'pos': {'$in':[['']]}}
+          ]
+        }},
+        {'$sort': {'_id.front': 1}}
       ]
       locale = 'cs'
     end
