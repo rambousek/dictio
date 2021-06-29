@@ -2317,5 +2317,17 @@ class CZJDict < Object
     }
     return res
   end
+
+  def get_duplicate_counts
+    res = {'duplicate' => []}
+    @dict_info.each{|code,hash|
+      pipeline = get_duplicate_pipeline(code)
+      @entrydb.aggregate(pipeline+[{'$count'=>'total'}]).each{|re|
+        count = re['total'].to_i
+        res['duplicate'] << {'code'=>code, 'count'=>count}
+      }
+    }
+    return res
+  end
 end
 

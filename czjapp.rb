@@ -542,6 +542,14 @@ class CzjApp < Sinatra::Base
         body = {"success"=>false,"msg"=>res}.to_json
       end
     end
+
+    get '/duplicates' do
+      @dictcode = 'czj'
+      @target = ''
+      @dict_info = $dict_info
+      @report = dict_array['czj'].get_duplicate_counts
+      slim :duplicates
+    end
   end
 
   get '/swapi/symbol_definition/:id.json' do
