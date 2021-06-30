@@ -2276,7 +2276,7 @@ class CZJDict < Object
     end
 
     pipeline = [
-      {'$match': {'dict': dict}},
+      {'$match': {'dict': dict, 'empty': {'$exists': false}}},
       {'$group': {
         '_id': group,
         'ids': {'$addToSet': '$id'}, 
