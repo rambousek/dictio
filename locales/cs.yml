@@ -331,7 +331,7 @@ cs:
   admin:    
     reports: "přehledy hesel"
     dup: "přehled duplicit"
-    dup_warn: "Pozor, slovník obsahuje duplicitní hesla. Počet: "
+    dups_warn: "Pozor, slovník obsahuje duplicitní hesla. Počet: "
     user: "přihlášený uživatel "
     text1: "Upozornění: Některé volby nemusí být v administrátorských filtrech dočasně k dispozici."
     head1: "Upozornění"
