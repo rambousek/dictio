@@ -346,7 +346,8 @@ main role="main"
                 - unless @params['koment'] and @params['komentbox'] == 'vazby'
                   a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','vazby','koment','ne')" #{I18n.t("admin.koment.vazby")}
       - if @duplicate['duplicate'].select{|info| info['code'] == @dictcode}.size > 0
-        div style="color: red" #{I18n.t("admin.dups_warn")}
+        div style="color: red"
+          | #{I18n.t("admin.dups_warn")}
           a href="/#{@dictcode}/duplicate" #{@duplicate['duplicate'].select{|info| info['code'] == @dictcode}[0]['count']}
 
       table.table.table--no-margin.report-table data-resultcount=@report['resultcount']
