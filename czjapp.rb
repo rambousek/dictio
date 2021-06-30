@@ -468,6 +468,7 @@ class CzjApp < Sinatra::Base
       @dict_info = $dict_info
       @params = params
       @report = dict.get_report(params, @user_info, 0, @report_limit)
+      @duplicate = dict_array['czj'].get_duplicate_counts
       slim :report
     end
     get '/'+code+'/reportlist(/:start)?(/:limit)?' do
