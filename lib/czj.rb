@@ -2266,33 +2266,47 @@ class CZJDict < Object
     end
   end
 
-  def get_duplicate_pipeline(dict)
+  def get_duplicate_pipeline(dict, second=false)
     if @dict_info[dict]['type'] == 'write'
       group = {'lemma': '$lemma.title'}
       sort = {'_id.lemma': 1}
     else
-      group = {'front': '$lemma.video_front', 'side': '$lemma.video_side'}
-      sort = {'_id.front': 1}
+      if not second
+        group = {'front': '$lemma.video_front', 'side': '$lemma.video_side'}
+      else
+        group = {'trans': '$meanings.relation'}
+      end
+      sort = {'_id.front': 1, '_id.trans': 1}
     end
 
-    pipeline = [
-      {'$match': {'dict': dict, 'empty': {'$exists': false}}},
-      {'$group': {
-        '_id': group,
-        'ids': {'$addToSet': '$id'}, 
-        'pos': {'$addToSet': '$lemma.grammar_note.@slovni_druh'}, 
-        'count': {'$sum': 1}
-      }},
-      {'$match': { 
-        'count': {'$gt': 1}, 
-        '$or':[
-          {'pos':{'$size':1}},
-          {'pos': {'$in':[[]]}},
-          {'pos': {'$in':[['']]}}
-        ]
-      }},
-      {'$sort': sort}
-    ]
+    pipeline = []
+    if not second
+      pipeline << {'$match': {'dict': dict, 'empty': {'$exists': false}}}
+    else
+      pipeline << {'$match': {'dict': dict, 'empty': {'$exists': false}, 'meanings.relation': {'$elemMatch': {'type': 'translation'}}, '$or': [{'lemma.grammar_note.variant':{'$size': 0}}, {'lemma.grammar_note.variant': {'$exists': false}}]}}
+    end
+    pipeline << {'$group': {
+      '_id': group,
+      'ids': {'$addToSet': '$id'}, 
+      'pos': {'$addToSet': '$lemma.grammar_note.@slovni_druh'}, 
+      'count': {'$sum': 1}
+    }}
+    if @dict_info[dict]['type'] == 'sign' and not second
+      pipeline << {'$unionWith': {
+        'coll': 'entries',
+        'pipeline': get_duplicate_pipeline(dict, true)
+      }}
+    end
+    pipeline << {'$match': { 
+      'count': {'$gt': 1},
+      '_id': {'$ne': {}},
+      '$or':[
+        {'pos':{'$size':1}},
+        {'pos': {'$in':[[]]}},
+        {'pos': {'$in':[['']]}}
+      ]
+    }}
+    pipeline << {'$sort': sort}
     return pipeline
   end
 

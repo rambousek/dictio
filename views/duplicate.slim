@@ -22,7 +22,13 @@ main role="main"
                 - if @dict_info[@dictcode]['type'] == 'write'
                   td #{dup['_id']['lemma'].to_s}
                 - else
-                  td #{dup['_id']['front'].to_s}
+                  - if dup['_id']['front']
+                    td #{dup['_id']['front'].to_s}
+                  - else
+                    td 
+                      - dup['_id']['trans'].each do |dtr|
+                        - dtr.each do |tran|
+                          | #{tran['target']}: #{tran['meaning_id']},  
                 td 
                   - dup['ids'].each do |id|
                     a href="https://edit.dictio.info/editor#{@dictcode}/?id=#{id}" #{id}
