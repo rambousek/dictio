@@ -330,6 +330,7 @@ cs:
     access: "nemáte přístup"
   admin:    
     reports: "přehledy hesel"
+    dup: "přehled duplicit"
     user: "přihlášený uživatel "
     text1: "Upozornění: Některé volby nemusí být v administrátorských filtrech dočasně k dispozici."
     head1: "Upozornění"
