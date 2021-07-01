@@ -330,6 +330,9 @@ en:
     access: "nemáte přístup"
   admin:
     reports: "List of entries"
+    dup: "Duplicate entries"    
+    dups_warn: "Caution: the dictionary may contain duplicate entries "
+    show: "list"
     user: "logged user "
     text1: "Warning: It is possible that some options are not available in dictionaries admin tools."
     head1: "Warning"

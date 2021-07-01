@@ -330,6 +330,9 @@ de:
     access: "nemáte přístup"
   admin:
     reports: "Liste der Einträge"
+    dup: "Doppelte Einträge"    
+    dups_warn: "Vorsicht: das Wörterbuch kann doppelte Einträge enthalten "
+    show: "Anzeige"    
     user: "angemeldeter Benutzer"
     text1: ""
     head1: "Achtung"

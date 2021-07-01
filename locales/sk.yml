@@ -330,6 +330,9 @@ sk:
     access: "nemáte přístup"
   admin:
     reports: "prehľady hesiel"
+    dup: "prehľad duplicít"    
+    dups_warn: "Upozornenie: slovník pravdepodobne obsahuje duplicitné hesla "
+    show: "vypsať"
     user: "prihlásený používateľ "
     text1: "Upozornenie: Niektoré voľby nemusia byť v administrátorských nástrojoch k dispozícii."      
     head1: "Upozornenie"
