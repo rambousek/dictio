@@ -347,7 +347,7 @@ main role="main"
                   a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','vazby','koment','ne')" #{I18n.t("admin.koment.vazby")}
       - if @duplicate['duplicate'].select{|info| info['code'] == @dictcode}.size > 0
         div style="color: red; font-style: italic; font-variant: all-small-caps"
-          | #{I18n.t("admin.dups_warn")} (#{@duplicate['duplicate'].select{|info| info['code'] == @dictcode}[0]['count']}).
+          | #{I18n.t("admin.dups_warn")} (#{@duplicate['duplicate'].select{|info| info['code'] == @dictcode}[0]['count']}). 
           a href="/#{@dictcode}/duplicate" #{I18n.t("admin.show")} 
 
       table.table.table--no-margin.report-table data-resultcount=@report['resultcount']
