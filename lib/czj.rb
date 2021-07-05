@@ -2283,7 +2283,7 @@ class CZJDict < Object
     if not second
       pipeline << {'$match': {'dict': dict, 'empty': {'$exists': false}}}
     else
-      pipeline << {'$match': {'dict': dict, 'empty': {'$exists': false}, 'meanings.relation': {'$elemMatch': {'type': 'translation'}}, '$or': [{'lemma.grammar_note.variant':{'$size': 0}}, {'lemma.grammar_note.variant': {'$exists': false}}]}}
+      pipeline << {'$match': {'dict': dict, 'empty': {'$exists': false}, 'meanings.relation': {'$elemMatch': {'type': 'translation'}}, '$or': [{'lemma.grammar_note.variant':{'$size': 0}}, {'lemma.grammar_note.variant': {'$exists': false}}], '$or': [{'lemma.style_note.variant':{'$size': 0}}, {'lemma.style_note.variant': {'$exists': false}}]}}
     end
     pipeline << {'$group': {
       '_id': group,
@@ -2327,6 +2327,10 @@ class CZJDict < Object
     }
     cursor = @entrydb.aggregate(pipeline, {:allow_disk_use => true, :collation => {'locale' => locale}})
     cursor.each{|re|
+      if re['_id']['trans'] and not re['_id']['front']
+        doc = getone(@dictcode, re['ids'][0])
+        re['_id']['front'] = doc['lemma']['video_front'].to_s if doc['lemma']
+      end
       res['duplicate'] << re
     }
     return res
