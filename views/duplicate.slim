@@ -23,7 +23,7 @@ main role="main"
                   td #{dup['_id']['lemma'].to_s}
                 - else
                   /- if dup['_id']['front']
-                    td #{dup['_id']['front'].to_s}
+                  td #{dup['_id']['front'].to_s}
                   /- else
                   /  td 
                   /    - dup['_id']['trans'].each do |dtr|
