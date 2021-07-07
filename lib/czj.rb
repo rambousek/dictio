@@ -2281,10 +2281,15 @@ class CZJDict < Object
 
     pipeline = []
     if not second
-      pipeline << {'$match': {'dict': dict, 'empty': {'$exists': false}}}
+      if @dict_info[dict]['type'] == 'write'
+        match = {'dict': dict, 'empty': {'$exists': false}}
+      else
+        match = {'dict': dict, 'empty': {'$exists': false}, '$and': [{'$or': [{'lemma.grammar_note.variant':{'$size': 0}}, {'lemma.grammar_note.variant': {'$exists': false}}]}, {'$or': [{'lemma.style_note.variant':{'$size': 0}}, {'lemma.style_note.variant': {'$exists': false}}]}]}
+      end
     else
-      pipeline << {'$match': {'dict': dict, 'empty': {'$exists': false}, 'meanings.relation': {'$elemMatch': {'type': 'translation'}}, '$or': [{'lemma.grammar_note.variant':{'$size': 0}}, {'lemma.grammar_note.variant': {'$exists': false}}], '$or': [{'lemma.style_note.variant':{'$size': 0}}, {'lemma.style_note.variant': {'$exists': false}}]}}
+      match = {'dict': dict, 'empty': {'$exists': false}, 'meanings.relation': {'$elemMatch': {'type': 'translation'}}, '$and': [{'$or': [{'lemma.grammar_note.variant':{'$size': 0}}, {'lemma.grammar_note.variant': {'$exists': false}}]}, {'$or': [{'lemma.style_note.variant':{'$size': 0}}, {'lemma.style_note.variant': {'$exists': false}}]}]}
     end
+    pipeline << {'$match': match}
     pipeline << {'$group': {
       '_id': group,
       'ids': {'$addToSet': '$id'}, 
@@ -2307,6 +2312,7 @@ class CZJDict < Object
       ]
     }}
     pipeline << {'$sort': sort}
+    $stdout.puts pipeline
     return pipeline
   end
 
