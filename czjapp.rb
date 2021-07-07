@@ -60,7 +60,7 @@ class CzjApp < Sinatra::Base
         res = $mongo['users'].find({'login':user}).first
         return false if res.nil?
         if user == res['login'] and pass.crypt(res['password'][0,2]) == res['password']
-          @user_info = {'login'=>res['login'], 'name'=>res['name'], 'email'=>res['email'], 'skupina'=>res['skupina'], 'copy'=>res['copy'], 'autor'=>res['autor'], 'zdroj'=>res['zdroj'], 'perm'=>[], 'admin'=>res['admin'], 'editor'=>res['editor'], 'revizor'=>res['revizor']}
+          @user_info = {'login'=>res['login'], 'name'=>res['name'], 'email'=>res['email'], 'skupina'=>res['skupina'], 'copy'=>res['copy'], 'autor'=>res['autor'], 'zdroj'=>res['zdroj'], 'perm'=>[], 'admin'=>res['admin'], 'editor'=>res['editor'], 'revizor'=>res['revizor'], 'dict_allowed'=>res['lang']}
           res['editor'].each{|e| @user_info['perm'] << 'editor_'+e}
           res['revizor'].each{|e| @user_info['perm'] << 'revizor_'+e}
           @user_info['perm'] = ['admin'] if res['admin']
@@ -338,6 +338,8 @@ class CzjApp < Sinatra::Base
     end
 
     if $is_edit
+      set (:dict_allowed) {|value| condition { @user_info['admin'] or @user_info['dict_allowed'].nil? or @user_info['dict_allowed'] == [] or @user_info['dict_allowed'].include?(value) } }
+
       get '/'+code+'/newentry' do
         newid = dict.get_new_id
         doc = {'user_info' => @user_info, 'newid' => newid}
@@ -455,10 +457,17 @@ class CzjApp < Sinatra::Base
         content_type :json
         body = dict.get_gram(params['id']).to_json
       end
-      get '/editor'+code do
+      get '/editor'+code, :dict_allowed => code do
         @dictcode = code
         @dict_info = $dict_info
         slim :editor, :layout=>false
+      end
+      get '/editor'+code do
+        @dict_info = $dict_info
+        @search_params = {}
+        @target = @default_target
+        @dictcode = @default_dict
+        slim :error401, :status=>401
       end
     end
 
