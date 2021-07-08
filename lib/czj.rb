@@ -2262,6 +2262,15 @@ class CZJDict < Object
     cursor = cursor.skip(start)
     cursor = cursor.limit(limit) if limit.to_i > 0
     cursor.each{|res|
+      res['entries_used'] = []
+      @entrydb.find({'dict': @dictcode, '$or': [
+        {'lemma.video_front': res['location']},
+        {'lemma.video_side': res['location']},
+        {'meanings.text.file.@media_id': res['id']},
+        {'meanings.usages.text.file.@media_id': res['id']}
+      ]}, {'id': 1}).each{|entry|
+        res['entries_used'] << entry['id']
+      }
       report['entries'] << res
     }
     report['query'] = search_cond
