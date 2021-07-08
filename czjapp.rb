@@ -492,6 +492,31 @@ class CzjApp < Sinatra::Base
       content_type :json
       body = dict.get_report(params, @user_info).to_json
     end
+    get '/'+code+'/videoreport' do
+      @dictcode = code
+      @target = ''
+      @dict_info = $dict_info
+      @params = params
+      @report = dict.get_videoreport(params, 0, @report_limit)
+      @skupiny = []
+      @autori = $mongo['media'].distinct('id_meta_author')
+      @zdroje = $mongo['media'].distinct('id_meta_source')
+      @copys = $mongo['media'].distinct('id_meta_copyright')
+      @skupiny = $mongo['entries'].distinct('lemma.pracskupina')
+      slim :videoreport
+    end
+    get '/'+code+'/videoreportlist(/:start)?(/:limit)?' do
+      @dictcode = code
+      @target = ''
+      @dict_info = $dict_info
+      @params = params
+      @report = dict.get_videoreport(params, params['start'].to_i, params['limit'].to_i)
+      slim :videoreportresultlist, :layout=>false
+    end
+    get '/'+code+'/jsonvideoreport' do
+      content_type :json
+      body = dict.get_videoreport(params).to_json
+    end
 
     if $is_admin
       get '/'+code+'/jsonduplicate' do
@@ -509,31 +534,6 @@ class CzjApp < Sinatra::Base
         @params = params
         @report = dict.get_duplicate
         slim :duplicate
-      end
-      get '/'+code+'/videoreport' do
-        @dictcode = code
-        @target = ''
-        @dict_info = $dict_info
-        @params = params
-        @report = dict.get_videoreport(params, 0, @report_limit)
-        @skupiny = []
-        @autori = $mongo['media'].distinct('id_meta_author')
-        @zdroje = $mongo['media'].distinct('id_meta_source')
-        @copys = $mongo['media'].distinct('id_meta_copyright')
-        @skupiny = $mongo['entries'].distinct('lemma.pracskupina')
-        slim :videoreport
-      end
-      get '/'+code+'/videoreportlist(/:start)?(/:limit)?' do
-        @dictcode = code
-        @target = ''
-        @dict_info = $dict_info
-        @params = params
-        @report = dict.get_videoreport(params, params['start'].to_i, params['limit'].to_i)
-        slim :videoreportresultlist, :layout=>false
-      end
-      get '/'+code+'/jsonvideoreport' do
-        content_type :json
-        body = dict.get_videoreport(params).to_json
       end
     end
   }
