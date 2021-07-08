@@ -1,0 +1,8 @@
+- @report['entries'].each do |entry|
+  tr.report-row
+    td = entry['location']
+    td 
+          video width="150" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{@dictcode}/#{entry['location']}" muted="muted"
+            source src="https://files.dictio.info/video#{@dictcode}/#{entry['location']}" type="video/mp4"
+    td = entry['label']
+

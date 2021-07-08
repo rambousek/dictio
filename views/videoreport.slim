@@ -1,0 +1,70 @@
+- @autori = ['MU, Středisko Teiresiás', 'Středisko Teiresiás', 'Teiresisás MNP', 'Teiresiás', 'Teiresiás AKA', 'Teiresiás BIO', 'Teiresiás BJB', 'Teiresiás INF', 'Teiresiás INF1', 'Teiresiás INF2', 'Teiresiás MDD', 'Teiresiás MNP', 'Teiresiás MUNI 4.0', 'Teiresiás OBZ', 'Teiresiás OZZ', 'Teiresiás S2', 'Teiresiás SPED', 'UP Olomouc', 'VUT', 'ÚSS UP Olomouc']
+- @zdroje = ['ÚSS UP Olomouc']
+- @copys = ['MU, Středisko Teiresiás']
+- @skupiny = {  'biologie'=>'biologie',  'mdd'=>'MobiDeafDict'}
+main role="main"
+  section.section role="region" style="background-color: #1c2641"
+    .container
+      .row
+        article.col.col--2.col--start role="article"
+          h1 style="color: white" #{I18n.t("menu.admin")} 
+          h2 class="btn btn-#{@dictcode}" style="color: white" #{I18n.t("admin.dict")} #{I18n.t("dict_menu.#{@dictcode}")}
+  section.section 
+    .container
+      .search-top style="border-radius: 20px; padding: 15px;"
+        article.col.col--start role="article" 
+          h2 #{I18n.t("admin.activeopt")} 
+          form action="/#{@dictcode}/videoreport" method="get"
+            p 
+              | typ videa
+              label
+                input type="checkbox" value="1" name="type_a" checked=(@params['type_a']=='1') A
+              label
+                input type="checkbox" value="1" name="type_b" checked=(@params['type_b']=='1') B
+              label
+                input type="checkbox" value="1" name="type_d" checked=(@params['type_d']=='1') D
+              label
+                input type="checkbox" value="1" name="type_k" checked=(@params['type_k']=='1') K
+            label 
+              | autor:
+              select name="author"
+                option value=""
+                - @autori.each do |aut|
+                  option value="#{aut}" selected=(params['author'].to_s == aut) #{aut}
+            label 
+              | zdroj:
+              select name="source"
+                option value=""
+                - @zdroje.each do |aut|
+                  option value="#{aut}" selected=(params['source'].to_s == aut) #{aut}
+            label 
+              | autor videa:
+              select name="copy"
+                option value=""
+                - @copys.each do |aut|
+                  option value="#{aut}" selected=(params['copy'].to_s == aut) #{aut}
+            label 
+              | prac. skupina:
+              select name="def_skup"
+                option value=""
+                - @skupiny.each do |sk,label|
+                  option value="#{sk}" selected=(params['def_skup'].to_s == sk) #{label}
+            label
+              | stav videa
+              select name="status"
+                option value="published" selected=(params['status'].to_s == 'published') schválené
+                option value="hidden" selected=(params['status'].to_s == 'hidden') skryté
+                option value="all" selected=(params['status'].to_s == 'all' or params['status'].to_s == '') všechna
+            input type="submit" value="filtr"
+
+
+      table.table.table--no-margin.report-table data-resultcount=@report['resultcount']
+        tr
+          th width="10%" (#{@report['resultcount']})
+        tr
+          th video
+          th video
+          th label
+        == slim :videoreportresultlist
+      - if @report['resultcount'].to_i > @report['entries'].size
+        a.btn.load_next_videoreport data-dict=@dictcode #{I18n.t("search.load_next")}

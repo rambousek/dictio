@@ -510,6 +510,26 @@ class CzjApp < Sinatra::Base
         @report = dict.get_duplicate
         slim :duplicate
       end
+      get '/'+code+'/videoreport' do
+        @dictcode = code
+        @target = ''
+        @dict_info = $dict_info
+        @params = params
+        @report = dict.get_videoreport(params, 0, @report_limit)
+        slim :videoreport
+      end
+      get '/'+code+'/videoreportlist(/:start)?(/:limit)?' do
+        @dictcode = code
+        @target = ''
+        @dict_info = $dict_info
+        @params = params
+        @report = dict.get_videoreport(params, params['start'].to_i, params['limit'].to_i)
+        slim :videoreportresultlist, :layout=>false
+      end
+      get '/'+code+'/jsonvideoreport' do
+        content_type :json
+        body = dict.get_videoreport(params).to_json
+      end
     end
   }
 
