@@ -516,6 +516,11 @@ class CzjApp < Sinatra::Base
         @dict_info = $dict_info
         @params = params
         @report = dict.get_videoreport(params, 0, @report_limit)
+        @skupiny = []
+        @autori = $mongo['media'].distinct('id_meta_author')
+        @zdroje = $mongo['media'].distinct('id_meta_source')
+        @copys = $mongo['media'].distinct('id_meta_copyright')
+        @skupiny = $mongo['entries'].distinct('lemma.pracskupina')
         slim :videoreport
       end
       get '/'+code+'/videoreportlist(/:start)?(/:limit)?' do

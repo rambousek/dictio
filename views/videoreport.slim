@@ -1,7 +1,3 @@
-- @autori = ['MU, Středisko Teiresiás', 'Středisko Teiresiás', 'Teiresisás MNP', 'Teiresiás', 'Teiresiás AKA', 'Teiresiás BIO', 'Teiresiás BJB', 'Teiresiás INF', 'Teiresiás INF1', 'Teiresiás INF2', 'Teiresiás MDD', 'Teiresiás MNP', 'Teiresiás MUNI 4.0', 'Teiresiás OBZ', 'Teiresiás OZZ', 'Teiresiás S2', 'Teiresiás SPED', 'UP Olomouc', 'VUT', 'ÚSS UP Olomouc']
-- @zdroje = ['ÚSS UP Olomouc']
-- @copys = ['MU, Středisko Teiresiás']
-- @skupiny = {  'biologie'=>'biologie',  'mdd'=>'MobiDeafDict'}
 main role="main"
   section.section role="region" style="background-color: #1c2641"
     .container
@@ -47,8 +43,9 @@ main role="main"
               | prac. skupina:
               select name="def_skup"
                 option value=""
-                - @skupiny.each do |sk,label|
-                  option value="#{sk}" selected=(params['def_skup'].to_s == sk) #{label}
+                - @skupiny.each do |sk|
+                  - if sk.to_s.strip != ''
+                    option value="#{sk}" selected=(params['def_skup'].to_s == sk) #{I18n.t('admin.group.'+sk.to_s, :default=>sk)}
             label
               | stav videa
               select name="status"
