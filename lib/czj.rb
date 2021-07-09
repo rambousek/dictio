@@ -2338,6 +2338,7 @@ class CZJDict < Object
     if second
       pipeline << {'$unwind': '$meanings'}
       pipeline << {'$unwind': '$meanings.relation'}
+      pipeline << {'$match': {'meanings.relation.type':'translation'}}
     end
     pipeline << {'$group': {
       '_id': group,
