@@ -2321,7 +2321,7 @@ class CZJDict < Object
       else
         group = {'trans': '$meanings.relation'}
       end
-      sort = {'_id.front': 1, '_id.trans': 1}
+      sort = {'_id.front': 1, '_id.trans': 1, '_id.ids': 1}
     end
 
     pipeline = []
@@ -2335,6 +2335,10 @@ class CZJDict < Object
       match = {'dict': dict, 'empty': {'$exists': false}, 'meanings.relation': {'$elemMatch': {'type': 'translation'}}, '$and': [{'$or': [{'lemma.grammar_note.variant':{'$size': 0}}, {'lemma.grammar_note.variant': {'$exists': false}}]}, {'$or': [{'lemma.style_note.variant':{'$size': 0}}, {'lemma.style_note.variant': {'$exists': false}}]}]}
     end
     pipeline << {'$match': match}
+    if second
+      pipeline << {'$unwind': '$meanings'}
+      pipeline << {'$unwind': '$meanings.relation'}
+    end
     pipeline << {'$group': {
       '_id': group,
       'ids': {'$addToSet': '$id'}, 
@@ -2350,12 +2354,20 @@ class CZJDict < Object
     pipeline << {'$match': { 
       'count': {'$gt': 1},
       '_id': {'$ne': {}},
+      'ids': {'$not': {'$size': 1}},
       '$or':[
         {'pos':{'$size':1}},
         {'pos': {'$in':[[]]}},
         {'pos': {'$in':[['']]}}
       ]
     }}
+    if not second
+    pipeline << {'$group': {
+      '_id': {'ids':'$ids'},
+      'front': {'$first': '$_id.front'},
+      'trans': {'$addToSet': '$_id.trans'}
+    }}
+    end
     pipeline << {'$sort': sort}
     $stdout.puts pipeline
     return pipeline
@@ -2378,9 +2390,9 @@ class CZJDict < Object
     }
     cursor = @entrydb.aggregate(pipeline, {:allow_disk_use => true, :collation => {'locale' => locale}})
     cursor.each{|re|
-      if re['_id']['trans'] and not re['_id']['front']
-        doc = getone(@dictcode, re['ids'][0])
-        re['_id']['front'] = doc['lemma']['video_front'].to_s if doc['lemma']
+      if re['_id']['ids'] and not re['front']
+        doc = getone(@dictcode, re['_id']['ids'][0])
+        re['front'] = doc['lemma']['video_front'].to_s if doc['lemma']
       end
       res['duplicate'] << re
     }
