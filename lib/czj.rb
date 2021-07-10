@@ -2311,7 +2311,7 @@ class CZJDict < Object
     end
   end
 
-  def get_duplicate_pipeline(dict, second=false)
+  def get_duplicate_pipeline(dict, remove_syno=true, second=false)
     if @dict_info[dict]['type'] == 'write'
       group = {'lemma': '$lemma.title'}
       sort = {'_id.lemma': 1}
@@ -2332,7 +2332,8 @@ class CZJDict < Object
         match = {'dict': dict, 'empty': {'$exists': false}, '$and': [{'$or': [{'lemma.grammar_note.variant':{'$size': 0}}, {'lemma.grammar_note.variant': {'$exists': false}}]}, {'$or': [{'lemma.style_note.variant':{'$size': 0}}, {'lemma.style_note.variant': {'$exists': false}}]}]}
       end
     else
-      match = {'dict': dict, 'empty': {'$exists': false}, '$and': [{'meanings.relation': {'$elemMatch': {'type': 'translation'}}},{'meanings.relation': {'$not': {'$elemMatch': {'type': 'synonym'}}}}, {'$or': [{'lemma.grammar_note.variant':{'$size': 0}}, {'lemma.grammar_note.variant': {'$exists': false}}]}, {'$or': [{'lemma.style_note.variant':{'$size': 0}}, {'lemma.style_note.variant': {'$exists': false}}]}]}
+      match = {'dict': dict, 'empty': {'$exists': false}, '$and': [{'meanings.relation': {'$elemMatch': {'type': 'translation'}}}, {'$or': [{'lemma.grammar_note.variant':{'$size': 0}}, {'lemma.grammar_note.variant': {'$exists': false}}]}, {'$or': [{'lemma.style_note.variant':{'$size': 0}}, {'lemma.style_note.variant': {'$exists': false}}]}]}
+      match[:$and] << {'meanings.relation': {'$not': {'$elemMatch': {'type': 'synonym'}}}} if remove_syno
     end
     pipeline << {'$match': match}
     if second
@@ -2348,7 +2349,7 @@ class CZJDict < Object
     if @dict_info[dict]['type'] == 'sign' and not second
       pipeline << {'$unionWith': {
         'coll': 'entries',
-        'pipeline': get_duplicate_pipeline(dict, true)
+        'pipeline': get_duplicate_pipeline(dict, remove_syno, true)
       }}
     end
     pipeline << {'$match': { 
@@ -2396,6 +2397,48 @@ class CZJDict < Object
       end
       res['duplicate'] << re
     }
+    return res
+  end
+
+  def get_duplicate_syno(start=0, limit=nil)
+    pipeline = get_duplicate_pipeline(@dictcode, false)
+    if @dict_info[@dictcode]['type'] == 'write'
+      locale = @dictcode
+      locale = 'sk' if @dictcode == 'sj'
+    else
+      locale = 'cs'
+    end
+    pipeline << {'$skip' => start.to_i}
+    pipeline << {'$limit' => limit.to_i} if limit.to_i > 0
+
+    res = {'count'=> 0, 'duplicate'=> []}
+    cursor = @entrydb.aggregate(pipeline, {:allow_disk_use => true, :collation => {'locale' => locale}})
+    cursor.each{|re|
+      if re['_id']['ids'] and not re['front']
+        doc = getone(@dictcode, re['_id']['ids'][0])
+        re['front'] = doc['lemma']['video_front'].to_s if doc['lemma']
+      end
+      add_re = true
+      if re['_id']['ids']
+        syno_num = 0
+        re['_id']['ids'].each{|id|
+          doc = getone(@dictcode, id)
+          if doc['meanings']
+            doc['meanings'].each{|me|
+              if me['relation']
+                me['relation'].select{|rel| rel['type'] == 'synonym'}.each{|rel|
+                  start = rel['meaning_id'].split('-')[0]
+                  syno_num += 1 if re['_id']['ids'].include?(start)
+                }
+              end
+            }
+          end
+        }
+        add_re = false if syno_num >= re['_id']['ids'].size
+      end
+      res['duplicate'] << re if add_re
+    }
+    res['count'] = res['duplicate'].size
     return res
   end
 

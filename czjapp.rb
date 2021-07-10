@@ -549,6 +549,14 @@ class CzjApp < Sinatra::Base
         @report = dict.get_duplicate
         slim :duplicate
       end
+      get '/'+code+'/duplicatesyno' do
+        @dictcode = code
+        @target = ''
+        @dict_info = $dict_info
+        @params = params
+        @report = dict.get_duplicate_syno
+        slim :duplicate
+      end
     end
   }
 
