@@ -2332,13 +2332,12 @@ class CZJDict < Object
         match = {'dict': dict, 'empty': {'$exists': false}, '$and': [{'$or': [{'lemma.grammar_note.variant':{'$size': 0}}, {'lemma.grammar_note.variant': {'$exists': false}}]}, {'$or': [{'lemma.style_note.variant':{'$size': 0}}, {'lemma.style_note.variant': {'$exists': false}}]}]}
       end
     else
-      match = {'dict': dict, 'empty': {'$exists': false}, 'meanings.relation': {'$elemMatch': {'type': 'translation'}}, '$and': [{'$or': [{'lemma.grammar_note.variant':{'$size': 0}}, {'lemma.grammar_note.variant': {'$exists': false}}]}, {'$or': [{'lemma.style_note.variant':{'$size': 0}}, {'lemma.style_note.variant': {'$exists': false}}]}]}
+      match = {'dict': dict, 'empty': {'$exists': false}, '$and': [{'meanings.relation': {'$elemMatch': {'type': 'translation'}}},{'meanings.relation': {'$not': {'$elemMatch': {'type': 'synonym'}}}}, {'$or': [{'lemma.grammar_note.variant':{'$size': 0}}, {'lemma.grammar_note.variant': {'$exists': false}}]}, {'$or': [{'lemma.style_note.variant':{'$size': 0}}, {'lemma.style_note.variant': {'$exists': false}}]}]}
     end
     pipeline << {'$match': match}
     if second
       pipeline << {'$unwind': '$meanings'}
       pipeline << {'$unwind': '$meanings.relation'}
-      pipeline << {'$match': {'meanings.relation.type':'translation'}}
     end
     pipeline << {'$group': {
       '_id': group,
