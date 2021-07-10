@@ -53,7 +53,7 @@ main role="main"
                 option value="hidden" selected=(params['status'].to_s == 'hidden') skryté
                 option value="all" selected=(params['status'].to_s == 'all' or params['status'].to_s == '') všechna
             input type="submit" value="filtr"
-
+          a.btn href="/#{@dictcode}/csvvideoreport?type_a=#{@params['type_a']}&type_b=#{@params['type_b']}&type_d=#{@params['type_d']}&type_k=#{@params['type_k']}&author=#{@params['author']}&source=#{@params['source']}&copy=#{@params['copy']}&def_skup=#{@params['def_skup']}&status=#{@params['status']}" CSV export
 
       table.table.table--no-margin.report-table data-resultcount=@report['resultcount']
         tr
