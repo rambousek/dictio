@@ -517,6 +517,20 @@ class CzjApp < Sinatra::Base
       content_type :json
       body = dict.get_videoreport(params).to_json
     end
+    get '/'+code+'/csvvideoreport' do
+      content_type 'text/csv; charset=utf-8'
+      attachment 'export.csv'
+      csv = ['název;hesla;autor;zdroj;autor videa']
+      dict.get_videoreport(params)['entries'].each{|rep|
+        ri = [rep['location']]
+        ri << rep['entries_used'].join(', ')
+        ri << rep['id_meta_author']
+        ri << rep['id_meta_source']
+        ri << rep['id_meta_copyright']
+        csv << ri.join(';')
+      }
+      body = csv.join("\n")
+    end
 
     if $is_admin
       get '/'+code+'/jsonduplicate' do
