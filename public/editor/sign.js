@@ -1428,6 +1428,9 @@ function load_doc(id) {
         Ext.getCmp('tabForm').query('component[name="pracskupina"]')[0].setValue(data['lemma']['pracskupina']);
         Ext.getCmp('tabForm').query('component[name="puvod_slova"]')[0].setValue(data['lemma']['puvod']);
         Ext.getCmp('tabForm').query('component[name="admin_comment"]')[0].setValue(data['lemma']['admin_comment']);
+        if (data['lemma']['homonym']) {
+          Ext.getCmp('tabForm').query('component[name="homonym"]')[0].setValue(data['lemma']['homonym']);
+        }
         if (data['collocations'] && data['collocations']['swcompos'] && data['collocations']['swcompos'] != "") {
           Ext.getCmp('tabForm').query('component[name="swcompos"]')[0].setValue(data['collocations']['swcompos'].toUpperCase());
         }
@@ -1922,6 +1925,7 @@ function save_doc(id) {
       'puvod': Ext.getCmp('tabForm').query('component[name="puvod_slova"]')[0].getValue(),
       'admin_comment': Ext.getCmp('tabForm').query('component[name="admin_comment"]')[0].getValue(),
       'status': Ext.getCmp('tabForm').query('component[name="stav"]')[0].getValue(),
+      'homonym': Ext.getCmp('tabForm').query('component[name="homonym"]')[0].getValue(),
       'grammar_note': [{
         '_text': Ext.getCmp('tabForm').query('component[name="gramatikatext_text"]')[0].getValue(), 
         '@region': Ext.getCmp('styldesc').query('component[name="region"]')[0].getValue().filter(item => item != '').join(';'),
@@ -4434,7 +4438,7 @@ Ext.onReady(function(){
                     });
                   }
                 }
-            },create_comment_button('hamnbox'), create_stav()]
+            }, create_comment_button('hamnbox'), create_stav()]
           }, {
             xtype: 'flash',
             name: 'hamnosys',
@@ -4442,9 +4446,17 @@ Ext.onReady(function(){
            /* url: '/editor/hamnosys1.swf?lang=cs&table_xml_url=/editor/ham.txt&charsLayout_xml_url=/editor/charactersLayout.xml&form_field_id=hamndata',*/
             width: 700,
             height: 250,
-          } ,create_copyright('hamnosys', false)]
+          }, create_copyright('hamnosys', false)]
         }]
-      },{
+      }, {
+        xtype: 'fieldset',
+        title: 'homonym',
+        id: 'boxhomon',
+        items: [{
+          xtype: 'textfield',
+          name: 'homonym'
+        }]
+      }, {
         xtype: 'fieldset',
         collapsible: true,        
         title: locale[lang].gramdesc,
