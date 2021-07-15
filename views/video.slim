@@ -4,7 +4,7 @@ main role="main"
       .row
         article.col.col--2.col--start role="article"
           h1 style="color: white" #{I18n.t("menu.admin")} 
-          h2.btn style="color: white" #{I18n.t("admin.dup")}
+          h2.btn style="color: white" #{I18n.t("admin.video")}
   .container
       article.col.col--start role="article"
          .row
@@ -20,9 +20,18 @@ main role="main"
                   a.btn.btn--secondary href="https://admin.dictio.info/users" #{I18n.t("admin.users.title")}                  
             .col.col--2.col--start.layout-aside 
               table
-                - @report['duplicate'].each do |dup|
-                  tr
-                    td 
-                      a.btn class="btn-secondary btn-#{dup['code']}" href="/#{dup['code']}/duplicate" #{I18n.t("dict.#{dup['code']}")}
-                    td 
-                      a href="/#{dup['code']}/duplicate" #{dup['count']}
+                tr
+                  td 
+                    a.btn class="btn-secondary btn-czj" href="/czj/videoreport" #{I18n.t("dict.czj")}
+                tr
+                  td
+                    a.btn class="btn-secondary btn-asl" href="/asl/videoreport" #{I18n.t("dict.asl")}
+                tr
+                  td
+                    a.btn class="btn-secondary btn-is" href="/is/videoreport" #{I18n.t("dict.is")}
+                tr
+                  td
+                    a.btn class="btn-secondary btn-spj" href="/spj/videoreport" #{I18n.t("dict.spj")}                 
+                tr
+                  td
+                    a.btn class="btn-secondary btn-ogs" href="/ogs/videoreport" #{I18n.t("dict.ogs")}
