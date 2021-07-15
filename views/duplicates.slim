@@ -21,5 +21,6 @@ main role="main"
                 - @report['duplicate'].each do |dup|
                   tr
                     td 
-                      a.btn class="btn-secondary btn-#{dup['code']}" href="/#{dup['code']}/duplicate" #{I18n.t("dict_menu.#{dup['code']}")}
-                    td #{dup['count']}
+                      a.btn class="btn-secondary btn-#{dup['code']}" href="/#{dup['code']}/duplicate" #{I18n.t("dict.#{dup['code']}")}
+                    td 
+                      a href="/#{dup['code']}/duplicate" #{dup['count']}
