@@ -982,6 +982,33 @@ class CZJDict < Object
       add_homonym_target(data['lemma']['homonym'], entryid)
     end
 
+    #add variants 
+    fmedia = get_media_location(data['lemma']['video_front'].to_s, @dictcode)
+    if fmedia['id'].to_s 
+      if data['lemma']['grammar_note']
+        data['lemma']['grammar_note'].each{|grn|
+          if grn['variant']
+            grn['variant'].each{|var|
+              if var['_text'].to_s != ''
+                add_variant_target('grammar', var['_text'].to_s, fmedia['id'])
+              end
+            }
+          end
+        }
+      end
+      if data['lemma']['style_note']
+        data['lemma']['style_note'].each{|grn|
+          if grn['variant']
+            grn['variant'].each{|var|
+              if var['_text'].to_s != ''
+                add_variant_target('style', var['_text'].to_s, fmedia['id'])
+              end
+            }
+          end
+        }
+      end
+    end
+
     #save media info
     if data['update_video']
       $stdout.puts "update video"
@@ -1088,6 +1115,27 @@ class CZJDict < Object
     end
   end
 
+  def add_variant_target(type, variant_media, origin_media)
+    vmedia = get_media(variant_media, @dictcode)
+    if vmedia['location'].to_s != ''
+      query = {'dict' => @dictcode, 'lemma.video_front' => vmedia['location'].to_s}
+      @entrydb.find(query).each{|doc|
+        if doc['lemma'][type+'_note'].nil? or doc['lemma'][type+'_note'][0].nil?
+          doc['lemma'][type+'_note'] = [{'variant' => []}]
+        end
+        if doc['lemma'][type+'_note'][0]['variant'].nil?
+          doc['lemma'][type+'_note'][0]['variant'] = []
+        end
+        if not doc['lemma'][type+'_note'][0]['variant'].any?{|var| var['_text'] == origin_media}
+          doc['lemma'][type+'_note'][0]['variant'] << {'_text' => origin_media}
+          $stdout.puts 'add variant to entry '+ doc['id']+ ':' + origin_media + ' ' + type
+          @entrydb.find({'dict'=>doc['dict'], 'id'=>doc['id']}).delete_many
+          @entrydb.insert_one(doc)
+        end
+      }
+    end
+  end
+
   def publish_usage_relation(dict, rel_usage)
     query = {'dict'=>dict, 'meanings.usages.id'=>rel_usage}
     @entrydb.find(query).each{|doc|
@@ -1169,7 +1217,7 @@ class CZJDict < Object
         entry['meanings'].each{|me|
           if me['usages']
             me['usages'].each{|us|
-              files << us['text']['file']['@media_id'] if us['text'] and us['text']['file'] and us['text']['file']['@media_id']
+              files << us['text']['file']['@media_id'] if us['text'] and us['text']['file'] and us['text']['file'].is_a?(Hash) and us['text']['file']['@media_id']
             }
           end
           files << me['text']['file']['@media_id'] if me['text'] and me['text']['file'] and me['text']['file']['@media_id']
