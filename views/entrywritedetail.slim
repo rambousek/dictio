@@ -309,7 +309,7 @@
     a class="btn btn-secondary" style="background-color: dimgray; font-size: 0.7rem" href="/#{@entry['dict']}/show/#{@entry['id']}"
       | #{I18n.t("search.translate_view")}
 
-- if @entry['revcollocations'] and @entry['revcollocations']['count'].to_i > 0
+- if @entry['revcollocation'] and @entry['revcollocation']['count'].to_i > 0
   .detail__block.detail__block--line
     div.detail-block
       h3.headline.detail-block__headline.revcolloc-headline data-url="/#{@dictcode}/revcolloc/#{@entry['id']}" == I18n.t("entry.collocation_with_this")

@@ -1,5 +1,5 @@
-- if @entry['revcollocations'] and @entry['revcollocations']['entries'].size > 0
-  - @entry['revcollocations']['entries'].each do |colloc|
+- if @entry['rev'+@type] and @entry['rev'+@type]['entries'].size > 0
+  - @entry['rev'+@type]['entries'].each do |colloc|
     div.dropdown__item
       div.dropdown__item__name
         .row.row--start
