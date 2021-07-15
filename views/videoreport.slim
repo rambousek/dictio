@@ -4,23 +4,29 @@ main role="main"
       .row
         article.col.col--2.col--start role="article"
           h1 style="color: white" #{I18n.t("menu.admin")} 
-          h2 class="btn btn-#{@dictcode}" style="color: white" #{I18n.t("admin.dict")} #{I18n.t("dict_menu.#{@dictcode}")}
+          h2 class="btn btn-#{@dictcode}" style="color: white"  #{I18n.t("admin.video")} - #{I18n.t("admin.dict")} #{I18n.t("dict_menu.#{@dictcode}")}
   section.section 
     .container
       .search-top style="border-radius: 20px; padding: 15px;"
         article.col.col--start role="article" 
           h2 #{I18n.t("admin.activeopt")} 
           form action="/#{@dictcode}/videoreport" method="get"
-            p 
-              | typ videa
-              label
-                input type="checkbox" value="1" name="type_a" checked=(@params['type_a']=='1') A
-              label
-                input type="checkbox" value="1" name="type_b" checked=(@params['type_b']=='1') B
-              label
-                input type="checkbox" value="1" name="type_d" checked=(@params['type_d']=='1') D
-              label
-                input type="checkbox" value="1" name="type_k" checked=(@params['type_k']=='1') K
+            table 
+              tr
+                td 
+                  | typ videa
+                td
+                  label
+                    input type="checkbox" value="1" name="type_a" checked=(@params['type_a']=='1') A
+                td
+                  label
+                    input type="checkbox" value="1" name="type_b" checked=(@params['type_b']=='1') B
+                td
+                  label
+                    input type="checkbox" value="1" name="type_d" checked=(@params['type_d']=='1') D
+                td
+                  label
+                    input type="checkbox" value="1" name="type_k" checked=(@params['type_k']=='1') K
             label 
               | autor:
               select name="author"
