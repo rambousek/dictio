@@ -395,6 +395,11 @@ cs:
       vyznam: "význam"
       _us: "příklady užití"
       vazby: "ekvivalenty"
+    videos:
+      a: "čelní"
+      b: "boční"
+      d: "definice"
+      k: "příklad užití"    
     presets:
       revdef: "definice ke schválení"
       comdef: "komentované definice"
