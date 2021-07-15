@@ -560,6 +560,19 @@ class CzjApp < Sinatra::Base
     end
   }
 
+  if $is_edit or $is_admin
+    get '/video' do
+      @dict_info = $dict_info
+      @search_params = {}
+      @target = @default_target
+      @dictcode = @default_dict
+      @request = request
+      @selected_page = 'help'
+      page = 'video'
+      slim page.to_sym
+    end
+  end
+
   if $is_admin
     set (:admin) {|value| condition { @user_info['admin'] == value } }
 
