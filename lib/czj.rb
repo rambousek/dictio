@@ -977,6 +977,11 @@ class CZJDict < Object
       }
     end
 
+    #add homonym
+    if data['lemma']['homonym'] and data['lemma']['homonym'].to_s != ''
+      add_homonym_target(data['lemma']['homonym'], entryid)
+    end
+
     #save media info
     if data['update_video']
       $stdout.puts "update video"
@@ -1069,6 +1074,18 @@ class CZJDict < Object
         @entrydb.insert_one(doc)
       end
     }
+  end
+
+  def add_homonym_target(entryid, homonym)
+    doc = getone(@dictcode, entryid)
+    if doc
+      if doc['lemma']['homonym'].nil? or doc['lemma']['homonym'].to_s != homonym
+        doc['lemma']['homonym'] = homonym
+        $stdout.puts 'add homonym to target '+entryid + ':' + homonym
+        @entrydb.find({'dict'=>doc['dict'], 'id'=>doc['id']}).delete_many
+        @entrydb.insert_one(doc)
+      end
+    end
   end
 
   def publish_usage_relation(dict, rel_usage)
