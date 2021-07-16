@@ -409,7 +409,7 @@ de:
       revtrans: "Äquivalenten zu genehmigen"
       comtrans: "komentiert Äquivalenten"
     users:
-      title: "správa uživatelů"
+      title: "Benutzerverwaltung"
       login: "login"
       email: "e-mail"
       name: "jméno a příjmení"

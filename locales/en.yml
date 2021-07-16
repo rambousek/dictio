@@ -409,7 +409,7 @@ en:
       revtrans: "equivalents to approve"
       comtrans: "commented equivalents"
     users:
-      title: "users administration"
+      title: "user administration"
       login: "Login"
       email: "E-mail"
       name: "Full name"

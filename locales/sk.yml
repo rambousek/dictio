@@ -409,7 +409,7 @@ sk:
       revtrans: "ekvivalenty na schválenie"
       comtrans: "komentované ekvivalenty"
     users:
-      title: "správa uživatelů"
+      title: "správa použivateľov"
       login: "login"
       email: "e-mail"
       name: "jméno a příjmení"
