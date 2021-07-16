@@ -296,7 +296,7 @@
         .detail__block.detail__block--wide
           == slim :fullentrytrans
 
-- if @entry['revcollocations'] and @entry['revcollocations']['count'].to_i > 0
+- if @entry['revcollocation'] and @entry['revcollocation']['count'].to_i > 0
   .row.row--start
     .col.col--2.col--precise
       .detail__block.detail__block--line

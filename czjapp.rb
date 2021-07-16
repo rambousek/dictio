@@ -322,7 +322,26 @@ class CzjApp < Sinatra::Base
       slim :transresultlist, :layout=>false
     end
     get '/'+code+'/revcolloc/:id' do
-      @entry = dict.get_revcolloc(params['id'])
+      @entry = dict.get_revcolloc(params['id'], 'collocation')
+      @type = 'collocation'
+      if $dict_info[code]['type'] == 'write'
+        slim :revcollocwrite, :layout=>false
+      else
+        slim :revcollocsign, :layout=>false
+      end
+    end
+    get '/'+code+'/revderivat/:id' do
+      @entry = dict.get_revcolloc(params['id'], 'derivat')
+      @type = 'derivat'
+      if $dict_info[code]['type'] == 'write'
+        slim :revcollocwrite, :layout=>false
+      else
+        slim :revcollocsign, :layout=>false
+      end
+    end
+    get '/'+code+'/revkompozitum/:id' do
+      @entry = dict.get_revcolloc(params['id'], 'kompozitum')
+      @type = 'kompozitum'
       if $dict_info[code]['type'] == 'write'
         slim :revcollocwrite, :layout=>false
       else

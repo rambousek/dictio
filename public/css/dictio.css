@@ -109,10 +109,10 @@ img.error {align-self: center}
 .report- {background-color: gray !important; font-size: 0.7rem !important;}
 .report-:hover {background-color: darkgreen !important; font-size: 0.7rem !important;}
 
-.revcolloc-headline {
+.revcolloc-headline, .revkompozitum-headline, .revderivat-headline {
   cursor: pointer;
 }
-.revcolloc-headline:after {
+.revcolloc-headline:after, .revkompozitum-headline:after, .revderivat-headline:after {
   content: '';
   position: absolute;
   width: 15px;
@@ -121,7 +121,7 @@ img.error {align-self: center}
   top: 30%;
   background-size: cover;
 }
-.revcolloc-headline.waiting:after {
+.revcolloc-headline.waiting:after, .revkompozitum-headline.waiting:after, .revderivat-headline.waiting:after {
   content: '';
   position: absolute;
   width: 40px;
