@@ -327,10 +327,11 @@ en:
     notfound: ":( Page not found"
     internal: ":( Internal error"
     internal-text: "Try it later please."
-    access: "nemáte přístup"
+    access: "Forbidden"
   admin:
     reports: "List of entries"
-    dup: "Duplicate entries"    
+    dup: "List of duplicate entries"
+    video: "List of video files"    
     dups_warn: "Caution: the dictionary may contain duplicate entries "
     show: "list"
     user: "logged user "
@@ -394,6 +395,12 @@ en:
       vyznam: "meaning"
       _us: "example sentence"
       vazby: "equivalents"
+    videos:
+      a: "front view"
+      b: "side view"
+      d: "definition"
+      k: "example sentence"  
+      g: "grammar description"  
     presets:
       revdef: "definitions to approve"
       comdef: "commented definitions"

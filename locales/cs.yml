@@ -331,7 +331,7 @@ cs:
     internal-text: "Zkuste to prosím později."
     access: "nemáte přístup"
   admin:    
-    reports: "přehledy hesel"
+    reports: "přehled hesel"
     dup: "přehled duplicit"
     video: "přehled videí"    
     dups_warn: "Upozornění: slovník pravděpodobně obsahuje duplicitní hesla "

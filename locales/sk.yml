@@ -329,8 +329,9 @@ sk:
     internal-text: "Skúste to, prosím, neskôr."
     access: "nemáte přístup"
   admin:
-    reports: "prehľady hesiel"
-    dup: "prehľad duplicít"    
+    reports: "prehľad hesiel"
+    dup: "prehľad duplicít"
+    video: "prehľad videí"    
     dups_warn: "Upozornenie: slovník pravdepodobne obsahuje duplicitné hesla "
     show: "vypsať"
     user: "prihlásený používateľ "
@@ -394,6 +395,12 @@ sk:
       vyznam: "význam"
       _us: "príklady použitia"
       vazby: "ekvivalenty"
+    videos:
+      a: "čelné"
+      b: "bočné"
+      d: "definícia"
+      k: "príklad použitia"  
+      g: "gramatický popis"  
     presets:
       revdef: "definícia na schválenie"
       comdef: "komentované definície"

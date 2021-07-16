@@ -330,7 +330,8 @@ de:
     access: "nemáte přístup"
   admin:
     reports: "Liste der Einträge"
-    dup: "Doppelte Einträge"    
+    dup: "Liste der doppelten Einträge"
+    video: "Liste der Videodateien"    
     dups_warn: "Vorsicht: das Wörterbuch kann doppelte Einträge enthalten "
     show: "Anzeige"    
     user: "angemeldeter Benutzer"
@@ -394,6 +395,12 @@ de:
       vyznam: "Bedeutungen"
       _us: "Beispielsätze"
       vazby: "Verbindungen"
+    videos:
+      a: "Frontvideo"
+      b: "Seitenvideo"
+      d: "Definition"
+      k: "Beispielsätse"  
+      g: "Grammatikbeschreibung"  
     presets:
       revdef: "Definition zu genehmigen"
       comdef: "komentiert Definitione"      
