@@ -401,7 +401,8 @@ cs:
       a: "čelní"
       b: "boční"
       d: "definice"
-      k: "příklad užití"    
+      k: "příklad užití"  
+      g: "gramatický popis"  
     presets:
       revdef: "definice ke schválení"
       comdef: "komentované definice"

@@ -26,12 +26,15 @@ main role="main"
                     input type="checkbox" value="1" name="type_d" checked=(@params['type_d']=='1') D - #{I18n.t("admin.videos.d")} 
                 td
                   label
-                    input type="checkbox" value="1" name="type_k" checked=(@params['type_k']=='1') K - #{I18n.t("admin.videos.k")} 
+                    input type="checkbox" value="1" name="type_k" checked=(@params['type_k']=='1') K - #{I18n.t("admin.videos.k")}
+                td
+                  label
+                    input type="checkbox" value="1" name="type_g" checked=(@params['type_g']=='1') G - #{I18n.t("admin.videos.g")}  
               tr
                 td
                   label
                     | autor:
-                td colspan="4"
+                td colspan="5"
                   select name="author"
                     option value=""
                     - @autori.each do |aut|
@@ -40,7 +43,7 @@ main role="main"
                 td
                   label 
                     | zdroj:
-                td colspan="4"
+                td colspan="5"
                   select name="source"
                     option value=""
                     - @zdroje.each do |aut|
@@ -49,7 +52,7 @@ main role="main"
                 td 
                   label 
                     | autor videa: 
-                td colspan="4"
+                td colspan="5"
                   select name="copy"
                     option value=""
                     - @copys.each do |aut|
@@ -58,7 +61,7 @@ main role="main"
                 td
                   label
                     | prac. skupina:
-                td colspan="4"
+                td colspan="5"
                   select name="def_skup"
                     option value=""
                     - @skupiny.each do |sk|
@@ -68,7 +71,7 @@ main role="main"
                 td
                   label
                     | stav videa
-                td colspan="4"
+                td colspan="5"
                   select name="status"
                     option value="published" selected=(params['status'].to_s == 'published') schválené
                     option value="hidden" selected=(params['status'].to_s == 'hidden') skryté
@@ -77,6 +80,7 @@ main role="main"
                 td
                 td
                   input.btn type="submit" value="zobrazit"
+                td
                 td
                 td
                 td
