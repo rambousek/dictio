@@ -511,6 +511,57 @@ class CzjApp < Sinatra::Base
       content_type :json
       body = dict.get_report(params, @user_info).to_json
     end
+    get '/'+code+'/csvreport' do
+      content_type 'text/csv; charset=utf-8'
+      attachment code+'report.csv'
+      if $dict_info[code]['type'] == 'sign'
+        csv = ['ID;video čelní;video boční;překlady']
+        dict.get_report(params, @user_info)['entries'].each{|rep|
+          ri = [rep['id']]
+          ri << rep['lemma']['video_front'].to_s
+          ri << rep['lemma']['video_side'].to_s
+          rels = []
+          if rep['meanings']
+            rep['meanings'].each{|rm|
+              if rm['relation']
+                rm['relation'].each{|rel|
+                  rels << rel['target'] + ':' + rel['meaning_id']
+                }
+              end
+            }
+          end
+          ri << rels.join(',')
+          csv << ri.join(';')
+        }
+      else
+        csv = ['ID;lemma;slovní druh;význam ID;definice;překlady']
+        dict.get_report(params, @user_info)['entries'].each{|rep|
+          if rep['meanings'].size > 0
+            rep['meanings'].each{|rm|
+              ri = [rep['id']]
+              ri << rep['lemma']['title']
+              ri << rep['lemma']['grammar_note'][0]['@slovni_druh'].to_s if rep['lemma']['grammar_note'] and rep['lemma']['grammar_note'][0]
+              ri << rm['id']
+              ri << rm['text']['_text'].to_s.gsub("\n"," ") if rm['text']
+              rels = []
+              if rm['relation']
+                rm['relation'].each{|rel|
+                  rels << rel['target'] + ':' + rel['meaning_id']
+                }
+              end
+              ri << rels.join(',')
+              csv << ri.join(';')
+            }
+          else
+            ri = [rep['id']]
+            ri << rep['lemma']['title']
+            ri << rep['lemma']['grammar_note'][0]['@slovni_druh'].to_s if rep['lemma']['grammar_note'] and rep['lemma']['grammar_note'][0]
+            csv << ri.join(';')
+          end
+        }
+      end
+      body = csv.join("\n")
+    end
     get '/'+code+'/videoreport' do
       @dictcode = code
       @target = ''

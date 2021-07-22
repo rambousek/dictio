@@ -161,6 +161,7 @@ main role="main"
                 a.btn.btn-secondary.report-ne onclick="URLChange('koment','ne')" #{I18n.t("admin.not")} #{I18n.t("admin.koment."+@params['komentbox'])}
                 span.closebtn2 onclick="URLRemove2('koment','komentbox')" x       
           hr style="margin: 5px;"
+          a.btn style="background-color: gray;" href="/#{@dictcode}/csvreport?#{@params.map{|k,v| "#{k}=#{v}"}.join('&')}" CSV export
           h2 onclick="showhide('allopt')" style="cursor: pointer"
             | #{I18n.t("admin.moreopt")} >>
           div id="allopt" style="display: none" 
