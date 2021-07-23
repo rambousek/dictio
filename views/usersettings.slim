@@ -1,0 +1,29 @@
+main role="main"
+  section.section role="region"
+    .container
+      .row
+        article.col.col--2.col--start role="article"
+          h1 Uživatelské nastavení
+          = @user_info
+          table.info.user-info
+            form
+              tr
+                td
+                  label #{I18n.t("admin.users.login")}
+                td
+                  input style="background-color: transparent" disabled=true type="text" value=@user_info['login']
+              tr
+                td
+                  label #{I18n.t("admin.users.name")}:
+                td
+                  input type="text" name="name" value=@user_info['name']
+              tr
+                td
+                  label #{I18n.t("admin.users.email")}:
+                td
+                  input type="text" name="email" value=@user_info['email']
+              tr
+                td
+                  label #{I18n.t("admin.users.pass")}:
+                td
+                  input type="password" name="pass" 

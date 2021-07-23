@@ -641,6 +641,13 @@ class CzjApp < Sinatra::Base
       page = 'video'
       slim page.to_sym
     end
+
+    get '/usersettings' do
+      @dictcode = 'czj'
+      @target = ''
+      @dict_info = $dict_info
+      slim :usersettings
+    end
   end
 
   if $is_admin
