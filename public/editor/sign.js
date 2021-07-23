@@ -2798,7 +2798,8 @@ function create_vyznam_links(parentid) {
     cls: 'rellinkset',
     name: 'rellinkset',
     layout: {
-      type: 'vbox'
+      type: 'vbox',
+      align: 'right',
     },
     items: [{
       xtype: 'container',
@@ -2925,7 +2926,7 @@ function create_vyznam_links(parentid) {
         tpl: new Ext.XTemplate(
           '<tpl for="."><div class="x-boundlist-item"><b>{title}: {number}:</b> <i>{def}</i><tpl if="front!=&quot;&quot;"><div cursor: hand;"><video width="80px" poster="https://www.dictio.info/thumb/video{target}/{front}" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video{target}/{front}"></video>{front}</div></tpl> <tpl if="loc!=&quot;&quot;"><div cursor: hand;"><video width="120px" poster="https://www.dictio.info/thumb/video{target}/{loc}" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video{target}/{loc}"></source></video>{loc}</div></tpl></div></tpl>'
         ),
-      },
+      },create_stav(),
         {
           xtype: 'button',
           icon: '/editor/delete.png',
@@ -2937,9 +2938,11 @@ function create_vyznam_links(parentid) {
     },{
       xtype: 'container',
       layout: {
-        type: 'hbox'
+        type: 'hbox',
+        pack: 'end',
+        align: 'right',
       },
-      items: [create_stav(),
+      items: [
         {
           xtype: 'textfield',
           name: 'notransuser',
