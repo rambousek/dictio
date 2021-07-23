@@ -1673,6 +1673,10 @@ function load_doc(id) {
                 } else {
                   add_class_rels[inner] = 'text-'+target;
                 }
+                if (trans['notrans'] && trans['notrans'] == true) {
+                  transset.query('component[name=notrans]')[0].setValue(true);
+                  transset.query('component[name=notransuser]')[0].setValue(trans['notransuser']);
+                }
                 vztahy.push({type:type, meaningid:trans['meaning_id'], link:transset});
               });
               //sort 
@@ -2137,6 +2141,10 @@ function save_doc(id) {
             'target': reltar,
             'status': trset[j].query('component[name="stav"]')[0].getValue()
           };
+          if (trset[j].query('component[name=notrans]')[0].checked) {
+            newrel.notrans = true;
+            newrel.notransuser = trset[j].query('component[name=notransuser]')[0].value;
+          }
           newmean.relation.push(newrel);
         }
       }
@@ -2790,138 +2798,170 @@ function create_vyznam_links(parentid) {
     cls: 'rellinkset',
     name: 'rellinkset',
     layout: {
-      type: 'hbox'
+      type: 'vbox'
     },
     items: [{
-      xtype: 'combobox',
-      name: 'type',
-      queryMode: 'local',
-      displayField: 'text',
-      valueField: 'value',
-      store: typeStore,
-      forceSelection: true,
-      autoSelect: true,
-      editable: false,
-      allowBlank: true,
-      width: 110,
-      listConfig: {
-        getInnerTpl: function() {
-          return '<div class="{value}">{text}</div>';
+      xtype: 'container',
+      layout: {
+        type: 'hbox'
+      },
+      items: [{
+        xtype: 'combobox',
+        name: 'type',
+        queryMode: 'local',
+        displayField: 'text',
+        valueField: 'value',
+        store: typeStore,
+        forceSelection: true,
+        autoSelect: true,
+        editable: false,
+        allowBlank: true,
+        width: 110,
+        listConfig: {
+          getInnerTpl: function() {
+            return '<div class="{value}">{text}</div>';
+          }
         }
-      }
-    },{
-      xtype: 'panel',
-      name: 'vztahtitle',
-      cls: 'vztah-title',
-      html: '',
-      width: 130,
-      autoHeight: true,
-      color: 'red',
-    },{
-      xtype: 'combobox',
-      name: 'rellink',
-      store: relationlist,
-      displayField: 'title',
-      valueField: 'id',
-      editable: true,
-      emptyText: locale[lang].search_entry,
-      queryMode: 'local',
-      width: 200,
-      opened: false,
-      listeners:{
-        'blur': function(combo) {
-          if ((!(Ext.getCmp(name).query('component[name="type"]')[0].getValue().startsWith('translation_'))) && combo.getValue().startsWith(entryid+'-')) {
-            Ext.Msg.alert('',locale[lang]['warn_same_entry']);
-          }
-          var rellink = combo.getValue();
-          if (rellink.match(/^[0-9]*-[0-9]*/) == null) {
-            var prevbox = Ext.getCmp(combo.id).up().query('component[name="vztahtitle"]')[0];
-            prevbox.update(rellink);
-            document.getElementById(prevbox.id+"-innerCt").classList.add('redtext');
-          }
-        },
-        'select': function(combo, record, index) {
-          console.log('select')
-          console.log(parentid)
-          if (combo.getValue() != '') {
-            console.log(combo.getValue());
-            combo.setRawValue(combo.getValue());
-            var type = Ext.getCmp(name).query('component[name="type"]')[0].getValue();
-            var target = dictcode;
-            if (type.startsWith('translation_')) {
-              var tar = type.split('_');
-              target = tar[1];
+      },{
+        xtype: 'panel',
+        name: 'vztahtitle',
+        cls: 'vztah-title',
+        html: '',
+        width: 130,
+        autoHeight: true,
+        color: 'red',
+      },{
+        xtype: 'combobox',
+        name: 'rellink',
+        store: relationlist,
+        displayField: 'title',
+        valueField: 'id',
+        editable: true,
+        emptyText: locale[lang].search_entry,
+        queryMode: 'local',
+        width: 200,
+        opened: false,
+        listeners:{
+          'blur': function(combo) {
+            if ((!(Ext.getCmp(name).query('component[name="type"]')[0].getValue().startsWith('translation_'))) && combo.getValue().startsWith(entryid+'-')) {
+              Ext.Msg.alert('',locale[lang]['warn_same_entry']);
             }
-            //ajax load preview
-            Ext.Ajax.request({
-              url: '/'+target+'/relationinfo',
-              params: {
-                meaning_id: combo.getValue()
-              },
-              method: 'get',
-              success: function(response) {
-                var rinfo = response.responseText;
-                var prevbox = Ext.getCmp(combo.id).up().query('component[name="vztahtitle"]')[0];
-                if (rinfo.charAt(0) == 'T') {
-                  var rtitle = rinfo.substring(2);
-                  prevbox.update(rtitle);
-                }
-                if (rinfo.charAt(0) == 'V') {
-                  var videoloc = rinfo.substring(2);
-                  prevbox.update('<div class="videofancybox" data-ratio="0.8" class="usage" style="width:120px; cursor: zoom-in;"><video width="80px" poster="https://www.dictio.info/thumb/video'+target+'/'+videoloc+'" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video'+target+'/'+videoloc+'"></source></video></div>')
-                  prevbox.setHeight(60);
-                }
-                document.getElementById(prevbox.id+"-innerCt").classList.add('text-'+target)
-                document.getElementById(prevbox.id+"-innerCt").classList.remove('redtext')
+            var rellink = combo.getValue();
+            if (rellink.match(/^[0-9]*-[0-9]*/) == null) {
+              var prevbox = Ext.getCmp(combo.id).up().query('component[name="vztahtitle"]')[0];
+              prevbox.update(rellink);
+              document.getElementById(prevbox.id+"-innerCt").classList.add('redtext');
+            }
+          },
+          'select': function(combo, record, index) {
+            console.log('select')
+            console.log(parentid)
+            if (combo.getValue() != '') {
+              console.log(combo.getValue());
+              combo.setRawValue(combo.getValue());
+              var type = Ext.getCmp(name).query('component[name="type"]')[0].getValue();
+              var target = dictcode;
+              if (type.startsWith('translation_')) {
+                var tar = type.split('_');
+                target = tar[1];
               }
-            });
-            //ajax load linked relations
-            window.setTimeout(function() {
-              console.log('refresh timeout');
-              Ext.Array.each(Ext.getCmp('tabForm').query('[name=relsadd]'), function(item) {item.show()});
-              Ext.Array.each(Ext.getCmp('tabForm').query('[name=relswait]'), function(item) {item.hide()});
-            }, 60*1000);
-            Ext.Array.each(Ext.getCmp('tabForm').query('[name=relsadd]'), function(item) {item.hide()});
-            Ext.Array.each(Ext.getCmp('tabForm').query('[name=relswait]'), function(item) {item.show()});
-            var set_rel = Ext.getCmp('tabForm').query('[name=usersetrel]')[0].getValue()
-            load_link_relations(target, combo, name, parentid, set_rel);
-          }
-        },
-        'expand': function(field, e) {
-          if (/^[0-9]+-[0-9]+$/.test(field.getValue()) == false && this.opened == false) {
-            this.opened = true;
-            if (Ext.getCmp(name).query('component[name="type"]')[0].getValue().startsWith('translation_')) {
-              var reltar = Ext.getCmp(name).query('component[name="type"]')[0].getValue().split('_')[1];
-              reload_rel(field.getValue(), field, reltar);
-            } else {
-              reload_rel(field.getValue(), field, dictcode);
+              //ajax load preview
+              Ext.Ajax.request({
+                url: '/'+target+'/relationinfo',
+                params: {
+                  meaning_id: combo.getValue()
+                },
+                method: 'get',
+                success: function(response) {
+                  var rinfo = response.responseText;
+                  var prevbox = Ext.getCmp(combo.id).up().query('component[name="vztahtitle"]')[0];
+                  if (rinfo.charAt(0) == 'T') {
+                    var rtitle = rinfo.substring(2);
+                    prevbox.update(rtitle);
+                  }
+                  if (rinfo.charAt(0) == 'V') {
+                    var videoloc = rinfo.substring(2);
+                    prevbox.update('<div class="videofancybox" data-ratio="0.8" class="usage" style="width:120px; cursor: zoom-in;"><video width="80px" poster="https://www.dictio.info/thumb/video'+target+'/'+videoloc+'" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video'+target+'/'+videoloc+'"></source></video></div>')
+                    prevbox.setHeight(60);
+                  }
+                  document.getElementById(prevbox.id+"-innerCt").classList.add('text-'+target)
+                  document.getElementById(prevbox.id+"-innerCt").classList.remove('redtext')
+                }
+              });
+              //ajax load linked relations
+              window.setTimeout(function() {
+                console.log('refresh timeout');
+                Ext.Array.each(Ext.getCmp('tabForm').query('[name=relsadd]'), function(item) {item.show()});
+                Ext.Array.each(Ext.getCmp('tabForm').query('[name=relswait]'), function(item) {item.hide()});
+              }, 60*1000);
+              Ext.Array.each(Ext.getCmp('tabForm').query('[name=relsadd]'), function(item) {item.hide()});
+              Ext.Array.each(Ext.getCmp('tabForm').query('[name=relswait]'), function(item) {item.show()});
+              var set_rel = Ext.getCmp('tabForm').query('[name=usersetrel]')[0].getValue()
+              load_link_relations(target, combo, name, parentid, set_rel);
+            }
+          },
+          'expand': function(field, e) {
+            if (/^[0-9]+-[0-9]+$/.test(field.getValue()) == false && this.opened == false) {
+              this.opened = true;
+              if (Ext.getCmp(name).query('component[name="type"]')[0].getValue().startsWith('translation_')) {
+                var reltar = Ext.getCmp(name).query('component[name="type"]')[0].getValue().split('_')[1];
+                reload_rel(field.getValue(), field, reltar);
+              } else {
+                reload_rel(field.getValue(), field, dictcode);
+              }
+            }
+          },
+          specialkey: function(field, e) {
+            if (e.getKey() == e.ENTER) {   
+              if (Ext.getCmp(name).query('component[name="type"]')[0].getValue().startsWith('translation_')) {
+                var reltar = Ext.getCmp(name).query('component[name="type"]')[0].getValue().split('_')[1];
+                reload_rel(field.getValue(), field, reltar);
+              } else {
+                reload_rel(field.getValue(), field, dictcode);
+              }
             }
           }
-        },
-        specialkey: function(field, e) {
-          if (e.getKey() == e.ENTER) {   
-            if (Ext.getCmp(name).query('component[name="type"]')[0].getValue().startsWith('translation_')) {
-              var reltar = Ext.getCmp(name).query('component[name="type"]')[0].getValue().split('_')[1];
-              reload_rel(field.getValue(), field, reltar);
-            } else {
-              reload_rel(field.getValue(), field, dictcode);
-            }
+        },  
+        tpl: new Ext.XTemplate(
+          '<tpl for="."><div class="x-boundlist-item"><b>{title}: {number}:</b> <i>{def}</i><tpl if="front!=&quot;&quot;"><div cursor: hand;"><video width="80px" poster="https://www.dictio.info/thumb/video{target}/{front}" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video{target}/{front}"></video>{front}</div></tpl> <tpl if="loc!=&quot;&quot;"><div cursor: hand;"><video width="120px" poster="https://www.dictio.info/thumb/video{target}/{loc}" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video{target}/{loc}"></source></video>{loc}</div></tpl></div></tpl>'
+        ),
+      },
+        {
+          xtype: 'button',
+          icon: '/editor/delete.png',
+          handler: function() {
+            Ext.getCmp(name).destroy();
           }
         }
-      },  
-      tpl: new Ext.XTemplate(
-          '<tpl for="."><div class="x-boundlist-item"><b>{title}: {number}:</b> <i>{def}</i><tpl if="front!=&quot;&quot;"><div cursor: hand;"><video width="80px" poster="https://www.dictio.info/thumb/video{target}/{front}" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video{target}/{front}"></video>{front}</div></tpl> <tpl if="loc!=&quot;&quot;"><div cursor: hand;"><video width="120px" poster="https://www.dictio.info/thumb/video{target}/{loc}" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video{target}/{loc}"></source></video>{loc}</div></tpl></div></tpl>'
-      ),
-    },
-    create_stav(),
-    {
-      xtype: 'button',
-      icon: '/editor/delete.png',
-      handler: function() {
-        Ext.getCmp(name).destroy();
-      }
-    }
-    ]
+      ]
+    },{
+      xtype: 'container',
+      layout: {
+        type: 'hbox'
+      },
+      items: [create_stav(),
+        {
+          xtype: 'textfield',
+          name: 'notransuser',
+          hidden: true
+        },{
+          xtype: 'checkbox',
+          boxLabel: locale[lang].notrans,
+          name: 'notrans',
+          listeners: {
+            change: function() {
+              var ntuser = this.ownerCt.query('[name=notransuser]')[0];
+              if (this.checked) {
+                if (ntuser.value == '' || ntuser.value == undefined) {
+                  ntuser.value = entrydata.user_info.login+' '+Ext.Date.format(new Date(), 'Y-m-d H:i:s');
+                }
+              } else {
+                ntuser.value = '';
+              }
+            }
+          }
+      }]
+    }]
   });
 
   return transset;
