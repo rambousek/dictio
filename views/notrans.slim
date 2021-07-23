@@ -1,0 +1,24 @@
+main role="main"
+  section.section role="region" style="background-color: #1c2641"
+    .container
+      .row
+        article.col.col--2.col--start role="article"
+          h1 style="color: white" #{I18n.t("menu.admin")} 
+          h2 class="btn btn-#{@dictcode}" style="color: white" #{I18n.t("admin.dict")} #{I18n.t("dict_menu.#{@dictcode}")} - (v cílovém jazyce chybí)
+  section.section 
+    .container
+      .search-top style="border-radius: 20px; padding: 15px;"
+        article.col.col--start role="article" 
+          table
+            - @report['notrans'].each do |entry|
+              tr
+                td #{entry['id']}
+                td
+                  - entry['relation'].each do |rel|
+                    | význam #{rel['meaning']}: #{rel['target']}: #{rel['trans']}
+                    br
+                td
+                  a href="/#{@dictcode}/show/#{entry['id']}" target="_blank" preview
+                  br
+                  a href="/editor#{@dictcode}/?id=#{entry['id']}" target="_blank" edit
+                  

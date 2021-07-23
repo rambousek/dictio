@@ -2534,5 +2534,23 @@ class CZJDict < Object
     }
     return res
   end
+
+  def get_relation_notrans
+    res = {'notrans' => [], 'count'=>0}
+    @entrydb.find({'dict': @dictcode, 'meanings.relation.notrans': true}).each{|re|
+      ren = {'id' => re['id'], 'relation' => []}
+      re['meanings'].each{|rm|
+        if rm['relation']
+          rm['relation'].each{|rr|
+            if rr['notrans'] and rr['notrans'] == true
+              ren['relation'] << {'meaning' => rm['id'], 'target' => rr['target'], 'trans' => rr['meaning_id']}
+            end
+          }
+        end
+      }
+      res['notrans'] << ren
+    }
+    return res
+  end
 end
 

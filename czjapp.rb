@@ -627,6 +627,13 @@ class CzjApp < Sinatra::Base
         @report = dict.get_duplicate_syno
         slim :duplicate
       end
+      get '/'+code+'/notrans' do
+        @dictcode = code
+        @target = ''
+        @dict_info = $dict_info
+        @report = dict.get_relation_notrans
+        slim :notrans
+      end
     end
   }
 
