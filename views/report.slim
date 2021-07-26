@@ -248,6 +248,8 @@ main role="main"
                 - if @dict_info[@dictcode]['type'] == 'sign'
                   - unless @params['sldruh'] and @params['slovni_druh'] == 'modif'
                     a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','modif','sldruh','ne')" #{I18n.t("gram.slovni_druh.modif")}
+                  - unless @params['sldruh'] and @params['slovni_druh'] == 'taz'
+                    a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','taz','sldruh','ne')" #{I18n.t("gram.slovni_druh.taz")}                  
                 - unless @params['sldruh'] and @params['slovni_druh'] == 'part'          
                   a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','part','sldruh','ne')" #{I18n.t("gram.slovni_druh.part")}              
                 - unless @params['sldruh'] and @params['slovni_druh'] == 'konj'                      
