@@ -211,7 +211,7 @@ class CZJDict < Object
           # prazdne SW compos
           if entry['lemma']['lemma_type'] == 'derivat' or entry['lemma']['lemma_type'] == 'kompozitum'
             # derivat/komp = zustava hlavni SW
-            if entry['lemma']['sw'].find{|sw| sw['@primary'].to_s == 'true'}
+            if entry['lemma']['sw'] and entry['lemma']['sw'].find{|sw| sw['@primary'].to_s == 'true'}
               # primary SW
               entry['lemma']['swmix'] = entry['lemma']['sw'].select{|sw| sw['@primary'].to_s == 'true'}
             else
