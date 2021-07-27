@@ -204,6 +204,21 @@ $( document ).ready(function() {
     });
   });
 
+  /* add comment on notrans */
+  $('.notranscomment').click(function(event) {
+    console.log($(this))
+    var text = $(this).siblings('textarea');
+    var koment = text.val();
+    var box = text.data('box');
+    var dict = text.data('dict');
+    var entryid = text.data('id');
+    $.post('/'+dict+'/add_comment', {entry: entryid, box: box, text: koment}, (response) => {
+      if (response.success) {
+        location.reload();
+      }
+    });
+  });
+
   /* show keyboard */
   $('#expression_search').on('focus', function(event) {
     var dict = $('.search-alt__wrap .translate-from').val();

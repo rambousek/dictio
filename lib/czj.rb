@@ -2544,6 +2544,8 @@ class CZJDict < Object
             if rr['notrans'] and rr['notrans'] == true and rr['target'] == @dictcode
               ren = {'id' => re['id'], 'dict' => re['dict']}
               ren['relation'] = {'meaning' => rm['id'], 'target' => rr['target'], 'trans' => rr['meaning_id']}
+              comm = get_comments(re['dict'], re['id'], 'meaning'+rm['id']+'rel'+rr['target']+rr['meaning_id'])[:comments]
+              ren['comment'] = comm[0] if comm.size > 0
               res['notrans'] << ren
             end
           }

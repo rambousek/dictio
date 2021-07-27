@@ -14,6 +14,7 @@ main role="main"
               td heslo
               td význam: překlad
               td 
+              td komentář
             - @report['notrans'].each do |entry|
               tr
                 td #{entry['dict']} #{entry['id']}
@@ -22,4 +23,11 @@ main role="main"
                   a href="/#{entry['dict']}/show/#{entry['id']}" target="_blank" preview
                   br
                   a href="/editor#{entry['dict']}/?id=#{entry['id']}" target="_blank" edit
-                  
+                td 
+                  - if entry['comment'] 
+                    i #{entry['comment']['text']}
+                    |  (#{entry['comment']['user']}, #{entry['comment']['time']})
+                    br
+                  span
+                    textarea data-box="meaning#{entry['relation']['meaning']}rel#{entry['relation']['target']}#{entry['relation']['trans']}" data-dict="#{entry['dict']}" data-id="#{entry['id']}" name="kom_text"
+                    button.notranscomment přidat komentář
