@@ -36,9 +36,9 @@ class CZJDict < Object
     return data
   end
 
-  def get_comments(id, type, exact=true)
+  def get_comments(dict, id, type, exact=true)
     coms = []
-    query = {'dict': @dictcode, 'entry': id}
+    query = {'dict': dict, 'entry': id}
     if type != ''
       if exact
         query['box'] = type 

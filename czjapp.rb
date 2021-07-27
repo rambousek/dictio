@@ -367,7 +367,7 @@ class CzjApp < Sinatra::Base
       end
       get '/'+code+'/comments/:id(/:type)?' do
         content_type :json
-        body = dict.get_comments(params['id'], params['type'].to_s).to_json
+        body = dict.get_comments(code, params['id'], params['type'].to_s).to_json
       end
       post '/'+code+'/save' do
         data = JSON.parse(params['data'])
