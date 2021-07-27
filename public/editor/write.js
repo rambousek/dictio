@@ -1249,7 +1249,7 @@ function load_doc(id) {
                   transset.query('component[name=notrans]')[0].setValue(true);
                   transset.query('component[name=notransuser]')[0].setValue(trans['notransuser']);
                 }
-                vztahy.push({type:type, meaningid:trans['meaning_id'], link:transset});
+                vztahy.push({type:type, meaningid:trans['meaning_id'], link:transset, transinfo:trans});
               });
               //sort 
               var vztahysort = {synonym: 1, translation_cs: 2, translation_czj: 3, translation_en: 4, translation_is: 5, translation_asl: 6, translation_sj: 7, translation_spj: 8, translation_de: 9, translation_ogs: 10}
@@ -1269,6 +1269,8 @@ function load_doc(id) {
               //add sorted relation
               var parentid = vyznam.query('component[name="relbox"]')[0].id;
               vztahy.forEach(function(relation) {
+                var cc = create_comment_button(relation.link.id, 'meaning'+meaning['id']+'rel'+relation.transinfo['target']+relation.transinfo['meaning_id'])
+                relation.link.query('component[name=row2]')[0].add(cc);
                 Ext.getCmp(parentid).insert(Ext.getCmp(parentid).items.length-3, relation.link);
               });
             }
@@ -2450,6 +2452,7 @@ function create_vyznam_links(parentid) {
       ]
     },{
       xtype: 'container',
+      name: 'row2',
       layout: {
         type: 'hbox',
         pack: 'end',
