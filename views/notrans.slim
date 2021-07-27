@@ -10,15 +10,19 @@ main role="main"
       .search-top style="border-radius: 20px; padding: 15px;"
         article.col.col--start role="article" 
           table
+            tr
+              td heslo
+              td význam: překlad
+              td 
             - @report['notrans'].each do |entry|
               tr
-                td #{entry['id']}
+                td #{entry['dict']} #{entry['id']}
                 td
                   - entry['relation'].each do |rel|
-                    | význam #{rel['meaning']}: #{rel['target']}: #{rel['trans']}
+                    | #{rel['meaning']}: #{rel['target']}: #{rel['trans']}
                     br
                 td
-                  a href="/#{@dictcode}/show/#{entry['id']}" target="_blank" preview
+                  a href="/#{entry['dict']}/show/#{entry['id']}" target="_blank" preview
                   br
-                  a href="/editor#{@dictcode}/?id=#{entry['id']}" target="_blank" edit
+                  a href="/editor#{entry['dict']}/?id=#{entry['id']}" target="_blank" edit
                   
