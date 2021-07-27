@@ -406,14 +406,6 @@ class CzjApp < Sinatra::Base
           body = {'success'=>false, 'message'=>"Chybí parametry videa"}.to_json
         end
       end
-      post '/'+code+'/add_comment' do
-        user = ''
-        if params['box'] != '' and params['entry'] != '' and params['type'] != ''
-          dict.comment_add(@user_info['login'], params['entry'], params['box'], params['text'])
-        end
-        content_type :json
-        body = {"success"=>true,"msg"=>"Uloženo"}.to_json
-      end
       get '/'+code+'/del_comment/:cid' do
         if params['cid'] != ''
           dict.comment_del(params['cid'])
@@ -487,6 +479,17 @@ class CzjApp < Sinatra::Base
         @target = @default_target
         @dictcode = @default_dict
         slim :error401, :status=>401
+      end
+    end
+
+    if $is_edit or $is_admin
+      post '/'+code+'/add_comment' do
+        user = ''
+        if params['box'] != '' and params['entry'] != '' and params['type'] != ''
+          dict.comment_add(@user_info['login'], params['entry'], params['box'], params['text'])
+        end
+        content_type :json
+        body = {"success"=>true,"msg"=>"Uloženo"}.to_json
       end
     end
 
