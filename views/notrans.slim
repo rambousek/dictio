@@ -17,10 +17,7 @@ main role="main"
             - @report['notrans'].each do |entry|
               tr
                 td #{entry['dict']} #{entry['id']}
-                td
-                  - entry['relation'].each do |rel|
-                    | #{rel['meaning']}: #{rel['target']}: #{rel['trans']}
-                    br
+                td #{entry['relation']['meaning']}: #{entry['relation']['target']}: #{entry['relation']['trans']}
                 td
                   a href="/#{entry['dict']}/show/#{entry['id']}" target="_blank" preview
                   br
