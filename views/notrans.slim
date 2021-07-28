@@ -12,17 +12,16 @@ main role="main"
           table
             tr
               th heslo
-              th
               th význam: ekvivalent 
               th komentář
             - @report['notrans'].each do |entry|
               tr
-                td #{entry['dict']} #{entry['id']}
-                td
-                  a href="/#{entry['dict']}/show/#{entry['id']}" target="_blank" preview
+                td 
+                  label #{entry['relation']['trans']} (#{entry['relation']['target']})
+                td 
+                  a href="/#{entry['dict']}/show/#{entry['id']}" target="_blank" #{entry['dict']} #{entry['id']} (#{entry['relation']['meaning']})
                   br
-                  a href="https://edit.dictio.info/editor#{entry['dict']}/?id=#{entry['id']}" target="_blank" edit
-                td #{entry['relation']['meaning']}: #{entry['relation']['target']}: #{entry['relation']['trans']}                
+                  a href="https://edit.dictio.info/editor#{entry['dict']}/?id=#{entry['id']}" target="_blank" edit                                
                 td 
                   - if entry['comment'] 
                     i #{entry['comment']['text']}
