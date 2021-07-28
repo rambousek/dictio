@@ -340,6 +340,10 @@ document.addEventListener("click", closeAllSelect), jQuery(document).ready(funct
         s(".nav-user").hasClass("is-open") ? s(".nav-user").removeClass("is-open") : s(".nav-user").addClass("is-open"), e.stopPropagation()
     }), s("body:not(.nav-user)").on("click", function(e) {
         s(".nav-user").removeClass("is-open")
+    }), s(".nav-admin").on("click", function(e) {
+        s(".nav-admin").hasClass("is-open") ? s(".nav-admin").removeClass("is-open") : s(".nav-admin").addClass("is-open"), e.stopPropagation()
+    }), s("body:not(.nav-admin)").on("click", function(e) {
+        s(".nav-admin").removeClass("is-open")        
     }), s(".dropdown__item__name").click(function(e) {
         s(this).parent().hasClass("is-open") ? (s(this).next(".dropdown__item__detail").slideUp(200), s(this).parent().removeClass("is-open")) : (s(this).next(".dropdown__item__detail").slideDown(200), s(this).parent().addClass("is-open"))
     }), s(".search-top__close").click(function(e) {
