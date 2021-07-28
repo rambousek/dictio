@@ -40,7 +40,7 @@ header.header role="banner"
                     ul
                       - if @dictcode
                         li
-                          .btn.btn.#{@dictcode} #{I18n.t("dict_menu.#{@dictcode}")}:
+                          .btn.btn-#{@dictcode} #{I18n.t("dict_menu.#{@dictcode}")}:
                       li
                         - if @dictcode 
                           a href="/#{@dictcode}/report" #{I18n.t("admin.reports")}
