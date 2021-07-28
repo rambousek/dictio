@@ -31,7 +31,21 @@ header.header role="banner"
               a href="/contact" class=('is-active' if @selected_page.to_s=='contact') #{I18n.t("menu.contact")}
             - if @is_edit or @is_admin
               li
-                a href="/admin" class=('is-active' if @selected_page.to_s=='admin') #{I18n.t("menu.admin")}
+                .nav-admin
+                  | #{I18n.t("menu.admin")}
+                  span.icon.icon--arrow-down.nav-lang__dropdown
+                    svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                      use xlink:href="/img/icons.svg#arrow-down" x="0" y="0" width="100%" height="100%"
+                  .nav-admin__choose
+                    ul
+                      li
+                        a href="/admin" == #{I18n.t("admin.reports")} 
+                      li
+                        a href="https://admin.dictio.info/video" == #{I18n.t("admin.video")}
+                      li    
+                        a href="https://admin.dictio.info/duplicates" == #{I18n.t("admin.dups")}
+                      li
+                        a href="https://admin.dictio.info/users" == #{I18n.t("admin.users.title")}                                       
             - if @is_edit or @is_admin
               li               
                 .nav-user
