@@ -333,7 +333,8 @@ cs:
   admin:    
     reports: "přehled hesel"
     dup: "přehled duplicit"
-    video: "přehled videí"    
+    video: "přehled videí"
+    nolemma: "požadovaná hesla"    
     dups_warn: "Upozornění: slovník pravděpodobně obsahuje duplicitní hesla "
     show: "vypsat"
     user: "přihlášený uživatel "
