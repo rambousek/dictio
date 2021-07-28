@@ -334,7 +334,9 @@ cs:
     reports: "přehled hesel"
     dup: "přehled duplicit"
     video: "přehled videí"
-    nolemma: "požadovaná hesla"    
+    nolemma: "požadovaná hesla"  
+    heslo: "heslo"
+    source: "zdroj požadavku"
     dups_warn: "Upozornění: slovník pravděpodobně obsahuje duplicitní hesla "
     show: "vypsat"
     user: "přihlášený uživatel "
@@ -398,6 +400,7 @@ cs:
       vyznam: "význam"
       _us: "příklady užití"
       vazby: "ekvivalenty"
+      add: "přidat komentář"
     videos:
       a: "čelní"
       b: "boční"

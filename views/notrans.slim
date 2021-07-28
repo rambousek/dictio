@@ -11,9 +11,9 @@ main role="main"
         article.col.col--start role="article" 
           table
             tr
-              th heslo
-              th význam: ekvivalent 
-              th komentář
+              th #{I18n.t("admin.heslo")}
+              th  #{I18n.t("admin.source")} 
+              th  #{I18n.t("admin.comments")}
             - @report['notrans'].each do |entry|
               tr
                 td 
@@ -29,4 +29,4 @@ main role="main"
                     br
                   span
                     textarea data-box="meaning#{entry['relation']['meaning']}rel#{entry['relation']['target']}#{entry['relation']['trans']}" data-dict="#{entry['dict']}" data-id="#{entry['id']}" name="kom_text"
-                  button.notranscomment přidat komentář
+                  button.notranscomment  #{I18n.t("admin.koment.add")}
