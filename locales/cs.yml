@@ -330,13 +330,14 @@ cs:
     internal: ":( chyba serveru"
     internal-text: "Zkuste to prosím později."
     access: "nemáte přístup"
-  admin:    
+  admin:        
     reports: "přehled hesel"
     dup: "přehled duplicit"
     video: "přehled videí"
-    nolemma: "požadovaná hesla"  
+    nolemma: "požadovaná hesla"
+    all: "všechny jazyky"  
     heslo: "heslo"
-    source: "zdroj požadavku"
+    source: "zdroj požadavku"    
     dups_warn: "Upozornění: slovník pravděpodobně obsahuje duplicitní hesla "
     show: "vypsat"
     user: "přihlášený uživatel "

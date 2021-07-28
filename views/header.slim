@@ -38,12 +38,27 @@ header.header role="banner"
                       use xlink:href="/img/icons.svg#arrow-down" x="0" y="0" width="100%" height="100%"
                   .nav-admin__choose
                     ul
+                      - if @dictcode
+                        li
+                          .btn.btn.#{@dictcode} #{I18n.t("dict_menu.#{@dictcode}")}:
                       li
-                        a href="/admin" #{I18n.t("admin.reports")} 
+                        - if @dictcode 
+                          a href="/#{@dictcode}/report" #{I18n.t("admin.reports")}
+                        - else
+                          a href="/admin" #{I18n.t("admin.reports")} 
                       li
-                        a href="https://admin.dictio.info/video" #{I18n.t("admin.video")}
-                      li    
-                        a href="https://admin.dictio.info/duplicates" #{I18n.t("admin.dup")}
+                        - if @dictcode
+                          a href="https://admin.dictio.info/#{@dictcode}/videoreport" #{I18n.t("admin.video")}                          
+                        - else 
+                          a href="https://admin.dictio.info/video" #{I18n.t("admin.video")}
+                      li
+                        - if @dictcode
+                          a href="https://admin.dictio.info/#{@dictcode}/duplicate" #{I18n.t("admin.dup")}
+                        - else     
+                          a href="https://admin.dictio.info/duplicates" #{I18n.t("admin.dup")}
+                      - if @dictcode
+                        li 
+                          a.btn href="/admin" #{I18n.t("admin.all")}
                       li
                         a href="https://admin.dictio.info/users" #{I18n.t("admin.users.title")}                                       
             - if @is_edit or @is_admin
