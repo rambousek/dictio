@@ -11,10 +11,10 @@ main role="main"
         article.col.col--start role="article" 
           table
             tr
-              td heslo
-              td význam: ekvivalent
-              td 
-              td komentář
+              th heslo
+              th
+              th význam: ekvivalent 
+              th komentář
             - @report['notrans'].each do |entry|
               tr
                 td #{entry['dict']} #{entry['id']}
@@ -30,4 +30,4 @@ main role="main"
                     br
                   span
                     textarea data-box="meaning#{entry['relation']['meaning']}rel#{entry['relation']['target']}#{entry['relation']['trans']}" data-dict="#{entry['dict']}" data-id="#{entry['id']}" name="kom_text"
-                    button.notranscomment přidat komentář
+                  button.notranscomment přidat komentář
