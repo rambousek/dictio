@@ -1229,7 +1229,7 @@ input[type='radio'] {
   padding: 10px;
   cursor: pointer; }
 
-.nav-lang, .nav-user, nav-admin {
+.nav-lang, .nav-user, .nav-admin {
   position: relative;
   display: -webkit-box;
   display: -webkit-flex;
@@ -1247,7 +1247,7 @@ input[type='radio'] {
       -ms-user-select: none;
           user-select: none; }
   @media (min-width: 992px) {
-    .nav-lang, .nav-user, nav-admin {
+    .nav-lang, .nav-user, .nav-admin {
       display: -webkit-box;
       display: -webkit-flex;
       display: -ms-flexbox;
