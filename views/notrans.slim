@@ -9,8 +9,9 @@ main role="main"
     .container
       .search-top style="border-radius: 20px; padding: 15px;"
         article.col.col--start role="article" 
+          | #{I18n.t("admin.notrans1")}
           - if @report['notrans1']['notrans'].size == 0
-            p nejsou evidované žádné požadavky na tento slovník
+            | #{I18n.t("admin.notrans0")}
           - else
             table
               tr
@@ -35,12 +36,19 @@ main role="main"
                     span
                       textarea data-box="meaning#{entry['relation']['meaning']}rel#{entry['relation']['target']}#{entry['relation']['trans']}" data-dict="#{entry['dict']}" data-id="#{entry['id']}" name="kom_text"
                       button.notranscomment  #{I18n.t("admin.koment.add")}
+          | #{I18n.t("admin.notrans2")}
           - if @report['notrans2']['notrans'].size == 0
-            p nejsou evidované žádné požadavky z tohoto slovníku
+            | #{I18n.t("admin.notrans0")}
           - else
             form method="get" action="/#{@dictcode}/notrans"
-              input type="text" name="user" placeholder="login"
-              input.btn type="submit" value="#{I18n.t("admin.show")}"
+              table
+                tr
+                  td
+                    #{I18n.t("admin.notransauth")}
+                  td                  
+                    input type="text" name="user" placeholder="login"
+                  td
+                    input.btn type="submit" value="#{I18n.t("admin.show")}"
             table
               tr
                 th #{I18n.t("admin.heslo")}
