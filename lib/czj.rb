@@ -2544,7 +2544,7 @@ class CZJDict < Object
           rm['relation'].each{|rr|
             if rr['notrans'] and rr['notrans'] == true and rr['target'] == @dictcode
               ren = {'id' => re['id'], 'dict' => re['dict']}
-              ren['relation'] = {'meaning' => rm['id'], 'target' => rr['target'], 'trans' => rr['meaning_id']}
+              ren['relation'] = {'meaning' => rm['id'], 'target' => rr['target'], 'trans' => rr['meaning_id'], 'notransuser' => rr['notransuser']}
               comm = get_comments(re['dict'], re['id'], 'meaning'+rm['id']+'rel'+rr['target']+rr['meaning_id'])[:comments]
               ren['comment'] = comm[0] if comm.size > 0
               res['notrans'] << ren
@@ -2563,7 +2563,7 @@ class CZJDict < Object
           rm['relation'].each{|rr|
             if rr['notrans'] and rr['notrans'] == true 
               ren = {'id' => re['id'], 'dict' => re['dict']}
-              ren['relation'] = {'meaning' => rm['id'], 'target' => rr['target'], 'trans' => rr['meaning_id']}
+              ren['relation'] = {'meaning' => rm['id'], 'target' => rr['target'], 'trans' => rr['meaning_id'], 'notransuser' => rr['notransuser']}
               comm = get_comments(re['dict'], re['id'], 'meaning'+rm['id']+'rel'+rr['target']+rr['meaning_id'])[:comments]
               ren['comment'] = comm[0] if comm.size > 0
               res['notrans'] << ren
