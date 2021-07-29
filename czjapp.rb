@@ -637,6 +637,13 @@ class CzjApp < Sinatra::Base
         @report = dict.get_relation_notrans
         slim :notrans
       end
+      get '/'+code+'/notrans2' do
+        @dictcode = code
+        @target = ''
+        @dict_info = $dict_info
+        @report = dict.get_relation_notrans2
+        slim :notrans2
+      end
     end
   }
 

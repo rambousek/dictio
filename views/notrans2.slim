@@ -1,0 +1,32 @@
+main role="main"
+  section.section role="region" style="background-color: #1c2641"
+    .container
+      .row
+        article.col.col--2.col--start role="article"
+          h1 style="color: white" #{I18n.t("menu.admin")} 
+          h2 class="btn btn-#{@dictcode}" style="color: white" #{I18n.t("admin.dict")} #{I18n.t("dict_menu.#{@dictcode}")} - #{I18n.t("admin.nolemma")}
+  section.section 
+    .container
+      .search-top style="border-radius: 20px; padding: 15px;"
+        article.col.col--start role="article" 
+          table
+            tr
+              th #{I18n.t("admin.heslo")}
+              th  #{I18n.t("admin.source")} 
+              th  #{I18n.t("admin.comments")}
+            - @report['notrans'].each do |entry|
+              tr
+                td 
+                  label #{entry['relation']['trans']} (#{entry['relation']['target']})
+                td 
+                  a href="/#{entry['dict']}/show/#{entry['id']}" target="_blank" #{entry['dict']} #{entry['id']} (#{entry['relation']['meaning']})
+                  br
+                  a href="https://edit.dictio.info/editor#{entry['dict']}/?id=#{entry['id']}" target="_blank" edit                                
+                td 
+                  - if entry['comment'] 
+                    i #{entry['comment']['text']}
+                    |  (#{entry['comment']['user']}, #{entry['comment']['time']})
+                    br
+                  span
+                    textarea data-box="meaning#{entry['relation']['meaning']}rel#{entry['relation']['target']}#{entry['relation']['trans']}" data-dict="#{entry['dict']}" data-id="#{entry['id']}" name="kom_text"
+                    button.notranscomment  #{I18n.t("admin.koment.add")}
