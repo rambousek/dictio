@@ -37,6 +37,8 @@ main role="main"
                     span
                       textarea data-box="meaning#{entry['relation']['meaning']}rel#{entry['relation']['target']}#{entry['relation']['trans']}" data-dict="#{entry['dict']}" data-id="#{entry['id']}" name="kom_text"
                       button.notranscomment  #{I18n.t("admin.koment.add")}
+        
+        article.col.col--start role="article"
           h2 
             | #{I18n.t("admin.notrans2")}
           - if @report['notrans2']['notrans'].size == 0
@@ -48,7 +50,7 @@ main role="main"
                   td
                     #{I18n.t("admin.notransauth")}
                   td                  
-                    input type="text" name="user" placeholder="login"
+                    input type="text" name="user" placeholder="login" value="#{@user_info['name']}"
                   td
                     input.btn type="submit" value="#{I18n.t('admin.show')}"
             table
