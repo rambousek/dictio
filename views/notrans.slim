@@ -45,8 +45,7 @@ main role="main"
             form method="get" action="/#{@dictcode}/notrans"
               table
                 tr
-                  td
-                    #{I18n.t("admin.notransauth")}
+                  td #{I18n.t("admin.notransauth")}
                   td                  
                     input type="text" name="user" placeholder="login"
                   td
