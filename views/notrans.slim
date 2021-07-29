@@ -55,3 +55,6 @@ main role="main"
                   span
                     textarea data-box="meaning#{entry['relation']['meaning']}rel#{entry['relation']['target']}#{entry['relation']['trans']}" data-dict="#{entry['dict']}" data-id="#{entry['id']}" name="kom_text"
                     button.notranscomment  #{I18n.t("admin.koment.add")}
+          form method="get" action="/#{@dictcode}/notrans"
+            input type="text" name="user" placeholder="login"
+            input type="submit" value="filtr"

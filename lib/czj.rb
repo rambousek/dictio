@@ -2536,13 +2536,13 @@ class CZJDict < Object
     return res
   end
 
-  def get_relation_notrans
+  def get_relation_notrans(user = '')
     res = {'notrans' => [], 'count'=>0}
     @entrydb.find({'meanings.relation': {'$elemMatch': {'notrans': true, 'target': @dictcode}}}).each{|re|
       re['meanings'].each{|rm|
         if rm['relation']
           rm['relation'].each{|rr|
-            if rr['notrans'] and rr['notrans'] == true and rr['target'] == @dictcode
+            if rr['notrans'] and rr['notrans'] == true and rr['target'] == @dictcode and (user == '' or rr['notransuser'].start_with?(user+' '))
               ren = {'id' => re['id'], 'dict' => re['dict']}
               ren['relation'] = {'meaning' => rm['id'], 'target' => rr['target'], 'trans' => rr['meaning_id'], 'notransuser' => rr['notransuser']}
               comm = get_comments(re['dict'], re['id'], 'meaning'+rm['id']+'rel'+rr['target']+rr['meaning_id'])[:comments]
@@ -2555,13 +2555,13 @@ class CZJDict < Object
     }
     return res
   end
-  def get_relation_notrans2
+  def get_relation_notrans2(user = '')
     res = {'notrans' => [], 'count'=>0}
     @entrydb.find({'dict': @dictcode, 'meanings.relation.notrans': true}).each{|re|
       re['meanings'].each{|rm|
         if rm['relation']
           rm['relation'].each{|rr|
-            if rr['notrans'] and rr['notrans'] == true 
+            if rr['notrans'] and rr['notrans'] == true and (user == '' or rr['notransuser'].start_with?(user+' '))
               ren = {'id' => re['id'], 'dict' => re['dict']}
               ren['relation'] = {'meaning' => rm['id'], 'target' => rr['target'], 'trans' => rr['meaning_id'], 'notransuser' => rr['notransuser']}
               comm = get_comments(re['dict'], re['id'], 'meaning'+rm['id']+'rel'+rr['target']+rr['meaning_id'])[:comments]

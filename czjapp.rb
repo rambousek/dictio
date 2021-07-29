@@ -635,8 +635,8 @@ class CzjApp < Sinatra::Base
         @target = ''
         @dict_info = $dict_info
         @report = {}
-        @report['notrans1'] = dict.get_relation_notrans
-        @report['notrans2'] = dict.get_relation_notrans2
+        @report['notrans1'] = dict.get_relation_notrans(@params['user'].to_s)
+        @report['notrans2'] = dict.get_relation_notrans2(@params['user'].to_s)
         slim :notrans
       end
     end
