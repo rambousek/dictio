@@ -2446,6 +2446,7 @@ class CZJDict < Object
     if not second
     pipeline << {'$group': {
       '_id': {'ids':'$ids'},
+      'lemma': {'$first': '$_id.lemma'},
       'front': {'$first': '$_id.front'},
       'trans': {'$addToSet': '$_id.trans'}
     }}

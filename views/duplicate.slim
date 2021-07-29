@@ -20,7 +20,7 @@ main role="main"
             - @report['duplicate'].each do |dup|
               tr
                 - if @dict_info[@dictcode]['type'] == 'write'
-                  td ! #{dup['_id']['lemma'].to_s}
+                  td ! #{dup['lemma'].to_s}
                 - else
                   - if dup['front']
                     td ! #{dup['front'].to_s}
