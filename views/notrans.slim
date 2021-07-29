@@ -9,7 +9,7 @@ main role="main"
     .container
       .search-top style="border-radius: 20px; padding: 15px;"
         article.col.col--start role="article" 
-          | #{I18n.t("admin.notrans1")}
+          h2 #{I18n.t("admin.notrans1")}
           - if @report['notrans1']['notrans'].size == 0
             | #{I18n.t("admin.notrans0")}
           - else
@@ -36,7 +36,7 @@ main role="main"
                     span
                       textarea data-box="meaning#{entry['relation']['meaning']}rel#{entry['relation']['target']}#{entry['relation']['trans']}" data-dict="#{entry['dict']}" data-id="#{entry['id']}" name="kom_text"
                       button.notranscomment  #{I18n.t("admin.koment.add")}
-          | #{I18n.t("admin.notrans2")}
+          h2 #{I18n.t("admin.notrans2")}
           - if @report['notrans2']['notrans'].size == 0
             | #{I18n.t("admin.notrans0")}
           - else
