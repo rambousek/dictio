@@ -15,7 +15,30 @@ main role="main"
               th  #{I18n.t("admin.source")} 
               th zadal
               th  #{I18n.t("admin.comments")}
-            - @report['notrans'].each do |entry|
+            - @report['notrans1']['notrans'].each do |entry|
+              tr
+                td 
+                  label #{entry['relation']['trans']} (#{entry['relation']['target']})
+                td 
+                  a href="/#{entry['dict']}/show/#{entry['id']}" target="_blank" #{entry['dict']} #{entry['id']} (#{entry['relation']['meaning']})
+                  br
+                  a href="https://edit.dictio.info/editor#{entry['dict']}/?id=#{entry['id']}" target="_blank" edit                                
+                td #{entry['relation']['notransuser']}
+                td 
+                  - if entry['comment'] 
+                    i #{entry['comment']['text']}
+                    |  (#{entry['comment']['user']}, #{entry['comment']['time']})
+                    br
+                  span
+                    textarea data-box="meaning#{entry['relation']['meaning']}rel#{entry['relation']['target']}#{entry['relation']['trans']}" data-dict="#{entry['dict']}" data-id="#{entry['id']}" name="kom_text"
+                    button.notranscomment  #{I18n.t("admin.koment.add")}
+          table
+            tr
+              th #{I18n.t("admin.heslo")}
+              th  #{I18n.t("admin.source")} 
+              th zadal
+              th  #{I18n.t("admin.comments")}
+            - @report['notrans2']['notrans'].each do |entry|
               tr
                 td 
                   label #{entry['relation']['trans']} (#{entry['relation']['target']})
