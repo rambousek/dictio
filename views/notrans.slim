@@ -10,7 +10,7 @@ main role="main"
       .search-top style="border-radius: 20px; padding: 15px;"
         article.col.col--start role="article" 
           - if @report['notrans1']['notrans'].size == 0
-            p zadne vysledky
+            p nejsou evidované žádné požadavky na tento slovník
           - else
             table
               tr
@@ -36,8 +36,11 @@ main role="main"
                       textarea data-box="meaning#{entry['relation']['meaning']}rel#{entry['relation']['target']}#{entry['relation']['trans']}" data-dict="#{entry['dict']}" data-id="#{entry['id']}" name="kom_text"
                       button.notranscomment  #{I18n.t("admin.koment.add")}
           - if @report['notrans2']['notrans'].size == 0
-            p zadne vysledky
+            p nejsou evidované žádné požadavky z tohoto slovníku
           - else
+            form method="get" action="/#{@dictcode}/notrans"
+              input type="text" name="user" placeholder="login"
+              input.btn type="submit" value="#{I18n.t("admin.show")}"
             table
               tr
                 th #{I18n.t("admin.heslo")}
@@ -61,6 +64,4 @@ main role="main"
                     span
                       textarea data-box="meaning#{entry['relation']['meaning']}rel#{entry['relation']['target']}#{entry['relation']['trans']}" data-dict="#{entry['dict']}" data-id="#{entry['id']}" name="kom_text"
                       button.notranscomment  #{I18n.t("admin.koment.add")}
-          form method="get" action="/#{@dictcode}/notrans"
-            input type="text" name="user" placeholder="login"
-            input type="submit" value="filtr"
+          
