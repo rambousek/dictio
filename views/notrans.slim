@@ -10,9 +10,9 @@ main role="main"
       .search-top style="border-radius: 20px; padding: 15px;"
         article.col.col--start role="article" 
           h2 
-            | #{I18n.t("admin.notrans1")}
+            | #{I18n.t("admin.notran1")}
           - if @report['notrans1']['notrans'].size == 0
-            | #{I18n.t("admin.notrans0")}
+            | #{I18n.t("admin.notran0")}
           - else
             table
               tr
@@ -38,9 +38,9 @@ main role="main"
                       textarea data-box="meaning#{entry['relation']['meaning']}rel#{entry['relation']['target']}#{entry['relation']['trans']}" data-dict="#{entry['dict']}" data-id="#{entry['id']}" name="kom_text"
                       button.notranscomment  #{I18n.t("admin.koment.add")}
           h2 
-            | #{I18n.t("admin.notrans2")}
+            | #{I18n.t("admin.notran2")}
           - if @report['notrans2']['notrans'].size == 0
-            | #{I18n.t("admin.notrans0")}
+            | #{I18n.t("admin.notran0")}
           - else
             form method="get" action="/#{@dictcode}/notrans"
               table
