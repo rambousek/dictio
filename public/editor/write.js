@@ -2369,6 +2369,8 @@ function create_vyznam_links(parentid) {
                 var prevbox = Ext.getCmp(combo.id).up().query('component[name="vztahtitle"]')[0];
                 prevbox.update(rellink);
                 document.getElementById(prevbox.id+"-innerCt").classList.add('redtext');
+              } else {
+                Ext.getCmp(name).query('component[name="row2"]')[0].hide();
               }
             }
           },
