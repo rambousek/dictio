@@ -2144,7 +2144,7 @@ function save_doc(id) {
             'target': reltar,
             'status': trset[j].query('component[name="stav"]')[0].getValue()
           };
-          if (trset[j].query('component[name=notrans]')[0].checked) {
+          if (trset[j].query('component[name=notrans]')[0].checked && rellink.match(/^[0-9]*-[_us0-9]*$/) == null) {
             newrel.notrans = true;
             newrel.notransuser = trset[j].query('component[name=notransuser]')[0].value;
           }
