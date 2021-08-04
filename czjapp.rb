@@ -130,8 +130,6 @@ class CzjApp < Sinatra::Base
   get '/' do
     @dict_info = $dict_info
     @search_params = {}
-    @target = @default_target
-    @dictcode = @default_dict
     @request = request
     stat = $mongo['entryStat'].find({}, :sort=>{'dateField'=>-1}).first
     @count_entry = stat['entries'][0]['count']
@@ -142,8 +140,6 @@ class CzjApp < Sinatra::Base
   get '/about' do
     @dict_info = $dict_info
     @search_params = {}
-    @target = @default_target
-    @dictcode = @default_dict
     @request = request
     @selected_page = 'about'
     page = 'about-'+I18n.locale.to_s
@@ -153,8 +149,6 @@ class CzjApp < Sinatra::Base
   get '/help' do
     @dict_info = $dict_info
     @search_params = {}
-    @target = @default_target
-    @dictcode = @default_dict
     @request = request
     @selected_page = 'help'
     page = 'help-'+I18n.locale.to_s
@@ -164,8 +158,6 @@ class CzjApp < Sinatra::Base
   get '/helpsign' do
     @dict_info = $dict_info
     @search_params = {}
-    @target = @default_target
-    @dictcode = @default_dict
     @request = request
     @selected_page = 'help'
     page = 'helpsign-'+I18n.locale.to_s
@@ -175,8 +167,6 @@ class CzjApp < Sinatra::Base
   get '/contact' do
     @dict_info = $dict_info
     @search_params = {}
-    @target = @default_target
-    @dictcode = @default_dict
     @request = request
     @selected_page = 'contact'
     page = 'contact-'+I18n.locale.to_s
@@ -186,8 +176,6 @@ class CzjApp < Sinatra::Base
   get '/admin' do
     @dict_info = $dict_info
     @search_params = {}
-    @target = @default_target
-    @dictcode = @default_dict
     @request = request
     @selected_page = 'admin'
     page = 'admin'
@@ -646,8 +634,6 @@ class CzjApp < Sinatra::Base
     get '/video' do
       @dict_info = $dict_info
       @search_params = {}
-      @target = @default_target
-      @dictcode = @default_dict
       @request = request
       @selected_page = 'help'
       page = 'video'
@@ -655,8 +641,6 @@ class CzjApp < Sinatra::Base
     end
 
     get '/usersettings' do
-      @dictcode = 'czj'
-      @target = ''
       @dict_info = $dict_info
       slim :usersettings
     end
@@ -668,14 +652,10 @@ class CzjApp < Sinatra::Base
     get '/users', :admin => false do
       @dict_info = $dict_info
       @search_params = {}
-      @target = @default_target
-      @dictcode = @default_dict
       slim :error401, :status=>401
     end
 
     get '/users', :admin => true do
-      @dictcode = 'czj'
-      @target = ''
       @dict_info = $dict_info
       @users = dict_array['czj'].get_users
       slim :users
@@ -703,8 +683,6 @@ class CzjApp < Sinatra::Base
     end
 
     get '/duplicates' do
-      @dictcode = 'czj'
-      @target = ''
       @dict_info = $dict_info
       @report = dict_array['czj'].get_duplicate_counts
       slim :duplicates

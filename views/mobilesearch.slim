@@ -4,7 +4,8 @@
     .mobile-search__top
       .mobile-search__wrapper
         .mobile-search__select.mobile-search__source
-          .mobile-search__selected value="#{@dictcode}" #{I18n.t("dict."+@dictcode)}
+          - if @dictcode
+            .mobile-search__selected value="#{@dictcode}" #{I18n.t("dict."+@dictcode)}
           .mobile-search__dropdown
             ul
               - @dict_info.each do |code, info|
@@ -14,7 +15,7 @@
           input type="text" placeholder="#{I18n.t('search.placeholder')}" value=@search
 
         .mobile-search__select.mobile-search__target
-          - if @target != ''
+          - if @target.to_s != ''
             .mobile-search__selected value="#{@target}" #{I18n.t("dict."+@target)}
           .mobile-search__dropdown
             ul
