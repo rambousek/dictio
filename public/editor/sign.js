@@ -1668,12 +1668,13 @@ function load_doc(id) {
                   }
                 }
                 var inner = transset.query('component[name="vztahtitle"]')[0].id + "-innerCt";
-                if (trans['title_only'] == 'true') {
+                if (trans['title_only'] == 'true' || trans['meaning_id'].match(/^[0-9]*-[_us0-9]*$/) == null) {
                   add_class_rels[inner] = 'redtext';
                 } else {
                   add_class_rels[inner] = 'text-'+target;
+                  transset.query('component[name=row2]')[0].hide();
                 }
-                if (trans['notrans'] && trans['notrans'] == true) {
+                if (trans['notrans'] && trans['notrans'] == true && trans['meaning_id'].match(/^[0-9]*-[_us0-9]*$/) == null) {
                   transset.query('component[name=notrans]')[0].setValue(true);
                   transset.query('component[name=notransuser]')[0].setValue(trans['notransuser']);
                 }
