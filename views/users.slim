@@ -6,9 +6,7 @@ main role="main"
           h1 style="color: white" #{I18n.t("menu.admin")} 
           h2.btn style="color: white" #{I18n.t("admin.users.title")}
   section.section 
-    .container
-      .search-top style="border-radius: 20px; padding: 15px;"
-        article.col.col--start role="article"  
+    .container      
               - @users.each do |user|
                 table.info.user-info
                   form
