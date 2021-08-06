@@ -82,31 +82,40 @@ class CzjApp < Sinatra::Base
     end
 
     def lang_defaults
-      hostname = get_hostname(request.get_header('HTTP_X_FORWARDED_FOR'))
-      case
-      when hostname.end_with?('.cz'), hostname =~ /^[0-9\.]*$/
-        default_locale = 'cs'
-        default_dict = 'cs'
-        default_target = 'czj'
-      when hostname.end_with?('.sk')
-        default_locale = 'sk'
-        default_dict = 'sj'
-        default_target = 'spj'
-      when hostname.end_with?('.at'), hostname.end_with?('.de')
-        default_locale = 'de'
-        default_dict = 'de'
-        default_target = 'ogs'
+      if @user_info['default_lang'].to_s != '' and @user_info['default_dict'].to_s != ''
+        return @user_info['default_lang'].to_s, @user_info['default_dict'].to_s, @user_info['default_dict'].to_s
       else
-        default_locale = 'en'
-        default_dict = 'en'
-        default_target = 'is'
+        hostname = get_hostname(request.get_header('HTTP_X_FORWARDED_FOR'))
+        case
+        when hostname.end_with?('.cz'), hostname =~ /^[0-9\.]*$/
+          default_locale = 'cs'
+          default_dict = 'cs'
+          default_target = 'czj'
+        when hostname.end_with?('.sk')
+          default_locale = 'sk'
+          default_dict = 'sj'
+          default_target = 'spj'
+        when hostname.end_with?('.at'), hostname.end_with?('.de')
+          default_locale = 'de'
+          default_dict = 'de'
+          default_target = 'ogs'
+        else
+          default_locale = 'en'
+          default_dict = 'en'
+          default_target = 'is'
+        end
+        return default_locale, default_dict, default_target
       end
-      return default_locale, default_dict, default_target
     end
   end
 
 
   before do
+    protected! if $is_edit or $is_admin
+    $stderr.puts @user_info
+    if @user_info['default_lang'].to_s != "" and I18n.available_locales.map(&:to_s).include?(@user_info["default_lang"]) and session[:locale].to_s == ""
+      session[:locale] = @user_info['default_lang']
+    end
     if params['lang'].to_s != "" and I18n.available_locales.map(&:to_s).include?(params["lang"]) and params['lang'] != session[:locale]
       session[:locale] = 'cs' if session[:locale].to_s == ""
       session[:locale] = params['lang']
@@ -124,7 +133,6 @@ class CzjApp < Sinatra::Base
     cookies.set(:dictio_pref, {:httponly=>false, :value=>(write_dicts+sign_dicts).map{|i| 'dict-'+i+'=true'}.join(';')})
     @is_edit = $is_edit
     @is_admin = $is_admin
-    protected! if $is_edit or $is_admin
   end
 
   get '/' do
