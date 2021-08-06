@@ -421,6 +421,9 @@ cs:
       comtrans: "komentované ekvivalenty"
     users:
       title: "správa uživatelů"
+      setting: "uživatelské nastavení"
+      lang: "jazyk rozhraní"
+      dict: "defaultní slovník"
       login: "login"
       email: "e-mail"
       name: "jméno a příjmení"

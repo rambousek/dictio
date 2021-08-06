@@ -77,6 +77,8 @@ header.header role="banner"
                       li 
                         span style="margin-right: 8px" #{@user_info['name']}                        
                       li
+                        a href="/usersettings" class="nav__control" #{I18n.t("menu.users.setting")} 
+                      li
                         a href="https://www.dictio.info" class="nav__control" onclick="logout()" #{I18n.t("menu.logout")}
             - else
               li

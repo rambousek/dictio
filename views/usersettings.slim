@@ -3,7 +3,7 @@ main role="main"
     .container
       .row
         article.col.col--2.col--start role="article"
-          h1 Uživatelské nastavení
+          h1 #{I18n.t("admin.users.setting")}
           table.info.user-info
             form method="post" action="/savesettings"
               tr
@@ -28,18 +28,18 @@ main role="main"
                   input type="password" name="pass" 
               tr
                 td
-                  label jazyk rozhrani
+                  label #{I18n.t("admin.users.lang")}
                 td
                   select name="default_lang"
                     - ['cs', 'en', 'sk', 'de'].each do |code|
                       option value="#{code}" selected=("selected" if @user_info['default_lang'] and @user_info['default_lang']==code) #{I18n.t("locale."+code)}
               tr
                 td
-                  label vychozi slovnik
+                  label #{I18n.t("admin.users.dict")}
                 td
                   select name="default_dict"
                     - @dict_info.each do |code, info|
                       option value="#{code}" selected=("selected" if @user_info['default_dict'] and @user_info['default_dict']==code) #{I18n.t("dict."+code)}
               tr
                 td
-                  input type="submit" value="uložit"
+                  input type="submit" value="#{I18n.t('admin.users.save')}"
