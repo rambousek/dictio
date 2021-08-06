@@ -27,3 +27,17 @@ main role="main"
                   label #{I18n.t("admin.users.pass")}:
                 td
                   input type="password" name="pass" 
+              tr
+                td
+                  label jazyk rozhrani
+                td
+                  select name="default_lang"
+                    - ['cs', 'en', 'sk', 'de'].each do |code|
+                      option value="#{code}" selected=("selected" if @user_info['default_lang'] and @user_info['default_lang']==code) #{I18n.t("locale."+code)}
+              tr
+                td
+                  label vychozi slovnik
+                td
+                  select name="default_dict"
+                    - @dict_info.each do |code, info|
+                      option value="#{code}" selected=("selected" if @user_info['default_dict'] and @user_info['default_dict']==code) #{I18n.t("dict."+code)}
