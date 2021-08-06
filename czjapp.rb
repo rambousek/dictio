@@ -83,7 +83,7 @@ class CzjApp < Sinatra::Base
 
     def lang_defaults
       if @user_info['default_lang'].to_s != '' and @user_info['default_dict'].to_s != ''
-        return @user_info['default_lang'].to_s, @user_info['default_dict'].to_s, @user_info['default_dict'].to_s
+        return @user_info['default_lang'].to_s, @user_info['default_dict'].to_s, $dict_info[@user_info['default_dict'].to_s]['target']
       else
         hostname = get_hostname(request.get_header('HTTP_X_FORWARDED_FOR'))
         case
