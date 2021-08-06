@@ -9,7 +9,7 @@
             ul
               - @dict_info.each do |code, info|
                 - if info['type'] == 'write'
-                  li value="#{code}" selected=("selected" if @dictcode==code) #{I18n.t("dict."+code)}
+                  li value="#{code}" selected=("selected" if @dictcode==code or @default_dict==code) #{I18n.t("dict."+code)}
         .mobile-search__input-wrap
           input type="text" placeholder="#{I18n.t('search.placeholder')}" value=@search
 
