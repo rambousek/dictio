@@ -82,7 +82,7 @@ class CzjApp < Sinatra::Base
     end
 
     def lang_defaults
-      if @user_info['default_lang'].to_s != '' and @user_info['default_dict'].to_s != ''
+      if @user_info and @user_info['default_lang'].to_s != '' and @user_info['default_dict'].to_s != ''
         return @user_info['default_lang'].to_s, @user_info['default_dict'].to_s, $dict_info[@user_info['default_dict'].to_s]['target']
       else
         hostname = get_hostname(request.get_header('HTTP_X_FORWARDED_FOR'))
@@ -112,8 +112,7 @@ class CzjApp < Sinatra::Base
 
   before do
     protected! if $is_edit or $is_admin
-    $stderr.puts @user_info
-    if @user_info['default_lang'].to_s != "" and I18n.available_locales.map(&:to_s).include?(@user_info["default_lang"]) and session[:locale].to_s == ""
+    if @user_info and @user_info['default_lang'].to_s != "" and I18n.available_locales.map(&:to_s).include?(@user_info["default_lang"]) and session[:locale].to_s == ""
       session[:locale] = @user_info['default_lang']
     end
     if params['lang'].to_s != "" and I18n.available_locales.map(&:to_s).include?(params["lang"]) and params['lang'] != session[:locale]
