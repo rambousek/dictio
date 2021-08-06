@@ -6,7 +6,7 @@ main role="main"
           h1 Uživatelské nastavení
           = @user_info
           table.info.user-info
-            form
+            form method="post" action="/savesettings"
               tr
                 td
                   label #{I18n.t("admin.users.login")}
@@ -41,3 +41,6 @@ main role="main"
                   select name="default_dict"
                     - @dict_info.each do |code, info|
                       option value="#{code}" selected=("selected" if @user_info['default_dict'] and @user_info['default_dict']==code) #{I18n.t("dict."+code)}
+              tr
+                td
+                  input type="submit" value="uložit"
