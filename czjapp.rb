@@ -60,7 +60,7 @@ class CzjApp < Sinatra::Base
         res = $mongo['users'].find({'login':user}).first
         return false if res.nil?
         if user == res['login'] and pass.crypt(res['password'][0,2]) == res['password']
-          @user_info = {'login'=>res['login'], 'name'=>res['name'], 'email'=>res['email'], 'skupina'=>res['skupina'], 'copy'=>res['copy'], 'autor'=>res['autor'], 'zdroj'=>res['zdroj'], 'perm'=>[], 'admin'=>res['admin'], 'editor'=>res['editor'], 'revizor'=>res['revizor'], 'dict_allowed'=>res['lang']}
+          @user_info = {'login'=>res['login'], 'name'=>res['name'], 'email'=>res['email'], 'skupina'=>res['skupina'], 'copy'=>res['copy'], 'autor'=>res['autor'], 'zdroj'=>res['zdroj'], 'perm'=>[], 'admin'=>res['admin'], 'editor'=>res['editor'], 'revizor'=>res['revizor'], 'dict_allowed'=>res['lang'], 'default_dict'=>res['default_dict'], 'default_lang'=>res['default_lang']}
           res['editor'].each{|e| @user_info['perm'] << 'editor_'+e}
           res['revizor'].each{|e| @user_info['perm'] << 'revizor_'+e}
           @user_info['perm'] = ['admin'] if res['admin']
@@ -643,6 +643,11 @@ class CzjApp < Sinatra::Base
     get '/usersettings' do
       @dict_info = $dict_info
       slim :usersettings
+    end
+
+    post '/savesettings' do
+      dict_array['czj'].save_user_settting(@user_info, params)
+      redirect to('/usersettings')
     end
   end
 

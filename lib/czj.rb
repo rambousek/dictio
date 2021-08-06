@@ -2574,5 +2574,23 @@ class CZJDict < Object
     }
     return res
   end
+
+  def save_user_settting(user_info, new_info)
+    user_data = $mongo['users'].find({'login': user_info['login']}).first
+    if user_data.nil?
+      return false
+    else
+      if new_info['password'].to_s != ''
+        user_data['password'] = new_info['password'].crypt((Random.rand(1900)+100).to_s(16)[0,2])
+      end
+      user_data['default_lang'] = new_info['default_lang'].to_s
+      user_data['default_dict'] = new_info['default_dict'].to_s
+      user_data['email'] = new_info['email'].to_s
+      user_data['name'] = new_info['name'].to_s
+      $mongo['users'].find({'login': user_info['login']}).delete_many
+      $mongo['users'].insert_one(user_data)
+      return true
+    end
+  end
 end
 
