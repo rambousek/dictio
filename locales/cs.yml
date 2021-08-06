@@ -421,7 +421,7 @@ cs:
       comtrans: "komentované ekvivalenty"
     users:
       title: "správa uživatelů"
-      setting: "uživatelské nastavení"
+      setting: "Uživatelské nastavení"
       lang: "jazyk rozhraní"
       dict: "defaultní slovník"
       login: "login"
