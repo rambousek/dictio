@@ -1047,6 +1047,9 @@ class CZJDict < Object
       cache_all_sw(false)
     end
 
+    # update relations
+    cache_relations(data, true)
+
     return true
   end
 
@@ -2591,6 +2594,72 @@ class CZJDict < Object
       $mongo['users'].insert_one(user_data)
       return true
     end
+  end
+
+  def cache_all_relations(delete_existing=true)
+    count = {'inserted' => 0, 'deleted' => 0}
+    if delete_existing
+      res = $mongo['relation'].find({}).delete_many
+      count['deleted'] = res.deleted_count
+    end
+    @entrydb.find({'dict':'czj','$or': [{'meanings.relation': {'$exists': true}}, {'meanings.usages.relation': {'$exists': true}}]}).each{|entry|
+      count['inserted'] += cache_relations(entry)
+    }
+    return count
+  end
+
+  def cache_relations(entry, cache_related=false)
+    count = 0
+    $mongo['relation'].find({'entry_dict': entry['dict'], 'entry_id': entry['id']}).delete_many
+    rels = []
+    to_check = []
+    if entry['meanings']
+      entry['meanings'].each{|mean|
+        if mean['relation']
+          mean['relation'].each{|rel|
+            rel['entry_dict'] = entry['dict']
+            rel['entry_id'] = entry['id']
+            rel['source_meaning_id'] = mean['id']
+            rels << rel
+            if rel['meaning_id'] =~ /^[0-9]+-.*/
+              to_check << {'dict' => rel['target'], 'id' => rel['meaning_id'].split('-')[0]}
+            end
+          }
+        end
+        if mean['usages']
+          mean['usages'].each{|usg|
+            if usg['relation']
+              usg['relation'].each{|rel|
+                rel['entry_dict'] = entry['dict']
+                rel['entry_id'] = entry['id']
+                rel['source_meaning_id'] = mean['id']
+                rel['source_usage_id'] = usg['id']
+                rels << rel
+                if rel['meaning_id'] =~ /^[0-9]+-.*/
+                  to_check << {'dict' => rel['target'], 'id'=> rel['meaning_id'].split('-')[0]}
+                end
+              }
+            end
+          }
+        end
+      }
+      if rels.length > 0
+        res = $mongo['relation'].insert_many(rels)
+        count += res.inserted_count
+      end
+    end
+
+    if cache_related
+      $mongo['relation'].find({'target': entry['dict'], 'meaning_id': {'$regex': /^#{entry['id']}-.*/}}).delete_many
+      to_check.uniq.each{|rel|
+        entry = getone(rel['dict'], rel['id'])
+        if entry
+          count += cache_relations(entry, false)
+        end
+      }
+    end
+
+    return count
   end
 end
 

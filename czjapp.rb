@@ -701,6 +701,14 @@ class CzjApp < Sinatra::Base
     end
   end
 
+  get '/cache_all_rel' do
+    purge = false
+    purge = true if params['purge'] == '1'
+    count = dict_array['czj'].cache_all_relations(purge)
+    content_type :json
+    body = {'count': count}.to_json
+  end
+
   get '/swapi/symbol_definition/:id.json' do
     data = $mongo['symbol'].find({'id'=>params['id']}).first
     if params['callback'].to_s == ''
