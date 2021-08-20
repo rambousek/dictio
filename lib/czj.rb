@@ -2620,6 +2620,26 @@ class CZJDict < Object
             rel['entry_dict'] = entry['dict']
             rel['entry_id'] = entry['id']
             rel['source_meaning_id'] = mean['id']
+            texts = []
+            texts << entry['lemma']['title'] if entry['lemma']['title']
+            texts << entry['lemma']['title_var'] if entry['lemma']['title_var']
+            texts << entry['lemma']['title_dia'] if entry['lemma']['title_dia']
+            if entry['lemma']['gram'] and entry['lemma']['gram']['form']
+              entry['lemma']['gram']['form'].each{|gr|
+                texts << gr['_text']
+              }
+            end
+            if entry['lemma']['grammar_note'] and entry['lemma']['grammar_note'][0]['variant']
+              entry['lemma']['grammar_note'][0]['variant'].each{|var|
+                texts << var['_text']
+              }
+            end
+            if entry['lemma']['style_note'] and entry['lemma']['style_note'][0]['variant']
+              entry['lemma']['style_note'][0]['variant'].each{|var|
+                texts << var['_text']
+              }
+            end
+            rel['entry_text'] = texts.uniq
             rels << rel
             if rel['meaning_id'] =~ /^[0-9]+-.*/
               to_check << {'dict' => rel['target'], 'id' => rel['meaning_id'].split('-')[0]}
@@ -2634,6 +2654,9 @@ class CZJDict < Object
                 rel['entry_id'] = entry['id']
                 rel['source_meaning_id'] = mean['id']
                 rel['source_usage_id'] = usg['id']
+                texts = []
+                texts << usg['text']['_text'] if usg['text'] and usg['text']['_text']
+                rel['entry_text'] = texts.uniq
                 rels << rel
                 if rel['meaning_id'] =~ /^[0-9]+-.*/
                   to_check << {'dict' => rel['target'], 'id'=> rel['meaning_id'].split('-')[0]}
