@@ -4911,6 +4911,7 @@ Ext.onReady(function(){
                 data: JSON.stringify(data),
               },
               method: 'POST',
+              timeout: 30000,
               failure: function(response) {
                 console.log('fail')
                 console.log(response.responseText)
@@ -4982,6 +4983,7 @@ Ext.onReady(function(){
           if (data != false) {
             Ext.Ajax.request({
               url: '/'+dictcode+'/save',
+              timeout: 30000,
               params: {
                 data: JSON.stringify(data),
               },
@@ -5014,6 +5016,7 @@ Ext.onReady(function(){
             console.log('odeslat data');
             Ext.Ajax.request({
               url: '/'+dictcode+'/save',
+              timeout: 30000,
               params: {
                 data: JSON.stringify(data),
               },
