@@ -7,7 +7,7 @@
         .custom-select
           select.translate-from name="translate-from" id="translate-from"
             - @dict_info.each do |code, info|
-              option value="#{code}" selected=("selected" if (@dictcode==code or @default_dict==code)) #{I18n.t("dict_menu."+code)}
+              option value="#{code}" selected=("selected" if (@dictcode==code or (@dictcode == '' and @default_dict==code))) #{I18n.t("dict_menu."+code)}
         .search__switch
           span.icon.icon--translate
             svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
