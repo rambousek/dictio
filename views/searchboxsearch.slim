@@ -9,7 +9,7 @@
             .custom-select
               select.translate-from name="translate-from" id="translate-from"
                 - @dict_info.each do |code, info|
-                  option value="#{code}" selected=("selected" if (@dictcode == code or (@dictcode.to_s == '' and @default_dict == code)) #{I18n.t("dict_search."+code)}
+                  option value="#{code}" selected=("selected" if (@dictcode == code or (@dictcode.to_s == '' and @default_dict == code))) #{I18n.t("dict_search."+code)}
           .search__item
             label style="visibility:hidden" for="expression_search" = I18n.t("search.expression")
             .search__input
