@@ -2684,7 +2684,7 @@ class CZJDict < Object
       res = $mongo['relation'].find({}).delete_many
       count['deleted'] = res.deleted_count
     end
-    @entrydb.find({'dict':'czj','$or': [{'meanings.relation': {'$exists': true}}, {'meanings.usages.relation': {'$exists': true}}]}).each{|entry|
+    @entrydb.find({'$or': [{'meanings.relation': {'$exists': true}}, {'meanings.usages.relation': {'$exists': true}}]}).each{|entry|
       count['inserted'] += cache_relations(entry)
     }
     return count
