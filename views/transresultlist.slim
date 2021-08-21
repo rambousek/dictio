@@ -1,95 +1,92 @@
-- rellemmaused = []
-- @result['entries'].each do |entry|
-  - entry['meanings'].each do |mean|
-    - mean['relation'].select{|rel| (rel['target'] == @target or rel['target'] == @dictcode) and rel['entry'] and rel['status'] == 'published'}.each do |rel|
-      .col.col--3.col--precise.translate-box data-resultcount="#{@result['count']}" data-relinfo="#{entry['dict']+entry['id']+rel['target']+rel['meaning_id'].sub(/-.*$/,'')}"
+- @result['relations'].each do |rel|
+      .col.col--3.col--precise.translate-box data-resultcount="#{@result['count']}" data-relinfo="#{rel['source_dict']+rel['source_id']+rel['target']+rel['meaning_id'].sub(/-.*$/,'')}"
         - if @dict_info[@dictcode]['type'] == 'write'
           p
-            - if entry['dict'] == @dictcode
+            - if rel['source_dict'] == @dictcode
               - if (@is_edit or @is_admin)
                   span.trans__badge style="position: relative; margin-right: 5px;" class="trans__badge__#{@dictcode}"
-                    a.edit href="/editor#{@dictcode}/?id=#{entry['id']}" #{@dictcode}-#{entry['id']}
-              a.btn.btn--simple.btn--simple--lg href="#{@tran_path}/#{entry['id']}" 
-                | #{entry['lemma']['title']} 
+                    a.edit href="/editor#{@dictcode}/?id=#{rel['source_id']}" #{@dictcode}-#{rel['source_id']}
+              a.btn.btn--simple.btn--simple--lg href="#{@tran_path}/#{rel['source_id']}" 
+                | #{rel['source_title']} 
                 / (#{entry['meanings'][0]['number']})
               - if (@is_edit or @is_admin)
                 span.pluscount
             - else
-              - if rel['entry']['id']
+              - if rel['target_id']
                 - if (@is_edit or @is_admin)
                     span.trans__badge style="position: relative;" class="trans__badge__#{@dictcode}"
-                      a.edit href="/editor#{@dictcode}/?id=#{rel['entry']['id']}" #{@dictcode}-#{rel['entry']['id']}
-                a.btn.btn--simple.btn--simple--lg.x href="#{@tran_path}/#{rel['entry']['id']}" 
-                  | #{rel['entry']['lemma']['title']}
+                      a.edit href="/editor#{@dictcode}/?id=#{rel['target_id']}" #{@dictcode}-#{rel['target_id']}
+                a.btn.btn--simple.btn--simple--lg.x href="#{@tran_path}/#{rel['target_id']}" 
+                  | #{rel['target_title']}
                 - if (@is_edit or @is_admin)
                   span.pluscount
               - else
                 span.btn.btn--simple.btn--simple--lg style="cursor:auto"
-                  em = rel['entry']['lemma']['title']
+                  em = rel['target_title']
         - else
           .video.video--shrink.video--small
             .video__content
-              - if entry['media'] and entry['media']['video_front'] and entry['media']['video_front']['orient']
-                span.video-orient = entry['media']['video_front']['orient'][0].upcase
+              - if rel['source_video']['orient']
+                span.video-orient = rel['source_video']['orient'][0].upcase
               - else
                 span.video-orient R
-              video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url="#{@tran_path}/#{entry['id']}" poster="/thumb/video#{@dictcode}/#{entry['lemma']['video_front']}" muted="muted"
-                source src="https://files.dictio.info/video#{@dictcode}/#{entry['lemma']['video_front']}" type="video/mp4"
+              video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url="#{@tran_path}/#{rel['source_id']}" poster="/thumb/video#{@dictcode}/#{rel['source_video']['location']}" muted="muted"
+                source src="https://files.dictio.info/video#{@dictcode}/#{rel['source_video']['location']}" type="video/mp4"
             .video__controls
               - if (@is_edit or @is_admin)
                 span.trans__badge class="trans__badge__#{@dictcode}"
-                  a.edit href="/editor#{@dictcode}/?id=#{entry['id']}" #{@dictcode}-#{entry['id']}
+                  a.edit href="/editor#{@dictcode}/?id=#{rel['source_id']}" #{@dictcode}-#{rel['source_id']}
               - if (@is_edit or @is_admin)
                 span.pluscount
-              a.video__link href="/#{@tran_path}/#{entry['id']}"
+              a.video__link href="/#{@tran_path}/#{rel['source_id']}"
                 span.icon.icon--open-new-window
                   svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                     use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
-              - unless entry['lemma']['swmix'].nil? 
+              - unless rel['source_sw'].nil? 
                 span.video__sign
-                  - entry['lemma']['swmix'].each do |sw|
+                  - rel['source_sw'].each do |sw|
                     img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
             span.video__down
               span.icon.icon--arrow-down
                 svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                   use xlink:href="/img/icons.svg#arrow-down" x="0" y="0" width="100%" height="100%"
         - if @dict_info[@target]['type'] == 'write'
-          - if rel['target'] == @target and rel['entry']['id']
+          - if rel['target'] == @target and rel['target_id']
             p
-              a.link href="#{@tran_path}/#{@target}-#{rel['entry']['id']}"  #{rel['entry']['lemma']['title']} 
+              a.link href="#{@tran_path}/#{@target}-#{rel['target_id']}"  #{rel['target_title']} 
               |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
               - if (@is_edit or @is_admin)
                 span.trans__badge style="position: relative;" class="trans__badge__#{@target}" 
-                  a.edit href="/editor#{@target}/?id=#{rel['entry']['id']}" #{@target}-#{rel['entry']['id']}
-          - elsif entry['dict'] == @target
+                  a.edit href="/editor#{@target}/?id=#{rel['target_id']}" #{@target}-#{rel['target_id']}
+          - elsif rel['source_dict'] == @target
             p
-              a.link href="#{@tran_path}/#{@target}-#{entry['id']}"  #{entry['lemma']['title']} 
+              a.link href="#{@tran_path}/#{@target}-#{rel['source_id']}"  #{rel['source_title']} 
           - else
             p
-              em = rel['entry']['lemma']['title']
+              em = rel['target_title']
 
         - else
-          - if entry['dict'] == @target
-            - use_entry = entry
+          - if rel['source_dict'] == @target
+            - use_entry = 'source'
           - else
-            - use_entry = rel['entry']
+            - use_entry = 'target'
           .video.video--small
             .video__content
-              - if use_entry['media'] and use_entry['media']['video_front'] and use_entry['media']['video_front']['orient'].to_s != ''
-                span.video-orient = use_entry['media']['video_front']['orient'].to_s[0].upcase
+              - if use_entry['orient'].to_s != ''
+                span.video-orient = rel[use_entry+'_front']['orient'].to_s[0].upcase
               - else
                 span.video-orient R
-              video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url="#{@tran_path}/#{@target}-#{use_entry['id']}" poster="/thumb/video#{@target}/#{use_entry['lemma']['video_front']}" muted="muted"
-                source src="https://files.dictio.info/video#{@target}/#{use_entry['lemma']['video_front']}" type="video/mp4"
+              video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url="#{@tran_path}/#{@target}-#{rel[use_entry+'_id']}" poster="/thumb/video#{@target}/#{rel[use_entry+'_video']['location']}" muted="muted"
+                source src="https://files.dictio.info/video#{@target}/#{rel[use_entry+'_video']['location']}" type="video/mp4"
             .video__controls
               - if (@is_edit or @is_admin)
                 span.trans__badge class="trans__badge__#{@target}"
-                  a.edit href="/editor#{@target}/?id=#{use_entry['id']}" #{@target}-#{use_entry['id']}
-              a.video__link href="/#{@dictcode}/translate/#{@target}/#{@params['type']}/#{@search}/#{@target}-#{use_entry['id']}"
+                  a.edit href="/editor#{@target}/?id=#{rel[use_entry+'_id']}" #{@target}-#{rel[use_entry+'_id']}
+              a.video__link href="/#{@dictcode}/translate/#{@target}/#{@params['type']}/#{@search}/#{@target}-#{rel[use_entry+'_id']}"
                 span.icon.icon--open-new-window
                   svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                     use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
-              - unless use_entry['lemma']['swmix'].nil?
+              - unless rel[use_entry+'_sw'].nil?
                 span.video__sign
-                  - use_entry['lemma']['swmix'].each do |sw|
+                  - rel[use_entry+'_sw'].each do |sw|
                     img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""

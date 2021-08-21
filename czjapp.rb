@@ -297,7 +297,7 @@ class CzjApp < Sinatra::Base
           slim :fullentry
       else
         #@result = dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, 0, @translate_limit)
-        @result = {'entries'=>[], 'initial'=>true}
+        @result = {'relations'=>[], 'initial'=>true}
         slim :transresult
       end
     end

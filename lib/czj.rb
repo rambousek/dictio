@@ -713,6 +713,87 @@ class CZJDict < Object
         @entrydb.find({'dict': dictcode, 'id': search, 'meanings.relation.target': target}).each{|re|
           entry = add_rels(re, false, 'translation', target)
           entry = get_sw(entry)
+          if entry['meanings']
+            entry['meanings'].each{|mean|
+              if mean['relation']
+                mean['relation'].each{|rel|
+                  if rel['type'] == 'translation' and rel['target'] == target
+                    rel['source_dict'] = dictcode
+                    rel['source_id'] = entry['id']
+                    rel['source_title'] = entry['lemma']['title'] if entry['lemma']['title']
+                    rel['source_video'] = get_media_location(entry['lemma']['video_front'], entry['dict']) if entry['lemma']['video_front'].to_s != ''
+                    rel['source_sw'] = entry['lemma']['swmix'] if entry['lemma']['swmix']
+                    rel['target_id'] = rel['entry']['id']
+                    rel['target_title'] = rel['entry']['lemma']['title'] if rel['entry']['lemma']['title']
+                    rel['target_sw'] = rel['entry']['lemma']['swmix'] if rel['entry']['lemma']['swmix']
+                    rel['target_video'] = get_media_location(rel['entry']['lemma']['video_front'], rel['target']) if rel['entry']['lemma']['video_front'].to_s != ''
+                    res << rel
+                  end
+                }
+              end
+            }
+          end
+          resultcount = res.length
+        }
+      else
+        if @write_dicts.include?(source)
+          locale = source
+          locale = 'sk' if source == 'sj'
+          search_conds = []
+          search_conds << {'source_dict': source, 'entry_text': {'$regex': /(^| )#{search}/i}, 'target': target}
+          search_conds << {'source_dict': target, 'meaning_id': {'$regex': /(^| )#{search}/i}, 'target': source}
+          search_cond = {'$or': search_conds,}
+          $stderr.puts search_cond
+          cursor = $mongo['relation'].find(search_cond, :collation => {'locale' => locale})
+          resultcount = cursor.count_documents
+          cursor = cursor.skip(start)
+          cursor = cursor.limit(limit) if limit.to_i > 0
+          cursor.each{|entry|
+            $stderr.puts entry
+            res << entry
+          }
+        else
+        end
+      end
+    when 'key'
+      search_cond_text = {'$or': get_key_search(search)}
+      search_cond_rel = {'meanings.relation':{'$elemMatch': {'target': target, 'type': 'translation', 'status': 'published'}}}
+      search_cond = {'dict': dictcode, '$and': [search_cond_text, search_cond_rel]}
+      $stdout.puts search_cond
+          pipeline = [
+            {'$match' => search_cond},
+            {'$unwind' => '$meanings'},
+            {'$unwind' => '$meanings.relation'},
+            {'$match' => {'meanings.relation.target'=>target}},
+          ]
+          @entrydb.aggregate(pipeline+[{'$count'=>'total'}]).each{|re|
+            resultcount = re['total'].to_i
+          }
+          pipeline << {'$skip' => start.to_i}
+          pipeline << {'$limit' => limit.to_i} if limit.to_i > 0
+          cursor = @entrydb.aggregate(pipeline, :allow_disk_use => true)
+          cursor.each{|re|
+            re['meanings']['relation'] = [re['meanings']['relation']]
+            re['meanings'] = [re['meanings']]
+            entry = add_rels(re, true, 'translation', target)
+            entry = get_sw(entry)
+            res << entry
+          }
+    end
+    return {'count'=> resultcount, 'relations'=> res}
+  end
+
+  def translate0(source, target, search, type, start=0, limit=nil)
+    res = []
+    resultcount = 0
+    case type
+    when 'text'
+      search = search.downcase
+      if search =~ /^[0-9]*$/
+        resultcount = 0
+        @entrydb.find({'dict': dictcode, 'id': search, 'meanings.relation.target': target}).each{|re|
+          entry = add_rels(re, false, 'translation', target)
+          entry = get_sw(entry)
           res << entry
           resultcount = 1
         }
@@ -2610,18 +2691,22 @@ class CZJDict < Object
 
   def cache_relations(entry, cache_related=false)
     count = 0
-    $mongo['relation'].find({'entry_dict': entry['dict'], 'entry_id': entry['id']}).delete_many
+    $mongo['relation'].find({'source_dict': entry['dict'], 'source_id': entry['id']}).delete_many
     rels = []
     to_check = []
+    entry = get_sw(entry)
     if entry['meanings']
       entry['meanings'].each{|mean|
         if mean['relation']
           mean['relation'].each{|rel|
-            rel['entry_dict'] = entry['dict']
-            rel['entry_id'] = entry['id']
+            rel['source_dict'] = entry['dict']
+            rel['source_id'] = entry['id']
             rel['source_meaning_id'] = mean['id']
             texts = []
-            texts << entry['lemma']['title'] if entry['lemma']['title']
+            if entry['lemma']['title']
+              texts << entry['lemma']['title'] 
+              rel['source_title'] = entry['lemma']['title']
+            end
             texts << entry['lemma']['title_var'] if entry['lemma']['title_var']
             texts << entry['lemma']['title_dia'] if entry['lemma']['title_dia']
             if entry['lemma']['gram'] and entry['lemma']['gram']['form']
@@ -2640,26 +2725,54 @@ class CZJDict < Object
               }
             end
             rel['entry_text'] = texts.uniq
-            rels << rel
+            rel['source_video'] = get_media_location(entry['lemma']['video_front'], entry['dict']) if entry['lemma']['video_front']
+            rel['source_sw'] = entry['lemma']['swmix'] if entry['lemma']['swmix']
+
             if rel['meaning_id'] =~ /^[0-9]+-.*/
-              to_check << {'dict' => rel['target'], 'id' => rel['meaning_id'].split('-')[0]}
+              rela = rel['meaning_id'].split('-')
+              rel['target_id'] = rela[0]
+              rel['meaning_nr'] = rela[1].to_s
+              to_check << {'dict' => rel['target'], 'id' => rel['target_id']}
+              targetentry = get_sw(getone(rel['target'], rel['target_id']))
+              rel['target_title'] = targetentry['lemma']['title'] if targetentry['lemma']['title']
+              rel['target_video'] = get_media_location(targetentry['lemma']['video_front'], rel['target']) if targetentry['lemma']['video_front']
+              rel['target_sw'] = targetentry['lemma']['swmix'] if targetentry['lemma']['swmix']
+            else
+              rel['target_title'] = rel['meaning_id']
             end
+            rels << rel
           }
         end
         if mean['usages']
           mean['usages'].each{|usg|
             if usg['relation']
               usg['relation'].each{|rel|
-                rel['entry_dict'] = entry['dict']
-                rel['entry_id'] = entry['id']
+                rel['source_dict'] = entry['dict']
+                rel['source_id'] = entry['id']
                 rel['source_meaning_id'] = mean['id']
                 rel['source_usage_id'] = usg['id']
+                rel['status'] = usg['status']
                 texts = []
-                texts << usg['text']['_text'] if usg['text'] and usg['text']['_text']
+                if usg['text'] and usg['text']['_text']
+                  texts << usg['text']['_text'] 
+                  rel['usage_text'] = usg['text']['_text']
+                  rel['source_title'] = usg['text']['_text']
+                end
+                rel['source_video'] = get_media(usg['text']['file']['@media_id'], entry['dict'], false)
+                rel['source_sw'] = entry['lemma']['swmix'] if entry['lemma']['swmix']
                 rel['entry_text'] = texts.uniq
                 rels << rel
                 if rel['meaning_id'] =~ /^[0-9]+-.*/
-                  to_check << {'dict' => rel['target'], 'id'=> rel['meaning_id'].split('-')[0]}
+                  rela = rel['meaning_id'].split('-')
+                  rel['target_id'] = rela[0]
+                  rel['meaning_nr'] = rela[1]
+                  to_check << {'dict' => rel['target'], 'id'=> rel['target_id']}
+                  targetentry = get_sw(getone(rel['target'], rel['target_id']))
+                  rel['target_title'] = targetentry['lemma']['title'] if targetentry['lemma']['title']
+                  rel['target_video'] = targetentry['lemma']['video_front'] if targetentry['lemma']['video_front']
+                  rel['target_sw'] = targetentry['lemma']['swmix'] if targetentry['lemma']['swmix']
+                else
+                  rel['target_title'] = rel['meaning_id']
                 end
               }
             end
