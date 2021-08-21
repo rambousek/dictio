@@ -739,12 +739,13 @@ class CZJDict < Object
         if @write_dicts.include?(source)
           locale = source
           locale = 'sk' if source == 'sj'
+          collate = {:collation => {'locale' => locale}, :sort => {'source_title' => 1}}
           search_conds = []
           search_conds << {'source_dict': source, 'entry_text': {'$regex': /(^| )#{search}/i}, 'target': target}
           search_conds << {'source_dict': target, 'meaning_id': {'$regex': /(^| )#{search}/i}, 'target': source}
           search_cond = {'$or': search_conds,}
           $stderr.puts search_cond
-          cursor = $mongo['relation'].find(search_cond, :collation => {'locale' => locale})
+          cursor = $mongo['relation'].find(search_cond, collate)
           resultcount = cursor.count_documents
           cursor = cursor.skip(start)
           cursor = cursor.limit(limit) if limit.to_i > 0
@@ -2733,10 +2734,13 @@ class CZJDict < Object
               rel['target_id'] = rela[0]
               rel['meaning_nr'] = rela[1].to_s
               to_check << {'dict' => rel['target'], 'id' => rel['target_id']}
-              targetentry = get_sw(getone(rel['target'], rel['target_id']))
-              rel['target_title'] = targetentry['lemma']['title'] if targetentry['lemma']['title']
-              rel['target_video'] = get_media_location(targetentry['lemma']['video_front'], rel['target']) if targetentry['lemma']['video_front']
-              rel['target_sw'] = targetentry['lemma']['swmix'] if targetentry['lemma']['swmix']
+              targetentry = getone(rel['target'], rel['target_id'])
+              if targetentry
+                targetentry = get_sw(targetentry)
+                rel['target_title'] = targetentry['lemma']['title'] if targetentry['lemma']['title']
+                rel['target_video'] = get_media_location(targetentry['lemma']['video_front'], rel['target']) if targetentry['lemma']['video_front']
+                rel['target_sw'] = targetentry['lemma']['swmix'] if targetentry['lemma']['swmix']
+              end
             else
               rel['target_title'] = rel['meaning_id']
             end
@@ -2767,10 +2771,13 @@ class CZJDict < Object
                   rel['target_id'] = rela[0]
                   rel['meaning_nr'] = rela[1]
                   to_check << {'dict' => rel['target'], 'id'=> rel['target_id']}
-                  targetentry = get_sw(getone(rel['target'], rel['target_id']))
-                  rel['target_title'] = targetentry['lemma']['title'] if targetentry['lemma']['title']
-                  rel['target_video'] = targetentry['lemma']['video_front'] if targetentry['lemma']['video_front']
-                  rel['target_sw'] = targetentry['lemma']['swmix'] if targetentry['lemma']['swmix']
+                  targetentry = getone(rel['target'], rel['target_id'])
+                  if targetentry
+                    targetentry = get_sw(targetentry)
+                    rel['target_title'] = targetentry['lemma']['title'] if targetentry['lemma']['title']
+                    rel['target_video'] = targetentry['lemma']['video_front'] if targetentry['lemma']['video_front']
+                    rel['target_sw'] = targetentry['lemma']['swmix'] if targetentry['lemma']['swmix']
+                  end
                 else
                   rel['target_title'] = rel['meaning_id']
                 end
