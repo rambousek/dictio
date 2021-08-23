@@ -2765,7 +2765,6 @@ class CZJDict < Object
                 rel['source_video'] = get_media(usg['text']['file']['@media_id'], entry['dict'], false)
                 rel['source_sw'] = entry['lemma']['swmix'] if entry['lemma']['swmix']
                 rel['entry_text'] = texts.uniq
-                rels << rel
                 if rel['meaning_id'] =~ /^[0-9]+-.*/
                   rela = rel['meaning_id'].split('-')
                   rel['target_id'] = rela[0]
@@ -2781,6 +2780,7 @@ class CZJDict < Object
                 else
                   rel['target_title'] = rel['meaning_id']
                 end
+                rels << rel
               }
             end
           }
