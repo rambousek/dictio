@@ -2762,7 +2762,7 @@ class CZJDict < Object
                   rel['usage_text'] = usg['text']['_text']
                   rel['source_title'] = usg['text']['_text']
                 end
-                rel['source_video'] = get_media(usg['text']['file']['@media_id'], entry['dict'], false)
+                rel['source_video'] = get_media(usg['text']['file']['@media_id'], entry['dict'], false) if usg['text']['file'] and usg['text']['file']['@media_id']
                 rel['source_sw'] = entry['lemma']['swmix'] if entry['lemma']['swmix']
                 rel['entry_text'] = texts.uniq
                 if rel['meaning_id'] =~ /^[0-9]+-.*/
