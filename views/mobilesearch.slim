@@ -4,17 +4,21 @@
     .mobile-search__top
       .mobile-search__wrapper
         .mobile-search__select.mobile-search__source
-          - if @dictcode
+          - if @dictcode.to_s != ''
             .mobile-search__selected value="#{@dictcode}" #{I18n.t("dict."+@dictcode)}
+          - if @dictcode.to_s == '' and @default_dict != ''
+            .mobile-search__selected value="#{@default_dict}" #{I18n.t("dict."+@default_dict)}
           .mobile-search__dropdown
             ul
               - @dict_info.each do |code, info|
                 - if info['type'] == 'write'
-                  li value="#{code}" selected=("selected" if @dictcode==code) #{I18n.t("dict."+code)}
+                  li value="#{code}" selected=("selected" if (@dictcode==code or (@dictcode.to_s == '' and @default_dict == code))) #{I18n.t("dict."+code)}
         .mobile-search__input-wrap
           input type="text" placeholder="#{I18n.t('search.placeholder')}" value=@search
 
         .mobile-search__select.mobile-search__target
+          - if @target.to_s == '' and @default_target != ''
+            .mobile-search__selected value="#{@default_target}" #{I18n.t("dict."+@default_target)}
           - if @target.to_s != ''
             .mobile-search__selected value="#{@target}" #{I18n.t("dict."+@target)}
           .mobile-search__dropdown
