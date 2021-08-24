@@ -350,6 +350,14 @@ class CzjApp < Sinatra::Base
       content_type :json
       body = {'count': count}.to_json
     end
+    get '/'+code+'/cache_all_rel' do
+      purge = false
+      purge = true if params['purge'] == '1'
+      count = dict.cache_all_relations(purge)
+      content_type :json
+      body = {'count': count}.to_json
+    end
+
 
     if $is_edit
       set (:dict_allowed) {|value| condition { @user_info['admin'] or @user_info['dict_allowed'].nil? or @user_info['dict_allowed'] == [] or @user_info['dict_allowed'].include?(value) } }
@@ -699,14 +707,6 @@ class CzjApp < Sinatra::Base
       @report = dict_array['czj'].get_duplicate_counts
       slim :duplicates
     end
-  end
-
-  get '/cache_all_rel' do
-    purge = false
-    purge = true if params['purge'] == '1'
-    count = dict_array['czj'].cache_all_relations(purge)
-    content_type :json
-    body = {'count': count}.to_json
   end
 
   get '/swapi/symbol_definition/:id.json' do

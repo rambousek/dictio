@@ -2683,10 +2683,10 @@ class CZJDict < Object
   def cache_all_relations(delete_existing=true)
     count = {'inserted' => 0, 'deleted' => 0}
     if delete_existing
-      res = $mongo['relation'].find({}).delete_many
+      res = $mongo['relation'].find({'source_dict': @dictcode}).delete_many
       count['deleted'] = res.deleted_count
     end
-    @entrydb.find({'$or': [{'meanings.relation': {'$exists': true}}, {'meanings.usages.relation': {'$exists': true}}]}).each{|entry|
+    @entrydb.find({'dict': @dictcode, '$or': [{'meanings.relation': {'$exists': true}}, {'meanings.usages.relation': {'$exists': true}}]}).each{|entry|
       count['inserted'] += cache_relations(entry)
     }
     return count
