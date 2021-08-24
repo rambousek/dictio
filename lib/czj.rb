@@ -8,7 +8,6 @@ class CZJDict < Object
   def initialize(dictcode)
     @dictcode = dictcode 
     #@servlet = CZJServlet
-    @collection = $mongo[dictcode]
     @entrydb = $mongo['entries']
   end
 
