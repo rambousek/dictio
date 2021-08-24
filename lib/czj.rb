@@ -1,5 +1,4 @@
 class CZJDict < Object
-  #attr_accessor :servlet
   attr_accessor :dictcode
   attr_accessor :write_dicts
   attr_accessor :sign_dicts
@@ -7,7 +6,6 @@ class CZJDict < Object
 
   def initialize(dictcode)
     @dictcode = dictcode 
-    #@servlet = CZJServlet
     @entrydb = $mongo['entries']
   end
 
