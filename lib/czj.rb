@@ -1645,6 +1645,8 @@ class CZJDict < Object
   end
 
   def delete_doc(entry_id)
+    $mongo['relation'].find({'source_dict': @dictcode, 'source_id': entry_id}).delete_many
+    $mongo['relation'].find({'target': @dictcode, 'target_id': entry_id}).delete_many
     @entrydb.find({'dict'=>@dictcode, 'id'=>entry_id}).delete_many
   end
 
