@@ -2709,19 +2709,19 @@ class CZJDict < Object
             end
             texts << entry['lemma']['title_var'] if entry['lemma']['title_var']
             texts << entry['lemma']['title_dia'] if entry['lemma']['title_dia']
-            if entry['lemma']['gram'] and entry['lemma']['gram']['form']
+            if entry['lemma']['gram'] and entry['lemma']['gram']['form'] and entry['lemma']['gram']['form'].is_a?(Array)
               entry['lemma']['gram']['form'].each{|gr|
-                texts << gr['_text']
+                texts << gr['_text'] if gr['_text']
               }
             end
             if entry['lemma']['grammar_note'] and entry['lemma']['grammar_note'][0]['variant']
               entry['lemma']['grammar_note'][0]['variant'].each{|var|
-                texts << var['_text']
+                texts << var['_text'] if var['_text']
               }
             end
             if entry['lemma']['style_note'] and entry['lemma']['style_note'][0]['variant']
               entry['lemma']['style_note'][0]['variant'].each{|var|
-                texts << var['_text']
+                texts << var['_text'] if var['_text']
               }
             end
             rel['entry_text'] = texts.uniq
