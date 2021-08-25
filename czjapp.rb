@@ -357,6 +357,11 @@ class CzjApp < Sinatra::Base
       content_type :json
       body = {'count': count}.to_json
     end
+    get '/'+code+'/cache_rel_entry/:id' do
+      count = dict.cache_relations_entry(code, params['id'])
+      content_type :json
+      body = {'count': count}.to_json
+    end
 
 
     if $is_edit

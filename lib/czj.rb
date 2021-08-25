@@ -1112,10 +1112,6 @@ class CZJDict < Object
       $mongo['sw'].find({'dict': dict, 'entries_used': entryid}).delete_many
       cache_all_sw(false)
     end
-
-    # update relations
-    cache_relations(data, true)
-
     return true
   end
 
@@ -2673,6 +2669,12 @@ class CZJDict < Object
     @entrydb.find({'dict': @dictcode, '$or': [{'meanings.relation': {'$exists': true}}, {'meanings.usages.relation': {'$exists': true}}]}).each{|entry|
       count['inserted'] += cache_relations(entry)
     }
+    return count
+  end
+
+  def cache_relations_entry(dict, entry_id)
+    entry = getone(dict, entry_id)
+    count = cache_relations(entry, true)
     return count
   end
 
