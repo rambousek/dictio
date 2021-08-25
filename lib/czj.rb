@@ -741,14 +741,6 @@ class CZJDict < Object
           search_conds << {'source_dict': source, 'entry_text': {'$regex': /(^| )#{search}/i}, 'target': target}
           search_conds << {'source_dict': target, 'meaning_id': {'$regex': /(^| )#{search}/i}, 'target': source}
           search_cond = {'$or': search_conds,}
-          $stderr.puts search_cond
-          cursor = $mongo['relation'].find(search_cond, collate)
-          resultcount = cursor.count_documents
-          cursor = cursor.skip(start)
-          cursor = cursor.limit(limit) if limit.to_i > 0
-          cursor.each{|entry|
-            res << entry
-          }
         else
           search_in = 'cs'
           search_in = @dict_info[dictcode]['search_in'] unless @dict_info[dictcode]['search_in'].nil?
@@ -759,15 +751,15 @@ class CZJDict < Object
           }
           search_cond = {'source_dict': dictcode, 'target': target, 'source_id': {'$in': csl}}
           collate = {:collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'source_id' => 1}}
-          $stderr.puts search_cond
-          cursor = $mongo['relation'].find(search_cond, collate)
-          resultcount = cursor.count_documents
-          cursor = cursor.skip(start)
-          cursor = cursor.limit(limit) if limit.to_i > 0
-          cursor.each{|entry|
-            res << entry
-          }
         end
+        $stderr.puts search_cond
+        cursor = $mongo['relation'].find(search_cond, collate)
+        resultcount = cursor.count_documents
+        cursor = cursor.skip(start)
+        cursor = cursor.limit(limit) if limit.to_i > 0
+        cursor.each{|entry|
+          res << entry
+        }
       end
     when 'key'
       search_cond_text = {'$or': get_key_search(search)}
