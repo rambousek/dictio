@@ -441,7 +441,7 @@ class CZJDict < Object
     return entry
   end
 
-  def get_key_search(search)
+  def get_key_search(search, swelement = 'lemma.sw')
       search_ar = search.split('|')
       search_shape = search_ar[0].to_s.split(',') #tvary
       search_jedno = []
@@ -451,7 +451,7 @@ class CZJDict < Object
       search_shape.each{|e|
         #jednorucni, rotace jen 0-7
         search_jedno << {
-          'lemma.sw'=>{
+          swelement=>{
             '$elemMatch'=>{
               '$and'=>[
                 {'@fsw'=>{'$regex'=>e+'[0-5][0-7]'}},
@@ -463,7 +463,7 @@ class CZJDict < Object
         }
         #dve ruce, stejne rotace 0-7 + 8-f
         search_obe_stejne << {
-          'lemma.sw'=>{
+          swelement=>{
             '$elemMatch'=>{
               '$and'=>[
                 {'@fsw'=>{'$regex'=>e+'[0-5][0-7]'}},
@@ -474,7 +474,7 @@ class CZJDict < Object
         }
         #dve ruce, ruzne, hledana 0-7 a jina 8-f, nebo hledana 8-f a jina 0-7
         search_obe_ruzne << {
-          'lemma.sw'=>{
+          swelement=>{
             '$elemMatch'=>{
               '$or'=>[
                 {
@@ -509,25 +509,25 @@ class CZJDict < Object
         #pridame umisteni
         search_loc = search_ar[1].split(',')
         search_jedno.map!{|e| 
-          e['lemma.sw']['$elemMatch']['@misto'] = {'$in'=>search_loc}
+          e[swelement]['$elemMatch']['@misto'] = {'$in'=>search_loc}
           e
         }
         search_obe_stejne.map!{|e| 
-          e['lemma.sw']['$elemMatch']['@misto'] = {'$in'=>search_loc}
+          e[swelement]['$elemMatch']['@misto'] = {'$in'=>search_loc}
           e
         }
         search_obe_ruzne.map!{|e| 
-          e['lemma.sw']['$elemMatch']['@misto'] = {'$in'=>search_loc}
+          e[swelement]['$elemMatch']['@misto'] = {'$in'=>search_loc}
           e
         }
         if search_jedno.length == 0
-          search_jedno << {'lemma.sw'=>{'$elemMatch'=>{'@misto'=>{'$in'=>search_loc}}}}
+          search_jedno << {swelement=>{'$elemMatch'=>{'@misto'=>{'$in'=>search_loc}}}}
         end
         if search_obe_ruzne.length == 0
-          search_obe_ruzne << {'lemma.sw'=>{'$elemMatch'=>{'@misto'=>{'$in'=>search_loc}}}}
+          search_obe_ruzne << {swelement=>{'$elemMatch'=>{'@misto'=>{'$in'=>search_loc}}}}
         end
         if search_obe_stejne.length == 0
-          search_obe_stejne << {'lemma.sw'=>{'$elemMatch'=>{'@misto'=>{'$in'=>search_loc}}}}
+          search_obe_stejne << {swelement=>{'$elemMatch'=>{'@misto'=>{'$in'=>search_loc}}}}
         end
       end
 
@@ -541,8 +541,8 @@ class CZJDict < Object
         end
         if search_two.include?('act')
           search_query.map!{|e| 
-            e['lemma.sw']['$elemMatch']['$and'] = [] if e['lemma.sw']['$elemMatch']['$and'].nil?
-            e['lemma.sw']['$elemMatch']['$and'] << {
+            e[swelement]['$elemMatch']['$and'] = [] if e[swelement]['$elemMatch']['$and'].nil?
+            e[swelement]['$elemMatch']['$and'] << {
               '$or'=>[
                 {'@fsw'=>{'$regex'=>'S2[2-9a-f][0-9a-f]2'}},
                 {'$and'=>[
@@ -752,40 +752,19 @@ class CZJDict < Object
           search_cond = {'source_dict': dictcode, 'target': target, 'source_id': {'$in': csl}}
           collate = {:collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'source_id' => 1}}
         end
-        $stderr.puts search_cond
-        cursor = $mongo['relation'].find(search_cond, collate)
-        resultcount = cursor.count_documents
-        cursor = cursor.skip(start)
-        cursor = cursor.limit(limit) if limit.to_i > 0
-        cursor.each{|entry|
-          res << entry
-        }
       end
     when 'key'
-      search_cond_text = {'$or': get_key_search(search)}
-      search_cond_rel = {'meanings.relation':{'$elemMatch': {'target': target, 'type': 'translation', 'status': 'published'}}}
-      search_cond = {'dict': dictcode, '$and': [search_cond_text, search_cond_rel]}
-      $stdout.puts search_cond
-          pipeline = [
-            {'$match' => search_cond},
-            {'$unwind' => '$meanings'},
-            {'$unwind' => '$meanings.relation'},
-            {'$match' => {'meanings.relation.target'=>target}},
-          ]
-          @entrydb.aggregate(pipeline+[{'$count'=>'total'}]).each{|re|
-            resultcount = re['total'].to_i
-          }
-          pipeline << {'$skip' => start.to_i}
-          pipeline << {'$limit' => limit.to_i} if limit.to_i > 0
-          cursor = @entrydb.aggregate(pipeline, :allow_disk_use => true)
-          cursor.each{|re|
-            re['meanings']['relation'] = [re['meanings']['relation']]
-            re['meanings'] = [re['meanings']]
-            entry = add_rels(re, true, 'translation', target)
-            entry = get_sw(entry)
-            res << entry
-          }
+      search_cond = {'source_dict': dictcode, 'target': target, 'type': 'translation', '$or': get_key_search(search, 'source_sw')}
+      collate = {:collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'source_id' => 1}}
     end
+    $stderr.puts search_cond
+    cursor = $mongo['relation'].find(search_cond, collate)
+    resultcount = cursor.count_documents
+    cursor = cursor.skip(start)
+    cursor = cursor.limit(limit) if limit.to_i > 0
+    cursor.each{|entry|
+      res << entry
+    }
     return {'count'=> resultcount, 'relations'=> res}
   end
 
