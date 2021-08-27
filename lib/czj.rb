@@ -736,7 +736,7 @@ class CZJDict < Object
         if @write_dicts.include?(source)
           locale = source
           locale = 'sk' if source == 'sj'
-          collate = {:collation => {'locale' => locale}, :sort => {'source_title' => 1}}
+          collate = {:collation => {'locale' => locale}, :sort => {'sort_key' => 1}}
           search_conds = []
           search_conds << {'source_dict': source, 'entry_text': {'$regex': /(^| )#{search}/i}, 'target': target}
           search_conds << {'source_dict': target, 'meaning_id': {'$regex': /(^| )#{search}/i}, 'target': source}
@@ -750,12 +750,12 @@ class CZJDict < Object
             csl << rl['target_id']
           }
           search_cond = {'source_dict': dictcode, 'target': target, 'source_id': {'$in': csl}}
-          collate = {:collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'source_id' => 1}}
+          collate = {:collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'sort_by' => 1}}
         end
       end
     when 'key'
       search_cond = {'source_dict': dictcode, 'target': target, 'type': 'translation', '$or': get_key_search(search, 'source_sw')}
-      collate = {:collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'source_id' => 1}}
+      collate = {:collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'sort_key' => 1}}
     end
     $stderr.puts search_cond
     cursor = $mongo['relation'].find(search_cond, collate)
@@ -2729,8 +2729,22 @@ class CZJDict < Object
                 rel['target_video'] = get_media_location(targetentry['lemma']['video_front'], rel['target']) if targetentry['lemma']['video_front']
                 rel['target_sw'] = targetentry['lemma']['swmix'] if targetentry['lemma']['swmix']
               end
+              if $dict_info[entry['dict']]['type'] == 'write'
+                rel['sort_key'] = entry['lemma']['title']
+              else
+                regionkey = 0
+                if entry['lemma']['grammar_note'] and entry['lemma']['grammar_note'][0] and entry['lemma']['grammar_note'][0]['@region']
+                  region = entry['lemma']['grammar_note'][0]['@region'] 
+                  regionkey = (region=='cr'?7:0) + (region=='cechy'?6:0) + (region=='praha'?5:0) + (region=='morava'?4:0) + (region=='brno'?3:0)
+                end
+                regionkey = 2 if regionkey == 0
+                regionkey = 1 if entry['lemma']['style_note'] and entry['lemma']['style_note'][0] and entry['lemma']['style_note'][0]['@kategorie'].to_s == 'arch'
+                regionkey = regionkey*10000000 + entry['id'].to_i
+                rel['sort_key'] = regionkey.to_s
+              end
             else
               rel['target_title'] = rel['meaning_id']
+              rel['sort_key'] = rel['meaning_id']
             end
             rels << rel
           }
@@ -2765,8 +2779,22 @@ class CZJDict < Object
                     rel['target_video'] = targetentry['lemma']['video_front'] if targetentry['lemma']['video_front']
                     rel['target_sw'] = targetentry['lemma']['swmix'] if targetentry['lemma']['swmix']
                   end
+                  if $dict_info[entry['dict']]['type'] == 'write'
+                    rel['sort_key'] = entry['lemma']['title']
+                  else
+                    regionkey = 0
+                    if entry['lemma']['grammar_note'] and entry['lemma']['grammar_note'][0] and entry['lemma']['grammar_note'][0]['@region']
+                      region = entry['lemma']['grammar_note'][0]['@region'] 
+                      regionkey = (region=='cr'?7:0) + (region=='cechy'?6:0) + (region=='praha'?5:0) + (region=='morava'?4:0) + (region=='brno'?3:0)
+                    end
+                    regionkey = 2 if regionkey == 0
+                    regionkey = 1 if entry['lemma']['style_note'] and entry['lemma']['style_note'][0] and entry['lemma']['style_note'][0]['@kategorie'].to_s == 'arch'
+                    regionkey = regionkey*10000000 + entry['id'].to_i
+                    rel['sort_key'] = regionkey.to_s
+                  end
                 else
                   rel['target_title'] = rel['meaning_id']
+                  rel['sort_key'] = rel['meaning_id']
                 end
                 rels << rel
               }
