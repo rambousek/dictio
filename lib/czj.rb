@@ -757,6 +757,9 @@ class CZJDict < Object
       search_cond = {'source_dict': dictcode, 'target': target, 'type': 'translation', '$or': get_key_search(search, 'source_sw')}
       collate = {:collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'sort_key' => 1}}
     end
+    if not $is_edit and not $is_admin
+      search_cond['status'] = 'published'
+    end
     $stderr.puts search_cond
     cursor = $mongo['relation'].find(search_cond, collate)
     resultcount = cursor.count_documents
