@@ -736,7 +736,7 @@ class CZJDict < Object
         if @write_dicts.include?(source)
           locale = source
           locale = 'sk' if source == 'sj'
-          collate = {:collation => {'locale' => locale}, :sort => {'sort_key' => 1}}
+          collate = {:collation => {'locale' => locale}, :sort => {'sort_title' => 1, 'sort_key' => -1}}
           search_conds = []
           search_conds << {'source_dict': source, 'entry_text': {'$regex': /(^| )#{search}/i}, 'target': target}
           search_conds << {'source_dict': target, 'meaning_id': {'$regex': /(^| )#{search}/i}, 'target': source}
@@ -750,12 +750,12 @@ class CZJDict < Object
             csl << rl['target_id']
           }
           search_cond = {'source_dict': dictcode, 'target': target, 'source_id': {'$in': csl}}
-          collate = {:collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'sort_by' => 1}}
+          collate = {:collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'sort_key' => -1}}
         end
       end
     when 'key'
       search_cond = {'source_dict': dictcode, 'target': target, 'type': 'translation', '$or': get_key_search(search, 'source_sw')}
-      collate = {:collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'sort_key' => 1}}
+      collate = {:collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'sort_key' => -1}}
     end
     if not $is_edit and not $is_admin
       search_cond['status'] = 'published'
@@ -2736,13 +2736,15 @@ class CZJDict < Object
                 rel['target_sw'] = targetentry['lemma']['swmix'] if targetentry['lemma']['swmix']
               end
               if $dict_info[entry['dict']]['type'] == 'write'
-                rel['sort_key'] = entry['lemma']['title'] + '_' + get_sortkey(targetentry)
+                rel['sort_title'] = entry['lemma']['title']
+                rel['sort_key'] = get_sortkey(targetentry)
               else
                 rel['sort_key'] = get_sortkey(entry)
               end
             else
               rel['target_title'] = rel['meaning_id']
-              rel['sort_key'] = rel['meaning_id']
+              rel['sort_title'] = rel['meaning_id']
+              rel['sort_key'] = get_sortkey(entry)
             end
             rels << rel
           }
@@ -2778,13 +2780,15 @@ class CZJDict < Object
                     rel['target_sw'] = targetentry['lemma']['swmix'] if targetentry['lemma']['swmix']
                   end
                   if $dict_info[entry['dict']]['type'] == 'write'
-                    rel['sort_key'] = entry['lemma']['title'] + '_' + get_sortkey(targetentry)
+                    rel['sort_title'] = entry['lemma']['title']
+                    rel['sort_key'] = get_sortkey(targetentry)
                   else
                     rel['sort_key'] = get_sortkey(entry)
                   end
                 else
                   rel['target_title'] = rel['meaning_id']
-                  rel['sort_key'] = rel['meaning_id']
+                  rel['sort_title'] = rel['meaning_id']
+                  rel['sort_key'] = get_sortkey(entry)
                 end
                 rels << rel
               }
