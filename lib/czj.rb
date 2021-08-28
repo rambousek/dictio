@@ -1095,15 +1095,7 @@ class CZJDict < Object
     end
 
     #sortkey
-    regionkey = 0
-    if entry['lemma']['grammar_note'] and entry['lemma']['grammar_note'][0] and entry['lemma']['grammar_note'][0]['@region']
-      region = entry['lemma']['grammar_note'][0]['@region'] 
-      regionkey = (region=='cr'?7:0) + (region=='cechy'?6:0) + (region=='praha'?5:0) + (region=='morava'?4:0) + (region=='brno'?3:0)
-    end
-    regionkey = 2 if regionkey == 0
-    regionkey = 1 if entry['lemma']['style_note'] and entry['lemma']['style_note'][0] and entry['lemma']['style_note'][0]['@kategorie'].to_s == 'arch'
-    regionkey = regionkey*10000000 + entry['id'].to_i
-    entry['sort_key'] = regionkey.to_s
+    entry['sort_key'] = get_sortkey(entry)
 
     #save media info
     if data['update_video']
@@ -2744,17 +2736,9 @@ class CZJDict < Object
                 rel['target_sw'] = targetentry['lemma']['swmix'] if targetentry['lemma']['swmix']
               end
               if $dict_info[entry['dict']]['type'] == 'write'
-                rel['sort_key'] = entry['lemma']['title']
+                rel['sort_key'] = entry['lemma']['title'] + '_' + get_sortkey(targetentry)
               else
-                regionkey = 0
-                if entry['lemma']['grammar_note'] and entry['lemma']['grammar_note'][0] and entry['lemma']['grammar_note'][0]['@region']
-                  region = entry['lemma']['grammar_note'][0]['@region'] 
-                  regionkey = (region=='cr'?7:0) + (region=='cechy'?6:0) + (region=='praha'?5:0) + (region=='morava'?4:0) + (region=='brno'?3:0)
-                end
-                regionkey = 2 if regionkey == 0
-                regionkey = 1 if entry['lemma']['style_note'] and entry['lemma']['style_note'][0] and entry['lemma']['style_note'][0]['@kategorie'].to_s == 'arch'
-                regionkey = regionkey*10000000 + entry['id'].to_i
-                rel['sort_key'] = regionkey.to_s
+                rel['sort_key'] = get_sortkey(entry)
               end
             else
               rel['target_title'] = rel['meaning_id']
@@ -2794,17 +2778,9 @@ class CZJDict < Object
                     rel['target_sw'] = targetentry['lemma']['swmix'] if targetentry['lemma']['swmix']
                   end
                   if $dict_info[entry['dict']]['type'] == 'write'
-                    rel['sort_key'] = entry['lemma']['title']
+                    rel['sort_key'] = entry['lemma']['title'] + '_' + get_sortkey(targetentry)
                   else
-                    regionkey = 0
-                    if entry['lemma']['grammar_note'] and entry['lemma']['grammar_note'][0] and entry['lemma']['grammar_note'][0]['@region']
-                      region = entry['lemma']['grammar_note'][0]['@region'] 
-                      regionkey = (region=='cr'?7:0) + (region=='cechy'?6:0) + (region=='praha'?5:0) + (region=='morava'?4:0) + (region=='brno'?3:0)
-                    end
-                    regionkey = 2 if regionkey == 0
-                    regionkey = 1 if entry['lemma']['style_note'] and entry['lemma']['style_note'][0] and entry['lemma']['style_note'][0]['@kategorie'].to_s == 'arch'
-                    regionkey = regionkey*10000000 + entry['id'].to_i
-                    rel['sort_key'] = regionkey.to_s
+                    rel['sort_key'] = get_sortkey(entry)
                   end
                 else
                   rel['target_title'] = rel['meaning_id']
@@ -2833,6 +2809,20 @@ class CZJDict < Object
     end
 
     return count
+  end
+
+  def get_sortkey(entry)
+    regionkey = 0
+    if entry
+      if entry['lemma']['grammar_note'] and entry['lemma']['grammar_note'][0] and entry['lemma']['grammar_note'][0]['@region']
+        region = entry['lemma']['grammar_note'][0]['@region'] 
+        regionkey = (region=='cr'?7:0) + (region=='cechy'?6:0) + (region=='praha'?5:0) + (region=='morava'?4:0) + (region=='brno'?3:0)
+      end
+      regionkey = 2 if regionkey == 0
+      regionkey = 1 if entry['lemma']['style_note'] and entry['lemma']['style_note'][0] and entry['lemma']['style_note'][0]['@kategorie'].to_s == 'arch'
+      regionkey = regionkey*10000000 + entry['id'].to_i
+    end
+    return regionkey.to_s
   end
 end
 
