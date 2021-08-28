@@ -1094,6 +1094,17 @@ class CZJDict < Object
       end
     end
 
+    #sortkey
+    regionkey = 0
+    if entry['lemma']['grammar_note'] and entry['lemma']['grammar_note'][0] and entry['lemma']['grammar_note'][0]['@region']
+      region = entry['lemma']['grammar_note'][0]['@region'] 
+      regionkey = (region=='cr'?7:0) + (region=='cechy'?6:0) + (region=='praha'?5:0) + (region=='morava'?4:0) + (region=='brno'?3:0)
+    end
+    regionkey = 2 if regionkey == 0
+    regionkey = 1 if entry['lemma']['style_note'] and entry['lemma']['style_note'][0] and entry['lemma']['style_note'][0]['@kategorie'].to_s == 'arch'
+    regionkey = regionkey*10000000 + entry['id'].to_i
+    entry['sort_key'] = regionkey.to_s
+
     #save media info
     if data['update_video']
       $stdout.puts "update video"
