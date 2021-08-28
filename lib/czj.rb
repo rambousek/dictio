@@ -676,7 +676,7 @@ class CZJDict < Object
             search_cond[:$or] = search_cond_title['$or']
           end
           $stdout.puts search_cond
-          cursor = $mongo['entries'].find(search_cond, {:sort => {'sort_key' => 1}})
+          cursor = $mongo['entries'].find(search_cond, {:sort => {'sort_key' => -1}})
           resultcount = cursor.count_documents
           cursor = cursor.skip(start)
           cursor = cursor.limit(limit) if limit.to_i > 0
@@ -688,7 +688,7 @@ class CZJDict < Object
     when 'key'
       search_query = {'dict'=>dictcode, '$or'=>get_key_search(search)}
       $stdout.puts search_query
-      cursor = $mongo['entries'].find(search_query, {:sort => {'sort_key' => 1}})
+      cursor = $mongo['entries'].find(search_query, {:sort => {'sort_key' => -1}})
       resultcount = cursor.count_documents
       cursor = cursor.skip(start)
       cursor = cursor.limit(limit) if limit.to_i > 0
