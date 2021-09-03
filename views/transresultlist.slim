@@ -70,23 +70,24 @@
             - use_entry = 'source'
           - else
             - use_entry = 'target'
-          .video.video--small
-            .video__content
-              - if use_entry['orient'].to_s != ''
-                span.video-orient = rel[use_entry+'_front']['orient'].to_s[0].upcase
-              - else
-                span.video-orient R
-              video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url="#{@tran_path}/#{@target}-#{rel[use_entry+'_id']}" poster="/thumb/video#{@target}/#{rel[use_entry+'_video']['location']}" muted="muted"
-                source src="https://files.dictio.info/video#{@target}/#{rel[use_entry+'_video']['location']}" type="video/mp4"
-            .video__controls
-              - if (@is_edit or @is_admin)
-                span.trans__badge class="trans__badge__#{@target}"
-                  a.edit href="/editor#{@target}/?id=#{rel[use_entry+'_id']}" #{@target}-#{rel[use_entry+'_id']}
-              a.video__link href="/#{@dictcode}/translate/#{@target}/#{@params['type']}/#{@search}/#{@target}-#{rel[use_entry+'_id']}"
-                span.icon.icon--open-new-window
-                  svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
-                    use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
-              - unless rel[use_entry+'_sw'].nil?
-                span.video__sign
-                  - rel[use_entry+'_sw'].each do |sw|
-                    img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+          - if rel[use_entry+'_video'].is_a?(Hash)
+            .video.video--small
+              .video__content
+                - if rel[use_entry+'_video']['orient'].to_s != ''
+                  span.video-orient = rel[use_entry+'_video']['orient'].to_s[0].upcase
+                - else
+                  span.video-orient R
+                video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url="#{@tran_path}/#{@target}-#{rel[use_entry+'_id']}" poster="/thumb/video#{@target}/#{rel[use_entry+'_video']['location']}" muted="muted"
+                  source src="https://files.dictio.info/video#{@target}/#{rel[use_entry+'_video']['location']}" type="video/mp4"
+              .video__controls
+                - if (@is_edit or @is_admin)
+                  span.trans__badge class="trans__badge__#{@target}"
+                    a.edit href="/editor#{@target}/?id=#{rel[use_entry+'_id']}" #{@target}-#{rel[use_entry+'_id']}
+                a.video__link href="/#{@dictcode}/translate/#{@target}/#{@params['type']}/#{@search}/#{@target}-#{rel[use_entry+'_id']}"
+                  span.icon.icon--open-new-window
+                    svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                      use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
+                - unless rel[use_entry+'_sw'].nil?
+                  span.video__sign
+                    - rel[use_entry+'_sw'].each do |sw|
+                      img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
