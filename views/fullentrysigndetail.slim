@@ -147,7 +147,7 @@
                   .video.video--small
                     .video__content
                       - if selmedia['main_for_entry']
-                        video.video-link width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{selmedia['location']}" data-url="/#{selmedia['main_for_entry']['dict']}/show/#{selmedia['main_for_entry']['id']}"
+                        video.video-link width="100%" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{selmedia['location']}" data-url="/#{selmedia['main_for_entry']['dict']}/show/#{selmedia['main_for_entry']['id']}"
                           source src="https://files.dictio.info/video#{@entry['dict']}/#{selmedia['location']}" type="video/mp4"
                       - else
                         video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{selmedia['location']}"
@@ -188,7 +188,7 @@
                   .video.video--small
                     .video__content
                       - if selmedia['main_for_entry']
-                        video.video-link width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{selmedia['location']}" data-url="/#{selmedia['main_for_entry']['dict']}/show/#{selmedia['main_for_entry']['id']}"
+                        video.video-link width="100%" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{selmedia['location']}" data-url="/#{selmedia['main_for_entry']['dict']}/show/#{selmedia['main_for_entry']['id']}"
                           source src="https://files.dictio.info/video#{@entry['dict']}/#{selmedia['location']}" type="video/mp4"
                       - else
                         video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{selmedia['location']}"
