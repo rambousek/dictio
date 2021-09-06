@@ -2780,7 +2780,7 @@ class CZJDict < Object
                     rel['target_sw'] = targetentry['lemma']['swmix'] if targetentry['lemma']['swmix']
                   end
                   if $dict_info[entry['dict']]['type'] == 'write'
-                    rel['sort_title'] = entry['lemma']['title']
+                    rel['sort_title'] = rel['source_title']
                     rel['sort_key'] = get_sortkey(targetentry)
                   else
                     rel['sort_key'] = get_sortkey(entry)
