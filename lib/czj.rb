@@ -2731,9 +2731,17 @@ class CZJDict < Object
               targetentry = getone(rel['target'], rel['target_id'])
               if targetentry
                 targetentry = get_sw(targetentry)
-                rel['target_title'] = targetentry['lemma']['title'] if targetentry['lemma']['title']
-                rel['target_video'] = get_media_location(targetentry['lemma']['video_front'], rel['target']) if targetentry['lemma']['video_front']
-                rel['target_sw'] = targetentry['lemma']['swmix'] if targetentry['lemma']['swmix']
+                if rel['meaning_nr'].include?('_us')
+                  if $dict_info[targetentry['dict']]['type'] == 'write'
+                    rel['target_title'] = get_usage_target(targetentry, rel['meaning_id'])
+                  else
+                    rel['target_video'] = get_usage_target(targetentry, rel['meaning_id'])
+                  end
+                else
+                  rel['target_title'] = targetentry['lemma']['title'] if targetentry['lemma']['title']
+                  rel['target_video'] = get_media_location(targetentry['lemma']['video_front'], rel['target']) if targetentry['lemma']['video_front']
+                  rel['target_sw'] = targetentry['lemma']['swmix'] if targetentry['lemma']['swmix']
+                end
               end
               if $dict_info[entry['dict']]['type'] == 'write'
                 rel['sort_title'] = entry['lemma']['title']
@@ -2775,9 +2783,17 @@ class CZJDict < Object
                   targetentry = getone(rel['target'], rel['target_id'])
                   if targetentry
                     targetentry = get_sw(targetentry)
-                    rel['target_title'] = targetentry['lemma']['title'] if targetentry['lemma']['title']
-                    rel['target_video'] = get_media_location(targetentry['lemma']['video_front'], targetentry['dict']) if targetentry['lemma']['video_front']
-                    rel['target_sw'] = targetentry['lemma']['swmix'] if targetentry['lemma']['swmix']
+                    if rel['meaning_nr'].include?('_us')
+                      if $dict_info[targetentry['dict']]['type'] == 'write'
+                        rel['target_title'] = get_usage_target(targetentry, rel['meaning_id'])
+                      else
+                        rel['target_video'] = get_usage_target(targetentry, rel['meaning_id'])
+                      end
+                    else
+                      rel['target_title'] = targetentry['lemma']['title'] if targetentry['lemma']['title']
+                      rel['target_video'] = get_media_location(targetentry['lemma']['video_front'], targetentry['dict']) if targetentry['lemma']['video_front']
+                      rel['target_sw'] = targetentry['lemma']['swmix'] if targetentry['lemma']['swmix']
+                    end
                   end
                   if $dict_info[entry['dict']]['type'] == 'write'
                     rel['sort_title'] = rel['source_title']
@@ -2813,6 +2829,22 @@ class CZJDict < Object
     end
 
     return count
+  end
+
+  def get_usage_target(entry, usage_id)
+    if entry['meanings']
+      entry['meanings'].each{|mean|
+        if mean['usages']
+          mean['usages'].select{|u| u['id'] == usage_id}.each{|usg|
+            if $dict_info[entry['dict']]['type'] == 'write'
+              return usg['text']['_text']
+            else
+              return get_media(usg['text']['file']['@media_id'], entry['dict'], false)
+            end
+          }
+        end
+      }
+    end
   end
 
   def get_sortkey(entry)
