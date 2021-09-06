@@ -1095,7 +1095,7 @@ class CZJDict < Object
     end
 
     #sortkey
-    entry['sort_key'] = get_sortkey(entry)
+    data['sort_key'] = get_sortkey(data)
 
     #save media info
     if data['update_video']
