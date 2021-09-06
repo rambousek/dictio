@@ -2776,7 +2776,7 @@ class CZJDict < Object
                   if targetentry
                     targetentry = get_sw(targetentry)
                     rel['target_title'] = targetentry['lemma']['title'] if targetentry['lemma']['title']
-                    rel['target_video'] = targetentry['lemma']['video_front'] if targetentry['lemma']['video_front']
+                    rel['target_video'] = get_media_location(targetentry['lemma']['video_front'], targetentry['dict']) if targetentry['lemma']['video_front']
                     rel['target_sw'] = targetentry['lemma']['swmix'] if targetentry['lemma']['swmix']
                   end
                   if $dict_info[entry['dict']]['type'] == 'write'
