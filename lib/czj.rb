@@ -2813,9 +2813,17 @@ class CZJDict < Object
         if mean['usages']
           mean['usages'].select{|u| u['id'] == usage_id}.each{|usg|
             if $dict_info[entry['dict']]['type'] == 'write'
-              return usg['text']['_text']
+              if usg['text']['_text']
+                return usg['text']['_text']
+              else
+                return ''
+              end
             else
-              return get_media(usg['text']['file']['@media_id'], entry['dict'], false)
+              if usg['text']['file'] and usg['text']['file']['@media_id']
+                return get_media(usg['text']['file']['@media_id'], entry['dict'], false)
+              else
+                return {}
+              end
             end
           }
         end
