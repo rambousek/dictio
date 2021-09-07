@@ -649,18 +649,15 @@ class CZJDict < Object
           $mongo['relation'].find(search_cond).each{|rl|
             csl << rl['target_id']
           }
-          search_cond = {'source_dict': dictcode, 'target': search_in, 'source_id': {'$in': csl}}
+          search_cond = {'dict': dictcode, 'id': {'$in': csl}}
           collate = {:collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'sort_key' => -1}}
-          if not $is_edit and not $is_admin
-            search_cond['status'] = 'published'
-          end
           $stderr.puts search_cond
-          cursor = $mongo['relation'].find(search_cond, collate)
+          cursor = $mongo['entries'].find(search_cond, collate)
           resultcount = cursor.count_documents
           cursor = cursor.skip(start)
           cursor = cursor.limit(limit) if limit.to_i > 0
           cursor.each{|entry|
-            res << full_entry(getone(entry['source_dict'], entry['source_id']), false)
+            res << full_entry(entry)
           }
         end
       end
