@@ -301,19 +301,19 @@
     .col.col--2.col--precise
       .detail__block.detail__block--line
         div.detail-block
-          h3.headline.detail-block__headline.revcolloc-headline data-url="/#{@dictcode}/revcolloc/#{@entry['id']}" == I18n.t("entry.collocation_with_this")
+          h3.headline.detail-block__headline.revcolloc-headline data-url="/#{@entry['dict']}/revcolloc/#{@entry['id']}" == I18n.t("entry.collocation_with_this")
           div.dropdown id="revcolloc"
 - if @entry['revderivat'] and @entry['revderivat']['count'].to_i > 0
   .row.row--start
     .col.col--2.col--precise
       .detail__block.detail__block--line
         div.detail-block
-          h3.headline.detail-block__headline.revderivat-headline data-url="/#{@dictcode}/revderivat/#{@entry['id']}" == I18n.t("entry.derivat_with_this")
+          h3.headline.detail-block__headline.revderivat-headline data-url="/#{@entry['dict']}/revderivat/#{@entry['id']}" == I18n.t("entry.derivat_with_this")
           div.dropdown id="revderivat"
 - if @entry['revkompozitum'] and @entry['revkompozitum']['count'].to_i > 0
   .row.row--start
     .col.col--2.col--precise
       .detail__block.detail__block--line
         div.detail-block
-          h3.headline.detail-block__headline.revkompozitum-headline data-url="/#{@dictcode}/revkompozitum/#{@entry['id']}" == I18n.t("entry.kompozitum_with_this")
+          h3.headline.detail-block__headline.revkompozitum-headline data-url="/#{@entry['dict']}/revkompozitum/#{@entry['id']}" == I18n.t("entry.kompozitum_with_this")
           div.dropdown id="revkompozitum"
