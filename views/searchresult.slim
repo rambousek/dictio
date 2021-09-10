@@ -10,7 +10,7 @@ main id="mobilespacetop" role="main"
               - @result['entries'].each do |entry|
                   - if (@is_edit or @is_admin)
                     span.trans__badge style="position: relative;" class="trans__badge__#{@dictcode}" 
-                     a.edit href="https://edit.dictio.info/editor#{@entry['dict']}/?id=#{entry['id']}" #{@dictcode}-#{entry['id']} 
+                     a.edit href="https://edit.dictio.info/editor#{entry['dict']}/?id=#{entry['id']}" #{@dictcode}-#{entry['id']} 
                   div style="width:70%"
                     .video.video--small
                       .video__content
