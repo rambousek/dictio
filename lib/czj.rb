@@ -1105,6 +1105,10 @@ class CZJDict < Object
       $mongo['sw'].find({'dict': dict, 'entries_used': entryid}).delete_many
       cache_all_sw(false)
     end
+
+    #update relations cache
+    Thread.new{ cache_relations(data, true) }
+
     return true
   end
 

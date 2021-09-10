@@ -4919,7 +4919,6 @@ Ext.onReady(function(){
               success: function(response) {
                 console.log(response.responseText)
                 var data = JSON.parse(response.responseText);
-                Ext.Ajax.request({url: '/'+dictcode+'/cache_rel_entry/'+entryid, method: 'GET'});
                 Ext.Msg.alert('Stav', data.msg);
                 Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox);
                 window.location = '/'+dictcode+'/show/'+entryid+'?lang='+lang;
@@ -4994,7 +4993,6 @@ Ext.onReady(function(){
                 entry_update_show(false);
                 var data = JSON.parse(response.responseText);
                 console.log(data)
-                Ext.Ajax.request({url: '/'+dictcode+'/cache_rel_entry/'+entryid, method: 'GET'});
                 Ext.Msg.alert('Stav', data.msg);
                 Ext.Function.defer(Ext.MessageBox.hide, 9000, Ext.MessageBox);
                 if (is_new_entry) {
@@ -5030,7 +5028,6 @@ Ext.onReady(function(){
               success: function(response) {
                 var data = JSON.parse(response.responseText);
                 console.log(data)
-                Ext.Ajax.request({url: '/'+dictcode+'/cache_rel_entry/'+entryid, method: 'GET'});
                 Ext.Msg.alert('Stav', data.msg);
                 Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox);
                 window.location = '/'+dictcode+'/show/'+entryid+'?lang='+lang;
