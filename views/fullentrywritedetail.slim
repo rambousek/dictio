@@ -28,18 +28,17 @@
         - unless coll.equal?(@entry['collocations']['entries'].last)
           | , 
   - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'].to_s != ''}
-      - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'].to_s != ''}
-        h2.detail-category 
-          - if @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'] != 'ustalene'}
-            | #{I18n.t("entry.lexical")}: 
-          span
-            - slovni_druhy = []
-            - @entry['lemma']['grammar_note'].each{|gr| slovni_druhy << gr['@slovni_druh']}
-            - slovni_druhy.uniq.each do |sd|
-              - if sd.to_s != ''
-                = I18n.t("gram.slovni_druh."+sd)
-                - unless sd.equal?(slovni_druhy.uniq.last)
-                  | , 
+      h2.detail-category 
+        - if @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'] != 'ustalene'}
+          | #{I18n.t("entry.lexical")}: 
+        span
+          - slovni_druhy = []
+          - @entry['lemma']['grammar_note'].each{|gr| slovni_druhy << gr['@slovni_druh']}
+          - slovni_druhy.uniq.each do |sd|
+            - if sd.to_s != ''
+              = I18n.t("gram.slovni_druh."+sd)
+              - unless sd.equal?(slovni_druhy.uniq.last)
+                | , 
   - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gram| gram['variant'] and gram['variant'].size > 0}
     h2.detail-category 
       | #{I18n.t("entry.grammar_variant")}:
@@ -49,6 +48,11 @@
             - gram['variant'].each do |var|
               = var['_text']
               |,
+  - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['_text'].nil? or @entry['lemma']['grammar_note'][0]['_text'].to_s == ''
+    p.naming 
+      | #{I18n.t("entry.grammar_details")}: 
+      span  
+        = @entry['lemma']['grammar_note'][0]['_text']
   - if @entry['lemma']['gram'] and @entry['lemma']['gram']['form']
     - if  @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc1'}.size > 0
       table.table.table--no-margin
