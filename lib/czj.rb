@@ -36,7 +36,7 @@ class CZJDict < Object
   def get_comments(dict, id, type, exact=true)
     coms = []
     query = {'dict': dict, 'entry': id}
-    if @sign_dicts.include?(dict) and type.start_with?('vyznam')
+    if @sign_dicts.include?(dict) and type.start_with?('vyznam') and not type.include?('vazby')
       entrydata = getone(dict, id)
       if entrydata and entrydata['meanings']
         entrydata['meanings'].select{|m| m['id'] == type[6..-1]}.each{|m|
@@ -1293,7 +1293,7 @@ class CZJDict < Object
   end
 
   def comment_add(user, entry, box, text)
-    if @sign_dicts.include?(@dictcode) and box.start_with?('vyznam')
+    if @sign_dicts.include?(@dictcode) and box.start_with?('vyznam') and not box.include?('vazby')
       entrydata = getone(@dictcode, entry)
       if entrydata and entrydata['meanings']
         entrydata['meanings'].select{|m| m['id'] == box[6..-1]}.each{|m|
