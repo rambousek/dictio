@@ -36,6 +36,20 @@ class CZJDict < Object
   def get_comments(dict, id, type, exact=true)
     coms = []
     query = {'dict': dict, 'entry': id}
+    if @sign_dicts.include?(dict) and type.start_with?('vyznam')
+      entrydata = getone(dict, id)
+      if entrydata and entrydata['meanings']
+        entrydata['meanings'].select{|m| m['id'] == type[6..-1]}.each{|m|
+          if m['text'] and m['text']['file'] and m['text']['file']['@media_id']
+            video = get_media(m['text']['file']['@media_id'], dict, false)
+            if video
+              type = 'video' + video['location']
+            end
+          end
+        }
+      end
+    end
+
     if type != ''
       if exact
         query['box'] = type 
@@ -1279,6 +1293,19 @@ class CZJDict < Object
   end
 
   def comment_add(user, entry, box, text)
+    if @sign_dicts.include?(@dictcode) and box.start_with?('vyznam')
+      entrydata = getone(@dictcode, entry)
+      if entrydata and entrydata['meanings']
+        entrydata['meanings'].select{|m| m['id'] == box[6..-1]}.each{|m|
+          if m['text'] and m['text']['file'] and m['text']['file']['@media_id']
+            video = get_media(m['text']['file']['@media_id'], @dictcode, false)
+            if video
+              box = 'video' + video['location']
+            end
+          end
+        }
+      end
+    end
     comment_data = {
       'dict' => @dictcode,
       'entry' => entry,
