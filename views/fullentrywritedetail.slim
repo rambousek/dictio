@@ -52,7 +52,8 @@
     p.naming 
       | #{I18n.t("entry.grammar_details")}: 
       span  
-        = @entry['lemma']['grammar_note'][0]['_text']
+        - stext = @entry['lemma']['grammar_note'][0]['_text'].gsub(/\[[0-9]+(-[0-9]+)?\]/) {|rl| rla=rl[1..-2].split('-'); "<a href='/#{@entry['dict']}/show/#{rla[0]}'>#{@entry['def_relations'][rla[0]]}"+(rla[1].to_s==''?"":" (#{rla[1]})")+"</a>"}
+        == stext
   - if @entry['lemma']['gram'] and @entry['lemma']['gram']['form']
     - if  @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc1'}.size > 0
       table.table.table--no-margin
@@ -242,7 +243,8 @@
     p.naming 
       | #{I18n.t("entry.style_details")}: 
       span  
-        = @entry['lemma']['style_note'][0]['_text']
+        - stext = @entry['lemma']['style_note'][0]['_text'].gsub(/\[[0-9]+(-[0-9]+)?\]/) {|rl| rla=rl[1..-2].split('-'); "<a href='/#{@entry['dict']}/show/#{rla[0]}'>#{@entry['def_relations'][rla[0]]}"+(rla[1].to_s==''?"":" (#{rla[1]})")+"</a>"}
+        == stext
   - unless @entry['lemma']['style_note'].nil? or @entry['lemma']['style_note'][0].nil? or @entry['lemma']['style_note'][0]['@kategorie'].to_s == ''
     p.naming 
       span = I18n.t("gram.category."+@entry['lemma']['style_note'][0]['@kategorie'])
