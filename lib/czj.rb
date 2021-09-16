@@ -438,6 +438,20 @@ class CZJDict < Object
         }
       end
     }
+    if entry['lemma']['grammar_note'] and entry['lemma']['grammar_note'][0] and entry['lemma']['grammar_note'][0]['_text']
+      entry['lemma']['grammar_note'][0]['_text'].scan(/\[([0-9]+)(-[0-9]+)?\]/).each{|mrel|
+        relid = mrel[0]
+        entry['def_relations'] = {} if entry['def_relations'].nil?
+        entry['def_relations'][relid] = getone(entry['dict'], relid)['lemma']['title']
+      }
+    end
+    if entry['lemma']['style_note'] and entry['lemma']['style_note'][0] and entry['lemma']['style_note'][0]['_text']
+      entry['lemma']['style_note'][0]['_text'].scan(/\[([0-9]+)(-[0-9]+)?\]/).each{|mrel|
+        relid = mrel[0]
+        entry['def_relations'] = {} if entry['def_relations'].nil?
+        entry['def_relations'][relid] = getone(entry['dict'], relid)['lemma']['title']
+      }
+    end
     return entry
   end
 
