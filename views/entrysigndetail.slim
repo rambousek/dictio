@@ -200,7 +200,8 @@
             .video__content
               video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}"
                 source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
-              a.videoshare href="/#{@entry['dict']}/show/#{@entry['id']}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}" sdílet video
+              - if @is_edit
+                a.videoshare href="/#{@entry['dict']}/show/#{@entry['id']}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}" sdílet video
         - else 
          .info.is-pushed style="margin-top: 0; padding: 0"
             span.icon.icon--info.info__icon style="margin-top: 0; color: gray" 
@@ -271,7 +272,8 @@
                     .video__content
                       video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}"
                         source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
-                      a.videoshare href="/#{@entry['dict']}/show/#{@entry['id']}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}" sdílet video
+                      - if @is_edit
+                        a.videoshare href="/#{@entry['dict']}/show/#{@entry['id']}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}" sdílet video
             p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_example')
 
 - if @search_type == 'search'
