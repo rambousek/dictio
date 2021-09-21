@@ -215,6 +215,22 @@ class CzjApp < Sinatra::Base
         slim :notfound
       end
     end
+    get '/'+code+'/show/:id/:video' do
+      @dict_info = $dict_info
+      @dictcode = code
+      @show_dictcode = code
+      @search_params = {}
+      @search_type = 'show'
+      @target = ''
+      @entry = dict.getdoc(params['id'], false)
+      if @entry != {}
+        @title = $dict_info[code]['label'] + ' ' + params['id']
+        @video = params['video']
+        slim :showvideo
+      else
+        slim :notfound
+      end
+    end
     get '/'+code+'/json/:id' do 
       content_type :json
       $stdout.puts 'START json'+Time.now.to_s
