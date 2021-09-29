@@ -678,12 +678,19 @@ class CZJDict < Object
             csl << rl['target_id']
           }
           search_cond = {'source_dict': dictcode, 'source_id': {'$in': csl}}
+          pipeline = [
+            {'$match': search_cond},
+            {'$group': {'_id': '$source_id', 'source_id': {'$first': '$source_id'}, 'source_dict': {'$first': '$source_dict'}, 'source_video': {'$first': '$source_video'}, 'source_sw': {'$first': '$source_sw'}, 'sort_key': {'$first': '$sort_key'}}}
+          ]
+
           collate = {:collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'sort_key' => -1}}
           $stderr.puts search_cond
-          cursor = $mongo['relation'].find(search_cond, collate)
-          resultcount = cursor.count_documents
-          cursor = cursor.skip(start)
-          cursor = cursor.limit(limit) if limit.to_i > 0
+          $mongo['relation'].aggregate(pipeline+[{'$count'=>'total'}]).each{|re|
+            resultcount = re['total'].to_i
+          }
+          pipeline << {'$skip' => start.to_i}
+          pipeline << {'$limit' => limit.to_i} if limit.to_i > 0
+          cursor = $mongo['relation'].aggregate(pipeline, collate)
           cursor.each{|entry|
             entry['dict'] = entry['source_dict']
             entry['id'] = entry['source_id']
