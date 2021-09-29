@@ -683,11 +683,12 @@ class CZJDict < Object
             {'$group': {'_id': '$source_id', 'source_id': {'$first': '$source_id'}, 'source_dict': {'$first': '$source_dict'}, 'source_video': {'$first': '$source_video'}, 'source_sw': {'$first': '$source_sw'}, 'sort_key': {'$first': '$sort_key'}}}
           ]
 
-          collate = {:collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'sort_key' => -1}}
+          collate = {:collation => {'locale' => 'cs', 'numericOrdering'=>true}} 
           $stderr.puts search_cond
           $mongo['relation'].aggregate(pipeline+[{'$count'=>'total'}]).each{|re|
             resultcount = re['total'].to_i
           }
+          pipeline << {'$sort': {'sort_key': -1}}
           pipeline << {'$skip' => start.to_i}
           pipeline << {'$limit' => limit.to_i} if limit.to_i > 0
           cursor = $mongo['relation'].aggregate(pipeline, collate)
