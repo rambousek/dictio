@@ -4,8 +4,8 @@ main id="mobilespacetop" role="main"
     article.container role="article"
       .video-top 
         .video
-          p.detail__badge.detail__badge--top style="background: #1c2641; text-decoration: none; font-weight: bolder"              
-            a class="" href="https://www.dictio.info/#{@entry['dict']}/show/#{@entry['id']}" X                          
+          p.detail__badge.detail__badge--top style="background: #1c2641;"              
+            a class="" style="text-decoration: none; font-weight: bolder" href="https://www.dictio.info/#{@entry['dict']}/show/#{@entry['id']}" X                          
           .video__content.video-front
             video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@video}"
               source src="https://files.dictio.info/video#{@entry['dict']}/#{@video}" type="video/mp4"
