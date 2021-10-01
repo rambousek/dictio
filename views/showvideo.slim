@@ -1,10 +1,16 @@
 main id="mobilespacetop" role="main"
   == slim :searchbox
-    article.container role="article"       
-      .video-top 
-        p.detail__badge.detail__badge--top            
-          a class="" href="https://www.dictio.info/#{@entry['dict']}/show/#{@entry['id']}" X                     
-        .video
-          .video__content.video-front
-            video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@video}"
-              source src="https://files.dictio.info/video#{@entry['dict']}/#{@video}" type="video/mp4"
+  section.detail role="region"
+    article.container role="article"
+      .detail__head        
+        .video-top 
+          .video
+            p.detail__badge.detail__badge--top class=((@is_edit? "detail__badge__#{@entry['dict']}":""))
+              | #{I18n.t("dict."+@entry['dict'])} 
+              a class="" href="https://www.dictio.info/#{@entry['dict']}/show/#{@entry['id']}" #{@entry['id']}
+              - if (@is_edit or @is_admin)
+                a class="edit" href="https://edit.dictio.info/editor#{@entry['dict']}/?id=#{@entry['id']}" 
+                  |  [#{@entry['dict']}-#{@entry['id']}]                  
+            .video__content.video-front
+              video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@video}"
+                source src="https://files.dictio.info/video#{@entry['dict']}/#{@video}" type="video/mp4"
