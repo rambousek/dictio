@@ -2,11 +2,10 @@ main id="mobilespacetop" role="main"
   == slim :searchbox
   section.detail role="region"
     article.container role="article"
-      .detail__head        
-        .video-top 
-          .video
-            p.detail__badge.detail__badge--top class=((@is_edit? "detail__badge__#{@entry['dict']}":""))              
-              a class="" href="https://www.dictio.info/#{@entry['dict']}/show/#{@entry['id']}" X                          
-            .video__content.video-front
-              video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@video}"
-                source src="https://files.dictio.info/video#{@entry['dict']}/#{@video}" type="video/mp4"
+      .video-top 
+        .video
+          p.detail__badge.detail__badge--top style="background: #1c2641"              
+            a class="" href="https://www.dictio.info/#{@entry['dict']}/show/#{@entry['id']}" X                          
+          .video__content.video-front
+            video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@video}"
+              source src="https://files.dictio.info/video#{@entry['dict']}/#{@video}" type="video/mp4"
