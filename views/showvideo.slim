@@ -5,12 +5,8 @@ main id="mobilespacetop" role="main"
       .detail__head        
         .video-top 
           .video
-            p.detail__badge.detail__badge--top class=((@is_edit? "detail__badge__#{@entry['dict']}":""))
-              | #{I18n.t("dict."+@entry['dict'])} 
-              a class="" href="https://www.dictio.info/#{@entry['dict']}/show/#{@entry['id']}" #{@entry['id']}
-              - if (@is_edit or @is_admin)
-                a class="edit" href="https://edit.dictio.info/editor#{@entry['dict']}/?id=#{@entry['id']}" 
-                  |  [#{@entry['dict']}-#{@entry['id']}]                  
+            p.detail__badge.detail__badge--top class=((@is_edit? "detail__badge__#{@entry['dict']}":""))              
+              a class="" href="https://www.dictio.info/#{@entry['dict']}/show/#{@entry['id']}" X                          
             .video__content.video-front
               video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@video}"
                 source src="https://files.dictio.info/video#{@entry['dict']}/#{@video}" type="video/mp4"
