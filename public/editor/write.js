@@ -1337,7 +1337,7 @@ function load_doc(id) {
         update_stav();
         Ext.resumeLayouts(true);
         Ext.ComponentQuery.query('[name=ssc_html]')[0].up().setHeight(Ext.ComponentQuery.query('[name=ssc_html]')[0].getHeight());
-        //check_perm(Ext.getCmp('tabForm').query('[name=pracskupina]')[0].getValue(), Ext.getCmp('tabForm').query('[name=userskupina]')[0].getValue(), Ext.getCmp('tabForm').query('[name=userperm]')[0].getValue());
+        check_perm(Ext.getCmp('tabForm').query('[name=pracskupina]')[0].getValue(), Ext.getCmp('tabForm').query('[name=userskupina]')[0].getValue(), Ext.getCmp('tabForm').query('[name=userperm]')[0].getValue());
         loadMask.hide();
         console.log('after mask ' + new Date().getTime());
         add_video_fancybox();

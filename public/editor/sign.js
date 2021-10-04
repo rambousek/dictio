@@ -1787,7 +1787,7 @@ function load_doc(id) {
         console.log('load end ' + new Date().getTime())
         update_stav();
         Ext.resumeLayouts(true);
-        //check_perm(Ext.getCmp('tabForm').query('[name=pracskupina]')[0].getValue(), Ext.getCmp('tabForm').query('[name=userskupina]')[0].getValue(), Ext.getCmp('tabForm').query('[name=userperm]')[0].getValue());
+        check_perm(Ext.getCmp('tabForm').query('[name=pracskupina]')[0].getValue(), Ext.getCmp('tabForm').query('[name=userskupina]')[0].getValue(), Ext.getCmp('tabForm').query('[name=userperm]')[0].getValue());
         loadMask.hide();
         console.log('after mask ' + new Date().getTime())
         add_preview_main();
