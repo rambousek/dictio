@@ -2514,8 +2514,15 @@ class CZJDict < Object
       }}
     ]
 
-    cursor = $mongo['media'].aggregate(pipeline, :collation => {'locale' => 'cs'}, :sort => {'location' => 1})
+    $stderr.puts 'before agreggate'
+    #cursor = $mongo['media'].aggregate(pipeline, :collation => {'locale' => 'cs'}, :sort => {'location' => 1})
+    cursor = $mongo['media'].aggregate(pipeline)
+    $stderr.puts 'after agreggate'
+    $stderr.puts Time.now.to_s
     cursor.each{|res|
+      $stderr.puts 'res'
+    $stderr.puts Time.now.to_s
+      $stderr.puts res['location']
       ri = [res['location']]
       entries_used = []
       res['entryDocs'].each{|ed|
@@ -2526,6 +2533,7 @@ class CZJDict < Object
       ri << res['id_meta_source']
       ri << res['id_meta_copyright']
       report['entries'] << ri.join(';')
+      #report['entries'] << res
     }
     return report['entries']
   end
