@@ -537,7 +537,7 @@ $( document ).ready(function() {
     var report_url = '/' + $('.load_next_report').data('dict') + '/reportlist/' + current_count + '/15' + window.location.search;
     console.log(report_url)
     $.get(report_url, function(response) {
-      $('.report-table').append(response);
+      $('.report-results').append(response);
     }).always(function() {
       // after adding
       // maybe hide button

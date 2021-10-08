@@ -353,7 +353,7 @@ main role="main"
           | #{I18n.t("admin.dups_warn")} (#{@duplicate['duplicate'].select{|info| info['code'] == @dictcode}[0]['count']}). 
           a href="https://admin.dictio.info/#{@dictcode}/duplicate" #{I18n.t("admin.show")} 
 
-      table.table.table--no-margin.report-table data-resultcount=@report['resultcount']
+      table.table.table--no-margin.report-table.report-results data-resultcount=@report['resultcount']
         tr
           th width="10%" (#{@report['resultcount']})
           th
