@@ -618,14 +618,7 @@ class CzjApp < Sinatra::Base
       content_type 'text/csv; charset=utf-8'
       attachment 'export.csv'
       csv = ['název;hesla;autor;zdroj;autor videa']
-      dict.get_videoreport(params)['entries'].each{|rep|
-        ri = [rep['location']]
-        ri << rep['entries_used'].join(', ')
-        ri << rep['id_meta_author']
-        ri << rep['id_meta_source']
-        ri << rep['id_meta_copyright']
-        csv << ri.join(';')
-      }
+      csv += dict.export_videoreport(params)
       body = csv.join("\n")
     end
 

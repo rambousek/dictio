@@ -2471,6 +2471,65 @@ class CZJDict < Object
     return report
   end
 
+  def export_videoreport(params)
+    report = {'entries'=>[], 'resultcount'=>0, 'query'=>{}}
+    search_cond = {'dict': @dictcode}
+    if params['type_a'].to_s == '1' or params['type_b'].to_s == '1' or params['type_d'].to_s == '1' or params['type_k'].to_s == '1'
+      types = []
+      types << 'sign_front' if params['type_a'].to_s == '1'
+      types << 'sign_side' if params['type_b'].to_s == '1'
+      types << 'sign_definition' if params['type_d'].to_s == '1'
+      types << 'sign_usage_example' if params['type_k'].to_s == '1'
+      search_cond['type'] = {'$in': types}
+    end
+    search_cond['id_meta_author'] = params['author'] if params['author'].to_s != ''
+    search_cond['id_meta_source'] = params['source'] if params['source'].to_s != ''
+    search_cond['id_meta_copyright'] = params['copy'] if params['copy'].to_s != ''
+    search_cond['status'] = 'published' if params['status'].to_s == 'published'
+    search_cond['status'] = {'$ne': 'published'} if params['status'].to_s == 'hidden'
+    if params['def_skup'].to_s != ''
+      skup_vid = []
+      @entrydb.find({'dict': @dictcode, 'lemma.pracskupina': params['def_skup']}).each{|res|
+        skup_vid << res['lemma']['video_front'] if res['lemma']['video_front']
+        skup_vid << res['lemma']['video_side'] if res['lemma']['video_side']
+      }
+      search_cond['location'] = {'$in': skup_vid}
+    end
+    $stdout.puts search_cond
+    pipeline = [
+      {'$match': search_cond},
+      {'$lookup': {
+        'from': 'entries', 
+        'let': {'mediaLocation': '$location', 'mediaId': '$id'},
+        'pipeline': [
+          {'$match': {'$expr': {'$or': [
+            {'$eq': ['$lemma.video_front', '$$mediaLocation']},
+            {'$eq': ['$lemma.video_side', '$$mediaLocation']},
+            {'$eq': ['$meanings.text.file.@media_id', '$$mediaId']},
+            {'$eq': ['$meanings.usages.text.file.@media_id', '$$mediaId']},
+          ]}}},
+          {'$project': {'id': 1, 'dict': 1, '_id': 0}}
+        ], 
+        'as': 'entryDocs'
+      }}
+    ]
+
+    cursor = $mongo['media'].aggregate(pipeline, :collation => {'locale' => 'cs'}, :sort => {'location' => 1})
+    cursor.each{|res|
+      ri = [res['location']]
+      entries_used = []
+      res['entryDocs'].each{|ed|
+        entries_used << ed['id']
+      }
+      ri << entries_used.join(', ')
+      ri << res['id_meta_author']
+      ri << res['id_meta_source']
+      ri << res['id_meta_copyright']
+      report['entries'] << ri.join(';')
+    }
+    return report['entries']
+  end
+
   def get_users
     res = []
     $mongo['users'].find({}, :sort => {'login' => 1}).each{|us|
