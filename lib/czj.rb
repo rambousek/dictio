@@ -2496,44 +2496,20 @@ class CZJDict < Object
       search_cond['location'] = {'$in': skup_vid}
     end
     $stdout.puts search_cond
-    pipeline = [
-      {'$match': search_cond},
-      {'$lookup': {
-        'from': 'entries', 
-        'let': {'mediaLocation': '$location', 'mediaId': '$id'},
-        'pipeline': [
-          {'$match': {'$expr': {'$or': [
-            {'$eq': ['$lemma.video_front', '$$mediaLocation']},
-            {'$eq': ['$lemma.video_side', '$$mediaLocation']},
-            {'$eq': ['$meanings.text.file.@media_id', '$$mediaId']},
-            {'$eq': ['$meanings.usages.text.file.@media_id', '$$mediaId']},
-          ]}}},
-          {'$project': {'id': 1, 'dict': 1, '_id': 0}}
-        ], 
-        'as': 'entryDocs'
-      }}
-    ]
 
-    $stderr.puts 'before agreggate'
-    #cursor = $mongo['media'].aggregate(pipeline, :collation => {'locale' => 'cs'}, :sort => {'location' => 1})
-    cursor = $mongo['media'].aggregate(pipeline)
-    $stderr.puts 'after agreggate'
-    $stderr.puts Time.now.to_s
+    cursor = $mongo['mediaExport'].find(search_cond)
     cursor.each{|res|
       $stderr.puts 'res'
     $stderr.puts Time.now.to_s
       $stderr.puts res['location']
       ri = [res['location']]
       entries_used = []
-      res['entryDocs'].each{|ed|
-        entries_used << ed['id']
-      }
+      ri << res['entryDocs'].select{|e| e['dict'] == res['dict']}.collect{|e| e['id']}.join(', ')
       ri << entries_used.join(', ')
       ri << res['id_meta_author']
       ri << res['id_meta_source']
       ri << res['id_meta_copyright']
       report['entries'] << ri.join(';')
-      #report['entries'] << res
     }
     return report['entries']
   end
