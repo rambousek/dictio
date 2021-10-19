@@ -2731,7 +2731,7 @@ class CZJDict < Object
     return res
   end
 
-  def save_user_settting(user_info, new_info)
+  def save_user_setting(user_info, new_info)
     user_data = $mongo['users'].find({'login': user_info['login']}).first
     if user_data.nil?
       return false

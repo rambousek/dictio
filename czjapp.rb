@@ -141,6 +141,7 @@ class CzjApp < Sinatra::Base
     stat = $mongo['entryStat'].find({}, :sort=>{'dateField'=>-1}).first
     @count_entry = stat['entries'][0]['count']
     @count_rels = ((stat['rel'][0]['count'].to_i+stat['usgrel'][0]['count'].to_i)/2).round
+    @params = params
     slim :home
   end
 
@@ -675,8 +676,8 @@ class CzjApp < Sinatra::Base
     end
 
     post '/savesettings' do
-      dict_array['czj'].save_user_settting(@user_info, params)
-      redirect to('/?lang='+params['default_lang'].to_s)
+      dict_array['czj'].save_user_setting(@user_info, params)
+      redirect to('/?profile_save=true&lang='+params['default_lang'].to_s)
     end
   end
 

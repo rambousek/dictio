@@ -42,6 +42,7 @@ cs:
     lastsearch: "Poslední hledané"
     mostsearch: "Nejčastěji hledané"
     mostsearchweek: "Nejhledanější v týdnu"
+    profile_saved: "Profil uložen"
   menu:
     about: "O slovníku"
     contact: "Kontakt"
