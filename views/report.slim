@@ -191,8 +191,6 @@ main role="main"
                   a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','aka','skup','ne')" #{I18n.t("admin.group.aka")}
                 - unless @params['skup'] and @params['def_skup[]'] == 'krest'
                   a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','krest','skup','ne')" #{I18n.t("admin.group.krest")}
-                - unless @params['skup'] and @params['def_skup[]'] == 'podnikani'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','podnikani','skup','ne')" #{I18n.t("admin.group.podnikani")}
                 - unless @params['skup'] and @params['def_skup[]'] == 'test'
                   a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','test','skup','ne')" #{I18n.t("admin.group.test")}
                 - unless @params['skup'] and @params['def_skup[]'] == 'mdd'
