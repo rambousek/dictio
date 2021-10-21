@@ -4,11 +4,11 @@ main id="mobilespacetop" role="main"
     article.container role="article"
       .video-top 
         .video
-          p.detail__badge.detail__badge--top style="background: #1c2641;"              
+          p.detail__badge.detail__badge--top style="background: #1c2641; z-index: 100;"              
             - if (@is_edit or @is_admin)
-              a class="" style="text-decoration: none; font-weight: bolder; z-index: 100;" href="https://edit.dictio.info/#{@entry['dict']}/show/#{@entry['id']}" X 
+              a class="" style="text-decoration: none; font-weight: bolder;" href="https://edit.dictio.info/#{@entry['dict']}/show/#{@entry['id']}" X 
             - else 
-              a class="" style="text-decoration: none; font-weight: bolder; z-index: 100;" href="https://www.dictio.info/#{@entry['dict']}/show/#{@entry['id']}" X                          
+              a class="" style="text-decoration: none; font-weight: bolder;" href="https://www.dictio.info/#{@entry['dict']}/show/#{@entry['id']}" X                          
           .video__content.video-front
             video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@video}"
               source src="https://files.dictio.info/video#{@entry['dict']}/#{@video}" type="video/mp4"
