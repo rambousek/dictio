@@ -677,7 +677,7 @@ class CzjApp < Sinatra::Base
 
     post '/savesettings' do
       dict_array['czj'].save_user_setting(@user_info, params)
-      redirect to('/?profile_save=true&lang='+params['default_lang'].to_s)
+      redirect to('/usersettings?profile_save=true&lang='+params['default_lang'].to_s)
     end
   end
 

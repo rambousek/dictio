@@ -3,8 +3,6 @@ main class="homepage" role="main"
     article.translation role="article"
       .container
         .translation__wrapper
-          - if @params['profile_save'].to_s == 'true'
-            p #{I18n.t("home.profile_saved")}
           p.translation__count-desktop.headline #{I18n.t("home.entries")}: #{@count_entry.to_s.reverse.scan(/\d{3}|.+/).join(" ").reverse} <br/> #{I18n.t("home.translations")}: #{@count_rels.to_s.reverse.scan(/\d{3}|.+/).join(" ").reverse}
           h1 = I18n.t("home.title")
           p.lead = I18n.t("home.info")
