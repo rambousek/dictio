@@ -2132,6 +2132,7 @@ class CZJDict < Object
       komentbox = params['komentbox'].to_s
       koment_moje = params['koment_moje'].to_s
       koment_cond = {}
+      koment_aggr = false
 
       if params['koment'].to_s == 'ano'
         if komentbox == ''
@@ -2154,13 +2155,25 @@ class CZJDict < Object
               end
             end
           elsif komentbox == 'vyznam'
+            koment_aggr = true
+            koment_cond = [
+              {'$match': {'dict': @dictcode}},
+              {'$group': {
+                '_id': {'dict': '$dict', 'entry': '$entry'},
+                'komentbox': {'$addToSet': '$box'}
+              }},
+              {'$match': {
+                '$and': [
+                  {'komentbox': {'$not': {'$regex': /^vyznam/}}},
+                  {'komentbox': {'$not': {'$regex': /^videoD/}}}
+                ]
+              }}
+            ]
             if koment_user != ''
-              koment_cond = {'user': {'$ne': koment_user}, 'box': {'$not': {'$regex': /^vyznam/}}}
+              koment_cond.unshift({'$match': {'user': {'$ne': koment_user}}})
             else
               if koment_moje == 'on'
-                koment_cond = {'user': {'$ne': user_info['login']}, 'box': {'$not': {'$regex': /^vyznam/}}}
-              else
-                koment_cond = {'box': {'$not': {'$regex': /^vyznam/}}}
+                koment_cond.unshift({'$match': {'user': {'$ne': user_info['login']}}})
               end
             end
           else
@@ -2197,12 +2210,12 @@ class CZJDict < Object
             end
           elsif komentbox == 'vyznam'
             if koment_user != ''
-              koment_cond = {'user': koment_user, '$and': [{'box': {'$regex': /^vyznam/}}, {'box': {'$not': {'$regex': /vazby/}}}]}
+              koment_cond = {'user': koment_user, '$or': [{'box': {'$regex': /^videoD/}}, {'$and': [{'box': {'$regex': /^vyznam/}}, {'box': {'$not': {'$regex': /vazby/}}}]}]}
             else
               if koment_moje == 'on'
-                koment_cond = {'user': user_info['login'], '$and': [{'box': {'$regex': /^vyznam/}}, {'box': {'$not': {'$regex': /vazby/}}}]}
+                koment_cond = {'user': user_info['login'], '$or': [{'box': {'$regex': /^videoD/}}, {'$and': [{'box': {'$regex': /^vyznam/}}, {'box': {'$not': {'$regex': /vazby/}}}]}]}
               else
-                koment_cond = {'$and': [{'box': {'$regex': /^vyznam/}}, {'box': {'$not': {'$regex': /vazby/}}}]}
+                koment_cond = {'$or': [{'box': {'$regex': /^videoD/}}, {'$and': [{'box': {'$regex': /^vyznam/}}, {'box': {'$not': {'$regex': /vazby/}}}]}]}
               end
             end
           else
@@ -2218,10 +2231,16 @@ class CZJDict < Object
           end
         end
       end
-      koment_cond['dict'] = @dictcode
-      $mongo['koment'].find(koment_cond).each{|kom|
-        koment_ids << kom['entry']
-      }
+      if koment_aggr
+        $mongo['koment'].aggregate(koment_cond).each{|kom|
+          koment_ids << kom['_id']['entry']
+        }
+      else
+        koment_cond['dict'] = @dictcode
+        $mongo['koment'].find(koment_cond).each{|kom|
+          koment_ids << kom['entry']
+        }
+      end
       search_cond << {'id': {'$in': koment_ids}}
     end
 
