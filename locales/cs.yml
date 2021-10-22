@@ -43,6 +43,7 @@ cs:
     mostsearch: "Nejčastěji hledané"
     mostsearchweek: "Nejhledanější v týdnu"
     profile_saved: "Profil uložen"
+    not_authorized: "Neplatné přihlášení"
   menu:
     about: "O slovníku"
     contact: "Kontakt"

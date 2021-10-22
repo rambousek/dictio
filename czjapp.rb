@@ -49,7 +49,7 @@ class CzjApp < Sinatra::Base
     def protected!
       return if authorized?
       headers['WWW-Authenticate'] = 'Basic realm="CZJ"'
-      halt 401, "Not authorized\n"
+      halt 401, {'Refresh' => '1; URL=https://www.dictio.info?login_fail=true'}, 'Not authorized'
     end
 
     def authorized?

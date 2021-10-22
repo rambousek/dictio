@@ -43,6 +43,7 @@ en:
     mostsearch: "Most searched"
     mostsearchweek: "Most searched this week"
     profile_saved: "Profile saved"
+    not_authorized: "Not authorized"
   menu:
     about: "About"
     contact: "Contact"
