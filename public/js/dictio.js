@@ -111,7 +111,11 @@ $( document ).ready(function() {
   /* clickable video */
   $('.video-link').on('click', function(event) {
     event.preventDefault();
-    window.location = $(this).data('url');
+    if ($(this).data('url') && $(this).data('url') != "") {
+      window.location = $(this).data('url');
+    } else {
+      loadSearchResult(this);
+    }
   });
 
   /* switch front/back video */
@@ -451,7 +455,7 @@ $( document ).ready(function() {
           response.entries.forEach((entry) => {
             if ($('.search-results-write').length) {
               // new write entry
-              var newli = '<li><a href="'+search_path+'/'+entry.id+'">'+entry.lemma.title+'</a>';
+              var newli = '<li><a href="" data-dict="'+entry.dict+'" data-entryid="'+entry.id+'" onclick="return loadSearchResult(this)">'+entry.lemma.title+'</a>';
               if (response.is_edit) {
                 newli += '<span class="trans__badge trans__badge__'+entry.dict+'" style="position: relative; margin-left: 5px">'; 
                 newli += '<a class="edit" href="https://edit.dictio.info/editor'+entry.dict+'/?id='+entry.id+'">'+entry.dict+'-'+entry.id+'</a>';
@@ -461,11 +465,11 @@ $( document ).ready(function() {
             }
             if ($('.search-results-sign').length) {
               // new sign entry
-              var video_content = '<video class="video-link" width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url="'+search_path+'/'+entry.id+'" poster="/thumb/video'+entry.dict+'/'+entry.lemma.video_front+'" muted="muted"><source src="https://files.dictio.info/video'+entry.dict+'/'+entry.lemma.video_front+'" type="video/mp4"/></video>';
+              var video_content = '<video class="video-link" width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-dict="'+entry.dict+'" data-entryid="'+entry.id+'" poster="/thumb/video'+entry.dict+'/'+entry.lemma.video_front+'" muted="muted"><source src="https://files.dictio.info/video'+entry.dict+'/'+entry.lemma.video_front+'" type="video/mp4"/></video>';
               if (entry.media && entry.media.video_front && entry.media.video_front.orient) {
                 video_content = '<span class="video-orient">'+entry.media.video_front.orient.charAt(0).toUpperCase()+'</span>' + video_content;
               }
-              var video_controls = '<a href="'+search_path+'/'+entry.id+'" class="video__link"><span class="icon icon--open-new-window"><svg class="icon__svg" xmlns:xlink="http://www.w3.org/1999/xlink"><use height="100%" width="100%" x="0" xlink:href="/img/icons.svg#open-new-window" y="0"></use></svg></span></a>';
+              var video_controls = '<a href="/'+entry.dict+'/show/'+entry.id+'" class="video__link"><span class="icon icon--open-new-window"><svg class="icon__svg" xmlns:xlink="http://www.w3.org/1999/xlink"><use height="100%" width="100%" x="0" xlink:href="/img/icons.svg#open-new-window" y="0"></use></svg></span></a>';
               if (entry.lemma && entry.lemma.sw) {
                 video_controls += '<span class="video__sign"><img src="/sw/signwriting.png?generator[sw]='+entry.lemma.sw[0]['_text']+'&generator[align]=top_left&generator[set]=sw10"/></span>';
               }
@@ -490,7 +494,11 @@ $( document ).ready(function() {
         //activate video links
         $('.video-link').on('click', function(event) {
           event.preventDefault();
-          window.location = $(this).data('url');
+          if ($(this).data('url') && $(this).data('url') != "") {
+            window.location = $(this).data('url');
+          } else {
+            loadSearchResult(this);
+          }
         });
       });
     }
@@ -579,6 +587,17 @@ $( document ).ready(function() {
     });
   });
 });
+
+// load search result entry
+function loadSearchResult(ev) {
+  var entryid = ev.getAttribute('data-entryid');
+  var dict = ev.getAttribute('data-dict');
+  $.get('/'+dict+'/searchentry/'+entryid, function(response) {
+    $('.entry-content').html(response);
+    $('.entry-content')[0].scrollIntoView();
+  });
+  return false;
+}
 
 // run translation on document load
 $( document ).ready(function() {

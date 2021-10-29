@@ -285,6 +285,19 @@ class CzjApp < Sinatra::Base
       
       slim :searchresult
     end
+    get '/'+code+'/searchentry/:entry' do
+      @dictcode = code
+      @entry = dict.getdoc(params['entry'])
+      if @entry != nil and @entry != {}
+        if $dict_info[code]['type'] == 'write'
+          slim :entrywritedetail, :layout=>false
+        else
+          slim :entrysigndetail, :layout=>false
+        end
+      else
+        return ''
+      end
+    end
     get '/'+code+'/translate/:target/:type/:search(/:selected)?' do
       @dict_info = $dict_info
       @request = request
