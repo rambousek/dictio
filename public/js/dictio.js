@@ -451,7 +451,13 @@ $( document ).ready(function() {
           response.entries.forEach((entry) => {
             if ($('.search-results-write').length) {
               // new write entry
-              $('.search-results-write').append('<li><a href="'+search_path+'/'+entry.id+'">'+entry.lemma.title+'</a></li>');
+              var newli = '<li><a href="'+search_path+'/'+entry.id+'">'+entry.lemma.title+'</a>';
+              if (response.is_edit) {
+                newli += '<span class="trans__badge trans__badge__'+entry.dict+'" style="position: relative; margin-left: 5px">'; 
+                newli += '<a class="edit" href="https://edit.dictio.info/editor'+entry.dict+'/?id='+entry.id+'">'+entry.dict+'-'+entry.id+'</a>';
+              }
+              newli += '</li>';
+              $('.search-results-write').append(newli);
             }
             if ($('.search-results-sign').length) {
               // new sign entry

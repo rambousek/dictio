@@ -719,7 +719,7 @@ class CZJDict < Object
         res << add_media(e, true)
       }
     end
-    return {'count'=> resultcount, 'entries'=> res}
+    return {'count'=> resultcount, 'entries'=> res, 'is_edit'=> ($is_edit or $is_admin)}
   end
 
   def translate2(source, target, search, type, start=0, limit=nil)
