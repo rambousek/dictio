@@ -469,7 +469,13 @@ $( document ).ready(function() {
               if (entry.lemma && entry.lemma.sw) {
                 video_controls += '<span class="video__sign"><img src="/sw/signwriting.png?generator[sw]='+entry.lemma.sw[0]['_text']+'&generator[align]=top_left&generator[set]=sw10"/></span>';
               }
-              $('.search-results-sign').append('<div style="width:70%"><div class="video video--small"><div class="video__content">'+video_content+'</div><div class="video__controls">'+video_controls+'</div></div</div>');
+              var newdiv = '';
+              if (response.is_edit) {
+                newdiv += '<span class="trans__badge trans__badge__'+entry.dict+'" style="position: relative;">'; 
+                newdiv += '<a class="edit" href="https://edit.dictio.info/editor'+entry.dict+'/?id='+entry.id+'">'+entry.dict+'-'+entry.id+'</a>';
+              }
+              newdiv += '<div style="width:70%"><div class="video video--small"><div class="video__content">'+video_content+'</div><div class="video__controls">'+video_controls+'</div></div</div>';
+              $('.search-results-sign').append(newdiv);
             }
             current_count += 1;
           });
