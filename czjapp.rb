@@ -272,8 +272,6 @@ class CzjApp < Sinatra::Base
       @entry = nil
       if params['selected'] != nil
         @entry = dict.getdoc(params['selected']) 
-      elsif @result['entries'].first != nil
-        @entry = dict.getdoc(@result['entries'].first['id'])
       end
       @search_type = 'search'
       @search = ''
