@@ -586,6 +586,14 @@ $( document ).ready(function() {
       }
     });
   });
+
+  // search results, onload, load first
+  if ($('.search-results-write li').length > 0 && $('.entry-content .detail-word').length == 0) {
+    loadSearchResult($('.search-results-write li a')[0]);
+  }
+  if ($('.search-results-sign .video-link').length > 0 && $('.entry-content .detail__head').length == 0) {
+    loadSearchResult($('.search-results-sign .video-link')[0]);
+  }
 });
 
 // load search result entry
