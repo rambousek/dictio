@@ -35,6 +35,11 @@
                     li #{koment['text']} (#{koment['user']}, #{koment['time']})
                 - if entry['lemma']['video_side'] and koment['box'] == 'video'+entry['lemma']['video_side']
                   li #{koment['text']} (#{koment['user']}, #{koment['time']})
+    - if entry['meanings'] and entry['meanings'].select{|m| m['is_translation_unknown'].to_s == '1'}.size > 0
+      td
+        ul
+          - entry['meanings'].select{|m| m['is_translation_unknown'].to_s == '1'}.each do |m|
+            li #{m['id']}: neexistuje žádný sémantický ekvivalent
     - if @is_admin or @is_edit
       td
         a href="https://edit.dictio.info/editor#{@dictcode}/?id=#{entry['id']}" target="_blank" edit
