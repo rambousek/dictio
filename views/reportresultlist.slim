@@ -22,18 +22,19 @@
     - if @params['koment'].to_s != ''
       td
         ul
-          - @report['koment'][entry['id']].each do |koment|
-            - if @params['komentbox'].to_s == '' or (koment['box'].include?(@params['komentbox'].to_s) and @params['komentbox'].to_s != 'vyznam' and @params['komentbox'].to_s != 'video')
-              li #{koment['text']} (#{koment['user']}, #{koment['time']})
-            - if @params['komentbox'].to_s == 'vyznam' and entry['meanings']
-              - entry['meanings'].each do |km|
-                - if koment['box'] == 'vyznam'+km['id'] or koment['box'].start_with?('videoD')
-                  li #{koment['text']} (#{koment['user']}, #{koment['time']})
-            - if @params['komentbox'].to_s == 'video'
-              - if entry['lemma']['video_front'] and koment['box'] == 'video'+entry['lemma']['video_front']
-                  li #{koment['text']} (#{koment['user']}, #{koment['time']})
-              - if entry['lemma']['video_side'] and koment['box'] == 'video'+entry['lemma']['video_side']
+          - if @report['koment'][entry['id']]
+            - @report['koment'][entry['id']].each do |koment|
+              - if @params['komentbox'].to_s == '' or (koment['box'].include?(@params['komentbox'].to_s) and @params['komentbox'].to_s != 'vyznam' and @params['komentbox'].to_s != 'video')
                 li #{koment['text']} (#{koment['user']}, #{koment['time']})
+              - if @params['komentbox'].to_s == 'vyznam' and entry['meanings']
+                - entry['meanings'].each do |km|
+                  - if koment['box'] == 'vyznam'+km['id'] or koment['box'].start_with?('videoD')
+                    li #{koment['text']} (#{koment['user']}, #{koment['time']})
+              - if @params['komentbox'].to_s == 'video'
+                - if entry['lemma']['video_front'] and koment['box'] == 'video'+entry['lemma']['video_front']
+                    li #{koment['text']} (#{koment['user']}, #{koment['time']})
+                - if entry['lemma']['video_side'] and koment['box'] == 'video'+entry['lemma']['video_side']
+                  li #{koment['text']} (#{koment['user']}, #{koment['time']})
     - if @is_admin or @is_edit
       td
         a href="https://edit.dictio.info/editor#{@dictcode}/?id=#{entry['id']}" target="_blank" edit
