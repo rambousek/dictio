@@ -39,7 +39,7 @@
       td
         ul
           - entry['meanings'].select{|m| m['is_translation_unknown'].to_s == '1'}.each do |m|
-            li #{m['id']}: neexistuje žádný sémantický ekvivalent
+            li #{m['id']}: v cílovém jazyce chybí
     - if @is_admin or @is_edit
       td
         a href="https://edit.dictio.info/editor#{@dictcode}/?id=#{entry['id']}" target="_blank" edit
