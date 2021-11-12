@@ -236,7 +236,8 @@
     span = I18n.t("gram.category."+@entry['lemma']['style_note'][0]['@kategorie'])
 - unless @entry['lemma']['style_note'].nil? or @entry['lemma']['style_note'][0].nil? or @entry['lemma']['style_note'][0]['@stylpriznak'].to_s == ''
   p.naming 
-    span = I18n.t("gram.stylpriznak."+@entry['lemma']['style_note'][0]['@stylpriznak'])
+    - @entry['lemma']['style_note'][0]['@stylpriznak'].to_s.split(';').each do |sp|
+      span = I18n.t("gram.stylpriznak."+sp)
 - if @entry['lemma']['style_note'] and @entry['lemma']['style_note'].find{|gram| gram['variant'] and gram['variant'].size > 0}
   h2.detail-category 
     | #{I18n.t("entry.style_variant")}:
