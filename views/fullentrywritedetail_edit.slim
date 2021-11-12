@@ -247,7 +247,8 @@
         == stext
   - unless @entry['lemma']['style_note'].nil? or @entry['lemma']['style_note'][0].nil? or @entry['lemma']['style_note'][0]['@kategorie'].to_s == ''
     p.naming 
-      span = I18n.t("gram.category."+@entry['lemma']['style_note'][0]['@kategorie'])
+    - @entry['lemma']['style_note'][0]['@kategorie'].to_s.split(';').each do |sp|
+      span = I18n.t("gram.category."+sp)
   - unless @entry['lemma']['style_note'].nil? or @entry['lemma']['style_note'][0].nil? or @entry['lemma']['style_note'][0]['@stylpriznak'].to_s == ''
     p.naming 
       - @entry['lemma']['style_note'][0]['@stylpriznak'].to_s.split(';').each do |sp|
