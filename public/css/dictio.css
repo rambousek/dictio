@@ -159,3 +159,13 @@ img.error {align-self: center}
   background: url(../img/loading.svg) no-repeat center;
   background-size: cover;
 }
+
+/* multiple label */
+p.naming span:not(:last-child):after {
+  content: ', ';
+}
+
+p.naming2 span {
+  color: darkgrey;
+  font-weight: 700;
+}
