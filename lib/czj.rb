@@ -1794,6 +1794,8 @@ class CZJDict < Object
   def save_uploaded_file(filedata, metadata, entry_id)
     filename = filedata['filename'].gsub(/[^\w^\.^_^-]/, '')
     filename = filename[0,2]+filename[2..-1].gsub('_','-')
+    $stdout.puts 'SAVE UPLOAD'
+    $stdout.puts filedata['filename']
     $stdout.puts filename
     media = get_media_location(filename, @dictcode)
     if media == {}

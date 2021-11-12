@@ -4045,16 +4045,26 @@ function callback(files) {
           console.log(filesv[j]);
 
           //add on media tab
-          var med = create_media(entryid, false, filesv[j].name);
-          Ext.getCmp('mediabox').add(med);
-          if (mediaid != undefined && mediaid != "") {
-            med.query('component[name="videoid"]')[0].setValue(mediaid);
-            med.query('component[name="mediaid"]')[0].setValue(mediaid);
+          // check name if already on media tab
+          var meds = Ext.getCmp('mediabox').query('[name=mediaitem]');
+          var med = null;
+          for (var i = 0; i < meds.length; i++) {
+            if (meds[i].query('[name=vidid]')[0].getValue() == filesv[j].name) {
+              med = meds[i];
+            }
           }
-          med.query('component[name="vidid"]')[0].setValue(filesv[j].name);
-          med.query('component[name="copy_autor"]')[0].setValue(Ext.getCmp('tabForm').query('component[name="defaultautor"]')[0].getValue());
-          med.query('component[name="copy_copy"]')[0].setValue(Ext.getCmp('tabForm').query('component[name="defaultcopy"]')[0].getValue());
-          med.query('component[name="copy_zdroj"]')[0].setValue(Ext.getCmp('tabForm').query('component[name="defaultzdroj"]')[0].getValue());
+          if (med == null) {
+            var med = create_media(entryid, false, filesv[j].name);
+            Ext.getCmp('mediabox').add(med);
+            if (mediaid != undefined && mediaid != "") {
+              med.query('component[name="videoid"]')[0].setValue(mediaid);
+              med.query('component[name="mediaid"]')[0].setValue(mediaid);
+            }
+            med.query('component[name="vidid"]')[0].setValue(filesv[j].name);
+            med.query('component[name="copy_autor"]')[0].setValue(Ext.getCmp('tabForm').query('component[name="defaultautor"]')[0].getValue());
+            med.query('component[name="copy_copy"]')[0].setValue(Ext.getCmp('tabForm').query('component[name="defaultcopy"]')[0].getValue());
+            med.query('component[name="copy_zdroj"]')[0].setValue(Ext.getCmp('tabForm').query('component[name="defaultzdroj"]')[0].getValue());
+          }
 
           switch(filesv[j].name.charAt(0)) {
             case 'K':
@@ -4079,6 +4089,7 @@ function callback(files) {
               if (!video_is) {
                 var vid = create_video(entryid, false, filesv[j].name);
                 Ext.getCmp('videobox').insert(Ext.getCmp('videobox').items.length-1, vid);
+                vid.query('component[name="mediaid"]')[0].setValue(med.query('component[name="mediaid"]')[0].getValue());
                 vid.query('component[name="vidid"]')[0].setValue(filesv[j].name.replace('.mpeg','.mp4'));
                 vid.query('component[name="type"]')[0].setValue('front');
                 vid.query('component[name="copy_autor"]')[0].setValue(Ext.getCmp('tabForm').query('component[name="defaultautor"]')[0].getValue());
@@ -4104,6 +4115,7 @@ function callback(files) {
               if (!video_is) {
                 var vid = create_video(entryid, false, filesv[j].name);
                 Ext.getCmp('videobox').insert(Ext.getCmp('videobox').items.length-1, vid);
+                vid.query('component[name="mediaid"]')[0].setValue(med.query('component[name="mediaid"]')[0].getValue());
                 vid.query('component[name="vidid"]')[0].setValue(filesv[j].name.replace('.mpeg','.mp4'));
                 vid.query('component[name="type"]')[0].setValue('side');
                 vid.query('component[name="copy_autor"]')[0].setValue(Ext.getCmp('tabForm').query('component[name="defaultautor"]')[0].getValue());
