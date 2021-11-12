@@ -1883,7 +1883,6 @@ class CZJDict < Object
       media = get_media(data['id'].to_s, @dictcode)
     end
 
-    media['id'] = data['id'].to_s
     media['dict'] = @dictcode
     media['location'] = data['location'].to_s
     media['original_file_name'] = data['original_file_name'].to_s
