@@ -176,7 +176,9 @@
       - unless @entry['lemma']['style_note'].nil? or @entry['lemma']['style_note'][0].nil? or @entry['lemma']['style_note'][0]['@generace'].to_s == ''
         p.naming
           | #{I18n.t("entry.generace")}: 
-          span = I18n.t("gram.generace."+@entry['lemma']['style_note'][0]['@generace'])
+          - @entry['lemma']['style_note'][0]['@generace'].to_s.split(';').each do |gen|
+            span
+              = I18n.t("gram.generace."+gen)
       - if @entry['lemma']['grammar_note'] != nil and @entry['lemma']['grammar_note'].find{|gr| gr['variant'] != nil and gr['variant'].size > 0}
         p.naming #{I18n.t("entry.grammar_variant")}:
         .row.row--start 
