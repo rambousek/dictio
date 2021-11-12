@@ -319,7 +319,7 @@ class CZJDict < Object
       if add_entries
         entries = $mongo['entries'].find({'dict': dict, 'lemma.video_front': media_info['location']})
         if entries.first
-          media_info['main_for_entry'] = entries.first
+          media_info['main_for_entry'] = get_sw(entries.first)
         end
       end
       return media_info

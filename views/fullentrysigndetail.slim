@@ -153,9 +153,9 @@
                         video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{selmedia['location']}"
                           source src="https://files.dictio.info/video#{@entry['dict']}/#{selmedia['location']}" type="video/mp4"
                     .video__controls
-                      - if selmedia['main_for_entry'] and selmedia['main_for_entry']['lemma']['sw']
+                      - if selmedia['main_for_entry'] and selmedia['main_for_entry']['lemma']['swmix']
                         span.video__sign
-                          - selmedia['main_for_entry']['lemma']['sw'].each do |sw|
+                          - selmedia['main_for_entry']['lemma']['swmix'].each do |sw|
                             img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
       - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@region'].to_s == ''
         p.naming 
@@ -194,9 +194,9 @@
                         video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{selmedia['location']}"
                           source src="https://files.dictio.info/video#{@entry['dict']}/#{selmedia['location']}" type="video/mp4"
                     .video__controls
-                      - if selmedia['main_for_entry'] and selmedia['main_for_entry']['lemma']['sw']
+                      - if selmedia['main_for_entry'] and selmedia['main_for_entry']['lemma']['swmix']
                         span.video__sign
-                          - selmedia['main_for_entry']['lemma']['sw'].each do |sw|
+                          - selmedia['main_for_entry']['lemma']['swmix'].each do |sw|
                             img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""      
 
 - if @entry['meanings']
