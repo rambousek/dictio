@@ -1335,7 +1335,7 @@ class CZJDict < Object
     entry = getone(@dictcode, entry_id)
 
     query = {'dict'=> @dictcode}
-    query[:$or] = [{'entry_folder' => entry_id}]
+    query[:$or] = [{'entry_folder' => entry_id.to_s}]
 
     if entry != nil
       query[:$or] << {'media_folder_id' => entry['lemma']['media_folder_id']} if entry['lemma']['media_folder_id'].to_s != ''
@@ -1824,7 +1824,7 @@ class CZJDict < Object
       'orient' => metadata['orient'],
       'created_at' => Time.now.strftime("%Y-%m-%d %H:%M:%S")
     }
-    data['entry_folder'] = entry_id if entry_id.to_s != ''
+    data['entry_folder'] = entry_id.to_s if entry_id.to_s != ''
     $stdout.puts data
     $mongo['media'].insert_one(data)
 
@@ -1862,10 +1862,10 @@ class CZJDict < Object
         'created_at' => Time.now.strftime("%Y-%m-%d %H:%M:%S")
       }
     else
-      mediaid = media['id']
+      mediaid = media['id'].to_s
       $mongo['media'].find({'dict'=> @dictcode, 'id'=> mediaid}).delete_many
     end
-    media['entry_folder'] = entry_id if entry_id.to_s != ''
+    media['entry_folder'] = entry_id.to_s if entry_id.to_s != ''
     $mongo['media'].insert_one(media)
     return mediaid
   end
@@ -1878,7 +1878,7 @@ class CZJDict < Object
       cursor.each{|r|
         mediaid = r['id'].to_i + 1
       }
-      media = {'id' => mediaid}
+      media = {'id' => mediaid.to_s}
     else
       media = get_media(data['id'].to_s, @dictcode)
     end
@@ -1897,7 +1897,7 @@ class CZJDict < Object
     media['created_at'] = data['created_at'].to_s
     media['updated_at'] = Time.now.strftime("%Y-%m-%d %H:%M:%S")
     media.delete('main_for_entry')
-    $mongo['media'].find({'dict'=> @dictcode, 'id'=> data['id']}).delete_many
+    $mongo['media'].find({'dict'=> @dictcode, 'id'=> data['id'].to_s}).delete_many
     $mongo['media'].insert_one(media)
     return data['id'].to_s
   end
@@ -1907,7 +1907,7 @@ class CZJDict < Object
     if media != {}
       media.delete('entry_folder')
       media.delete('media_folder_id')
-      $mongo['media'].find({'dict'=> @dictcode, 'id'=> media['id']}).delete_many
+      $mongo['media'].find({'dict'=> @dictcode, 'id'=> media['id'].to_s}).delete_many
       $mongo['media'].insert_one(media)
     end
   end
