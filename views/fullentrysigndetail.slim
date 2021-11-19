@@ -304,7 +304,7 @@
 
 - if @entry['revcollocation'] and @entry['revcollocation']['count'].to_i > 0
   .row.row--start
-    .col.col--2.col--precise
+    .col.col--2.col--precise.homonym-info
       .detail__block.detail__block--line
         div.detail-block
           h3.headline.detail-block__headline.revcolloc-headline data-url="/#{@entry['dict']}/revcolloc/#{@entry['id']}" == I18n.t("entry.collocation_with_this")
