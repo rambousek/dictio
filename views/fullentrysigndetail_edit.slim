@@ -64,11 +64,6 @@
                   - coll['lemma']['swmix'].each do |sw|
                     img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
 
-  - if @entry['lemma']['homonym'].to_s != ''
-    p 
-      | homonym: 
-      a href="/#{@dictcode}/show/#{@entry['lemma']['homonym'].to_s}" = @entry['lemma']['homonym'].to_s
-
   - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'].to_s != '' or gr['@mluv_komp'].to_s != '' or gr['@oral_komp'].to_s != '' or gr['_text'].to_s != '' or gr['variant'] != nil or gr['@region'].to_s != ''}
     .block.mobile-hide
       - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'].to_s != ''}
@@ -299,6 +294,15 @@
       .col.col--2
         .detail__block.detail__block--wide
           == slim :fullentrytrans_edit
+
+- if @entry['homonym'] and @entry['homonym']['lemma']
+  .row.row--start
+    .col.col--2.col--precise
+      .detail__block.detail__block--line
+        div.detail-block
+          h3.headline.detail-block__headline homonym
+          - @homonym = @entry['homonym']
+          == slim :homonymsign
 
 - if @entry['revcollocation'] and @entry['revcollocation']['count'].to_i > 0
   .row.row--start

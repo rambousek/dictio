@@ -19,6 +19,9 @@ class CZJDict < Object
     if data != nil
       entry = full_entry(data, add_rev)
       entry = add_rels(entry, add_rev)
+      if entry['lemma']['homonym'].to_s != ''
+        entry = add_homonym(entry)
+      end
       $stdout.puts 'END getdoc '+Time.now.to_s
       return entry
     else
@@ -69,6 +72,11 @@ class CZJDict < Object
     entry, cu = add_colloc(entry, add_rev)
     entry = get_sw(entry)
     $stdout.puts 'END fullentry '+Time.now.to_s
+    return entry
+  end
+
+  def add_homonym(entry)
+    entry['homonym'] = full_entry(getone(entry['dict'], entry['lemma']['homonym']))
     return entry
   end
 
