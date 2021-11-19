@@ -76,7 +76,8 @@ class CZJDict < Object
   end
 
   def add_homonym(entry)
-    entry['homonym'] = full_entry(getone(entry['dict'], entry['lemma']['homonym']))
+    homent = full_entry(getone(entry['dict'], entry['lemma']['homonym']))
+    entry['homonym'] = add_rels(homent)
     return entry
   end
 
