@@ -28,7 +28,7 @@
                 li #{koment['text']} (#{koment['user']}, #{koment['time']})
               - if @params['komentbox'].to_s == 'vyznam' and entry['meanings']
                 - entry['meanings'].each do |km|
-                  - if koment['box'] == 'vyznam'+km['id'] or koment['box'].start_with?('videoD')
+                  - if koment['box'] == 'vyznam'+km['id'] or (koment['box'].start_with?('videoD') and entry['media'].is_a?(Hash) and entry['media'].select{|k,v| v['location'] == koment['box'][5..-1]}.size > 0)
                     li #{koment['text']} (#{koment['user']}, #{koment['time']})
               - if @params['komentbox'].to_s == 'video'
                 - if entry['lemma']['video_front'] and koment['box'] == 'video'+entry['lemma']['video_front']
