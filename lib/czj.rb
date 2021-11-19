@@ -422,6 +422,12 @@ class CZJDict < Object
             relentry, cu = add_colloc(relentry) if add_rev
             relentry = get_sw(relentry)
             relentry = add_media(relentry, true)
+            if relentry['meanings'] and relentry['meanings'].select{|m| m['id'] == rel['meaning_id']}.size > 0
+              relmean = relentry['meanings'].select{|m| m['id'] == rel['meaning_id']}[0]
+              if relmean['number'].to_s != ''
+                rel['meaning_nr'] = relmean['number']
+              end
+            end
             rel['entry'] = relentry
           elsif rel['meaning_id'] =~ /^[0-9]*-[0-9]*_us[0-9]*$/
             rela = rel['meaning_id'].split('-')
