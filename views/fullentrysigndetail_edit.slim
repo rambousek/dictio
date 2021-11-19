@@ -296,12 +296,9 @@
           == slim :fullentrytrans_edit
 
 - if @entry['homonym'] and @entry['homonym']['lemma']
-  .row.row--start
-    .col.col--2.col--precise.homonym-info
-      .detail__block.detail__block--line
-        div.detail-block
-          - @homonym = @entry['homonym']
-          == slim :homonymsign
+  .homonym-block
+    - @homonym = @entry['homonym']
+    == slim :homonymsign
 
 - if @entry['revcollocation'] and @entry['revcollocation']['count'].to_i > 0
   .row.row--start

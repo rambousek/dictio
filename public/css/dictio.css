@@ -169,3 +169,8 @@ p.naming2 span {
   color: darkgrey;
   font-weight: 700;
 }
+
+.homonym-block {
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+}
