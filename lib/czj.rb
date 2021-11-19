@@ -351,7 +351,7 @@ class CZJDict < Object
     if not main_only
       if entry['meanings']
         entry['meanings'].each{|mean|
-          entry['media'][mean['text']['file']['@media_id']] = get_media(mean['text']['file']['@media_id'], entry['dict']) if mean['text'] and mean['text']['file']
+          entry['media'][mean['text']['file']['@media_id'].to_s] = get_media(mean['text']['file']['@media_id'].to_s, entry['dict']) if mean['text'] and mean['text']['file'] and mean['text']['file'].is_a?(Hash)
           if mean['usages']
             mean['usages'].each{|usg|
               if usg['text'] and usg['text']['file'] 
@@ -2023,6 +2023,9 @@ class CZJDict < Object
       entry = res
       if params['nes_sw'].to_s != '' or params['bez_sw'].to_s != ''
         entry = get_sw(entry)
+      end
+      if params['koment'].to_s != ''
+        entry = add_media(entry)
       end
       report['entries'] << entry
       entry_ids << res['id']
