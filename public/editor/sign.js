@@ -1429,7 +1429,7 @@ function load_doc(id) {
         Ext.getCmp('tabForm').query('component[name="puvod_slova"]')[0].setValue(data['lemma']['puvod']);
         Ext.getCmp('tabForm').query('component[name="admin_comment"]')[0].setValue(data['lemma']['admin_comment']);
         if (data['lemma']['homonym']) {
-          Ext.getCmp('tabForm').query('component[name="homonym"]')[0].setValue(data['lemma']['homonym']);
+          Ext.getCmp('tabForm').query('component[name="homonym"]')[0].setValue(data['lemma']['homonym'].filter(item => item != '').join(','));
         }
         if (data['collocations'] && data['collocations']['swcompos'] && data['collocations']['swcompos'] != "") {
           Ext.getCmp('tabForm').query('component[name="swcompos"]')[0].setValue(data['collocations']['swcompos'].toUpperCase());
@@ -1932,7 +1932,7 @@ function save_doc(id) {
       'puvod': Ext.getCmp('tabForm').query('component[name="puvod_slova"]')[0].getValue(),
       'admin_comment': Ext.getCmp('tabForm').query('component[name="admin_comment"]')[0].getValue(),
       'status': Ext.getCmp('tabForm').query('component[name="stav"]')[0].getValue(),
-      'homonym': Ext.getCmp('tabForm').query('component[name="homonym"]')[0].getValue(),
+      'homonym': Ext.getCmp('tabForm').query('component[name="homonym"]')[0].getValue().split(',').map(x => x.trim()),
       'grammar_note': [{
         '_text': Ext.getCmp('tabForm').query('component[name="gramatikatext_text"]')[0].getValue(), 
         '@region': Ext.getCmp('styldesc').query('component[name="region"]')[0].getValue().filter(item => item != '').join(';'),
@@ -4515,7 +4515,7 @@ Ext.onReady(function(){
         id: 'boxhomon',
         items: [{
           xtype: 'textfield',
-          name: 'homonym'
+          name: 'homonym',
         }]
       }, {
         xtype: 'fieldset',
@@ -5057,6 +5057,8 @@ Ext.onReady(function(){
         }
       }]
     });
+
+
 
     /* RENDER */
     //entryform.render(document.body);
