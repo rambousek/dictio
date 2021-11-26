@@ -1119,8 +1119,12 @@ class CZJDict < Object
     end
 
     #add homonym
-    if data['lemma']['homonym'] and data['lemma']['homonym'].to_s != ''
-      add_homonym_target(data['lemma']['homonym'], entryid)
+    if data['lemma']['homonym'] and data['lemma']['homonym'].is_a?(Array)
+      data['lemma']['homonym'].each{|hom|
+        if hom.to_s != ''
+          add_homonym_target(hom, entryid)
+        end
+      }
     end
 
     #add variants 
@@ -1253,8 +1257,9 @@ class CZJDict < Object
   def add_homonym_target(entryid, homonym)
     doc = getone(@dictcode, entryid)
     if doc
-      if doc['lemma']['homonym'].nil? or doc['lemma']['homonym'].to_s != homonym
-        doc['lemma']['homonym'] = homonym
+      doc['lemma']['homonym'] = [] if doc['lemma']['homonym'].nil?
+      if not doc['lemma']['homonym'].include?(homonym)
+        doc['lemma']['homonym'] << homonym
         $stdout.puts 'add homonym to target '+entryid + ':' + homonym
         @entrydb.find({'dict'=>doc['dict'], 'id'=>doc['id']}).delete_many
         @entrydb.insert_one(doc)
