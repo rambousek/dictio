@@ -4511,7 +4511,7 @@ Ext.onReady(function(){
         }]
       }, {
         xtype: 'fieldset',
-        title: 'homonym',
+        title: 'homonym (více oddělit ,)',
         id: 'boxhomon',
         items: [{
           xtype: 'textfield',
