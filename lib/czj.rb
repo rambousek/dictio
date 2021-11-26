@@ -84,10 +84,17 @@ class CZJDict < Object
   end
 
   def add_homonym(entry)
-    homent = getone(entry['dict'], entry['lemma']['homonym'])
-    if homent != nil
-      homent = full_entry(homent)
-      entry['homonym'] = add_rels(homent)
+    if entry['lemma']['homonym'] and entry['lemma']['homonym'].is_a?(Array)
+      entry['lemma']['homonym'].each{|hom|
+        if hom != ''
+          homent = getone(entry['dict'], hom)
+          if homent != nil
+            homent = full_entry(homent)
+            entry['homonym'] = [] if entry['homonym'].nil?
+            entry['homonym'] << add_rels(homent)
+          end
+        end
+      }
     end
     return entry
   end
