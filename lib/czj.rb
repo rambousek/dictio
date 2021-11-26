@@ -32,6 +32,14 @@ class CZJDict < Object
   def getone(dict, id)
     $stdout.puts 'START getone '+Time.now.to_s
     data = @entrydb.find({'id': id, 'dict': dict, 'empty': {'$exists': false}}).first
+    # homonym +
+    if data != nil and data['lemma']['homonym'] != nil and not data['lemma']['homonym'].is_a?(Array)
+      if data['lemma']['homonym'].to_s == ''
+        data['lemma']['homonym'] = []
+      else
+        data['lemma']['homonym'] = [data['lemma']['homonym'].to_s]
+      end
+    end
     $stdout.puts 'END getone '+Time.now.to_s
     return data
   end
