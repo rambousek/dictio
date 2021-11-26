@@ -293,10 +293,11 @@
         .detail__block.detail__block--wide
           == slim :fullentrytrans
 
-- if @entry['homonym'] and @entry['homonym']['lemma']
-  .homonym-block
-    - @homonym = @entry['homonym']
-    == slim :homonymsign
+- if @entry['homonym']
+  - @entry['homonym'].each do |homonym|
+    .homonym-block
+      - @homonym = homonym
+      == slim :homonymsign
 
 - if @entry['revcollocation'] and @entry['revcollocation']['count'].to_i > 0
   .row.row--start
