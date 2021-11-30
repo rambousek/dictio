@@ -365,6 +365,8 @@ de:
     ekv: "Verbindungen"
     schvcelni: "genehmigt Frontvideo"
     schvbocni: "genehmigt Seitenvideo "
+    celni: "Frontvideo"
+    bocni: "Seitenvideo "
     sw: "bestätigt SW"
     schvsw: "genehmigt SW"
     single: "einfach Lemma"

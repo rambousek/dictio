@@ -365,6 +365,8 @@ en:
     ekv: "connections"
     schvcelni: "Approved front view"
     schvbocni: "approved side view"
+    celni: "existing front view"
+    bocni: "existing side view"
     sw: "existing SW"
     schvsw: "approved SW"
     single: "single entry"

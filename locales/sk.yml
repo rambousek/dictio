@@ -365,6 +365,8 @@ sk:
     ekv: "väzby"
     schvcelni: "schválené čelné video"
     schvbocni: "schválené bočné video"
+    celni: "zadané čelné video"
+    bocni: "zadané bočné video"
     sw: "zadaný SW"
     schvsw: "schválený SW"
     single: "jednoduché heslo"
