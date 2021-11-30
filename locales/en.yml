@@ -279,6 +279,7 @@ en:
       dgs: "DGS"
       bsl: "BSL" 
       ogs: "ÖGS"
+      is: "IS"
     category: 
       neo: "neologism"
       arch: "archaism"
