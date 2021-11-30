@@ -2099,6 +2099,24 @@ class CZJDict < Object
       end
     end
 
+    # celni video zadane
+    if params['celni'].to_s != ''
+      if params['celni'].to_s == 'ano'
+        search_cond << {'lemma.video_front': {'$exists': true, '$ne': ''}}
+      else
+        search_cond << {'$or': [{'lemma.video_front': {'$exists': false}}, {'lemma.video_front': ''}]}
+      end
+    end
+
+    # bocni video zadane
+    if params['bocni'].to_s != ''
+      if params['bocni'].to_s == 'ano'
+        search_cond << {'lemma.video_side': {'$exists': true, '$ne': ''}}
+      else
+        search_cond << {'$or': [{'lemma.video_side': {'$exists': false}}, {'lemma.video_front': ''}]}
+      end
+    end
+
     # schvalena definice
     if params['vyznam'].to_s != ''
       if params['vyznam'].to_s == 'ano'
