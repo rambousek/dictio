@@ -2256,13 +2256,13 @@ class CZJDict < Object
     if params['bez_sw'].to_s != ''
       if params['bez_sw'].to_s == 'ano' # zadany SW
         search_cond << {'$or': [
-          {'lemma.lemma_type': {'$in': ['single','derivat','kompozitum']}, '$and': [{'lemma.sw': {'$exists': true}}, {'lemma.sw': {'$not': {'$size': 0}}}]},
-          {'lemma.lemma_type': {'$in': ['fingerspell','collocation']}, '$and': [{'collocations.swcompos': {'$exists': true}}, {'collocations.swcompos': {'$ne': ''}}]}
+          {'lemma.lemma_type': {'$in': ['single','derivat','kompozitum']}, 'lemma.sw': {'$exists': true, '$not': {'$size': 0}}},
+          {'lemma.lemma_type': {'$in': ['fingerspell','collocation']}, 'collocations.swcompos': {'$exists': true, '$ne': ''}}
         ]}
       else # nezadany SW
         search_cond << {'$or': [
           {'lemma.lemma_type': {'$in': ['single','derivat','kompozitum']},'$or': [{'lemma.sw': {'$exists': false}}, {'lemma.sw': {'$size': 0}}]},
-          {'lemma.lemma_type': {'$in': ['fingerspell','collocation']},'$or': [{'collocations.swcompos': {'$exists': false}}, {'collocations.swcompos': ''}]}
+          {'lemma.lemma_type': {'$in': ['fingerspell','collocation']},'$or': [{'collocations.swcompos': {'$exists': false}}, {'collocations.swcompos': ''}], 'collocations.colloc': {'$exists': false}}
         ]}
       end
     end
@@ -2272,12 +2272,12 @@ class CZJDict < Object
       if params['nes_sw'].to_s == 'ano' # schvaleny SW
         search_cond << {'$or': [
           {'lemma.lemma_type': {'$in': ['single','derivat','kompozitum']}, 'lemma.@swstatus': 'published'},
-          {'lemma.lemma_type': {'$in': ['fingerspell','collocation']}, '$and': [{'collocations.swcompos': {'$exists': true}}, {'collocations.swcompos': {'$ne': ''}}]}
+          {'lemma.lemma_type': {'$in': ['fingerspell','collocation']}, 'collocations.swcompos': {'$exists': true, '$ne': ''}}
         ]}
       else # neschvaleny SW
         search_cond << {'$or': [
           {'lemma.lemma_type': {'$in': ['single','derivat','kompozitum']},'$or': [{'lemma.@swstatus': {'$exists': false}}, {'lemma.@swstatus': {'$ne': 'published'}}]},
-          {'lemma.lemma_type': {'$in': ['fingerspell','collocation']},'$or': [{'collocations.swcompos': {'$exists': false}}, {'collocations.swcompos': ''}]}
+          {'lemma.lemma_type': {'$in': ['fingerspell','collocation']},'$or': [{'collocations.swcompos': {'$exists': false}}, {'collocations.swcompos': ''}], 'collocations.colloc': {'$exists': false}}
         ]}
       end
     end
