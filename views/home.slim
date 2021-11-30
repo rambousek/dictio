@@ -2,6 +2,8 @@ main class="homepage" role="main"
   section.section.section--no-space role="region"
     article.translation role="article"
       .container
+        .mobile-hide style="max-width: 240px;float: right; padding: 60px 0;"
+          img src="/img/lang.png"         
         .translation__wrapper
           - if @params['login_fail'].to_s == 'true'
             p #{I18n.t("home.not_authorized")}
