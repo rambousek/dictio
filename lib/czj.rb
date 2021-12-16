@@ -788,6 +788,7 @@ class CZJDict < Object
           end
           resultcount = res.length
         }
+        return {'count'=> resultcount, 'relations'=> res}
       else
         if @write_dicts.include?(source)
           locale = source
