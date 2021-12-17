@@ -181,8 +181,8 @@ main role="main"
               span onclick="showhide('skupina')" style="cursor: pointer"
                 | #{I18n.t("admin.workgroup")}: >>            
               div id="skupina" style="display: none"              
-                - unless @params['skup'] and @params['def_skup[]'] == 'teiresias_w'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','teiresias_w','skup','ne')" #{I18n.t("admin.group.teiresias_w")}
+                - unless @params['skup'] and @params['def_skup[]'] == 'teires_w'
+                  a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','teires_w','skup','ne')" #{I18n.t("admin.group.teires_w")}
                 - unless @params['skup'] and @params['def_skup[]'] == 'obecna'
                   a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','obecna','skup','ne')" #{I18n.t("admin.group.obecna")}
                 - unless @params['skup'] and @params['def_skup[]'] == 'upol'
