@@ -1,5 +1,5 @@
 - @result['relations'].each do |rel|
-      .col.col--3.col--precise.translate-box data-resultcount="#{@result['count']}" data-relinfo="#{rel['source_dict']+rel['source_id']+rel['target']+rel['meaning_id'].sub(/-.*$/,'')}"
+  .col.col--3.col--precise.translate-box data-resultcount="#{@result['count']}" data-relinfo="#{rel['source_dict']+rel['source_id']+(rel['source_usage_id']?'us':'')+rel['target']+rel['meaning_id'].sub(/-.*$/,'')+(rel['meaning_id'].include?('_us')?'us':'')}"
         - if @dict_info[@dictcode]['type'] == 'write'
           p
             - if rel['source_dict'] == @dictcode
