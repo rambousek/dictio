@@ -433,6 +433,8 @@ sk:
       save: "uložit"
       delete: "smazat"
       pass: "heslo"
+      showtypes: "v editaci zobrazit"
+      worklang: "pracovní jazyky"
       admin: "administrátor"
       editorright: "Editorská práva"
       revizorright: "Revizorská práva"

@@ -433,6 +433,8 @@ en:
       save: "save"
       delete: "delete user"
       pass: "Password"
+      showtypes: "v editaci zobrazit"
+      worklang: "pracovní jazyky"
       admin: "administrator"
       editorright: "Editor's permitions"
       revizorright: "Supervisor's permitions"
