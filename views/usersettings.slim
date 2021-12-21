@@ -59,4 +59,4 @@ main role="main"
                       input type="checkbox" name="edit_dict_#{code}" checked=("checked" if @user_info["edit_dict"].nil? or @user_info["edit_dict"].includes?(code)) #{I18n.t("dict."+code)}
               tr
                 td
-                  input.btn.save-user type="submit" value="#{I18n.t('admin.users.save')}"
+                  input.btn type="submit" value="#{I18n.t('admin.users.save')}"
