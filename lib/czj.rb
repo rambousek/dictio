@@ -2771,6 +2771,14 @@ class CZJDict < Object
       user_data['default_dict'] = new_info['default_dict'].to_s
       user_data['email'] = new_info['email'].to_s
       user_data['name'] = new_info['name'].to_s
+      user_data['edit_synonym'] = false
+      user_data['edit_trans'] = false
+      user_data['edit_dict'] = []
+      user_data['edit_synonym'] = true if new_info['edit_synonym'].to_s == 'on'
+      user_data['edit_trans'] = true if new_info['edit_trans'].to_s == 'on'
+      $dict_info.each{|code, info|
+        user_data['edit_dict'] << code if new_info['edit_dict_'+code].to_s == 'on'
+      }
       $mongo['users'].find({'login': user_info['login']}).delete_many
       $mongo['users'].insert_one(user_data)
       return true
