@@ -56,7 +56,7 @@ main role="main"
                 td
                   - @dict_info.each do |code, info|
                     label
-                      input type="checkbox" name="edit_dict_#{code}" checked=("checked" if @user_info["edit_dict"].nil? or @user_info["edit_dict"].includes?(code)) #{I18n.t("dict."+code)}
+                      input type="checkbox" name="edit_dict_#{code}" checked=("checked" if @user_info["edit_dict"].nil? or @user_info["edit_dict"].include?(code)) #{I18n.t("dict."+code)}
               tr
                 td
                   input.btn type="submit" value="#{I18n.t('admin.users.save')}"
