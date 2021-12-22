@@ -1696,6 +1696,7 @@ class CZJDict < Object
             next if type != '' and rel['type'] != type
             next if user_info != nil and user_info['edit_synonym'] != nil and not user_info['edit_synonym'] and rel['type'] != 'translation'
             next if user_info != nil and user_info['edit_trans'] != nil and not user_info['edit_trans'] and rel['type'] == 'translation'
+            next if user_info != nil and user_info['edit_dict'] != nil and not user_info['edit_dict'].include?(rel['target'])
             hash = {'type'=>rel['type'], 'target'=>rel['target'], 'meaning_id'=>rel['meaning_id']}
             if rel['entry'] and rel['entry']['lemma'] and rel['entry']['lemma']['title']
               hash['title'] = rel['entry']['lemma']['title']
