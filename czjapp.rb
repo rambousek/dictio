@@ -480,7 +480,7 @@ class CzjApp < Sinatra::Base
         body = info
       end
       get '/'+code+'/getrelations' do
-        list = dict.get_relations(params['meaning_id'].to_s, params['type'].to_s)
+        list = dict.get_relations(params['meaning_id'].to_s, params['type'].to_s, @user_info)
         content_type :json
         body = list.to_json
       end

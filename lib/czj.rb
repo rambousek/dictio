@@ -1686,7 +1686,7 @@ class CZJDict < Object
     return ''
   end
 
-  def get_relations(meaning_id, type)
+  def get_relations(meaning_id, type, user_info=nil)
     list = []
     entry = getdoc(meaning_id.split('-')[0].to_s)
     if entry['meanings']
@@ -1694,6 +1694,8 @@ class CZJDict < Object
         if mean['id'] == meaning_id
           mean['relation'].each{|rel|
             next if type != '' and rel['type'] != type
+            next if user_info != nil and user_info['edit_synonym'] != nil and not user_info['edit_synonym'] and rel['type'] != 'translation'
+            next if user_info != nil and user_info['edit_trans'] != nil and not user_info['edit_trans'] and rel['type'] == 'translation'
             hash = {'type'=>rel['type'], 'target'=>rel['target'], 'meaning_id'=>rel['meaning_id']}
             if rel['entry'] and rel['entry']['lemma'] and rel['entry']['lemma']['title']
               hash['title'] = rel['entry']['lemma']['title']
