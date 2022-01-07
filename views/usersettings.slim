@@ -1,12 +1,12 @@
 main role="main"
   section.section role="region"
     .container
+      h1 #{I18n.t("admin.users.setting")}
       form method="post" action="/savesettings"
         .row      
           article.col.col--2.col--start role="article"
             - if @params['profile_save'].to_s == 'true'
-              p #{I18n.t("home.profile_saved")}
-            h1 #{I18n.t("admin.users.setting")}
+              p #{I18n.t("home.profile_saved")}            
             table.info.user-info            
               tr
                 td
@@ -44,6 +44,7 @@ main role="main"
                       option value="#{code}" selected=("selected" if @user_info['default_dict'] and @user_info['default_dict']==code) #{I18n.t("dict."+code)}
           
           article.col.col--2
+            label #{I18n.t("admin.users.editset")}
             table.info.user-info              
               tr
                 th
