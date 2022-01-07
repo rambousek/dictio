@@ -2,12 +2,12 @@ main role="main"
   section.section role="region"
     .container
       .row
-        article.col.col--2.col--start role="article"
-          - if @params['profile_save'].to_s == 'true'
-            p #{I18n.t("home.profile_saved")}
-          h1 #{I18n.t("admin.users.setting")}
-          table.info.user-info
-            form method="post" action="/savesettings"
+        form method="post" action="/savesettings"
+          article.col.col--2.col--start role="article"
+            - if @params['profile_save'].to_s == 'true'
+              p #{I18n.t("home.profile_saved")}
+            h1 #{I18n.t("admin.users.setting")}
+            table.info.user-info            
               tr
                 td
                   label #{I18n.t("admin.users.login")}
