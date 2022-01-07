@@ -28,9 +28,6 @@ main role="main"
                   label #{I18n.t("admin.users.pass")}:
                 td
                   input type="password" name="password"
-          
-          article.col.col--2
-            table.info.user-info
               tr
                 td
                   label #{I18n.t("admin.users.lang")}
@@ -45,17 +42,22 @@ main role="main"
                   select name="default_dict"
                     - @dict_info.each do |code, info|
                       option value="#{code}" selected=("selected" if @user_info['default_dict'] and @user_info['default_dict']==code) #{I18n.t("dict."+code)}
+          
+          article.col.col--2
+            table.info.user-info              
               tr
-                td
+                th
                   label #{I18n.t("admin.users.showtypes")}
+              tr
                 td
                   label
                     input type="checkbox" name="edit_synonym" checked=("checked" if @user_info["edit_synonym"] == true or @user_info["edit_synonym"].nil?) #{I18n.t("entry.synonyms")}
                   label
                     input type="checkbox" name="edit_trans" checked=("checked" if @user_info["edit_trans"] == true or @user_info["edit_trans"].nil?) #{I18n.t("entry.translations")}
               tr
-                td
+                th
                   label #{I18n.t("admin.users.worklang")}
+              tr
                 td
                   - @dict_info.each do |code, info|
                     label
