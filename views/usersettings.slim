@@ -28,6 +28,9 @@ main role="main"
                   label #{I18n.t("admin.users.pass")}:
                 td
                   input type="password" name="password"
+          
+          article.col.col--2
+            table.info.user-info
               tr
                 td
                   label #{I18n.t("admin.users.lang")}
@@ -57,6 +60,6 @@ main role="main"
                   - @dict_info.each do |code, info|
                     label
                       input type="checkbox" name="edit_dict_#{code}" checked=("checked" if @user_info["edit_dict"].nil? or @user_info["edit_dict"].include?(code)) #{I18n.t("dict."+code)}
-              tr
-                td
-                  input.btn type="submit" value="#{I18n.t('admin.users.save')}"
+              
+          .row
+            input.btn type="submit" value="#{I18n.t('admin.users.save')}"
