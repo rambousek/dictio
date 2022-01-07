@@ -436,6 +436,7 @@ cs:
       save: "uložit"
       delete: "smazat"
       pass: "heslo"
+      userset: "Osobní nastavení"
       editset: "Nastavení editace"
       showtypes: "při editaci ekvivalentů automaticky nabízet:"
       worklang: "ekvivalenty nabízet pro jazyky:"
