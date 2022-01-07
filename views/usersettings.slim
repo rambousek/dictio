@@ -1,12 +1,12 @@
 main role="main"
   section.section role="region"
     .container
-      .row
-        form method="post" action="/savesettings"
-          article.col.col--2.col--start role="article"
-            - if @params['profile_save'].to_s == 'true'
+      form method="post" action="/savesettings"
+        .row
+          - if @params['profile_save'].to_s == 'true'
               p #{I18n.t("home.profile_saved")}
-            h1 #{I18n.t("admin.users.setting")}
+            h1 #{I18n.t("admin.users.setting")}      
+          article.col.col--2.col--start role="article"
             table.info.user-info            
               tr
                 td
