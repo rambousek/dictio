@@ -427,6 +427,8 @@ de:
       comtrans: "komentiert Äquivalenten"
     users:
       title: "Benutzerverwaltung"
+      lang: "Interface"
+      dict: "Standardwörterbuch"
       login: "login"
       email: "e-mail"
       name: "Vorname und Name"
