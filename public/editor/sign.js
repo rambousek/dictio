@@ -728,7 +728,7 @@ function check_perm(heslo_skupina, user_skupina, user_perm) {
     }
 
     //revizor
-    if (user_perm.indexOf('revizor_lemmaczj' || user_perm.indexOf('editor_czjlemma') > -1) > -1) {
+    if (user_perm.indexOf('revizor_lemmaczj') > -1 || user_perm.indexOf('editor_czjlemma') > -1) {
       Ext.getCmp('boxlemma').setDisabled(false);    
       Ext.getCmp('boxcolloc').setDisabled(false);  
     }
