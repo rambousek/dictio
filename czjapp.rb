@@ -407,7 +407,7 @@ class CzjApp < Sinatra::Base
       end
       post '/'+code+'/save' do
         data = JSON.parse(params['data'])
-        dict.save_doc(data)
+        dict.save_doc(data, @user_info['login'])
         content_type :json
         body = {"success"=>true,"msg"=>"Uloženo"}.to_json
       end

@@ -999,7 +999,7 @@ class CZJDict < Object
     return {'count'=> resultcount, 'entries'=> res}
   end
 
-  def save_doc(data)
+  def save_doc(data, user='')
     entryid = data['id']
     dict = data['dict']
 
