@@ -1292,6 +1292,8 @@ function reload_files(id, search, add_preview, load_variant, type) {
           if (filelist.findRecord('id', variants[i].query('[name=variant]')[0].getValue()) != null) {
             var vdata = filelist.findRecord('id', variants[i].query('[name=variant]')[0].getValue()).data;
             variants[i].query('component[name="variant_name"]')[0].setValue(vdata.location);
+            variants[i].query('component[name="variantpreview"]')[0].update('<div class="videofancybox" data-ratio="0.8" class="usage" style="width:120px; cursor: zoom-in;"><video class='+dictcode+' width="80px" poster="https://www.dictio.info/thumb/video'+dictcode+'/'+vdata.location+'" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video'+dictcode+'/'+vdata.location+'"></source></video></div>');
+            variants[i].query('component[name="variantpreview"]')[0].setHeight(60);
           }
         }
       }
@@ -1531,6 +1533,9 @@ function load_doc(id) {
             variant.query('component[name="variant"]')[0].setValue(gramvar['_text']);
             variant.query('component[name="variant_desc"]')[0].setValue(gramvar['@desc']);
             variant.query('component[name="variant_sw"]')[0].setValue(gramvar['@sw']);
+            var videoloc = data['media'][gramvar['_text']]['location'];
+            variant.query('component[name="variantpreview"]')[0].update('<div class="videofancybox" data-ratio="0.8" class="usage" style="width:120px; cursor: zoom-in;"><video class='+dictcode+' width="80px" poster="https://www.dictio.info/thumb/video'+dictcode+'/'+videoloc+'" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video'+dictcode+'/'+videoloc+'"></source></video></div>');
+            variant.query('component[name="variantpreview"]')[0].setHeight(60);
           });
         }
         if (data['lemma']['style_note'] && data['lemma']['style_note'][0] && data['lemma']['style_note'][0]['variant']) {
@@ -1540,6 +1545,9 @@ function load_doc(id) {
             variant.query('component[name="variant"]')[0].setValue(gramvar['_text']);
             variant.query('component[name="variant_desc"]')[0].setValue(gramvar['@desc']);
             variant.query('component[name="variant_sw"]')[0].setValue(gramvar['@sw']);
+            var videoloc = data['media'][gramvar['_text']]['location'];
+            variant.query('component[name="variantpreview"]')[0].update('<div class="videofancybox" data-ratio="0.8" class="usage" style="width:120px; cursor: zoom-in;"><video class='+dictcode+' width="80px" poster="https://www.dictio.info/thumb/video'+dictcode+'/'+videoloc+'" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video'+dictcode+'/'+videoloc+'"></source></video></div>');
+            variant.query('component[name="variantpreview"]')[0].setHeight(60);
           });
         }
 
@@ -2520,6 +2528,13 @@ function create_variant(entryid) {
         id: name,
         name: 'variantitem',
         items: [{
+          xtype: 'panel',
+          name: 'variantpreview',
+          cls: 'variant-preview',
+          html: '',
+          width: 130,
+          autoHeight: true,
+        },{
           xtype: 'textfield',
           name: 'variant',
           hidden: true
