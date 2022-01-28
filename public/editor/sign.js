@@ -2554,6 +2554,15 @@ function create_variant(entryid) {
           minChars: 10,
           enableKeyEvents: true,
           listeners:{
+            'expand': function(field, e) {
+              console.log('*updatelist*')
+              if (field.getValue() != null && field.getValue().length > 2) {
+                reload_files(entryid, field.getValue(), false, false, 'A')
+              }
+              if (field.getValue() == null || field.getValue().length == 0) {
+                reload_files(entryid, '', false, false, '')
+              }
+            },
             specialkey: function(field, e) {
               if (e.getKey() == e.ENTER) {
                 console.log('*updatelist*')
