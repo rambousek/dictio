@@ -2574,6 +2574,8 @@ function create_variant(entryid) {
                 Ext.getCmp(name).query('component[name="variant"]')[0].setValue(combo.getValue());
                 var data = filelist.findRecord('id', combo.getValue()).data;
                 Ext.getCmp(name).query('component[name="variant_name"]')[0].setValue(data.location);
+                Ext.getCmp(name).query('component[name="variantpreview"]')[0].update('<div class="videofancybox" data-ratio="0.8" class="usage" style="width:120px; cursor: zoom-in;"><video class='+dictcode+' width="80px" poster="https://www.dictio.info/thumb/video'+dictcode+'/'+data.location+'" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video'+dictcode+'/'+data.location+'"></source></video></div>')
+                Ext.getCmp(name).query('component[name="variantpreview"]')[0].setHeight(60);
               }
             },
           },
