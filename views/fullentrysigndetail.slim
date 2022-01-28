@@ -152,6 +152,10 @@
                         span.video__sign
                           - selmedia['main_for_entry']['lemma']['swmix'].each do |sw|
                             img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+                      - if var['@sw'].to_s != '' and @entry['lemma']['sw'][(var['@sw'].ord-65)] != nil
+                        span.video__sign
+                          - sw = @entry['lemma']['sw'][(var['@sw'].ord-65)]
+                          img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
       - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@region'].to_s == ''
         p.naming 
           | #{I18n.t("entry.distribution_area")}: 
@@ -195,6 +199,10 @@
                         span.video__sign
                           - selmedia['main_for_entry']['lemma']['swmix'].each do |sw|
                             img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""      
+                      - if var['@sw'].to_s != '' and @entry['lemma']['sw'][(var['@sw'].ord-65)] != nil
+                        span.video__sign
+                          - sw = @entry['lemma']['sw'][(var['@sw'].ord-65)]
+                          img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
 
 - if @entry['meanings']
   - @entry["meanings"].each do |meaning|
