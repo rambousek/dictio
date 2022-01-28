@@ -1167,6 +1167,8 @@ class CZJDict < Object
       data.delete('update_video')
     end
 
+    # save history
+    save_history_info(dict, entryid, data, user)
     data.delete('track_changes')
     $stdout.puts data
 
@@ -2989,6 +2991,20 @@ class CZJDict < Object
       regionkey = regionkey*10000000 + entry['id'].to_i
     end
     return regionkey.to_s
+  end
+
+  def save_history_info(dict, entryid, data, user)
+    changes = data['track_changes']
+    data.delete('track_changes')
+    history = {
+      'dict' => dict,
+      'entry' => entryid,
+      'user' => user,
+      'timestamp' => Time.now.strftime('%Y-%m-%d %H:%M'),
+      'detail' => changes,
+      'full_entry' => data
+    }
+    $mongo['history'].insert_one(history)
   end
 end
 
