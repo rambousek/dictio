@@ -2541,7 +2541,8 @@ function create_variant(entryid) {
         },{
           xtype: 'textfield',
           name: 'variant_name',
-          disabled:true
+          disabled: true,
+          hidden: true
         },{
           xtype: 'combobox',
           name: 'video',
