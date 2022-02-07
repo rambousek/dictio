@@ -33,7 +33,7 @@
                 | , 
 - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gram| gram['variant'] and gram['variant'].size > 0}
   h2.detail-category 
-    | #{I18n.t("entry.grammar_variant")}:
+    | #{I18n.t("entry.grammar_variant")}: 
     span
       - @entry['lemma']['grammar_note'].each do |gram|
         - if gram['variant']
@@ -244,7 +244,7 @@
       span = I18n.t("gram.stylpriznak."+sp)
 - if @entry['lemma']['style_note'] and @entry['lemma']['style_note'].find{|gram| gram['variant'] and gram['variant'].size > 0}
   h2.detail-category 
-    | #{I18n.t("entry.style_variant")}:
+    | #{I18n.t("entry.style_variant")}: 
     span
       - @entry['lemma']['style_note'].each do |gram|
         - if gram['variant']
