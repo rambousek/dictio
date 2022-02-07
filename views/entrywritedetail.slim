@@ -15,7 +15,7 @@
   h2.detail-category 
     | #{I18n.t("entry.composed_collocation")}: 
     - @entry['collocations']['entries'].each do |coll|
-      a href="#{@search_path}/#{coll['id']}" #{coll['lemma']['title']}
+      a href="#{@entry['dict']}/show/#{coll['id']}" #{coll['lemma']['title']}
       - unless coll.equal?(@entry['collocations']['entries'].last)
         | , 
 - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'].to_s != ''}
