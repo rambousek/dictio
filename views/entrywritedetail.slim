@@ -38,7 +38,10 @@
       - @entry['lemma']['grammar_note'].each do |gram|
         - if gram['variant']
           - gram['variant'].each do |var|
-            = var['_text']
+            - if var['@title'].to_s != ''
+              a href="/#{@entry['dict']}/show/#{var['_text']}" #{var['@title']}
+            - else
+              = var['_text']
             |,
 - if @entry['lemma']['gram'] and @entry['lemma']['gram']['form']
   - if  @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc1'}.size > 0
@@ -246,7 +249,10 @@
       - @entry['lemma']['style_note'].each do |gram|
         - if gram['variant']
           - gram['variant'].each do |var|
-            = var['_text']
+            - if var['@title'].to_s != ''
+              a href="/#{@entry['dict']}/show/#{var['_text']}" #{var['@title']}
+            - else
+              = var['_text']
             |,
 
 - if @entry['meanings']
