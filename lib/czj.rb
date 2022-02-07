@@ -1168,7 +1168,7 @@ class CZJDict < Object
     end
 
     # save history
-    save_history_info(dict, entryid, data, user)
+    save_history_info(dict, entryid, data, olddata, user)
     data.delete('track_changes')
     $stdout.puts data
 
@@ -2993,16 +2993,17 @@ class CZJDict < Object
     return regionkey.to_s
   end
 
-  def save_history_info(dict, entryid, data, user)
-    changes = data['track_changes']
-    data.delete('track_changes')
+  def save_history_info(dict, entryid, data_new, data_old, user)
+    changes = data_new['track_changes']
+    data_new.delete('track_changes')
     history = {
       'dict' => dict,
       'entry' => entryid,
       'user' => user,
       'timestamp' => Time.now.strftime('%Y-%m-%d %H:%M'),
       'detail' => changes,
-      'full_entry' => data
+      'full_entry_old' => data_old,
+      'full_entry' => data_new
     }
     $mongo['history'].insert_one(history)
   end
