@@ -4507,7 +4507,7 @@ Ext.onReady(function(){
                 handler: function() {
                   Ext.getCmp('hamnosys').show();
                   var task = new Ext.util.DelayedTask(function() {
-                    document.getElementById('hamnosys').childNodes[0].receiveData(Ext.DomQuery.selectValue('/entry/lemma/hamnosys', xmlDoc));
+                    document.getElementById('hamnosys').childNodes[0].receiveData(entrydata['lemma']['hamnosys']['_text']);
                   });
                   task.delay(1000);
                 }
@@ -4520,7 +4520,7 @@ Ext.onReady(function(){
                     comp.getEl().on('click', function() {
                       Ext.getCmp('hamnosys').show();
                       var task = new Ext.util.DelayedTask(function() {
-                        document.getElementById('hamnosys').childNodes[0].receiveData(Ext.DomQuery.selectValue('/entry/lemma/hamnosys', xmlDoc));
+                        document.getElementById('hamnosys').childNodes[0].receiveData(entrydata['lemma']['hamnosys']['_text']);
                       });
                       task.delay(1000);
                     });
