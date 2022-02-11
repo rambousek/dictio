@@ -1592,7 +1592,7 @@ function load_doc(id) {
         if (data['lemma']['hamnosys']) {
           if (data['lemma']['hamnosys']['_text']) Ext.getCmp('tabForm').query('component[name="hamndata"]')[0].setValue(data['lemma']['hamnosys']['_text']);
           if (Ext.getCmp('tabForm').query('component[name="hamndata"]')[0].getValue() != '') {
-            Ext.getCmp('tabForm').query('component[name="hamnimg"]')[0].el.setHTML('<img src="http://znaky.zcu.cz/proxy/tts/tex2img.png?generator[template]=hamnosys&generator[dpi]=200&generator[engine]=x&generator[tex]='+encodeURI(Ext.getCmp('tabForm').query('component[name="hamndata"]')[0].getValue())+'"/>');
+            Ext.getCmp('tabForm').query('component[name="hamnimg"]')[0].el.setHTML('<img src="/sw/tex2img.png?generator[template]=hamnosys&generator[dpi]=200&generator[engine]=x&generator[tex]='+encodeURI(Ext.getCmp('tabForm').query('component[name="hamndata"]')[0].getValue())+'"/>');
             Ext.getCmp('tabForm').query('component[name="hamnbutton"]')[0].hide();
           }
           if (data['lemma']['hamnosys']['@author']) Ext.getCmp('hamnosys_copybox').query('component[name="copy_autor"]')[0].setValue(data['lemma']['hamnosys']['@author']);
