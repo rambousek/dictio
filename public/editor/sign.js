@@ -2945,13 +2945,16 @@ function create_vyznam_links(parentid) {
             }
           },
           specialkey: function(field, e) {
-            if (e.getKey() == e.ENTER) {   
-              if (Ext.getCmp(name).query('component[name="type"]')[0].getValue().startsWith('translation_')) {
-                var reltar = Ext.getCmp(name).query('component[name="type"]')[0].getValue().split('_')[1];
-                reload_rel(field.getValue(), field, reltar);
-              } else {
-                reload_rel(field.getValue(), field, dictcode);
-              }
+            if (e.getKey() == e.ENTER) {
+              // zpozdeni, protoze chvili trva, nez existuje layout pro seznam
+              setTimeout(function() {
+                if (Ext.getCmp(name).query('component[name="type"]')[0].getValue().startsWith('translation_')) {
+                  var reltar = Ext.getCmp(name).query('component[name="type"]')[0].getValue().split('_')[1];
+                  reload_rel(field.getValue(), field, reltar);
+                } else {
+                  reload_rel(field.getValue(), field, dictcode);
+                }
+              }, 100);
             }
           }
         },  
