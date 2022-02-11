@@ -32,7 +32,7 @@
 
   - unless @entry['lemma']['hamnosys'].nil? or @entry['lemma']['hamnosys']['_text'].to_s == ''
     .hieroglyf.mobile-hide
-      img src="/placeholder/hieroglyf.png" alt=""
+      img src="/sw/tex2img.png?generator[template]=hamnosys&generator[dpi]=200&generator[engine]=x&generator[tex]=#{@entry['lemma']['hamnosys']['_text']}" alt=""
       .btn.btn--round
         span.icon.icon--zoom
           svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
