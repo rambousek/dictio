@@ -2415,14 +2415,11 @@ function create_vyznam_links(parentid) {
             }
           },
           'expand': function(field, e) {
-            if (/^[0-9]+-[0-9]+$/.test(field.getValue()) == false && this.opened == false) {
-              this.opened = true;
-              if (Ext.getCmp(name).query('component[name="type"]')[0].getValue().startsWith('translation_')) {
-                var reltar = Ext.getCmp(name).query('component[name="type"]')[0].getValue().split('_')[1];
-                reload_rel(field.getValue(), field, reltar);
-              } else {
-                reload_rel(field.getValue(), field, dictcode);
-              }
+            if (Ext.getCmp(name).query('component[name="type"]')[0].getValue().startsWith('translation_')) {
+              var reltar = Ext.getCmp(name).query('component[name="type"]')[0].getValue().split('_')[1];
+              reload_rel(field.getValue(), field, reltar);
+            } else {
+              reload_rel(field.getValue(), field, dictcode);
             }
           },
           specialkey: function(field, e) {
