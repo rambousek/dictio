@@ -269,6 +269,9 @@ class CzjApp < Sinatra::Base
       @url_params = url_pars.join('&')
       @result = dict.search(code, params['search'].to_s.strip, params['type'].to_s, 0, @search_limit, more_params)
       $stdout.puts(@result['count'])
+      if @result['count'] == 0
+        File.open("public/log/search.csv", "a"){|f| f << [code, params['search'].to_s, Time.now.strftime("%Y-%m-%d %H:%M:%S")].join(";")+"\n"}
+      end
       @entry = nil
       if params['selected'] != nil
         @entry = dict.getdoc(params['selected']) 
