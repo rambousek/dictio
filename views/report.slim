@@ -209,6 +209,8 @@ main role="main"
                   a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','mdd','skup','ne')" #{I18n.t("admin.group.mdd")}
                 - unless @params['skup'] and @params['def_skup[]'] == 'ls'
                   a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','ls','skup','ne')" #{I18n.t("admin.group.ls")}
+                - unless @params['skup'] and @params['def_skup[]'] == 'tczj'
+                  a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','tczj','skup','ne')" #{I18n.t("admin.group.tczj")}
             div
               | #{I18n.t("admin.lemma")}:                                        
               div
