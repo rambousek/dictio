@@ -1,0 +1,25 @@
+main id="mobilespacetop" role="main"
+  == slim :searchbox
+  section.detail role="region"
+    article.container role="article"
+      table
+        tr
+          th původní
+          th nové - uloženo #{@change['timestamp']}
+        tr
+          - if @dict_info[@show_dictcode]['type'] == 'sign'
+            td width="40%"
+              - if @entry_old
+                - @entry = @entry_old
+                == slim :fullentrysigndetail_edit
+            td width="40%"
+              - @entry = @entry_new
+              == slim :fullentrysigndetail_edit
+          - else
+            td width="40%"
+              - if @entry_old
+                - @entry = @entry_old
+                == slim :fullentrywritedetail_edit
+            td width="40%"
+              - @entry = @entry_new
+              == slim :fullentrywritedetail_edit

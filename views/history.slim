@@ -39,6 +39,8 @@ main role="main"
             td rowspan=3 #{i}
             td colspan=3 #{entry['timestamp']}
             td rowspan=3 #{entry['detail']}
+            td 
+              a href="/compare/#{entry['_id']}" target="_blank" porovnat
           tr
             td #{entry['dict']}
             td 

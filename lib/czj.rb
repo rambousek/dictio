@@ -3024,5 +3024,9 @@ class CZJDict < Object
     }
     return report
   end
+
+  def get_history(cid)
+    return $mongo['history'].find({'_id': BSON::ObjectId.from_string(cid)}).first
+  end
 end
 

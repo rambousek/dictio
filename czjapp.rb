@@ -747,6 +747,20 @@ class CzjApp < Sinatra::Base
       @params = params
       slim :history
     end
+
+    get '/compare/:cid' do
+      @dict_info = $dict_info
+      @change = dict_array['czj'].get_history(params['cid'])
+      @dictcode = @change['dict']
+      @show_dictcode = @change['dict']
+      if @change['full_entry_old']
+        @entry_old = dict_array[@dictcode].full_entry(@change['full_entry_old'], false)
+        @entry_old = dict_array[@dictcode].add_rels(@entry_old, false)
+      end
+      @entry_new = dict_array[@dictcode].full_entry(@change['full_entry'], false)
+      @entry_new = dict_array[@dictcode].add_rels(@entry_new, false)
+      slim :historycompare
+    end
   end
 
   get '/swapi/symbol_definition/:id.json' do
