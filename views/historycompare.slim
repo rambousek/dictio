@@ -8,18 +8,18 @@ main id="mobilespacetop" role="main"
           th #{I18n.t('admin.historynew')} #{@change['timestamp']}
         tr
           - if @dict_info[@show_dictcode]['type'] == 'sign'
-            td width="40%"
+            td width="40%" style="vertical-align: top;"
               - if @entry_old
                 - @entry = @entry_old
                 == slim :fullentrysigndetail_edit
-            td width="40%"
+            td width="40%" style="vertical-align: top;"
               - @entry = @entry_new
               == slim :fullentrysigndetail_edit
           - else
-            td width="40%"
+            td width="40%" style="vertical-align: top;"
               - if @entry_old
                 - @entry = @entry_old
                 == slim :fullentrywritedetail_edit
-            td width="40%"
+            td width="40%" style="vertical-align: top;"
               - @entry = @entry_new
               == slim :fullentrywritedetail_edit
