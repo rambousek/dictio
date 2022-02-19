@@ -4,8 +4,8 @@ main id="mobilespacetop" role="main"
     article.container role="article"
       table
         tr
-          th původní
-          th nové - uloženo #{@change['timestamp']}
+          th #{I18n.t('admin.historyold')}
+          th #{I18n.t('admin.historynew')} #{@change['timestamp']}
         tr
           - if @dict_info[@show_dictcode]['type'] == 'sign'
             td width="40%"

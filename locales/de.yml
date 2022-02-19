@@ -336,6 +336,9 @@ de:
     access: "nemáte přístup"
   admin:
     history: "History"
+    historycompare: "Compare"
+    historyold: "old version"
+    historynew: "new version, saved "
     reports: "Liste der Einträge"
     dup: "Liste der doppelten Einträge"
     video: "Liste der Videodateien" 

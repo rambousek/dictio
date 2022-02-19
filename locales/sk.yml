@@ -336,6 +336,9 @@ sk:
     access: "nemáte přístup"
   admin:
     history: "Historie změn"
+    historycompare: "Porovnat"
+    historyold: "původní verze"
+    historynew: "nová verze, uloženo "
     reports: "prehľad hesiel"
     dup: "prehľad duplicít"
     video: "prehľad videí"
