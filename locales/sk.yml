@@ -335,6 +335,7 @@ sk:
     internal-text: "Skúste to, prosím, neskôr."
     access: "nemáte přístup"
   admin:
+    history: "Historie změn"
     reports: "prehľad hesiel"
     dup: "prehľad duplicít"
     video: "prehľad videí"

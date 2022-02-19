@@ -335,6 +335,7 @@ de:
     internal-text: "Versuchen Sie es später bitte."
     access: "nemáte přístup"
   admin:
+    history: "History"
     reports: "Liste der Einträge"
     dup: "Liste der doppelten Einträge"
     video: "Liste der Videodateien" 

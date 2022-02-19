@@ -1,0 +1,48 @@
+main role="main"
+  section.section role="region" style="background-color: #1c2641"
+    .container
+      .row
+        article.col.col--2.col--start role="article"
+          h1 style="color: white" #{I18n.t("menu.admin")} 
+          h2 class="btn" style="color: white"  #{I18n.t("admin.history")} 
+  section.section 
+    .container
+      .search-top style="border-radius: 20px; padding: 15px;"
+        article.col.col--start role="article" 
+          form action="/history" method="get"
+            table
+              tr
+                td #{I18n.t('admin.dict')}
+                td
+                  select name="code"
+                    option value="" -
+                    - @dict_info.each do |code, info|
+                      option value="#{code}" selected=(code == @params['code']) #{I18n.t("dict."+code)}
+                td #{I18n.t('admin.users.login')}
+                td
+                  select name="user"
+                    option value="" -
+                    - @users.each do |user|
+                      option value="#{user}" selected=(user == @params['user']) #{user}
+                td #{I18n.t('admin.heslo')}
+                td
+                  input type="text" name="entry" value="#{@params['entry']}" size="5"
+                td
+                  input.btn type="submit" value="zobrazit"
+
+
+      table.table.table--no-margin.report-table 
+        - i = 0
+        - @report['entries'].each do |entry|
+          - i += 1
+          tr
+            td rowspan=3 #{i}
+            td colspan=3 #{entry['timestamp']}
+            td rowspan=3 #{entry['detail']}
+          tr
+            td #{entry['dict']}
+            td 
+              a href="/#{entry['dict']}/show/#{entry['entry']}" target="_blank" #{entry['entry']}
+            td #{entry['user']}
+          tr
+            td colspan=3

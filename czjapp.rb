@@ -739,6 +739,14 @@ class CzjApp < Sinatra::Base
       @report = dict_array['czj'].get_duplicate_counts
       slim :duplicates
     end
+
+    get '/history' do
+      @dict_info = $dict_info
+      @users = $mongo['history'].distinct('user').sort
+      @report = dict_array['czj'].list_history(params['code'].to_s, params['user'].to_s, params['entry'].to_s)
+      @params = params
+      slim :history
+    end
   end
 
   get '/swapi/symbol_definition/:id.json' do
