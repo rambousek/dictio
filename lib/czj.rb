@@ -3000,7 +3000,7 @@ class CZJDict < Object
       'dict' => dict,
       'entry' => entryid,
       'user' => user,
-      'timestamp' => Time.now.strftime('%Y-%m-%d %H:%M'),
+      'timestamp' => Time.now.strftime('%Y-%m-%d %H:%M:%S'),
       'detail' => changes,
       'full_entry_old' => data_old,
       'full_entry' => data_new
