@@ -1060,8 +1060,13 @@ function load_doc(id) {
   console.log('load start ' + new Date().getTime())
   Ext.suspendLayouts();
   loadMask.show();
+  if (history != undefined && historytype != undefined) {
+    var url = '/'+dictcode+'/json/'+id+'?history='+history+'&historytype='+historytype;
+  } else {
+    var url = '/'+dictcode+'/json/'+id;
+  }
   Ext.Ajax.request({
-    url: '/'+dictcode+'/json/'+id,
+    url: url,
     method: 'get',
     success: function(response) {
       console.log('parse start ' + new Date().getTime())
@@ -3988,7 +3993,7 @@ Ext.onReady(function(){
       /* load filelist */
       entryid = params.id;
       g_entryid = params.id;
-      load_doc(params.id)
+      load_doc(params.id, params.history, params.type)
       window.onbeforeunload = function(e) {
         if (entry_updated) {
           return locale[lang].savewarning;

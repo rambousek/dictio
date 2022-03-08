@@ -1400,13 +1400,18 @@ function new_entry() {
   });
 }
 
-function load_doc(id) {
+function load_doc(id, history, historytype) {
   var loadMask = new Ext.LoadMask(Ext.getBody(), {msg:" "});
   console.log('load start ' + new Date().getTime())
   Ext.suspendLayouts();
   loadMask.show();
+  if (history != undefined && historytype != undefined) {
+    var url = '/'+dictcode+'/json/'+id+'?history='+history+'&historytype='+historytype;
+  } else {
+    var url = '/'+dictcode+'/json/'+id;
+  }
   Ext.Ajax.request({
-    url: '/'+dictcode+'/json/'+id,
+    url: url,
     method: 'get',
     success: function(response) {
       console.log('parse start ' + new Date().getTime())
@@ -5108,7 +5113,7 @@ Ext.onReady(function(){
       /* load filelist */
       entryid = params.id;
       g_entryid = params.id;
-      load_doc(params.id)
+      load_doc(params.id, params.history, params.type)
       //reload_files(params.id);
       window.onbeforeunload = function(e) {
         if (entry_updated) {
