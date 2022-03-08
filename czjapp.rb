@@ -237,7 +237,22 @@ class CzjApp < Sinatra::Base
       $stdout.puts 'START json'+Time.now.to_s
       add_rev = false
       add_rev = true if params['add_rev'] == 'true'
-      doc = dict.getdoc(params['id'], add_rev)
+      if params['history'].to_s != '' and params['historytype'].to_s != ''
+        change = dict_array['czj'].get_history(params['history'])
+        if params['historytype'].to_s == 'old'
+          if change['full_entry_old']
+            doc = change['full_entry_old']
+          else
+            doc = nil
+          end
+        else
+          doc = change['full_entry']
+        end
+        doc = dict_array[code].full_entry(doc, false)
+        doc = dict_array[code].add_rels(doc, false)
+      else
+        doc = dict.getdoc(params['id'], add_rev)
+      end
       if $is_edit
         doc['user_info'] = @user_info
       end
