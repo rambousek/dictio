@@ -676,6 +676,16 @@ $( document ).ready(function() {
   });
 });
 
+// history, compare edit
+$( document ).ready(function() {
+  $('a.compareedit').click(function() {
+    var href = $(this).data('href');
+    window.open(href+'&type=old', 'historyold');
+    window.open(href+'&type=new', 'historynew');
+    return false;
+  })
+});
+
 // add class on scroll for mobile search
 window.onscroll = function() {
   if ($('main.homepage').length == 0) {
