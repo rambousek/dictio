@@ -6,10 +6,10 @@ main id="mobilespacetop" role="main"
         tr
           td
             - if @prev and @prev['_id']
-              a href="/compare/#{@prev['_id']}" previous
+              a href="/compare/#{@prev['_id']}" #{I18n.t('admin.prev')}
           td
             - if @next and @next['_id']
-              a href="/compare/#{@next['_id']}" next
+              a href="/compare/#{@next['_id']}" #{I18n.t('admin.next')}
         tr
           th 
             a.compareedit data-href="/editor#{@change['dict']}/?id=#{@change['entry']}&history=#{@change['_id']}" #{I18n.t('admin.historycompareedit')} 

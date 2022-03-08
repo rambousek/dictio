@@ -340,6 +340,8 @@ de:
     historycompareedit: "Compare edit"
     historyold: "old version"
     historynew: "new version, saved "
+    prev: "previous"
+    next: "next"
     show: "show"
     reports: "Liste der Einträge"
     dup: "Liste der doppelten Einträge"

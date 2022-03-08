@@ -340,6 +340,8 @@ sk:
     historycompareedit: "Porovnat edit"
     historyold: "původní verze"
     historynew: "nová verze, uloženo "
+    prev: "předchozí"
+    next: "další"
     show: "zobrazit"
     reports: "prehľad hesiel"
     dup: "prehľad duplicít"
