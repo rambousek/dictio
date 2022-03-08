@@ -339,6 +339,7 @@ de:
     historycompare: "Compare"
     historyold: "old version"
     historynew: "new version, saved "
+    show: "show"
     reports: "Liste der Einträge"
     dup: "Liste der doppelten Einträge"
     video: "Liste der Videodateien" 

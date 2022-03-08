@@ -339,6 +339,7 @@ cs:
     historycompare: "Porovnat"
     historyold: "původní verze"
     historynew: "nová verze, uloženo "
+    show: "zobrazit"
     reports: "přehled hesel"
     dup: "přehled duplicit"
     video: "přehled videí"
