@@ -4,6 +4,13 @@ main id="mobilespacetop" role="main"
     article.container role="article"
       table
         tr
+          td
+            - if @prev and @prev['_id']
+              a href="/compare/#{@prev['_id']}" previous
+          td
+            - if @next and @next['_id']
+              a href="/compare/#{@next['_id']}" next
+        tr
           th 
             a.compareedit data-href="/editor#{@change['dict']}/?id=#{@change['entry']}&history=#{@change['_id']}" #{I18n.t('admin.historycompareedit')} 
             | #{I18n.t('admin.historyold')} 

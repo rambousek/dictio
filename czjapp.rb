@@ -775,6 +775,8 @@ class CzjApp < Sinatra::Base
       end
       @entry_new = dict_array[@dictcode].full_entry(@change['full_entry'], false)
       @entry_new = dict_array[@dictcode].add_rels(@entry_new, false)
+      @prev = dict_array[@dictcode].history_prev(@change)
+      @next = dict_array[@dictcode].history_next(@change)
       slim :historycompare
     end
   end
