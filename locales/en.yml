@@ -337,6 +337,7 @@ en:
   admin:
     history: "Change history"
     historycompare: "Compare"
+    historycompareedit: "Compare edit"
     historyold: "old version"
     historynew: "new version, saved "
     show: "show"
