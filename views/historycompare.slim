@@ -12,12 +12,12 @@ main id="mobilespacetop" role="main"
               a style="right: 60px;position: relative;float: right;" href="/compare/#{@next['_id']}" #{I18n.t('admin.next')} »
         tr
           th 
-            a.compareedit data-href="/editor#{@change['dict']}/?id=#{@change['entry']}&history=#{@change['_id']}" #{I18n.t('admin.historycompareedit')} 
+            a.compareedit data-href="https://edit.dictio.info/editor#{@change['dict']}/?id=#{@change['entry']}&history=#{@change['_id']}" #{I18n.t('admin.historycompareedit')} 
             | #{I18n.t('admin.historyold')} 
-            a href="/editor#{@change['dict']}/?id=#{@change['entry']}&history=#{@change['_id']}&type=old" target="historyold" edit
+            a href="https://edit.dictio.info/editor#{@change['dict']}/?id=#{@change['entry']}&history=#{@change['_id']}&type=old" target="historyold" edit
           th 
             | #{I18n.t('admin.historynew')} #{@change['timestamp']} 
-            a href="/editor#{@change['dict']}/?id=#{@change['entry']}&history=#{@change['_id']}&type=new" target="historynew" edit
+            a href="https://edit.dictio.info/editor#{@change['dict']}/?id=#{@change['entry']}&history=#{@change['_id']}&type=new" target="historynew" edit
         tr
           - if @dict_info[@show_dictcode]['type'] == 'sign'
             td width="40%" style="vertical-align: top;"
