@@ -1,5 +1,5 @@
 uk:
-locale:
+  locale:
     en: "English"
     cs: "Česky"
     de: "Deutsch"
@@ -41,7 +41,7 @@ locale:
     ogs: "ÖGS"
     asl: "ASL"
     uzm: "УЖМ"
-home:
+  home:
     title: «Багатомовний словник жестових мов»
     info: "Шукайте переклади (еквіваленти) між мовами, досліджуйте різні значення слів і символів (мови жестів). Це більше, ніж здається на перший погляд."
     translations: "Переклади"
@@ -342,7 +342,7 @@ home:
     interna: ":( нутрішня помилка сервера"
     internal-text: "Спробуйте ще раз пізніше."
     access: "у вас немає доступу" 
-admin:
+  admin:
     history: "Історія змін"
     historycompare: "Порівняти"
     historycompareedit: "Порівняти редагування"
