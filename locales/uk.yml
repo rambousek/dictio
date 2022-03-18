@@ -1,0 +1,483 @@
+uk:
+  locale:
+    en: "English"
+    cs: "Česky"
+    de: "Deutsch"
+    sk: "Slovensky"
+  dict:
+    cs: "Čeština"
+    sj: "Slovenština"
+    en: "Angličtina"
+    de: "Němčina"
+    czj: "ČZJ"
+    spj: "SPJ"
+    is: "IS"
+    ogs: "ÖGS"
+    asl: "ASL"
+    uk: "Ukrajinština"
+    uzm: "UZM"
+  dict_menu:
+    cs: "Češtiny"
+    sj: "Slovenštiny"
+    en: "Angličtiny"
+    de: "Němčiny"
+    czj: "ČZJ"
+    spj: "SPJ"
+    is: "IS"
+    ogs: "ÖGS"
+    asl: "ASL"
+    uk: "Ukrajinštiny"
+    uzm: "UZM"
+  dict_search:
+    cs: "Češtině"
+    sj: "Slovenštině"
+    en: "Angličtině"
+    de: "Němčině"
+    czj: "ČZJ"
+    spj: "SPJ"
+    is: "IS"
+    ogs: "ÖGS"
+    asl: "ASL"
+    uk: "Ukrajinštině"
+    uzm: "UZM"
+  home:
+    title: "Vícejazyčný slovník znakových jazyků"
+    info: "Hledejte překlady (ekvivalenty) mezi jednotlivými jazyky, zkoumejte různé významy slov a znaků (znakových jazyků). Je toho více, než se zdá."
+    translations: "Překladů"
+    entries: "Hesel"
+    lastsearch: "Poslední hledané"
+    mostsearch: "Nejčastěji hledané"
+    mostsearchweek: "Nejhledanější v týdnu"
+    profile_saved: "Profil uložen"
+    not_authorized: "Neplatné přihlášení"
+  menu:
+    about: "O slovníku"
+    contact: "Kontakt"
+    help: "Nápověda"
+    admin: "Administrace"
+    login: "Přihlásit se"
+    logout: "Odhlásit"
+    settings: "Nastavení"
+  search:
+    translate_from: "Přeložit z"
+    translate_to: "do"
+    expression: "Výraz"
+    placeholder: "hledaný výraz"
+    search_in: "Hledat v"
+    inflicted: "hledat slovní tvary"
+    diacritics: "hledat bez diakritiky"
+    collocations: "hledat slovní spojení"
+    entry_count: "Nalezeno hesel"
+    load_next: "Načíst další"
+    pos: "-- slovní druh --"
+    advanced: "rozšířené..."
+    notfound: ":(  Nic takového se nám bohužel nepodařilo najít.. "
+    try_search: "Heslo s tímto ID neobsahuje žádné ekvivalenty v cílovém jazyce. "
+    link: "Zobrazit heslo v jednojazyčném slovníku."
+    translate_view: "Zobrazit cizojazyčné ekvivalenty"
+  entry:
+    frontview: "Čelní pohled"
+    sideview: "Boční pohled"
+    lexical: "Slovní druh"
+    composed_collocation: "Části slovního spojení"
+    composed_deriv: "Výraz vznikl odvozením z výrazu"
+    composed_comp: "Výraz vznikl složením výrazů"
+    mouthing: "Mluvní komponent"
+    oralcomp: "Orální komponent"
+    grammar_details: "Gram. poznámka"
+    grammar_variant: "Gram. varianty"
+    style_details: "Styl. poznámka"
+    style_variant: "Styl. varianty"
+    distribution_area: "Oblast rozšíření"
+    origin: "Přejato z"
+    generace: "Typičtí uživatelé"
+    meaning: "Význam"
+    synonyms: "Synonyma"
+    antonyms: "Antonyma"
+    examples: "Příklady"
+    collocation_with_this: "Slovní spojení s tímto heslem"
+    derivat_with_this: "deriváty od tohoto hesla"
+    kompozitum_with_this: "kompozita s tímto heslem"
+    full_details: "Podrobnosti"
+    translations: "Překlady"
+    meaning_small: "význam"
+    composed_from: "skládá se z"
+    more_example: "více příkladů"
+    more_trans: "více překladů"
+    more_syno: "více synonym"
+    more_anto: "více antonym"
+    see_video: "viz video"
+    all_translations: "zobrazit všechny ekvivalenty"
+    share: "adresa pro sdílení"
+    link_current: "aktuální adresa"
+    link_public: "veřejná adresa"
+    nocontent: "Tato část hesla není dosud zpracovaná."
+    nopubtrans: "Pro tento význam nejsou dostupné žádné veřejné překlady."
+    circumloc: "Opisný překlad. Viz příklady užití."
+    category: "obor"
+    kat_28: 'biologie'
+    kat_6: 'informatika'
+    kat_informatika: "informatika"
+    kat_27: 'matematika'
+    kat_14: 'podnikání'
+    kat_anat: 'anatomie'
+    kat_antr: 'antropologie'
+    kat_archeol: 'archeologie'
+    kat_archit: 'architektura'
+    kat_biol: 'biologie'
+    kat_bot: 'botanika'
+    kat_cirkev: 'církevní výraz'
+    kat_dipl: 'diplomacie'
+    kat_div: 'divadelnictví'
+    kat_dopr: 'doprava'
+    kat_ekol: 'ekologie'
+    kat_ekon: 'ekonomie'
+    kat_eltech: 'elektrotechnika'
+    kat_etn: 'etnografie'
+    kat_feud: 'feudalismus'
+    kat_filat: 'filatelie'
+    kat_film: 'filmařství'
+    kat_filoz: 'filozofie'
+    kat_fot: 'fotografování'
+    kat_fyz: 'fyzika'
+    kat_fyziol: 'fyziologie'
+    kat_geol: 'geologie'
+    kat_geom: 'geometrie'
+    kat_gnoz: 'gnozeologie'
+    kat_hist: 'historie'
+    kat_horn: 'hornictví'
+    kat_horol: 'horolezectví'
+    kat_hosp: 'hospodářství'
+    kat_hud: 'hudební věda'
+    kat_hut: 'hutnictví'
+    kat_hvězd: 'astronomie'
+    kat_chem: 'chemie'
+    kat_biochemie: 'biochemie'
+    kat_ideal: 'idealismus'
+    kat_jad: 'jaderná fyzika'
+    kat_jaz: 'jazykověda'
+    kat_lingv: 'lingvistika'
+    kat_kapit: 'kapitalismus'
+    kat_karet: 'karetní hra'
+    kat_katolcírkvi: 'katolictví'
+    kat_krim: 'kriminalistika'
+    kat_křesť: 'křesťanství'
+    kat_kuch: 'kuchařství'
+    kat_kult: 'kultura'
+    kat_kyb: 'kybernetika'
+    kat_lék: 'lékařství'
+    kat_lékár: 'lékárnictví'
+    kat_let: 'letectví'
+    kat_liter: 'literární věda'
+    kat_log: 'logika'
+    kat_marx: 'marxismus'
+    kat_mat: 'matematika'
+    kat_meteor: 'meteorologie'
+    kat_miner: 'mineralogie'
+    kat_motor: 'motorismus'
+    kat_mysl: 'myslivecký výraz'
+    kat_mytol: 'mytologie'
+    kat_náb: 'náboženství'
+    kat_nár: 'národopis'
+    kat_obch: 'obchod'
+    kat_pedag: 'pedagogika'
+    kat_peněž: 'peněžnictví'
+    kat_polit: 'politika'
+    kat_polygr: 'polygrafie'
+    kat_pošt: 'poštovnictví'
+    kat_potrav: 'potravinářství'
+    kat_práv: 'právo'
+    kat_prům: 'průmysl'
+    kat_přír: 'příroda'
+    kat_psych: 'psychologie'
+    kat_rybn: 'rybníkářství'
+    kat_řem: 'řemeslo'
+    kat_sklář: 'sklářství'
+    kat_soc: 'socialismus'
+    kat_sociol: 'sociologie'
+    kat_stat: 'statistika'
+    kat_stav: 'stavitelství'
+    kat_škol: 'školství'
+    kat_tech: 'technika'
+    kat_těl: 'sport'
+    kat_text: 'textilnictví'
+    kat_úč: 'účetnictví'
+    kat_úř: 'úřední výraz'
+    kat_veřspr: 'veřejná správa'
+    kat_vet: 'veterinářství'
+    kat_voj: 'vojenství'
+    kat_výptech: 'výpočetní technika'
+    kat_výr: 'výroba'
+    kat_výtv: 'výtvarnictví'
+    kat_zahr: 'zahradnictví'
+    kat_zbož: 'zbožíznalství'
+    kat_zeměd: 'zemědělství'
+    kat_zeměp: 'zeměpis'
+    kat_zool: 'zoologie'
+  gram:
+    region:
+      cr: "celá ČR"
+      praha: "Praha a okolí"
+      plzen: "Plzeň a okolí"
+      brno: "Brno a okolí"
+      vm: "Valašské Meziříčí a okolí"
+      hk: "Hradec Králové a okolí"
+      kr: "Kroměříž a okolí"
+      cechy: "Čechy"
+      morava: "Morava"
+      jih: "Jihlava a okolí"
+      zl: "Zlín a okolí"
+      cb: "České Budějovice a okolí"
+      ot: "Ostrava a okolí"
+      ol: "Olomouc a okolí"
+      ul: "Ústí nad Labem a okolí"
+      lib: "Liberec a okolí"
+      slovensko: "Slovensko"
+    povinny: "povinný"
+    nepovinny: "nepovinný"
+    slovni_druh:
+      subst: "podstatné jméno"
+      verb: "sloveso"
+      modif: "modifikátor"
+      pron: "zájmeno"
+      num: "číslovka"
+      konj: "spojka"
+      part: "částice"
+      taz: "tázací výraz"
+      kat: "kategorizační výraz"
+      klf: "klasifikátorový tvar ruky"
+      spc: "specifikátor"
+      adj: "přídavné jméno"
+      adv: "příslovce"
+      prep: "předložka"
+      kon: "spojka"
+      ust: "ustálený předložkový výraz"
+      int: "citoslovce"
+      sprezka: "příslovečná spřežka"
+      zkratka: "zkratka"
+      ustalene: "ustálené slovní spojení/frazém"
+    detail:
+      jednotne: "jednotné číslo"
+      mnozne: "množné číslo"
+      1pad: "1. pád"
+      2pad: "2. pád"
+      3pad: "3. pád"
+      4pad: "4. pád"
+      5pad: "5. pád"
+      6pad: "6. pád"
+      7pad: "7. pád"
+      2stupen: "2. stupeň"
+      3stupen: "3. stupeň"
+      1osoba: "1. osoba"
+      2osoba: "2. osoba"
+      3osoba: "3. osoba"
+      rozkazovaci: "rozkazovací způsob"
+      pricinne: "příčestí činné"
+      pritrpne: "příčestí trpné"
+      prechm: "přechodník, m."
+      prechzs: "přechodník, ž. + s."
+      versub: "verbální substantivum"
+    origin: 
+      czj: "ČZJ"
+      spj: "SPJ"
+      pjm: "PJM"
+      asl: "ASL"
+      dgs: "DGS"
+      bsl: "BSL" 
+      ogs: "ÖGS"
+      is: "IS"
+    category: 
+      neo: "neologismus"
+      arch: "archaismus"
+      argot: 'argot'
+      hovorove: 'hovorově'
+      morav: 'oblastní moravský výraz'
+      narec: 'nářeční výraz'
+      neologismus: 'neologismus'
+      obecne: 'obecně česky'
+      oblast: 'oblastní výraz'
+      slang: 'slangový výraz'
+      spisovne: 'spisovně'
+    gender:
+      m: "mužský znak"
+      f: "ženský znak"
+    generace:
+      mlada: 'mládež'
+      stredni: 'lidé středního věku'
+      starsi: 'senioři'
+      deti: 'děti (dětský znak)'
+    stylpriznak:
+      abstrakt: 'abstraktní výraz'
+      basnicky: 'básnický výraz'
+      biblicky: 'biblický výraz'
+      detsky: 'dětský výraz'
+      domacke: 'domácké slovo'
+      duverny: 'důvěrný výraz'
+      eufem: 'eufemismus'
+      expres: 'expresivní výraz'
+      famil: 'familiární výraz'
+      hanlivy: 'hanlivý výraz'
+      ironicky: 'ironicky'
+      kladny: 'kladný výraz'
+      knizni: 'knižní výraz'
+      konkretni: 'konkrétní výraz'
+      lidovy: 'lidový výraz'
+      lichotivy: 'lichotivý výraz'
+      mazlivy: 'mazlivý výraz'
+      odborny: 'odborný výraz'
+      pohadkovy: 'pohádkový výraz'
+      publ: 'publicistický výraz'
+      prenes: 'přeneseně'
+      zdvor: 'zdvořilostní výraz'
+      zhrubely: 'zhrubělý výraz'
+      zert: 'žertovný výraz'
+      zlomkovy: 'zlomkový výraz'
+      zdrob: 'zdrobnělina'
+      zastar: 'zastaralý výraz'
+      cirkev: 'církevní výraz'
+  error: 
+    notfound: ":( stránka nenalezena"
+    internal: ":( chyba serveru"
+    internal-text: "Zkuste to prosím později."
+    access: "nemáte přístup"
+  admin:        
+    history: "Historie změn"
+    historycompare: "Porovnat"
+    historycompareedit: "Porovnat edit"
+    historyold: "původní verze"
+    historynew: "nová verze, uloženo "
+    prev: "předchozí"
+    next: "další"
+    show: "zobrazit"
+    reports: "přehled hesel"
+    dup: "přehled duplicit"
+    video: "přehled videí"
+    nolemma: "požadovaná hesla"
+    all: "všechny jazyky"  
+    heslo: "heslo"
+    source: "zdroj požadavku" 
+    notransauth: "Autor požadavků: "   
+    notrans1: "Požadavky na vytvoření hesel v tomto slovníku: "
+    notrans2: "Požadavky z tohoto slovníku: "
+    notrans0: "žádné."
+    dups_warn: "Upozornění: slovník pravděpodobně obsahuje duplicitní hesla "
+    show: "vypsat"
+    user: "přihlášený uživatel "
+    text1: "Upozornění: Některé volby nemusí být v administrátorských filtrech dočasně k dispozici."
+    head1: "Upozornění"
+    text2: "Tuto verzi zatím nepoužívejte pro běžnou práci. Veškeré změny, budou uchovány pouze do půlnoci daného dne. Pak budou opět smazány. Tento stav platí do 20. 3. 2021"
+    reports_old: "Staré přehledy hesel (stav k 19. 3. 2021)"
+    report_old_main: "Rozcestník"
+    dict: "Slovník"
+    newentry: "založit lemma v"
+    activeopt: "Zobrazena hesla na základě následujících voleb:"
+    idsel: "Pouze hesla s ID"
+    moreopt: "Další možné volby:"
+    not: "ne"
+    lemma: "záhlaví"
+    sem: "významy"
+    ekv: "vazby"
+    schvcelni: "schválené čelní video"
+    schvbocni: "schválené boční video"
+    celni: "zadané čelní video"
+    bocni: "zadané boční video"
+    sw: "zadaný SW"
+    schvsw: "schválený SW"
+    single: "jednoduché heslo"
+    derivat: "derivát"
+    kompozitum: "kompozitum"
+    fingerspell: "spelovaný znak"
+    desc: "popis"
+    mkok: "mluvní / orální komponent"
+    collocation: "slovní spojení"
+    workgroup: "pracovní skupina"
+    group:
+      biologie: "terminologie biologie MU"
+      informatika: "terminologie informatika MU"
+      matematika: "terminologie matematika MU"
+      podnikani: "terminologie podnikání MU"
+      obecna: "obecná znaková zásoba MU"
+      teires_w: "pracovní nahrávky MU"
+      upol: "znaková zásoba ÚSS UP"
+      spec: "terminologie spec. ped. UHK, MU"
+      aka: "akademická znaková zásoba (UniAll)"
+      krest: "křesťanská znaková zásoba"
+      vut_me: "terminologie mechanika VUT"
+      mdd: "terminologie mobilita (MobiDeafDict)"
+      test: "testovací sada (MobiDeafDict)"
+      ls: "terminologie mobilita (LangSkills)"
+      tczj: "TCZJ"      
+      all: "všechny skupiny"
+    vyznamvid: "zadaná definice"
+    vyznam: "schválená definice"
+    usagevid: "zadaný příklad"
+    usage: "schválený příklad"
+    translation: "zadaný ekvivalent"
+    pubtrans: "schválený ekvivalent"
+    comments: "komentáře"
+    koment:
+      boxlemma: "technické informace"
+      boxcolloc: "typ hesla"
+      video: "záhlaví (video)"
+      swfield: "signwriting"
+      hamnbox: "hamnosys"
+      gramdesc: "gramatický popis"
+      styldesc: "stylistický popis"
+      vyznam: "význam"
+      _us: "příklady užití"
+      vazby: "ekvivalenty"
+      add: "přidat komentář"
+    videos:
+      a: "čelní"
+      b: "boční"
+      d: "definice"
+      k: "příklad užití"  
+      g: "gramatický popis"  
+    presets:
+      revdef: "definice ke schválení"
+      comdef: "komentované definice"
+      trans: "ekvivalenty ke zpracování"
+      nodef: "(bez definic)"
+      revtrans: "ekvivalenty ke schválení"
+      comtrans: "komentované ekvivalenty"
+    users:
+      title: "správa uživatelů"
+      setting: "Uživatelské nastavení"
+      lang: "jazyk rozhraní"
+      dict: "defaultní slovník"
+      login: "login"
+      email: "e-mail"
+      name: "jméno a příjmení"
+      save: "uložit"
+      delete: "smazat"
+      pass: "heslo"
+      userset: "Osobní nastavení"
+      editset: "Nastavení editace"
+      showtypes: "při editaci ekvivalentů automaticky nabízet:"
+      worklang: "ekvivalenty nabízet pro jazyky:"
+      admin: "administrátor"
+      editorright: "Editorská práva"
+      revizorright: "Revizorská práva"
+      pracskup: "pracovní skupina"
+      langs: "slovníky"
+      autom: "Automaticky vyplňovaná pole"
+      autom_autor: "autor"
+      autom_copy: "autor videa"
+      autom_zdroj: "zdroj"      
+      editor:
+        transkripce: "transkripce SW, HNS"
+        preklad: "vazby (překlady, synonyma)"
+        komparator: "zobrazení neveřejného obsahu hesel ZJ"
+        formal: "formální část ZJ"
+        video: "upload a správa videí"
+        cjformal: "formální část MJ"
+        cjlemma: "technické informace MJ"
+        czjlemma: "technické informace ZJ"
+      revizor:
+        transkripce: "transkripce SW, HNS"
+        lingvist: "formální část ZJ"
+        video: "upload a správa videí"
+        lemmaczj: "technické informace ZJ"
+        cjlingvist: "formální část MJ"
+        lemmacj: "technické informace MJ"
+        preklad: "vazby (překlady, synonyma)"
