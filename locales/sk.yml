@@ -14,6 +14,8 @@ sk:
     is: "IS"
     ogs: "ÖGS"
     asl: "ASL"
+    uk: "Ukrajinština"
+    uzm: "UZM"
   dict_menu:
     cs: "Češtiny"
     sj: "Slovenčiny"
@@ -24,6 +26,8 @@ sk:
     is: "IS"
     ogs: "ÖGS"
     asl: "ASL"
+    uk: "Ukrajinština"
+    uzm: "UZM"
   dict_search:
     cs: "Češtine"
     sj: "Slovenčine"
@@ -34,6 +38,8 @@ sk:
     is: "IS"
     ogs: "ÖGS"
     asl: "ASL"
+    uk: "Ukrajinština"
+    uzm: "UZM"
   home:
     title: "Viacjazyčný slovník posunkových jazykov"
     info: "Hľadajte preklady do rôznych jazykov a preskúmajte mnohé významy slov a posunkov. Nájdete viac informácií, ako čakáte."
