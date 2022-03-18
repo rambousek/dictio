@@ -4931,7 +4931,7 @@ Ext.onReady(function(){
         text: locale[lang].admintools,
         icon: '/editor/img/timeback_m.png',
         handler: function() {           
-          var odkaz = 'https://old.dictio.info/admin?action=historynew&dict='+dictcode+'&entry='+entryid;    
+          var odkaz = 'https://admin.dictio.info/history&code='+dictcode+'&entry='+entryid;    
           window.open(odkaz);
         }
       },{
