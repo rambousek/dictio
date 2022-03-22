@@ -1059,7 +1059,7 @@ function new_entry() {
   });
 }
 
-function load_doc(id) {
+function load_doc(id, history, historytype) {
   var loadMask = new Ext.LoadMask(Ext.getBody(), {msg:" "});
   console.log('load start ' + new Date().getTime())
   Ext.suspendLayouts();
