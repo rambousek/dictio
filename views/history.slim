@@ -40,13 +40,15 @@ main role="main"
             td colspan=3 #{entry['timestamp']}
             td rowspan=3 #{entry['detail']}
             td 
-              a href="/compare/#{entry['_id']}" target="_blank" #{I18n.t('admin.historycompare')}
+              - if entry['full_entry']
+                a href="/compare/#{entry['_id']}" target="_blank" #{I18n.t('admin.historycompare')}
           tr
             td #{entry['dict']}
             td 
               a href="/#{entry['dict']}/show/#{entry['entry']}" target="_blank" #{entry['entry']}
             td #{entry['user']}
             td 
-              a.compareedit href="#" data-href="https://edit.dictio.info/editor#{entry['dict']}/?id=#{entry['entry']}&history=#{entry['_id']}" #{I18n.t('admin.historycompareedit')}
+              - if entry['full_entry']
+                a.compareedit href="#" data-href="https://edit.dictio.info/editor#{entry['dict']}/?id=#{entry['entry']}&history=#{entry['_id']}" #{I18n.t('admin.historycompareedit')}
           tr
             td colspan=3
