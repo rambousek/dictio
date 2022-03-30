@@ -61,7 +61,7 @@ uk:
     settings: "Налаштування"
   search:
     translate_from: "Перекласти з"
-    translate_to: "робити"
+    translate_to: "на"
     expression: "Вираз"
     placeholder: "пошуковий термін"
     search_in: "Шукати в"
@@ -92,7 +92,7 @@ uk:
     distribute_area: "Зона розповсюдження"
     origin: "Взято з"
     generace: "Звичайні користувачі"
-    meaning: "Сенс"
+    meaning: "значення"
     synonyms: "синоніми"
     antonyms: "Антонім"
     examples: "Приклади"
