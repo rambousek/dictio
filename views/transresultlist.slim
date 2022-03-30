@@ -92,5 +92,15 @@
                     - rel[use_entry+'_sw'].each do |sw|
                       img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
           - else
-            .no-video
-              a href="/#{@dictcode}/translate/#{@target}/#{@params['type']}/#{@search}/#{@target}-#{rel[use_entry+'_id']}" #{rel[use_entry+'_id']}
+            .video.video--small.no-video
+              .video__content
+                a href="/#{@dictcode}/translate/#{@target}/#{@params['type']}/#{@search}/#{@target}-#{rel[use_entry+'_id']}"
+                  img src="/img/emptyvideo.jpg"
+              .video__controls
+                - if (@is_edit or @is_admin)
+                  span.trans__badge class="trans__badge__#{@target}"
+                    a.edit href="https://edit.dictio.info/editor#{@target}/?id=#{rel[use_entry+'_id']}" #{@target}-#{rel[use_entry+'_id']}
+                a.video__link href="/#{@dictcode}/translate/#{@target}/#{@params['type']}/#{@search}/#{@target}-#{rel[use_entry+'_id']}"
+                  span.icon.icon--open-new-window
+                    svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                      use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
