@@ -10,7 +10,7 @@ main class="homepage" role="main"
           p.translation__count-desktop.headline #{I18n.t("home.entries")}: #{@count_entry.to_s.reverse.scan(/\d{3}|.+/).join(" ").reverse} <br/> #{I18n.t("home.translations")}: #{@count_rels.to_s.reverse.scan(/\d{3}|.+/).join(" ").reverse}
           h1 = I18n.t("home.title")
           p.lead = I18n.t("home.info")
-          p style="color: red" ! Omlouváme se, ale kvůli výpadku externích služeb jsou videodata u znakových jazyků nedostupná !
+          p style="color: orange" Omlouváme se, ale kvůli výpadku externích služeb docasne neni k dispozici SignWriting 
           .translation__count-mobile
             .special-info #{I18n.t("home.entries")}: <strong>#{@count_entry.to_s.reverse.scan(/\d{3}|.+/).join(" ").reverse}</strong> #{I18n.t("home.translations")}: <strong>#{@count_rels.to_s.reverse.scan(/\d{3}|.+/).join(" ").reverse}</strong>
     == slim :searchboxtrans
