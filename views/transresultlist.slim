@@ -45,7 +45,7 @@
               - unless rel['source_sw'].nil? 
                 span.video__sign
                   - rel['source_sw'].each do |sw|
-                    img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+                    img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw'].sub('M500x500','M580x580')}-CPG_blue_D_red" alt=""
             span.video__down
               span.icon.icon--arrow-down
                 svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -90,7 +90,7 @@
                 - unless rel[use_entry+'_sw'].nil?
                   span.video__sign
                     - rel[use_entry+'_sw'].each do |sw|
-                      img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+                      img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw'].sub('M500x500','M580x580')}-CPG_blue_D_red" alt=""
           - else
             .video.video--small.no-video
               .video__content
