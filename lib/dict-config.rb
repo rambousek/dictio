@@ -11,3 +11,4 @@ $dict_info = {
     'ogs' => {'type' => 'sign', 'label'=>'OGS', 'search_in'=>'de', 'target'=>'de', 'pos'=>['subst', 'verb', 'modif', 'pron', 'num', 'konj', 'part', 'taz', 'kat', 'klf', 'spc']},
     'uzm' => {'type' => 'sign', 'label'=>'UZM', 'search_in'=>'uk', 'target'=>'uk', 'pos'=>['subst', 'verb', 'modif', 'pron', 'num', 'konj', 'part', 'taz', 'kat', 'klf', 'spc']},
   }
+$fsw_style = '-CG_white_'

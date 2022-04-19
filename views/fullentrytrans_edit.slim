@@ -42,7 +42,7 @@
                 - if rel['entry'] and rel['entry']['lemma'] and rel['entry']['lemma']['swmix']
                   span.video__sign
                     - rel['entry']['lemma']['swmix'].each do |sw|
-                      img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}-CPG_blue_D_red" alt=""
+                      img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}#{$fsw_style}" alt=""
             .video__info
               - if rel['meaning_nr']
                 p #{I18n.t("entry.meaning_small")} #{rel['meaning_nr']}
