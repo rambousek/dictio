@@ -23,7 +23,7 @@
         - unless @entry['lemma']['swmix'].nil?
           span.video__sign
             - @entry['lemma']['swmix'].each do |sw|
-              img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+              img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}-CPG_blue_D_red" alt=""
     .video__info
       p
         a.btn.btn-front = I18n.t("entry.frontview")
@@ -53,7 +53,7 @@
               - unless coll['lemma']['swmix'].nil?
                 span.video__sign
                   - coll['lemma']['swmix'].each do |sw|
-                    img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+                    img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}-CPG_blue_D_red" alt=""
 
   - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'].to_s != '' or gr['@mluv_komp'].to_s != '' or gr['@oral_komp'].to_s != '' or gr['_text'].to_s != '' or gr['variant'] != nil or gr['@region'].to_s != ''}
 
@@ -230,7 +230,7 @@
                   - if rel['entry'] and rel['entry']['lemma'] and rel['entry']['lemma']['swmix']
                     span.video__sign
                       - rel['entry']['lemma']['swmix'].each do |sw|
-                        img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+                        img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}-CPG_blue_D_red" alt=""
           p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_syno')
   
       - if meaning['relation'] and meaning['relation'].find{|rel| rel['type'] == 'antonym' and rel['entry']}
@@ -257,7 +257,7 @@
                   - if rel['entry'] and rel['entry']['lemma'] and rel['entry']['lemma']['swmix']
                     span.video__sign
                       - rel['entry']['lemma']['swmix'].each do |sw|
-                        img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+                        img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}-CPG_blue_D_red" alt=""
           p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_syno')
   
       - if meaning['usages'] and meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.size > 0

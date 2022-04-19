@@ -25,7 +25,7 @@
           - unless @homonym['lemma']['swmix'].nil?
             span.video__sign
               - @homonym['lemma']['swmix'].each do |sw|
-                img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+                img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}-CPG_blue_D_red" alt=""
       .video__info
         p
           a.btn.btn-front = I18n.t("entry.frontview")
@@ -59,7 +59,7 @@
               - unless coll['lemma']['swmix'].nil?
                 span.video__sign
                   - coll['lemma']['swmix'].each do |sw|
-                    img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+                    img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}-CPG_blue_D_red" alt=""
 
   - if @homonym['lemma']['grammar_note'] and @homonym['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'].to_s != '' or gr['@mluv_komp'].to_s != '' or gr['@oral_komp'].to_s != '' or gr['_text'].to_s != '' or gr['variant'] != nil or gr['@region'].to_s != ''}
     .block.mobile-hide
@@ -148,7 +148,7 @@
                       - if selmedia['main_for_entry'] and selmedia['main_for_entry']['lemma']['swmix']
                         span.video__sign
                           - selmedia['main_for_entry']['lemma']['swmix'].each do |sw|
-                            img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+                            img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}-CPG_blue_D_red" alt=""
       - unless @homonym['lemma']['grammar_note'].nil? or @homonym['lemma']['grammar_note'][0].nil? or @homonym['lemma']['grammar_note'][0]['@region'].to_s == ''
         p.naming 
           | #{I18n.t("entry.distribution_area")}: 
@@ -191,7 +191,7 @@
                       - if selmedia['main_for_entry'] and selmedia['main_for_entry']['lemma']['swmix']
                         span.video__sign
                           - selmedia['main_for_entry']['lemma']['swmix'].each do |sw|
-                            img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""      
+                            img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}-CPG_blue_D_red" alt=""
 
 - if @homonym['meanings']
   - @homonym["meanings"].each do |meaning|
@@ -245,7 +245,7 @@
                       - if rel['entry'] and rel['entry']['lemma'] and rel['entry']['lemma']['swmix']
                         span.video__sign
                           - rel['entry']['lemma']['swmix'].each do |sw|
-                            img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+                            img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}-CPG_blue_D_red" alt=""
               p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_syno')
   
           - if meaning['relation'].find{|rel| rel['type'] == 'antonym'}
@@ -272,7 +272,7 @@
                       - if rel['entry'] and rel['entry']['lemma'] and rel['entry']['lemma']['swmix']
                         span.video__sign
                           - rel['entry']['lemma']['swmix'].each do |sw|
-                            img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+                            img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}-CPG_blue_D_red" alt=""
               p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_anto')
   
           - if meaning['usages'] and meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.size > 0

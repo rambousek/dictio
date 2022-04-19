@@ -18,7 +18,7 @@
         - unless entry['lemma']['swmix'].nil?
           span.video__sign
             - entry['lemma']['swmix'].each do |sw|
-              img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+              img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}-CPG_blue_D_red" alt=""
     - if @params['koment'].to_s != ''
       td
         ul

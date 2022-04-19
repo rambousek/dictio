@@ -12,7 +12,7 @@
               - if colloc['lemma'] and colloc['lemma']['swmix']
                 span.video__sign style="margin-right: 20px;"
                   - colloc['lemma']['swmix'].each do |sw|
-                    img src="/sw/signwriting.png?generator[sw]=#{sw['_text']}&generator[align]=top_left&generator[set]=sw10" alt=""
+                    img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}-CPG_blue_D_red" alt=""
 
       div.dropdown__item__detail
         - if colloc['meanings']
