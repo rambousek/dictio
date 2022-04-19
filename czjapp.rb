@@ -490,6 +490,7 @@ class CzjApp < Sinatra::Base
       end
       get '/'+code+'/getfsw' do
         fsw = dict.getfsw(params['sw'].to_s)
+        fsw = URI.open('http://sign.dictio.info/fsw/sign/normalize/'+fsw, &:read)
         body = fsw
       end
       get '/'+code+'/fromfsw' do
