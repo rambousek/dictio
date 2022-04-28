@@ -3036,5 +3036,40 @@ class CZJDict < Object
   def history_next(change)
     return $mongo['history'].find({'dict': change['dict'], 'entry': change['entry'], '_id': {'$gt': BSON::ObjectId.from_string(change['_id'])}}).sort('_id':1).limit(1).first
   end
+
+  def handle_upload(filedata, dir)
+    if not filedata.nil? and not filedata['filename'].nil? and filedata['filename'] != '' and not filedata['tempfile'].nil?
+      fn = filedata['filename']
+      fn = fn[0,2] + fn[2..-1].gsub('_','')
+      filepath = dir + '/' + fn
+      $stdout.puts filepath
+      #zip?
+      if filedata['filename'][-4..-1] == '.zip'
+        system('unzip "' + filedata['tempfile'].path + '" -d "' + dir+'"')
+        Dir.entries(dir).each{|fn|
+          if fn.end_with?('mp4')
+            File.rename(dir+"/"+fn, dir+"/"+fn[0,2] + fn[2..-1].gsub('_',''))
+          end
+        }
+      else
+        FileUtils.cp(filedata['tempfile'].path, filepath)
+      end
+    end
+  end
+
+  def get_import_files(dir)
+    importfiles = []
+    Dir.entries(dir).each{|fn|
+      if fn.end_with?('mp4')
+        data = {
+          'filename'=> fn,
+          'label' => norm_name(fn)[0]
+        }
+        importfiles << data
+      end
+    }
+    return importfiles.sort{|a,b| [a['label'], a['filename']] <=> [b['label'], b['filename']]}
+  end
+
 end
 

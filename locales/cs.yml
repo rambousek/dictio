@@ -483,3 +483,9 @@ cs:
         cjlingvist: "formální část MJ"
         lemmacj: "technické informace MJ"
         preklad: "vazby (překlady, synonyma)"
+    import:
+      title: "Hromadný import"
+      uploadzip: "Upload zip"
+      dir: "Adresář na serveru"
+      startupload: "upload + import"
+      startimport: "start import"

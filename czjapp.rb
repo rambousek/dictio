@@ -780,6 +780,28 @@ class CzjApp < Sinatra::Base
       @next = dict_array[@dictcode].history_next(@change)
       slim :historycompare
     end
+
+    get '/import' do
+      @dict_info = $dict_info
+      slim :adminimport1
+    end
+
+    post '/importupload' do
+      $stdout.puts params
+      $stdout.puts params['data1']
+      dir = Dir::mktmpdir('czj','/tmp')
+      dict_array['czj'].handle_upload(params['data1'], dir)
+      dict_array['czj'].handle_upload(params['data2'], dir)
+      dict_array['czj'].handle_upload(params['data3'], dir)
+      redirect to('/import2?dir=' + dir)
+    end
+
+    get '/import2' do
+      @dict_info = $dict_info
+      @dir = params['dir']
+      @importfiles = dict_array['czj'].get_import_files(@dir)
+      slim :adminimport2
+    end
   end
 
   get '/swapi/symbol_definition/:id.json' do
