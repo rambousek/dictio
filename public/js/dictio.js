@@ -686,6 +686,23 @@ $( document ).ready(function() {
   })
 });
 
+//import, gather data, start import
+$( document ).ready(function() {
+  $('#import-start').click(function() {
+    let data = {srcdict: $('#srcdict').val(), targetdict: $('#targetdict').val(), files:[]}
+    $('.import-file').each(function() {
+      data.files.push({
+        file: $(this).val(),
+        label: $('.import-label[data-file="'+$(this).val()+'"]').val(),
+        trans: $('.import-trans[data-file="'+$(this).val()+'"]').val()
+      });
+    });
+    console.log(data);
+    $.post('/importstart2', {data: data}, (response) => {
+    })
+  })
+});
+
 // add class on scroll for mobile search
 window.onscroll = function() {
   if ($('main.homepage').length == 0) {

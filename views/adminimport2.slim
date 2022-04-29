@@ -10,11 +10,30 @@ main role="main"
       .row
         = @dir
       .row
+        | vložit do slovníku
+        select name="srcdict" id="srcdict"
+          - @dict_info.each do |code, info|
+            - if info['type'] == 'sign'
+              option value="#{code}" #{I18n.t("dict."+code)}
+        | založit překlady ve slovníku
+        select name="targetdict" id="targetdict"
+          - @dict_info.each do |code, info|
+            - if info['type'] == 'write'
+              option value="#{code}" #{I18n.t("dict."+code)}
+      .row
         table
+          tr
+            td soubor
+            td label
+            td překlad
           - @importfiles.each do |file|
             tr
               td
                 = file['filename']
+                input type="hidden" class="import-file" value="#{file['filename']}"
               td
-                = file['label']
-          
+                input data-file="#{file['filename']}" type="text" class="import-label" value="#{file['label']}"
+              td
+                input data-file="#{file['filename']}" type="text" class="import-trans" value="#{file['trans']}"
+      .row
+        button id="import-start" start import

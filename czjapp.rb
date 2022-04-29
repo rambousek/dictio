@@ -802,6 +802,10 @@ class CzjApp < Sinatra::Base
       @importfiles = dict_array['czj'].get_import_files(@dir)
       slim :adminimport2
     end
+
+    post '/importstart2' do
+      $stdout.puts params['data']
+    end
   end
 
   get '/swapi/symbol_definition/:id.json' do

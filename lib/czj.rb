@@ -1822,7 +1822,7 @@ class CZJDict < Object
       var = (name[/([0-9])$/,1].to_i+64).chr
       name = name[0..-2]
     end
-    var = name.gsub(/.*[a-z0-9]([A-Z])[A-Z]+[0-9]+([0-9])$/,'\1\2')
+    var = name.gsub(/.*[a-z0-9]([A-Z])[A-Z]+[0-9]+([0-9])$/,'\1\2') if var == ''
     var = 'A' if var == ''
     name.gsub!(/[A-Z]+[0-9]+$/,'')
     name.gsub!(/([a-z])([A-Z])/, '\1-\2')
@@ -3061,9 +3061,11 @@ class CZJDict < Object
     importfiles = []
     Dir.entries(dir).each{|fn|
       if fn.end_with?('mp4')
+        label = norm_name(fn)[0]
         data = {
           'filename'=> fn,
-          'label' => norm_name(fn)[0]
+          'label' => label,
+          'trans' => label.split('==')[0]
         }
         importfiles << data
       end
