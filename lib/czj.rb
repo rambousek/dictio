@@ -1943,7 +1943,7 @@ class CZJDict < Object
     media.delete('main_for_entry')
     $mongo['media'].find({'dict'=> @dictcode, 'id'=> data['id'].to_s}).delete_many
     $mongo['media'].insert_one(media)
-    return data['id'].to_s
+    return media['id'].to_s
   end
 
   def remove_video(entryid, mediaid)
@@ -3071,6 +3071,204 @@ class CZJDict < Object
       end
     }
     return importfiles.sort{|a,b| [a['label'], a['filename']] <=> [b['label'], b['filename']]}
+  end
+
+  def import_run(data, targetdict, user, logid)
+    $stdout.puts logid
+    $stdout.puts data
+    $stdout.puts user
+    logname = 'logs/czjimport'+logid+'.log'
+    logfile = File.open(logname, 'w')
+    logfile.puts Time.now.to_s
+    logfile.puts data
+    logfile.puts user
+
+    trans = []
+    used_trans = []
+    sign = {}
+    videos = {}
+    data['files'].each{|n,h|
+      $stdout.puts h
+      # list sign entries
+      if sign[h['label'].strip].nil?
+        newid = get_new_id
+        sign[h['label'].strip] = {'id'=>newid, 'video'=>[]}
+      end
+      sign[h['label'].strip]['video'] << h['file'].strip
+
+      # list translations
+      if not used_trans.include?(h['trans'].strip)
+        tranid = targetdict.get_new_id
+        trans << {'id'=>tranid, 'title'=>h['trans'].strip, 'rel'=>h['label'].strip}
+        sign[h['label'].strip]['trans'] = tranid
+        used_trans << h['trans'].strip
+      end
+
+      # save video metadata
+      media = {}
+      media['dict'] = @dictcode
+      media['location'] = h['file'].strip
+      media['original_file_name'] = h['file'].strip
+      media['label'] = h['label'].to_s
+      case h['file'][0] 
+      when 'A'
+        media['type'] = 'sign_front'
+        media['main_for_entry'] = sign[h['label'].strip]['id']
+      when 'B'
+        media['type'] = 'sign_side'
+        media['main_for_entry'] = sign[h['label'].strip]['id']
+      when 'D'
+        media['type'] = 'sign_definition'
+      when 'K'
+        media['type'] = 'sign_usage_example'
+      end
+      media['status'] = 'hidden'
+      media['orient'] = 'P'
+      media['created_at'] = Time.now.strftime("%Y-%m-%d %H:%M:%S")
+      vid = save_media(media)
+      videos[h['file'].strip] = vid
+    }
+
+    $stdout.puts trans
+    $stdout.puts sign
+    $stdout.puts videos
+
+    # prepare write entries
+    write_entries = []
+    trans.each{|t|
+      logfile.puts 'new entry ' + data['targetdict'] + ' ' + t['id'].to_s + ' - ' + t['title']
+      entry = {
+        'id' => t['id'].to_s,
+        'dict' => data['targetdict'],
+        'lemma' => {
+          'title' => t['title'],
+          'status' => 'hidden',
+          'title_dia' => t['title'],
+          'created_at' => Time.now.strftime("%Y-%m-%d %H:%M:%S"),
+          'lemma_type' => 'single'
+        },
+        'type' => 'write',
+        'meanings' => [
+          {
+            'id' => t['id'].to_s + '-1',
+            'created_at' => Time.now.strftime("%Y-%m-%d %H:%M:%S"),
+            'relation' => [
+              {
+                'target' => data['srcdict'],
+                'meaning_id' => sign[t['rel'].to_s]['id'].to_s + '-1',
+                'type' => 'translation',
+                'status' => 'hidden'
+              }
+            ]
+          }
+        ]
+      }
+
+      write_entries << entry
+    }
+
+    $stdout.puts write_entries
+    logfile.puts 'writing text entries to db'
+    $mongo['entries'].insert_many(write_entries)
+
+    # prepare sign entries
+    sign_entries = []
+    sign.each{|lab, h|
+      logfile.puts 'new entry ' + data['srcdict'] + ' ' + h['id'].to_s 
+      entry = {
+        'id' => h['id'].to_s,
+        'dict' => @dictcode,
+        'type' => 'sign',
+        'lemma' => {
+          'status' => 'hidden',
+          'created_at' => Time.now.strftime("%Y-%m-%d %H:%M:%S"),
+          'lemma_type' => 'single'
+        },
+        'meanings' => []
+      }
+      # add videos
+      h['video'].sort.each{|f|
+        mid = 0
+        uid = 0
+        case f[0] 
+        when 'A'
+          entry['lemma']['video_front'] = f
+        when 'B'
+          entry['lemma']['video_side'] = f
+        when 'D'
+          mid += 1
+          newm = {
+            'id' => h['id'].to_s + '-' + mid.to_s,
+            'created_at' => Time.now.strftime("%Y-%m-%d %H:%M:%S"),
+            'text' => {'file' => {'@media_id' => videos[f].to_s}}
+          }
+          if mid == 1
+            newm['usages'] = []
+          end
+          entry['meanings'] << newm
+        when 'K'
+          if entry['meanings'].length == 0
+            entry['meanings'] << {
+              'id' => h['id'].to_s + '-1',
+              'created_at' => Time.now.strftime("%Y-%m-%d %H:%M:%S"),
+              'usages' => []
+            }
+          end
+          uid += 1
+          newu = {
+            'id' => h['id'].to_s + '-1_us' + uid.to_s,
+            'created_at' => Time.now.strftime("%Y-%m-%d %H:%M:%S"),
+            'text' => {'file' => {'@media_id' => videos[f].to_s}}
+          }
+          entry['meanings'][0]['usages'] << newu
+        end
+
+        # no meanings?
+        if entry['meanings'].length == 0
+          entry['meanings'] << {
+            'id' => h['id'].to_s + '-1',
+            'created_at' => Time.now.strftime("%Y-%m-%d %H:%M:%S")
+          }
+        end
+        # add translation
+        entry['meanings'][0]['relation'] = [
+          {
+            'target' => data['targetdict'],
+            'meaning_id' => h['trans'].to_s + '-1',
+            'type' => 'translation',
+            'status' => 'hidden'
+          }
+        ]
+      }
+
+      sign_entries << entry
+    }
+    $stdout.puts sign_entries
+    logfile.puts 'writing sign entries to db'
+    $mongo['entries'].insert_many(sign_entries)
+
+    # upload files
+    logfile.puts 'uploading files'
+    videos.each{|file, fid|
+      fpath = data['dir'] + '/' + file
+      $stdout.puts file
+      $stdout.puts fpath
+      logfile.puts file
+      Net::SSH.start("files.dictio.info", $files_user, :key_data=>$files_keys){|ssh|
+        ssh.scp.upload!(fpath, '/home/adam/upload/'+@dictcode+'/'+file)
+        command = '/home/adam/mkthumb.sh "'+file+'" "'+@dictcode+'"'
+        $stdout.puts command
+        ssh.exec(command)
+      }
+    }
+
+    # cache relations
+    logfile.puts 'caching relations'
+    sign_entries.each{|en| cache_relations(en, false)}
+    write_entries.each{|en| cache_relations(en, false)}
+
+    logfile.puts 'finished'
+    logfile.close
   end
 
 end

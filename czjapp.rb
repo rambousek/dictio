@@ -805,6 +805,21 @@ class CzjApp < Sinatra::Base
 
     post '/importstart2' do
       $stdout.puts params['data']
+      content_type :json
+      if not $dict_info[params['data']['srcdict']].nil? and not $dict_info[params['data']['targetdict']].nil?
+        logid = Array.new(8) { (Array('a'..'z')+Array('0'..'9')).sample }.join
+        Thread.new{ dict_array[params['data']['srcdict']].import_run(params['data'], dict_array[params['data']['targetdict']], @user_info['login'], logid) }
+        body = {'logid'=>logid}.to_json
+      else
+        body = {'error'=>'no dict info'}.to_json
+      end
+    end
+
+    get '/importlog' do
+      @dict_info = $dict_info
+      logname = 'logs/czjimport' + params['logid'] + '.log'
+      @progress = IO.readlines(logname).join("\n")
+      slim :adminimportlog
     end
   end
 

@@ -9,6 +9,7 @@ main role="main"
     article.col.col--start role="article"
       .row
         = @dir
+        input type="hidden" id="import-dir" value="#{@dir}"
       .row
         | vložit do slovníku
         select name="srcdict" id="srcdict"

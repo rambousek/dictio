@@ -689,7 +689,7 @@ $( document ).ready(function() {
 //import, gather data, start import
 $( document ).ready(function() {
   $('#import-start').click(function() {
-    let data = {srcdict: $('#srcdict').val(), targetdict: $('#targetdict').val(), files:[]}
+    let data = {srcdict: $('#srcdict').val(), targetdict: $('#targetdict').val(), dir: $('#import-dir').val(), files:[]}
     $('.import-file').each(function() {
       data.files.push({
         file: $(this).val(),
@@ -699,6 +699,8 @@ $( document ).ready(function() {
     });
     console.log(data);
     $.post('/importstart2', {data: data}, (response) => {
+      console.log(response)
+      window.location = '/importlog?logid='+response.logid;
     })
   })
 });
