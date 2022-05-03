@@ -63,8 +63,13 @@ header.header role="banner"
                       - if @dictcode
                         li 
                           a.btn href="/admin" #{I18n.t("admin.all")}
-                      li
-                        a href="https://admin.dictio.info/users" #{I18n.t("admin.users.title")}                                       
+                      - if @is_admin  
+                        li
+                          a href="https://admin.dictio.info/users" #{I18n.t("admin.users.title")}
+                        li
+                          a href="https://admin.dictio.info/history" #{I18n.t("admin.history")}
+                        li
+                          a href="https://admin.dictio.info/import" #{I18n.t("admin.import.title")}                                                   
             - if @is_edit or @is_admin
               li               
                 .nav-user
