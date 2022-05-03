@@ -13,10 +13,10 @@ main role="main"
           input type="file" name="data1"
           input type="file" name="data2"
           input type="file" name="data3"
-          button type="submit" #{I18n.t("admin.import.startupload")}
+          button.btn type="submit" #{I18n.t("admin.import.startupload")}
       h3 #{I18n.t("admin.import.dir")}
       .row
         form method="get" action="/import2"
           input type="text" name="dir"
-          button type="submit" #{I18n.t("admin.import.startimport")}
+          button.btn type="submit" #{I18n.t("admin.import.startimport")}
 
