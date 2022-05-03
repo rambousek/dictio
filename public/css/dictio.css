@@ -92,6 +92,18 @@ video.ogs {
   color: black;
 }
 
+.detail__badge__uzm, .trans__badge__uzm, .btn-uzm, .trans__badge__uzm a {
+  background-color: lightblue !important;
+  color: black;
+}
+video.uzm {
+  border-left: solid 4px lightblue;
+}
+
+.detail__badge__uk, .trans__badge__uk, .btn-uk, .trans__badge__uk a {
+  background-color: yellow !important;
+  color: black;
+}
 .trans__badge {
   position: absolute;
   top: 0px;
