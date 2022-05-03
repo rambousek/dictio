@@ -1637,7 +1637,7 @@ function load_doc(id, history, historytype) {
             }
             vyznam.query('component[name="vyznampreviews"]')[0].update(previewstext);
             change_stav(vyznam.query('component[name="stavcont"]')[0], meaning['status']);
-            if (meaning['category'].length > 0) {
+            if (meaning['category'] && meaning['category'].length > 0) {
               var categ_array = new Array();
               meaning['category'].forEach(function(cat) {
                 categ_array.push(cat);
