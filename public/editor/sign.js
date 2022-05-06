@@ -1175,7 +1175,6 @@ function getglyph(swid, swdata) {
     swar.push(sws);
   }
   Ext.getCmp(swid).query('component[name="swdata"]')[0].setValue(swar.join('_'));
-  Ext.getCmp(swid).query('component[name="swimg"]')[0].el.setHTML('<img src="http://znaky.zcu.cz/proxy/tts/signwriting.png?generator[sw]='+swar.join('_')+'&generator[align]=top_left&generator[set]=sw10"/>');
   Ext.Ajax.request({
     url: '/'+dictcode+'/getfsw',
     params: {
@@ -1184,6 +1183,7 @@ function getglyph(swid, swdata) {
     method: 'get',
     success: function(response) {
       Ext.getCmp(swid).query('component[name="fsw"]')[0].setValue(response.responseText);
+      Ext.getCmp(swid).query('component[name="swimg"]')[0].el.setHTML('<img src="https://sign.dictio.info/fsw/sign/png/'+response.responseText+'-CG_white_"/>');
     }
   });
 }
@@ -1324,8 +1324,8 @@ function add_preview_main() {
   /* add SW img */
   var swar = Ext.getCmp('swbox').query('component[name=switem]');
   for (var i = 0; i < swar.length; i++) {
-    var swdata = swar[i].query('component[name="swdata"]')[0].getValue();
-    swar[i].query('component[name="swimg"]')[0].el.setHTML('<img src="https://www.dictio.info/sw/signwriting.png?generator[sw]='+swdata+'&generator[align]=top_left&generator[set]=sw10"/>');
+    var fsw = swar[i].query('component[name="fsw"]')[0].getValue();
+    swar[i].query('component[name="swimg"]')[0].el.setHTML('<img src="https://sign.dictio.info/fsw/sign/png/'+fsw+'-CG_white_"/>');
   }
 }
 
@@ -3262,7 +3262,6 @@ function create_sw(entryid, add_copy) {
                     console.log($('#'+name).attr('swe'))
                     var swe = $('#'+name).attr('swe');
                     Ext.getCmp(name).query('component[name="swdata"]')[0].setValue(swe);
-                    Ext.getCmp(name).query('component[name="swimg"]')[0].el.setHTML('<img src="https://www.dictio.info/sw/signwriting.png?generator[sw]='+swe+'&generator[align]=top_left&generator[set]=sw10"/>');
                     Ext.Ajax.request({
                       url: '/'+dictcode+'/getfsw',
                       params: {
@@ -3271,6 +3270,7 @@ function create_sw(entryid, add_copy) {
                       method: 'get',
                       success: function(response) {
                         Ext.getCmp(name).query('component[name="fsw"]')[0].setValue(response.responseText);
+                        Ext.getCmp(name).query('component[name="swimg"]')[0].el.setHTML('<img src="https://sign.dictio.info/fsw/sign/png/'+response.responseText+'-CG_white_"/>');
                       }
                     });
                   }
