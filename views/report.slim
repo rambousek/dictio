@@ -405,7 +405,7 @@ main role="main"
             - if @params.count{|k,_| k =~ /sw/} > 0
               th               
             th width="10%"
-              a.btn.btn-#{@dictcode} href="https://edit.dictio.info/editor#{@dictcode}/?id=" 
+              a.btn class="btn-#{@dictcode}" href="https://edit.dictio.info/editor#{@dictcode}/?id=" 
                 | + #{I18n.t("admin.newentry")}        
         == slim :reportresultlist
       - if @report['resultcount'].to_i > @report['entries'].size
