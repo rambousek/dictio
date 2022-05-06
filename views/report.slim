@@ -371,7 +371,7 @@ main role="main"
 
       table.table.table--no-margin.report-table.report-results data-resultcount=@report['resultcount']
         tr
-          th width="10%" (#{@report['resultcount']})
+          th width="10%" #{I18n.t("home.entries")}: #{@report['resultcount']}
           th
           - if @params['komentbox']
             th
@@ -405,7 +405,7 @@ main role="main"
             - if @params.count{|k,_| k =~ /sw/} > 0
               th               
             th width="10%"
-              a.btn href="https://edit.dictio.info/editor#{@dictcode}/?id=" 
+              a.btn.btn-#{@dictcode} href="https://edit.dictio.info/editor#{@dictcode}/?id=" 
                 | + #{I18n.t("admin.newentry")}        
         == slim :reportresultlist
       - if @report['resultcount'].to_i > @report['entries'].size
