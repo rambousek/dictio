@@ -7,6 +7,8 @@
         - @meaning['relation'].select{|rel| rel['type'] == 'translation' and (rel['target'] == rels['target']) and rel['entry']}.each do |rel|
           - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id'].to_s
           p
+            - if rel['status'] == 'hidden'
+              | H
             - if rel['entry']['id']
               - if @search.to_s != ''
                 a.link href="#{@tran_path}/#{relid}" #{rel['entry']['lemma']['title']}
