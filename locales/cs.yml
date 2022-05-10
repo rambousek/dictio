@@ -115,7 +115,7 @@ cs:
     nocontent: "Tato část hesla není dosud zpracovaná."
     nopubtrans: "Pro tento význam nejsou dostupné žádné veřejné překlady."
     notapproved: "! Správnost následující informace nebyla dosud ověřena !"
-    hidden_lemma: "! Neveřejné heslo. Za správnost uvedených informací nenesou tvůrci slovníku zodpovědnost. !"
+    hidden_lemma: "! Neveřejné heslo. Za správnost uvedených informací nenesou autoři slovníku zodpovědnost. !"
     circumloc: "Opisný překlad. Viz příklady užití."
     category: "obor"
     kat_28: 'biologie'

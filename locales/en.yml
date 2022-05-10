@@ -114,6 +114,8 @@ en:
     link_public: "Public link"
     nocontent: "This part has not been processed yet."
     nopubtrans: "No public translations in this meaning available."
+    notapproved: "! It has not been approved yet if following information is correct !"
+    hidden_lemma: "! This entry is not public. The authors of this dictionary are not responsible for the accuracy of the information provided !"    
     circumloc: "Circumlocution. See example sentences." 
     category: "category"
     kat_28: 'biologie'
