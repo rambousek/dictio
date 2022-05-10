@@ -208,9 +208,7 @@
       .col.col--2
         .detail__block.detail__block--line
           .video-simple
-            h3 id="meaning#{meaning['number']}" #{I18n.t("entry.meaning")} #{meaning['number']}
-            - if meaning['status'] == 'hidden'
-              | H
+            h3 id="meaning#{meaning['number']}" #{I18n.t("entry.meaning")} #{meaning['number']}            
             - if meaning['category'] and meaning['category'].find{|cat| not cat.nil?}
               p.naming class="naming2"
                 / | #{I18n.t("entry.category")}: 
@@ -221,6 +219,8 @@
             /    | Semantic region: 
             /    a href="#" Human body
             - if meaning["text"] and meaning["text"]["file"]
+              - if meaning['status'] == 'hidden'
+                .p style="color: gray; font-style: italic; padding-left: 10px;" #{I18n.t("entry.notapproved_lemma")} 
               .video.video--shrink
                 .video__content
                   video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@show_dictcode}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}"

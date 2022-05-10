@@ -114,6 +114,7 @@ cs:
     link_public: "veřejná adresa"
     nocontent: "Tato část hesla není dosud zpracovaná."
     nopubtrans: "Pro tento význam nejsou dostupné žádné veřejné překlady."
+    notapproved_lemma: "! Původ a rozšíření tohoto výrazu není dosud ověřený !"
     circumloc: "Opisný překlad. Viz příklady užití."
     category: "obor"
     kat_28: 'biologie'
