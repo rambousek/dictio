@@ -220,7 +220,7 @@
             /    a href="#" Human body
             - if meaning["text"] and meaning["text"]["file"]
               - if meaning['status'] == 'hidden'
-                .p style="color: gray; font-style: italic; padding-left: 10px;" #{I18n.t("entry.notapproved_lemma")} 
+                .p style="color: gray; font-style: italic; padding-left: 10px;" #{I18n.t("entry.notapproved")} 
               .video.video--shrink
                 .video__content
                   video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@show_dictcode}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}"
