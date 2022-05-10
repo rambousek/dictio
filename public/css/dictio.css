@@ -186,3 +186,16 @@ p.naming2 span {
   border-top: 2px solid #1c2641;
   border-bottom: 2px solid #1c2641;
 }
+
+.notapproved {
+  color: red;
+  font-style: italic;
+  padding-left: 10px;
+  display: inline-flex;
+  background-color: black;
+  border-radius: 15px;
+  padding-right: 10px;
+  padding: 5px;
+  font-size: small;
+}
+  
