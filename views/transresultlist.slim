@@ -95,7 +95,7 @@
             .video.video--small.no-video
               .video__content
                 a href="/#{@dictcode}/translate/#{@target}/#{@params['type']}/#{@search}/#{@target}-#{rel[use_entry+'_id']}"
-                  img src="/img/no_video_#{@lang}.jpg"
+                  img src="/img/no_video_#{@selectlang}.jpg"
               .video__controls
                 - if (@is_edit or @is_admin)
                   span.trans__badge class="trans__badge__#{@target}"
