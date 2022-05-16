@@ -14,7 +14,7 @@
        svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
         use xlink:href="/img/edit.svg#Capa_1" x="0" y="0" width="100%" height="100%"
   .video-top
-    -if @entry['media']['video_front']['status'] == 'hidden'
+    -if @entry['media']['video_front'] and @entry['media']['video_front']['status'] == 'hidden'
       .notapproved #{I18n.t("entry.notapproved")}
     .video
       .video__content.video-front
