@@ -1,10 +1,10 @@
-uk:
+ua:
   locale:
     en: "English"
     cs: "Česky"
     de: "Deutsch"
     sk: "Slovensky"
-    uk: "Український"
+    ua: "Український"
   dict:
     cs: "Чештина"
     sj: "словацький"
