@@ -102,7 +102,7 @@ video.uzm {
 
 .detail__badge__uk, .trans__badge__uk, .btn-uk, .trans__badge__uk a {
   background-color: yellow !important;
-  color: black;
+  color: black !important;
 }
 .trans__badge {
   position: absolute;
