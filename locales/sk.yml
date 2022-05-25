@@ -376,6 +376,7 @@ sk:
     moreopt: "Ďalšie možné voľby:"
     dict: "Slovník"
     newentry: "nová lema"
+    newentry2: "+ lema"
     not: "nie"
     lemma: "záhlavie"
     sem: "významy"

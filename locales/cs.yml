@@ -374,6 +374,7 @@ cs:
     report_old_main: "Rozcestník"
     dict: "Slovník"
     newentry: "nové lemma"
+    newentry2: "+ lemma"
     activeopt: "Zobrazena hesla na základě následujících voleb:"
     idsel: "Pouze hesla s ID"
     moreopt: "Další možné volby:"

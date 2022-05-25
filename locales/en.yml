@@ -373,6 +373,7 @@ en:
     report_old_main: "Main directory"
     dict: "Dictionary"
     newentry: "new entry"
+    newentry2: "+ entry"
     activeopt: "Listing entries according following options:"
     idsel: "Only entries with ID"
     moreopt: "Available options:"    

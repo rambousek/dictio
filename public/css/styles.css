@@ -1776,6 +1776,10 @@ a.btn--danger {
     text-align: center;
 }
 
+.btn.btn--round {
+    font-size: 9px;
+}
+
 .btn__group {
   display: -webkit-box;
   display: -webkit-flex;
