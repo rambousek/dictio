@@ -372,7 +372,7 @@ en:
     reports_old: "Former list of entries (last updated on March 19 2021)"
     report_old_main: "Main directory"
     dict: "Dictionary"
-    newentry: "Create new entry in "
+    newentry: "new entry"
     activeopt: "Listing entries according following options:"
     idsel: "Only entries with ID"
     moreopt: "Available options:"    

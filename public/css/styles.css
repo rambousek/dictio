@@ -1770,6 +1770,12 @@ a.btn--danger {
   a.btn--danger:focus {
     background-color: #ff2a2a; }
 
+.btn-admin {
+    padding: 25px !important;
+    min-width: 120px;
+    text-align: center;
+}
+
 .btn__group {
   display: -webkit-box;
   display: -webkit-flex;

@@ -373,7 +373,7 @@ cs:
     reports_old: "Staré přehledy hesel (stav k 19. 3. 2021)"
     report_old_main: "Rozcestník"
     dict: "Slovník"
-    newentry: "založit lemma v"
+    newentry: "nové lemma"
     activeopt: "Zobrazena hesla na základě následujících voleb:"
     idsel: "Pouze hesla s ID"
     moreopt: "Další možné volby:"
