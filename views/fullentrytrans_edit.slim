@@ -28,7 +28,7 @@
           - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id'].to_s
           .col.col--2.col--precise
             - if rel['status'] == 'hidden'
-              .notapproved #{I18n.t("entry.notapproved")}
+              img src="/img/warning.png" title="#{I18n.t('entry.notapproved')}"
             .video.video--small
               .video__content
                 video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url=(@search.to_s != ''? "#{@tran_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") poster="/thumb/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}"
