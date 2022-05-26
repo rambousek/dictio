@@ -1,4 +1,5 @@
 -if @entry['lemma']['completeness'] == '1'
+  img src="/img/warning.png"
   .notapproved #{I18n.t("entry.hidden_lemma")}
 - if @search_type == 'translate'
   p.mobile-hide style="float: right;margin-top: 50px;"
@@ -15,7 +16,8 @@
         use xlink:href="/img/edit.svg#Capa_1" x="0" y="0" width="100%" height="100%"
   .video-top
     -if @entry['media']['video_front'] and @entry['media']['video_front']['status'] == 'hidden'
-      img src="/img/warning.png" title="#{I18n.t('entry.notapproved')}"
+      img src="/img/warning.png" 
+      div.notapproved "#{I18n.t('entry.notapproved')}"
     .video
       .video__content.video-front
         - if @entry['media']['video_front'] and @entry['media']['video_front']['orient'] and @entry['media']['video_front']['orient'].to_s != ''
@@ -295,7 +297,8 @@
               .row.row--start.translation-group-sign
                 - meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.each do |usg|
                   - if usg['status'] == 'hidden'
-                    img src="/img/warning.png" title="#{I18n.t('entry.notapproved')}"
+                    img src="/img/warning.png" 
+                    div.notapproved "#{I18n.t('entry.notapproved')}"
                   - if usg["text"] and usg["text"]["file"] and usg["text"]["file"].is_a?(Hash)
                     .col.col--2.col--precise
                       .video.video--small

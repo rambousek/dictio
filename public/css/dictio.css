@@ -192,10 +192,10 @@ p.naming2 span {
   font-style: italic;
   padding-left: 10px;
   display: inline-flex;
-  background-color: black;
+  background-color: yellow;
   border-radius: 15px;
   padding-right: 10px;
   padding: 5px;
-  font-size: small;
+  font-size: 10px;
 }
   
