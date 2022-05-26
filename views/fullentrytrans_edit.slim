@@ -8,8 +8,7 @@
           - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id'].to_s
           p
             - if rel['status'] == 'hidden'
-              .notapproved #{I18n.t("entry.notapproved")} 
-              | <br /> 
+              img src="/img/warning.png" title="#{I18n.t('entry.notapproved')}" 
             - if rel['entry']['id']
               - if @search.to_s != ''
                 a.link href="#{@tran_path}/#{relid}" #{rel['entry']['lemma']['title']}

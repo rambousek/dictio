@@ -110,7 +110,7 @@ sk:
     see_video: "viď video "
     all_translations: "zobraziť všetky ekvivalenty"
     nopubtrans: "Pre tento význam niesú dostupné žiadne verejné preklady."        
-    notapproved: "! Správnosť nasledujúce informácie nebola zatiaľ overená !"
+    notapproved: "Správnosť nasledujúce informácie nebola zatiaľ overená!"
     hidden_lemma: "! Neverejné heslo. Za správnosť uvedených informácií nenesú tvorcovia slovníka zodpovednosť. !"
     circumloc: "Opisný preklad. Viď príklady použitia."
     share: "adresa pre zdieľanie"
