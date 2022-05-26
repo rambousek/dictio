@@ -15,7 +15,7 @@
         use xlink:href="/img/edit.svg#Capa_1" x="0" y="0" width="100%" height="100%"
   .video-top
     -if @entry['media']['video_front'] and @entry['media']['video_front']['status'] == 'hidden'
-      .notapproved #{I18n.t("entry.notapproved")}
+      img src="/img/warning.png" title="#{I18n.t('entry.notapproved')}"
     .video
       .video__content.video-front
         - if @entry['media']['video_front'] and @entry['media']['video_front']['orient'] and @entry['media']['video_front']['orient'].to_s != ''
@@ -224,7 +224,7 @@
             /    a href="#" Human body
             - if meaning["text"] and meaning["text"]["file"]
               - if meaning['status'] == 'hidden'
-                .notapproved #{I18n.t("entry.notapproved")} 
+                img src="/img/warning.png" title="#{I18n.t('entry.notapproved')}" 
               .video.video--shrink
                 .video__content
                   video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@show_dictcode}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}"
@@ -295,7 +295,7 @@
               .row.row--start.translation-group-sign
                 - meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.each do |usg|
                   - if usg['status'] == 'hidden'
-                    .notapproved #{I18n.t("entry.notapproved")}
+                    img src="/img/warning.png" title="#{I18n.t('entry.notapproved')}"
                   - if usg["text"] and usg["text"]["file"] and usg["text"]["file"].is_a?(Hash)
                     .col.col--2.col--precise
                       .video.video--small
