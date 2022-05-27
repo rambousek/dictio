@@ -24,6 +24,8 @@
                 span.btn.btn--simple.btn--simple--lg style="cursor:auto"
                   em = rel['target_title']
         - else
+          - if rel['status'] == 'hidden'
+            img src="/img/warning.png" style="width: 20px" title="#{I18n.t('entry.notapproved')}"
           .video.video--shrink.video--small
             .video__content
               - if rel['source_video']['orient']
@@ -71,6 +73,8 @@
           - else
             - use_entry = 'target'
           - if rel[use_entry+'_video'].is_a?(Hash)
+            - if rel['status'] == 'hidden'
+              img src="/img/warning.png" style="width: 20px" title="#{I18n.t('entry.notapproved')}"
             .video.video--small
               .video__content
                 - if rel[use_entry+'_video']['orient'].to_s != ''
@@ -92,6 +96,8 @@
                     - rel[use_entry+'_sw'].each do |sw|
                       img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}#{$fsw_style}" alt=""
           - else
+            - if rel['status'] == 'hidden'
+              img src="/img/warning.png" style="width: 20px" title="#{I18n.t('entry.notapproved')}"
             .video.video--small.no-video
               .video__content
                 a href="/#{@dictcode}/translate/#{@target}/#{@params['type']}/#{@search}/#{@target}-#{rel[use_entry+'_id']}"
