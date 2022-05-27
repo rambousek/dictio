@@ -2217,7 +2217,7 @@ function create_text_video(idstart, entryid, label, show_copy) {
 function refresh_relations(parentid, set_rel) {
   var trset = Ext.getCmp(parentid).query('component[name="rellinkset"]');
   for (var j = 0; j < trset.length; j++) {
-    Ext.Array.each(Ext.getCmp('tabForm').query('[name=relsadd]'), function(item) {item.hide()});
+    //Ext.Array.each(Ext.getCmp('tabForm').query('[name=relsadd]'), function(item) {item.hide()});
     Ext.Array.each(Ext.getCmp('tabForm').query('[name=relswait]'), function(item) {item.show()});
     if (trset[j].query('component[name="rellink"]')[0].getValue() != null && trset[j].query('component[name="rellink"]')[0].getValue() != "" && trset[j].query('component[name="type"]')[0].getValue() != "") {
       var rellink = trset[j].query('component[name="rellink"]')[0].getValue();
@@ -2251,7 +2251,7 @@ function load_link_relations(target, combo, name, parentid, set_rel) {
   if (entrydata.user_info.login == 'najbrtova') {
     return true;
   }
-  Ext.Array.each(Ext.getCmp('tabForm').query('[name=relsadd]'), function(item) {item.hide()});
+  //Ext.Array.each(Ext.getCmp('tabForm').query('[name=relsadd]'), function(item) {item.hide()});
   Ext.Array.each(Ext.getCmp('tabForm').query('[name=relswait]'), function(item) {item.show()});
   Ext.Ajax.request({
     url: '/'+target+'/getrelations',

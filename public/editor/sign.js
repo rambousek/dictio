@@ -2717,7 +2717,7 @@ function refresh_relations(parentid, set_rel) {
 
   var trset = Ext.getCmp(parentid).query('component[name="rellinkset"]');
   for (var j = 0; j < trset.length; j++) {
-    Ext.Array.each(Ext.getCmp('tabForm').query('[name=relsadd]'), function(item) {item.hide()});
+    //Ext.Array.each(Ext.getCmp('tabForm').query('[name=relsadd]'), function(item) {item.hide()});
     Ext.Array.each(Ext.getCmp('tabForm').query('[name=relswait]'), function(item) {item.show()});
     if (trset[j].query('component[name="rellink"]')[0].getValue() != null && trset[j].query('component[name="rellink"]')[0].getValue() != "" && trset[j].query('component[name="type"]')[0].getValue() != "") {
       var rellink = trset[j].query('component[name="rellink"]')[0].getValue();
@@ -2769,7 +2769,7 @@ function load_link_relations(target, combo, name, parentid, set_rel) {
     },
     success: function(response) {
       //waitBoxRels.hide();
-      Ext.Array.each(Ext.getCmp('tabForm').query('[name=relsadd]'), function(item) {item.show()});
+      //Ext.Array.each(Ext.getCmp('tabForm').query('[name=relsadd]'), function(item) {item.show()});
       Ext.Array.each(Ext.getCmp('tabForm').query('[name=relswait]'), function(item) {item.hide()});
       var trset = Ext.getCmp(name).up().query('component[name="rellinkset"]');
       var trset_ar = new Array();
