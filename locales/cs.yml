@@ -440,6 +440,7 @@ cs:
       k: "příklad užití"  
       g: "gramatický popis"  
     presets:
+      title: "Přednastavené volby"
       revdef: "definice ke schválení"
       comdef: "komentované definice"
       trans: "ekvivalenty ke zpracování"

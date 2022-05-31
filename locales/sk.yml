@@ -439,6 +439,7 @@ sk:
       k: "príklad použitia"  
       g: "gramatický popis"  
     presets:
+      title: "Prednastavené voľby"
       revdef: "definícia na schválenie"
       comdef: "komentované definície"
       trans: "ekvivalenty na spracovanie"

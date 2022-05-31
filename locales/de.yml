@@ -439,6 +439,7 @@ de:
       k: "Beispielsätse"  
       g: "Grammatikbeschreibung"  
     presets:
+      title: "Presets"        
       revdef: "Definition zu genehmigen"
       comdef: "komentiert Definitione"      
       trans: "Äquivalenten zu verbinden"

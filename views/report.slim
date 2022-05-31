@@ -365,7 +365,7 @@ main role="main"
                 - unless @params['koment'] and @params['komentbox'] == 'vazby'
                   a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','vazby','koment','ne')" #{I18n.t("admin.koment.vazby")}
           h2 onclick="showhide('presets')" style="cursor: pointer"
-            | #{I18n.t("admin.presets")} >>
+            | #{I18n.t("admin.presets.title")} >>
           div id="presets" style="display: none"
             a.btd class="btn-secondary report-" href="/czj/report?schvcelni=ano&schvbocni=ano&vyznamvid=ne&translationcs=ne&pubtranscs=ne&komentbox=vazby&koment=ano" CZJ-EC01: #{I18n.t("admin.presets.trans")} #{I18n.t("admin.presets.nodef")} 
             a.btd class="btn-secondary report-" href="/czj/report?schvcelni=ano&schvbocni=ano&vyznamvid=ne&translationcs=ano&pubtranscs=ne&komentbox=vazby&koment=ano" CZJ-EC02: #{I18n.t("admin.presets.revtrans")} #{I18n.t("admin.presets.nodef")}

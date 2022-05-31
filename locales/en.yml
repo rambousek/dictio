@@ -439,6 +439,7 @@ en:
       k: "example sentence"  
       g: "grammar description"  
     presets:
+      title: "Presets"
       revdef: "definitions to approve"
       comdef: "commented definitions"
       trans: "equivalents to connect"
