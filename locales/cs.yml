@@ -46,6 +46,7 @@ cs:
     info: "Hledejte překlady (ekvivalenty) mezi jednotlivými jazyky, zkoumejte různé významy slov a znaků (znakových jazyků). Je toho více, než se zdá."
     translations: "Překladů"
     entries: "Hesel"
+    published: "Zveřejněno"
     lastsearch: "Poslední hledané"
     mostsearch: "Nejčastěji hledané"
     mostsearchweek: "Nejhledanější v týdnu"
