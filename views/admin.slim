@@ -52,6 +52,14 @@ main role="main"
                     a.btn class="btn-admin btn-en" href="/en/report" #{I18n.t("dict.en")} 
                   td
                     a.btn class="btn--round btn-en" href="https://edit.dictio.info/editoren/?id=" #{I18n.t("admin.newentry2")} 
+                  td
+                    | #{I18n.t("home.entries")}:   <br />   
+                    | #{I18n.t("home.published")}:                                    
+                  td
+                    - if @duplicate['duplicate'].select{|info| info['code'] == 'en'}.size > 0
+                      div style="color: red; font-style: italic; font-variant: all-small-caps"
+                      | #{I18n.t("admin.dups_warn")} (#{@duplicate['duplicate'].select{|info| info['code'] == 'en'}[0]['count']}). 
+                      a href="https://admin.dictio.info/en/duplicate" #{I18n.t("admin.show")}                                    
                 tr
                   td
                     a.btn class="btn-admin btn-asl" href="/asl/report" #{I18n.t("dict.asl")}
