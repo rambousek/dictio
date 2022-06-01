@@ -24,93 +24,85 @@ main role="main"
                   td
                     a.btn class="btn--round btn-cs" href="https://edit.dictio.info/editorcs/?id=" #{I18n.t("admin.newentry2")} 
                   td
-                    | #{I18n.t("home.entries")}: #{@lemma_counts['cs']['entry_count']} / #{@lemma_counts['cs']['entry_pub_count']}
+                    | #{I18n.t("home.entries")}: #{@lemma_counts['cs']['entry_count']} <br />
+                    | #{I18n.t("home.published")}: #{@lemma_counts['cs']['entry_pub_count']}
                 tr
                   td 
                     a.btn class="btn-admin btn-czj" href="/czj/report" #{I18n.t("dict.czj")}
                   td
                     a.btn class="btn--round btn-czj" href="https://edit.dictio.info/editorczj/?id=" #{I18n.t("admin.newentry2")} 
                   td
-                    | #{I18n.t("home.entries")}: #{@lemma_counts['czj']['entry_count']} / #{@lemma_counts['czj']['entry_pub_count']}
-                    ul
-                      li                        
-                        a href="/czj/report?schvcelni=ano&schvbocni=ano&vyznamvid=ne&translationcs=ne&pubtranscs=ne&komentbox=vazby&koment=ano" CZJ-EC01: #{I18n.t("admin.presets.trans")} #{I18n.t("admin.presets.nodef")}  
-                      li
-                        a href="/czj/report?schvcelni=ano&schvbocni=ano&vyznamvid=ne&translationcs=ano&pubtranscs=ne&komentbox=vazby&koment=ano" CZJ-EC02: #{I18n.t("admin.presets.revtrans")} #{I18n.t("admin.presets.nodef")}
-
-                      li
-                        a href="/czj/report?schvcelni=ano&schvbocni=ano&vyznamvid=ano&vyznam=ne" CZJ-D1: #{I18n.t("admin.presets.revdef")}
-                      li
-                        a href="/czj/report?schvcelni=ano&vyznamvid=ano&completnessbox=1&completeness=ano&komentbox=vyznam&koment=ne" CZJ-D2: #{I18n.t("admin.presets.comdef")}
-                  td
-                    ul
-                      li
-                        a href="/czj/report?schvcelni=ano&schvbocni=ano&vyznamvid=ano&vyznam=ano&translationcs=ne&pubtranscs=ne&komentbox=vazby&koment=ano&usage=ano&usagevid=ano&slovni_druh=klf&sldruh=ano" CZJ-EC1: #{I18n.t("admin.presets.trans")}
-                      li
-                        a href="/czj/report?schvcelni=ano&schvbocni=ano&vyznamvid=ano&vyznam=ano&translationcs=ano&pubtranscs=ne&komentbox=vazby&koment=ano&usage=ano&usagevid=ano" CZJ-EC2: #{I18n.t("admin.presets.revtrans")}  
-                      li
-                        a href="/czj/report?schvcelni=ano&schvbocni=ano&vyznamvid=ano&vyznam=ano&komentbox=vazby&koment=ne&usage=ano&usagevid=ano" CZJ-E2: #{I18n.t("admin.presets.comtrans")}                                
-                tr
+                    | #{I18n.t("home.entries")}: #{@lemma_counts['czj']['entry_count']}<br />
+                    | #{I18n.t("home.published")}: #{@lemma_counts['czj']['entry_pub_count']}                tr
                   td 
                     a.btn class="btn-admin btn-en" href="/en/report" #{I18n.t("dict.en")} 
                   td
                     a.btn class="btn--round btn-en" href="https://edit.dictio.info/editoren/?id=" #{I18n.t("admin.newentry2")} 
                   td
-                    | #{I18n.t("home.entries")}: #{@lemma_counts['en']['entry_count']} / #{@lemma_counts['en']['entry_pub_count']}
+                    | #{I18n.t("home.entries")}: #{@lemma_counts['en']['entry_count']} <br />
+                    | #{I18n.t("home.published")}: #{@lemma_counts['en']['entry_pub_count']}
                 tr
                   td
                     a.btn class="btn-admin btn-asl" href="/asl/report" #{I18n.t("dict.asl")}
                   td
                     a.btn class="btn--round btn-asl" href="https://edit.dictio.info/editorasl/?id=" #{I18n.t("admin.newentry2")}
                   td
-                    | #{I18n.t("home.entries")}: #{@lemma_counts['asl']['entry_count']} / #{@lemma_counts['asl']['entry_pub_count']}
+                    | #{I18n.t("home.entries")}: #{@lemma_counts['asl']['entry_count']} <br />
+                    | #{I18n.t("home.published")}: #{@lemma_counts['asl']['entry_pub_count']}
                 tr
                   td
                     a.btn class="btn-admin btn-is" href="/is/report" #{I18n.t("dict.is")}
                   td
                     a.btn class="btn--round btn-is" style="background-color: darkslateblue; color: white;" href="https://edit.dictio.info/editoris/?id=" #{I18n.t("admin.newentry2")} 
                   td
-                    | #{I18n.t("home.entries")}: #{@lemma_counts['is']['entry_count']} / #{@lemma_counts['is']['entry_pub_count']}
+                    | #{I18n.t("home.entries")}: #{@lemma_counts['is']['entry_count']}<br />
+                    | #{I18n.t("home.published")}: #{@lemma_counts['is']['entry_pub_count']}
                 tr
                   td 
                     a.btn class="btn-admin btn-sj" href="/sj/report" #{I18n.t("dict.sj")} 
                   td
                     a.btn class="btn--round btn-sj" href="https://edit.dictio.info/editorsj/?id=" #{I18n.t("admin.newentry2")} 
                   td
-                    | #{I18n.t("home.entries")}: #{@lemma_counts['sj']['entry_count']} / #{@lemma_counts['sj']['entry_pub_count']}
+                    | #{I18n.t("home.entries")}: #{@lemma_counts['sj']['entry_count']} <br />
+                    | #{I18n.t("home.published")}: #{@lemma_counts['sj']['entry_pub_count']}
                 tr
                   td
                     a.btn class="btn-admin btn-spj" href="/spj/report" #{I18n.t("dict.spj")}
                   td
                     a.btn class="btn--round btn-spj" href="https://edit.dictio.info/editorspj/?id=" #{I18n.t("admin.newentry2")} 
                   td
-                    | #{I18n.t("home.entries")}: #{@lemma_counts['czj']['entry_count']} / #{@lemma_counts['czj']['entry_pub_count']}
+                    | #{I18n.t("home.entries")}: #{@lemma_counts['spj']['entry_count']} <br />
+                    | #{I18n.t("home.published")}: #{@lemma_counts['spj']['entry_pub_count']}
                 tr
                   td 
                     a.btn class="btn-admin btn-de" href="/de/report" #{I18n.t("dict.de")} 
                   td
                     a.btn class="btn--round btn-de" href="https://edit.dictio.info/editorde/?id=" #{I18n.t("admin.newentry2")} 
                   td
-                    | #{I18n.t("home.entries")}: #{@lemma_counts['de']['entry_count']} / #{@lemma_counts['de']['entry_pub_count']}
+                    | #{I18n.t("home.entries")}: #{@lemma_counts['de']['entry_count']}<br />
+                    | #{I18n.t("home.published")}: #{@lemma_counts['de']['entry_pub_count']}
                 tr
                   td
                     a.btn class="btn-admin btn-ogs" href="/ogs/report" #{I18n.t("dict.ogs")}
                   td
                     a.btn class="btn--round btn-ogs" href="https://edit.dictio.info/editorogs/?id=" #{I18n.t("admin.newentry2")} 
                   td
-                    | #{I18n.t("home.entries")}: #{@lemma_counts['ogs']['entry_count']} / #{@lemma_counts['ogs']['entry_pub_count']}
+                    | #{I18n.t("home.entries")}: #{@lemma_counts['ogs']['entry_count']} <br />
+                    | #{I18n.t("home.published")}: #{@lemma_counts['ogs']['entry_pub_count']}
                 tr
                   td 
                     a.btn class="btn-admin btn-uk" href="/uk/report" #{I18n.t("dict.uk")} 
                   td
                     a.btn class="btn--round btn-uk" href="https://edit.dictio.info/editoruk/?id=" #{I18n.t("admin.newentry2")} 
                   td
-                    | #{I18n.t("home.entries")}: #{@lemma_counts['uk']['entry_count']} / #{@lemma_counts['uk']['entry_pub_count']}
+                    | #{I18n.t("home.entries")}: #{@lemma_counts['uk']['entry_count']}<br />
+                    | #{I18n.t("home.published")}: #{@lemma_counts['uk']['entry_pub_count']}
                 tr
                   td
                     a.btn class="btn-admin btn-uzm" href="/uzm/report" #{I18n.t("dict.uzm")}
                   td
                     a.btn class="btn--round btn-uzm" href="https://edit.dictio.info/editorogs/?id=" #{I18n.t("admin.newentry2")} 
                   td
-                    | #{I18n.t("home.entries")}: #{@lemma_counts['uzm']['entry_count']} / #{@lemma_counts['uzm']['entry_pub_count']}
+                    | #{I18n.t("home.entries")}: #{@lemma_counts['uzm']['entry_count']} <br />
+                    | #{I18n.t("home.published")}: #{@lemma_counts['uzm']['entry_pub_count']}
                             
