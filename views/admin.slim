@@ -24,7 +24,10 @@ main role="main"
                   td
                     a.btn class="btn--round btn-cs" href="https://edit.dictio.info/editorcs/?id=" #{I18n.t("admin.newentry2")} 
                   td
-                    | #{I18n.t("home.entries")}:                         
+                    | #{I18n.t("home.entries")}: 
+                  td                    
+                    - if @duplicate['duplicate'].select{|info| info['code'] == 'cs'}.size > 0
+                    div dup                         
                 tr
                   td 
                     a.btn class="btn-admin btn-czj" href="/czj/report" #{I18n.t("dict.czj")}
