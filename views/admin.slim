@@ -33,7 +33,8 @@ main role="main"
                     a.btn class="btn--round btn-czj" href="https://edit.dictio.info/editorczj/?id=" #{I18n.t("admin.newentry2")} 
                   td
                     | #{I18n.t("home.entries")}: #{@lemma_counts['czj']['entry_count']}<br />
-                    | #{I18n.t("home.published")}: #{@lemma_counts['czj']['entry_pub_count']}                tr
+                    | #{I18n.t("home.published")}: #{@lemma_counts['czj']['entry_pub_count']}                
+                tr
                   td 
                     a.btn class="btn-admin btn-en" href="/en/report" #{I18n.t("dict.en")} 
                   td
