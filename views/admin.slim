@@ -24,13 +24,14 @@ main role="main"
                   td
                     a.btn class="btn--round btn-cs" href="https://edit.dictio.info/editorcs/?id=" #{I18n.t("admin.newentry2")} 
                   td
-                    | #{I18n.t("home.entries")}:                         
+                    | #{I18n.t("home.entries")}: #{@lemma_counts['cs']['entry_count']} / #{@lemma_counts['cs']['entry_pub_count']}
                 tr
                   td 
                     a.btn class="btn-admin btn-czj" href="/czj/report" #{I18n.t("dict.czj")}
                   td
                     a.btn class="btn--round btn-czj" href="https://edit.dictio.info/editorczj/?id=" #{I18n.t("admin.newentry2")} 
                   td
+                    | #{I18n.t("home.entries")}: #{@lemma_counts['czj']['entry_count']} / #{@lemma_counts['czj']['entry_pub_count']}
                     ul
                       li                        
                         a href="/czj/report?schvcelni=ano&schvbocni=ano&vyznamvid=ne&translationcs=ne&pubtranscs=ne&komentbox=vazby&koment=ano" CZJ-EC01: #{I18n.t("admin.presets.trans")} #{I18n.t("admin.presets.nodef")}  

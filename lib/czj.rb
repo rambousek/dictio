@@ -3271,5 +3271,15 @@ class CZJDict < Object
     logfile.close
   end
 
+  def get_admin_counts
+    res = {}
+    $dict_info.each{|code,hash| 
+      res[code] = {}
+      res[code]['entry_count'] = @entrydb.find({'dict': code}).count_documents
+      res[code]['entry_pub_count'] = @entrydb.find({'dict': code, 'lemma.status': 'published'}).count_documents
+    }
+    return res
+  end
+
 end
 
