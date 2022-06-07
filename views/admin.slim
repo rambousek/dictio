@@ -24,9 +24,9 @@ main role="main"
                   th
                     | #{I18n.t("home.entries")}
                   th   
-                    | #{I18n.t("home.published")}
+                    | / #{I18n.t("home.published")}
                   th
-                    | #{I18n.t("home.dup")}
+                    | #{I18n.t("admin.dup")}
                 tr
                   td 
                     a.btn class="btn-admin btn-cs" href="/cs/report" #{I18n.t("dict.cs")} 
@@ -35,7 +35,7 @@ main role="main"
                   td
                     | #{@lemma_counts['cs']['entry_count']} 
                   td
-                    | #{@lemma_counts['cs']['entry_pub_count']}
+                    | / #{@lemma_counts['cs']['entry_pub_count']}
                 tr
                   td 
                     a.btn class="btn-admin btn-czj" href="/czj/report" #{I18n.t("dict.czj")}
@@ -44,7 +44,7 @@ main role="main"
                   td
                     | #{@lemma_counts['czj']['entry_count']}
                   td
-                    | #{@lemma_counts['czj']['entry_pub_count']}                
+                    | / #{@lemma_counts['czj']['entry_pub_count']}                
                 tr
                   td 
                     a.btn class="btn-admin btn-en" href="/en/report" #{I18n.t("dict.en")} 
@@ -53,7 +53,7 @@ main role="main"
                   td
                     | #{@lemma_counts['en']['entry_count']} 
                   td
-                    | #{@lemma_counts['en']['entry_pub_count']}
+                    | / #{@lemma_counts['en']['entry_pub_count']}
                 tr
                   td
                     a.btn class="btn-admin btn-asl" href="/asl/report" #{I18n.t("dict.asl")}
@@ -62,7 +62,7 @@ main role="main"
                   td
                     | #{@lemma_counts['asl']['entry_count']} 
                   td
-                    | #{@lemma_counts['asl']['entry_pub_count']}
+                    | / #{@lemma_counts['asl']['entry_pub_count']}
                 tr
                   td
                     a.btn class="btn-admin btn-is" href="/is/report" #{I18n.t("dict.is")}
@@ -71,7 +71,7 @@ main role="main"
                   td
                     | #{@lemma_counts['is']['entry_count']}
                   td
-                    | #{@lemma_counts['is']['entry_pub_count']}
+                    | / #{@lemma_counts['is']['entry_pub_count']}
                 tr
                   td 
                     a.btn class="btn-admin btn-sj" href="/sj/report" #{I18n.t("dict.sj")} 
@@ -80,7 +80,7 @@ main role="main"
                   td
                     | #{@lemma_counts['sj']['entry_count']} 
                   td
-                    | #{@lemma_counts['sj']['entry_pub_count']}
+                    | / #{@lemma_counts['sj']['entry_pub_count']}
                 tr
                   td
                     a.btn class="btn-admin btn-spj" href="/spj/report" #{I18n.t("dict.spj")}
@@ -89,7 +89,7 @@ main role="main"
                   td
                     | #{@lemma_counts['spj']['entry_count']} 
                   td
-                    | #{@lemma_counts['spj']['entry_pub_count']}
+                    | / #{@lemma_counts['spj']['entry_pub_count']}
                 tr
                   td 
                     a.btn class="btn-admin btn-de" href="/de/report" #{I18n.t("dict.de")} 
@@ -98,7 +98,7 @@ main role="main"
                   td
                     | #{@lemma_counts['de']['entry_count']}
                   td
-                    | #{@lemma_counts['de']['entry_pub_count']}
+                    | / #{@lemma_counts['de']['entry_pub_count']}
                 tr
                   td
                     a.btn class="btn-admin btn-ogs" href="/ogs/report" #{I18n.t("dict.ogs")}
@@ -107,7 +107,7 @@ main role="main"
                   td
                     | #{@lemma_counts['ogs']['entry_count']} 
                   td
-                    | #{@lemma_counts['ogs']['entry_pub_count']}
+                    | / #{@lemma_counts['ogs']['entry_pub_count']}
                 tr
                   td 
                     a.btn class="btn-admin btn-uk" href="/uk/report" #{I18n.t("dict.uk")} 
@@ -116,7 +116,7 @@ main role="main"
                   td
                     | #{@lemma_counts['uk']['entry_count']}
                   td
-                    | #{@lemma_counts['uk']['entry_pub_count']}
+                    | / #{@lemma_counts['uk']['entry_pub_count']}
                 tr
                   td
                     a.btn class="btn-admin btn-uzm" href="/uzm/report" #{I18n.t("dict.uzm")}
@@ -125,5 +125,5 @@ main role="main"
                   td
                     | #{@lemma_counts['uzm']['entry_count']} 
                   td
-                    | #{@lemma_counts['uzm']['entry_pub_count']}
+                    | / #{@lemma_counts['uzm']['entry_pub_count']}
                             
