@@ -36,6 +36,8 @@ main role="main"
                     | #{@lemma_counts['cs']['entry_count']} 
                   td
                     | / #{@lemma_counts['cs']['entry_pub_count']}
+                  td
+                    | (#{@duplicate['duplicate'].select{|info| info['code'] == 'cs'}[0]['count']})
                 tr
                   td 
                     a.btn class="btn-admin btn-czj" href="/czj/report" #{I18n.t("dict.czj")}
