@@ -187,6 +187,7 @@ class CzjApp < Sinatra::Base
     @request = request
     @selected_page = 'admin'
     @lemma_counts = dict_array['czj'].get_admin_counts
+    @duplicate = dict_array['czj'].get_duplicate_counts
     page = 'admin'
     slim page.to_sym
   end
