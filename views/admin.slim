@@ -39,5 +39,5 @@ main role="main"
                       | / #{@lemma_counts[code]['entry_pub_count']}
                     td
                       - if @duplicate['duplicate'].select{|info| info['code'] == code}[0] != nil
-                        | (#{@duplicate['duplicate'].select{|info| info['code'] == code}[0]['count']})
-                        a href="https://admin.dictio.info/#{@dictcode}/duplicate" #{I18n.t("admin.show")} 
+                        | (#{@duplicate['duplicate'].select{|info| info['code'] == code}[0]['count']}) 
+                        a href="https://admin.dictio.info/#{code}/duplicate" #{I18n.t("admin.show")} 
