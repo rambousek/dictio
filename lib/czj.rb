@@ -1822,7 +1822,7 @@ class CZJDict < Object
       var = (name[/([0-9])$/,1].to_i+64).chr
       name = name[0..-2]
     end
-    var = name.gsub(/.*[a-z0-9]([A-Z])[A-Z]+[0-9]+([0-9])$/,'\1\2') if var == ''
+    var = name.gsub(/.*[a-z0-9\p{Cyrillic}]([A-Z])[A-Z]+[0-9]+([0-9])$/,'\1\2') if var == ''
     var = 'A' if var == ''
     name.gsub!(/[A-Z]+[0-9]+$/,'')
     name.gsub!(/([a-z])([A-Z])/, '\1-\2')
