@@ -1115,7 +1115,7 @@ class CZJDict < Object
     if data['lemma']['sw']
       $stdout.puts "update sw"
       data['lemma']['sw'].each{|sw|
-        sw['@fsw'] = get_fsw(sw['_text']) if sw['@fsw'] == ''
+        sw['@fsw'] = getfsw(sw['_text']) if sw['@fsw'] == '' or sw['@fsw'].start_with?('M500')
       }
     end
 
@@ -1313,34 +1313,6 @@ class CZJDict < Object
     }
   end
 
-  def get_fsw(swstring)
-    fsw = 'M500x500'
-    swa = []
-    swstring.split('_').each{|e|
-      match = /([0-9]*)(\(.*\))?/.match(e)
-      unless match[1].nil?
-        info = {'id'=>match[1], 'x'=>0, 'y'=>0}
-        unless match[2].nil?
-          if match[2].include?('x') and match[2].include?('y')
-            match2 = /\(x([\-0-9]*)y([\-0-9]*)\)/.match(match[2])
-            info['x'] = match2[1].to_i
-            info['y'] = match2[2].to_i
-          elsif match[2].include?('x')
-            info['x'] = match[2].gsub(/[^0-9^-]/,'').to_i
-          else
-            info['y'] = match[2].gsub(/[^0-9^-]/,'').to_i
-          end
-        end
-        swa << info
-      end
-    }
-    swa.each{|info|
-      doc = $mongo['symbol'].find({'id': info['id']}).first
-      fsw += 'S' + doc['bs_code'].to_i.to_s(16) + (doc['fill'].to_i-1).to_s(16) + (doc['rot'].to_i-1).to_s(16) + (info['x']+500).to_s + 'x' + (info['y']+500).to_s
-    }
-    return fsw
-  end
-
   def comment_add(user, entry, box, text)
     if @sign_dicts.include?(@dictcode) and box.start_with?('vyznam') and not box.include?('vazby')
       entrydata = getone(@dictcode, entry)
@@ -1461,11 +1433,12 @@ class CZJDict < Object
       doc = $mongo['symbol'].find({'id'=>info['id']}).first
       fsw += 'S' + doc['bs_code'].to_i.to_s(16) + (doc['fill'].to_i-1).to_s(16) + (doc['rot'].to_i-1).to_s(16) + (info['x']+500).to_s + 'x' + (info['y']+500).to_s
     }
+    fsw = URI.open('http://sign.dictio.info/fsw/sign/normalize/'+fsw, &:read)
     return fsw
   end
 
   def fromfsw(fswstring)
-        swa = []
+    swa = []
     maxx = 0
     maxy = 0
     match = /M([0-9]*)x([0-9]*)(S.*)/.match(fswstring)
@@ -3281,5 +3254,32 @@ class CZJDict < Object
     return res
   end
 
+  def normalize_fsw
+    count = 0
+    @entrydb.find({
+      'dict': @dictcode,
+      'lemma.sw': {'$elemMatch':{
+        '_text': {'$exists':true, '$ne':''},
+        '$or': [{'@fsw':''}, {'@fsw':{'$regex':/^M500/}}]
+      }}
+    }).each{|entry|
+      entry['lemma']['sw'].each{|sw|
+        if sw['_text'].to_s != '' and (sw['@fsw'].to_s == '' or sw['@fsw'].start_with?('M500'))
+          fsw = getfsw(sw['_text'])
+          sw['@fsw'] = fsw
+          count += 1
+        end
+      }
+      # update entry
+      @entrydb.find({'dict': @dictcode, 'id': entry['id']}).delete_many
+      @entrydb.insert_one(entry)
+      # clear SW cache
+      $mongo['sw'].find({'dict': @dictcode, 'entries_used': entry['id']}).delete_many
+    }
+
+    # update SW cache
+    cache_all_sw(false)
+    return count
+  end
 end
 
