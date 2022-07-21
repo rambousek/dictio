@@ -367,7 +367,6 @@ main role="main"
           h2 onclick="showhide('presets')" style="cursor: pointer"
             | #{I18n.t("admin.presets.title")} >>
           div id="presets" style="display: none"
-          - if #{@dictcode} == 'czj'
             a.btn class="btn-secondary report-" href="/czj/report?schvcelni=ano&schvbocni=ano&vyznamvid=ne&translationcs=ne&pubtranscs=ne&komentbox=vazby&koment=ano" CZJ-EC01: #{I18n.t("admin.presets.trans")} #{I18n.t("admin.presets.nodef")} 
             a.btn class="btn-secondary report-" href="/czj/report?schvcelni=ano&schvbocni=ano&vyznamvid=ne&translationcs=ano&pubtranscs=ne&komentbox=vazby&koment=ano" CZJ-EC02: #{I18n.t("admin.presets.revtrans")} #{I18n.t("admin.presets.nodef")}
             a.btn class="btn-secondary report-" href="/czj/report?schvcelni=ano&schvbocni=ano&vyznamvid=ano&vyznam=ne" CZJ-D1: #{I18n.t("admin.presets.revdef")}
