@@ -369,7 +369,7 @@ class CZJDict < Object
     if not main_only
       if entry['meanings']
         entry['meanings'].each{|mean|
-          entry['media'][mean['text']['file']['@media_id'].to_s] = get_media(mean['text']['file']['@media_id'].to_s, entry['dict']) if mean['text'] and mean['text']['file'] and mean['text']['file'].is_a?(Hash)
+          entry['media'][mean['text']['file']['@media_id'].to_s] = get_media(mean['text']['file']['@media_id'].to_s, entry['dict']) if mean['text'] and mean['text'].is_a?(Hash) and mean['text']['file'] and mean['text']['file'].is_a?(Hash)
           if mean['usages']
             mean['usages'].each{|usg|
               if usg['text'] and usg['text']['file'] 
