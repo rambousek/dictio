@@ -51,7 +51,7 @@ class CZJDict < Object
       entrydata = getone(dict, id)
       if entrydata and entrydata['meanings']
         entrydata['meanings'].select{|m| m['id'] == type[6..-1]}.each{|m|
-          if m['text'] and m['text']['file'] and m['text']['file']['@media_id']
+          if m['text'] and m['text'].is_a?(Hash) and m['text']['file'] and m['text']['file']['@media_id']
             video = get_media(m['text']['file']['@media_id'], dict, false)
             if video
               type = 'video' + video['location']
@@ -1346,7 +1346,7 @@ class CZJDict < Object
       entrydata = getone(@dictcode, entry)
       if entrydata and entrydata['meanings']
         entrydata['meanings'].select{|m| m['id'] == box[6..-1]}.each{|m|
-          if m['text'] and m['text']['file'] and m['text']['file']['@media_id']
+          if m['text'] and m['text'].is_a?(Hash) and m['text']['file'] and m['text']['file']['@media_id']
             video = get_media(m['text']['file']['@media_id'], @dictcode, false)
             if video
               box = 'video' + video['location']
@@ -1388,7 +1388,7 @@ class CZJDict < Object
               files << us['text']['file']['@media_id'] if us['text'] and us['text']['file'] and us['text']['file'].is_a?(Hash) and us['text']['file']['@media_id']
             }
           end
-          files << me['text']['file']['@media_id'] if me['text'] and me['text']['file'] and me['text']['file']['@media_id']
+          files << me['text']['file']['@media_id'] if me['text'] and me['text'].is_a?(Hash) and me['text']['file'] and me['text']['file']['@media_id']
         }
       end
       if entry['lemma']['grammar_note'] and entry['lemma']['grammar_note'][0] and entry['lemma']['grammar_note'][0]['variant']
@@ -1583,7 +1583,7 @@ class CZJDict < Object
             hash2 = hash.clone
             hash2['number'] = mean['number'].to_s
             hash2['id'] = mean['id'].to_s
-            if mean['text'] and mean['text']['file'] and mean['text']['file']['@media_id']
+            if mean['text'] and mean['text'].is_a?(Hash) and mean['text']['file'] and mean['text']['file']['@media_id']
               hash2['def'] = mean['text']['file']['@media_id'].to_s
               hash2['loc'] = get_media(mean['text']['file']['@media_id'].to_s, target)['location']
             end
