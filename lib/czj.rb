@@ -477,7 +477,7 @@ class CZJDict < Object
           end
         }
       end
-      if mean['text'] and mean['text']['_text']
+      if mean['text'] and mean['text'].is_a?(Hash) and mean['text']['_text']
         mean['text']['_text'].scan(/\[([0-9]+)(-[0-9]+)?\]/).each{|mrel|
           relid = mrel[0]
           mean['def_relations'] = {} if mean['def_relations'].nil?
