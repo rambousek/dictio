@@ -217,7 +217,7 @@
             /  p 
             /    | Semantic region: 
             /    a href="#" Human body
-            - if meaning["text"] and meaning["text"]["file"]
+            - if meaning["text"] and meaning['text'].is_a?(Hash) and meaning["text"]["file"]
               .video.video--shrink
                 .video__content
                   video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@show_dictcode}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}"
