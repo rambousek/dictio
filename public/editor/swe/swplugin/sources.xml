@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <sources>
-  <source id="glyphogram">/sw/signwriting.png?generator[sw]=%(sw)&amp;generator[set]=sw10</source>
+  <source id="glyphogram">/img/sweditor/%(sw).png</source>
   <source id="symbolDefinition">/swapi/symbol_definition/%(id).json?callback=?</source>
   <source id="symbolSet">/swapi/symbol_table/sg.%(sg).bs.%(bs).json?callback=?</source>
   <source id="searcher"></source>
