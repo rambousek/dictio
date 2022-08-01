@@ -2631,6 +2631,9 @@ function create_text_video(idstart, entryid, label, show_copy, video_type) {
   } else {
     var copybutton = null;
   }
+  var x_video_type = 'sign_front';
+  if (video_type == 'D') x_video_type = 'sign_definition';
+  if (video_type == 'K') x_video_type = 'sign_usage_example';
   var text = Ext.create('Ext.container.Container', {
         layout: {
           type: 'hbox'
@@ -2699,9 +2702,17 @@ function create_text_video(idstart, entryid, label, show_copy, video_type) {
             },
           },
           listConfig: {
-            getInnerTpl: function() {
-            return '<div cursor: hand;"><video width="120px" poster="https://www.dictio.info/thumb/video'+dictcode+'/{location}" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video'+dictcode+'/{location}"></source></video>{location}</div>';
-            }
+            tpl: new Ext.XTemplate(
+              '<ul class="x-list-plain">',
+              '<tpl for=".">',
+              '<tpl if="type == \''+x_video_type+'\'">',
+              '<li role="option" unselectable="on" class="x-boundlist-item">',
+              '<div cursor: hand;"><video width="120px" poster="https://www.dictio.info/thumb/video'+dictcode+'/{location}" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video'+dictcode+'/{location}"></source></video>{location}</div>',
+              '</li>',
+              '</tpl>',
+              '</tpl>',
+              '</ul>'
+            )
           }
         }]
   });
