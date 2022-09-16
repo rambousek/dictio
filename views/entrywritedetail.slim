@@ -320,5 +320,5 @@
 - if @entry['revcollocation'] and @entry['revcollocation']['count'].to_i > 0
   .detail__block.detail__block--line
     div.detail-block
-      h3.headline.detail-block__headline.revcolloc-headline data-url="/#{@dictcode}/revcolloc/#{@entry['id']}" == I18n.t("entry.collocation_with_this")
+      h3.headline.detail-block__headline.revcolloc-headline data-url="/#{@entry['dict']}/revcolloc/#{@entry['id']}" == I18n.t("entry.collocation_with_this")
       div.dropdown id="revcolloc"
