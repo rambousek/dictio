@@ -76,7 +76,7 @@ cs:
     notfound: ":(  Nic takového se nám bohužel nepodařilo najít.. "
     try_search: "Heslo s tímto ID neobsahuje žádné ekvivalenty v cílovém jazyce. "
     link: "Zobrazit heslo v jednojazyčném slovníku."
-    translate_view: "Zobrazit cizojazyčné ekvivalenty"
+    translate_view: "Zobrazit ekvivalenty v jiných jazycích"
   entry:
     frontview: "Čelní pohled"
     sideview: "Boční pohled"
@@ -101,7 +101,7 @@ cs:
     derivat_with_this: "deriváty od tohoto hesla"
     kompozitum_with_this: "kompozita s tímto heslem"
     full_details: "Podrobnosti"
-    translations: "Cizojazyčné ekvivalenty"
+    translations: "v jiných jazycích"
     meaning_small: "význam"
     composed_from: "skládá se z"
     more_example: "více příkladů"
