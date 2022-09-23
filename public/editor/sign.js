@@ -1205,12 +1205,17 @@ function reload_rel(search, field, target) {
     method: 'get',
     success: function(response) {
       /* fill media info */
+      relationlist.loadData([], false);
       var data = JSON.parse(response.responseText);
       Ext.suspendLayouts();
       var html = '';
       for (i = 0; i < data.length; i++) {
         if (data[i] != undefined && data[i].id && !(data[i].id.startsWith(entryid+'-'))) {
-          relationlist.add({id: data[i].id, title: data[i].title, number: data[i].number, def: data[i].def, loc: data[i].loc, target: target, front: data[i].front});
+          try {
+            relationlist.add({id: data[i].id, title: data[i].title, number: data[i].number, def: data[i].def, loc: data[i].loc, target: target, front: data[i].front});
+          } catch(er) {
+            console.log(er);
+          }
         }
       }
       Ext.resumeLayouts(true);
@@ -2798,6 +2803,7 @@ function load_link_relations(target, combo, name, parentid, set_rel) {
           trset_ar.push(reltype+rellink+reltar);
         }
       }
+      console.log(trset_ar)
       var linkrels = JSON.parse(response.responseText);
       Ext.each(linkrels, function(relitem) {
         //eg. synonym in other dictionary is translation for this dictionary
