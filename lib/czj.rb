@@ -537,30 +537,32 @@ class CZJDict < Object
         search_obe_ruzne << {
           swelement=>{
             '$elemMatch'=>{
-              '$or'=>[
-                {
-                  '$and'=>[
-                    {'@fsw'=>{'$regex'=>e+'[0-5][0-7]'}},
-                    {'@fsw'=>{'$not'=>{'$regex'=>e+'[0-5][89a-f]'}}},
-                    {'$or'=>[
-                      {'@fsw'=>{'$regex'=>'S1[0-9a-f][0-9a-f][0-5][89a-f]'}},
-                      {'@fsw'=>{'$regex'=>'S20[0-4][0-5][89a-f]'}},
+              '$and'=>[{
+                '$or'=>[
+                  {
+                    '$and'=>[
+                      {'@fsw'=>{'$regex'=>e+'[0-5][0-7]'}},
+                      {'@fsw'=>{'$not'=>{'$regex'=>e+'[0-5][89a-f]'}}},
+                      {'$or'=>[
+                        {'@fsw'=>{'$regex'=>'S1[0-9a-f][0-9a-f][0-5][89a-f]'}},
+                        {'@fsw'=>{'$regex'=>'S20[0-4][0-5][89a-f]'}},
+                      ]
+                      }
                     ]
-                    }
-                  ]
-                },
-                {
-                  '$and'=>[
-                    {'@fsw'=>{'$regex'=>e+'[0-5][89a-f]'}},
-                    {'@fsw'=>{'$not'=>{'$regex'=>e+'[0-5][0-7]'}}},
-                    {'$or'=>[
-                      {'@fsw'=>{'$regex'=>'S1[0-9a-f][0-9a-f][0-5][0-7]'}},
-                      {'@fsw'=>{'$regex'=>'S20[0-4][0-5][0-7]'}},
+                  },
+                  {
+                    '$and'=>[
+                      {'@fsw'=>{'$regex'=>e+'[0-5][89a-f]'}},
+                      {'@fsw'=>{'$not'=>{'$regex'=>e+'[0-5][0-7]'}}},
+                      {'$or'=>[
+                        {'@fsw'=>{'$regex'=>'S1[0-9a-f][0-9a-f][0-5][0-7]'}},
+                        {'@fsw'=>{'$regex'=>'S20[0-4][0-5][0-7]'}},
+                      ]
+                      }
                     ]
-                    }
-                  ]
-                },
-              ]
+                  },
+                ]
+              }]
             }
           }
         }
@@ -568,27 +570,32 @@ class CZJDict < Object
 
       if search_ar[1].to_s != ''
         #pridame umisteni
-        search_loc = search_ar[1].split(',')
+        search_loc = []
+        search_ar[1].split(',').each{|l|
+          search_loc << {'@misto'=>{'$regex'=>/(^|;)#{l}/}}
+        }
+        search_loc = {'$or'=>search_loc}
+        $stderr.puts search_loc
         search_jedno.map!{|e| 
-          e[swelement]['$elemMatch']['@misto'] = {'$in'=>search_loc}
+          e[swelement]['$elemMatch']['$and'] << search_loc
           e
         }
         search_obe_stejne.map!{|e| 
-          e[swelement]['$elemMatch']['@misto'] = {'$in'=>search_loc}
+          e[swelement]['$elemMatch']['$and'] << search_loc
           e
         }
         search_obe_ruzne.map!{|e| 
-          e[swelement]['$elemMatch']['@misto'] = {'$in'=>search_loc}
+          e[swelement]['$elemMatch']['$and'] << search_loc
           e
         }
         if search_jedno.length == 0
-          search_jedno << {swelement=>{'$elemMatch'=>{'@misto'=>{'$in'=>search_loc}}}}
+          search_jedno << {swelement=>{'$elemMatch'=>search_loc}}
         end
         if search_obe_ruzne.length == 0
-          search_obe_ruzne << {swelement=>{'$elemMatch'=>{'@misto'=>{'$in'=>search_loc}}}}
+          search_obe_ruzne << {swelement=>{'$elemMatch'=>search_loc}}
         end
         if search_obe_stejne.length == 0
-          search_obe_stejne << {swelement=>{'$elemMatch'=>{'@misto'=>{'$in'=>search_loc}}}}
+          search_obe_stejne << {swelement=>{'$elemMatch'=>search_loc}}
         end
       end
 
@@ -627,6 +634,7 @@ class CZJDict < Object
       else 
         search_query = search_jedno
       end
+      $stderr.puts search_query
       return search_query
   end
 
