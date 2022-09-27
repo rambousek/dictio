@@ -44,7 +44,7 @@ en:
   home:
     title: "Multilingual dictionary focused on sign languages"
     info: "Search for translations in several languages and explore various meanings of words and signs. There is more information than you expect."
-    translations: "Translations"
+    translations: "in different languages:"
     entries: "Entries"
     published: "Published in the dictionary"
     lastsearch: "Last searched"
@@ -101,7 +101,7 @@ en:
     derivat_with_this: "Derivates from this lemma"
     kompozitum_with_this: "Composed with this lemma"
     full_details: "Full details"
-    translations: "Translations"
+    translations: "in different languages:"
     meaning_small: "meaning"
     composed_from: "composed from entries"
     more_example: "more examples"
