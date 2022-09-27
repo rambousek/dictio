@@ -44,7 +44,7 @@ en:
   home:
     title: "Multilingual dictionary focused on sign languages"
     info: "Search for translations in several languages and explore various meanings of words and signs. There is more information than you expect."
-    translations: "in different languages:"
+    translations: "Translations"
     entries: "Entries"
     published: "Published in the dictionary"
     lastsearch: "Last searched"
