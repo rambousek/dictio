@@ -10,6 +10,7 @@ require 'i18n/backend/fallbacks'
 require 'net/scp'
 require 'resolv'
 require 'sinatra/cookies'
+require 'maxmind/geoip2'
 
 require_relative 'lib/czj'
 require_relative 'lib/host-config'
@@ -17,6 +18,9 @@ require_relative 'lib/dict-config'
 
 class CzjApp < Sinatra::Base
   $mongo = Mongo::Client.new([$mongoHost], :database => 'dictio')
+  $georeader = MaxMind::GeoIP2::Reader.new(
+    database: '/usr/share/GeoIP/GeoLite2-Country.mmdb'
+  )
   
   configure do
     set :bind, '0.0.0.0'
@@ -85,17 +89,22 @@ class CzjApp < Sinatra::Base
       if @user_info and @user_info['default_lang'].to_s != '' and @user_info['default_dict'].to_s != ''
         return @user_info['default_lang'].to_s, @user_info['default_dict'].to_s, $dict_info[@user_info['default_dict'].to_s]['target']
       else
-        hostname = get_hostname(request.get_header('HTTP_X_FORWARDED_FOR'))
-        case
-        when hostname.end_with?('.cz'), hostname =~ /^[0-9\.]*$/
+        begin
+          georecord = $georeader.country(request.get_header('HTTP_X_FORWARDED_FOR').split(',')[0])
+          country = georecord.country.iso_code
+        rescue
+          country = 'EN'
+        end
+        case country
+        when 'CZ'
           default_locale = 'cs'
           default_dict = 'cs'
           default_target = 'czj'
-        when hostname.end_with?('.sk')
+        when 'SK'
           default_locale = 'sk'
           default_dict = 'sj'
           default_target = 'spj'
-        when hostname.end_with?('.at'), hostname.end_with?('.de')
+        when 'DE','AT'
           default_locale = 'de'
           default_dict = 'de'
           default_target = 'ogs'
@@ -120,7 +129,6 @@ class CzjApp < Sinatra::Base
       session[:locale] = params['lang']
     end
     @selectlang = session[:locale]
-    #@hostname = get_hostname(request.get_header('HTTP_X_FORWARDED_FOR'))
     default_locale, @default_dict, @default_target = lang_defaults
     @selectlang = default_locale if @selectlang.nil?
     I18n.locale = @selectlang
