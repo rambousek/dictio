@@ -108,6 +108,10 @@ class CzjApp < Sinatra::Base
           default_locale = 'de'
           default_dict = 'de'
           default_target = 'ogs'
+        when 'US'
+          default_locale = 'en'
+          default_dict = 'en'
+          default_target = 'asl'
         else
           default_locale = 'en'
           default_dict = 'en'
