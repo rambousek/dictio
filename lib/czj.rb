@@ -1953,13 +1953,15 @@ class CZJDict < Object
       if pubtrans == 'ano'
         trans_cond = {'$or': [
           {'meanings.relation': {'$elemMatch': {'type': 'translation', 'target': target, 'status': 'published'}}},
-          {'meanings.usages.relation': {'$elemMatch': {'type': 'translation', 'target': target, 'status': 'published'}}}
+          #{'meanings.usages.relation': {'$elemMatch': {'type': 'translation', 'target': target, 'status': 'published'}}}
+          {'meanings.usages': {'$elemMatch': {'status':'published', 'relation': {'$elemMatch': {'type': 'translation', 'target': target}}}}}
         ]}
       else
         trans_cond = {'meanings': {'$elemMatch': {'is_translation_unknown': {'$ne': '1'}, '$or': [
           {'meanings.relation': {'$not': {'$elemMatch': {'type': 'translation', 'target': target}}}},
           {'meanings.relation': {'$elemMatch': {'type': 'translation', 'target': target, 'status': 'hidden'}}},
-          {'meanings.usages.relation': {'$elemMatch': {'type': 'translation', 'target': target, 'status': 'hidden'}}}
+          #{'meanings.usages.relation': {'$elemMatch': {'type': 'translation', 'target': target, 'status': 'hidden'}}}
+          {'meanings.usages': {'$elemMatch': {'status':'hidden', 'relation': {'$elemMatch': {'type': 'translation', 'target': target}}}}}
         ]}}}
       end
     end
@@ -1984,7 +1986,8 @@ class CZJDict < Object
     if pubtrans == 'ne' and trans == 'ano'
       trans_cond = {'meanings': {'$elemMatch': {'$or': [
         {'relation': {'$elemMatch': {'status': {'$ne': 'published'}, 'target': target, 'type': 'translation', 'meaning_id': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}},
-        {'usages.relation': {'$elemMatch': {'status': {'$ne': 'published'}, 'target': target, 'type': 'translation', 'meaning_id': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}
+        #{'usages.relation': {'$elemMatch': {'status': {'$ne': 'published'}, 'target': target, 'type': 'translation', 'meaning_id': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}
+        {'usages': {'$elemMatch':{'status': {'$ne': 'published'}, 'relation.0':{'$exists':true}, 'relation': {'$elemMatch': {'target': target, 'type': 'translation', 'meaning_id': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}}}
       ]}}}
     end
 
@@ -1992,7 +1995,8 @@ class CZJDict < Object
     if pubtrans == 'ne' and trans == 'ne'
       trans_cond = {'meanings': {'$elemMatch': {'$or': [
         {'relation': {'$elemMatch': {'status': {'$ne': 'published'}, 'target': target, 'type': 'translation', 'meaning_id': {'$not': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}},
-        {'usages.relation': {'$elemMatch': {'status': {'$ne': 'published'}, 'target': target, 'type': 'translation', 'meaning_id': {'$not': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}},
+        #{'usages.relation': {'$elemMatch': {'status': {'$ne': 'published'}, 'target': target, 'type': 'translation', 'meaning_id': {'$not': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}},
+        {'usages': {'$elemMatch': {'status': {'$ne': 'published'}, 'relation': {'$elemMatch': {'target': target, 'type': 'translation', 'meaning_id': {'$not': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}}}},
         {'$and': [
           {'relation': {'$not': {'$elemMatch': {'type': 'translation', 'target': target}}}},
           {'usages.relation': {'$not': {'$elemMatch': {'type': 'translation', 'target': target}}}}
@@ -2004,7 +2008,8 @@ class CZJDict < Object
     if pubtrans == 'ano' and trans == 'ano'
       trans_cond = {'meanings': {'$elemMatch': {'$or': [
         {'relation': {'$elemMatch': {'status': 'published', 'target': target, 'type': 'translation', 'meaning_id': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}},
-        {'usages.relation': {'$elemMatch': {'status': 'published', 'target': target, 'type': 'translation', 'meaning_id': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}
+        #{'usages.relation': {'$elemMatch': {'status': 'published', 'target': target, 'type': 'translation', 'meaning_id': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}
+        {'usages': {'$elemMatch': {'status': 'published', 'relation': {'$elemMatch': {'target': target, 'type': 'translation', 'meaning_id': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}}}
       ]}}}
     end
 
@@ -2012,7 +2017,8 @@ class CZJDict < Object
     if pubtrans == 'ano' and trans == 'ne'
       trans_cond = {'meanings': {'$elemMatch': {'$or': [
         {'relation': {'$elemMatch': {'status': 'published', 'target': target, 'type': 'translation', 'meaning_id': {'$not': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}},
-        {'usages.relation': {'$elemMatch': {'status': 'published', 'target': target, 'type': 'translation', 'meaning_id': {'$not': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}}
+        #{'usages.relation': {'$elemMatch': {'status': 'published', 'target': target, 'type': 'translation', 'meaning_id': {'$not': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}}
+        {'usages': {'$elemMatch': {'status': 'published', 'relation': {'$elemMatch': {'target': target, 'type': 'translation', 'meaning_id': {'$not': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}}}}
       ]}}}
     end
 
