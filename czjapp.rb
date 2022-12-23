@@ -433,7 +433,7 @@ class CzjApp < Sinatra::Base
 
 
     if $is_edit
-      set (:dict_allowed) {|value| condition { @user_info['admin'] or (@user_info['editor'] != [] and @user_info['editor'] != ['komparator'] and (@user_info['dict_allowed'].nil? or @user_info['dict_allowed'] == [] or @user_info['dict_allowed'].include?(value))) } }
+      set (:dict_allowed) {|value| condition { @user_info['admin'] or ((@user_info['revizor'] != [] or (@user_info['editor'] != [] and @user_info['editor'] != ['komparator'])) and (@user_info['dict_allowed'].nil? or @user_info['dict_allowed'] == [] or @user_info['dict_allowed'].include?(value))) } }
 
       get '/'+code+'/newentry' do
         newid = dict.get_new_id
