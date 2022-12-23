@@ -33,12 +33,16 @@
           | #{I18n.t("entry.lexical")}: 
         span
           - slovni_druhy = []
-          - @entry['lemma']['grammar_note'].each{|gr| slovni_druhy << gr['@slovni_druh']}
-          - slovni_druhy.uniq.each do |sd|
-            - if sd.to_s != ''
-              = I18n.t("gram.slovni_druh."+sd)
-              - unless sd.equal?(slovni_druhy.uniq.last)
-                | , 
+          - @entry['lemma']['grammar_note'].each{|gr| 
+          -  sd = I18n.t('gram.slovni_druh.' + gr['@slovni_druh'])
+          -  if gr['@skupina'].to_s != '' or gr['@skupina2'].to_s != ''
+            - gramdet = []
+            - gr['@skupina'].to_s. split(';').each{|sk| gramdet << I18n.t('gram.detail.' + gr['@slovni_druh'] + '_' + sk)}
+            - gr['@skupina2'].to_s. split(';').each{|sk| gramdet << I18n.t('gram.detail.' + gr['@slovni_druh'] + '_' + sk)}
+            - sd += ' (' + gramdet.join(', ') + ')'
+          -  slovni_druhy << sd
+          - }
+          = slovni_druhy.uniq.join(', ')
   - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gram| gram['variant'] and gram['variant'].size > 0}
     h2.detail-category 
       | #{I18n.t("entry.grammar_variant")}: 
