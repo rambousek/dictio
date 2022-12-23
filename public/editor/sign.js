@@ -2692,9 +2692,27 @@ function create_text_video(idstart, entryid, label, show_copy, video_type) {
                   reload_files(eid, field.getValue(), false, false, video_type)
                 }
                 if (field.getValue() == null || field.getValue().length == 0) {
-                  reload_files(eid, '', false, false, '')
+                  reload_files(eid, '', false, false, video_type)
                 }
               }
+            },
+            'expand': function(field, e) {
+              console.log('*updatelist expand*')
+                if (entryid == undefined) {
+                  var eid = g_entryid;
+                } else {
+                  var eid = entryid;
+                }
+                console.log('eid'+eid);
+                console.log(field);
+                console.log(field.getRawValue() + ' - ' +field.getValue());
+              console.log(video_type)
+                if (field.getValue() != null && field.getValue().length > 2) {
+                  reload_files(eid, field.getValue(), false, false, video_type)
+                }
+                if (field.getValue() == null || field.getValue().length == 0) {
+                  reload_files(eid, '', false, false, video_type)
+                }
             },
             'keyup': function(field, e) {
               //clearTimeout(typingTimer);

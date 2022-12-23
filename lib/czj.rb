@@ -1351,7 +1351,7 @@ class CZJDict < Object
     $mongo['koment'].find({'_id' => BSON::ObjectId.from_string(cid)}).delete_many
   end
 
-  def get_entry_files(entry_id)
+  def get_entry_files(entry_id, type='')
     list = []
     entry = getone(@dictcode, entry_id)
 
@@ -1391,7 +1391,21 @@ class CZJDict < Object
         query[:$or] << {'location' => entry['lemma']['video_side'].to_s}
       end
     end
-    $mongo['media'].find(query).each{|re| list << re}
+
+    if type != ''
+      case type
+      when 'AB'
+        query['type'] = {'$in' => ['sign_front', 'sign_side']}
+      when 'A'
+        query['type'] = 'sign_front'
+      when 'K'
+        query['type'] = 'sign_usage_example'
+      when 'D'
+        query['type'] = 'sign_definition'
+      end
+    end
+
+    $mongo['media'].find(query).each{|re| list << re }
 
     return list
   end
