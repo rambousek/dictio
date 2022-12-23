@@ -127,6 +127,53 @@
           td 
             - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nPc7'}
               = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc7'}[0]['_text']
+    - if  @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc1'}.size > 0 and @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'][0] and @entry['lemma']['grammar_note'][0]['@skupina'].to_s == 'pomnozne'
+      table.table.table--no-margin
+        tr
+          th
+          th 
+        tr
+          td
+            strong = I18n.t("gram.detail.1pad")
+          td 
+            - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nPc1'}
+              = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc1'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.2pad")
+          td 
+            - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nPc2'}
+              = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc2'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.3pad")
+          td 
+            - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nPc3'}
+              = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc3'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.4pad")
+          td 
+            - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nPc4'}
+              = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc4'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.5pad")
+          td 
+            - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nPc5'}
+              = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc5'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.6pad")
+          td 
+            - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nPc6'}
+              = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc6'}[0]['_text']
+        tr
+          td
+            strong = I18n.t("gram.detail.7pad")
+          td 
+            - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nPc7'}
+              = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc7'}[0]['_text']
     - if  @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nS'}.size > 0
       table.table.table--no-margin
         tr
