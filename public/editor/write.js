@@ -1730,12 +1730,18 @@ function reload_rel(search, field, target) {
     method: 'get',
     success: function(response) {
       /* fill media info */
+      relationlist.loadData([], false);
       var data = JSON.parse(response.responseText);
       Ext.suspendLayouts();
       var html = '';
       for (i = 0; i < data.length; i++) {
         if (data[i] != undefined && data[i].id && !(data[i].id.startsWith(entryid+'-'))) {
-          relationlist.add({id: data[i].id, title: data[i].title, number: data[i].number, def: data[i].def, loc: data[i].loc, target: data[i].target, front: data[i].front});
+          try {
+            relationlist.add({id: data[i].id, title: data[i].title, number: data[i].number, def: data[i].def, loc: data[i].loc, target: data[i].target, front: data[i].front});
+          } catch(er) {
+            console.log(data[i]);
+            console.log(er);
+          }
         }
       }
       Ext.resumeLayouts(true);

@@ -101,7 +101,7 @@ ua:
     derivat_with_this: "похідні від цього ключового слова"
     composite_with_this: "композит з цим паролем"
     full_details: "Деталі"
-    translations: "Переклади"
+    translations: "іншими мовами"
     meaning_small: "значення"
     composed_from: "складається з"
     more_example: "більше прикладів"
@@ -281,6 +281,52 @@ ua:
       prechm: "преходник, м."
       prechzs: "преходник, ж. + с."
       versub: "дієслівний іменник"
+      subst_vlastni: 'vlastní'
+      subst_hromadne: 'hromadné'
+      subst_pomnozne: 'pomnožné'
+      subst_m: 'mužský rod'
+      subst_z: 'ženský rod'
+      subst_s: 'strední rod'
+      pron_m: 'mužský rod'
+      pron_z: 'ženský rod'
+      pron_s: 'strední rod'
+      pron_osobni: "osobní"
+      pron_privl: "přivlastňovací"
+      pron_tazaci: "tázací"
+      pron_ukazovaci: "ukazovací"
+      pron_vztazne: "vztažné"
+      pron_zvratne: "zvratné"
+      pron_zaporne: "záporné"
+      pron_neurcite: "neurčité"
+      num_zakladni: "základní"
+      num_druhova: "druhová"
+      num_radova: "řadová"
+      num_nasobna: "násobná"
+      num_nasobnapris: "násobná příslovečná"
+      num_nasobnaprisneu: "neurčitá násobná příslovečná"
+      num_tazaci: "tázací"
+      num_zajmenna: "zájmenná"
+      verb_dok: "dokonavý"
+      verb_nedok: "nedokonavý"
+      verb_zpusobove: "způsobové"
+      adv_zajmenne: "zájmenné"
+      adv_neurcite: "neurčité"
+      adv_tazaci: "tázací"
+      adv_ukazovaci: "ukazovací"
+      adv_prisudku: "v přísudku"
+      adv_vymez: "vymezovací"
+      adv_vztazne: "vztažné"
+      adv_zaporne: "záporné"
+      kon_podrad: "podřadicí"
+      kon_sourad: "souřadicí"
+      par_zduraz: "zdůrazňovací"
+      par_obsahova: "obsahová"
+      par_modalni: "modální"
+      par_citoslovecna: "citoslovečná"
+      ustalene_frazem: "frazém"
+      ustalene_porekadlo: "pořekadlo"
+      ustalene_prirovnani: "přirovnání"
+      ustalene_prislovi: "přísloví"
     origin:
       czj: "ČZJ"
       spj: "SPJ"
