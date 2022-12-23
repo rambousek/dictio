@@ -3263,7 +3263,7 @@ class CZJDict < Object
     $dict_info.each{|code,hash| 
       res[code] = {}
       res[code]['entry_count'] = @entrydb.find({'dict': code}).count_documents
-      res[code]['entry_pub_count'] = @entrydb.find({'dict': code, 'lemma.status': 'published'}).count_documents
+      res[code]['entry_pub_count'] = @entrydb.find({'dict': code, 'lemma.completeness': {'$ne': '1'}}).count_documents
     }
     return res
   end
