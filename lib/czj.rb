@@ -2536,6 +2536,7 @@ class CZJDict < Object
       $stderr.puts 'res'
     $stderr.puts Time.now.to_s
       $stderr.puts res['location']
+      res2 = get_media_location(res['location'], res['dict'])
       ri = [res['location']]
       entries_used = []
       ri << res['entryDocs'].select{|e| e['dict'] == res['dict']}.collect{|e| e['id']}.join(', ')
@@ -2543,6 +2544,7 @@ class CZJDict < Object
       ri << res['id_meta_author']
       ri << res['id_meta_source']
       ri << res['id_meta_copyright']
+      ri << res2['created_at'][0..10]
       report['entries'] << ri.join(';')
     }
     return report['entries']

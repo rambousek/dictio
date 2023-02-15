@@ -669,7 +669,7 @@ class CzjApp < Sinatra::Base
     get '/'+code+'/csvvideoreport' do
       content_type 'text/csv; charset=utf-8'
       attachment 'export.csv'
-      csv = ['název;hesla;autor;zdroj;autor videa']
+      csv = ['název;hesla;autor;zdroj;autor videa;datum']
       csv += dict.export_videoreport(params)
       body = csv.join("\n")
     end
