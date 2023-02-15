@@ -336,6 +336,7 @@ en:
       bsl: "BSL" 
       ogs: "ÖGS"
       is: "IS"
+      uzm: "УЖМ"
     category: 
       neo: "neologism"
       arch: "archaism"
@@ -533,3 +534,9 @@ en:
         cjlingvist: "Formal description (Spoken Languages)"
         lemmacj: "Technical details (Spoken Language)"
         preklad: "Equivalents"
+    import:
+      title: "Batch import"
+      uploadzip: "Upload zip"
+      dir: "Server directory"
+      startupload: "upload + import"
+      startimport: "Start importing"
