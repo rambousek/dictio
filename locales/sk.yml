@@ -336,6 +336,7 @@ sk:
       bsl: "BSL" 
       ogs: "ÖGS"
       is: "IS"
+      uzm: "УЖМ"
     category: 
       neo: "neologizmus"
       arch: "archaizmus"
@@ -533,3 +534,9 @@ sk:
         cjlingvist: "formálna časť HJ"
         lemmacj: "technické informácie HJ"
         preklad: "väzby (preklady, synonýma)"
+    import:
+      title: "Hromadný import"
+      uploadzip: "Upload zip"
+      dir: "Adresář na serveru"
+      startupload: "upload + import"
+      startimport: "start import"

@@ -336,6 +336,7 @@ de:
       bsl: "BSL" 
       ogs: "ÖGS"
       is: "IS"
+      uzm: "УЖМ"
     category: 
       neo: "Neologismus"
       arch: "Archaismus"
@@ -533,3 +534,9 @@ de:
         cjlingvist: "formaler Teil der gesprochenen Sprache"
         lemmacj: "technischer Teil der gesprochenen Sprache"
         preklad: "Verbindungen (Übersetzungen, Synonyme)"
+    import:
+      title: "Batch import"
+      uploadzip: "Upload zip"
+      dir: "Server directory"
+      startupload: "upload + import"
+      startimport: "Start import"
