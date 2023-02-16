@@ -3021,7 +3021,7 @@ class CZJDict < Object
     query['entry'] = entry if entry.to_s != ''
     $stderr.puts query
     result = $mongo['history'].find(query, {}).sort({'timestamp'=> -1})
-    result = result.limit(40) if entry.to_s == ''
+    result = result.limit(40) if entry.to_s == '' and query['user'].to_s == ''
     result.each{|entry|
       report['entries'] << entry
     }
