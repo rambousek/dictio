@@ -539,4 +539,4 @@ cs:
       uploadzip: "Upload zip"
       dir: "Adresář na serveru"
       startupload: "upload + import"
-      startimport: "start import"
+      startimport: "Start import"
