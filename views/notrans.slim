@@ -14,7 +14,7 @@ main role="main"
           - if @report['notrans1']['notrans'].size == 0
             | #{I18n.t("admin.notrans0")}
           - else
-            table
+            table.list
               tr
                 th #{I18n.t("admin.heslo")}
                 th  #{I18n.t("admin.source")} 
