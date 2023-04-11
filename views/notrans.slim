@@ -45,7 +45,7 @@ main role="main"
             | #{I18n.t("admin.notrans0")}
           - else
             form method="get" action="/#{@dictcode}/notrans"
-              table
+              table.list
                 tr
                   td #{I18n.t("admin.notransauth")}
                   td                  
