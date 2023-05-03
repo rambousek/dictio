@@ -513,8 +513,7 @@ html {
 
 img {
   -webkit-box-sizing: content-box;
-          box-sizing: content-box;
-  vertical-align: bottom; }
+          box-sizing: content-box; }
 
 :root {
   font-size: 100%; }
