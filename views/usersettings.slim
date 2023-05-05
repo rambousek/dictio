@@ -34,7 +34,7 @@ main role="main"
                   label #{I18n.t("admin.users.lang")}
                 td
                   select name="default_lang"
-                    - ['cs', 'en', 'sk', 'de'].each do |code|
+                    - ['cs', 'en', 'sk', 'de', 'ua'].each do |code|
                       option value="#{code}" selected=("selected" if @user_info['default_lang'] and @user_info['default_lang']==code) #{I18n.t("locale."+code)}
               tr
                 td
