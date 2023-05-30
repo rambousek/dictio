@@ -12,7 +12,7 @@ jobs:
   deploy-view:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Run on view
         run: |
           mkdir -p ~/.ssh
@@ -22,7 +22,7 @@ jobs:
   deploy-edit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Run on edit
         run: |
           mkdir -p ~/.ssh
@@ -32,7 +32,7 @@ jobs:
   deploy-admin:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Run on admin
         run: |
           mkdir -p ~/.ssh
