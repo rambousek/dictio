@@ -4,7 +4,8 @@
       | #{I18n.t("entry.all_translations")}
 .detail__head
   -if @entry['lemma']['completeness'] == '1'    
-    .notpublic #{I18n.t("entry.hidden_lemma")}
+    .notpublic 
+      | #{I18n.t("entry.hidden_lemma")}
       img src="/img/hidden.png"
   p.detail__badge.detail__badge--top class=((@is_edit? "detail__badge__#{@entry['dict']}":""))
     | #{I18n.t("dict."+@entry['dict'])} 
