@@ -214,4 +214,5 @@ p.naming2 span {
 .notpublic img {
   position: absolute;
   left: 0;
+  top: 8px;
 }
