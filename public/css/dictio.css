@@ -199,3 +199,19 @@ p.naming2 span {
   font-size: 10px;
 }
   
+.notpublic {
+  position: absolute;
+  top: 0px;
+  margin-right: 180px;
+  background-color: red;
+  color: yellow;
+  font-size: small;
+  padding-left: 40px;
+  height: 38px;
+  padding-top: 5px;
+}
+
+.notpublic img {
+  position: absolute;
+  left: 0;
+}
