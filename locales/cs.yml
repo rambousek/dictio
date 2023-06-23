@@ -116,7 +116,7 @@ cs:
     nocontent: "Tato část hesla není dosud zpracovaná."
     nopubtrans: "Pro tento význam nejsou zveřejněny žádné cizojazyčné ekvivalenty."
     notapproved: "Správnost následující informace nebyla dosud ověřena!"
-    hidden_lemma: "Neveřejné heslo. Údaje nebyly nezávisle ověřejny, tým Dictio nenese zodpovědnost za jejich správnost."
+    hidden_lemma: "Neveřejné heslo. Uvedené informace nebyly nezávisle ověřeny a není garantovaná jejich správnost."
     circumloc: "Opisný překlad. Viz příklady užití."
     category: "obor"
     kat_28: 'biologie'

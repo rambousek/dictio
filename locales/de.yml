@@ -116,7 +116,7 @@ de:
     nocontent: "Dieser Teil wurde noch nicht fortgesetzt."
     nopubtrans: "Keine öffentlichen Übersetzungen in dieser Bedeutung verfügbar."
     notapproved: "Es wurde noch nicht genehmigt, wenn die folgenden Informationen korrekt sind!"
-    hidden_lemma: "! Dieser Eintrag ist nicht öffentlich. Die Autoren dieses Wörterbuchs sind nicht verantwortlich für die Richtigkeit der bereitgestellten Informationen. !"
+    hidden_lemma: "Privater Eintrag. Die bereitgestellten Informationen wurden nicht überprüft und es kann nicht garantiert werden, dass sie korrekt sind."
     circumloc: "Umschreibung. Siehen Beispielsätze."
     category: "obor"
     kat_28: 'Biologie'

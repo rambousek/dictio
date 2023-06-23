@@ -116,7 +116,7 @@ en:
     nocontent: "This part has not been processed yet."
     nopubtrans: "No public translations in this meaning available."
     notapproved: "It has not been approved yet if following information is correct!"
-    hidden_lemma: "Private entry. The Dictio team is not responsible for the accuracy of the provided information."    
+    hidden_lemma: "Private entry. The information provided has not been verified and is not guaranteed to be correct."    
     circumloc: "Circumlocution. See example sentences." 
     category: "category"
     kat_28: 'biologie'

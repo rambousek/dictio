@@ -112,7 +112,7 @@ sk:
     all_translations: "zobraziť všetky ekvivalenty"
     nopubtrans: "Pre tento význam niesú dostupné žiadne verejné preklady."        
     notapproved: "Správnosť nasledujúce informácie nebola zatiaľ overená!"
-    hidden_lemma: "! Neverejné heslo. Za správnosť uvedených informácií nenesú tvorcovia slovníka zodpovednosť. !"
+    hidden_lemma: "Neverejné heslo. Uvedené informácie neboli overené a nie je garantovaná ich správnosť."
     circumloc: "Opisný preklad. Viď príklady použitia."
     share: "adresa pre zdieľanie"
     link_current: "aktuálna adresa"
