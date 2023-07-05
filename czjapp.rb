@@ -11,6 +11,7 @@ require 'net/scp'
 require 'resolv'
 require 'sinatra/cookies'
 require 'maxmind/geoip2'
+require 'mail'
 
 require_relative 'lib/czj'
 require_relative 'lib/host-config'

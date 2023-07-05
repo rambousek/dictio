@@ -1,0 +1,31 @@
+Subject: DICTIO Vytvoreni uctu/Account created 
+Dobry den,
+byl vam zrizen ucet pro pristup ke sluzbam online slovníku DICTIO.
+
+Pro pristup ke sluzbam pouzivejte tyto udaje:
+jmeno: #{user}
+heslo: #{pass}
+
+Vase prava: #{perms}
+Pracovni skupiny: #{skupiny}
+
+S pripadnymi problemy, dotazy ci pripominkami se obracejte na adresu spravci@dictio.info
+
+S pozdravem,
+       správce slovníku DICTO. 
+---------------------------------------------------------------------
+Dear user,
+You have been granted access to services of online dictionary DICTIO.
+
+For logging on, use following
+Username: #{user}
+Password: #{pass}
+
+You have following permitions: #{perms_en}
+You are member of following workgroups: #{skupiny_en}
+
+Please address any problems, questions or comments to spravci@dictio.info
+
+Regards,
+       The manager of the DICTIO dictionary.
+

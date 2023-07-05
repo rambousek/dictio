@@ -1,0 +1,27 @@
+Subject: DICTIO Zmena uctu/Account change
+Dobry den,
+vas ucet pro pristup ke sluzbam online slovníku DICTIO byl upraven.
+
+Vase uzivatelske jmeno: #{user}
+
+Vase prava: #{perms}
+Pracovni skupiny: #{skupiny}
+
+S pripadnymi problemy, dotazy ci pripominkami se obracejte na adresu spravci@dictio.info
+
+S pozdravem,
+       správce slovníku DICTO. 
+---------------------------------------------------------------------
+Dear user,
+Your access to services of online dictionary DICTIO was modified.
+
+Your username: #{user}
+
+You have following permitions: #{perms_en}
+You are member of following workgroups: #{skupiny_en}
+
+Please address any problems, questions or comments to spravci@dictio.info
+
+Regards,
+       The manager of the DICTIO dictionary.
+

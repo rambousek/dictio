@@ -1,0 +1,25 @@
+Subject: DICTIO Zmena hesla/Password change
+Dobry den,
+bylo Vam zmeneno heslo pro pristup k online slovníku DICTIO.
+
+Vase aktualni prihlasovaci udaje jsou:
+jmeno: #{user}
+heslo: #{pass}
+
+S pripadnymi problemy, dotazy ci pripominkami se obracejte na adresu spravci@dictio.info
+
+S pozdravem,
+       správce slovníku DICTO. 
+---------------------------------------------------------------------
+Dear user,
+Your password to online dictionary DICTIO has been changed.
+
+For logging on, use --
+Username: #{user}
+Password: #{pass}
+
+Please address any problems, questions or comments to spravci@dictio.info
+
+Regards,
+       The manager of the DICTIO dictionary.
+
