@@ -60,8 +60,8 @@ class CzjApp < Sinatra::Base
     def authorized?
       @auth ||=  Rack::Auth::Basic::Request.new(request.env)
       if @auth.provided? and @auth.basic? and @auth.credentials
-        user = @auth.credentials.first
-        pass = @auth.credentials[1]
+        user = @auth.credentials.first.force_encoding('UTF-8')
+        pass = @auth.credentials[1].force_encoding('UTF-8')
         res = $mongo['users'].find({'login':user}).first
         return false if res.nil?
         if user == res['login'] and pass.crypt(res['password'][0,2]) == res['password']
