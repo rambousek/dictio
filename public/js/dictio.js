@@ -700,7 +700,12 @@ $( document ).ready(function() {
       data.files.push({
         file: $(this).val(),
         label: $('.import-label[data-file="'+$(this).val()+'"]').val(),
-        trans: $('.import-trans[data-file="'+$(this).val()+'"]').val()
+        trans: $('.import-trans[data-file="'+$(this).val()+'"]').val(),
+        autor: $('.import-autor[data-file="'+$(this).val()+'"]').val(),
+        video: $('.import-video[data-file="'+$(this).val()+'"]').val(),
+        zdroj: $('.import-zdroj[data-file="'+$(this).val()+'"]').val(),
+        eid: $('.import-eid[data-file="'+$(this).val()+'"]').val(),
+        orient: $('.import-orient[data-file="'+$(this).val()+'"]').val(),
       });
     });
     console.log(data);

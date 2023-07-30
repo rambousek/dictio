@@ -21,12 +21,18 @@ main role="main"
           - @dict_info.each do |code, info|
             - if info['type'] == 'write'
               option value="#{code}" #{I18n.t("dict."+code)}
+      p meta.csv, každý řádek: ID hesla;názevvideočelní.mp4;názevvideoboční.mp4;orient;autor;video;zdroj;překlad
       .row
         table
           tr
             td soubor
             td label
             td překlad
+            td orient
+            td autor
+            td video
+            td zdroj
+            td ID hesla
           - @importfiles.each do |file|
             tr
               td
@@ -36,5 +42,15 @@ main role="main"
                 input data-file="#{file['filename']}" type="text" class="import-label" value="#{file['label']}"
               td
                 input data-file="#{file['filename']}" type="text" class="import-trans" value="#{file['trans']}"
+              td
+                input data-file="#{file['filename']}" type="text" class="import-orient" value="#{file['orient']}"
+              td
+                input data-file="#{file['filename']}" type="text" class="import-autor" value="#{file['autor']}"
+              td
+                input data-file="#{file['filename']}" type="text" class="import-video" value="#{file['video']}"
+              td
+                input data-file="#{file['filename']}" type="text" class="import-zdroj" value="#{file['zdroj']}"
+              td
+                input data-file="#{file['filename']}" type="text" class="import-eid" value="#{file['eid']}"
       .row
         button id="import-start" start import

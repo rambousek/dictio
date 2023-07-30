@@ -3077,6 +3077,28 @@ class CZJDict < Object
 
   def get_import_files(dir)
     importfiles = []
+    meta = {}
+    if File.exists?(File.join(dir, 'meta.csv'))
+      fmeta = File.open(File.join(dir, 'meta.csv'))
+      fmeta.each{|lm|
+        ma = lm.strip.split(/[;]/)
+        mrow = {}
+        mrow['eid'] = ma[0] if ma[0].to_s != ''
+        mrow['orient'] = ma[3] if ma[3].to_s != ''
+        mrow['autor'] = ma[4] if ma[4].to_s != ''
+        mrow['video'] = ma[5] if ma[5].to_s != ''
+        mrow['zdroj'] = ma[6] if ma[6].to_s != ''
+        mrow['preklad'] = ma[7] if ma[7].to_s != ''
+        if ma[1].to_s != ''
+          videofile = ma[1].to_s.gsub(/[^-^\.^A-Z^a-z^0-9^_]/, '')
+          meta[videofile] = mrow
+        end
+        if ma[2].to_s != ''
+          videofile = ma[2].to_s.gsub(/[^-^\.^A-Z^a-z^0-9^_]/, '')
+          meta[videofile] = mrow
+        end
+      }
+    end
     Dir.entries(dir).each{|fn|
       if fn.end_with?('mp4')
         label = norm_name(fn)[0]
@@ -3085,6 +3107,14 @@ class CZJDict < Object
           'label' => label,
           'trans' => label.split('==')[0]
         }
+        if meta.key?(fn)
+          data['trans'] = meta[fn]['preklad'] if meta[fn].key?('preklad')
+          data['eid'] = meta[fn]['eid'] if meta[fn].key?('eid')
+          data['orient'] = meta[fn]['orient'] if meta[fn].key?('orient')
+          data['autor'] = meta[fn]['autor'] if meta[fn].key?('autor')
+          data['video'] = meta[fn]['video'] if meta[fn].key?('video')
+          data['zdroj'] = meta[fn]['zdroj'] if meta[fn].key?('zdroj')
+        end
         importfiles << data
       end
     }
@@ -3109,8 +3139,12 @@ class CZJDict < Object
       $stdout.puts h
       # list sign entries
       if sign[h['label'].strip].nil?
-        newid = get_new_id
-        sign[h['label'].strip] = {'id'=>newid, 'video'=>[]}
+        if h.key?('eid') and h['eid'].to_s != ''
+          sign[h['label'].strip] = {'id'=>h['eid'], 'new'=>false, 'video'=>[]}
+        else
+          newid = get_new_id
+          sign[h['label'].strip] = {'id'=>newid, 'new'=>true, 'video'=>[]}
+        end
       end
       sign[h['label'].strip]['video'] << h['file'].strip
 
@@ -3142,6 +3176,10 @@ class CZJDict < Object
       end
       media['status'] = 'hidden'
       media['orient'] = 'P'
+      media['orient'] = h['orient'] if h.key?('orient') and h['orient'] != ''
+      media['id_meta_copyright'] = h['video'] if h.key?('video')
+      media['id_meta_author'] = h['zdroj'] if h.key?('zdroj')
+      media['id_meta_source'] = h['autor'] if h.key?('autor')
       media['created_at'] = Time.now.strftime("%Y-%m-%d %H:%M:%S")
       vid = save_media(media)
       videos[h['file'].strip] = vid
@@ -3191,19 +3229,31 @@ class CZJDict < Object
 
     # prepare sign entries
     sign_entries = []
+    sign_to_delete = []
     sign.each{|lab, h|
-      logfile.puts 'new entry ' + data['srcdict'] + ' ' + h['id'].to_s 
-      entry = {
-        'id' => h['id'].to_s,
-        'dict' => @dictcode,
-        'type' => 'sign',
-        'lemma' => {
-          'status' => 'hidden',
-          'created_at' => Time.now.strftime("%Y-%m-%d %H:%M:%S"),
-          'lemma_type' => 'single'
-        },
-        'meanings' => []
-      }
+      if not h['new']
+        entry = getdoc(h['id'])
+        if entry == {}
+          h['new'] = true 
+        else
+          logfile.puts 'update entry ' + data['srcdict'] + ' ' + h['id'].to_s 
+          sign_to_delete << h['id']
+        end
+      end
+      if h['new']
+        logfile.puts 'new entry ' + data['srcdict'] + ' ' + h['id'].to_s 
+        entry = {
+          'id' => h['id'].to_s,
+          'dict' => @dictcode,
+          'type' => 'sign',
+          'lemma' => {
+            'status' => 'hidden',
+            'created_at' => Time.now.strftime("%Y-%m-%d %H:%M:%S"),
+            'lemma_type' => 'single'
+          },
+          'meanings' => []
+        }
+      end
       # add videos
       h['video'].sort.each{|f|
         mid = 0
@@ -3262,6 +3312,7 @@ class CZJDict < Object
       sign_entries << entry
     }
     $stdout.puts sign_entries
+    $mongo['entries'].find({'dict'=>@dictcode, 'id': {'$in': sign_to_delete}}).delete_many
     logfile.puts 'writing sign entries to db'
     $mongo['entries'].insert_many(sign_entries)
 
