@@ -420,6 +420,7 @@ cs:
     head1: "Upozornění"
     text2: "Tuto verzi zatím nepoužívejte pro běžnou práci. Veškeré změny, budou uchovány pouze do půlnoci daného dne. Pak budou opět smazány. Tento stav platí do 20. 3. 2021"
     reports_old: "Staré přehledy hesel (stav k 19. 3. 2021)"
+    info-meta: "Povinná struktura metasouboru meta.csv: (A) ID hesla; (B) názevvideočelní.mp4; (C) názevvideoboční.mp4; (D) orient; (E) autor; (F) video; (G) zdroj; (H) překlad"
     report_old_main: "Rozcestník"
     dict: "Slovník"
     newentry: "nové lemma"
