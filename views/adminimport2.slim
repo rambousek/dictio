@@ -21,7 +21,6 @@ main role="main"
           - @dict_info.each do |code, info|
             - if info['type'] == 'write'
               option value="#{code}" #{I18n.t("dict."+code)}
-      p meta.csv, každý řádek: ID hesla;názevvideočelní.mp4;názevvideoboční.mp4;orient;autor;video;zdroj;překlad
       - if @gotmeta
         p meta.csv načteno
       .row
