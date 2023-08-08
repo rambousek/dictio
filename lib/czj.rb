@@ -3078,7 +3078,9 @@ class CZJDict < Object
   def get_import_files(dir)
     importfiles = []
     meta = {}
+    gotmeta = false
     if File.exists?(File.join(dir, 'meta.csv'))
+      gotmeta = true
       fmeta = File.open(File.join(dir, 'meta.csv'))
       fmeta.each{|lm|
         ma = lm.strip.split(/[;]/)
@@ -3118,7 +3120,7 @@ class CZJDict < Object
         importfiles << data
       end
     }
-    return importfiles.sort{|a,b| [a['label'], a['filename']] <=> [b['label'], b['filename']]}
+    return importfiles.sort{|a,b| [a['label'], a['filename']] <=> [b['label'], b['filename']]}, gotmeta
   end
 
   def import_run(data, targetdict, user, logid)

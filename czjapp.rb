@@ -818,7 +818,7 @@ class CzjApp < Sinatra::Base
     get '/import2' do
       @dict_info = $dict_info
       @dir = params['dir']
-      @importfiles = dict_array['czj'].get_import_files(@dir)
+      @importfiles, @gotmeta = dict_array['czj'].get_import_files(@dir)
       slim :adminimport2
     end
 
