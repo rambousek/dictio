@@ -3092,11 +3092,11 @@ class CZJDict < Object
         mrow['zdroj'] = ma[6] if ma[6].to_s != ''
         mrow['preklad'] = ma[7] if ma[7].to_s != ''
         if ma[1].to_s != ''
-          videofile = ma[1].to_s.gsub(/[^-^\.^A-Z^a-z^0-9^_]/, '')
+          videofile = ma[1].to_s.gsub(/[^-^\.^_^[[:alnum:]]]/, '')
           meta[videofile] = mrow
         end
         if ma[2].to_s != ''
-          videofile = ma[2].to_s.gsub(/[^-^\.^A-Z^a-z^0-9^_]/, '')
+          videofile = ma[2].to_s.gsub(/[^-^\.^_^[[:alnum:]]]/, '')
           meta[videofile] = mrow
         end
       }
