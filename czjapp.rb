@@ -825,9 +825,14 @@ class CzjApp < Sinatra::Base
     post '/importstart2' do
       $stdout.puts params['data']
       content_type :json
-      if not $dict_info[params['data']['srcdict']].nil? and not $dict_info[params['data']['targetdict']].nil?
+      if not $dict_info[params['data']['srcdict']].nil?
         logid = Array.new(8) { (Array('a'..'z')+Array('0'..'9')).sample }.join
-        Thread.new{ dict_array[params['data']['srcdict']].import_run(params['data'], dict_array[params['data']['targetdict']], @user_info['login'], logid) }
+        if params['data']['targetdict'] == '-'
+          targetdict = nil
+        else
+          targetdict = dict_array[params['data']['targetdict']]
+        end
+        Thread.new{ dict_array[params['data']['srcdict']].import_run(params['data'], targetdict, @user_info['login'], logid) }
         body = {'logid'=>logid}.to_json
       else
         body = {'error'=>'no dict info'}.to_json

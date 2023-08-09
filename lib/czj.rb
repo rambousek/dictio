@@ -3138,10 +3138,10 @@ class CZJDict < Object
     sign = {}
     videos = {}
     data['files'].each{|n,h|
-      $stdout.puts h
+      h.update(h) {|k, v| v.to_s.strip.gsub("\xEF\xBB\xBF".force_encoding('UTF-8'), '')}
       # list sign entries
       if sign[h['label'].strip].nil?
-        if h.key?('eid') and h['eid'].to_s != ''
+        if h.key?('eid') and h['eid'] != ''
           sign[h['label'].strip] = {'id'=>h['eid'], 'new'=>false, 'video'=>[]}
         else
           newid = get_new_id
@@ -3151,7 +3151,7 @@ class CZJDict < Object
       sign[h['label'].strip]['video'] << h['file'].strip
 
       # list translations
-      if not used_trans.include?(h['trans'].strip)
+      if targetdict and not used_trans.include?(h['trans'].strip)
         tranid = targetdict.get_new_id
         trans << {'id'=>tranid, 'title'=>h['trans'].strip, 'rel'=>h['label'].strip}
         sign[h['label'].strip]['trans'] = tranid
@@ -3193,41 +3193,43 @@ class CZJDict < Object
 
     # prepare write entries
     write_entries = []
-    trans.each{|t|
-      logfile.puts 'new entry ' + data['targetdict'] + ' ' + t['id'].to_s + ' - ' + t['title']
-      entry = {
-        'id' => t['id'].to_s,
-        'dict' => data['targetdict'],
-        'lemma' => {
-          'title' => t['title'],
-          'status' => 'hidden',
-          'title_dia' => t['title'],
-          'created_at' => Time.now.strftime("%Y-%m-%d %H:%M:%S"),
-          'lemma_type' => 'single'
-        },
-        'type' => 'write',
-        'meanings' => [
-          {
-            'id' => t['id'].to_s + '-1',
+    if targetdict
+      trans.each{|t|
+        logfile.puts 'new entry ' + data['targetdict'] + ' ' + t['id'].to_s + ' - ' + t['title']
+        entry = {
+          'id' => t['id'].to_s,
+          'dict' => data['targetdict'],
+          'lemma' => {
+            'title' => t['title'],
+            'status' => 'hidden',
+            'title_dia' => t['title'],
             'created_at' => Time.now.strftime("%Y-%m-%d %H:%M:%S"),
-            'relation' => [
-              {
-                'target' => data['srcdict'],
-                'meaning_id' => sign[t['rel'].to_s]['id'].to_s + '-1',
-                'type' => 'translation',
-                'status' => 'hidden'
-              }
-            ]
-          }
-        ]
+            'lemma_type' => 'single'
+          },
+          'type' => 'write',
+          'meanings' => [
+            {
+              'id' => t['id'].to_s + '-1',
+              'created_at' => Time.now.strftime("%Y-%m-%d %H:%M:%S"),
+              'relation' => [
+                {
+                  'target' => data['srcdict'],
+                  'meaning_id' => sign[t['rel'].to_s]['id'].to_s + '-1',
+                  'type' => 'translation',
+                  'status' => 'hidden'
+                }
+              ]
+            }
+          ]
+        }
+
+        write_entries << entry
       }
 
-      write_entries << entry
-    }
-
+      logfile.puts 'writing text entries to db'
+      $mongo['entries'].insert_many(write_entries)
+    end
     $stdout.puts write_entries
-    logfile.puts 'writing text entries to db'
-    $mongo['entries'].insert_many(write_entries)
 
     # prepare sign entries
     sign_entries = []
@@ -3300,15 +3302,17 @@ class CZJDict < Object
             'created_at' => Time.now.strftime("%Y-%m-%d %H:%M:%S")
           }
         end
-        # add translation
-        entry['meanings'][0]['relation'] = [
-          {
-            'target' => data['targetdict'],
-            'meaning_id' => h['trans'].to_s + '-1',
-            'type' => 'translation',
-            'status' => 'hidden'
-          }
-        ]
+        if targetdict
+          # add translation
+          entry['meanings'][0]['relation'] = [
+            {
+              'target' => data['targetdict'],
+              'meaning_id' => h['trans'].to_s + '-1',
+              'type' => 'translation',
+              'status' => 'hidden'
+            }
+          ]
+        end
       }
 
       sign_entries << entry

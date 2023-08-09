@@ -18,6 +18,7 @@ main role="main"
               option value="#{code}" #{I18n.t("dict."+code)}
         | založit překlady ve slovníku
         select name="targetdict" id="targetdict"
+          option value="-" nevytvářet překlady
           - @dict_info.each do |code, info|
             - if info['type'] == 'write'
               option value="#{code}" #{I18n.t("dict."+code)}
