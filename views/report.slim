@@ -321,6 +321,10 @@ main role="main"
                 a.btn class="btn-secondary report-" onclick="URLAppend('translationde')" DE                            
               - unless @params['translationogs']
                 a.btn class="btn-secondary report-" onclick="URLAppend('translationogs')" ÖGS
+              - unless @params['translationua']
+                a.btn class="btn-secondary report-" onclick="URLAppend('translationua')" UA                            
+              - unless @params['translationuzm']
+                a.btn class="btn-secondary report-" onclick="URLAppend('translationogs')" UŽM  
             div
               | #{I18n.t("admin.pubtrans")}:
               - unless @params['pubtranscs']                       
@@ -341,6 +345,10 @@ main role="main"
                 a.btn class="btn-secondary report-" onclick="URLAppend('pubtransde')" DE
               - unless @params['pubtransogs']
                 a.btn class="btn-secondary report-" onclick="URLAppend('pubtransogs')" ÖGS
+              - unless @params['pubtransua']
+                a.btn class="btn-secondary report-" onclick="URLAppend('pubtransua')" UA
+              - unless @params['pubtransuzm']
+                a.btn class="btn-secondary report-" onclick="URLAppend('pubtransuzm')" UŽM
             div
               span onclick="showhide('comm')" style="cursor: pointer"
                 | #{I18n.t("admin.comments")}: >>
