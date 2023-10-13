@@ -3099,6 +3099,14 @@ class CZJDict < Object
           videofile = ma[2].to_s.gsub(/[^-^\.^_^[[:alnum:]]]/, '')
           meta[videofile] = mrow
         end
+        if ma[8].to_s != ''
+          videofile = ma[8].to_s.gsub(/[^-^\.^_^[[:alnum:]]]/, '')
+          meta[videofile] = mrow
+        end
+        if ma[9].to_s != ''
+          videofile = ma[9].to_s.gsub(/[^-^\.^_^[[:alnum:]]]/, '')
+          meta[videofile] = mrow
+        end
       }
     end
     Dir.entries(dir).each{|fn|
@@ -3294,6 +3302,7 @@ class CZJDict < Object
           }
           entry['meanings'][0]['usages'] << newu
         end
+      }
 
         # no meanings?
         if entry['meanings'].length == 0
@@ -3313,7 +3322,6 @@ class CZJDict < Object
             }
           ]
         end
-      }
 
       sign_entries << entry
     }
