@@ -3300,6 +3300,9 @@ class CZJDict < Object
             'created_at' => Time.now.strftime("%Y-%m-%d %H:%M:%S"),
             'text' => {'file' => {'@media_id' => videos[f].to_s}}
           }
+          if not entry['meanings'][0].has_key?('usages')
+            entry['meanings'][0]['usages'] = []
+          end
           entry['meanings'][0]['usages'] << newu
         end
       }
