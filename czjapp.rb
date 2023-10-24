@@ -348,7 +348,7 @@ class CzjApp < Sinatra::Base
           @show_target = code
           sela = selected.split('-')
           @show_dictcode = sela[0]
-          @entry = dict_array[sela[0]].getdoc(sela[1])
+          @entry = dict_array[sela[0]].getdoc(sela[1], false)
         else
           @show_target = @target
           @show_dictcode = @dictcode
