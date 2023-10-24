@@ -318,7 +318,7 @@ class CzjApp < Sinatra::Base
     end
     get '/'+code+'/searchentry/:entry' do
       @dictcode = code
-      @entry = dict.getdoc(params['entry'])
+      @entry = dict.getdoc(params['entry'], false)
       @search_type = 'search'
       if @entry != nil and @entry != {}
         if $dict_info[code]['type'] == 'write'
