@@ -508,6 +508,7 @@ class CZJDict < Object
       search_jedno = []
       search_obe_ruzne = []
       search_obe_stejne = []
+      $stdout.puts search_ar
       $stdout.puts search_shape
       search_shape.each{|e|
         #jednorucni, rotace jen 0-7
@@ -600,7 +601,7 @@ class CZJDict < Object
       end
 
       # dvourucni volby, vyber dotazu
-      if search_ar[2].to_s != ''
+      if search_ar[2].to_s != '' and search_ar[2].to_s != 'one'
         search_two = search_ar[2].split(',')
         if search_two.include?('sym')
           search_query = search_obe_stejne
