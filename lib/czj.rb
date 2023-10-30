@@ -1167,6 +1167,11 @@ class CZJDict < Object
     #sortkey
     data['sort_key'] = get_sortkey(data)
 
+    #title without diacritics
+    if @write_dicts.include?(dict) and data["lemma"]["title"]
+      data["lemma"]["title_dia"] = remove_diacritics(data["lemma"]["title"])
+    end
+
     #save media info
     if data['update_video']
       $stdout.puts "update video"
@@ -3010,6 +3015,15 @@ class CZJDict < Object
       regionkey = regionkey*10000000 + entry['id'].to_i
     end
     return regionkey.to_s
+  end
+
+  def remove_diacritics(word)
+    require "i18n"
+    begin
+      return I18n.transliterate(word, :locale => :en)
+    rescue
+      return word
+    end
   end
 
   def save_history_info(dict, entryid, data_new, data_old, user)
