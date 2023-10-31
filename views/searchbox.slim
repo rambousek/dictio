@@ -2,7 +2,7 @@
 - if (@search_type != 'show') or (@is_edit or @is_admin)
   .search-top.is-open
     .search-top__wrapper
-      - if @search_type == 'search'
+      - if (@search_type == 'search') or (@search_type == 'show')
         == slim :searchboxsearch
       - else
         == slim :searchboxtrans
