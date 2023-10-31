@@ -1,5 +1,5 @@
 <!-- vyhledávácí box -->
-- if @search_type != 'show'
+- if (@search_type != 'show') or (@is_edit or @is_admin)
   .search-top.is-open
     .search-top__wrapper
       - if @search_type == 'search'
