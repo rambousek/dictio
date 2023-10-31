@@ -1,35 +1,34 @@
 <!-- vyhledávání -->
 .search.keyboard-target role="search"
-  - if (@is_edit or @is_admin) style="display: none"
-    .container
-      .search__wrapper
-        .search__item
-          label for="translate-from" #{I18n.t("search.translate_from")}
-          .custom-select
-            select.translate-from name="translate-from" id="translate-from"
-              - @dict_info.each do |code, info|
-                option value="#{code}" selected=("selected" if (@dictcode==code or (@dictcode.to_s == '' and @default_dict==code))) #{I18n.t("dict_menu."+code)}
-          .search__switch
-            span.icon.icon--translate
+  .container
+    .search__wrapper
+      .search__item
+        label for="translate-from" #{I18n.t("search.translate_from")}
+        .custom-select
+          select.translate-from name="translate-from" id="translate-from"
+            - @dict_info.each do |code, info|
+              option value="#{code}" selected=("selected" if (@dictcode==code or (@dictcode.to_s == '' and @default_dict==code))) #{I18n.t("dict_menu."+code)}
+        .search__switch
+          span.icon.icon--translate
+            svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+              use xlink:href="/img/icons.svg#translate" x="0" y="0" width="100%" height="100%"
+      .search__item
+        label for="translate-to" #{I18n.t("search.translate_to")}
+        .custom-select
+          select name="translate-to" id="translate-to"
+            - @dict_info.each do |code, info|
+              option value="#{code}" selected=("selected" if @target==code or (@target.to_s=='' and code==@default_target)) #{I18n.t("dict_menu."+code)}
+      .search__item
+        label style="visibility:hidden" for="expression_trans" #{I18n.t("search.expression")} 
+        .search__input
+          - if @input_type == 'key'
+            input.expression type="text" id="expression_trans" placeholder="#{I18n.t('search.placeholder')}" value=@search data-codes_hand="#{@search.split('|')[0]}" data-codes_place="#{@search.split('|')[1]}" data-codes_two="#{@search.split('|')[2]}"
+          - else
+            input.expression type="text" id="expression_trans" placeholder="#{I18n.t('search.placeholder')}" value=@search
+          .keyboard-images height="100"
+          button.btn.btn--search
+            span.icon.icon--magnifier
               svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
-                use xlink:href="/img/icons.svg#translate" x="0" y="0" width="100%" height="100%"
-        .search__item
-          label for="translate-to" #{I18n.t("search.translate_to")}
-          .custom-select
-            select name="translate-to" id="translate-to"
-              - @dict_info.each do |code, info|
-                option value="#{code}" selected=("selected" if @target==code or (@target.to_s=='' and code==@default_target)) #{I18n.t("dict_menu."+code)}
-        .search__item
-          label style="visibility:hidden" for="expression_trans" #{I18n.t("search.expression")} 
-          .search__input
-            - if @input_type == 'key'
-              input.expression type="text" id="expression_trans" placeholder="#{I18n.t('search.placeholder')}" value=@search data-codes_hand="#{@search.split('|')[0]}" data-codes_place="#{@search.split('|')[1]}" data-codes_two="#{@search.split('|')[2]}"
-            - else
-              input.expression type="text" id="expression_trans" placeholder="#{I18n.t('search.placeholder')}" value=@search
-            .keyboard-images height="100"
-            button.btn.btn--search
-              span.icon.icon--magnifier
-                svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
-                  use xlink:href="/img/icons.svg#magnifier" x="0" y="0" width="100%" height="100%"
-      == slim :keyboard
+                use xlink:href="/img/icons.svg#magnifier" x="0" y="0" width="100%" height="100%"
+    == slim :keyboard
 <!-- /vyhledávání -->
