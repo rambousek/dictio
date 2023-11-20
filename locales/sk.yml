@@ -310,6 +310,7 @@ sk:
       verb_dok: "dokonavý"
       verb_nedok: "nedokonavý"
       verb_zpusobove: "způsobové"
+      verb_doknedok: "dokonavé i nedokonavé"
       adv_zajmenne: "zájmenné"
       adv_neurcite: "neurčité"
       adv_tazaci: "tázací"
