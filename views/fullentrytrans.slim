@@ -50,6 +50,7 @@
                 p style="font-size: smaller; font-style: italic" #{I18n.t("entry.circumloc")
         p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_trans')
 - else 
-  div.info.is-pushed style="margin-top: 0; padding: 0;padding-left: 10px;"
-    p style="color: gray;font-style: italic; font-size: smaller;"
-      | #{I18n.t("entry.nopubtrans")}
+  - if @meaning['relation'].find{|rel| rel['type'] == 'translation' and (rel['target'] == @show_target or @target == '') and rel['status'] == 'hidden'}
+    div.info.is-pushed style="margin-top: 0; padding: 0;padding-left: 10px;"
+      p style="color: gray;font-style: italic; font-size: smaller;"
+        | #{I18n.t("entry.nopubtrans")}
