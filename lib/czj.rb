@@ -1139,7 +1139,7 @@ class CZJDict < Object
 
     #add variants 
     fmedia = get_media_location(data['lemma']['video_front'].to_s, @dictcode)
-    if fmedia['id'].to_s 
+    if fmedia['id'].to_s != ''
       if data['lemma']['grammar_note']
         data['lemma']['grammar_note'].each{|grn|
           if grn['variant']
@@ -1297,7 +1297,7 @@ class CZJDict < Object
         end
         if not doc['lemma'][type+'_note'][0]['variant'].any?{|var| var['_text'] == origin_media}
           doc['lemma'][type+'_note'][0]['variant'] << {'_text' => origin_media}
-          $stdout.puts 'add variant to entry '+ doc['id']+ ':' + origin_media + ' ' + type
+          $stdout.puts 'add variant to entry '+ doc['id'].to_s+ ':' + origin_media.to_s + ' ' + type.to_s
           @entrydb.find({'dict'=>doc['dict'], 'id'=>doc['id']}).delete_many
           @entrydb.insert_one(doc)
         end
