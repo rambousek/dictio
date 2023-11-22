@@ -1,6 +1,11 @@
 <!-- vyhledávácí box -->
+- @search_open = "is-open"
+- @search_hidden = ""
+- if (@is_edit or @is_admin)
+  - @search_open = ""
+  - @search_hidden = "display:none"
 - if (@search_type != 'show') or (@is_edit or @is_admin)
-  .search-top.is-open
+  .search-top class="#{@search_open}"
     .search-top__wrapper
       - if (@search_type == 'search') or (@search_type == 'show')
         == slim :searchboxsearch
