@@ -14,14 +14,14 @@ main role="main"
           - if @report['notrans1']['notrans'].size == 0
             | #{I18n.t("admin.notrans0")}
           - else
-            table
+            table style="border-collapse: collapse"
               tr
                 th #{I18n.t("admin.heslo")}
                 th  #{I18n.t("admin.source")} 
                 th zadal
                 th  #{I18n.t("admin.comments")}
               - @report['notrans1']['notrans'].each do |entry|
-                tr
+                tr style="border-bottom: 1px solid white"
                   td 
                     label #{entry['relation']['trans']} (#{entry['relation']['target']})
                   td 
@@ -53,14 +53,14 @@ main role="main"
                     input type="text" name="user" placeholder="login" value="#{@user_info['name']}"
                   td
                     input.btn type="submit" value="#{I18n.t('admin.show')}"
-            table
+            table style="border-collapse: collapse"
               tr
                 th #{I18n.t("admin.heslo")}
                 th  #{I18n.t("admin.source")} 
                 th zadal
                 th  #{I18n.t("admin.comments")}
               - @report['notrans2']['notrans'].each do |entry|
-                tr
+                tr style="border-bottom: 1px solid white"
                   td 
                     label #{entry['relation']['trans']} (#{entry['relation']['target']})
                   td 
