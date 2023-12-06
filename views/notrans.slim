@@ -35,9 +35,8 @@ main role="main"
                       |  (#{entry['comment']['user']}, #{entry['comment']['time']})
                       br
                     span
-                      input type="text" data-box="meaning#{entry['relation']['meaning']}rel#{entry['relation']['target']}#{entry['relation']['trans']}" data-dict="#{entry['dict']}" data-id="#{entry['id']}" name="kom_text"
-                  td
-                      button.btn  #{I18n.t("admin.koment.add")}
+                      textarea data-box="meaning#{entry['relation']['meaning']}rel#{entry['relation']['target']}#{entry['relation']['trans']}" data-dict="#{entry['dict']}" data-id="#{entry['id']}" name="kom_text"
+                      button.notranscomment  #{I18n.t("admin.koment.add")}
         
         article.col.col--start role="article"
           h2 
@@ -74,7 +73,6 @@ main role="main"
                       |  (#{entry['comment']['user']}, #{entry['comment']['time']})
                       br
                     span
-                      input type="text" data-box="meaning#{entry['relation']['meaning']}rel#{entry['relation']['target']}#{entry['relation']['trans']}" data-dict="#{entry['dict']}" data-id="#{entry['id']}" name="kom_text"
-                  td
+                      textarea data-box="meaning#{entry['relation']['meaning']}rel#{entry['relation']['target']}#{entry['relation']['trans']}" data-dict="#{entry['dict']}" data-id="#{entry['id']}" name="kom_text"
                       button.notranscomment  #{I18n.t("admin.koment.add")}
           
