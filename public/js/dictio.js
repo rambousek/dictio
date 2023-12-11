@@ -734,12 +734,18 @@ window.onscroll = function() {
 }
 
 // show hide element
+
+var showhide_obj="";
+
     function showhide(id) {
        var e = document.getElementById(id);
+       if(showhide_obj!="")
+          showhide_obj.style.display="none";
        if(e.style.display == 'block')
           e.style.display = 'none';
        else
           e.style.display = 'block';
+       showhide_obj=e;
     }
 
 function logout() {
