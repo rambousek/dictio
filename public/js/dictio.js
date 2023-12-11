@@ -753,7 +753,7 @@ function logout() {
       password: "reset",
       // If the return is 401, refresh the page to request new details.
       statusCode: { 401: function() {
-          document.location = 'https://beta.dictio.info';
+          document.location = 'https://dictio.info';
         }
       }
     });
