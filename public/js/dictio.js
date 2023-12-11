@@ -745,7 +745,7 @@ var showhide_obj="";
           e.style.display = 'none';
        else
           e.style.display = 'block';
-          e.firstElementChild.style.currentTime = 0;
+          e.firstElementChild.currentTime = 0;
        showhide_obj=e;
     }
 
