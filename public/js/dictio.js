@@ -739,7 +739,6 @@ var showhide_obj="";
 
     function showhide(id) {
        var e = document.getElementById(id);
-       showhide_obj = document.getElementById(showhide_obj);
        if(showhide_obj!="")
           showhide_obj.style.display="none";
        if(e.style.display == 'block')
@@ -747,7 +746,7 @@ var showhide_obj="";
        else
           e.style.display = 'block';
           e.firstElementChild.currentTime = 0;
-       showhide_obj = e;
+       showhide_obj=e;
     }
 
 function logout() {
