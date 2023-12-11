@@ -735,12 +735,12 @@ window.onscroll = function() {
 
 // show hide element
 
-var showhide_obj="";
+var showhide_obj=NULL;
 
     function showhide(id) {
        var e = document.getElementById(id);
        showhide_obj = document.getElementById(showhide_obj);
-       if(showhide_obj!="")
+       if(showhide_obj!=NULL)
           showhide_obj.style.display="none";
        if(e.style.display == 'block')
           e.style.display = 'none';
