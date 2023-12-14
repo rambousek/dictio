@@ -735,18 +735,26 @@ window.onscroll = function() {
 
 // show hide element
 
-var showhide_obj="";
+function showhide(id) {
+  var e = document.getElementById(id);
+  if(e.style.display == 'block')
+     e.style.display = 'none';
+  else
+     e.style.display = 'block';
+}
 
-    function showhide(id) {
-       var e = document.getElementById(id);
-       if(showhide_obj!="")
-          showhide_obj.style.display="none";
-       if(e.style.display == 'block')
-          e.style.display = 'none';
-       else
-          e.style.display = 'block';
-       showhide_obj=e;
-    }
+var showhide_obj=NULL;
+
+function showhide2(id) {
+  var e = document.getElementById(id);
+  if(showhide_obj!=NULL)
+     showhide_obj.style.display="none";
+  if(e.style.display == 'block')
+     e.style.display = 'none';
+  else
+     e.style.display = 'block';
+  showhide_obj = e;
+}
 
 function logout() {
   // HTTPAuth Logout code based on: http://tom-mcgee.com/blog/archives/4435
