@@ -196,6 +196,8 @@ var stylhodnStore = Ext.create('Ext.data.Store',{
     {'value': 'oblast', 'text': 'oblastní výraz'},
     {'value': 'slang', 'text': 'slangový výraz'},
     {'value': 'spisovne', 'text': 'spisovně'},
+    {'value': 'amer', 'text': 'american'},
+    {'value': 'brit', 'text': 'british'},
   ]
 });
 var stylprizStore = Ext.create('Ext.data.Store',{
