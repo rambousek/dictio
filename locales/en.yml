@@ -352,6 +352,8 @@ en:
       oblast: 'regional expression'
       slang: 'slang expression'
       spisovne: 'standard expression'
+      amer: 'american'
+      brit: 'britisch'
     gender:
       m: "male expression"
       f: "female expression"

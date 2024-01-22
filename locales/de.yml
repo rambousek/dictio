@@ -351,7 +351,9 @@ de:
       obecne: 'Standard Tschechisch'
       oblast: 'regionaler Ausdruck'
       slang: 'Slang-Ausdruck'
-      spisovne: 'Standard'      
+      spisovne: 'Standard'
+      amer: 'amerikanisch'
+      brit: 'britisch'      
     gender:
       m: "männliche Gebärde"
       f: "frauliche Gebärde"

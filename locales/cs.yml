@@ -352,6 +352,8 @@ cs:
       oblast: 'oblastní výraz'
       slang: 'slangový výraz'
       spisovne: 'spisovně'
+      amer: 'americký výraz'
+      brit: 'britský výraz'
     gender:
       m: "mužský znak"
       f: "ženský znak"
