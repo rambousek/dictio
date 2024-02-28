@@ -481,7 +481,10 @@ class CZJDict < Object
         mean['text']['_text'].scan(/\[([0-9]+)(-[0-9]+)?\]/).each{|mrel|
           relid = mrel[0]
           mean['def_relations'] = {} if mean['def_relations'].nil?
-          mean['def_relations'][relid] = getone(entry['dict'], relid)['lemma']['title']
+          relentry = getone(entry['dict'], relid)
+          if relentry and relentry != ""
+            mean['def_relations'][relid] = relentry['lemma']['title']
+          end
         }
       end
     }
