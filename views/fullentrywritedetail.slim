@@ -267,31 +267,38 @@
           td
             strong = I18n.t("gram.detail.1pad")
           td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c1'}[0]['_text']
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'cP1'}[0]['_text']
         tr
           td
             strong = I18n.t("gram.detail.2pad")
           td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c2'}[0]['_text']
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'cP2'}[0]['_text']
         tr
           td
             strong = I18n.t("gram.detail.3pad")
           td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c3'}[0]['_text']
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'cP3'}[0]['_text']
         tr
           td
             strong = I18n.t("gram.detail.4pad")
           td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c4'}[0]['_text']
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'cP4'}[0]['_text']
         - if  @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c5'}.size > 0
           tr
             td
               strong = I18n.t("gram.detail.5pad")
             td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c5'}[0]['_text']
+            td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'cP5'}[0]['_text']
         tr
           td
             strong = I18n.t("gram.detail.6pad")
           td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c6'}[0]['_text']
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'cP6'}[0]['_text']
         tr
           td
             strong = I18n.t("gram.detail.7pad")
           td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c7'}[0]['_text']
+          td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'cP7'}[0]['_text']
 
   - unless @entry['lemma']['style_note'].nil? or @entry['lemma']['style_note'][0].nil? or @entry['lemma']['style_note'][0]['_text'].nil? or @entry['lemma']['style_note'][0]['_text'].to_s == ''
     p.naming 
