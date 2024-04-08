@@ -3913,7 +3913,7 @@ a.btn {
         border-left-color: #e4ebee; } }
 
 .translation {
-  background: var(--background-color-seda1); }
+  background-color: var(--background-color-seda1); }
   .translation p {
     max-width: 570px; }
 
