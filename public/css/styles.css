@@ -6,15 +6,21 @@
  * 2. Prevent adjustments of font size after orientation changes in iOS.
  */
 
+postcss([
+ cssvariables({
+   preserve: true,
+  }),
+])
+
  :root {
-  --background-color: #e4ebee;
-  --text-color: #212121;
+  --background-color-seda1: #e4ebee;  /* barva na hlavní strance vyhledavani */
+  --text-color-cerna1: #1c2641;       /* cerna barva h1 */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background-color: #111;
-    --text-color: #ededed;
+    --background-color-seda1: #111;
+    --text-color-cerna1: whitesmoke;
   }
 }
 
@@ -820,7 +826,7 @@ h2,
 h3,
 h4 {
   margin-top: 0;
-  color: #1c2641;
+  color: --text-color-cerna1;
   font-family: 'Montserrat', sans-serif;
   line-height: 1.3; }
 
@@ -3907,7 +3913,7 @@ a.btn {
         border-left-color: #e4ebee; } }
 
 .translation {
-  background: var(--background-color); }
+  background: var(--background-color-seda1); }
   .translation p {
     max-width: 570px; }
 
