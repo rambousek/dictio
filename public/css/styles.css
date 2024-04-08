@@ -826,7 +826,7 @@ h2,
 h3,
 h4 {
   margin-top: 0;
-  color: --text-color-cerna1;
+  color: var(--text-color-cerna1);
   font-family: 'Montserrat', sans-serif;
   line-height: 1.3; }
 
