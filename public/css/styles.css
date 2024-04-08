@@ -6,25 +6,25 @@
  * 2. Prevent adjustments of font size after orientation changes in iOS.
  */
 
-postcss([
- cssvariables({
-   preserve: true,
-  }),
-])
-
-:root {
-  --background-color-seda1: #e4ebee;  /* barva na hlavní strance vyhledavani */
-  --text-color-cerna1: #1c2641;       /* cerna barva h1 */
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background-color-seda1: #111;
-    --text-color-cerna1: whitesmoke;
-  }
-}
-
-
+/** postcss([
+*  cssvariables({
+*    preserve: true,
+*  }),
+*])
+*
+* :root {
+*  --background-color-seda1: #e4ebee;   X barva na hlavní strance vyhledavani 
+*  --text-color-cerna1: #1c2641;        X cerna barva h1 
+*}
+*
+*@media (prefers-color-scheme: dark) {
+*  :root {
+*    --background-color-seda1: #111;
+*    --text-color-cerna1: whitesmoke;
+*  }
+*}
+*
+**/
  html {
   line-height: 1.15;
   /* 1 */
@@ -826,7 +826,7 @@ h2,
 h3,
 h4 {
   margin-top: 0;
-  color: var(--text-color-cerna1);
+  color: #1c2641;  
   font-family: 'Montserrat', sans-serif;
   line-height: 1.3; }
 
@@ -3488,7 +3488,7 @@ a.btn {
 
 .recent {
   padding: 19px 0;
-  background: var(--background-color-seda1); }
+  background: #fff; }
   @media (min-width: 768px) {
     .recent {
       margin: -10px 0 0 0;
@@ -3579,7 +3579,7 @@ a.btn {
 .search-alt {
   display: none;
   padding: 20px 0 39px;
-  background: var(--background-color-seda1); }
+  background: #e4ebee; }
   @media (min-width: 768px) {
     .search-alt {
       display: block; } }
@@ -3913,7 +3913,7 @@ a.btn {
         border-left-color: #e4ebee; } }
 
 .translation {
-  background: var(--background-color-seda1); }
+  background: #e4ebee; }
   .translation p {
     max-width: 570px; }
 
