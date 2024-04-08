@@ -5,7 +5,21 @@
  * 1. Correct the line height in all browsers.
  * 2. Prevent adjustments of font size after orientation changes in iOS.
  */
-html {
+
+ :root {
+  --background-color: #e4ebee;
+  --text-color: #212121;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #111;
+    --text-color: #ededed;
+  }
+}
+
+
+ html {
   line-height: 1.15;
   /* 1 */
   -webkit-text-size-adjust: 100%;
@@ -3893,7 +3907,7 @@ a.btn {
         border-left-color: #e4ebee; } }
 
 .translation {
-  background: #e4ebee; }
+  background: var(--background-color); }
   .translation p {
     max-width: 570px; }
 
