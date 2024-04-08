@@ -12,7 +12,7 @@ postcss([
   }),
 ])
 
- :root {
+:root {
   --background-color-seda1: #e4ebee;  /* barva na hlavní strance vyhledavani */
   --text-color-cerna1: #1c2641;       /* cerna barva h1 */
 }
@@ -3488,7 +3488,7 @@ a.btn {
 
 .recent {
   padding: 19px 0;
-  background: #fff; }
+  background: var(--background-color-seda1); }
   @media (min-width: 768px) {
     .recent {
       margin: -10px 0 0 0;
@@ -3579,7 +3579,7 @@ a.btn {
 .search-alt {
   display: none;
   padding: 20px 0 39px;
-  background: #e4ebee; }
+  background: var(--background-color-seda1); }
   @media (min-width: 768px) {
     .search-alt {
       display: block; } }
@@ -3913,7 +3913,7 @@ a.btn {
         border-left-color: #e4ebee; } }
 
 .translation {
-  background-color: var(--background-color-seda1); }
+  background: var(--background-color-seda1); }
   .translation p {
     max-width: 570px; }
 
