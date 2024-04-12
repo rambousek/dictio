@@ -13,6 +13,7 @@
  --zakladni-cerna2: black;
  --zakladni-bila: #fff;
  --zakladni-bila2: whitesmoke;
+ --odkaz-modra: #0366c9;
  --section-half: url(../img/section-half.png);      
 }
 
@@ -24,6 +25,7 @@
     --zakladni-cerna2: silver;
     --zakladni-bila: #000;
     --zakladni-bila2: #1E2021;
+    --odkaz-modra: deepskyblue;
     --section-half: url(../img/section-half_black.png);      
   }
 
@@ -2617,7 +2619,7 @@ a.btn {
 
 .link {
   display: inline-block;
-  color: #0366c9;
+  color: var(--odkaz-modra);
   font-size: 1.0625rem;
   font-weight: 700; }
   .link:hover {
