@@ -24,7 +24,12 @@
     --zakladni-bila: #000;
     --section-half: url(../img/section-half_black.png);      
   }
- 
+
+ .video__sign img {
+   -webkit-filter:invert(100%);
+ }  
+}   
+  
 postcss([
   cssvariables({
     preserve: true,
