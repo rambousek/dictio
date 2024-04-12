@@ -11,7 +11,8 @@
  --translate-bg-seda: #f2f6f8;
  --zakladni-text-cerna1: #1c2641;
  --zakladni-cerna2: black;
- --zakladni-bila: #fff;      
+ --zakladni-bila: #fff;
+ --section-half: url(../img/section-half.png);      
 }
 
 @media (prefers-color-scheme: dark) {
@@ -21,24 +22,16 @@
     --zakladni-text-cerna1: #E7EFFF;
     --zakladni-cerna2: silver;
     --zakladni-bila: #000;
+    --section-half: url(../img/section-half_black.png);      
   }
-
-  .video__sign img {
-    -webkit-filter:invert(100%);
-  }  
  
-  @media (min-width: 992px) {
-    .detail {
-      background: var(--zakladni-bila) url(../img/section-half_dark.png) center top repeat-y; } }
-}
-
 postcss([
   cssvariables({
     preserve: true,
   }),
 ])
 
- html {
+html {
   line-height: 1.15;
   /* 1 */
   -webkit-text-size-adjust: 100%;
@@ -2031,7 +2024,7 @@ a.btn {
 
 @media (min-width: 992px) {
   .detail {
-    background: var(--zakladni-bila) url(../img/section-half.png) center top repeat-y; } }
+    background: var(--zakladni-bila) var(--section-half) center top repeat-y; } }
 
 .detail__head {
   position: relative;
