@@ -1,3 +1,18 @@
+:root {
+  --zakladni-seda1: #e4ebee;   
+}
+ 
+@media (prefers-color-scheme: dark) {
+  :root {
+     --zakladni-seda1: #262C2E;
+}
+ 
+postcss([
+  cssvariables({
+    preserve: true,
+  }),
+])
+
 video.video-link {
   cursor: pointer;
 }
@@ -120,7 +135,7 @@ img.error {align-self: center}
 .report-ne:hover {background-color: darkgreen !important; font-size: 0.7rem !important;}
 .report- {background-color: gray !important; font-size: 0.7rem !important;}
 .report-:hover {background-color: darkgreen !important; font-size: 0.7rem !important;}
-.report-table {display: block; background: #e4ebee; border-radius: 20px; padding: 15px;}
+.report-table {display: block; background: var(--zakladni-seda); border-radius: 20px; padding: 15px;}
 
 .revcolloc-headline, .revkompozitum-headline, .revderivat-headline {
   cursor: pointer;
