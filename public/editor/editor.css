@@ -1,20 +1,3 @@
-:root {
-  --zakladni-bg-bila: whitesmoke;  
-  --zakladni-bila: white; 
-}
- 
-@media (prefers-color-scheme: dark) {
-  :root {
-     --zakladni-bg-bila: #1E2021;
-     --zakladni-bila: #1c2641;
-  }
-}
-postcss([
-  cssvariables({
-    preserve: true,
-  }),
-])
-
 label {font-size: 0.82rem; margin: 0; font-weight: 500;} /* docasna uprava pro prechod na novy vzhled */
 #tabForm {border-top: solid 5px #1c2641;}
 .x-body {background-color: #e4ebee;}
@@ -22,7 +5,7 @@ input, textarea, select {font-size: 0.9rem; font-weight:200; border-radius: 10px
 .ssc_html {background-color: lightblue;}
 
 .x-panel-body-default {
-  background: var(--zakladni-bg-bila);
+  background: whitesmoke;
 }
 #gramdesc,#styldesc {
   background-color: #fff3c6;  
@@ -69,7 +52,7 @@ input, textarea, select {font-size: 0.9rem; font-weight:200; border-radius: 10px
 div.rellinkset {margin-bottom: 4px; background-color: lightblue;}
 
 .deklin-label input {
-  background-color: var(--zakladni-bila) !important;
+  background-color: white !important;
   color: black !important;
   opacity: 100 !important;
 }
