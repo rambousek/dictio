@@ -12,6 +12,7 @@
  --zakladni-text-cerna1: #1c2641;
  --zakladni-cerna2: black;
  --zakladni-bila: #fff;
+ --zakladni-bila2: whitesmoke;
  --section-half: url(../img/section-half.png);      
 }
 
@@ -22,6 +23,7 @@
     --zakladni-text-cerna1: #E7EFFF;
     --zakladni-cerna2: silver;
     --zakladni-bila: #000;
+    --zakladni-bila2: #1E2021;
     --section-half: url(../img/section-half_black.png);      
   }
 
@@ -2014,7 +2016,7 @@ a.btn {
   left: 0;
   z-index: 99;
   margin: 1px 0 0 0;
-  background-color: whitesmoke;
+  background-color: var(--zakladni-bila2);
   -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
           box-shadow: 0 0 4px rgba(0, 0, 0, 0.2); }
 
