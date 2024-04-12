@@ -5,8 +5,8 @@
 @media (prefers-color-scheme: dark) {
   :root {
      --zakladni-seda1: #262C2E;
+  }
 }
- 
 postcss([
   cssvariables({
     preserve: true,
