@@ -1,17 +1,38 @@
+/* zakladni styl */
+:root {
+  --zaklad-bg: #e4ebee;
+  --zaklad-bg2: whitesmoke;
+  --bila: white;
+  --gram: #fff3c6;
+  --vyznamy: lightgray;
+  --equiv: lightblue;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --zaklad-bg: black;
+    --zaklad-bg2: #1e2a2f;
+    --bila: #7b7b7b;
+    --gram: #735700;
+    --vyznamy: #4A4A4F;
+    --equiv: #1b4958;
+  }
+}
+
 label {font-size: 0.82rem; margin: 0; font-weight: 500;} /* docasna uprava pro prechod na novy vzhled */
 #tabForm {border-top: solid 5px #1c2641;}
-.x-body {background-color: #e4ebee;}
+.x-body {background-color: var(--zaklad-bg)}
 input, textarea, select {font-size: 0.9rem; font-weight:200; border-radius: 10px;} /* docasna uprava pro prechod na novy vzhled */
 .ssc_html {background-color: lightblue;}
 
 .x-panel-body-default {
-  background: whitesmoke;
+  background: var(--zaklad-bg2);
 }
 #gramdesc,#styldesc {
-  background-color: #fff3c6;  
+  background-color: var(--gram);  
 }
 #vyznamy_box {
-  background-color: lightgray;
+  background-color: var(--vyznamy);
   /*#d1e8dc;  */
 }
 #textfield-1107-inputEl { font-size: 22px; font-weight: 800;  font-family: 'Montserrat', sans-serif; }
@@ -49,7 +70,7 @@ input, textarea, select {font-size: 0.9rem; font-weight:200; border-radius: 10px
   background-color: rgb(152, 176, 197);
 }
 
-div.rellinkset {margin-bottom: 4px; background-color: lightblue;}
+div.rellinkset {margin-bottom: 4px; background-color: var(--equiv);}
 
 .deklin-label input {
   background-color: white !important;
