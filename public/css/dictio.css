@@ -1,10 +1,12 @@
 :root {
-  --zakladni-seda1: #e4ebee;   
+  --zakladni-seda1: #e4ebee;  
+  --neschvaleno: yellow; 
 }
  
 @media (prefers-color-scheme: dark) {
   :root {
      --zakladni-seda1: #262C2E;
+     --neschvaleno: #290000;
   }
 }
 postcss([
@@ -207,7 +209,7 @@ p.naming2 span {
   font-style: italic;
   padding-left: 10px;
   display: inline-flex;
-  background-color: yellow;
+  background-color: var(--neschvaleno);
   border-radius: 15px;
   padding-right: 10px;
   padding: 5px;
