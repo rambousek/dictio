@@ -16,6 +16,8 @@ var koncwindow = null;
 var entry_updated = false;
 var empty = '';
 var changes = new Array();
+var bgAuth = '#DCDCDC';
+var bgSilver = 'silver';
 
 var params = Ext.Object.fromQueryString(window.location.search.substring(1));
 if (params.empty != null && params.empty != '') {
@@ -23,6 +25,12 @@ if (params.empty != null && params.empty != '') {
 }
 if (params.id != null && params.id != '') {
   /* load filelist */
+  let mediaQueryObj = window.matchMedia('(prefers-color-scheme: dark)');
+  let isDarkMode = mediaQueryObj.matches; // 
+  if (isDarkMode) {
+    bgAuth = 'slategray';
+    bgSilver = 'slategray';
+  };
   entryid = params.id;
   g_entryid = params.id;
 }
@@ -1867,7 +1875,7 @@ function create_copyright(idstart, hidden) {
   }
   var copy = Ext.create('Ext.container.Container', {
     id: idstart+'_copybox',
-    style: {backgroundColor:'#DCDCDC'},
+    style: {backgroundColor: bgAuth},
     name: 'copybox',
     hidden: hidden,
     layout: {
@@ -1925,7 +1933,7 @@ function create_copyrightM(idstart, hidden) {
   var copy = Ext.create('Ext.container.Container', {
     id: idstart+'_copybox',
     name: 'copybox',
-    style: {backgroundColor:'#DCDCDC'},
+    style: {backgroundColor: bgAuth},
     hidden: hidden,
     layout: {
       type: 'hbox'
@@ -3214,7 +3222,7 @@ Ext.onReady(function(){
         xtype: 'fieldset',
         title: locale[lang].basicinfo,
         id: 'boxlemma',
-        style: {backgroundColor:'silver'},
+        style: {backgroundColor: bgSilver},
         collapsible: true,
         layout:  {
           type: 'vbox'
