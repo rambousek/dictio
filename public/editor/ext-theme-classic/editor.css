@@ -3,6 +3,8 @@
     --bila2: white;
     --cerna: black;
     --dark-green: darkgreen;
+    --bila-list: white;
+    --list-select: #cbdaf0;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -10,6 +12,8 @@
         --bila2: black;
         --cerna: white;
         --dark-green: #03c9a9;
+        --bila-list: #282828;
+        --list-select: black;
     }
 
     .x-box-item img {
@@ -8512,7 +8516,8 @@ div.x-form-spinner-down {
     border-width: 1px;
     border-style: solid;
     border-color: #98c0f4;
-    background: white
+    background: var(--bila-list);
+    color: var(--cerna);
 }
 
 .x-strict .x-ie7m .x-boundlist-list-ct {
@@ -8532,7 +8537,7 @@ div.x-form-spinner-down {
 }
 
 .x-boundlist-selected {
-    background: #cbdaf0;
+    background: var(--list-select); 
     border-color: #8eabe4
 }
 
