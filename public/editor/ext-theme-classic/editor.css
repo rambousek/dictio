@@ -5,6 +5,8 @@
     --dark-green: darkgreen;
     --bila-list: white;
     --list-select: #cbdaf0;
+    --list-sel-text: white;
+    --list-hover: #dfe8f6;;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -14,6 +16,8 @@
         --dark-green: #03c9a9;
         --bila-list: #282828;
         --list-select: black;
+        --list-sel-text: yellow;
+        --list-hover: slategray;
     }
 
     .x-box-item img {
@@ -8097,8 +8101,8 @@ textarea.x-form-empty-field {
 }
 
 .x-form-display-field {
-    font: normal 12px/14px;
-    color: black;
+    font: normal 14px;
+    color: var(--cerna);
     margin-top: 4px
 }
 
@@ -8526,14 +8530,11 @@ div.x-form-spinner-down {
 
 .x-boundlist-item {
     padding: 0 3px;
-    line-height: 20px;
+    line-height: 22px;
     cursor: pointer;
     cursor: hand;
     position: relative;
     zoom: 1;
-    border-width: 1px;
-    border-style: dotted;
-    border-color: white
 }
 
 .x-boundlist-selected {
@@ -8542,7 +8543,7 @@ div.x-form-spinner-down {
 }
 
 .x-boundlist-item-over {
-    background: #dfe8f6;
+    background: var(--list-hover);
     border-color: #a3bae9
 }
 
