@@ -7,6 +7,7 @@
     --list-select: #cbdaf0;
     --list-sel-text: white;
     --list-hover: #dfe8f6;;
+    --bg:  #e4ebee;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -18,6 +19,7 @@
         --list-select: black;
         --list-sel-text: yellow;
         --list-hover: slategray;
+        --bg: black;
     }
 
     .x-box-item img {
@@ -4495,7 +4497,7 @@ body.x-nbr .x-btn-default-toolbar-large-frameInfo {
 
 .x-panel-body-default {
     background: white;
-    border-color: gray;
+    border-color: var(--bg);
     color: var(--cerna);
     font-size: 12px;
     font-size: normal;
@@ -8519,7 +8521,7 @@ div.x-form-spinner-down {
 .x-boundlist {
     border-width: 1px;
     border-style: solid;
-    border-color: #98c0f4;
+    border-color: /* #98c0f4 */#03c9a9;
     background: var(--bila-list);
     color: var(--cerna);
 }
