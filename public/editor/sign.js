@@ -3244,7 +3244,7 @@ function create_sw(entryid, add_copy) {
     id: name,
     name: 'switem',
     border: 1,
-    style: {borderColor: silver, borderStyle:'solid', borderWidth:'1px'},    
+    style: {borderColor: 'silver', borderStyle:'solid', borderWidth:'1px'},    
     items: [{
       xtype: 'container',
       layout: {
@@ -4238,7 +4238,7 @@ Ext.onReady(function(){
       items: [{
         xtype: 'fieldset',
         title: locale[lang].basicinfo,
-        style: {backgroundColor:'bgSilver'},
+        style: {backgroundColor: bgSilver},
         id: 'boxlemma',
         collapsible: true,
         layout:  {

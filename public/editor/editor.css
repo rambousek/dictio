@@ -3,6 +3,7 @@
   --zaklad-bg: #e4ebee;
   --zaklad-bg2: whitesmoke;
   --bila: white;
+  --bila2: white;
   --gram: #fff3c6;
   --vyznamy: lightgray;
   --equiv: lightblue;
@@ -13,6 +14,7 @@
     --zaklad-bg: black;
     --zaklad-bg2: #1e2a2f;
     --bila: #7b7b7b;
+    --bila2: black;
     --gram: #735700;
     --vyznamy: #4A4A4F;
     --equiv: #1b4958;
@@ -48,7 +50,7 @@ select {
 }
 
 #videobox-outerCt {
-  background-color: var(--bila);
+  background-color: var(--bila2);
 }
 
 .x-panel-body-default {
