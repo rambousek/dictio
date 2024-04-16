@@ -48,10 +48,8 @@ select {
 }
 
 #videobox-outerCt {
-  background-color: var(--bila)
+  background-color: var(--bila);
 }
-
-;
 
 .x-panel-body-default {
   background: var(--zaklad-bg2);
