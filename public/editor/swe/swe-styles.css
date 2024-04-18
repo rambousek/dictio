@@ -1,5 +1,7 @@
 @media (prefers-color-scheme: dark) {
-    filter: invert(1);
+    html {
+        -webkit-filter: invert(100%);
+    }
 }
   
 
