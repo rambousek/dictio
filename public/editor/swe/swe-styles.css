@@ -3,7 +3,8 @@
         -webkit-filter: invert(100%);
     }
 }
-  
+
+body {background: whitesmoke}
 
 /* cached */
 #swe-body {
