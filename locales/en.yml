@@ -117,7 +117,7 @@ en:
     nopubtrans: "No public translations in this meaning available."
     notapproved: "It has not been approved yet if following information is correct!"
     hidden_lemma: "Private entry. The information provided has not been verified and is not guaranteed to be correct."    
-    circumloc: "Circumlocution. See example sentences." 
+    circumloc: "Regular interpretation. See example sentences." 
     category: "category"
     kat_28: 'biologie'
     kat_6: 'informatics'

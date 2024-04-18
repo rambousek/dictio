@@ -117,7 +117,7 @@ cs:
     nopubtrans: "Pro tento význam nejsou zveřejněny žádné cizojazyčné ekvivalenty."
     notapproved: "Správnost následující informace nebyla dosud ověřena!"
     hidden_lemma: "Neveřejné heslo. Uvedené informace nebyly nezávisle ověřeny a není garantovaná jejich správnost."
-    circumloc: "Opisný překlad. Viz příklady užití."
+    circumloc: "Obvyklý překlad. Viz příklady užití."
     category: "obor"
     kat_28: 'biologie'
     kat_6: 'informatika'
