@@ -6882,7 +6882,8 @@ body.x-nbr .x-window-default-frameInfo {
     border-width: 1px;
     border-style: solid;
     background: var(--dialogbox-bg);
-    color: black
+    color: var(--cerna);
+    font-size: 13px;
 }
 
 .x-window-header-default {
@@ -6937,11 +6938,11 @@ body.x-nbr .x-window-default-frameInfo {
     padding: 4px 5px 0 5px;
     border-width: 1px 1px 0 1px;
     border-style: solid;
-    background-color: #ced9e7
+    background-color: var(--dialog-base);
 }
 
 .x-window-header-default-top-mc {
-    background-color: #ced9e7
+    background-color: var(--dialog-base);
 }
 
 .x-nbr .x-window-header-default-top {
