@@ -46,9 +46,7 @@
 .gramframe {
   border: solid 1px black;
 }
-.priklady {
-  background-color: rgb(152, 176, 197);
-}
+
 .deklin-label input {
   background-color: white !important;
   color: black !important;

@@ -7,6 +7,7 @@
   --gram: #fff3c6;
   --vyznamy: lightgray;
   --equiv: lightblue;
+  --priklady-bg:  rgb(152, 176, 197);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -18,6 +19,7 @@
     --gram: #735700;
     --vyznamy: #4A4A4F;
     --equiv: #1b4958;
+    --priklady-bg: dimgray;
   }
 }
 
@@ -171,7 +173,7 @@ select {
 }
 
 .priklady {
-  background-color: rgb(152, 176, 197);
+  background-color: var(--priklady-bg);
 }
 
 div.rellinkset {

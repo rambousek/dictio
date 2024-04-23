@@ -8,6 +8,8 @@
     --list-sel-text: white;
     --list-hover: #dfe8f6;;
     --bg:  #e4ebee;
+    --dialogbox-bg: #dfe8f6; 
+    --dialog-base: #ced9e7;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -20,6 +22,8 @@
         --list-sel-text: yellow;
         --list-hover: slategray;
         --bg: black;
+        --dialogbox-bg: #434343;
+        --dialog-base: lightslategray;
     }
 
     .x-box-item img {
@@ -6765,11 +6769,11 @@ body.x-nbr .x-btn-group-default-framed-notitle-frameInfo {
     padding: 4px 4px 4px 4px;
     border-width: 1px;
     border-style: solid;
-    background-color: #ced9e7
+    background-color: var(--dialog-base);
 }
 
 .x-window-default-mc {
-    background-color: #ced9e7
+    background-color: var(--dialog-base);
 }
 
 .x-nbr .x-window-default {
@@ -6877,7 +6881,7 @@ body.x-nbr .x-window-default-frameInfo {
     border-color: #99bbe8;
     border-width: 1px;
     border-style: solid;
-    background: #dfe8f6;
+    background: var(--dialogbox-bg);
     color: black
 }
 
@@ -6912,7 +6916,7 @@ body.x-nbr .x-window-default-frameInfo {
     color: #04468c;
     font-weight: bold;
     line-height: 15px;
-    font-size: 11px;
+    font-size: 13px;
     padding: 0 2px 1px;
     text-transform: none
 }
