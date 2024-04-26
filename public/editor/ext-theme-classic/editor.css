@@ -10,6 +10,7 @@
     --bg:  #e4ebee;
     --dialogbox-bg: #dfe8f6; 
     --dialog-base: #ced9e7;
+    --box-shadow: black;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -24,6 +25,7 @@
         --bg: black;
         --dialogbox-bg: #282828;
         --dialog-base: lightslategray;
+        --box-shadow: orange;
     }
 
     .x-box-item img {
@@ -224,7 +226,8 @@ img {
     -moz-border-radius: 5px;
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
-    border-radius: 5px
+    border-radius: 5px;
+    box-shadow: var(--box-shadow) 0 0 25px !important;
 }
 
 .x-item-disabled,
