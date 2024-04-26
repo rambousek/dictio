@@ -15,6 +15,7 @@
     --btn-light-gray: lightgray;
     --btn-bg-image: -moz-linear-gradient(top, #fff, #f9f9f9 48%, #e2e2e2 52%, #e7e7e7);
     --btn-border-color: #d1d1d1;
+    --btn-color: #333;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -34,6 +35,7 @@
         --btn-light-gray: rgb(49, 53, 55);
         --btn-bg-image: -moz-linear-gradient(rgb(24, 26, 27), rgb(27, 30, 31) 48%, rgb(40, 44, 45) 52%, rgb(38, 41, 42));
         --btn-border-color: rgb(24, 26, 27);
+        --btn-color: orange;
       }
       .x-btn-default-small {
         border-color: rgb(61, 66, 69);
@@ -1793,9 +1795,9 @@ body.x-nbr .x-btn-default-small-frameInfo {
 }
 
 .x-btn-default-small .x-btn-inner {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: normal;
-    color: #333;
+    color: var(--btn-color);
     padding: 0 4px
 }
 
