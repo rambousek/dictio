@@ -6749,7 +6749,7 @@ body.x-nbr .x-btn-group-default-framed-notitle-frameInfo {
 }
 
 .x-window-default {
-    border-color: #a2b1c5;
+    border-color: var(--zakladni-bg-seda1);
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     -ms-border-radius: 5px;
@@ -6769,7 +6769,7 @@ body.x-nbr .x-btn-group-default-framed-notitle-frameInfo {
     padding: 4px 4px 4px 4px;
     border-width: 1px;
     border-style: solid;
-    background-color: var(--dialog-base);
+    background-color: var(--zakladni-bg-seda1);
 }
 
 .x-window-default-mc {
@@ -6878,9 +6878,9 @@ body.x-nbr .x-window-default-frameInfo {
 }
 
 .x-window-body-default {
-    border-color: #99bbe8;
+    /* border-color: #99bbe8;
     border-width: 1px;
-    border-style: solid;
+    border-style: solid; */
     background: var(--dialogbox-bg);
     color: var(--cerna);
     font-size: 13px;
@@ -6914,10 +6914,10 @@ body.x-nbr .x-window-default-frameInfo {
 }
 
 .x-window-header-text-container-default {
-    color: #04468c;
+    color: var(--dark-green);
     font-weight: bold;
     line-height: 15px;
-    font-size: 13px;
+    font-size: 14px;
     padding: 0 2px 1px;
     text-transform: none
 }
@@ -6938,7 +6938,7 @@ body.x-nbr .x-window-default-frameInfo {
     padding: 4px 5px 0 5px;
     border-width: 1px 1px 0 1px;
     border-style: solid;
-    background-color: var(--dialog-base);
+    background-color: var(--zakladni-bg-seda1);
 }
 
 .x-window-header-default-top-mc {
@@ -8060,7 +8060,7 @@ div.x-lbl-top-err-icon {
     background: (--bila) repeat-x 0 0;
     border-width: 1px;
     border-style: solid;
-    border-color: #b5b8c8;
+    border-color: var(--zakladni-bg-seda1);
     height: 22px;
     line-height: 17px;
     font-weight: 600;

@@ -1013,7 +1013,7 @@ function open_comments(box, type) {
           type: 'hbox'
         },
         width: 470,
-        height: 65,
+        height: 75,
         items: [{
           xtype: 'textarea', 
           name: 'newtext',
@@ -1052,7 +1052,7 @@ function open_comments(box, type) {
       for (i = 0; i < data.comments.length; i++) {
         var newcom = Ext.create('Ext.Component', {
           width: 400,
-          height: 65,
+          height: 75,
           border: 1,
           style: {
             borderColor: 'blue',
