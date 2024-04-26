@@ -8060,7 +8060,7 @@ div.x-lbl-top-err-icon {
     background: (--bila) repeat-x 0 0;
     border-width: 1px;
     border-style: solid;
-    border-color: var(--zakladni-bg-seda1);
+    border-color: gray;
     height: 22px;
     line-height: 17px;
     font-weight: 600;
