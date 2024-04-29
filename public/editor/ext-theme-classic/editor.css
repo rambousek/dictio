@@ -8135,7 +8135,7 @@ textarea.x-form-empty-field {
 }
 
 .x-message-box .x-window-body {
-    background-color: #ced9e7;
+    /* background-color: #ced9e7; */
     border-width: 0
 }
 
