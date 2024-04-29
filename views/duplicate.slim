@@ -23,7 +23,9 @@ main role="main"
                   td ! #{dup['lemma'].to_s}
                 - else
                   - if dup['front']
-                    td ! #{dup['front'].to_s}
+                    td ! #{dup['front'].to_s} 
+                      video class=@dictcode width="177" height="142" onmouseover="this.play()" onmouseout="this.pause()"
+                        source type="video/mp4" src="https://files.dictio.info/video#{@dictcode}/#{dup['front'].to_s}"                        
                   - else
                     td !
                   /    - dup['_id']['front'].each do |dtr|
