@@ -37,10 +37,10 @@ main role="main"
                 td
                   - if dup['ids']
                     - dup['ids'].each do |id|
-                      | ~ 
+                      | : 
                       a.btn class="btn-#{@dictcode}" href="https://edit.dictio.info/editor#{@dictcode}/?id=#{id}" #{id}
                   - if dup['_id']['ids']
                     - dup['_id']['ids'].each do |id|
-                      | : 
+                      | ~ 
                       a.btn class="btn-#{@dictcode}" href="https://edit.dictio.info/editor#{@dictcode}/?id=#{id}" #{id}
                      
