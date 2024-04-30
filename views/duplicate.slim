@@ -12,13 +12,17 @@ main role="main"
           p celkem: #{@report['count']}
           table
             tr
+              th
               - if @dict_info[@dictcode]['type'] == 'write'
                 th lemma
               - else
                 th video
               th ID
+            - i = 0
             - @report['duplicate'].each do |dup|
+              - i += 1
               tr
+                td #{i}
                 - if @dict_info[@dictcode]['type'] == 'write'
                   td ! #{dup['lemma'].to_s}
                 - else
