@@ -13,10 +13,7 @@ main role="main"
           table
             tr
               th
-              - if @dict_info[@dictcode]['type'] == 'write'
-                th lemma
-              - else
-                th video
+              th lemma
               th ID
             - i = 0
             - @report['duplicate'].each do |dup|
