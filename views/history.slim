@@ -41,11 +41,11 @@ main role="main"
             td rowspan=3 #{entry['detail']}
             td 
               - if entry['full_entry']
-                a href="/compare/#{entry['_id']}" target="_blank" #{I18n.t('admin.historycompare')}
+                a.btn href="/compare/#{entry['_id']}" target="_blank" #{I18n.t('admin.historycompare')}
           tr
             td #{entry['dict']}
             td 
-              a href="/#{entry['dict']}/show/#{entry['entry']}" target="_blank" #{entry['entry']}
+              a.btn class="btn-#{entry['dict']}" href="/#{entry['dict']}/show/#{entry['entry']}" target="_blank" #{entry['entry']}
             td #{entry['user']}
             td 
               - if entry['full_entry']
