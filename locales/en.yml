@@ -285,12 +285,12 @@ en:
       subst_vlastni: 'vlastní'
       subst_hromadne: 'hromadné'
       subst_pomnozne: 'pomnožné'
-      subst_m: 'mužský rod'
-      subst_z: 'ženský rod'
-      subst_s: 'strední rod'
-      pron_m: 'mužský rod'
-      pron_z: 'ženský rod'
-      pron_s: 'strední rod'
+      subst_m: 'masculinum'
+      subst_z: 'femininum'
+      subst_s: 'neutrum'
+      pron_m: 'masculinum'
+      pron_z: 'femininum'
+      pron_s: 'neutrum'
       pron_osobni: "osobní"
       pron_privl: "přivlastňovací"
       pron_tazaci: "tázací"
