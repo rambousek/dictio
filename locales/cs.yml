@@ -287,10 +287,10 @@ cs:
       subst_pomnozne: 'pomnožné'
       subst_m: 'mužský rod'
       subst_z: 'ženský rod'
-      subst_s: 'strední rod'
+      subst_s: 'střední rod'
       pron_m: 'mužský rod'
       pron_z: 'ženský rod'
-      pron_s: 'strední rod'
+      pron_s: 'střední rod'
       pron_osobni: "osobní"
       pron_privl: "přivlastňovací"
       pron_tazaci: "tázací"
