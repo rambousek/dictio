@@ -2911,7 +2911,7 @@ function create_vyznam_links(parentid) {
         cls: 'vztah-title',
         html: '',
         width: 130,
-        autoHeight: true,
+        height: 22,
         color: 'red',
       },{
         xtype: 'combobox',
