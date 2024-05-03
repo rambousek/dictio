@@ -220,6 +220,10 @@ video.ogs {
   border-left: solid 4px darkred
 }
 
+video.uzm {
+  border-left: solid 4px lightblue;
+}
+
 .redtext {
   color: red;
   font-style: italic;
@@ -243,4 +247,10 @@ video.ogs {
 .text-de {
   border-left: solid 10px darkgoldenrod;
   font-weight: bold;
+}
+
+.text-ua {
+  border-left: solid 10px yellow;
+  font-weight: bold;
+  color: black;
 }
