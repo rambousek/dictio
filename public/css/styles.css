@@ -878,7 +878,7 @@ a {
       color: #afafaf; } }
   a:hover, a:focus {
     color: #0366c9; }
-a.edit {color: white; text-decoration: none;}
+a.edit {color: darkslategrey; text-decoration: none;}
 a.edit:hover {color: #03c9a9;}
 
 p {
