@@ -1686,7 +1686,7 @@ function load_doc(id, history, historytype) {
                 }
                 if (trans['status']) change_stav(transset.query('component[name="stavcont"]')[0], trans['status']);
                 //zobrazeni textu nebo obrazku
-                if (target == 'cs' || target == 'en' || target == 'sj' || target == 'de' ) {
+                if (target == 'cs' || target == 'en' || target == 'sj' || target == 'de' ) || target == 'uk' ){
                   if (trans['entry'] && trans['entry']['lemma']['title']) {
                     transset.query('component[name="vztahtitle"]')[0].update(trans['entry']['lemma']['title']);
                   }
