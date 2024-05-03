@@ -1474,10 +1474,13 @@ function log_changes(element) {
 function entry_update_show(updated) {
   if (updated) {
     document.title = dictcode.toUpperCase()+' ' + entryid + ' *';
-    Ext.getCmp('tabForm').setTitle(dictcode.toUpperCase()+'-' + entryid + ' * '+locale[lang].modified);
+    Ext.getCmp('tabForm').setTitle(dictcode.toUpperCase()+'-' + entryid);
+    Ext.getCmp('tabForm').query('component[name=modifiedlabel]')[0].setText(' * '+locale[lang].modified);
+
   } else {
     document.title = dictcode.toUpperCase()+' ' + entryid;
     Ext.getCmp('tabForm').setTitle(dictcode.toUpperCase()+'-' + entryid);
+    Ext.getCmp('tabForm').query('component[name=modifiedlabel]')[0].setText('');
   }
 }
 
