@@ -4508,8 +4508,8 @@ body.x-nbr .x-btn-default-toolbar-large-frameInfo {
 
 .x-panel-header-text-container-default {
     /* color: white; */
-    font-size: 15px;
-    font-weight: bold;
+    font-size: 20px;
+    font-weight: 800;
     line-height: 15px;
     padding: 0 2px 1px;
     text-transform: none
