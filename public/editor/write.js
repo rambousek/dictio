@@ -3899,6 +3899,12 @@ Ext.onReady(function(){
           }
         }
       },{
+        xtype: 'label',
+        text: '',
+        name: 'modifiedlabel',
+        cls: 'modified-box',
+        style: 'width: 200px !important'
+      },{
           xtype: 'tbspacer',
           flex: 6
         },{
