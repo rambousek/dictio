@@ -1040,7 +1040,7 @@ function new_entry() {
       var data = JSON.parse(response.responseText);
       entryid = data['newid'].toString();
       entrydata = {'meanings': [{'id': data['newid']+'-1','created_at': Ext.Date.format(new Date(), 'Y-m-d H:i:s')}], 'lemma': {'created_at': Ext.Date.format(new Date(), 'Y-m-d H:i:s')}};
-      Ext.getCmp('tabForm').setTitle(locale[lang].entry+' id '+entryid);
+      Ext.getCmp('tabForm').setTitle(dictcode.toUpperCase()+'-'+entryid);
       document.title = dictcode.toUpperCase()+' '+entryid;
       Ext.getCmp('tabForm').query('component[name="userskupina"]')[0].setValue(data['user_info']['skupina'].join(','));
       Ext.getCmp('tabForm').query('component[name="userperm"]')[0].setValue(data['user_info']['perm']);
@@ -1087,7 +1087,7 @@ function load_doc(id, history, historytype) {
       var data = JSON.parse(response.responseText);
       entrydata = data;
       console.log('ext form start ' + new Date().getTime())
-      Ext.getCmp('tabForm').setTitle(locale[lang].entry+' '+dictcode.toUpperCase()+' id '+id);
+      Ext.getCmp('tabForm').setTitle(dictcode.toUpperCase()+'-'+id);
       document.title = dictcode.toUpperCase()+' '+id;
 
       if (data['lemma'] != undefined) {
@@ -1474,10 +1474,10 @@ function log_changes(element) {
 function entry_update_show(updated) {
   if (updated) {
     document.title = dictcode.toUpperCase()+' ' + entryid + ' *';
-    Ext.getCmp('tabForm').setTitle(locale[lang].entry+' '+dictcode.toUpperCase()+' id ' + entryid + ' * '+locale[lang].modified);
+    Ext.getCmp('tabForm').setTitle(dictcode.toUpperCase()+'-' + entryid + ' * '+locale[lang].modified);
   } else {
     document.title = dictcode.toUpperCase()+' ' + entryid;
-    Ext.getCmp('tabForm').setTitle(locale[lang].entry+' '+dictcode.toUpperCase()+' id ' + entryid);
+    Ext.getCmp('tabForm').setTitle(dictcode.toUpperCase()+'-' + entryid);
   }
 }
 
