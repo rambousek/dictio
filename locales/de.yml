@@ -471,6 +471,8 @@ de:
     usage: "genehmigt Beispielsätze"
     translation: "bestätigt Äquivalent in "
     pubtrans: "genehmigt Äquivalent in "
+    synonym: "zadané synonymum"
+    pubsynonym: "schválené synonymum"
     comments: "Notizen"
     koment:
       boxlemma: "Technische Einstellungen"

@@ -472,6 +472,8 @@ sk:
     usage: "schválený príklad použitia"
     translation: "zadaný ekvivalent "
     pubtrans: "schválený ekvivalent "    
+    synonym: "zadané synonymum"
+    pubsynonym: "schválené synonymum"
     comments: "komentáre"
     koment:
       boxlemma: "technické informácie"

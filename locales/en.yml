@@ -471,6 +471,8 @@ en:
     usage: "approved example sentence"
     translation: "existing equivalent in "
     pubtrans: "approved equivalent in "
+    synonym: "zadané synonymum"
+    pubsynonym: "schválené synonymum"
     comments: "comments"
     koment:
       boxlemma: "technical details"

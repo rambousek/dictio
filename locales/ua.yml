@@ -471,6 +471,8 @@ ua:
     usage: "затверджений приклад"
     translation: "вказаний еквівалент"
     pubtrans: "схвалений еквівалент"
+    synonym: "zadané synonymum"
+    pubsynonym: "schválené synonymum"
     comments: "коментарі"
     koment:
       boxlemma: "технічна інформація"
