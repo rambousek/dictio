@@ -394,7 +394,7 @@ main role="main"
                 a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&komentbox=video&koment=ne" lemma
                 a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&vyznamvid=ano&komentbox=vyznam&koment=ne" #{I18n.t("admin.presets.def")}
                 a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&vyznamvid=ano&komentbox=_us&koment=ne" #{I18n.t("admin.presets._us")}
-                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&komentbox=vazby&koment=ne" | #{I18n.t("admin.presets.equiv")}:  
+                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&komentbox=vazby&koment=ne" #{I18n.t("admin.presets.equiv")}:  
 
       - if @duplicate['duplicate'].select{|info| info['code'] == @dictcode}.size > 0
         div style="color: red; font-style: italic; font-variant: all-small-caps"

@@ -498,7 +498,7 @@ cs:
       toapprove: "ke schválení"
       rev: "k revizi"
       def: "definice"
-      ex: "příklady"
+      _us: "příklady"
       equiv: "ekvivalenty"
       title: "Přednastavené volby"
       revdef: "definice ke schválení"
