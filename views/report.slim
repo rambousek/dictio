@@ -402,25 +402,25 @@ main role="main"
               - if @params['komentbox'] == ''
                 | neurčeno
               - if @params['komentbox'] == 'boxlemma'
-                | technické info
+                | #{I18n.t("admin.koment.boxlemma")}
               - if @params['komentbox'] == 'boxcolloc'
-                | typ hesla
+                | #{I18n.t("admin.koment.boxcolloc")}
               - if @params['komentbox'] == 'video'
-                | záhlaví (video)
+                | #{I18n.t("admin.koment.video")}
               - if @params['komentbox'] == 'swfieldset'
-                | SW
+                | #{I18n.t("admin.koment.swfieldset")}
               - if @params['komentbox'] == 'hamnbox'
-                | HNS 
+                | #{I18n.t("admin.koment.hamnbox")} 
               - if @params['komentbox'] == 'gramdesc'
-                | gramatika
+                | #{I18n.t("admin.koment.gramdesc")}
               - if @params['komentbox'] == 'styldesc'
-                | stylistika
+                | #{I18n.t("admin.koment.styldesc")}
               - if @params['komentbox'] == 'vyznam'
-                | význam
+                | #{I18n.t("admin.koment.vyznam")}
               - if @params['komentbox'] == '_us'
-                | příklady užití
+                | #{I18n.t("admin.koment._us")}
               - if @params['komentbox'] == 'vazby'
-                | ekvivalenty
+                | #{I18n.t("admin.koment.vazby")}
           - if @is_admin or @is_edit
             - if @params.count{|k,_| k =~ /sw/} > 0
               th               

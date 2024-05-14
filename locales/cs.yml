@@ -493,6 +493,12 @@ cs:
       k: "příklad užití"  
       g: "gramatický popis"  
     presets:
+      missing: "ke zpracování"
+      toapprove: "ke schválení"
+      rev: "k revizi"
+      def: "definice"
+      ex: "příklady"
+      equiv: "ekvivalenty"
       title: "Přednastavené volby"
       revdef: "definice ke schválení"
       comdef: "komentované definice"
