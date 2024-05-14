@@ -379,12 +379,23 @@ main role="main"
           div id="presets" style="display: none"
             - if @dict_info[@dictcode]['type'] == 'sign'
               div
-                | #{I18n.t("admin.presets.waiting")}: 
+                | #{I18n.t("admin.presets.waiting")}:  
                 a.btn class="btn-secondary report-" href="/#{@dictcode}/report?schvcelni=ano&vyznamvid=ne&" #{I18n.t("admin.presets.def")}
               div
-                | #{I18n.t("admin.presets.lacking")}: 
-                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagevid=ano&vyznamvid=ne&celni=ano&usagevid=ano&usage=ano" definice 
-                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagevid=ne&vyznamvid=ano&celni=ano&schvcelni=ano&vyznam=ano" příklady
+                | #{I18n.t("admin.presets.lacking")}:  
+                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagevid=ano&vyznamvid=ne&celni=ano&usagevid=ano&usage=ano" #{I18n.t("admin.presets.def")}
+                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagevid=ne&vyznamvid=ano&celni=ano&schvcelni=ano&vyznam=ano" #{I18n.t("admin.presets._us")}
+              div
+                | #{I18n.t("admin.presets.toapprove")}:  
+                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ne&schvcelni=ano" #{I18n.t("admin.presets.def")}
+                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagevid=ano&vyznamvid=ano&celni=ano&usagevid=ano&usage=ne&vyznam=ano&schvcelni=ano" #{I18n.t("admin.presets._us")}
+              div 
+                | #{I18n.t("admin.presets.rev")}:  
+                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&komentbox=video&koment=ne" lemma
+                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&vyznamvid=ano&komentbox=vyznam&koment=ne" #{I18n.t("admin.presets.def")}
+                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&vyznamvid=ano&komentbox=_us&koment=ne" #{I18n.t("admin.presets._us")}
+                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&komentbox=vazby&koment=ne" | #{I18n.t("admin.presets.equiv")}:  
+
       - if @duplicate['duplicate'].select{|info| info['code'] == @dictcode}.size > 0
         div style="color: red; font-style: italic; font-variant: all-small-caps"
           | #{I18n.t("admin.dups_warn")} (#{@duplicate['duplicate'].select{|info| info['code'] == @dictcode}[0]['count']}). 
