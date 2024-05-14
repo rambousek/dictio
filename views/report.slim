@@ -396,7 +396,7 @@ main role="main"
                 a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&vyznamvid=ano&komentbox=_us&koment=ne" #{I18n.t("admin.presets._us")}
                 a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&komentbox=vazby&koment=ne" #{I18n.t("admin.presets.equiv")}  
 
-            - if @dict_info[@dictcode]['type'] == 'sign'
+            - if @dict_info[@dictcode]['type'] == 'write'
               div
                 | #{I18n.t("admin.presets.waiting")}:  
                 a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamcszad=ne" #{I18n.t("admin.presets.def")}
