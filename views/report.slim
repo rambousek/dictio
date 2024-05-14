@@ -394,7 +394,20 @@ main role="main"
                 a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&komentbox=video&koment=ne" lemma
                 a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&vyznamvid=ano&komentbox=vyznam&koment=ne" #{I18n.t("admin.presets.def")}
                 a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&vyznamvid=ano&komentbox=_us&koment=ne" #{I18n.t("admin.presets._us")}
-                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&komentbox=vazby&koment=ne" #{I18n.t("admin.presets.equiv")}:  
+                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&komentbox=vazby&koment=ne" #{I18n.t("admin.presets.equiv")}  
+
+            - if @dict_info[@dictcode]['type'] == 'sign'
+              div
+                | #{I18n.t("admin.presets.waiting")}:  
+                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamcszad=ne" #{I18n.t("admin.presets.def")}
+              div
+                | #{I18n.t("admin.presets.lacking")}:  
+                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagecszad=ne&vyznamcszad=ano&vyznamcs=ano" #{I18n.t("admin.presets.def")}
+                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagecszad=ne&vyznamcszad=ano" #{I18n.t("admin.presets._us")}
+              div
+                | #{I18n.t("admin.presets.toapprove")}:  
+                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamcszad=ano&vyznamcs=ne" #{I18n.t("admin.presets.def")}
+                a.btn class="btn-secondary report-" href="/#{@dictcode}/vyznamcszad=ano&vyznamcs=ano&usagecszad=ano&usagecs=ne" #{I18n.t("admin.presets._us")}
 
       - if @duplicate['duplicate'].select{|info| info['code'] == @dictcode}.size > 0
         div style="color: red; font-style: italic; font-variant: all-small-caps"
