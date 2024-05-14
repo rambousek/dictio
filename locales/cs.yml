@@ -494,7 +494,7 @@ cs:
       g: "gramatický popis"  
     presets:
       waiting: "ke zpracování"
-      lacking: "ke chybějící"
+      lacking: "k doplnění"
       toapprove: "ke schválení"
       rev: "k revizi"
       def: "definice"
