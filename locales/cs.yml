@@ -493,7 +493,7 @@ cs:
       k: "příklad užití"  
       g: "gramatický popis"  
     presets:
-      lacking: "ke zpracování"
+      missing: "ke zpracování"
       toapprove: "ke schválení"
       rev: "k revizi"
       def: "definice"
