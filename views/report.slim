@@ -385,10 +385,57 @@ main role="main"
                 | #{I18n.t("admin.presets.lacking")}:  
                 a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagevid=ano&vyznamvid=ne&celni=ano&usagevid=ano&usage=ano" #{I18n.t("admin.presets.def")}
                 a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagevid=ne&vyznamvid=ano&celni=ano&schvcelni=ano&vyznam=ano" #{I18n.t("admin.presets._us")}
+                | #{I18n.t("admin.presets.equiv")}: 
+                - unless @dictcode == 'cs' 
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationcs=ne" CS
+                - unless @dictcode == 'czj'
+                   a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationczj=ne" CZJ
+                - unless @dictcode == 'en' 
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationen=ne" EN
+                - unless @dictcode == 'asl'
+                   a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationasl=ne" ASL
+                - unless @dictcode == 'is' 
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationis=ne" IS
+                - unless @dictcode == 'sj' 
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationsj=ne" SJ
+                - unless @dictcode == 'spj'
+                   a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationspj=ne" SPJ
+                - unless @dictcode == 'de' 
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationde=ne" DE
+                - unless @dictcode == 'ogs'
+                   a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationogs=ne" ÖGS
+                - unless @dictcode == 'uk' 
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationuk=ne" UA
+                - unless @dictcode == 'uzm'
+                   a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationuzm=ne" UŽM
               div
                 | #{I18n.t("admin.presets.toapprove")}:  
                 a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ne&schvcelni=ano" #{I18n.t("admin.presets.def")}
                 a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagevid=ano&vyznamvid=ano&celni=ano&usagevid=ano&usage=ne&vyznam=ano&schvcelni=ano" #{I18n.t("admin.presets._us")}
+                | #{I18n.t("admin.presets.equiv")}: 
+                - unless @dictcode == 'cs' 
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationcs=ano&pubtranscs=ne" CS
+                - unless @dictcode == 'czj'
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationczj=ano&pubtranscs=czj" CZJ
+                - unless @dictcode == 'en' 
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationen=ano&pubtransen=ne" EN
+                - unless @dictcode == 'asl'
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationasl=ano&pubtransasl=ne" ASL
+                - unless @dictcode == 'is' 
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationis=ano&pubtransis=ne" IS
+                - unless @dictcode == 'sj' 
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationsj=ano&pubtranssj=ne" SJ
+                - unless @dictcode == 'spj'
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationspj=ano&pubtransspj=ne" SPJ
+                - unless @dictcode == 'de' 
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationde=ano&pubtransde=ne" DE
+                - unless @dictcode == 'ogs'
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationogs=ano&pubtransogs=ne" ÖGS
+                - unless @dictcode == 'uk' 
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationuk=ano&pubtransuk=ne" UA
+                - unless @dictcode == 'uzm'
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationuzm=ano&pubtransuzm=ne" UŽM
+
               div 
                 | #{I18n.t("admin.presets.rev")}:  
                 a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&komentbox=video&koment=ne" lemma
@@ -404,10 +451,57 @@ main role="main"
                 | #{I18n.t("admin.presets.lacking")}:  
                 a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagecszad=ne&vyznamcszad=ano&vyznamcs=ano" #{I18n.t("admin.presets.def")}
                 a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagecszad=ne&vyznamcszad=ano" #{I18n.t("admin.presets._us")}
+                | #{I18n.t("admin.presets.equiv")}: 
+                - unless @dictcode == 'cs' 
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationcs=ne" CS
+                - unless @dictcode == 'czj'
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationczj=ne" CZJ
+                - unless @dictcode == 'en' 
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationen=ne" EN
+                - unless @dictcode == 'asl'
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationasl=ne" ASL
+                - unless @dictcode == 'is' 
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationis=ne" IS
+                - unless @dictcode == 'sj' 
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationsj=ne" SJ
+                - unless @dictcode == 'spj'
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationspj=ne" SPJ
+                - unless @dictcode == 'de' 
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationde=ne" DE
+                - unless @dictcode == 'ogs'
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationogs=ne" ÖGS
+                - unless @dictcode == 'uk' 
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationuk=ne" UA
+                - unless @dictcode == 'uzm'
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationuzm=ne" UŽM
+
               div
                 | #{I18n.t("admin.presets.toapprove")}:  
                 a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamcszad=ano&vyznamcs=ne" #{I18n.t("admin.presets.def")}
                 a.btn class="btn-secondary report-" href="/#{@dictcode}/vyznamcszad=ano&vyznamcs=ano&usagecszad=ano&usagecs=ne" #{I18n.t("admin.presets._us")}
+                | #{I18n.t("admin.presets.equiv")}: 
+                - unless @dictcode == 'cs' 
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationcs=ano&pubtranscs=ne" CS
+                - unless @dictcode == 'czj'
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationczj=ano&pubtranscs=czj" CZJ
+                - unless @dictcode == 'en' 
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationen=ano&pubtransen=ne" EN
+                - unless @dictcode == 'asl'
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationasl=ano&pubtransasl=ne" ASL
+                - unless @dictcode == 'is' 
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationis=ano&pubtransis=ne" IS
+                - unless @dictcode == 'sj' 
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationsj=ano&pubtranssj=ne" SJ
+                - unless @dictcode == 'spj'
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationspj=ano&pubtransspj=ne" SPJ
+                - unless @dictcode == 'de' 
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationde=ano&pubtransde=ne" DE
+                - unless @dictcode == 'ogs'
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationogs=ano&pubtransogs=ne" ÖGS
+                - unless @dictcode == 'uk' 
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationuk=ano&pubtransuk=ne" UA
+                - unless @dictcode == 'uzm'
+                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationuzm=ano&pubtransuzm=ne" UŽM
 
       - if @duplicate['duplicate'].select{|info| info['code'] == @dictcode}.size > 0
         div style="color: red; font-style: italic; font-variant: all-small-caps"
