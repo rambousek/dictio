@@ -473,6 +473,8 @@ cs:
     usage: "schválený příklad"
     translation: "zadaný ekvivalent"
     pubtrans: "schválený ekvivalent"
+    synonym: "zadané synonymum"
+    pubsynonym: "schválené synonymum"
     comments: "komentáře"
     koment:
       boxlemma: "technické informace"

@@ -142,6 +142,19 @@ main role="main"
                 - if @params['usagecs'] == 'ne' 
                   a.btn class="btn-secondary report-ne" onclick="URLChange('usagecs','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.usage")}  
                 span.closebtn2 onclick="URLRemove('usagecs')" x
+
+          - if @params['synonym']     
+            - if @params['synonym'] == 'ano' 
+              a.btn class="btn-secondary report-ano" onclick="URLChange('synonym','ne')" #{I18n.t("admin.synonym")}
+            - if @params['synonym'] == 'ne' 
+              a.btn class="btn-secondary report-ne" onclick="URLChange('synonym','ano')" #{I18n.t("admin.not")} #{I18n.t("admin.synonym")}
+            span.closebtn2 onclick="URLRemove('synonym')" x
+          - if @params['pubsynonym']     
+            - if @params['pubsynonym'] == 'ano' 
+              a.btn class="btn-secondary report-ano" onclick="URLChange('pubsynonym','ne')" #{I18n.t("admin.pubsynonym")}
+            - if @params['pubsynonym'] == 'ne' 
+              a.btn class="btn-secondary report-ne" onclick="URLChange('pubsynonym','ano')" #{I18n.t("admin.not")} #{I18n.t("admin.pubsynonym")}
+            span.closebtn2 onclick="URLRemove('pubsynonym')" x
                                                       
           - if @params.count{|k,_| k =~ /^translation/} > 0
             p
@@ -325,6 +338,8 @@ main role="main"
                 a.btn class="btn-secondary report-" onclick="URLAppend('translationuk')" UA                            
               - unless @params['translationuzm']
                 a.btn class="btn-secondary report-" onclick="URLAppend('translationuzm')" UŽM  
+              - unless @params['synonym']
+                a.btn class="btn-secondary report-" onclick="URLAppend('synonym')" SYNONYM
             div
               | #{I18n.t("admin.pubtrans")}:
               - unless @params['pubtranscs']                       
@@ -349,6 +364,8 @@ main role="main"
                 a.btn class="btn-secondary report-" onclick="URLAppend('pubtransuk')" UA
               - unless @params['pubtransuzm']
                 a.btn class="btn-secondary report-" onclick="URLAppend('pubtransuzm')" UŽM
+              - unless @params['pubsynonym']
+                a.btn class="btn-secondary report-" onclick="URLAppend('pubsynonym')" SYNONYM
             div
               span onclick="showhide('comm')" style="cursor: pointer"
                 | #{I18n.t("admin.comments")}: >>
