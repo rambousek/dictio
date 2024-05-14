@@ -3093,6 +3093,59 @@ class CZJDict < Object
     end
   end
 
+  def handle_upload_write(filedata, user, logid)
+    logname = 'logs/czjimport'+logid+'.log'
+    logfile = File.open(logname, 'w')
+    logfile.puts Time.now.to_s
+    logfile.puts user
+    if not filedata.nil? and not filedata['filename'].nil? and filedata['filename'] != '' and not filedata['tempfile'].nil?
+      filedata['tempfile'].each{|line|
+        info = line.strip.split(';')
+        # got ID?
+        entry = {}
+        if info[0] != ""
+          entry = getdoc(info[0])
+        end
+        if entry == {}
+          eid = get_new_id
+          entry = {"id" => eid.to_s, "dict" => @dictcode, "type" => "write"}
+          if info[1] != ""
+            entry["lemma"] = {"title": info[1].to_s}
+          end
+          logfile.puts 'new entry ' + @dictcode + ' ' + eid.to_s + ' ' + info[1].to_s
+        else
+          eid = entry["id"]
+          logfile.puts 'update entry ' + @dictcode + ' ' + eid.to_s 
+        end
+        if not entry["meanings"]
+          entry["meanings"] = []
+        end
+        mnum = 0
+        mid = 0
+        entry["meanings"].each{|m|
+          if m["number"].to_i > mnum
+            mnum = m["number"].to_i
+          end
+          if m["id"].split("-")[1].to_i > mid
+            mid = m["id"].split("-")[1].to_i
+          end
+        }
+        mnum += 1
+        mid += 1
+        new_mean = {"id" => eid.to_s+"-"+mid.to_s, "number" => mnum, "text" => {"_text" => info[2].to_s}, "source" => info[3].to_s, "usages" => []}
+        if info[4].to_s != ""
+          new_usg = {"id" => eid.to_s+"-"+mid.to_s+"_us0", "text" => {"_text" => info[4].to_s}, "source" => info[5].to_s}
+          new_mean["usages"].push(new_usg)
+        end
+        entry["meanings"].push(new_mean)
+        $stderr.puts entry
+      }
+    end
+    logfile.puts 'finished'
+    logfile.close
+  end
+
+
   def get_import_files(dir)
     importfiles = []
     meta = {}

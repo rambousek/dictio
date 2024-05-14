@@ -815,6 +815,13 @@ class CzjApp < Sinatra::Base
       redirect to('/import2?dir=' + dir)
     end
 
+    post '/importwupload' do
+      logid = Array.new(8) { (Array('a'..'z')+Array('0'..'9')).sample }.join
+      targetdict = dict_array[params['srcdict']]
+      Thread.new{ targetdict.handle_upload_write(params['data'], @user_info['login'], logid) }
+      redirect to('/importlog?logid=' + logid)
+    end
+
     get '/import2' do
       @dict_info = $dict_info
       @dir = params['dir']

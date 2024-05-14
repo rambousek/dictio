@@ -20,4 +20,16 @@ main role="main"
         form method="get" action="/import2"
           input type="text" name="dir"
           button.btn type="submit" #{I18n.t("admin.import.startimport")}
-
+      hr
+      h3 #{I18n.t("admin.import.write")}
+      .row
+        .info #{I18n.t("admin.import.write-meta")}
+      .row
+        form method="post" action="/importwupload" enctype="multipart/form-data"
+          | vložit do slovníku
+          select name="srcdict" id="srcdict"
+            - @dict_info.each do |code, info|
+              - if info['type'] == 'write'
+                option value="#{code}" #{I18n.t("dict."+code)}
+          input type="file" name="data"
+          button.btn type="submit" #{I18n.t("admin.import.startupload")}
