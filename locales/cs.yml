@@ -493,7 +493,7 @@ cs:
       k: "příklad užití"  
       g: "gramatický popis"  
     presets:
-      nodef: "ke zpracování"
+      waiting: "ke zpracování"
       lacking: "ke chybějící"
       toapprove: "ke schválení"
       rev: "k revizi"
@@ -504,7 +504,7 @@ cs:
       revdef: "definice ke schválení"
       comdef: "komentované definice"
       trans: "ekvivalenty ke zpracování"
-      nodef1: "(bez definic)"
+      nodef: "(bez definic)"
       revtrans: "ekvivalenty ke schválení"
       comtrans: "komentované ekvivalenty"
     users:
