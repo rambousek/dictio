@@ -379,17 +379,18 @@ main role="main"
           div id="presets" style="display: none"
 
           - if @dict_info[@dictcode]['type'] == 'write'
-            ke zpracování: 
+            | ke zpracování: 
               a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamcszad=ne " definice
               
-            chybějící (k doplnění): 
+            | chybějící (k doplnění): 
               a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagecszad=ne&vyznamcszad=ano&vyznamcs=ano" definice 
               a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagecszad=ne&vyznamcszad=ano" příklady 
 
-            ke schválení:
+            | ke schválení:
               a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamcszad=ano&vyznamcs=ne" definice
               a.btn class="btn-secondary report-" href="/#{@dictcode}/vyznamcszad=ano&vyznamcs=ano&usagecszad=ano&usagecs=ne" příklady
-            vazby:
+            
+            | vazby:
               a.btn class="btn-secondary report-" href="/#{@dictcode}/report?komentbox=vazby&koment=ano&translationcs=ano&pubtranscs=ne&vyznamcszad=ano&vyznamcs=ano" CS
               a.btn class="btn-secondary report-" href="/#{@dictcode}/report?komentbox=vazby&koment=ano&vyznamcszad=ano&vyznamcs=ano&translationczj=ano&pubtransczj=ne" ČZJ
               a.btn class="btn-secondary report-" href="/#{@dictcode}/report?komentbox=vazby&koment=ano&translationen=ano&pubtransen=ne&vyznamcs=ano&vyznamcszad=ano" EN
@@ -402,24 +403,25 @@ main role="main"
               a.btn class="btn-secondary report-" href="/#{@dictcode}/report?komentbox=vazby&koment=ano&translationuk=ano&pubtransuk=ne&vyznamcs=ano&vyznamcszad=ano" UA
               a.btn class="btn-secondary report-" href="/#{@dictcode}/report?komentbox=vazby&koment=ano&vyznamcszad=ano&vyznamcs=ano&translationuzm=ano&pubtransuzm=ne" UZM
               
-            k revizi:
-              lemma
-              definice
-              příklady
-              ekvivalenty
+            | k revizi:
+              | lemma
+              | definice
+              | příklady
+              | ekvivalenty
 
           - if @dict_info[@dictcode]['type'] == 'sign'
-            ke zpracování: 
+            | ke zpracování: 
               a.btn class="btn-secondary report-" href="/#{@dictcode}/report?schvcelni=ano&vyznamvid=ne&" definice
 
-            chybějící:
+           |  chybějící:
               a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagevid=ano&vyznamvid=ne&celni=ano&usagevid=ano&usage=ano" definice 
               a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagevid=ne&vyznamvid=ano&celni=ano&schvcelni=ano&vyznam=ano" příklady
 
-            ke schválení: 
+            | ke schválení: 
               a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ne&schvcelni=ano" definice
               a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagevid=ano&vyznamvid=ano&celni=ano&usagevid=ano&usage=ne&vyznam=ano&schvcelni=ano" příklady
-            vazby:
+            
+            | vazby:
               a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&komentbox=vazby&koment=ano&translationcs=ano&pubtranscs=ne&vyznamvid=ano&vyznam=ano" CS
               a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&komentbox=vazby&koment=ano&vyznamvid=ano&vyznam=ano&translationczj=ano&pubtransczj=ne" ČZJ
               a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&komentbox=vazby&koment=ano&translationen=ano&pubtransen=ne&vyznamvid=ano&vyznam=ano" EN
@@ -432,7 +434,7 @@ main role="main"
               a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&komentbox=vazby&koment=ano&translationuk=ano&pubtransuk=ne&vyznamvid=ano&vyznam=ano" UA
               a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&komentbox=vazby&koment=ano&vyznamvid=ano&vyznam=ano&translationuzm=ano&pubtransuzm=ne" UZM
 
-            k revizi:              
+            | k revizi:              
               a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&komentbox=video&koment=ne" lemma
               a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&vyznamvid=ano&komentbox=vyznam&koment=ne" definice
               a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&vyznamvid=ano&komentbox=_us&koment=ne" příklady
