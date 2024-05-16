@@ -473,8 +473,7 @@ cs:
     usage: "schválený příklad"
     translation: "zadaný ekvivalent"
     pubtrans: "schválený ekvivalent"
-    synonym: "zadané synonymum"
-    pubsynonym: "schválené synonymum"
+    synonym: "synonymum"
     comments: "komentáře"
     koment:
       boxlemma: "technické informace"
@@ -501,6 +500,7 @@ cs:
       rev: "k revizi"
       def: "definice"
       _us: "příklady"
+      syn: "synonyma"
       equiv: "ekvivalenty"
       title: "Přednastavené volby"
       revdef: "definice ke schválení"

@@ -174,7 +174,7 @@ main role="main"
                 - if @params['pubsynonym'] == 'ano' 
                   a.btn class="btn-secondary report-ano" onclick="URLChange('pubsynonym','ne')" #{I18n.t("admin.pubsynonym")}
                 - if @params['pubsynonym'] == 'ne' 
-                  a.btn class="btn-secondary report-ne" onclick="URLChange('pubsynonym','ano')" #{I18n.t("admin.not")} #{I18n.t("admin.pubsynonym")}
+                  a.btn class="btn-secondary report-ne" onclick="URLChange('pubsynonym','ano')" #{I18n.t("admin.not")} #{I18n.t("admin.synonym")}
                 span.closebtn2 onclick="URLRemove('pubsynonym')" x
 
           - if @params.count{|k,_| k =~ /^komentbox/} > 0
