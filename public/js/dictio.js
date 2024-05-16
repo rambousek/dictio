@@ -575,7 +575,7 @@ $( document ).ready(function() {
   // load all report results
   $('.load_rest_report').click(function() {
     var current_count = $('.report-row').length;
-    var report_url = '/' + $('.load_next_report').data('dict') + '/reportlist/' + current_count + '/' + rest + window.location.search;
+    var report_url = '/' + $('.load_rest_report').data('dict') + '/reportlist/' + current_count + '/' + rest + window.location.search;
     console.log(report_url)
     $.get(report_url, function(response) {
       $('.report-results').append(response);
