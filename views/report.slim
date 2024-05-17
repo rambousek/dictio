@@ -568,3 +568,4 @@ main role="main"
         == slim :reportresultlist
       - if @report['resultcount'].to_i > @report['entries'].size
         a.btn.load_next_report data-dict=@dictcode #{I18n.t("search.load_next")}
+        a.btn.load_rest_report data-dict=@dictcode vše
