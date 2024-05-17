@@ -229,7 +229,7 @@ $( document ).ready(function() {
   /* show keyboard */
   $('#expression_search').on('focus', function(event) {
     var dict = $('.search-alt__wrap .translate-from').val();
-    if (['czj','spj','asl','is','ogs'].includes(dict)) {
+    if (['czj','spj','asl','is','ogs','uzm'].includes(dict)) {
       $('.search-alt__wrapper .keyboard').show();
       $('.search-alt').addClass('keyboard-target');
     }
@@ -575,18 +575,12 @@ $( document ).ready(function() {
   // load all report results
   $('.load_rest_report').click(function() {
     var current_count = $('.report-row').length;
-    var report_url = '/' + $('.load_rest_report').data('dict') + '/reportlist/' + current_count + '/' + rest + window.location.search;
+    var report_url = '/' + $('.load_next_report').data('dict') + '/reportlist/' + current_count + '/' + maxcount + window.location.search;
     console.log(report_url)
     $.get(report_url, function(response) {
       $('.report-results').append(response);
     }).always(function() {
-      // after adding
-      // maybe hide button
-      current_count = $('.report-row').length;
-      maxcount = $('.report-results').data('resultcount');
-      rest = maxcount - current_count;
       $('.load_next_report').hide();
-      $('.load_rest_report').hide();
     });
   });
 
