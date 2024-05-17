@@ -575,6 +575,7 @@ $( document ).ready(function() {
   // load all report results
   $('.load_rest_report').click(function() {
     var current_count = $('.report-row').length;
+    var maxcount = $('.report-results').data('resultcount');
     var report_url = '/' + $('.load_next_report').data('dict') + '/reportlist/' + current_count + '/' + maxcount + window.location.search;
     console.log(report_url)
     $.get(report_url, function(response) {
