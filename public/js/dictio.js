@@ -582,6 +582,7 @@ $( document ).ready(function() {
       $('.report-results').append(response);
     }).always(function() {
       $('.load_next_report').hide();
+      $('.load_rest_report').hide();
     });
   });
 

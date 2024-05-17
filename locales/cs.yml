@@ -71,6 +71,7 @@ cs:
     collocations: "hledat slovní spojení"
     entry_count: "Nalezeno hesel"
     load_next: "Načíst další"
+    load_rest: "Zobrazit vše"
     pos: "-- slovní druh --"
     advanced: "rozšířené..."
     notfound: ":(  Nic takového se nám bohužel nepodařilo najít.. "
