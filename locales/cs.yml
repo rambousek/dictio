@@ -558,4 +558,4 @@ cs:
       startupload: "upload + import"
       startimport: "Start import"
       write: "Import mluveného jazyka"
-      write-meta: "Struktura souboru CSV pro import: (A) ID hesla (B) heslo (C) definice (D) zdroj definice (E) příklad (F) zdroj příkladu"
+      write-meta: "Struktura souboru CSV pro import: (A) ID hesla; (B) heslo; (C) definice; (D) zdroj definice; (E) příklad; (F) zdroj příkladu"
