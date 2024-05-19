@@ -3106,7 +3106,7 @@ class CZJDict < Object
     logfile.puts user
     if not filedata.nil? and not filedata['filename'].nil? and filedata['filename'] != '' and not filedata['tempfile'].nil?
       filedata['tempfile'].each{|line|
-        line = line.force_encoding('utf-8')
+        line = line.force_encoding('utf-8').gsub('"','')
         info = line.strip.split(';')
         # got ID?
         entry = {}
@@ -3114,7 +3114,11 @@ class CZJDict < Object
           entry = getdoc(info[0])
         end
         if entry == {}
-          eid = get_new_id
+          if info[0] != ""
+            eid = info[0]
+          else
+            eid = get_new_id
+          end
           entry = {"id" => eid.to_s, "dict" => @dictcode, "type" => "write"}
           if info[1] != ""
             entry["lemma"] = {"title" => info[1].to_s}
@@ -3146,6 +3150,8 @@ class CZJDict < Object
         end
         entry["meanings"].push(new_mean)
         $stderr.puts entry
+        @entrydb.find({'dict': @dictcode, 'id': eid}).delete_many
+        @entrydb.insert_one(entry)
       }
     end
     logfile.puts 'finished'
