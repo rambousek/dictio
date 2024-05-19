@@ -3117,7 +3117,7 @@ class CZJDict < Object
           eid = get_new_id
           entry = {"id" => eid.to_s, "dict" => @dictcode, "type" => "write"}
           if info[1] != ""
-            entry["lemma"] = {"title": info[1].to_s}
+            entry["lemma"] = {"title" => info[1].to_s}
           end
           logfile.puts 'new entry ' + @dictcode + ' ' + eid.to_s + ' ' + info[1].to_s
         else
