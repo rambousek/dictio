@@ -3106,6 +3106,7 @@ class CZJDict < Object
     logfile.puts user
     if not filedata.nil? and not filedata['filename'].nil? and filedata['filename'] != '' and not filedata['tempfile'].nil?
       filedata['tempfile'].each{|line|
+        line = line.force_encoding('utf-8')
         info = line.strip.split(';')
         # got ID?
         entry = {}
