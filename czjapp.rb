@@ -624,6 +624,9 @@ class CzjApp < Sinatra::Base
               ri << rm['id']
               ri << rm['text']['_text'].to_s.gsub("\n"," ") if rm['text']
               ri << rm['id']['source']
+              ri << []
+              ri << []
+              ri << []
               rels = []
               if rm['relation']
                 rm['relation'].each{|rel|
