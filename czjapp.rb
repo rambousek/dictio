@@ -614,7 +614,7 @@ class CzjApp < Sinatra::Base
           csv << ri.join(';')
         }
       else
-        csv = ['ID;lemma;slovní druh;význam ID;definice;překlady']
+        csv = ['ID;lemma;slovní druh;význam ID;definice;zdroj definice;*příklad ID;*příklad;*zdroj příkladu;překlady']
         dict.get_report(params, @user_info)['entries'].each{|rep|
           if rep['meanings'].size > 0
             rep['meanings'].each{|rm|
@@ -623,6 +623,10 @@ class CzjApp < Sinatra::Base
               ri << rep['lemma']['grammar_note'][0]['@slovni_druh'].to_s if rep['lemma']['grammar_note'] and rep['lemma']['grammar_note'][0]
               ri << rm['id']
               ri << rm['text']['_text'].to_s.gsub("\n"," ") if rm['text']
+              ri << rm['id']['source']
+              ri = []
+              ri = []
+              ri = [] 
               rels = []
               if rm['relation']
                 rm['relation'].each{|rel|
