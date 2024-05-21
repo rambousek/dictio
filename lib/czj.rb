@@ -3106,7 +3106,7 @@ class CZJDict < Object
     logfile.puts user
     if not filedata.nil? and not filedata['filename'].nil? and filedata['filename'] != '' and not filedata['tempfile'].nil?
       filedata['tempfile'].each{|line|
-        line = line.force_encoding('utf-8').gsub('"','')
+        line = line.force_encoding('utf-8').gsub('"','').gsub("\xEF\xBB\xBF".force_encoding("UTF-8"), '')
         info = line.strip.split(';')
         # got ID?
         entry = {}
@@ -3119,36 +3119,68 @@ class CZJDict < Object
           else
             eid = get_new_id
           end
-          entry = {"id" => eid.to_s, "dict" => @dictcode, "type" => "write"}
+          entry = {"id" => eid.to_s, "dict" => @dictcode, "type" => "write", "lemma" => {}}
           if info[1] != ""
-            entry["lemma"] = {"title" => info[1].to_s}
+            entry["lemma"]["title"] = info[1].to_s
           end
           logfile.puts 'new entry ' + @dictcode + ' ' + eid.to_s + ' ' + info[1].to_s
         else
           eid = entry["id"]
           logfile.puts 'update entry ' + @dictcode + ' ' + eid.to_s 
         end
+        if not entry['lemma']['grammar_note']
+          entry['lemma']['grammar_note'] = []
+        end
+        if entry['lemma']['grammar_note'].length == 0
+          entry['lemma']['grammar_note'] << {}
+        end
+        if info[2] != ""
+          entry['lemma']['grammar_note'][0]['@slovni_druh'] = info[2]
+        end
         if not entry["meanings"]
           entry["meanings"] = []
         end
-        mnum = 0
-        mid = 0
-        entry["meanings"].each{|m|
-          if m["number"].to_i > mnum
-            mnum = m["number"].to_i
+        if info[3] != ""
+          found_mean = false
+          entry["meanings"].each{|m|
+            if m["id"] == info[3]
+              found_mean = true
+              m['text'] = {"_text" => info[4].to_s}
+              m['source'] = info[5].to_s
+              if info[6].to_s != ""
+                new_usg = {"id" => m["id"].to_s+"_us0", "text" => {"_text" => info[6].to_s}, "source" => info[7].to_s}
+                new_mean["usages"].push(new_usg)
+              end
+            end
+          }
+          if not found_mean
+            new_mean = {"id" => info[3].to_s, "number" => info[3].to_s.split("-")[1], "text" => {"_text" => info[4].to_s}, "source" => info[5].to_s, "usages" => []}
+            if info[6].to_s != ""
+              new_usg = {"id" => info[3].to_s+"_us0", "text" => {"_text" => info[6].to_s}, "source" => info[7].to_s}
+              new_mean["usages"].push(new_usg)
+            end
+            entry["meanings"].push(new_mean)
           end
-          if m["id"].split("-")[1].to_i > mid
-            mid = m["id"].split("-")[1].to_i
+        else
+          mnum = 0
+          mid = 0
+          entry["meanings"].each{|m|
+            if m["number"].to_i > mnum
+              mnum = m["number"].to_i
+            end
+            if m["id"].split("-")[1].to_i > mid
+              mid = m["id"].split("-")[1].to_i
+            end
+          }
+          mnum += 1
+          mid += 1
+          new_mean = {"id" => eid.to_s+"-"+mid.to_s, "number" => mnum, "text" => {"_text" => info[4].to_s}, "source" => info[5].to_s, "usages" => []}
+          if info[6].to_s != ""
+            new_usg = {"id" => eid.to_s+"-"+mid.to_s+"_us0", "text" => {"_text" => info[6].to_s}, "source" => info[7].to_s}
+            new_mean["usages"].push(new_usg)
           end
-        }
-        mnum += 1
-        mid += 1
-        new_mean = {"id" => eid.to_s+"-"+mid.to_s, "number" => mnum, "text" => {"_text" => info[2].to_s}, "source" => info[3].to_s, "usages" => []}
-        if info[4].to_s != ""
-          new_usg = {"id" => eid.to_s+"-"+mid.to_s+"_us0", "text" => {"_text" => info[4].to_s}, "source" => info[5].to_s}
-          new_mean["usages"].push(new_usg)
+          entry["meanings"].push(new_mean)
         end
-        entry["meanings"].push(new_mean)
         $stderr.puts entry
         @entrydb.find({'dict': @dictcode, 'id': eid}).delete_many
         @entrydb.insert_one(entry)
