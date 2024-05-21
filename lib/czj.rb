@@ -3123,6 +3123,7 @@ class CZJDict < Object
           if info[1] != ""
             entry["lemma"]["title"] = info[1].to_s
           end
+          entry["lemma"]["created_at"] = Time.now.strftime("%Y-%m-%d %H:%M:%S")
           logfile.puts 'new entry ' + @dictcode + ' ' + eid.to_s + ' ' + info[1].to_s
         else
           eid = entry["id"]
@@ -3145,6 +3146,7 @@ class CZJDict < Object
           entry["meanings"].each{|m|
             if m["id"] == info[3]
               found_mean = true
+              m['updated_at'] = Time.now.strftime("%Y-%m-%d %H:%M:%S")
               m['text'] = {"_text" => info[4].to_s}
               m['source'] = info[5].to_s
               if info[6].to_s != ""
@@ -3155,6 +3157,7 @@ class CZJDict < Object
           }
           if not found_mean
             new_mean = {"id" => info[3].to_s, "number" => info[3].to_s.split("-")[1], "text" => {"_text" => info[4].to_s}, "source" => info[5].to_s, "usages" => []}
+            new_mean["updated_at"] = Time.now.strftime("%Y-%m-%d %H:%M:%S")
             if info[6].to_s != ""
               new_usg = {"id" => info[3].to_s+"_us0", "text" => {"_text" => info[6].to_s}, "source" => info[7].to_s}
               new_mean["usages"].push(new_usg)
@@ -3175,12 +3178,14 @@ class CZJDict < Object
           mnum += 1
           mid += 1
           new_mean = {"id" => eid.to_s+"-"+mid.to_s, "number" => mnum, "text" => {"_text" => info[4].to_s}, "source" => info[5].to_s, "usages" => []}
+          new_mean["updated_at"] = Time.now.strftime("%Y-%m-%d %H:%M:%S")
           if info[6].to_s != ""
             new_usg = {"id" => eid.to_s+"-"+mid.to_s+"_us0", "text" => {"_text" => info[6].to_s}, "source" => info[7].to_s}
             new_mean["usages"].push(new_usg)
           end
           entry["meanings"].push(new_mean)
         end
+        entry["lemma"]["updated_at"] = Time.now.strftime("%Y-%m-%d %H:%M:%S")
         $stderr.puts entry
         @entrydb.find({'dict': @dictcode, 'id': eid}).delete_many
         @entrydb.insert_one(entry)
