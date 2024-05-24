@@ -424,6 +424,27 @@ var artikStore = Ext.create('Ext.data.Store',{
   ]
 });
 
+var stylprizStore = Ext.create('Ext.data.Store',{
+  fields: ['value', 'text'],
+  data: [
+    {'value': null, 'text':'-'},
+    {'value': 'abstrakt', 'text': 'abstraktní výraz'},
+    {'value': 'basnicky', 'text': 'básnický výraz'},
+    {'value': 'biblicky', 'text': 'biblický výraz'},
+    {'value': 'cirkev', 'text': 'církevní výraz'},
+    {'value': 'detsky', 'text': 'dětský výraz'},
+    {'value': 'eufem', 'text': 'eufemismus'},
+    {'value': 'hanlivy', 'text': 'hanlivý (neslušný) výraz'},
+    {'value': 'lichotivy', 'text': 'lichotivý výraz'},
+    {'value': 'mazlivy', 'text': 'mazlivý výraz'},
+    {'value': 'odborny', 'text': 'odborný výraz'},
+    {'value': 'zdvor', 'text': 'zdvořilostní výraz'},
+    {'value': 'zhrubely', 'text': 'zhrubělý výraz'},
+    {'value': 'zert', 'text': 'žertovný výraz'},
+    {'value': 'zdrob', 'text': 'zdrobnělina'},
+    {'value': 'zastar', 'text': 'zastaralý výraz'},
+  ]
+});
 
 var uplnostStore = Ext.create('Ext.data.Store',{
   fields: ['value', 'text'],
@@ -1539,6 +1560,7 @@ function load_doc(id, history, historytype) {
             Ext.getCmp('styldesc').query('component[name="generace"]')[0].setValue(gram['@generace'].split(';'));
           }
           Ext.getCmp('styldesc').query('component[name="kategorie"]')[0].setValue(gram['@kategorie']);
+          if (gram['@stylpriznak']) Ext.getCmp('styldesc').query('component[name="stylpriznak"]')[0].setValue(gram['@stylpriznak']);
           Ext.getCmp('styldesc').query('component[name="gender"]')[0].setValue(gram['@gender']);
           Ext.getCmp('styldesc').query('component[name="copy_autor"]')[0].setValue(gram['@author']);
           Ext.getCmp('styldesc').query('component[name="copy_admin"]')[0].setValue(gram['@admin']);
@@ -1981,6 +2003,7 @@ function save_doc(id) {
         '_text': Ext.getCmp('tabForm').query('component[name="styltext_text"]')[0].getValue(), 
         '@generace': Ext.getCmp('styldesc').query('component[name="generace"]')[0].getValue().join(';'),
         '@kategorie': Ext.getCmp('styldesc').query('component[name="kategorie"]')[0].getValue(),
+        '@stylpriznak': Ext.getCmp('styldesc').query('component[name="stylpriznak"]')[0].getValue().join(';'),
         '@gender': Ext.getCmp('styldesc').query('component[name="gender"]')[0].getValue(),
         '@author': Ext.getCmp('styldesc').query('component[name="copy_autor"]')[0].getValue(),
         '@copyright': Ext.getCmp('styldesc').query('component[name="copy_copy"]')[0].getValue(),
@@ -4778,7 +4801,7 @@ Ext.onReady(function(){
             fieldLabel: locale[lang].kategorie,
             name: 'kategorie',
             queryMode: 'local',
-	     displayField: 'text',
+	          displayField: 'text',
             valueField: 'value',
             store: kategorieStore,
             forceSelection: true,
@@ -4796,8 +4819,20 @@ Ext.onReady(function(){
             autoSelect: true,
             editable: false,
             multiSelect: true
-           },{
-             xtype: 'combobox',
+          },{
+            xtype: 'combobox',
+            fieldLabel: locale[lang].stylpriznak,
+            name: 'stylpriznak',
+            queryMode: 'local',
+            store: stylprizStore,
+            forceSelection: true,
+            autoSelect: true,
+            displayField: 'text',
+            valueField: 'value',
+            editable: false,
+            multiSelect: true
+          },{
+            xtype: 'combobox',
             fieldLabel: locale[lang].gender,
             name: 'gender',
             queryMode: 'local',
