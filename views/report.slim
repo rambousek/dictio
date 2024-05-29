@@ -468,8 +468,8 @@ main role="main"
                 a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamcszad=ne" #{I18n.t("admin.presets.def")}
               div
                 | #{I18n.t("admin.presets.lacking")}:  
-                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagecszad=ne&vyznamcszad=ano&vyznamcs=ano" #{I18n.t("admin.presets.def")}
-                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagecszad=ne&vyznamcszad=ano" #{I18n.t("admin.presets._us")}
+                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagecszad=ano&vyznamcszad=ne" #{I18n.t("admin.presets.def")}
+                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagecszad=ne&vyznamcszad=ano&vyznamcs=ano" #{I18n.t("admin.presets._us")}
                 | #{I18n.t("admin.presets.equiv")}: 
                 - unless @dictcode == 'cs' 
                   a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamcszad=ano&vyznamcs=ano&translationcs=ne" CS
