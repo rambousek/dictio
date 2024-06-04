@@ -3143,7 +3143,7 @@ class CZJDict < Object
         if not entry["meanings"]
           entry["meanings"] = []
         end
-        if info[3] != ""
+        if info[3] != "" and info[3] =~ /[0-9]+-[0-9]+/
           found_mean = false
           entry["meanings"].each{|m|
             if m["id"] == info[3]
