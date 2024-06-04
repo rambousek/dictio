@@ -3839,6 +3839,26 @@ a.btn {
   .table tr:hover td {
     background-color: var(--translate-bg-seda) }
 
+/* styly pro divy místo tabulky */
+.row {
+  display: table-row;
+}
+
+.cell {
+  display: table-cell;
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+.rowspan-3 {
+  vertical-align: top;
+}
+
+.colspan-3 {
+  width: 100%;
+}
+/**/
+
 .table--limit {
   max-width: 475px; }
 

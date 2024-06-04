@@ -31,24 +31,24 @@ main role="main"
                   input.btn type="submit" value="#{I18n.t('admin.show')}"
 
 
-      table.table.table--no-margin.report-table 
+      div.table.table--no-margin.report-table
         - i = 0
         - @report['entries'].each do |entry|
           - i += 1
-          tr
-            td rowspan=3 #{i}
-            td colspan=3 #{entry['timestamp']}
-            td rowspan=3 #{entry['detail']}
-            td 
+          div.row
+            div.cell.rowspan-3 #{i}
+            div.cell.colspan-3 #{entry['timestamp']}
+            div.cell.rowspan-3 #{entry['detail']}
+            div.cell
               - if entry['full_entry']
                 a.btn href="/compare/#{entry['_id']}" target="_blank" #{I18n.t('admin.historycompare')}
-          tr
-            td #{entry['dict']}
-            td 
+          div.row
+            div.cell #{entry['dict']}
+            div.cell 
               a.btn class="btn-#{entry['dict']}" href="/#{entry['dict']}/show/#{entry['entry']}" target="_blank" #{entry['entry']}
-            td #{entry['user']}
-            td 
+            div.cell #{entry['user']}
+            div.cell
               - if entry['full_entry']
                 a.compareedit href="#" data-href="https://edit.dictio.info/editor#{entry['dict']}/?id=#{entry['entry']}&history=#{entry['_id']}" #{I18n.t('admin.historycompareedit')}
-          tr
-            td colspan=3
+          div.row
+            div.cell.colspan-3
