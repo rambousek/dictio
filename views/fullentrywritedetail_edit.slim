@@ -355,7 +355,7 @@
                   svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                     use xlink:href="/img/icons.svg#info" x="0" y="0" width="100%" height="100%"
                  p style="color: gray; font-style: italic; padding-left: 10px;" #{I18n.t("entry.nocontent")}
-          - if meaning['relation'].find{|rel| rel['type'] == 'synonym'}
+          - if meaning['relation'] and meaning['relation'].find{|rel| rel['type'] == 'synonym'}
             h4 #{I18n.t("entry.synonyms")}:
             - meaning['relation'].select{|rel| rel['type'] == 'synonym'}.each do |rel|
               - if rel['entry']
@@ -370,7 +370,7 @@
                       |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
                   - else
                     = rel['entry']['lemma']['title']
-          - if meaning['relation'].find{|rel| rel['type'] == 'antonym'}
+          - if meaning['relation'] and meaning['relation'].find{|rel| rel['type'] == 'antonym'}
             h4 #{I18n.t("entry.antonyms")}:
             - meaning['relation'].select{|rel| rel['type'] == 'antonym'}.each do |rel|
               - if rel['entry']

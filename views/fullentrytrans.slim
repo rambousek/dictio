@@ -1,4 +1,4 @@
-- if @meaning['relation'].find{|rel| rel['type'] == 'translation' and (rel['target'] == @show_target or @target == '') and rel['status'] == 'published'}
+- if @meaning['relation'] and @meaning['relation'].find{|rel| rel['type'] == 'translation' and (rel['target'] == @show_target or @target == '') and rel['status'] == 'published'}
   h3 #{I18n.t("entry.translations")}:
   - @meaning['relation'].select{|rel| rel['type'] == 'translation' and (rel['target'] == @show_target or @target == '') and rel['status'] == 'published'}.uniq{|rel| rel['target']}.each do |rels|
     p.detail__badge class=((@is_edit? "detail__badge__#{rels['target']}":"")) = I18n.t("dict."+rels['target'])
