@@ -3153,7 +3153,10 @@ class CZJDict < Object
               m['source'] = info[5].to_s
               if info[6].to_s != ""
                 new_usg = {"id" => m["id"].to_s+"_us0", "text" => {"_text" => info[6].to_s}, "source" => info[7].to_s}
-                new_mean["usages"].push(new_usg)
+                if not m['usages']
+                  m['usages'] = []
+                end
+                m['usages'].push(new_usg)
               end
             end
           }
