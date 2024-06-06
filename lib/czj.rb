@@ -3110,6 +3110,8 @@ class CZJDict < Object
         line = line.force_encoding('utf-8').gsub('"','').gsub("\xEF\xBB\xBF".force_encoding("UTF-8"), '')
         next if line.strip == ""
         info = line.strip.split(';')
+        next if info.count < 2
+        next if info[1] == ""
         # got ID?
         entry = {}
         if info[0] != ""
