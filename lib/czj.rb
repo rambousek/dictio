@@ -3112,6 +3112,7 @@ class CZJDict < Object
         info = line.strip.split(';')
         next if info.count < 2
         next if info[1] == ""
+        next if info[0] == "ID"
         # got ID?
         entry = {}
         if info[0] != ""
