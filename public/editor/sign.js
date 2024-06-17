@@ -4611,7 +4611,7 @@ Ext.onReady(function(){
             xtype: 'flash',
             name: 'hamnosys',
             id: 'hamnosys',
-           /* url: '/editor/hamnosys1.swf?lang=cs&table_xml_url=/editor/ham.txt&charsLayout_xml_url=/editor/charactersLayout.xml&form_field_id=hamndata',*/
+            url: '/editor/hamnosys1.swf?lang=cs&table_xml_url=/editor/ham.txt&charsLayout_xml_url=/editor/charactersLayout.xml&form_field_id=hamndata',
             width: 700,
             height: 250,
           }, create_copyright('hamnosys', false)]
