@@ -3260,13 +3260,15 @@ class CZJDict < Object
     return importfiles.sort{|a,b| [a['label'], a['filename']] <=> [b['label'], b['filename']]}, gotmeta
   end
 
-  def import_run(data, targetdict, user, logid)
+  def import_run(data, targetdict, not_createrel, user, logid)
     $stdout.puts logid
     $stdout.puts data
     $stdout.puts user
+    $stdout.puts not_createrel
     logname = 'logs/czjimport'+logid+'.log'
     logfile = File.open(logname, 'w')
     logfile.puts Time.now.to_s
+    logfile.puts not_createrel
     logfile.puts data
     logfile.puts user
 
@@ -3288,11 +3290,15 @@ class CZJDict < Object
       sign[h['label'].strip]['video'] << h['file'].strip
 
       # list translations
-      if targetdict and not used_trans.include?(h['trans'].strip)
-        tranid = targetdict.get_new_id
-        trans << {'id'=>tranid, 'title'=>h['trans'].strip, 'rel'=>h['label'].strip}
-        sign[h['label'].strip]['trans'] = tranid
-        used_trans << h['trans'].strip
+      if not_createrel
+        sign[h['label'].strip]['trans'] = h['trans'].strip
+      else
+        if targetdict and not used_trans.include?(h['trans'].strip)
+          tranid = targetdict.get_new_id
+          trans << {'id'=>tranid, 'title'=>h['trans'].strip, 'rel'=>h['label'].strip}
+          sign[h['label'].strip]['trans'] = tranid
+          used_trans << h['trans'].strip
+        end
       end
 
       # save video metadata
@@ -3330,7 +3336,7 @@ class CZJDict < Object
 
     # prepare write entries
     write_entries = []
-    if targetdict
+    if targetdict and not not_createrel
       trans.each{|t|
         logfile.puts 'new entry ' + data['targetdict'] + ' ' + t['id'].to_s + ' - ' + t['title']
         entry = {
@@ -3445,14 +3451,25 @@ class CZJDict < Object
         end
         if targetdict
           # add translation
-          entry['meanings'][0]['relation'] = [
-            {
-              'target' => data['targetdict'],
-              'meaning_id' => h['trans'].to_s + '-1',
-              'type' => 'translation',
-              'status' => 'hidden'
-            }
-          ]
+          if not_createrel
+            entry['meanings'][0]['relation'] = [
+              {
+                'target' => data['targetdict'],
+                'meaning_id' => h['trans'].to_s,
+                'type' => 'translation',
+                'status' => 'hidden'
+              }
+            ]
+          else
+            entry['meanings'][0]['relation'] = [
+              {
+                'target' => data['targetdict'],
+                'meaning_id' => h['trans'].to_s + '-1',
+                'type' => 'translation',
+                'status' => 'hidden'
+              }
+            ]
+          end
         end
 
       sign_entries << entry

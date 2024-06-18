@@ -709,7 +709,13 @@ $( document ).ready(function() {
 //import, gather data, start import
 $( document ).ready(function() {
   $('#import-start').click(function() {
-    let data = {srcdict: $('#srcdict').val(), targetdict: $('#targetdict').val(), dir: $('#import-dir').val(), files:[]}
+    let data = {
+      srcdict: $('#srcdict').val(), 
+      targetdict: $('#targetdict').val(), 
+      dir: $('#import-dir').val(), 
+      files:[],
+      not_createrel: $('#not_createrel').is(':checked'),
+    };
     $('.import-file').each(function() {
       data.files.push({
         file: $(this).val(),
