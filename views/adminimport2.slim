@@ -22,6 +22,9 @@ main role="main"
           - @dict_info.each do |code, info|
             - if info['type'] == 'write'
               option value="#{code}" #{I18n.t("dict."+code)}
+        label
+          input type="checkbox" name="not_createrel" id="not_createrel"
+          |  nevytvářet vazby
       - if @gotmeta
         p meta.csv načteno
       .row

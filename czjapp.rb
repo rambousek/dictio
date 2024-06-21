@@ -843,7 +843,7 @@ class CzjApp < Sinatra::Base
         else
           targetdict = dict_array[params['data']['targetdict']]
         end
-        Thread.new{ dict_array[params['data']['srcdict']].import_run(params['data'], targetdict, @user_info['login'], logid) }
+        Thread.new{ dict_array[params['data']['srcdict']].import_run(params['data'], targetdict, params['data']['not_createrel'], @user_info['login'], logid) }
         body = {'logid'=>logid}.to_json
       else
         body = {'error'=>'no dict info'}.to_json
