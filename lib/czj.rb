@@ -3344,6 +3344,7 @@ class CZJDict < Object
           'dict' => data['targetdict'],
           'lemma' => {
             'title' => t['title'],
+            'completeness' => '0',
             'status' => 'hidden',
             'title_dia' => t['title'],
             'created_at' => Time.now.strftime("%Y-%m-%d %H:%M:%S"),
@@ -3394,7 +3395,9 @@ class CZJDict < Object
           'dict' => @dictcode,
           'type' => 'sign',
           'lemma' => {
+            'completeness' => '0',  
             'status' => 'hidden',
+            'pracskupina' => 'vut_me',
             'created_at' => Time.now.strftime("%Y-%m-%d %H:%M:%S"),
             'lemma_type' => 'single'
           },
