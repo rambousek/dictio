@@ -952,7 +952,7 @@ select {
   color: var(--zakladni-text-cerna1);
   font-size: 1rem ; /* 0.75rem; */
   font-weight: 400;
-  border: var(--border-0-transparent);
+  border: 0 solid transparent;
   border-radius: 0;
   background: #e4ebee;
   caret-color: #03c9a9; 
@@ -973,7 +973,7 @@ select {
       font-size: 1.125rem;
       font-weight: 700;
       line-height: 1.125rem;
-      border: 0 solid transparent;
+      border: var(--border-0-transparent);
       border-radius: 20px;
       background: var(--zakladni-bila);
       -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
