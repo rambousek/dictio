@@ -16,7 +16,7 @@ main role="main"
           - @dict_info.each do |code, info|
             - if info['type'] == 'sign'
               option value="#{code}" #{I18n.t("dict."+code)}
-        | založit překlady ve slovníku
+        | vytvořit překlady ve slovníku
         select name="targetdict" id="targetdict"
           option value="-" nevytvářet překlady
           - @dict_info.each do |code, info|
@@ -26,18 +26,27 @@ main role="main"
           input type="checkbox" name="not_createrel" id="not_createrel"
           |  nevytvářet vazby
       - if @gotmeta
-        p meta.csv načteno
+        p.meta meta.csv načteno
       .row
         table
-          tr
-            td soubor
-            td label
-            td překlad
-            td orient
-            td autor
-            td video
-            td zdroj
-            td ID hesla
+          tr.head
+            th soubor
+            th label
+            th překlad
+            th orient
+            th autor
+            th video
+            th zdroj
+            th ID hesla
+          tr  
+            td
+            td
+            td
+            td input type="text" id="newOrient" placeholder="Enter new value"
+            td input type="text" id="newAutor" placeholder="Enter new value"
+            td input type="text" id="newVideo" placeholder="Enter new value"
+            td input type="text" id="newZdroj" placeholder="Enter new value"
+            td button.btn onclick="changeInputValues()" změnit u všech
           - @importfiles.each do |file|
             tr
               td
@@ -58,4 +67,33 @@ main role="main"
               td
                 input data-file="#{file['filename']}" type="text" class="import-eid" value="#{file['eid']}"
       .row
-        button id="import-start" start import
+        button.btn id="import-start" start import
+
+script
+ function changeInputValues() {       
+   var newOrient = document.getElementById('new-orient').value;
+   var newAutor = document.getElementById('new-autor').value;
+   var newVideo = document.getElementById('new-video').value;
+   var newZdroj = document.getElementById('new-zdroj').value;
+  
+   if (new-Orient.trim() !== "") {
+    var inputs = document.querySelectorAll('input.import-orient');         
+    inputs.forEach(function(input) {
+      input.value = newOrient;}
+   };
+   if (new-Autor.trim() !== "") {
+    var inputs = document.querySelectorAll('input.import-autor');         
+    inputs.forEach(function(input) {
+       input.value = newAutor;}
+   };
+   if (new-Video.trim() !== "") {
+    var inputs = document.querySelectorAll('input.import-video');         
+    inputs.forEach(function(input) {
+        input.value = newVideo;}
+   };
+   if (new-Zdroj.trim() !== "") {
+    var inputs = document.querySelectorAll('input.import-zdroj');         
+    inputs.forEach(function(input) {
+        input.value = newZdroj;}
+   };          
+ }

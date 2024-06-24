@@ -16,6 +16,7 @@
  --odkaz-modra: #0366c9;
  --section-half: url(../img/section-half.png);      
  --border-0-transparent: 0 solid transparent;
+ --zelena: darkgreen;   
 }
 
 @media (prefers-color-scheme: dark) {
@@ -29,6 +30,7 @@
     --odkaz-modra: deepskyblue;
     --section-half: url(../img/section-half_black.png);      
     --border-0-transparent: 1px solid slategray;
+    --zelena: limegreen;
   }
 
   .video__sign img {
@@ -3840,6 +3842,10 @@ a.btn {
     border-bottom: 1px solid #abb1c2; }
   .table tr:hover td {
     background-color: var(--translate-bg-seda) }
+
+tr.head {background-color: #03c9a9}     
+
+.meta {color: var(--zelena)}
 
 .table--limit {
   max-width: 475px; }
