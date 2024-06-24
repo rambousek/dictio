@@ -42,11 +42,16 @@ main role="main"
             td
             td
             td
-            td input type="text" id="newOrient" placeholder="Enter new value"
-            td input type="text" id="newAutor" placeholder="Enter new value"
-            td input type="text" id="newVideo" placeholder="Enter new value"
-            td input type="text" id="newZdroj" placeholder="Enter new value"
-            td button.btn onclick="changeInputValues()" změnit u všech
+            td 
+              input type="text" id="newOrient" placeholder="změnit na"
+            td 
+              input type="text" id="newAutor" placeholder="změnit na"
+            td 
+              input type="text" id="newVideo" placeholder="změnit na"
+            td 
+              input type="text" id="newZdroj" placeholder="změnit na"
+            td 
+              button.btn onclick="changeInputValues()" změnit u všech
           - @importfiles.each do |file|
             tr
               td
