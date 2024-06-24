@@ -3268,7 +3268,6 @@ class CZJDict < Object
     logname = 'logs/czjimport'+logid+'.log'
     logfile = File.open(logname, 'w')
     logfile.puts Time.now.to_s
-    logfile.puts not_createrel
     logfile.puts data
     logfile.puts user
 
@@ -3379,6 +3378,7 @@ class CZJDict < Object
     sign_entries = []
     sign_to_delete = []
     sign.each{|lab, h|
+      next if sign_to_delete.member?(h['id'])
       if not h['new']
         entry = getdoc(h['id'])
         if entry == {}
