@@ -38,7 +38,7 @@ main role="main"
             th video
             th zdroj
             th ID hesla
-          tr  
+          tr style="background: darkslategray" 
             td
             td
             td
@@ -52,6 +52,7 @@ main role="main"
               input type="text" id="new-zdroj" placeholder="změnit na"
             td 
               button.btn onclick="changeInputValues()" změnit u všech
+          tr 
           - @importfiles.each do |file|
             tr
               td
@@ -94,7 +95,7 @@ script
              input.value = newAutor;
           });
         }
-        if (newVvideo.trim() !== "") {
+        if (newVideo.trim() !== "") {
           var inputs = document.querySelectorAll('input.import-video');         
           inputs.forEach(function(input) {
               input.value = newVideo;
