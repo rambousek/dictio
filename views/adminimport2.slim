@@ -70,30 +70,30 @@ main role="main"
         button.btn id="import-start" start import
 
 script
- function changeInputValues() {       
-   var newOrient = document.getElementById('new-orient').value;
-   var newAutor = document.getElementById('new-autor').value;
-   var newVideo = document.getElementById('new-video').value;
-   var newZdroj = document.getElementById('new-zdroj').value;
-  
-   if (new-Orient.trim() !== "") {
-    var inputs = document.querySelectorAll('input.import-orient');         
-    inputs.forEach(function(input) {
-      input.value = newOrient;}
-   };
-   if (new-Autor.trim() !== "") {
-    var inputs = document.querySelectorAll('input.import-autor');         
-    inputs.forEach(function(input) {
-       input.value = newAutor;}
-   };
-   if (new-Video.trim() !== "") {
-    var inputs = document.querySelectorAll('input.import-video');         
-    inputs.forEach(function(input) {
-        input.value = newVideo;}
-   };
-   if (new-Zdroj.trim() !== "") {
-    var inputs = document.querySelectorAll('input.import-zdroj');         
-    inputs.forEach(function(input) {
-        input.value = newZdroj;}
-   };          
+  function changeInputValues() {       
+    var newOrient = document.getElementById('new-orient').value;
+    var newAutor = document.getElementById('new-autor').value;
+    var newVideo = document.getElementById('new-video').value;
+    var newZdroj = document.getElementById('new-zdroj').value;
+   
+    if (newOrient.trim() !== "") {
+      var inputs = document.querySelectorAll('input.import-orient');         
+      inputs.forEach(function(input) {
+        input.value = newOrient;}
+    };
+    if (newAutor.trim() !== "") {
+      var inputs = document.querySelectorAll('input.import-autor');         
+      inputs.forEach(function(input) {
+         input.value = newAutor;}
+    };
+    if (newVvideo.trim() !== "") {
+      var inputs = document.querySelectorAll('input.import-video');         
+      inputs.forEach(function(input) {
+          input.value = newVideo;}
+    };
+    if (newZdroj.trim() !== "") {
+      var inputs = document.querySelectorAll('input.import-zdroj');         
+      inputs.forEach(function(input) {
+          input.value = newZdroj;}
+    };          
  }
