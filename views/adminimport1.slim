@@ -14,7 +14,8 @@ main role="main"
           input.import-video type="file" name="data1"
           input.import-video type="file" name="data2"
           input.import-video type="file" name="data3"
-          .info style="margin-top:10px;" #{I18n.t("admin.info-meta")}
+          .info style="margin-top:10px; padding: 20px;" 
+            | #{I18n.t("admin.info-meta")}
             table.table class="table--no-margin"
               tr  
                 th 
@@ -78,7 +79,8 @@ main role="main"
           input.import-zdroj type="file" name="data"
 
       .row
-        .info #{I18n.t("admin.import.write-meta")}
+        .info style="margin-top:10px; padding: 20px;" 
+          | #{I18n.t("admin.import.write-meta")}
           table.table class="table--no-margin"
            tr  
              th 
@@ -116,4 +118,4 @@ main role="main"
              td.vertical SSČ;
              td.vertical Reflexe vlastního díla ho zaměstnala natolik..;
              td.vertical www..;                                  
-          button.btn type="submit" #{I18n.t("admin.import.startimport_w")}
+        button.btn type="submit" #{I18n.t("admin.import.startimport_w")}
