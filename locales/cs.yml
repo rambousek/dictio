@@ -553,7 +553,7 @@ cs:
         preklad: "vazby (překlady, synonyma)"
     import:
       title: "Hromadný import"
-      uploadzip: "import pro znakových jazyků"
+      uploadzip: "import znakového jazyka"
       dir: "Adresář na serveru"
       startupload: "nahrát soubory"
       startimport_w: "nahrát a spustit import"

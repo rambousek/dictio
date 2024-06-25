@@ -14,7 +14,7 @@ main role="main"
           input.import-video type="file" name="data1"
           input.import-video type="file" name="data2"
           input.import-video type="file" name="data3"
-          .info style="margin-top:10px; padding: 20px;" 
+          .info style="margin-top:10px; margin-bottom: 10px; padding: 20px;" 
             | #{I18n.t("admin.info-meta")}
             table.table class="table--no-margin"
               tr  
@@ -64,14 +64,14 @@ main role="main"
       h3 #{I18n.t("admin.import.dir")}
       .row
         form method="get" action="/import2"
-          input type="text" name="dir"
+          input.import-video type="text" name="dir"
           button.btn type="submit" #{I18n.t("admin.import.startimport")}
       hr
       h2.headline #{I18n.t("admin.import.write")}
       
       .row
         form method="post" action="/importwupload" enctype="multipart/form-data"
-          p.lead vložit do slovníku
+          p.lead slovník:
           select name="srcdict" id="srcdict"
             - @dict_info.each do |code, info|
               - if info['type'] == 'write'
@@ -79,7 +79,7 @@ main role="main"
           input.import-zdroj type="file" name="data"
 
       .row
-        .info style="margin-top:10px; padding: 20px;" 
+        .info style="margin-top:10px; margin-bottom: 10px; padding: 20px;" 
           | #{I18n.t("admin.import.write-meta")}
           table.table class="table--no-margin"
            tr  
@@ -118,4 +118,4 @@ main role="main"
              td.vertical SSČ;
              td.vertical Reflexe vlastního díla ho zaměstnala natolik..;
              td.vertical www..;                                  
-        button.btn type="submit" #{I18n.t("admin.import.startimport_w")}
+      button.btn type="submit" #{I18n.t("admin.import.startimport_w")}
