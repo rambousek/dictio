@@ -12,11 +12,11 @@ main role="main"
         input type="hidden" id="import-dir" value="#{@dir}"
       .row
         h2 style="margin-top:20px" Vložit do slovníku:
-        select style="width: 200px" name="srcdict" id="srcdict"
+        select style="width: 200px; color: darkorange" name="srcdict" id="srcdict"
           - @dict_info.each do |code, info|
             - if info['type'] == 'sign'
               option value="#{code}" #{I18n.t("dict."+code)}
-        h2 style="margin-top:20px" vytvořit překlady ve slovníku:
+        h2 style="margin-top:20px; color: darkorange" Vytvořit překladové vazby:
         select style="width: 200px" name="targetdict" id="targetdict"
           option value="-" nevytvářet překlady
           - @dict_info.each do |code, info|
@@ -24,7 +24,7 @@ main role="main"
               option value="#{code}" #{I18n.t("dict."+code)}
         div style="margin-top: 20px;"
           input type="checkbox" name="not_createrel" id="not_createrel"
-          | nevytvářet vazby
+          | jen textové překlady
       - if @gotmeta
         p.meta meta.csv načteno
       .row
