@@ -14,51 +14,51 @@ main role="main"
           input.import-video type="file" name="data1"
           input.import-video type="file" name="data2"
           input.import-video type="file" name="data3"
-          .info #{I18n.t("admin.info-meta")}
-          table.table class="table--no-margin"
-            tr  
-              th 
-                | (A)
-              th 
-                | (B)
-              th 
-                | (C)
-              th 
-                | (D)
-              th 
-                | (E)
-              th 
-                | (F)
-              th 
-                | (G)
-              th 
-                | (H)              
-              th 
-                | (I)
-              th 
-                | (J)
-            tr  
-              th ID hesla;
-              th čelní video;
-              th boční video;
-              th orientace;
-              th autor obsahu;
-              th autor videa;
-              th zdroj;
-              th ekvivalent;
-              th definice;
-              th příklad;
-            tr
-              td.vertical 16589;
-              td.vertical A_hesloMUTE220615001.mp4;
-              td.vertical B_hesloMUTE220615001.mp4;
-              td.vertical P;
-              td.vertical Teiresiás MU;
-              td.vertical VUT;
-              td.vertical LANGER, J. a kol. Znaková zásoba českého.. ;
-              td.vertical heslo;
-              td.vertical D_hesloMUTE240228024.mp4;
-              td.vertical K_prikladMUTE230714065.mp4;
+          .info style="margin-top:10px;" #{I18n.t("admin.info-meta")}
+            table.table class="table--no-margin"
+              tr  
+                th 
+                  | (A)
+                th 
+                  | (B)
+                th 
+                  | (C)
+                th 
+                  | (D)
+                th 
+                  | (E)
+                th 
+                  | (F)
+                th 
+                  | (G)
+                th 
+                  | (H)              
+                th 
+                  | (I)
+                th 
+                  | (J)
+              tr  
+                th ID hesla;
+                th čelní video;
+                th boční video;
+                th orientace;
+                th autor obsahu;
+                th autor videa;
+                th zdroj;
+                th ekvivalent;
+                th definice;
+                th příklad;
+              tr
+                td.vertical 16589;
+                td.vertical A_hesloMUTE220615001.mp4;
+                td.vertical B_hesloMUTE220615001.mp4;
+                td.vertical P;
+                td.vertical Teiresiás MU;
+                td.vertical VUT;
+                td.vertical LANGER, J. a kol. Znaková zásoba českého.. ;
+                td.vertical heslo;
+                td.vertical D_hesloMUTE240228024.mp4;
+                td.vertical K_prikladMUTE230714065.mp4;
           button.btn type="submit" #{I18n.t("admin.import.startupload")}
       h3 #{I18n.t("admin.import.dir")}
       .row
@@ -67,51 +67,53 @@ main role="main"
           button.btn type="submit" #{I18n.t("admin.import.startimport")}
       hr
       h2.headline #{I18n.t("admin.import.write")}
-      .row
-        .info #{I18n.t("admin.import.write-meta")}
-      table.table class="table--no-margin"
-       tr  
-         th 
-           | (A)
-         th 
-           | (B)
-         th 
-           | (C)
-         th 
-           | (D)
-         th 
-           | (E)
-         th 
-           | (F)
-         th 
-           | (G)
-         th 
-           | (H)              
-         th 
-       tr  
-         th ID hesla;
-         th lemma;
-         th slovní druh;
-         th ID definice;
-         th definice;
-         th zdroj definice;
-         th příklad;
-         th zdroj příkladu;
-       tr
-         td.vertical 25687;
-         td.vertical reflexe;
-         td.vertical subst;
-         td.vertical 25687-1;
-         td.vertical úvaha zaměřená na pochopení vlastních teoretických..;
-         td.vertical SSČ;
-         td.vertical Reflexe vlastního díla ho zaměstnala natolik..;
-         td.vertical www..;   
+      
       .row
         form method="post" action="/importwupload" enctype="multipart/form-data"
-          | vložit do slovníku
+          p.lead vložit do slovníku
           select name="srcdict" id="srcdict"
             - @dict_info.each do |code, info|
               - if info['type'] == 'write'
                 option value="#{code}" #{I18n.t("dict."+code)}
-          input type="file" name="data"
-          button.btn type="submit" #{I18n.t("admin.import.startupload")}
+          input.import-zdroj type="file" name="data"
+
+      .row
+        .info #{I18n.t("admin.import.write-meta")}
+          table.table class="table--no-margin"
+           tr  
+             th 
+               | (A)
+             th 
+               | (B)
+             th 
+               | (C)
+             th 
+               | (D)
+             th 
+               | (E)
+             th 
+               | (F)
+             th 
+               | (G)
+             th 
+               | (H)              
+             th 
+           tr  
+             th ID hesla;
+             th lemma;
+             th slovní druh;
+             th ID definice;
+             th definice;
+             th zdroj definice;
+             th příklad;
+             th zdroj příkladu;
+           tr
+             td.vertical 25687;
+             td.vertical reflexe;
+             td.vertical subst;
+             td.vertical 25687-1;
+             td.vertical úvaha zaměřená na pochopení vlastních teoretických..;
+             td.vertical SSČ;
+             td.vertical Reflexe vlastního díla ho zaměstnala natolik..;
+             td.vertical www..;                                  
+          button.btn type="submit" #{I18n.t("admin.import.startimport_w")}
