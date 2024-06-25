@@ -11,18 +11,18 @@ main role="main"
         div style="color: gray" = @dir
         input type="hidden" id="import-dir" value="#{@dir}"
       .row
-        h2 Vložit do slovníku:
+        h2 style="margin-top:20px" Vložit do slovníku:
         select style="width: 200px" name="srcdict" id="srcdict"
           - @dict_info.each do |code, info|
             - if info['type'] == 'sign'
               option value="#{code}" #{I18n.t("dict."+code)}
-        h2 vytvořit překlady ve slovníku:
+        h2 style="margin-top:20px" vytvořit překlady ve slovníku:
         select style="width: 200px" name="targetdict" id="targetdict"
           option value="-" nevytvářet překlady
           - @dict_info.each do |code, info|
             - if info['type'] == 'write'
               option value="#{code}" #{I18n.t("dict."+code)}
-        label
+        div style="margin-top: 20px;"
           input type="checkbox" name="not_createrel" id="not_createrel"
           | nevytvářet vazby
       - if @gotmeta
@@ -51,7 +51,7 @@ main role="main"
             td 
               input type="text" id="new-zdroj" placeholder="změnit na"
             td 
-              button.btn onclick="changeInputValues()" změnit u všech
+              button.btn style="font-size: small; background: darkorange;" onclick="changeInputValues()" změnit u všech
           tr 
           - @importfiles.each do |file|
             tr
