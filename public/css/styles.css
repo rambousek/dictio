@@ -3843,7 +3843,10 @@ a.btn {
   .table tr:hover td {
     background-color: var(--translate-bg-seda) }
 
-tr.head {background-color: #03c9a9; line-height: 3}     
+tr.head {background-color: #03c9a9; line-height: 3}  
+
+td.vertical {transform: rotate(190deg);
+  writing-mode: vertical-rl;}
 
 .meta {color: var(--zelena)}
 

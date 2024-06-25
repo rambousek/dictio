@@ -16,28 +16,39 @@ main role="main"
           input.import-video type="file" name="data3"
           .info #{I18n.t("admin.info-meta")}
           table.table class="table--no-margin"
-            tr
-              th (A) ID hesla
-              th (B) čelní video
-              th (C) boční video
-              th (D) orientace
-              th (E) autor obsahu
-              th (F) autor videa
-              th (G) zdroj
-              th (H) ekvivalent
-              th (I) definice
-              th (J) příklad
             tr  
-              td 16589
-              td A_hesloMUTE220615001.mp4;
-              td B_hesloMUTE220615001.mp4;
-              td P;
-              td Teiresiás MU;
-              td VUT;
-              th LANGER, J. a kol. Znaková zásoba českého.. ;
-              th heslo;
-              th D_hesloMUTE240228024.mp4;
-              th K_prikladMUTE230714065.mp4;
+              th (A)
+              th (B)
+              th (C)
+              th (D)
+              th (E)
+              th (F)
+              th (G)
+              th (H)              
+              th (I)
+              th (J)
+            tr  
+              td 16589;
+              td.vertical A_hesloMUTE220615001.mp4;
+              td.vertical B_hesloMUTE220615001.mp4;
+              td.vertical P;
+              td.vertical Teiresiás MU;
+              td.vertical VUT;
+              th.vertical LANGER, J. a kol. Znaková zásoba českého.. ;
+              th.vertical heslo;
+              th.vertical D_hesloMUTE240228024.mp4;
+              th.vertical K_prikladMUTE230714065.mp4;
+            tr
+              th ID hesla
+              th čelní video
+              th boční video
+              th orientace
+              th autor obsahu
+              th autor videa
+              th zdroj
+              th ekvivalent
+              th definice
+              th příklad
           button.btn type="submit" #{I18n.t("admin.import.startupload")}
       h3 #{I18n.t("admin.import.dir")}
       .row
