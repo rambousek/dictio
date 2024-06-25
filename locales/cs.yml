@@ -557,6 +557,6 @@ cs:
       dir: "Adresář na serveru"
       startupload: "nahrát soubory"
       startimport_w: "nahrát a spustit import"
-      startimport: "zpracovat"
+      startimport: "načíst pro import"
       write: "Import mluveného jazyka"
       write-meta: "Povinná struktura CSV souboru:"
