@@ -38,16 +38,16 @@ main role="main"
               th 
                 | (J)
             tr  
-              th ID hesla
-              th čelní video
-              th boční video
-              th orientace
-              th autor obsahu
-              th autor videa
-              th zdroj
-              th ekvivalent
-              th definice
-              th příklad
+              th ID hesla;
+              th čelní video;
+              th boční video;
+              th orientace;
+              th autor obsahu;
+              th autor videa;
+              th zdroj;
+              th ekvivalent;
+              th definice;
+              th příklad;
             tr
               td.vertical 16589;
               td.vertical A_hesloMUTE220615001.mp4;
@@ -69,6 +69,43 @@ main role="main"
       h2.headline #{I18n.t("admin.import.write")}
       .row
         .info #{I18n.t("admin.import.write-meta")}
+      table.table class="table--no-margin"
+       tr  
+         th 
+           | (A)
+         th 
+           | (B)
+         th 
+           | (C)
+         th 
+           | (D)
+         th 
+           | (E)
+         th 
+           | (F)
+         th 
+           | (G)
+         th 
+           | (H)              
+         th 
+       tr  
+         th ID hesla;
+         th lemma;
+         th slovní druh;
+         th ID definice;
+         th definice;
+         th zdroj definice;
+         th příklad;
+         th zdroj příkladu;
+       tr
+         td.vertical 25687;
+         td.vertical reflexe;
+         td.vertical subst;
+         td.vertical 25687-1;
+         td.vertical úvaha zaměřená na pochopení vlastních teoretických..;
+         td.vertical SSČ;
+         td.vertical Reflexe vlastního díla ho zaměstnala natolik..;
+         td.vertical www..;   
       .row
         form method="post" action="/importwupload" enctype="multipart/form-data"
           | vložit do slovníku
