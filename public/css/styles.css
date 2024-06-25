@@ -3843,9 +3843,15 @@ a.btn {
   .table tr:hover td {
     background-color: var(--translate-bg-seda) }
 
-tr.head {background-color: #03c9a9}     
+tr.head {background-color: #03c9a9; line-height: 3}     
 
 .meta {color: var(--zelena)}
+
+input.import-label, input.import-trans, input.import-orient, input.import-autor, input.inport-video, input.import-zdroj, input.import-eid {
+  background-color: var(--zakladni-bg-seda1); 
+  padding: 10px;
+  font-size: 0.95rem;
+  border-radius: 5px;}
 
 .table--limit {
   max-width: 475px; }

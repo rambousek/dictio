@@ -8,27 +8,27 @@ main role="main"
   .container
     article.col.col--start role="article"
       .row
-        = @dir
+        div style="color: gray" = @dir
         input type="hidden" id="import-dir" value="#{@dir}"
       .row
-        | vložit do slovníku
-        select name="srcdict" id="srcdict"
+        h2 Vložit do slovníku:
+        select style="width: 200px" name="srcdict" id="srcdict"
           - @dict_info.each do |code, info|
             - if info['type'] == 'sign'
               option value="#{code}" #{I18n.t("dict."+code)}
-        | vytvořit překlady ve slovníku
-        select name="targetdict" id="targetdict"
+        h2 vytvořit překlady ve slovníku:
+        select style="width: 200px" name="targetdict" id="targetdict"
           option value="-" nevytvářet překlady
           - @dict_info.each do |code, info|
             - if info['type'] == 'write'
               option value="#{code}" #{I18n.t("dict."+code)}
         label
           input type="checkbox" name="not_createrel" id="not_createrel"
-          |  nevytvářet vazby
+          | nevytvářet vazby
       - if @gotmeta
         p.meta meta.csv načteno
       .row
-        table
+        table style="border-spacing: 0"
           tr.head
             th soubor
             th label
@@ -72,8 +72,8 @@ main role="main"
                 input data-file="#{file['filename']}" type="text" class="import-zdroj" value="#{file['zdroj']}"
               td
                 input data-file="#{file['filename']}" type="text" class="import-eid" value="#{file['eid']}"
-      .row
-        button.btn id="import-start" start import
+      .row style="width: 100%"
+        button.btn style="width: 100%; margin-top: 10px;" id="import-start" start import
 
 script
   |
