@@ -3847,7 +3847,7 @@ tr.head {background-color: #03c9a9; line-height: 3}
 
 .meta {color: var(--zelena)}
 
-input.import-label, input.import-trans, input.import-orient, input.import-autor, input.import-video, input.import-zdroj, input.import-eid, input.new-orient, input.new-autor, input.new-video, input.new-zdroj {
+input.import-label, input.import-trans, input.import-orient, input.import-autor, input.import-video, input.import-zdroj, input.import-eid, #new-orient, #new-autor, #new-video, #new-zdroj {
   background-color: var(--zakladni-bg-seda1); 
   padding: 10px;
   font-size: 0.95rem;
