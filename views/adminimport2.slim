@@ -16,8 +16,8 @@ main role="main"
           - @dict_info.each do |code, info|
             - if info['type'] == 'sign'
               option value="#{code}" #{I18n.t("dict."+code)}
-        h2 style="margin-top:20px; color: darkorange" Vytvořit překladové vazby:
-        select style="width: 200px" name="targetdict" id="targetdict"
+        h2 style="margin-top:20px;" Vytvořit překladové vazby:
+        select style="width: 200px; color: darkorange" name="targetdict" id="targetdict"
           option value="-" - nevytvářet -
           - @dict_info.each do |code, info|
             - if info['type'] == 'write'
