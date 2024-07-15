@@ -292,7 +292,8 @@
             td
               strong = I18n.t("gram.detail.5pad")
             td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'c5'}[0]['_text']
-            td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'cP5'}[0]['_text']
+            - if @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'cP4'}.length > 0
+              td = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'cP5'}[0]['_text']
         tr
           td
             strong = I18n.t("gram.detail.6pad")
