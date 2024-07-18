@@ -1470,6 +1470,9 @@ function load_doc(id, history, historytype) {
         Ext.getCmp('tabForm').query('component[name="defaultautor"]')[0].setValue(data['user_info']['autor']);
         Ext.getCmp('tabForm').query('component[name="media_folder_id"]')[0].setValue(data['lemma']['media_folder_id']);
         Ext.getCmp('tabForm').query('component[name="completeness"]')[0].setValue(data['lemma']['completeness']);
+        if (Ext.getCmp('tabForm').query('component[name="completeness"]')[0].getValue() === null) {
+          Ext.getCmp('tabForm').query('component[name="completeness"]')[0].setValue('0'); 
+          }      
         Ext.getCmp('tabForm').query('component[name="pracskupina"]')[0].setValue(data['lemma']['pracskupina']);
         Ext.getCmp('tabForm').query('component[name="puvod_slova"]')[0].setValue(data['lemma']['puvod']);
         Ext.getCmp('tabForm').query('component[name="admin_comment"]')[0].setValue(data['lemma']['admin_comment']);
