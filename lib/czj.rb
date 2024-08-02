@@ -805,7 +805,7 @@ class CZJDict < Object
         if @write_dicts.include?(source)
           locale = source
           locale = 'sk' if source == 'sj'
-          collate = {:collation => {'locale' => locale}, :sort => {'sort_title' => 1, 'sort_key' => -1}}
+          collate = {:collation => {'locale' => locale}, :sort => {'sort_title' => 1, 'target_title' => 1, 'sort_key' => -1}}
           search_conds = []
           search_conds << {'source_dict': source, 'entry_text': {'$regex': /(^| )#{search}/i}, 'target': target}
           search_conds << {'source_dict': target, 'meaning_id': {'$regex': /(^| )#{search}/i}, 'target': source}
