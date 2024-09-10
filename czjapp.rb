@@ -270,6 +270,9 @@ class CzjApp < Sinatra::Base
       end
       if $is_edit
         doc['user_info'] = @user_info
+        doc['user_list'] = dict_array[code].get_users.
+          select{|x| x['lang'].nil? or x['lang'].length == 0 or x['lang'].include?(code)}.
+          collect{|x| x['login']}
       end
       $stdout.puts 'END json'+Time.now.to_s
       body = doc.to_json
