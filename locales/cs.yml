@@ -74,7 +74,7 @@ cs:
     load_rest: "Zobrazit vše"
     pos: "-- slovní druh --"
     advanced: "rozšířené..."
-    notfound: ":( K zadanému heslu bohužel nemáme žádné informace. "
+    notfound: ":( Pro zvolenou kombinaci nebyly nalezeny žádné výsledky.  "
     try_search: "Heslo s tímto ID neobsahuje žádné ekvivalenty v cílovém jazyce. "
     link: "Zobrazit heslo v jednojazyčném slovníku."
     translate_view: "Zobrazit ekvivalenty v jiných jazycích"
