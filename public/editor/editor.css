@@ -253,3 +253,19 @@ video.uzm {
   border-left: solid 10px yellow;
   font-weight: bold;
 }
+
+#topeditor {
+  position: relative;
+}
+#topdiv {
+}
+#comments {
+  display:none;
+  border: solid red;
+  width: 250px;
+  height: 1800px;
+  position: absolute;
+  right: 0;
+  top: 100px;
+}
+

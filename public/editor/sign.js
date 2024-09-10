@@ -5070,7 +5070,24 @@ Ext.onReady(function(){
         name: 'modifiedlabel',
         cls: 'modified-box',
         style: 'width: 200px !important'
-      },{
+      },
+      /*{
+        xtype: 'button',
+        text: 'komentáře',
+        handler: function() {
+          if ($('#comments').is(':hidden')) {
+            $('#comments').show();
+            $('#topdiv').css('position', 'absolute');
+            let height = parseInt($('#topdiv').css('height'));
+            height -= 150;
+            $('#comments').css('height', height + 'px');
+          } else {
+            $('#comments').hide();
+            $('#topdiv').css('position', '');
+          }
+        }
+      },*/
+        {
           xtype: 'tbspacer',
           flex: 6
         },{
