@@ -1024,6 +1024,10 @@ function open_comments(box, type) {
     layout: {
       type: 'vbox'
     },
+    bbar: [{
+      text: 'Zavřít',
+      handler: function () { this.up('window').close(); }
+    }],
     id: name,
     autoScroll: true,
     items: { 
