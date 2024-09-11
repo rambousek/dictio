@@ -571,6 +571,13 @@ class CzjApp < Sinatra::Base
         content_type :json
         body = {"success"=>true,"msg"=>"Uloženo"}.to_json
       end
+      post '/'+code+'/save_comment/:cid' do
+        if params['cid'] != ''
+          dict.comment_save(params['cid'], params['assign'], params['solved'])
+        end
+        content_type :json
+        body = {"success"=>true,"msg"=>"Uloženo"}.to_json
+      end
     end
 
     get '/'+code+'/report' do

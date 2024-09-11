@@ -996,27 +996,82 @@ function open_comments(box, type) {
             type: 'hbox'
           },
           items: [newcom,{
-            xtype: 'label',
-            text: data.comments[i].assign,
-            margin: '0 0 0 -60px'
+            xtype: 'container',
+            layout: {
+              type: 'vbox'
+            },
+            items: [{
+              xtype: 'combo',
+              name: 'user',
+              queryMode: 'local',
+              store: new Ext.data.ArrayStore({
+                fields: ['value'],
+                data: entrydata['user_list']
+              }),
+              displayField: 'value',
+              valueField: 'value',
+              width: 100,
+              forceSelection: true,
+              value: data.comments[i].assign
+            },{
+              xtype: 'combo',
+              name: 'solved',
+              forceSelection: true,
+              queryMode: 'local',
+              store: new Ext.data.ArrayStore({
+                fields: ['value', 'label'],
+                data: [
+                  ['', '---'],
+                  ['solved', 'hotovo'],
+                  ['rejected', 'zamítnuto'],
+                ],
+              }),
+              displayField: 'label',
+              valueField: 'value',
+              width: 100,
+              editable: false,
+              value: data.comments[i].solved
+            }]
           },{
-            xtype:'button',
-            text: locale[lang].delete,
-            cidParam: cid,
-            handler: function(btn) {
-              Ext.Ajax.request({
-                url: '/'+dictcode+'/del_comment/'+btn.cidParam,
-                method: 'get',
-                success: function(response) {
-                  var lasttext = '';
-                  if (btn.up().up().query("[name=commenthtml]")[1] != undefined) {
-                    lasttext = btn.up().up().query("[name=commenthtml]")[1].getEl().dom.innerHTML;
+            xtype: 'container',
+            layout: {
+              type: 'vbox'
+            },
+            items: [{
+              xtype:'button',
+              text: 'ULOŽIT',
+              cidParam: cid,
+              handler: function(btn) {
+                Ext.Ajax.request({
+                  url: '/'+dictcode+'/save_comment/'+btn.cidParam,
+                  method: 'post',
+                  params: {
+                    solved: btn.up().up().query('[name=solved]')[0].getValue(),
+                    assign: btn.up().up().query('[name=user]')[0].getValue()
+                  },
+                  success: function(response) {
                   }
-                  Ext.getCmp(box).query('[name=lastcomment]')[0].update(lasttext);
-                  btn.up().up().remove(btn.up().id);
-                }
-              });
-            }
+                });
+              }
+            },{
+              xtype:'button',
+              text: locale[lang].delete,
+              cidParam: cid,
+              handler: function(btn) {
+                Ext.Ajax.request({
+                  url: '/'+dictcode+'/del_comment/'+btn.cidParam,
+                  method: 'get',
+                  success: function(response) {
+                    var lasttext = '';
+                    if (btn.up().up().query("[name=commenthtml]")[1] != undefined) {
+                      lasttext = btn.up().up().up().query("[name=commenthtml]")[1].getEl().dom.innerHTML;
+                    }
+                    Ext.getCmp(box).query('[name=lastcomment]')[0].update(lasttext);
+                    btn.up().up().up().remove(btn.up().up().id);
+                  }
+                });
+              }
+            }]
           }]
         });
         kwin.add(nrow);

@@ -1402,6 +1402,17 @@ class CZJDict < Object
     $mongo['koment'].find({'_id' => BSON::ObjectId.from_string(cid)}).delete_many
   end
 
+  def comment_save(cid, assign, solved)
+    comments = $mongo['koment'].find({'_id' => BSON::ObjectId.from_string(cid)})
+    if comments.count() == 1
+      comment_data = comments.first
+      comment_data['assign'] = assign
+      comment_data['solved'] = solved
+      comments.delete_many
+      $mongo['koment'].insert_one(comment_data)
+    end
+  end
+
   def get_entry_files(entry_id, type='')
     list = []
     entry = getone(@dictcode, entry_id)
