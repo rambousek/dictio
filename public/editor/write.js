@@ -980,7 +980,7 @@ function open_comments(box, type) {
       var html = '';
       for (i = 0; i < data.comments.length; i++) {
         var newcom = Ext.create('Ext.Component', {
-          width: 400,
+          width: 300,
           height: 65,
           border: 1,
           style: {
@@ -996,6 +996,10 @@ function open_comments(box, type) {
             type: 'hbox'
           },
           items: [newcom,{
+            xtype: 'label',
+            text: data.comments[i].assign,
+            margin: '0 0 0 -60px'
+          },{
             xtype:'button',
             text: locale[lang].delete,
             cidParam: cid,
