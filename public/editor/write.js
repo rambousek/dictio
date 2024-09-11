@@ -934,7 +934,18 @@ function open_comments(box, type) {
         items: [{
           xtype: 'textarea', 
           name: 'newtext',
-          width:400
+          width: 300
+        },{
+          xtype: 'combo',
+          name: 'user',
+          queryMode: 'local',
+          store: new Ext.data.ArrayStore({
+            fields: ['value'],
+            data: entrydata['user_list']
+          }),
+          displayField: 'value',
+          valueField: 'value',
+          width: 100
         },{
           xtype:'button',
           text: locale[lang].savechanges,
@@ -944,7 +955,8 @@ function open_comments(box, type) {
               params: {
                 entry: entryid,
                 box: type,
-                text: kwin.query('[name=newtext]')[0].getValue()
+                text: kwin.query('[name=newtext]')[0].getValue(),
+                user: kwin.query('[name=user]')[0].getValue()
               },
               method: 'post',
               success: function(response) {

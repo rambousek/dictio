@@ -272,7 +272,7 @@ class CzjApp < Sinatra::Base
         doc['user_info'] = @user_info
         doc['user_list'] = dict_array[code].get_users.
           select{|x| x['lang'].nil? or x['lang'].length == 0 or x['lang'].include?(code)}.
-          collect{|x| x['login']}
+          collect{|x| [x['login']]}
       end
       $stdout.puts 'END json'+Time.now.to_s
       body = doc.to_json
@@ -566,7 +566,7 @@ class CzjApp < Sinatra::Base
       post '/'+code+'/add_comment' do
         user = ''
         if params['box'] != '' and params['entry'] != '' and params['type'] != ''
-          dict.comment_add(@user_info['login'], params['entry'], params['box'], params['text'])
+          dict.comment_add(@user_info['login'], params['entry'], params['box'], params['text'], params['user'])
         end
         content_type :json
         body = {"success"=>true,"msg"=>"Uloženo"}.to_json

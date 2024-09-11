@@ -1371,7 +1371,7 @@ class CZJDict < Object
     }
   end
 
-  def comment_add(user, entry, box, text)
+  def comment_add(user, entry, box, text, assign_user)
     if @sign_dicts.include?(@dictcode) and box.start_with?('vyznam') and not box.include?('vazby')
       entrydata = getone(@dictcode, entry)
       if entrydata and entrydata['meanings']
@@ -1391,7 +1391,8 @@ class CZJDict < Object
       'box' => box,
       'text' => text,
       'user' => user,
-      'time' => Time.new.strftime('%Y-%m-%d %H:%M')
+      'time' => Time.new.strftime('%Y-%m-%d %H:%M'),
+      'assign' => assign_user
     }
     $stdout.puts comment_data
     $mongo['koment'].insert_one(comment_data)
