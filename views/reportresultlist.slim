@@ -24,17 +24,42 @@
         ul
           - if @report['koment'][entry['id']]
             - @report['koment'][entry['id']].each do |koment|
-              - if @params['komentbox'].to_s == '' or (koment['box'].include?(@params['komentbox'].to_s) and @params['komentbox'].to_s != 'vyznam' and @params['komentbox'].to_s != 'video')
-                li #{koment['text']} (#{koment['user']}, #{koment['time']})
-              - if @params['komentbox'].to_s == 'vyznam' and entry['meanings']
-                - entry['meanings'].each do |km|
-                  - if koment['box'] == 'vyznam'+km['id'] or (koment['box'].start_with?('videoD') and entry['media'].is_a?(Hash) and entry['media'].select{|k,v| v['location'] == koment['box'][5..-1]}.size > 0)
-                    li #{koment['text']} (#{koment['user']}, #{koment['time']})
-              - if @params['komentbox'].to_s == 'video'
-                - if entry['lemma']['video_front'] and koment['box'] == 'video'+entry['lemma']['video_front']
-                    li #{koment['text']} (#{koment['user']}, #{koment['time']})
-                - if entry['lemma']['video_side'] and koment['box'] == 'video'+entry['lemma']['video_side']
-                  li #{koment['text']} (#{koment['user']}, #{koment['time']})
+              - if not koment.include?('solved') or koment['solved'] == ''
+                - if @params['komentbox'].to_s == '' or (koment['box'].include?(@params['komentbox'].to_s) and @params['komentbox'].to_s != 'vyznam' and @params['komentbox'].to_s != 'video')
+                  li 
+                    | #{koment['text']} 
+                    - if koment.include?('assign') and koment['assign'] != ''
+                      b → #{koment['assign']}  
+                    small 
+                      | (#{koment['user']}, #{koment['time']})
+                    | #{koment['assign']} 
+                - if @params['komentbox'].to_s == 'vyznam' and entry['meanings']
+                  - entry['meanings'].each do |km|
+                    - if koment['box'] == 'vyznam'+km['id'] or (koment['box'].start_with?('videoD') and entry['media'].is_a?(Hash) and entry['media'].select{|k,v| v['location'] == koment['box'][5..-1]}.size > 0)
+                      li 
+                        | #{koment['text']} 
+                        - if koment.include?('assign') and koment['assign'] != ''
+                          b → #{koment['assign']}  
+                        small 
+                          | (#{koment['user']}, #{koment['time']})
+                        | #{koment['assign']} 
+                - if @params['komentbox'].to_s == 'video'
+                  - if entry['lemma']['video_front'] and koment['box'] == 'video'+entry['lemma']['video_front']
+                    li 
+                      | #{koment['text']} 
+                      - if koment.include?('assign') and koment['assign'] != ''
+                        b → #{koment['assign']}  
+                      small 
+                        | (#{koment['user']}, #{koment['time']})
+                      | #{koment['assign']} 
+                  - if entry['lemma']['video_side'] and koment['box'] == 'video'+entry['lemma']['video_side']
+                    li 
+                      | #{koment['text']} 
+                      - if koment.include?('assign') and koment['assign'] != ''
+                        b → #{koment['assign']}  
+                      small 
+                        | (#{koment['user']}, #{koment['time']})
+                      | #{koment['assign']} 
     - if entry['meanings'] and entry['meanings'].select{|m| m['is_translation_unknown'].to_s == '1' or (m['relation'] and m['relation'].select{|r| r['notrans'].to_s == 'true'}.size > 0)}.size > 0
       td
         ul
