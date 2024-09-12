@@ -2102,6 +2102,23 @@ class CZJDict < Object
     return trans_cond
   end
 
+  # find not solved comments by dictionary
+  def get_comment_report(params)
+    report = {'comments'=>[], 'resultcount'=>0}
+    cursor = $mongo['koment'].find({
+      'dict' => @dictcode,
+      '$or': [
+        {'solved' => ''},
+        {'solved' => {'$exists' => false}}
+      ]
+    }, :sort => {'entry' => 1})
+    report['resultcount'] = cursor.count_documents
+    cursor.each{|kom|
+      report['comments'] << kom
+    }
+    return report
+  end
+
   def get_report(params, user_info, start=0, limit=nil)
     report = {'query'=>{},'entries'=>[], 'resultcount'=>0}
     search_cond, trans_used = get_search_cond(params, user_info)
