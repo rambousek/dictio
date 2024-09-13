@@ -2104,14 +2104,34 @@ class CZJDict < Object
 
   # find not solved comments by dictionary
   def get_comment_report(params)
-    report = {'comments'=>[], 'resultcount'=>0}
-    cursor = $mongo['koment'].find({
-      'dict' => @dictcode,
-      '$or': [
+    report = {'comments' => [], 'resultcount' => 0}
+    query = {'$and' => [
+      {'dict' => @dictcode},
+      {'$or' => [
         {'solved' => ''},
         {'solved' => {'$exists' => false}}
-      ]
-    }, :sort => {'entry' => 1})
+      ]}
+    ]}
+    
+    if params.include?('assign')
+      if params['assign'] == ''
+        query['$and'] << {'$or': [
+          {'assign' => ''},
+          {'assign' => {'$exists' => false}}
+        ]}
+      else
+        query['$and'] << {'assign' => params['assign']}
+      end
+    end
+    if params.include?('entry') and params['entry'] != ''
+      query['entry'] = params['entry']
+    end
+    report['query'] = query
+    cursor = $mongo['koment'].find(
+      query,
+      :collation => {'locale' => 'cs', 'numericOrdering'=>true},
+      :sort => {'entry' => 1, 'assign' => 1}
+    )
     report['resultcount'] = cursor.count_documents
     cursor.each{|kom|
       report['comments'] << kom

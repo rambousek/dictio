@@ -578,12 +578,13 @@ class CzjApp < Sinatra::Base
         content_type :json
         body = {"success"=>true,"msg"=>"Uloženo"}.to_json
       end
-      get '/'+code+'/comments' do
+      get '/admin/'+code+'/comments' do
         @dictcode = code
         @params = params
         @target = ''
         @dict_info = $dict_info
         @report = dict.get_comment_report(params)
+        @users = dict.get_users
         slim :commentreport
       end
     end

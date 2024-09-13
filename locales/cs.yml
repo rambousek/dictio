@@ -562,3 +562,10 @@ cs:
       startimport: "načíst pro import"
       write: "Import mluveného jazyka"
       write-meta: "Povinná struktura CSV souboru:"
+    commentreport:
+      title: "nevyřízené komentáře"
+      entry: "heslo ID"
+      assign: "přiřazeno"
+      user: "zadal"
+      filter: "filtrovat"
+

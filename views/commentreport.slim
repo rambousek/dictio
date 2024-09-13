@@ -9,17 +9,30 @@ main role="main"
     .container
       .report-table
         article.col.col--start role="article" 
-          h2 komentare
+          h2 #{I18n.t('admin.commentreport.title')}
+          form method="get" action="/admin/#{@dictcode}/comments"
+            p
+              label style="display: inline-block"
+                | #{I18n.t('admin.commentreport.entry')}
+                input type="text" name="entry" value="#{@params['entry']}"
+              label style="display: inline-block"
+                | #{I18n.t('admin.commentreport.assign')}
+                select name="assign"
+                  option value="" --
+                  - @users.each do |user|
+                    option value="#{user['login']}" selected=("selected" if @params['assign'] and @params['assign'] == user['login']) #{user['login']}
+              input type="submit" value="#{I18n.t('admin.commentreport.filter')}"
       table.table.table--no-margin.report-table.report-results data-resultcount=@report['resultcount']
         tr
-          th heslo
-          th box
-          th text
-          th přiřazeno
-          th zadal
+          th #{I18n.t('admin.commentreport.entry')}
+          th 
+          th 
+          th #{I18n.t('admin.commentreport.assign')}
+          th #{I18n.t('admin.commentreport.user')}
         - @report['comments'].each do |koment|
           tr.report-row
-            td #{koment['dict']} #{koment['entry']}
+            td 
+              a href="/editor#{koment['dict']}/?id=#{koment['entry']}" target="_blank" #{koment['entry']} edit
             td #{koment['box']}
             td #{koment['text']}
             td #{koment['assign']}
