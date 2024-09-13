@@ -42,4 +42,4 @@ main role="main"
                         | (#{@duplicate['duplicate'].select{|info| info['code'] == code}[0]['count']}) 
                         a href="https://admin.dictio.info/#{code}/duplicate" #{I18n.t("admin.show")} 
                     td
-                      a href="/#{code}/comments" komentáře
+                      a href="/admin/#{code}/comments" komentáře
