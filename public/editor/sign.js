@@ -1131,8 +1131,8 @@ function open_comments(box, type) {
                 fields: ['value', 'label'],
                 data: [
                   ['', '---'],
-                  ['solved', 'hotovo'],
-                  ['rejected', 'zamítnuto'],
+                  ['solved', locale[lang].commentsolved],
+                  ['rejected', locale[lang].commentreject],
                 ],
               }),
               displayField: 'label',
@@ -1148,7 +1148,7 @@ function open_comments(box, type) {
             },
             items: [{
               xtype:'button',
-              text: 'ULOŽIT',
+              text: locale[lang].commentsave,
               cidParam: cid,
               handler: function(btn) {
                 Ext.Ajax.request({
@@ -1167,18 +1167,20 @@ function open_comments(box, type) {
               text: locale[lang].delete,
               cidParam: cid,
               handler: function(btn) {
-                Ext.Ajax.request({
-                  url: '/'+dictcode+'/del_comment/'+btn.cidParam,
-                  method: 'get',
-                  success: function(response) {
-                    var lasttext = '';
-                    if (btn.up().up().query("[name=commenthtml]")[1] != undefined) {
-                      lasttext = btn.up().up().up().query("[name=commenthtml]")[1].getEl().dom.innerHTML;
+                if (confirm(locale[lang].commentconfirm)) {
+                  Ext.Ajax.request({
+                    url: '/'+dictcode+'/del_comment/'+btn.cidParam,
+                    method: 'get',
+                    success: function(response) {
+                      var lasttext = '';
+                      if (btn.up().up().query("[name=commenthtml]")[1] != undefined) {
+                        lasttext = btn.up().up().up().query("[name=commenthtml]")[1].getEl().dom.innerHTML;
+                      }
+                      Ext.getCmp(box).query('[name=lastcomment]')[0].update(lasttext);
+                      btn.up().up().up().remove(btn.up().up().id);
                     }
-                    Ext.getCmp(box).query('[name=lastcomment]')[0].update(lasttext);
-                    btn.up().up().up().remove(btn.up().up().id);
-                  }
-                });
+                  });
+                }
               }
             }]
           }]
