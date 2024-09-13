@@ -550,3 +550,10 @@ sk:
       startimport: "start import"
       write: "Import mluveného jazyka"
       write-meta: "Struktura souboru CSV pro import: (A) ID hesla (B) heslo (C) definice (D) zdroj definice (E) příklad (F) zdroj příkladu"
+    commentreport:
+      title: "nevyřízené komentáře"
+      entry: "heslo ID"
+      assign: "přiřazeno"
+      user: "zadal"
+      filter: "filtrovat"
+
