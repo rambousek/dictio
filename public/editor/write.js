@@ -1022,8 +1022,8 @@ function open_comments(box, type) {
                 fields: ['value', 'label'],
                 data: [
                   ['', '---'],
-                  ['solved', 'hotovo'],
-                  ['rejected', 'zamítnuto'],
+                  ['solved', locale[lang].commentsolved],
+                  ['rejected', locale[lang].commentreject],
                 ],
               }),
               displayField: 'label',
@@ -1039,19 +1039,21 @@ function open_comments(box, type) {
             },
             items: [{
               xtype:'button',
-              text: 'ULOŽIT',
+              text: locale[lang].commentsave,
               cidParam: cid,
               handler: function(btn) {
-                Ext.Ajax.request({
-                  url: '/'+dictcode+'/save_comment/'+btn.cidParam,
-                  method: 'post',
-                  params: {
-                    solved: btn.up().up().query('[name=solved]')[0].getValue(),
-                    assign: btn.up().up().query('[name=user]')[0].getValue()
-                  },
-                  success: function(response) {
-                  }
-                });
+                if (confirm(locale[lang].commentconfirm)) {
+                  Ext.Ajax.request({
+                    url: '/'+dictcode+'/save_comment/'+btn.cidParam,
+                    method: 'post',
+                    params: {
+                      solved: btn.up().up().query('[name=solved]')[0].getValue(),
+                      assign: btn.up().up().query('[name=user]')[0].getValue()
+                    },
+                    success: function(response) {
+                    }
+                  });
+                }
               }
             },{
               xtype:'button',
