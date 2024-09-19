@@ -29,11 +29,14 @@ main role="main"
           th 
           th #{I18n.t('admin.commentreport.assign')}
           th #{I18n.t('admin.commentreport.user')}
+          th
         - @report['comments'].each do |koment|
           tr.report-row
             td 
-              a href="/editor#{koment['dict']}/?id=#{koment['entry']}" target="_blank" #{koment['entry']} edit
+              a.btn class="btn-#{koment['dict']}" href="/#{koment['dict']}/show/#{koment['entry']}" target="_blank" #{koment['entry']}              
             td #{koment['box']}
             td #{koment['text']}
             td #{koment['assign']}
             td #{koment['user']} #{koment['time']}
+            td 
+              a.btn href="/editor#{koment['dict']}/?id=#{koment['entry']}" target="_blank" edit
