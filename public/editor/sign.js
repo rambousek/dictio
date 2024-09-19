@@ -254,6 +254,7 @@ var pracskupinaStore = Ext.create('Ext.data.Store',{
     {'value': 'dgs', 'text': locale[lang].dgs},
     {'value': 'asl', 'text': locale[lang].asl},
     {'value': 'bsl', 'text': locale[lang].bsl},
+    {'value': 'rzj', 'text': locale[lang].rzj},
     {'value': 'is', 'text': locale[lang].is},
     {'value': 'zc', 'text': locale[lang].zc},
     {'value': 'loc', 'text': locale[lang].loc},
