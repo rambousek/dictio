@@ -26,14 +26,25 @@ main role="main"
         tr
           th #{I18n.t('admin.commentreport.entry')}
           th 
+          th
           th 
           th #{I18n.t('admin.commentreport.assign')}
           th #{I18n.t('admin.commentreport.user')}
         - @report['comments'].each do |koment|
           tr.report-row
             td 
-              a href="/editor#{koment['dict']}/?id=#{koment['entry']}" target="_blank" #{koment['entry']} edit
+              a.btn class="btn-#{@dictcode}" href="/#{@dictcode}/show/#{koment['entry']}" #{koment['entry']}              
+            td
+              - if @dict_info[@dictcode]['type'] == 'write'
+                h3 #{entry['lemma']['title']}                                       
+              - if entry['lemma']['video_front']
+                = entry['lemma']['video_front']
+                br
+                video class=@dictcode width="177" height="142" onmouseover="this.play()" onmouseout="this.pause()"
+                  source type="video/mp4" src="https://files.dictio.info/video#{@dictcode}/#{entry['lemma']['video_front']}"
             td #{koment['box']}
             td #{koment['text']}
             td #{koment['assign']}
             td #{koment['user']} #{koment['time']}
+            td  
+              a.btn href="/editor#{koment['dict']}/?id=#{koment['entry']}" target="_blank" edit
