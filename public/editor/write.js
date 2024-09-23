@@ -2735,13 +2735,20 @@ function create_priklad(parentid, entryid, add_copy, meaning_id) {
                 var korwin = Ext.create('Ext.window.Window', {
                   title: 'Korpus',
                   autoScroll: true,
-                  width: 1200,
-                  height: 800,
+                  closable: true,
+                  width: 600,
+                  height: 400,
                   items: [{
                     xtype: 'button',
                     text: locale[lang].corpusdetail,
                     handler: function() {
                       koncwindow = window.open(url);
+                      korwin.close();
+                    }
+                  },{
+                    xtype: 'button',
+                    text: locale[lang].close,
+                    handler: function() {
                       korwin.close();
                     }
                   }]
