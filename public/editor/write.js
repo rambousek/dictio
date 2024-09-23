@@ -2776,8 +2776,9 @@ function create_priklad(parentid, entryid, add_copy, meaning_id) {
 
                   var newcom = Ext.create('Ext.Component', {
                     width: 1100,
-                    height: 50,
+                    height: 60,
                     border: 1,
+                    margin: 5,
                     style: {
                       borderColor: 'var(--bila)',
                       borderStyle: 'solid'
