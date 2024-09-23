@@ -2736,8 +2736,8 @@ function create_priklad(parentid, entryid, add_copy, meaning_id) {
                   title: 'Korpus',
                   autoScroll: true,
                   closable: true,
-                  width: 600,
-                  height: 400,
+                  width: 1200,
+                  height: 800,
                   items: [{
                     xtype: 'button',
                     text: locale[lang].corpusdetail,
