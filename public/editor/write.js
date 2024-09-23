@@ -2779,7 +2779,7 @@ function create_priklad(parentid, entryid, add_copy, meaning_id) {
                     height: 50,
                     border: 1,
                     style: {
-                      borderColor: var(--bila),
+                      borderColor: 'var(--bila)',
                       borderStyle: 'solid'
                     },
                     html: str_form,
