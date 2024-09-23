@@ -2735,8 +2735,8 @@ function create_priklad(parentid, entryid, add_copy, meaning_id) {
                 var korwin = Ext.create('Ext.window.Window', {
                   title: 'Korpus',
                   autoScroll: true,
-                  width: 600,
-                  height: 400,
+                  width: 1200,
+                  height: 800,
                   items: [{
                     xtype: 'button',
                     text: locale[lang].corpusdetail,
