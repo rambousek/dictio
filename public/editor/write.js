@@ -2775,11 +2775,11 @@ function create_priklad(parentid, entryid, add_copy, meaning_id) {
                   }
 
                   var newcom = Ext.create('Ext.Component', {
-                    width: 500,
+                    width: 1100,
                     height: 50,
                     border: 1,
                     style: {
-                      borderColor: 'blue',
+                      borderColor: var(--bila),
                       borderStyle: 'solid'
                     },
                     html: str_form,
