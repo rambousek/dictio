@@ -26,7 +26,6 @@ main role="main"
         tr
           th #{I18n.t('admin.commentreport.entry')}
           th 
-          th
           th 
           th #{I18n.t('admin.commentreport.assign')}
           th #{I18n.t('admin.commentreport.user')}
@@ -35,8 +34,6 @@ main role="main"
           tr.report-row
             td 
               a.btn class="btn-#{koment['dict']}" href="/#{koment['dict']}/show/#{koment['entry']}" target="_blank" #{koment['entry']}              
-            td
-              h3 #{entry['lemma']['title']}   
             td #{koment['box']}
             td #{koment['text']}
             td #{koment['assign']}
