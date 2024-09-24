@@ -614,7 +614,7 @@ class CzjApp < Sinatra::Base
       content_type 'text/csv; charset=utf-8'
       attachment code+'report.csv'
       if $dict_info[code]['type'] == 'sign'
-        csv = ['ID;video čelní;video boční;překlady']
+        csv = ['ID;video čelní;video boční;překlady;fsw']
         dict.get_report(params, @user_info)['entries'].each{|rep|
           ri = [rep['id']]
           ri << rep['lemma']['video_front'].to_s
@@ -630,6 +630,13 @@ class CzjApp < Sinatra::Base
             }
           end
           ri << rels.join(',')
+          if rep['lemma']['swmix']
+            sws = []
+            rep['lemma']['swmix'].each{|sw|
+              sws << sw['@fsw']
+            }
+            ri << sws.join(',')
+          end
           csv << ri.join(';')
         }
       else
