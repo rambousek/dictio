@@ -2135,7 +2135,22 @@ class CZJDict < Object
       :sort => {'entry' => 1, 'assign' => 1}
     )
     report['resultcount'] = cursor.count_documents
+
     cursor.each{|kom|
+      entry = getone(kom['dict'], kom['entry'])
+      unless entry.nil?
+        if @sign_dicts.include?(kom['dict'])
+          kom['video'] = ''
+          if entry['lemma'] and entry['lemma']['video_front']
+            kom['video'] = entry['lemma']['video_front']
+          end
+        else
+          kom['lemma'] = ''
+          if entry['lemma'] and entry['lemma']['title']
+            kom['lemma'] = entry['lemma']['title']
+          end
+        end
+      end
       report['comments'] << kom
     }
     return report

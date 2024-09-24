@@ -35,7 +35,13 @@ main role="main"
         - @report['comments'].each do |koment|
           tr.report-row
             td 
-              a.btn class="btn-#{koment['dict']}" href="/#{koment['dict']}/show/#{koment['entry']}" target="_blank" #{koment['entry']}              
+              a.btn class="btn-#{koment['dict']}" href="/#{koment['dict']}/show/#{koment['entry']}" target="_blank" #{koment['entry']}
+            td
+              - if @dict_info[@dictcode]['type'] == 'sign' and koment['video'] != ''
+                video class=@dictcode width="177" height="142" onmouseover="this.play()" onmouseout="this.pause()"
+                  source type="video/mp4" src="https://files.dictio.info/video#{@dictcode}/#{koment['video']}"
+              - if @dict_info[@dictcode]['type'] == 'write'
+                | #{koment['lemma']}
             td #{koment['box']}
             td #{koment['text']}
             td #{koment['assign']}
