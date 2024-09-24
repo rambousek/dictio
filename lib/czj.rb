@@ -2109,17 +2109,22 @@ class CZJDict < Object
         {'solved' => {'$exists' => false}}
       ]}
     ]}
-    
+
     if params.include?('assign')
-      if params['assign'] == ''
-        query['$and'] << {'$or': [
+      case params['assign']
+      when '_ass'
+        query['$and'] << {'assign' => {'$exists'=>true, '$ne' => ''}}
+      when '_not'
+        query['$and'] << {'$or' => [
           {'assign' => ''},
           {'assign' => {'$exists' => false}}
         ]}
+      when ''
       else
         query['$and'] << {'assign' => params['assign']}
       end
     end
+    $stdout.puts query
     if params.include?('entry') and params['entry'] != ''
       query['entry'] = params['entry']
     end

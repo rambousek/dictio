@@ -18,7 +18,9 @@ main role="main"
               label style="display: inline-block"
                 | #{I18n.t('admin.commentreport.assign')}
                 select name="assign"
-                  option value="" --
+                  option value="" -všechny-
+                  option value="_ass" selected=("selected" if @params['assign'] and @params['assign'] == '_ass') -#{I18n.t('admin.commentreport.assigned')}-
+                  option value="_not" selected=("selected" if @params['assign'] and @params['assign'] == '_not') -#{I18n.t('admin.commentreport.notassigned')}-
                   - @users.each do |user|
                     option value="#{user['login']}" selected=("selected" if @params['assign'] and @params['assign'] == user['login']) #{user['login']}
               input type="submit" value="#{I18n.t('admin.commentreport.filter')}"
