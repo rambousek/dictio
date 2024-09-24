@@ -404,7 +404,6 @@ ua:
     historynew: "нова версія, збережено"
     prev: "попередня"
     next: "наступний"
-    show: "показати"
     reports: "огляд пароля"
     dup: "дублікат звіту"
     video: "відео огляд"
@@ -486,7 +485,7 @@ ua:
       _us: "приклади використання"
       vazby: "еквіваленти"
       add: "додати коментар"
-    video:
+    videos:
       a: "фронтальна"
       b: "сторона"
       d: "визначення"
@@ -555,4 +554,5 @@ ua:
       assign: "přiřazeno"
       user: "zadal"
       filter: "filtrovat"
-
+      assigned: "přiřazené"
+      notassigned: "nepřiřazené"

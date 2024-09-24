@@ -404,7 +404,6 @@ sk:
     historynew: "nová verze, uloženo "
     prev: "předchozí"
     next: "další"
-    show: "zobrazit"
     reports: "prehľad hesiel"
     dup: "prehľad duplicít"
     video: "prehľad videí"
@@ -556,4 +555,5 @@ sk:
       assign: "přiřazeno"
       user: "zadal"
       filter: "filtrovat"
-
+      assigned: "přiřazené"
+      notassigned: "nepřiřazené"

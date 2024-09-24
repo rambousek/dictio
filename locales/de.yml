@@ -404,7 +404,6 @@ de:
     historynew: "new version, saved "
     prev: "previous"
     next: "next"
-    show: "show"
     reports: "Liste der Einträge"
     dup: "Liste der doppelten Einträge"
     video: "Liste der Videodateien" 
@@ -555,4 +554,5 @@ de:
       assign: "přiřazeno"
       user: "zadal"
       filter: "filtrovat"
-
+      assigned: "přiřazené"
+      notassigned: "nepřiřazené"
