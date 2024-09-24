@@ -12,7 +12,8 @@ group add dictio
 ```
 yum install nginx ruby-devel make gcc redhat-rpm-config certbot python3-certbot-apache mod_ssl
 gem install puma -v '4.3.12'
-gem install sinatra slim mongo i18n json bson net-scp ed25519 bcrypt_pbkdf resolv sinatra-contrib maxmind-geoip2
+gem install bson -v '4.15.0'
+gem install sinatra slim mongo i18n json net-scp ed25519 bcrypt_pbkdf resolv sinatra-contrib maxmind-geoip2
 ```
 
 certifikát
