@@ -1,3 +1,4 @@
 lib/host-config.rb
 logs/
 tmp/
+.idea/
