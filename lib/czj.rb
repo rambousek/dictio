@@ -1,8 +1,5 @@
 class CZJDict < Object
-  attr_accessor :dictcode
-  attr_accessor :write_dicts
-  attr_accessor :sign_dicts
-  attr_accessor :dict_info
+  attr_accessor :dictcode, :write_dicts, :sign_dicts, :dict_info
 
   def initialize(dictcode)
     @dictcode = dictcode 
@@ -77,7 +74,7 @@ class CZJDict < Object
   def full_entry(entry, add_rev=true)
     $stdout.puts 'START fullentry '+Time.now.to_s
     entry = add_media(entry)
-    entry, cu = add_colloc(entry, add_rev)
+    entry, _ = add_colloc(entry, add_rev)
     entry = get_sw(entry)
     $stdout.puts 'END fullentry '+Time.now.to_s
     return entry
@@ -200,7 +197,7 @@ class CZJDict < Object
       res = $mongo['sw'].find({'dict': @dictcode}).delete_many
       count['deleted'] = res.deleted_count
     end
-    res = $mongo['sw'].find({'dict': @dictcode}).each{|sw|
+    $mongo['sw'].find({'dict': @dictcode}).each{|sw|
       swids << sw['id']
     }
     # nejprve jednoduche hesla
