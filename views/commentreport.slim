@@ -43,9 +43,13 @@ main role="main"
               - if @dict_info[@dictcode]['type'] == 'write'
                 | #{koment['lemma']}
             td 
-              b #{koment['box']} hr style="margin: 10px 0px 10px 0px"
+              b #{koment['box']} 
+              hr style="margin: 10px 0px 10px 0px"
               p #{koment['text']}
-            td #{koment['assign']}
-            td #{koment['user']} #{koment['time']}
+            td 
+              b → #{koment['assign']}
+            td 
+              small
+                | #{koment['user']} #{koment['time']}
             td 
               a.btn href="https://edit.dictio.info/editor#{koment['dict']}/?id=#{koment['entry']}" target="_blank" edit
