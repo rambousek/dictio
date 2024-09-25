@@ -41,7 +41,7 @@ main role="main"
                 video class=@dictcode width="177" height="142" onmouseover="this.play()" onmouseout="this.pause()"
                   source type="video/mp4" src="https://files.dictio.info/video#{@dictcode}/#{koment['video']}"
               - if @dict_info[@dictcode]['type'] == 'write'
-                | #{koment['lemma']}
+                h3 #{koment['lemma']}
             td 
               b #{koment['box']} 
               hr style="margin: 10px 0px 10px 0px"
