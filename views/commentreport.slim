@@ -42,8 +42,9 @@ main role="main"
                   source type="video/mp4" src="https://files.dictio.info/video#{@dictcode}/#{koment['video']}"
               - if @dict_info[@dictcode]['type'] == 'write'
                 | #{koment['lemma']}
-            td #{koment['box']}
-            td #{koment['text']}
+            td 
+              b #{koment['box']} hr style="margin: 10px 0px 10px 0px"
+              p #{koment['text']}
             td #{koment['assign']}
             td #{koment['user']} #{koment['time']}
             td 
