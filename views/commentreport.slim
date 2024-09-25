@@ -47,7 +47,8 @@ main role="main"
               hr style="margin: 10px 0px 10px 0px"
               p #{koment['text']}
             td 
-              b → #{koment['assign']}
+              - if koment.include?('assign') and koment['assign'] != ''
+                b → #{koment['assign']}
             td 
               small
                 | #{koment['user']} #{koment['time']}
