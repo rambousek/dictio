@@ -920,7 +920,7 @@ class CzjApp < Sinatra::Base
 
   get '/korpus' do
     apikey = '0a632cda5add424b97432ffb28806ffd'
-    newurl = 'https://api.sketchengine.eu/bonito/run.cgi/first?corpname=preloaded%2Fcstenten17_mj2&iquery='+params['lemma']+'&queryselector=iqueryrow&default_attr=word&fc_lemword_window_type=both&fc_lemword_wsize=5&gdex_enabled=1&viewmode=sentence&refs==doc.url&pagesize=40&format=json';
+    newurl = 'https://api.sketchengine.eu/bonito/run.cgi/first?corpname=preloaded%2Fcstenten17_mj2&iquery='+params['lemma']+'&queryselector=iqueryrow&default_attr=word&fc_lemword_window_type=both&fc_lemword_wsize=5&gdex_enabled=1&viewmode=sentence&refs==doc.url&pagesize=50&format=json';
     $stdout.puts 'PROXY '+ newurl
     require 'net/http'
     require 'net/https'

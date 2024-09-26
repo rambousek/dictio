@@ -1,5 +1,6 @@
 var locale = {
   cs: {
+    search: 'hledat',
     close: 'zavřít',
     no_entry: 'heslo neexistuje',
     pub_auto: 'automaticky (publikovat až úplné heslo)',
@@ -461,6 +462,7 @@ buttonno: 'ne',
     notrans: 'v cílovém jazyce chybí',
 },
   sk: {
+      search: 'hledat',
     close: 'zavřít',
     no_entry: 'heslo neexistuje',
     pub_auto: 'automaticky (publikovať až kompletné heslo)',
@@ -869,6 +871,7 @@ buttonno: 'nie',
     notrans: 'v cílovém jazyce chybí',
 },
 en: {
+    search: 'search',
     close: 'close',
     no_entry: 'unknown entry',
     pub_auto: ' automatic (if complete)',
@@ -1327,6 +1330,7 @@ buttonno: 'no',
     notrans: 'v cílovém jazyce chybí',
   },
 de: {
+    search: 'search',
     close: 'close',
     no_entry: 'unknown entry',
     pub_auto: 'automatisch (wenn vollständig)',

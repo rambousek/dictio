@@ -2716,98 +2716,123 @@ function create_priklad(parentid, entryid, add_copy, meaning_id) {
           labelWidth: 20, 
           fieldLabel: 'ID',
           value: usage_id
-        },{
+        }, {
           xtype: 'button',
           text: locale[lang].corpus,
           handler: function() {
-            var lemma = Ext.getCmp('tabForm').query('[name=lemma]')[0].getValue();
-            var button = this;
-            Ext.Ajax.request({
-              url: '/korpus',
-              method: 'get',
-              params: {
-                lemma: encodeURI(lemma)
-              },
-              success: function(response) {
-                var data = JSON.parse(response.responseText);
-                var lemma = Ext.getCmp('tabForm').query('[name=lemma]')[0].getValue();
-                var url = 'https://app.sketchengine.eu/#concordance?corpname=preloaded%2Fcstenten17_mj2&tab=basic&keyword='+encodeURI(lemma)+'&viewmode=sen&gdex_enabled=1&gdexcnt=50&structs=s%2Cg&refs=%3Ddoc.url&showresults=1&gdexconf=__default__';
-                var korwin = Ext.create('Ext.window.Window', {
-                  title: 'Korpus',
-                  autoScroll: true,
-                  closable: true,
-                  width: 1200,
-                  height: 800,
-                  items: [{
-                    xtype: 'button',
-                    text: locale[lang].corpusdetail,
-                    handler: function() {
-                      koncwindow = window.open(url);
-                      korwin.close();
-                    }
-                  },{
-                    xtype: 'button',
-                    text: locale[lang].close,
-                    handler: function() {
-                      korwin.close();
-                    }
-                  }]
-                }).show();
-                for (var i = 0; i < data.Lines.length; i++) {
-                  var line = data.Lines[i];
-                  var str = '';
-                  var str_form = '';
-                  for (var j = 0; j < line.Left.length; j++) {
-                    str += line.Left[j].str;
-                    str_form += line.Left[j].str;
+            var korwin = Ext.create('Ext.window.Window', {
+              title: 'Korpus',
+              autoScroll: true,
+              closable: true,
+              width: 1200,
+              height: 800,
+              items: [{
+                xtype: 'container',
+                layout: {
+                  type: 'hbox'
+                },
+                items: [{
+                  xtype: 'button',
+                  text: locale[lang].corpusdetail,
+                  handler: function () {
+                    koncwindow = window.open(url);
+                    korwin.close();
                   }
-                  for (var j = 0; j < line.Kwic.length; j++) {
-                    str_form += '<b>'+line.Kwic[0].str+'</b>';
-                    str += line.Kwic[0].str;
+                }, {
+                  xtype: 'button',
+                  text: locale[lang].close,
+                  handler: function () {
+                    korwin.close();
                   }
-                  for (var j = 0; j < line.Right.length; j++) {
-                    str += line.Right[j].str;
-                    str_form += line.Right[j].str;
-                  }
-                  var docref = '';
-                  if (line.Tbl_refs[0] != undefined) {
-                    docref = line.Tbl_refs[0];
-                  }
+                }, {
+                  xtype: 'textfield',
+                  name: 'lemma',
+                }, {
+                  xtype: 'button',
+                  name: 'searchbutton',
+                  text: locale[lang].search,
+                  handler: function () {
+                    console.log('search')
+                    let lemma = korwin.query('[name=lemma]')[0].getValue();
+                    console.log(lemma)
+                    Ext.Ajax.request({
+                      url: '/korpus',
+                      method: 'get',
+                      params: {
+                        lemma: encodeURI(lemma)
+                      },
+                      success: function (response) {
+                        let data = JSON.parse(response.responseText);
+                        let url = 'https://app.sketchengine.eu/#concordance?corpname=preloaded%2Fcstenten17_mj2&tab=basic&keyword='+encodeURI(lemma)+'&viewmode=sen&gdex_enabled=1&gdexcnt=50&structs=s%2Cg&refs=%3Ddoc.url&showresults=1&gdexconf=__default__';
+                        let korcont = korwin.query('[name=korresults]')[0];
+                        korcont.removeAll();
+                        for (let i = 0; i < data.Lines.length; i++) {
+                          let line = data.Lines[i];
+                          let str = '';
+                          let str_form = '';
+                          for (let j = 0; j < line.Left.length; j++) {
+                            str += line.Left[j].str;
+                            str_form += line.Left[j].str;
+                          }
+                          for (let j = 0; j < line.Kwic.length; j++) {
+                            str_form += '<b>' + line.Kwic[0].str + '</b>';
+                            str += line.Kwic[0].str;
+                          }
+                          for (let j = 0; j < line.Right.length; j++) {
+                            str += line.Right[j].str;
+                            str_form += line.Right[j].str;
+                          }
+                          let docref = '';
+                          if (line.Tbl_refs[0] != undefined) {
+                            docref = line.Tbl_refs[0];
+                          }
 
-                  var newcom = Ext.create('Ext.Component', {
-                    width: 1100,
-                    height: 60,
-                    border: 1,
-                    margin: 5,
-                    style: {
-                      borderColor: 'var(--bila)',
-                      borderStyle: 'solid'
-                    },
-                    html: str_form,
-                    name: 'commenthtml'
-                  });
-                  var nrow = Ext.create('Ext.container.Container',{
-                    layout: {
-                      type: 'hbox'
-                    },
-                    items: [newcom,{
-                      xtype:'button',
-                      text: locale[lang].corpususe,
-                      datavalue: i,
-                      datastr: str,
-                      datasrc: docref,
-                      handler: function() {
-                        Ext.getCmp(name).query('[name='+name+'_text]')[0].setValue(this.datastr);
-                        Ext.getCmp(name).query('[name=copy_admin]')[0].setValue(url);
-                        Ext.getCmp(name).query('[name=copy_zdroj]')[0].setValue(this.datasrc);
-                        korwin.close();
+                          let newcom = Ext.create('Ext.Component', {
+                            width: 1100,
+                            height: 60,
+                            border: 1,
+                            margin: 5,
+                            style: {
+                              borderColor: 'var(--bila)',
+                              borderStyle: 'solid'
+                            },
+                            html: str_form,
+                            name: 'commenthtml'
+                          });
+                          let nrow = Ext.create('Ext.container.Container', {
+                            layout: {
+                              type: 'hbox'
+                            },
+                            items: [newcom, {
+                              xtype: 'button',
+                              text: locale[lang].corpususe,
+                              datavalue: i,
+                              datastr: str,
+                              datasrc: docref,
+                              handler: function () {
+                                Ext.getCmp(name).query('[name=' + name + '_text]')[0].setValue(this.datastr);
+                                Ext.getCmp(name).query('[name=copy_admin]')[0].setValue(url);
+                                Ext.getCmp(name).query('[name=copy_zdroj]')[0].setValue(this.datasrc);
+                                korwin.close();
+                              }
+                            }]
+                          });
+                          korcont.add(nrow)
+                        }
                       }
-                    }]
-                  });
-                  korwin.add(nrow)
-                }
-              }
-            });
+                    });
+                  }
+                }]
+              },{
+                xtype: 'container',
+                layout: {
+                  type: 'vbox'
+                },
+                name: 'korresults'
+              }]
+            }).show();
+            korwin.query('[name=lemma]')[0].setValue(Ext.getCmp('tabForm').query('[name=lemma]')[0].getValue());
+            korwin.query('[name=searchbutton]')[0].el.dom.click();
           }
         },{
           xtype: 'button',
