@@ -2735,6 +2735,8 @@ function create_priklad(parentid, entryid, add_copy, meaning_id) {
                   xtype: 'button',
                   text: locale[lang].corpusdetail,
                   handler: function () {
+                    let lemma = Ext.getCmp('tabForm').query('[name=lemma]')[0].getValue();
+                    let url = 'https://app.sketchengine.eu/#concordance?corpname=preloaded%2Fcstenten19_mj2&tab=basic&keyword='+encodeURI(lemma)+'&viewmode=sen&gdex_enabled=1&gdexcnt=50&structs=s%2Cg&refs=%3Ddoc.url&showresults=1&gdexconf=__default__';
                     koncwindow = window.open(url);
                     korwin.close();
                   }
@@ -2763,7 +2765,7 @@ function create_priklad(parentid, entryid, add_copy, meaning_id) {
                       },
                       success: function (response) {
                         let data = JSON.parse(response.responseText);
-                        let url = 'https://app.sketchengine.eu/#concordance?corpname=preloaded%2Fcstenten17_mj2&tab=basic&keyword='+encodeURI(lemma)+'&viewmode=sen&gdex_enabled=1&gdexcnt=50&structs=s%2Cg&refs=%3Ddoc.url&showresults=1&gdexconf=__default__';
+                        let url = 'https://app.sketchengine.eu/#concordance?corpname=preloaded%2Fcstenten19_mj2&tab=basic&keyword='+encodeURI(lemma)+'&viewmode=sen&gdex_enabled=1&gdexcnt=50&structs=s%2Cg&refs=%3Ddoc.url&showresults=1&gdexconf=__default__';
                         let korcont = korwin.query('[name=korresults]')[0];
                         korcont.removeAll();
                         for (let i = 0; i < data.Lines.length; i++) {
@@ -2839,7 +2841,7 @@ function create_priklad(parentid, entryid, add_copy, meaning_id) {
           text: locale[lang].corpusweb,
           handler: function() {
             var lemma = Ext.getCmp('tabForm').query('[name=lemma]')[0].getValue();
-            var url = 'https://app.sketchengine.eu/#concordance?corpname=preloaded%2Fcstenten17_mj2&tab=basic&keyword='+encodeURI(lemma)+'&viewmode=sen&gdex_enabled=1&gdexcnt=50&structs=s%2Cg&refs=%3Ddoc.url&showresults=1&gdexconf=__default__';
+            var url = 'https://app.sketchengine.eu/#concordance?corpname=preloaded%2Fcstenten19_mj2&tab=basic&keyword='+encodeURI(lemma)+'&viewmode=sen&gdex_enabled=1&gdexcnt=50&structs=s%2Cg&refs=%3Ddoc.url&showresults=1&gdexconf=__default__';
             koncwindow = window.open(url);
           }
         },{
