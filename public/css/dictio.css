@@ -51,6 +51,7 @@ video.video-link {
 .detail__badge__czj, .trans__badge__czj, .btn-czj, .trans__badge__czj a {
   background-color: #19B5FE !important;
   color: black;
+  border-radius: 7px;
 }
 
 video.czj {
@@ -60,11 +61,13 @@ video.czj {
 .detail__badge__cs, .trans__badge__cs, .btn-cs, .trans__badge__cs a {
   background-color: darkmagenta !important;
   color: whitesmoke !important;
+  border-radius: 7px;
 }
 
 .detail__badge__is, .trans__badge__is, .btn-is, .trans__badge__is a {
   background-color: darkslateblue !important;
   color: whitesmoke !important;
+  border-radius: 7px;
 }
 video.is {
   border-left: solid 4px darkslateblue;
@@ -73,6 +76,7 @@ video.is {
 .detail__badge__asl, .trans__badge__asl, .btn-asl, .trans__badge__asl a {
   background-color: darkorange !important;
   color: black;
+  border-radius: 7px;
 }
 video.asl {
   border-left: solid 4px darkorange;
@@ -81,10 +85,12 @@ video.asl {
 .detail__badge__en, .trans__badge__en, .btn-en, .trans__badge__en a {
   background-color: black !important;
   color: whitesmoke !important;
+  border-radius: 7px;
 }
 .detail__badge__spj, .trans__badge__spj, .btn-spj, .trans__badge__spj a {
   background-color: mediumseagreen !important;
   color: black;
+  border-radius: 7px;
 }
 video.spj {
   border-left: solid 4px mediumseagreen;
@@ -93,12 +99,13 @@ video.spj {
 .detail__badge__sj, .trans__badge__sj, .btn-sj, .trans__badge__sj a {
   background-color: crimson !important;
   color:black;
-  
+  border-radius: 7px;
 }
 
 .detail__badge__ogs, .trans__badge__ogs, .btn-ogs, .trans__badge__ogs a {
   background-color: darkred !important;
   color: whitesmoke !important;
+  border-radius: 7px;
 }
 video.ogs {
   border-left: solid 4px darkred;
@@ -107,11 +114,13 @@ video.ogs {
 .detail__badge__de, .trans__badge__de, .btn-de, .trans__badge__de a {
   background-color: darkgoldenrod !important;
   color: black;
+  border-radius: 7px;
 }
 
 .detail__badge__uzm, .trans__badge__uzm, .btn-uzm, .trans__badge__uzm a {
   background-color: lightblue !important;
   color: black;
+  border-radius: 7px;
 }
 video.uzm {
   border-left: solid 4px lightblue;
@@ -120,6 +129,7 @@ video.uzm {
 .detail__badge__uk, .trans__badge__uk, .btn-uk, .trans__badge__uk a {
   background-color: yellow !important;
   color: black !important;
+  border-radius: 7px;
 }
 .trans__badge {
   position: absolute;
