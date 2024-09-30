@@ -2401,6 +2401,7 @@ a.btn {
   line-height: 1.25;
   vertical-align: middle;
   text-indent: -36px;
+  height: 27px;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
