@@ -2061,7 +2061,8 @@ a.btn {
   color: var(--zakladni-text-cerna1);
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
-  background: #03c9a9; }
+  background: #03c9a9; 
+  border-radius: 5px;}
 
 .detail__badge--top {
   position: absolute;
