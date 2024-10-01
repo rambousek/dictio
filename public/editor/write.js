@@ -2108,6 +2108,7 @@ function create_gram(entryid) {
       },{
         xtype: 'button',
         icon: '/editor/delete.png',
+        cls: 'del',
         handler: function() {
           Ext.getCmp(name).destroy();
         }
@@ -2152,6 +2153,7 @@ function create_deklin(entryid, tag) {
         },{
           xtype: 'button',
           icon: '/editor/delete.png',
+          cls: 'del',
           handler: function() {
             Ext.getCmp(name).destroy();
           }
@@ -2235,6 +2237,7 @@ function create_variant(entryid) {
         },{
           xtype: 'button',
           icon: '/editor/delete.png',
+          cls: 'del',
           handler: function() {
             Ext.getCmp(name).destroy();
           }
@@ -2553,6 +2556,7 @@ function create_vyznam_links(parentid) {
         {
           xtype: 'button',
           icon: '/editor/delete.png',
+          cls: 'del',
           handler: function() {
             Ext.getCmp(name).destroy();
           }
@@ -2661,6 +2665,7 @@ function create_priklad_links(parentid) {
     },{
       xtype: 'button',
       icon: '/editor/delete.png',
+      cls: 'del',
       handler: function() {
         Ext.getCmp(name).destroy();
       }
@@ -2853,6 +2858,7 @@ function create_priklad(parentid, entryid, add_copy, meaning_id) {
                 create_comment_button(name, usage_id), create_stav(),{
       xtype: 'button',
       icon: '/editor/delete.png',
+      cls: 'del',
       handler: function() {
         Ext.getCmp(name).destroy();
       }
@@ -3033,6 +3039,7 @@ function create_colloc(entryid) {
     },{
         xtype: 'button',
         icon: '/editor/delete.png',
+        cls: 'del',
         handler: function() {
           Ext.getCmp(name).destroy();
         }
@@ -3169,6 +3176,7 @@ function create_vyznam(entryid, add_copy, meaning_id) {
       },{
             xtype: 'button',
             icon: '/editor/delete.png',
+            cls: 'del',
             handler: function() {
               Ext.getCmp(name).destroy();
             }
