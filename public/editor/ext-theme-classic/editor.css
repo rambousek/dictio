@@ -314,7 +314,6 @@ div.x-editor {
 .x-btn-wrap {
     position: relative;
     display: block;
-    background-color: var(--btn-light-gray);
 }
 
 .x-btn-button {
@@ -1674,7 +1673,7 @@ vml {
     border-width: 1px;
     border-style: solid;
     background-image: none;
-    background-color: var(--bila);
+    background-color: var(--btn-light-gray);
     background-image: -webkit-gradient(linear, 50% 0, 50% 100%, color-stop(0%, #fff), color-stop(48%, #f9f9f9), color-stop(52%, #e2e2e2), color-stop(100%, #e7e7e7));
     background-image: -webkit-linear-gradient(top, #fff, #f9f9f9 48%, #e2e2e2 52%, #e7e7e7);
     background-image: var(--btn-bg-image);
