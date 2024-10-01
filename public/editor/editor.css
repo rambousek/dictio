@@ -46,6 +46,10 @@ select {
   border-radius: 10px;
 }
 
+.del:hover {
+  background: red;
+}
+
 /* docasna uprava pro prechod na novy vzhled */
 .ssc_html {
   background-color: lightblue;
