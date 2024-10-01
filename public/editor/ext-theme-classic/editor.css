@@ -1929,12 +1929,7 @@ body.x-nbr .x-btn-default-small-frameInfo {
 .x-btn-default-small-over {
     border-color: darkred;
     background-image: none;
-    background-color: #e4f3ff;
-    background-image: -webkit-gradient(linear, 50% 0, 50% 100%, color-stop(0%, #e4f3ff), color-stop(48%, #d9edff), color-stop(52%, #c2d8f2), color-stop(100%, #c6dcf6));
-    background-image: -webkit-linear-gradient(top, #e4f3ff, #d9edff 48%, #c2d8f2 52%, #c6dcf6);
-    background-image: -moz-linear-gradient(top, #e4f3ff, #d9edff 48%, #c2d8f2 52%, #c6dcf6);
-    background-image: -o-linear-gradient(top, #e4f3ff, #d9edff 48%, #c2d8f2 52%, #c6dcf6);
-    background-image: linear-gradient(top, #e4f3ff, #d9edff 48%, #c2d8f2 52%, #c6dcf6)
+    background-color: #03c9a9;
 }
 
 .x-btn-default-small-focus {
