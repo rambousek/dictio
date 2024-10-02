@@ -50,6 +50,10 @@ select {
   background: red;
 }
 
+.add:hover {
+  background: greenyellow;
+}
+
 /* docasna uprava pro prechod na novy vzhled */
 .ssc_html {
   background-color: lightblue;

@@ -3318,6 +3318,7 @@ function create_priklad(parentid, entryid, add_copy, meaning_id) {
                   items:[{
                     xtype: 'button',
                     icon: '/editor/add.png',
+                    cls: 'add',
                     handler: function() {
                       var transset = create_priklad_links(name+'_rellinks');
                       Ext.getCmp(name+'_rellinks').insert(Ext.getCmp(name+'_rellinks').items.length-1,transset);
@@ -4069,6 +4070,7 @@ function create_vyznam(entryid, add_copy, meaning_id) {
           items:[{
             xtype: 'button',
             icon: '/editor/add.png',
+            cls: 'add',
             text: locale[lang].new_translation,
             name: 'relsadd',
             handler: function() {
@@ -4118,6 +4120,7 @@ function create_vyznam(entryid, add_copy, meaning_id) {
       items: [{
         xtype: 'button',
         icon: '/editor/add.png',
+        cls: 'add',
         handler: function() {
           var priklad = create_priklad(name+'_uziti', entryid, true, meaning_id);
           Ext.getCmp(name+'_uziti').insert(Ext.getCmp(name+'_uziti').items.length-1, priklad);
@@ -4554,6 +4557,7 @@ Ext.onReady(function(){
             items: [{
               xtype: 'button',
               icon: '/editor/add.png',
+              cls: 'add',
               handler: function() {
                 var sw = create_colloc(entryid);
                 Ext.getCmp('colbox').insert(Ext.getCmp('colbox').items.length-1, sw);
@@ -4591,6 +4595,7 @@ Ext.onReady(function(){
               items: [{
                 xtype: 'button',
                 icon: '/editor/add.png',
+                cls: 'add',
                 handler: function() {
                   var vid = create_video(entryid, true);
                   Ext.getCmp('videobox').insert(Ext.getCmp('videobox').items.length-1, vid);
@@ -4637,6 +4642,7 @@ Ext.onReady(function(){
                 items: [{
                   xtype: 'button',
                   icon: '/editor/add.png',
+                  cls: 'add',
                     handler: function() {
                     var sw = create_sw(entryid, true);
                     Ext.getCmp('swbox').insert(Ext.getCmp('swbox').items.length-1,sw);
@@ -4745,6 +4751,7 @@ Ext.onReady(function(){
             items: [create_gram(entryid),{
               xtype: 'button',
               icon: '/editor/add.png',
+              cls: 'add',
               handler: function() {
                 var transset = create_gram(entryid);
                 Ext.getCmp('gramcont').insert(Ext.getCmp('gramcont').items.length-1,transset);
@@ -4827,6 +4834,7 @@ Ext.onReady(function(){
             items: [{
               xtype: 'button',
               icon: '/editor/add.png',
+              cls: 'add',
               handler: function() {
                 var sw = create_variant(entryid);
                 Ext.getCmp('gvarbox').insert(Ext.getCmp('gvarbox').items.length-1, sw);
@@ -4964,6 +4972,7 @@ Ext.onReady(function(){
             items: [{
               xtype: 'button',
               icon: '/editor/add.png',
+              cls: 'add',
               handler: function() {
                 var sw = create_variant(entryid);
                 Ext.getCmp('varbox').insert(Ext.getCmp('varbox').items.length-1, sw);
@@ -4987,6 +4996,7 @@ Ext.onReady(function(){
         items: [sense1,{
           xtype: 'button',
           icon: '/editor/add.png',
+          cls: 'add',
           text: locale[lang].new_meaning,
           handler: function() {
             var vyznam = create_vyznam(entryid, true);
