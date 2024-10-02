@@ -983,6 +983,7 @@ function create_comment_button(boxid, type) {
     items: [{
       xtype: 'button',
       name: 'commentbutton',
+      icon: '/editor/img/comments.png',
       text: locale[lang].comment,
       handler: function() {
         open_comments(boxid, type);
