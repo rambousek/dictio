@@ -16,7 +16,7 @@ var empty = '';
 var changes = new Array();
 var typingTimer;
 var doneTypingInterval = 5000;
-var bgAuth = '#DCDCDC';
+var bgAuth = 'lightsteelblue';
 var bgSilver = 'silver';
 
 var params = Ext.Object.fromQueryString(window.location.search.substring(1));
