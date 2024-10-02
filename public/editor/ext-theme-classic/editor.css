@@ -12,10 +12,10 @@
     --dialog-base: #ced9e7;
     --box-shadow: black;
     --trigger: url(images/form/trigger.gif);
-    --btn-light-gray: lightgray;
+    --btn-light-gray: lightsteelblue;
     --btn-bg-image: -moz-linear-gradient(top, #fff, #f9f9f9 48%, #e2e2e2 52%, #e7e7e7);
     --btn-border-color: #d1d1d1;
-    --btn-color: #333;
+    --btn-color: black
 }
 
 @media (prefers-color-scheme: dark) {
@@ -314,7 +314,6 @@ div.x-editor {
 .x-btn-wrap {
     position: relative;
     display: block;
-    background-color: var(--btn-light-gray);
 }
 
 .x-btn-button {
@@ -1674,7 +1673,7 @@ vml {
     border-width: 1px;
     border-style: solid;
     background-image: none;
-    background-color: var(--bila);
+    background-color: var(--btn-light-gray);
     background-image: -webkit-gradient(linear, 50% 0, 50% 100%, color-stop(0%, #fff), color-stop(48%, #f9f9f9), color-stop(52%, #e2e2e2), color-stop(100%, #e7e7e7));
     background-image: -webkit-linear-gradient(top, #fff, #f9f9f9 48%, #e2e2e2 52%, #e7e7e7);
     background-image: var(--btn-bg-image);
@@ -1799,6 +1798,10 @@ body.x-nbr .x-btn-default-small-frameInfo {
     font-weight: normal;
     color: var(--btn-color);
     padding: 0 4px
+}
+
+.x-btn-default-small:hover .x-btn-inner:hover {
+    color: black;
 }
 
 .x-btn-default-small .x-btn-arrow {
@@ -1930,12 +1933,8 @@ body.x-nbr .x-btn-default-small-frameInfo {
 .x-btn-default-small-over {
     border-color: darkred;
     background-image: none;
-    background-color: #e4f3ff;
-    background-image: -webkit-gradient(linear, 50% 0, 50% 100%, color-stop(0%, #e4f3ff), color-stop(48%, #d9edff), color-stop(52%, #c2d8f2), color-stop(100%, #c6dcf6));
-    background-image: -webkit-linear-gradient(top, #e4f3ff, #d9edff 48%, #c2d8f2 52%, #c6dcf6);
-    background-image: -moz-linear-gradient(top, #e4f3ff, #d9edff 48%, #c2d8f2 52%, #c6dcf6);
-    background-image: -o-linear-gradient(top, #e4f3ff, #d9edff 48%, #c2d8f2 52%, #c6dcf6);
-    background-image: linear-gradient(top, #e4f3ff, #d9edff 48%, #c2d8f2 52%, #c6dcf6)
+    background-color: #03c9a9;
+    color: black !important;
 }
 
 .x-btn-default-small-focus {

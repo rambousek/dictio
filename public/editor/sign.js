@@ -983,6 +983,7 @@ function create_comment_button(boxid, type) {
     items: [{
       xtype: 'button',
       name: 'commentbutton',
+      icon: '/editor/img/comments.png',
       text: locale[lang].comment,
       handler: function() {
         open_comments(boxid, type);
@@ -991,7 +992,7 @@ function create_comment_button(boxid, type) {
       xtype: 'box',
       width: 200,
       name: 'lastcomment',
-      height: 100,
+      cls: 'comment-box',
       hidden: true,
       autoScroll: true
     }]
@@ -2638,6 +2639,7 @@ function create_gram(entryid) {
       },{
         xtype: 'button',
         icon: '/editor/delete.png',
+        cls: 'del',
         handler: function() {
           Ext.getCmp(name).destroy();
         }
@@ -2736,6 +2738,7 @@ function create_variant(entryid) {
         },{
           xtype: 'button',
           icon: '/editor/delete.png',
+          cls: 'del',
           handler: function() {
             Ext.getCmp(name).destroy();
           }
@@ -3124,6 +3127,7 @@ function create_vyznam_links(parentid) {
         {
           xtype: 'button',
           icon: '/editor/delete.png',
+          cls: 'del',
           handler: function() {
             Ext.getCmp(name).destroy();
           }
@@ -3223,6 +3227,7 @@ function create_priklad_links(parentid) {
     },{
       xtype: 'button',
       icon: '/editor/delete.png',
+      cls: 'del',
       handler: function() {
         Ext.getCmp(name).destroy();
       }
@@ -3276,6 +3281,7 @@ function create_priklad(parentid, entryid, add_copy, meaning_id) {
             create_comment_button(name, usage_id),{
       xtype: 'button',
       icon: '/editor/delete.png',
+      cls: 'del',
       handler: function() {
         Ext.getCmp(name).destroy();
       }
@@ -3312,6 +3318,7 @@ function create_priklad(parentid, entryid, add_copy, meaning_id) {
                   items:[{
                     xtype: 'button',
                     icon: '/editor/add.png',
+                    cls: 'add',
                     handler: function() {
                       var transset = create_priklad_links(name+'_rellinks');
                       Ext.getCmp(name+'_rellinks').insert(Ext.getCmp(name+'_rellinks').items.length-1,transset);
@@ -3487,6 +3494,7 @@ function create_sw(entryid, add_copy) {
         },{
           xtype: 'button',
           icon: '/editor/delete.png',
+          cls: 'del',
           handler: function() {
             Ext.getCmp(name).destroy();
           }
@@ -3550,6 +3558,7 @@ function create_colloc(entryid) {
     },{
         xtype: 'button',
         icon: '/editor/delete.png',
+        cls: 'del',
         handler: function() {
           Ext.getCmp(name).destroy();
         }
@@ -3721,6 +3730,7 @@ function create_video(entryid, selectnew, vidid) {
           },{
               xtype: 'button',
               icon: '/editor/delete.png',
+              cls: 'del',
               handler: function() {
                 Ext.getCmp(name).destroy();
               }
@@ -3879,6 +3889,7 @@ function create_media(entryid, upload, vidid) {
     }, create_stav(),{
       xtype: 'button',
       icon: '/editor/delete.png',
+      cls: 'del',
       handler: function() {
         Ext.Ajax.request({
           url: '/'+dictcode+'/remove_video',
@@ -3987,6 +3998,7 @@ function create_vyznam(entryid, add_copy, meaning_id) {
       },{
             xtype: 'button',
             icon: '/editor/delete.png',
+            cls: 'del',
             handler: function() {
               Ext.getCmp(name).destroy();
             }
@@ -4058,6 +4070,7 @@ function create_vyznam(entryid, add_copy, meaning_id) {
           items:[{
             xtype: 'button',
             icon: '/editor/add.png',
+            cls: 'add',
             text: locale[lang].new_translation,
             name: 'relsadd',
             handler: function() {
@@ -4107,6 +4120,7 @@ function create_vyznam(entryid, add_copy, meaning_id) {
       items: [{
         xtype: 'button',
         icon: '/editor/add.png',
+        cls: 'add',
         handler: function() {
           var priklad = create_priklad(name+'_uziti', entryid, true, meaning_id);
           Ext.getCmp(name+'_uziti').insert(Ext.getCmp(name+'_uziti').items.length-1, priklad);
@@ -4543,6 +4557,7 @@ Ext.onReady(function(){
             items: [{
               xtype: 'button',
               icon: '/editor/add.png',
+              cls: 'add',
               handler: function() {
                 var sw = create_colloc(entryid);
                 Ext.getCmp('colbox').insert(Ext.getCmp('colbox').items.length-1, sw);
@@ -4580,6 +4595,7 @@ Ext.onReady(function(){
               items: [{
                 xtype: 'button',
                 icon: '/editor/add.png',
+                cls: 'add',
                 handler: function() {
                   var vid = create_video(entryid, true);
                   Ext.getCmp('videobox').insert(Ext.getCmp('videobox').items.length-1, vid);
@@ -4626,6 +4642,7 @@ Ext.onReady(function(){
                 items: [{
                   xtype: 'button',
                   icon: '/editor/add.png',
+                  cls: 'add',
                     handler: function() {
                     var sw = create_sw(entryid, true);
                     Ext.getCmp('swbox').insert(Ext.getCmp('swbox').items.length-1,sw);
@@ -4734,6 +4751,7 @@ Ext.onReady(function(){
             items: [create_gram(entryid),{
               xtype: 'button',
               icon: '/editor/add.png',
+              cls: 'add',
               handler: function() {
                 var transset = create_gram(entryid);
                 Ext.getCmp('gramcont').insert(Ext.getCmp('gramcont').items.length-1,transset);
@@ -4804,7 +4822,7 @@ Ext.onReady(function(){
             }]
               }]
             },
-                    create_text_video('gramatikatext', entryid, 'text', false, 'A')]
+                    create_text_video('gramatikatext', entryid, 'text', false, 'G')]
           },
           {
             xtype: 'fieldcontainer',
@@ -4816,6 +4834,7 @@ Ext.onReady(function(){
             items: [{
               xtype: 'button',
               icon: '/editor/add.png',
+              cls: 'add',
               handler: function() {
                 var sw = create_variant(entryid);
                 Ext.getCmp('gvarbox').insert(Ext.getCmp('gvarbox').items.length-1, sw);
@@ -4930,7 +4949,7 @@ Ext.onReady(function(){
               name: 'prazdny',
               width: 100,
               fieldLabel: '',              
-            }, create_text_video('styltext', entryid, 'text', false, 'A'),
+            }, create_text_video('styltext', entryid, 'text', false, 'S'),
                   {
                     xtype: 'container',
                     layout: {
@@ -4953,6 +4972,7 @@ Ext.onReady(function(){
             items: [{
               xtype: 'button',
               icon: '/editor/add.png',
+              cls: 'add',
               handler: function() {
                 var sw = create_variant(entryid);
                 Ext.getCmp('varbox').insert(Ext.getCmp('varbox').items.length-1, sw);
@@ -4976,6 +4996,7 @@ Ext.onReady(function(){
         items: [sense1,{
           xtype: 'button',
           icon: '/editor/add.png',
+          cls: 'add',
           text: locale[lang].new_meaning,
           handler: function() {
             var vyznam = create_vyznam(entryid, true);

@@ -597,7 +597,8 @@ iframe {
   max-width: 100%; }
 
 video {
-  outline: 0; }
+  outline: 0; 
+  border-radius: 6px;}
 
 .container {
   max-width: 1130px;
@@ -2060,7 +2061,8 @@ a.btn {
   color: var(--zakladni-text-cerna1);
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
-  background: #03c9a9; }
+  background: #03c9a9; 
+  border-radius: 5px;}
 
 .detail__badge--top {
   position: absolute;
@@ -2401,6 +2403,7 @@ a.btn {
   line-height: 1.25;
   vertical-align: middle;
   text-indent: -36px;
+  height: 27px;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;

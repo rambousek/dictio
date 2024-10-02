@@ -46,6 +46,14 @@ select {
   border-radius: 10px;
 }
 
+.del:hover {
+  background: red;
+}
+
+.add:hover {
+  background: lawngreen;
+}
+
 /* docasna uprava pro prechod na novy vzhled */
 .ssc_html {
   background-color: lightblue;
@@ -267,5 +275,13 @@ video.uzm {
   position: absolute;
   right: 0;
   top: 100px;
+}
+
+.comment-box {
+  height: fit-content;
+  color: yellow;
+  background-color: darkred;
+  padding-left: 5px;
+  border-radius: 10px;
 }
 
