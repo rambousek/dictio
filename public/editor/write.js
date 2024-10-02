@@ -16,7 +16,7 @@ var koncwindow = null;
 var entry_updated = false;
 var empty = '';
 var changes = new Array();
-var bgAuth = '#DCDCDC';
+var bgAuth = 'lightsteelblue';
 var bgSilver = 'silver';
 
 var params = Ext.Object.fromQueryString(window.location.search.substring(1));
