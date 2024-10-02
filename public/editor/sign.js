@@ -4822,7 +4822,7 @@ Ext.onReady(function(){
             }]
               }]
             },
-                    create_text_video('gramatikatext', entryid, 'text', false, 'A')]
+                    create_text_video('gramatikatext', entryid, 'text', false, 'G')]
           },
           {
             xtype: 'fieldcontainer',
@@ -4949,7 +4949,7 @@ Ext.onReady(function(){
               name: 'prazdny',
               width: 100,
               fieldLabel: '',              
-            }, create_text_video('styltext', entryid, 'text', false, 'A'),
+            }, create_text_video('styltext', entryid, 'text', false, 'S'),
                   {
                     xtype: 'container',
                     layout: {
