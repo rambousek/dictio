@@ -5189,8 +5189,7 @@ Ext.onReady(function(){
         },{
           xtype: 'button',
           text: locale[lang].deleteentry,
-          icon: '/editor/delete.png',
-          cls: 'del',
+          icon: '/editor/img/delete2.png',
           handler: function() {
             //Ext.Msg.confirm(locale[lang].delete, locale[lang].deletemsg, function(btn, text) {
             Ext.Msg.show({title: locale[lang].delete, msg: locale[lang].deletemsg, buttons: Ext.Msg.YESNO, icon: Ext.MessageBox.QUESTION,
