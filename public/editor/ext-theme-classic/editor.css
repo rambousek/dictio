@@ -1800,6 +1800,10 @@ body.x-nbr .x-btn-default-small-frameInfo {
     padding: 0 4px
 }
 
+.x-btn-default-small:hover .x-btn-inner:hover {
+    color: black;
+}
+
 .x-btn-default-small .x-btn-arrow {
     background-image: url(images/button/arrow.gif)
 }
