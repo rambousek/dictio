@@ -1934,7 +1934,7 @@ body.x-nbr .x-btn-default-small-frameInfo {
     border-color: darkred;
     background-image: none;
     background-color: #03c9a9;
-    color: black;
+    color: black !important;
 }
 
 .x-btn-default-small-focus {
