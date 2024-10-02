@@ -274,7 +274,9 @@ video.uzm {
 }
 
 .comment-box {
-  height: fix-content;
-  color: red;
+  height: fit-content;
+  color: yellow;
+  background-color: red;
+  padding-left: 5x;
 }
 
