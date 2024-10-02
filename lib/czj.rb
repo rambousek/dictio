@@ -726,7 +726,7 @@ class CZJDict < Object
           ]
 
           collate = {:collation => {'locale' => 'cs', 'numericOrdering'=>true}} 
-          $stderr.puts search_cond
+          $stdout.puts search_cond
           $mongo['relation'].aggregate(pipeline+[{'$count'=>'total'}]).each{|re|
             resultcount = re['total'].to_i
           }
@@ -752,6 +752,9 @@ class CZJDict < Object
       end
     when 'key'
       search_query = {'dict'=>dictcode, '$or'=>get_key_search(search)}
+      if more_params['slovni_druh'].to_s != ''
+        search_query['lemma.grammar_note.@slovni_druh'] = more_params['slovni_druh'].to_s
+      end
       $stdout.puts search_query
       cursor = $mongo['entries'].find(search_query, {:sort => {'sort_key' => -1}})
       resultcount = cursor.count_documents
