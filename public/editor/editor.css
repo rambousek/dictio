@@ -276,7 +276,7 @@ video.uzm {
 .comment-box {
   height: fit-content;
   color: yellow;
-  background-color: red;
+  background-color: darkred;
   padding-left: 5px;
   border-radius: 10px;
 }
