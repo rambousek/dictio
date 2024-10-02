@@ -273,3 +273,8 @@ video.uzm {
   top: 100px;
 }
 
+.comment-box {
+  height: fix-content;
+  color: red;
+}
+

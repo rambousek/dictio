@@ -882,7 +882,7 @@ function create_comment_button(boxid, type) {
       xtype: 'box',
       width: 200,
       name: 'lastcomment',
-      height: 100,
+      cls: 'comment-box',
       hidden: true,
       autoScroll: true
     }]
