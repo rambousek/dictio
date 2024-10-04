@@ -237,12 +237,13 @@ var pracskupinaStore = Ext.create('Ext.data.Store',{
   {'value': 'aka', 'text': locale[lang].pracskup_aka},
   {'value': 'soc', 'text': locale[lang].pracskup_soc},
   {'value': 'tczj', 'text': 'TCZJ MU'},
+  {'value': 'sz', 'text': 'specifické znaky'},
   {'value': 'vut_me', 'text': 'mechanika VUT'},
   {'value': 'krest', 'text': 'křesťanství'},
   {'value': 'mdd', 'text': 'MobiDeafDict'},
   {'value': 'test', 'text': 'test (MobiDeafDict)'},
   {'value': 'ls', 'text': 'LangSkills'},
-    {'value': '', 'text': ''},
+  {'value': '', 'text': ''},
   ]
 });
 
