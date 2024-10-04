@@ -18,7 +18,7 @@ require_relative 'lib/host-config'
 require_relative 'lib/dict-config'
 
 class CzjApp < Sinatra::Base
-  $mongo = Mongo::Client.new([$mongoHost], :database => 'dictio')
+  $mongo = Mongo::Client.new($mongoHost)
   $georeader = MaxMind::GeoIP2::Reader.new(
     database: '/usr/share/GeoIP/GeoLite2-Country.mmdb'
   )
