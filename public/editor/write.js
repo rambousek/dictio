@@ -1381,14 +1381,14 @@ function load_doc(id, history, historytype) {
               var j = 0;
               meaning['usages'].forEach(function(usage) {
                 var usageid, usagec;
-                var priklad = create_priklad(vyznam.id+'_uziti', id, false, meaning['id']);
                 if (usage['id'] && usage['id'] != '') {
                   usageid = usage['id'];
                   usagec = parseInt(usageid.replace(/[0-9\-]*_us/,''));
-                  priklad.query('[name="usage_id"]')[0].setValue(usageid);
                 } else {
                   usagec = j;
                 }
+                var priklad = create_priklad(vyznam.id+'_uziti', id, false, meaning['id'], usageid);
+                priklad.query('[name="usage_id"]')[0].setValue(usageid);
                 if (ar_priklady[meaning['id']] < usagec) {
                   ar_priklady[meaning['id']] = usagec;
                 }
@@ -2689,11 +2689,16 @@ function checkxmltext(text, type) {
 
 }
 
-function create_priklad(parentid, entryid, add_copy, meaning_id) {
+function create_priklad(parentid, entryid, add_copy, meaning_id, saved_usage_id) {
   if (ar_priklady[meaning_id] == undefined) {
     ar_priklady[meaning_id] = 0;
   }
-  var usage_id = meaning_id +'_us' + ar_priklady[meaning_id];
+  let usage_id;
+  if (saved_usage_id && saved_usage_id != '') {
+    usage_id = saved_usage_id;
+  } else {
+    usage_id = meaning_id + '_us' + ar_priklady[meaning_id];
+  }
   var name = 'prikladuziti_'+Ext.id();
   var priklad = Ext.create('Ext.form.FieldSet', {
     fieldDefaults: {
