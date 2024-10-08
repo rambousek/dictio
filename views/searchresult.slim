@@ -18,8 +18,9 @@ main id="mobilespacetop" role="main"
                         span.video-orient = entry['media']['video_front']['orient'].to_s[0].to_s.upcase
                       - else
                         span.video-orient P
-                      video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-dict="#{entry['dict']}" data-entryid="#{entry['id']}" poster="/thumb/video#{entry['dict']}/#{entry['lemma']['video_front']}" muted="muted"
-                        source src="https://files.dictio.info/video#{entry['dict']}/#{entry['lemma']['video_front']}" type="video/mp4"
+                      - if entry['lemma'] and entry['lemma']['video_front']
+                        video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-dict="#{entry['dict']}" data-entryid="#{entry['id']}" poster="/thumb/video#{entry['dict']}/#{entry['lemma']['video_front']}" muted="muted"
+                          source src="https://files.dictio.info/video#{entry['dict']}/#{entry['lemma']['video_front']}" type="video/mp4"
                     .video__controls
                       a.video__link href="/#{entry['dict']}/show/#{entry['id']}"
                         span.icon.icon--open-new-window
