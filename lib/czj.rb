@@ -2005,6 +2005,7 @@ class CZJDict < Object
       if params['koment'].to_s != ''
         entry = add_media(entry)
       end
+      entry = add_rels(entry, false, "translation")
       report['entries'] << entry
       entry_ids << res['id']
     }

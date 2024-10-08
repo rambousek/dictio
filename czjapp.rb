@@ -614,22 +614,29 @@ class CzjApp < Sinatra::Base
       content_type 'text/csv; charset=utf-8'
       attachment code+'report.csv'
       if $dict_info[code]['type'] == 'sign'
-        csv = ['ID;video čelní;video boční;překlady;fsw']
+        csv = ['ID;video čelní;video boční;překlady;překlady text;fsw']
         dict.get_report(params, @user_info)['entries'].each{|rep|
           ri = [rep['id']]
           ri << rep['lemma']['video_front'].to_s
           ri << rep['lemma']['video_side'].to_s
           rels = []
+          relst = []
           if rep['meanings']
             rep['meanings'].each{|rm|
               if rm['relation']
                 rm['relation'].each{|rel|
-                  rels << rel['target'] + ':' + rel['meaning_id']
+                  if rel['type'] == 'translation'
+                    rels << rel['target'] + ':' + rel['meaning_id']
+                    if rel['entry'] and rel['entry']['lemma'] and rel['entry']['lemma']['title']
+                      relst << rel['target'] + ':' + rel['entry']['lemma']['title'].to_s
+                    end
+                  end
                 }
               end
             }
           end
           ri << rels.join(',')
+          ri << relst.join(',')
           if rep['lemma']['swmix']
             sws = []
             rep['lemma']['swmix'].each{|sw|
@@ -640,7 +647,7 @@ class CzjApp < Sinatra::Base
           csv << ri.join(';')
         }
       else
-        csv = ['ID;lemma;slovní druh;význam ID;definice;zdroj definice;*příklad ID;*příklad;*zdroj příkladu;překlady']
+        csv = ['ID;lemma;slovní druh;význam ID;definice;zdroj definice;*příklad ID;*příklad;*zdroj příkladu;překlady;překlady text']
         dict.get_report(params, @user_info)['entries'].each{|rep|
           if rep['meanings'].size > 0
             rep['meanings'].each{|rm|
@@ -654,12 +661,19 @@ class CzjApp < Sinatra::Base
               ri << []
               ri << []
               rels = []
+              relst = []
               if rm['relation']
                 rm['relation'].each{|rel|
-                  rels << rel['target'] + ':' + rel['meaning_id']
+                  if rel['type'] == 'translation'
+                    rels << rel['target'] + ':' + rel['meaning_id']
+                    if rel['entry'] and rel['entry']['lemma'] and rel['entry']['lemma']['title']
+                      relst << rel['target'] + ':' + rel['entry']['lemma']['title'].to_s
+                    end
+                  end
                 }
               end
               ri << rels.join(',')
+              ri << relst.join(',')
               csv << ri.join(';')
             }
           else
