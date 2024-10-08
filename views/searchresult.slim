@@ -26,7 +26,7 @@ main id="mobilespacetop" role="main"
                         span.icon.icon--open-new-window
                           svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                             use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
-                      - unless entry['lemma']['swmix'].nil?
+                      - if entry['lemma'] and entry['lemma']['swmix']
                         span.video__sign
                           - entry['lemma']['swmix'].each do |sw|
                             img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}#{$fsw_style}" alt=""
