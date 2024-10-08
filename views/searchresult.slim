@@ -8,34 +8,34 @@ main id="mobilespacetop" role="main"
           - if @dict_info[@dictcode]['type'] == 'sign'
             div.search-results-sign
               - @result['entries'].each do |entry|
-                  - if (@is_edit or @is_admin)
-                    span.trans__badge style="position: relative;" class="trans__badge__#{@dictcode}" 
-                     a.edit href="https://edit.dictio.info/editor#{entry['dict']}/?id=#{entry['id']}" #{@dictcode}-#{entry['id']} 
-                  div style="width:70%"
-                    .video.video--small
-                      .video__content
-                        - if entry['media'] and entry['media']['video_front'] and entry['media']['video_front']['orient'].to_s != ''
-                          span.video-orient = entry['media']['video_front']['orient'].to_s[0].to_s.upcase
-                        - else
-                          span.video-orient P
-                        video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-dict="#{entry['dict']}" data-entryid="#{entry['id']}" poster="/thumb/video#{entry['dict']}/#{entry['lemma']['video_front']}" muted="muted"
-                          source src="https://files.dictio.info/video#{entry['dict']}/#{entry['lemma']['video_front']}" type="video/mp4"
-                      .video__controls
-                        a.video__link href="/#{entry['dict']}/show/#{entry['id']}"
-                          span.icon.icon--open-new-window
-                            svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
-                              use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
-                        - unless entry['lemma']['swmix'].nil? 
-                          span.video__sign
-                            - entry['lemma']['swmix'].each do |sw|
-                                img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}#{$fsw_style}" alt=""
+                - if @is_edit or @is_admin
+                  span.trans__badge style="position: relative;" class="trans__badge__#{@dictcode}"
+                    a.edit href="https://edit.dictio.info/editor#{entry['dict']}/?id=#{entry['id']}" #{@dictcode}-#{entry['id']}
+                div style="width:70%"
+                  .video.video--small
+                    .video__content
+                      - if entry['media'] and entry['media'].is_a?(Hash) and entry['media']['video_front'] and entry['media']['video_front']['orient'].to_s != ''
+                        span.video-orient = entry['media']['video_front']['orient'].to_s[0].to_s.upcase
+                      - else
+                        span.video-orient P
+                      video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-dict="#{entry['dict']}" data-entryid="#{entry['id']}" poster="/thumb/video#{entry['dict']}/#{entry['lemma']['video_front']}" muted="muted"
+                        source src="https://files.dictio.info/video#{entry['dict']}/#{entry['lemma']['video_front']}" type="video/mp4"
+                    .video__controls
+                      a.video__link href="/#{entry['dict']}/show/#{entry['id']}"
+                        span.icon.icon--open-new-window
+                          svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                            use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
+                      - unless entry['lemma']['swmix'].nil?
+                        span.video__sign
+                          - entry['lemma']['swmix'].each do |sw|
+                            img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}#{$fsw_style}" alt=""
           - else 
             ul.entries.search-results-write
               - @result['entries'].each do |entry|
                 - if entry['lemma'] and entry['lemma']['title']
                   li
                     a href="" onclick="return loadSearchResult(this)" data-entryid="#{entry['id']}" data-dict="#{entry['dict']}" = entry['lemma']['title']
-                    - if (@is_edit or @is_admin)
+                    - if @is_edit or @is_admin
                       span.trans__badge style="position: relative; margin-left: 5px" class="trans__badge__#{@dictcode}"
                         a.edit href="https://edit.dictio.info/editor#{entry['dict']}/?id=#{entry['id']}" #{@dictcode}-#{entry['id']}
           - if @result['count'].to_i > @result['entries'].size
@@ -43,10 +43,10 @@ main id="mobilespacetop" role="main"
         .col.col--2.col--start.layout-aside.entry-content
           - if @result['count'] == 0
             div style="width: 100%" 
-             span class="icon icon--magnifier nav__icon"
+              span class="icon icon--magnifier nav__icon"
               svg class="icon__svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-               use height="100%" width="100%" x="0" xlink:href="/img/icons.svg#magnifier" y="0"
-             p #{I18n.t("search.notfound")}
+                use height="100%" width="100%" x="0" xlink:href="/img/icons.svg#magnifier" y="0"
+              p #{I18n.t("search.notfound")}
           - if @entry != nil
             - if @dict_info[@dictcode]['type'] == 'sign'
               == slim :entrysigndetail
