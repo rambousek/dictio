@@ -32,11 +32,12 @@ main id="mobilespacetop" role="main"
           - else 
             ul.entries.search-results-write
               - @result['entries'].each do |entry|
-                li
-                  a href="" onclick="return loadSearchResult(this)" data-entryid="#{entry['id']}" data-dict="#{entry['dict']}" = entry['lemma']['title']  
-                  - if (@is_edit or @is_admin)
-                    span.trans__badge style="position: relative; margin-left: 5px" class="trans__badge__#{@dictcode}" 
-                      a.edit href="https://edit.dictio.info/editor#{entry['dict']}/?id=#{entry['id']}" #{@dictcode}-#{entry['id']} 
+                - if entry['lemma'] and entry['lemma']['title']
+                  li
+                    a href="" onclick="return loadSearchResult(this)" data-entryid="#{entry['id']}" data-dict="#{entry['dict']}" = entry['lemma']['title']
+                    - if (@is_edit or @is_admin)
+                      span.trans__badge style="position: relative; margin-left: 5px" class="trans__badge__#{@dictcode}"
+                        a.edit href="https://edit.dictio.info/editor#{entry['dict']}/?id=#{entry['id']}" #{@dictcode}-#{entry['id']}
           - if @result['count'].to_i > @result['entries'].size
             a.btn.load_next_search data-search=@search_path #{I18n.t("search.load_next")}
         .col.col--2.col--start.layout-aside.entry-content
