@@ -45,9 +45,10 @@ main id="mobilespacetop" role="main"
           - if @result['count'] == 0
             div style="width: 100%"
               span class="icon icon--magnifier nav__icon"
-                svg class="icon__svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                  use height="100%" width="100%" x="0" xlink:href="/img/icons.svg#magnifier" y="0"
-                p #{I18n.t("search.notfound")}
+                p
+                  svg class="icon__svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    use height="100%" width="100%" x="0" xlink:href="/img/icons.svg#magnifier" y="0"
+                  | #{I18n.t("search.notfound")}
           - if @entry != nil
             - if @dict_info[@dictcode]['type'] == 'sign'
               == slim :entrysigndetail
