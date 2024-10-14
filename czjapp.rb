@@ -645,7 +645,7 @@ class CzjApp < Sinatra::Base
             ri << sws.join(',')
           elsif rep['lemma']['sw']
             sws = []
-            rep['lemma']['swmix'].each{|sw|
+            rep['lemma']['swm'].each{|sw|
               sws << sw['@fsw']
             }
             ri << sws.join(',')
