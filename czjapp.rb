@@ -643,6 +643,12 @@ class CzjApp < Sinatra::Base
               sws << sw['@fsw']
             }
             ri << sws.join(',')
+          elsif rep['lemma']['sw']
+            sws = []
+            rep['lemma']['swmix'].each{|sw|
+              sws << sw['@fsw']
+            }
+            ri << sws.join(',')
           end
           csv << ri.join(';')
         }
