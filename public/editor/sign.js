@@ -3293,7 +3293,7 @@ function create_priklad(parentid, entryid, add_copy, meaning_id, saved_usage_id)
               fieldLabel: '',              
             },
             {
-              xtype: 'button', ***
+              xtype: 'button', 
               icon: '/editor/delete.png',
               style: {left:'717px'},
               cls: 'del',
