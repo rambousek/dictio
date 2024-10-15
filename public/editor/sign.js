@@ -4122,7 +4122,7 @@ function create_vyznam(entryid, add_copy, meaning_id) {
       labelWidth: 50,
       fieldLabel: locale[lang].usages,
       layout: {
-        type: 'hbox'
+        type: 'vbox'
       },
       items: [{
         xtype: 'button',
