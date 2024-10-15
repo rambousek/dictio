@@ -3223,8 +3223,7 @@ function create_priklad_links(parentid) {
             }
           }
         }
-      },
-      
+      },      
       tpl: Ext.create('Ext.XTemplate','<tpl for="."><div class="x-boundlist-item"><b>{title}: {number}:</b> <i>{def}</i><tpl if="loc!=\'\'"><br/><img src="https://www.dictio.info/thumb/video{target}/{loc}" width="120" height="96"/></tpl></div></tpl>'),
     },{
       xtype: 'button',
@@ -3279,7 +3278,14 @@ function create_priklad(parentid, entryid, add_copy, meaning_id, saved_usage_id)
               labelWidth: 50,
               fieldLabel: 'ID',
               value: usage_id
-            },create_stav(),{
+            },
+            {
+              xtype: 'container',              
+              name: 'prazdny',
+              width: 378,
+              fieldLabel: '',              
+            }            
+            ,create_stav(),{
               xtype: 'container',              
               name: 'prazdny',
               width: 180,
