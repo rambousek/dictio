@@ -3285,7 +3285,7 @@ function create_priklad(parentid, entryid, add_copy, meaning_id, saved_usage_id)
               width: 180,
               fieldLabel: '',              
             },
-            create_comment_button(name, usage_id),{
+            {
       xtype: 'button',
       icon: '/editor/delete.png',
       cls: 'del',
@@ -3296,6 +3296,13 @@ function create_priklad(parentid, entryid, add_copy, meaning_id, saved_usage_id)
           ]
         }, 
               create_text_video(name+'text', entryid, 'text', false, 'K'),
+              {
+                xtype: 'container',
+                layout: {
+                  type: 'vbox'
+                },
+                items: [create_comment_button(name, usage_id)]
+              },
           {
                 xtype: 'container',
                 layout: {
