@@ -445,6 +445,7 @@ var stylprizStore = Ext.create('Ext.data.Store',{
     {'value': 'zert', 'text': 'žertovný výraz'},
     {'value': 'zdrob', 'text': 'zdrobnělina'},
     {'value': 'zastar', 'text': 'zastaralý výraz'},
+    {'value': 'zc', 'text': 'znakovaná čeština'},
   ]
 });
 

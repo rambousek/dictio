@@ -391,6 +391,7 @@ en:
       zdrob: 'diminutive'
       zastar: 'obsolete expression'
       cirkev: 'church expression'
+      zc: 'sign supported Czech'
   error: 
     notfound: ":( Page not found"
     internal: ":( Internal error"

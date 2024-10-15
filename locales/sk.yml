@@ -391,6 +391,7 @@ sk:
       zdrob: 'zdrobnenina'
       zastar: 'zastaraný výraz'
       cirkev: 'cirkevný výraz'
+      zc: 'znakovaná čeština'
   error: 
     notfound: ":( stránka nebola nájdená"
     internal: ":( chyba serveru"
