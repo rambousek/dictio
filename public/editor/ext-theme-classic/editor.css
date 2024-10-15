@@ -80,7 +80,7 @@ img {
 }
 
 #fieldset-1122 {
-    background-color: #D7E1E4;
+    background-color: var(--bila2);
 }
 
 .x-border-box,
