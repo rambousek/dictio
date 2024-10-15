@@ -1006,7 +1006,7 @@ textarea {
 label {
   display: block;
   margin: 0 0 17px 0;
-  color: var(--zakladni-text-cerna1);
+  color: var(--zakladni-cerna2);
   font-family: 'Montserrat', sans-serif;
   font-size: 1.125rem;
   font-weight: 900;
