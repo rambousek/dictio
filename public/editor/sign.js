@@ -3282,7 +3282,7 @@ function create_priklad(parentid, entryid, add_copy, meaning_id, saved_usage_id)
             {
               xtype: 'container',              
               name: 'prazdny',
-              width: 378,
+              width: 318,
               fieldLabel: '',              
             }            
             ,create_stav(),{
