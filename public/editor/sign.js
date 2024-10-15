@@ -3285,20 +3285,22 @@ function create_priklad(parentid, entryid, add_copy, meaning_id, saved_usage_id)
               width: 318,
               fieldLabel: '',              
             }            
-            ,create_stav(),{
+            ,create_stav(),
+            {
               xtype: 'container',              
               name: 'prazdny',
               width: 180,
               fieldLabel: '',              
             },
             {
-      xtype: 'button',
-      icon: '/editor/delete.png',
-      cls: 'del',
-      handler: function() {
-        Ext.getCmp(name).destroy();
-      }
-    }            
+              xtype: 'button', ***
+              icon: '/editor/delete.png',
+              style: {left:'717px'},
+              cls: 'del',
+              handler: function() {
+                Ext.getCmp(name).destroy();
+              }
+            }                
           ]
         },          
         {
