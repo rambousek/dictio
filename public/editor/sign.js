@@ -2760,7 +2760,6 @@ function create_text_video(idstart, entryid, label, show_copy, video_type) {
   var text = Ext.create('Ext.container.Container', {
         layout: {
           type: 'hbox'
-          width: 566,
         },
         cls: 'video-text',
         items: [{
