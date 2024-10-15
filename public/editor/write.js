@@ -18,6 +18,7 @@ var empty = '';
 var changes = new Array();
 var bgAuth = 'lightsteelblue';
 var bgSilver = 'silver';
+var bgLex = 'darkgray';
 
 var params = Ext.Object.fromQueryString(window.location.search.substring(1));
 if (params.empty != null && params.empty != '') {
@@ -30,6 +31,7 @@ if (params.id != null && params.id != '') {
   if (isDarkMode) {
     bgAuth = 'slategray';
     bgSilver = 'slategray';
+    bgLex = 'grey';
   };
   entryid = params.id;
   g_entryid = params.id;
@@ -3593,7 +3595,8 @@ Ext.onReady(function(){
             },
             items: [{
               name: 'gramcont',              
-              id: 'gramcont',
+              id: 'gramcont', 
+              style: {backgroundColor: bgLex},
               items: [create_gram(entryid),{
                 xtype: 'button',
                 icon: '/editor/add.png',
