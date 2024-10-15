@@ -2759,7 +2759,7 @@ function create_text_video(idstart, entryid, label, show_copy, video_type) {
   if (video_type == 'K') x_video_type = 'sign_usage_example';
   var text = Ext.create('Ext.container.Container', {
         layout: {
-          type: 'hbox'
+          type: 'hbox',
           width: 566,
         },
         cls: 'video-text',
