@@ -3294,16 +3294,15 @@ function create_priklad(parentid, entryid, add_copy, meaning_id, saved_usage_id)
       }
     }            
           ]
-        }, 
-              create_text_video(name+'text', entryid, 'text', false, 'K'),
-              {
-                xtype: 'container',
-                layout: {
-                  type: 'vbox'
-                },
-                items: [create_comment_button(name, usage_id)]
-              },
-          {
+        },          
+        {
+          xtype: 'container',
+          layout: {
+            type: 'hbox'
+          },
+          items: [create_text_video(name+'text', entryid, 'text', false, 'K'),create_comment_button(name, usage_id)]
+        },
+        {
                 xtype: 'container',
                 layout: {
                   type: 'hbox'
