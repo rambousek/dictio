@@ -4363,7 +4363,7 @@ Ext.onReady(function(){
       items: [{
         xtype: 'fieldset',
         title: locale[lang].basicinfo,
-        style: {backgroundColor: bgSilver; border-radius: 10px},
+        style: {backgroundColor: bgSilver},
         id: 'boxlemma',
         collapsible: true,
         layout:  {

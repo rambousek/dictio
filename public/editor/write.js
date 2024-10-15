@@ -3357,7 +3357,7 @@ Ext.onReady(function(){
         xtype: 'fieldset',
         title: locale[lang].basicinfo,
         id: 'boxlemma',
-        style: {backgroundColor: bgSilver; border-radius: 10px;},
+        style: {backgroundColor: bgSilver},
         collapsible: true,
         layout:  {
           type: 'vbox'
