@@ -4006,7 +4006,6 @@ function create_vyznam(entryid, add_copy, meaning_id) {
         },
         items: [
           create_stav(),
-          create_comment_button(name, 'vyznam'+meaning_id)
         ]
       },{
             xtype: 'button',
@@ -4067,7 +4066,13 @@ function create_vyznam(entryid, add_copy, meaning_id) {
             multiSelect: true,
           }]
         },
-        create_text_video(name+'_text', entryid, 'text', false, 'D'),
+        {
+          xtype: 'container',
+          layout: {
+            type: 'hbox'
+          },
+          items: [create_text_video(name+'_text', entryid, 'text', false, 'D'),create_comment_button(name, 'vyznam'+meaning_id)]
+        },        
         {
           xtype: 'container',
           layout: {
@@ -4219,6 +4224,12 @@ function callback(files) {
       formData.append('entryid', entryid);
       var mtype = '';
       switch(filesv[j].name.charAt(0)) {
+        case 'G':
+          mtype = 'grammar_description';
+          break;
+        case 'S':
+          mtype = 'style_description';
+          break;
         case 'K':
           mtype = 'sign_usage_example';
           break;
