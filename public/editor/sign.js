@@ -4363,7 +4363,7 @@ Ext.onReady(function(){
       items: [{
         xtype: 'fieldset',
         title: locale[lang].basicinfo,
-        style: {backgroundColor: bgSilver},
+        style: {backgroundColor: bgSilver; border-radius: 10px},
         id: 'boxlemma',
         collapsible: true,
         layout:  {
@@ -4723,7 +4723,7 @@ Ext.onReady(function(){
         }]
       }, {
         xtype: 'fieldset',
-        title: 'homonym (více oddělit ,)',
+        title: 'homonymum (více oddělit ,)',
         id: 'boxhomon',
         items: [{
           xtype: 'textfield',

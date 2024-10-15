@@ -8243,7 +8243,8 @@ textarea.x-form-empty-field {
 .x-fieldset {
     border: none;
     padding: 0 10px;
-    margin: 0 0 10px
+    margin: 0 0 10px;
+    border-radius: 10px;
 }
 
 .x-ie8m .x-fieldset,
