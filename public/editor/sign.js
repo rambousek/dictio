@@ -3254,7 +3254,7 @@ function create_priklad(parentid, entryid, add_copy, meaning_id, saved_usage_id)
               xtype: 'container',
               layout: { type: 'hbox' },
               items: [
-                { xtype: 'textfield', disabled: true, name: 'usage_id', labelWidth: 50, fieldLabel: 'ID', value: usage_id },
+                { xtype: 'textfield', disabled: true, name: 'usage_id', labelWidth: 36, fieldLabel: 'ID', value: usage_id },
                 { xtype: 'container', name: 'prazdny', width: 347, fieldLabel: '' }
                 , create_stav(),
                 {
