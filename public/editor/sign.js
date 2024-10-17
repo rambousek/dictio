@@ -3255,7 +3255,7 @@ function create_priklad(parentid, entryid, add_copy, meaning_id, saved_usage_id)
               layout: { type: 'hbox' },
               items: [
                 { xtype: 'textfield', disabled: true, name: 'usage_id', labelWidth: 36, fieldLabel: 'ID', value: usage_id },
-                { xtype: 'container', name: 'prazdny', width: 347, fieldLabel: '' }
+                { xtype: 'container', name: 'prazdny', width: 337, fieldLabel: '' }
                 , create_stav(),
                 {
                   xtype: 'button', icon: '/editor/delete.png', cls: 'del',
