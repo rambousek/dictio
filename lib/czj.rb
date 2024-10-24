@@ -44,6 +44,14 @@ class CZJDict < Object
   def get_comments(dict, id, type, exact=true)
     coms = []
     query = {'dict': dict, 'entry': id}
+    if type != ''
+      if exact
+        query['$or'] = [{'box': type}]
+      else
+        query['$or'] = [{'box': {'$regex':'.*'+type+'.*'}}]
+      end
+    end
+
     if @sign_dicts.include?(dict) and type.start_with?('vyznam') and not type.include?('vazby')
       entrydata = getone(dict, id)
       if entrydata and entrydata['meanings']
@@ -51,20 +59,13 @@ class CZJDict < Object
           if m['text'] and m['text'].is_a?(Hash) and m['text']['file'] and m['text']['file']['@media_id']
             video = get_media(m['text']['file']['@media_id'], dict, false)
             if video
-              type = 'video' + video['location']
+              query['$or'] << {'box': 'video' + video['location']}
             end
           end
         }
       end
     end
 
-    if type != ''
-      if exact
-        query['box'] = type 
-      else
-        query['box'] = {'$regex':'.*'+type+'.*'}
-      end
-    end
     $mongo['koment'].find(query, :sort=>{'time'=>-1}).each{|com|
       coms << com
     }
