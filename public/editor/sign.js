@@ -2502,7 +2502,7 @@ function create_copyright(idstart, hidden) {
       id: idstart + '_autor',
       cls: 'auth',
       name: 'copy_autor'
-    }
+    },
     create_src_list(idstart + '_autor'),
       , {
       fieldLabel: locale[lang].authorvideo,
@@ -5007,9 +5007,6 @@ Ext.onReady(function () {
     is_new_entry = true;
     new_entry();
   }
-
-}
-);
 
 }
 );
