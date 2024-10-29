@@ -18,6 +18,7 @@ var empty = '';
 var changes = new Array();
 var bgAuth = 'lightsteelblue';
 var bgSilver = 'silver';
+var bgLex = 'darkgray';
 
 var params = Ext.Object.fromQueryString(window.location.search.substring(1));
 if (params.empty != null && params.empty != '') {
@@ -30,6 +31,7 @@ if (params.id != null && params.id != '') {
   if (isDarkMode) {
     bgAuth = 'slategray';
     bgSilver = 'slategray';
+    bgLex = 'grey';
   };
   entryid = params.id;
   g_entryid = params.id;
@@ -950,6 +952,7 @@ function open_comments(box, type) {
         },{
           xtype:'button',
           text: locale[lang].savechanges,
+          cls: 'btn',
           handler: function() {
             Ext.Ajax.request({
               url: '/'+dictcode+'/add_comment',
@@ -1040,7 +1043,7 @@ function open_comments(box, type) {
             },
             items: [{
               xtype:'button',
-              text: locale[lang].commentsave,
+              text: locale[lang].commentsave,              
               cidParam: cid,
               handler: function(btn) {
                 if (confirm(locale[lang].commentconfirm)) {
@@ -1191,6 +1194,7 @@ function load_doc(id, history, historytype) {
         /* puvodni heslo v ssc */
         if (data['html'] != null) {
           Ext.getCmp('tabForm').query('[name=ssc_html]')[0].update(data['html']);
+          //Ext.getCmp('tabForm').query('[name=ssc_html]')[0].collapse();
         }
 
         /* gramatika */
@@ -1381,14 +1385,14 @@ function load_doc(id, history, historytype) {
               var j = 0;
               meaning['usages'].forEach(function(usage) {
                 var usageid, usagec;
-                var priklad = create_priklad(vyznam.id+'_uziti', id, false, meaning['id']);
                 if (usage['id'] && usage['id'] != '') {
                   usageid = usage['id'];
                   usagec = parseInt(usageid.replace(/[0-9\-]*_us/,''));
-                  priklad.query('[name="usage_id"]')[0].setValue(usageid);
                 } else {
                   usagec = j;
                 }
+                var priklad = create_priklad(vyznam.id+'_uziti', id, false, meaning['id'], usageid);
+                priklad.query('[name="usage_id"]')[0].setValue(usageid);
                 if (ar_priklady[meaning['id']] < usagec) {
                   ar_priklady[meaning['id']] = usagec;
                 }
@@ -1506,7 +1510,7 @@ function log_changes(element) {
       change = 'pridat '+elparent.title;
       if (element.name == 'relsadd') {
         change = 'pridat vztah ';
-        change += 'vyznam ' + elparent.query('component[name="meaning_id"]')[0].getValue();
+        change += 'vyznam ' + elparent.up('fieldset').query('component[name="meaning_id"]')[0].getValue();
       }
       if (elparent.id == 'vyznamy_box') {
         change = 'pridat vyznam ';
@@ -1872,6 +1876,8 @@ function change_stav(stavcont, novystav) {
     stavcont.query('[name=stav]')[0].setValue('published');
     stavcont.query('[name=stavdisp]')[0].setValue(locale[lang].published);
     stavcont.query('[name=stavbutton]')[0].setText(locale[lang].hide);
+    stavcont.query('[name=stavdisp]')[0].removeCls('stav-display-hidden'); // Nastavení třídy
+    stavcont.query('[name=stavdisp]')[0].addCls('stav-display-published'); // Nastavení třídy
   } else {
     stavcont.query('[name=stav]')[0].setValue('hidden');
     stavcont.query('[name=stavdisp]')[0].setValue(locale[lang].hidden);
@@ -1879,46 +1885,36 @@ function change_stav(stavcont, novystav) {
   }
 }
 
+// stav skryto schvaleno
 function create_stav() {
   var stav = Ext.create('Ext.container.Container', {
-    layout: {
-      type: 'hbox'
-    },
+    layout: { type: 'hbox' },
     name: 'stavcont',
-    items: [{
-      xtype: 'textfield',
-      disabled: true,
-      name: 'stav',
-      value: 'hidden',
-      hidden: true
-    },{
-      xtype: 'displayfield',
-      value: locale[lang].hidden,
-      name: 'stavdisp',
-      cls: 'stav-display',
-      width: 80
-    },{
-      xtype: 'button',
-      name: 'stavbutton',
-      text: locale[lang].publish,
-      width: 90,
-      handler: function() {
-        Ext.suspendLayouts();
-        var par = this.up('[name=stavcont]');
-        if (par.query('[name=stav]')[0].getValue() == 'published') {
-          par.query('[name=stav]')[0].setValue('hidden');
-          par.query('[name=stavdisp]')[0].setValue(locale[lang].hidden);
-          par.query('[name=stavbutton]')[0].setText(locale[lang].publish);
-        } else {
-          par.query('[name=stav]')[0].setValue('published');
-          par.query('[name=stavdisp]')[0].setValue(locale[lang].published);
-          par.query('[name=stavbutton]')[0].setText(locale[lang].hide);
+    items: [
+      { xtype: 'textfield', disabled: true, name: 'stav', value: 'hidden', hidden: true }, 
+      { xtype: 'displayfield', value: locale[lang].hidden, name: 'stavdisp', cls: 'stav-display-hidden', width: 60 }, 
+      { xtype: 'button', name: 'stavbutton', text: locale[lang].publish, width: 100,
+        handler: function () {
+          Ext.suspendLayouts();
+          var par = this.up('[name=stavcont]');
+          if (par.query('[name=stav]')[0].getValue() == 'published') {
+            par.query('[name=stav]')[0].setValue('hidden');
+            par.query('[name=stavdisp]')[0].setValue(locale[lang].hidden);
+            par.query('[name=stavdisp]')[0].removeCls('stav-display-published'); // Nastavení třídy
+            par.query('[name=stavdisp]')[0].addCls('stav-display-hidden'); // Nastavení třídy
+            par.query('[name=stavbutton]')[0].setText(locale[lang].publish);
+          } else {
+            par.query('[name=stav]')[0].setValue('published');
+            par.query('[name=stavdisp]')[0].setValue(locale[lang].published);
+            par.query('[name=stavdisp]')[0].removeCls('stav-display-hidden'); // Nastavení třídy
+            par.query('[name=stavdisp]')[0].addCls('stav-display-published'); // Nastavení třídy
+            par.query('[name=stavbutton]')[0].setText(locale[lang].hide);
+          }
+          Ext.resumeLayouts(true);
         }
-        Ext.resumeLayouts(true);
       }
-    }]
+    ]
   });
-  stav.query('[name=stav]')[0].setValue('hidden');
   return stav;
 }
 
@@ -1973,6 +1969,7 @@ function create_copyright(idstart, hidden) {
       items: [{
         fieldLabel: locale[lang].author,
         xtype: 'textfield',
+        cls: 'auth',
         id: idstart+'_autor',
         name: 'copy_autor'
       },create_src_list(idstart+'_autor')]
@@ -2065,8 +2062,8 @@ function create_gram(entryid) {
       type: 'hbox'
     },
     frame: true,
-    cls: 'gramframe',
     id: name,
+    cls: 'gramframe',
     name: 'gramitem',
     items: [{
         xtype: 'combobox',
@@ -2205,45 +2202,34 @@ function update_deklin(type) {
   Ext.resumeLayouts(true);
 }
 
+// varianty
 function create_variant(entryid) {
   var name = 'var_'+Ext.id();
   var text = Ext.create('Ext.container.Container', {
-        layout: {
-          type: 'hbox'
-        },
+        layout: { type: 'hbox' },
         id: name,
         name: 'variantitem',
-        items: [{
-          xtype: 'combobox',
-          name: 'varlink',
-          store: linklist,
-          displayField: 'title',
-          valueField: 'id',
-          editable: true,
-          queryMode: 'local',
-          width: 220,
-          listeners:{
-            'select': function(combo, record, index) {
-              if (combo.getValue() != '') {
-                console.log(combo.getValue())
-                combo.setRawValue(combo.getValue())
-              }
-            },
-            specialkey: function(field, e) {
-              if (e.getKey() == e.ENTER) {
-                reload_link(field.getValue(), field);
-              }
-            }
+        items: [
+          { xtype: 'combobox', name: 'varlink', store: linklist, displayField: 'title', valueField: 'id', editable: true, queryMode: 'local', width: 160, emptyText: locale[lang].searchrel,
+            listeners:
+              { 'select': function(combo, record, index) 
+                { if (combo.getValue() != '') 
+                  { console.log(combo.getValue())
+                    combo.setRawValue(combo.getValue())
+                  }
+                },
+                specialkey: function(field, e) 
+                  { if (e.getKey() == e.ENTER) 
+                    { reload_link(field.getValue(), field); }
+                  }
+              },
           },
-        },{
-          xtype: 'button',
-          icon: '/editor/delete.png',
-          cls: 'del',
-          handler: function() {
-            Ext.getCmp(name).destroy();
+          { xtype: 'button', icon: '/editor/delete.png', cls: 'del',
+            handler: function() 
+              { Ext.getCmp(name).destroy(); }
           }
-        }]
-  });
+        ]
+    });
   return text;
 }
 
@@ -2424,6 +2410,7 @@ function load_link_relations(target, combo, name, parentid, set_rel) {
   });
 }
 
+// překlady vazby
 function create_vyznam_links(parentid) {
   var name = 'rellink'+Ext.id();
 
@@ -2452,13 +2439,14 @@ function create_vyznam_links(parentid) {
         autoSelect: true,
         editable: false,
         allowBlank: true,
-        width: 120,
+        width: 110,
       },{
         xtype: 'panel',
         name: 'vztahtitle',
         cls: 'vztah-title',
         html: '',
         width: 130,
+        height: 22,
         autoHeight: true
       },{
         xtype: 'combobox',
@@ -2468,7 +2456,7 @@ function create_vyznam_links(parentid) {
         valueField: 'id',
         editable: true,
         queryMode: 'local',
-        width: 210,
+        width: 200,
         opened: false,
         listeners:{
           'blur': function(combo) {
@@ -2607,72 +2595,42 @@ function create_priklad_links(parentid) {
     id: name,
     cls: 'rellinkset',
     name: 'exrellinkset',
-    layout: {
-      type: 'hbox'
-    },
-    items: [{
-      xtype: 'combobox',
-      name: 'type',
-      queryMode: 'local',
-      displayField: 'text',
-      valueField: 'value',
-      store: extypeStore,
-      forceSelection: true,
-      autoSelect: true,
-      editable: false,
-      allowBlank: true
-    /*},{
-      xtype: 'textfield',
-      name: 'rellink',
-      width: 80,*/
-    },{
-      xtype: 'combobox',
-      name: 'rellink',
-      store: relationlist,
-      displayField: 'title',
-      valueField: 'id',
-      editable: true,
-      queryMode: 'local',
-      width: 220,
-      listeners:{
-        'blur': function(combo) {
-          if ((!(Ext.getCmp(name).query('component[name="type"]')[0].getValue().startsWith('translation_'))) && combo.getValue().startsWith(entryid+'-')) {
-            Ext.Msg.alert('',locale[lang]['warn_same_entry']);
-          }
-        },
-        'select': function(combo, record, index) {
-          if (combo.getValue() != '') {
-            console.log(combo.getValue())
-            combo.setRawValue(combo.getValue())
-          }
-        },
-        specialkey: function(field, e) {
-          if (e.getKey() == e.ENTER) {
-            if (Ext.getCmp(name).query('component[name="type"]')[0].getValue().startsWith('translation_')) {
-              var reltar = Ext.getCmp(name).query('component[name="type"]')[0].getValue().split('_')[1];
-              reload_rel(field.getValue(), field, reltar);
-            } else {
-              reload_rel(field.getValue(), field, dictcode);
+    layout: { type: 'hbox'},
+    items: [
+      { xtype: 'combobox', name: 'type', queryMode: 'local', displayField: 'text', valueField: 'value', store: extypeStore, forceSelection: true, autoSelect: true, editable: false, width: 110, allowBlank: true }, 
+      { xtype: 'combobox', name: 'rellink', store: relationlist, displayField: 'title', valueField: 'id', editable: true, queryMode: 'local', width: 220,
+        listeners:{
+          'blur': function(combo) {
+            if ((!(Ext.getCmp(name).query('component[name="type"]')[0].getValue().startsWith('translation_'))) && combo.getValue().startsWith(entryid+'-')) {
+              Ext.Msg.alert('',locale[lang]['warn_same_entry']);
+            }
+          },
+          'select': function(combo, record, index) {
+            if (combo.getValue() != '') {
+              console.log(combo.getValue())
+              combo.setRawValue(combo.getValue())
+            }
+          },
+          specialkey: function(field, e) {
+            if (e.getKey() == e.ENTER) {
+              if (Ext.getCmp(name).query('component[name="type"]')[0].getValue().startsWith('translation_')) {
+                var reltar = Ext.getCmp(name).query('component[name="type"]')[0].getValue().split('_')[1];
+                reload_rel(field.getValue(), field, reltar);
+              } else {
+                reload_rel(field.getValue(), field, dictcode);
+              }
             }
           }
+        },
+        tpl: Ext.create('Ext.XTemplate','<tpl for="."><div class="x-boundlist-item"><b>{title}: {number}:</b> <i>{def}</i><tpl if="loc!=\'\'"><br/><img src="https://www.dictio.info/thumb/video{target}/{loc}" width="120" height="96"/></tpl></div></tpl>'),
+        },
+        { xtype: 'button', icon: '/editor/delete.png', cls: 'del',
+          handler: function() {
+            Ext.getCmp(name).destroy();
+          }
         }
-      },
-      /*listConfig: {
-        getInnerTpl: function() {
-          return '<div><b>{title}: {number}:</b> <i>{def}</i></div>';
-        }
-      }*/
-      tpl: Ext.create('Ext.XTemplate','<tpl for="."><div class="x-boundlist-item"><b>{title}: {number}:</b> <i>{def}</i><tpl if="loc!=\'\'"><br/><img src="https://www.dictio.info/thumb/video{target}/{loc}" width="120" height="96"/></tpl></div></tpl>'),
-    },{
-      xtype: 'button',
-      icon: '/editor/delete.png',
-      cls: 'del',
-      handler: function() {
-        Ext.getCmp(name).destroy();
-      }
-    }]
+      ]
   });
-
   return transset;
 }
 
@@ -2689,299 +2647,246 @@ function checkxmltext(text, type) {
 
 }
 
-function create_priklad(parentid, entryid, add_copy, meaning_id) {
+// příklady
+function create_priklad(parentid, entryid, add_copy, meaning_id, saved_usage_id) {
   if (ar_priklady[meaning_id] == undefined) {
     ar_priklady[meaning_id] = 0;
   }
-  var usage_id = meaning_id +'_us' + ar_priklady[meaning_id];
+  let usage_id;
+  if (saved_usage_id && saved_usage_id != '') {
+    usage_id = saved_usage_id;
+  } else {
+    usage_id = meaning_id + '_us' + ar_priklady[meaning_id];
+  }
   var name = 'prikladuziti_'+Ext.id();
   var priklad = Ext.create('Ext.form.FieldSet', {
-    fieldDefaults: {
-      labelAlign: 'right'
-    },
+    fieldDefaults: { labelAlign: 'right' },
     frame: true,
     id: name,
     name: 'usageset',
-    layout: {
-      type: 'hbox'
-    },
+    layout: { type: 'hbox' },
     items: [{
       xtype: 'container',
-      layout: {
-        type: 'vbox'
-      },
-      items: [{
-        xtype: 'container',
-        layout: {
-          type: 'hbox'
-        },
-        items: [{
-          xtype: 'textfield',
-          disabled: true,
-          name: 'usage_id',
-          labelWidth: 20, 
-          fieldLabel: 'ID',
-          value: usage_id
-        }, {
-          xtype: 'button',
-          text: locale[lang].corpus,
-          handler: function() {
-            var korwin = Ext.create('Ext.window.Window', {
-              title: 'Korpus',
-              autoScroll: true,
-              closable: true,
-              width: 1200,
-              height: 800,
-              items: [{
-                xtype: 'container',
-                layout: {
-                  type: 'hbox'
-                },
-                items: [{
-                  xtype: 'button',
-                  text: locale[lang].corpusdetail,
-                  handler: function () {
-                    let lemma = Ext.getCmp('tabForm').query('[name=lemma]')[0].getValue();
-                    let url = 'https://app.sketchengine.eu/#concordance?corpname=preloaded%2Fcstenten19_mj2&tab=basic&keyword='+encodeURI(lemma)+'&viewmode=sen&gdex_enabled=1&gdexcnt=50&structs=s%2Cg&refs=%3Ddoc.url&showresults=1&gdexconf=__default__';
-                    koncwindow = window.open(url);
-                    korwin.close();
-                  }
-                }, {
-                  xtype: 'button',
-                  text: locale[lang].close,
-                  handler: function () {
-                    korwin.close();
-                  }
-                }, {
-                  xtype: 'textfield',
-                  name: 'lemma',
-                }, {
-                  xtype: 'button',
-                  name: 'searchbutton',
-                  text: locale[lang].search,
-                  handler: function () {
-                    console.log('search')
-                    let lemma = korwin.query('[name=lemma]')[0].getValue();
-                    console.log(lemma)
-                    Ext.Ajax.request({
-                      url: '/korpus',
-                      method: 'get',
-                      params: {
-                        lemma: encodeURI(lemma)
-                      },
-                      success: function (response) {
-                        let data = JSON.parse(response.responseText);
+      layout: { type: 'vbox' },
+      items: [
+        { xtype: 'container',
+          layout: { type: 'hbox' },
+          items: [
+            { xtype: 'textfield', disabled: true, name: 'usage_id', labelWidth: 20, fieldLabel: 'ID', value: usage_id }, 
+            { xtype: 'button',
+              text: locale[lang].corpus,
+              handler: function() {
+                var korwin = Ext.create('Ext.window.Window', {
+                  title: 'Korpus',
+                  autoScroll: true,
+                  closable: true,
+                  width: 1200,
+                  height: 800,
+                  items: [{
+                    xtype: 'container',
+                    layout: {
+                      type: 'hbox'
+                    },
+                    items: [{
+                      xtype: 'button',
+                      text: locale[lang].corpusdetail,
+                      handler: function () {
+                        let lemma = Ext.getCmp('tabForm').query('[name=lemma]')[0].getValue();
                         let url = 'https://app.sketchengine.eu/#concordance?corpname=preloaded%2Fcstenten19_mj2&tab=basic&keyword='+encodeURI(lemma)+'&viewmode=sen&gdex_enabled=1&gdexcnt=50&structs=s%2Cg&refs=%3Ddoc.url&showresults=1&gdexconf=__default__';
-                        let korcont = korwin.query('[name=korresults]')[0];
-                        korcont.removeAll();
-                        for (let i = 0; i < data.Lines.length; i++) {
-                          let line = data.Lines[i];
-                          let str = '';
-                          let str_form = '';
-                          for (let j = 0; j < line.Left.length; j++) {
-                            str += line.Left[j].str;
-                            str_form += line.Left[j].str;
-                          }
-                          for (let j = 0; j < line.Kwic.length; j++) {
-                            str_form += '<b>' + line.Kwic[0].str + '</b>';
-                            str += line.Kwic[0].str;
-                          }
-                          for (let j = 0; j < line.Right.length; j++) {
-                            str += line.Right[j].str;
-                            str_form += line.Right[j].str;
-                          }
-                          let docref = '';
-                          if (line.Tbl_refs[0] != undefined) {
-                            docref = line.Tbl_refs[0];
-                          }
-
-                          let newcom = Ext.create('Ext.Component', {
-                            width: 1100,
-                            height: 60,
-                            border: 1,
-                            margin: 5,
-                            style: {
-                              borderColor: 'var(--bila)',
-                              borderStyle: 'solid'
-                            },
-                            html: str_form,
-                            name: 'commenthtml'
-                          });
-                          let nrow = Ext.create('Ext.container.Container', {
-                            layout: {
-                              type: 'hbox'
-                            },
-                            items: [newcom, {
-                              xtype: 'button',
-                              text: locale[lang].corpususe,
-                              datavalue: i,
-                              datastr: str,
-                              datasrc: docref,
-                              handler: function () {
-                                Ext.getCmp(name).query('[name=' + name + '_text]')[0].setValue(this.datastr);
-                                Ext.getCmp(name).query('[name=copy_admin]')[0].setValue(url);
-                                Ext.getCmp(name).query('[name=copy_zdroj]')[0].setValue(this.datasrc);
-                                korwin.close();
-                              }
-                            }]
-                          });
-                          korcont.add(nrow)
-                        }
+                        koncwindow = window.open(url);
+                        korwin.close();
                       }
-                    });
-                  }
-                }]
-              },{
-                xtype: 'container',
-                layout: {
-                  type: 'vbox'
-                },
-                name: 'korresults'
-              }]
-            }).show();
-            korwin.query('[name=lemma]')[0].setValue(Ext.getCmp('tabForm').query('[name=lemma]')[0].getValue());
-            korwin.query('[name=searchbutton]')[0].el.dom.click();
-          }
-        },{
-          xtype: 'button',
-          text: locale[lang].corpusweb,
-          handler: function() {
-            var lemma = Ext.getCmp('tabForm').query('[name=lemma]')[0].getValue();
-            var url = 'https://app.sketchengine.eu/#concordance?corpname=preloaded%2Fcstenten19_mj2&tab=basic&keyword='+encodeURI(lemma)+'&viewmode=sen&gdex_enabled=1&gdexcnt=50&structs=s%2Cg&refs=%3Ddoc.url&showresults=1&gdexconf=__default__';
-            koncwindow = window.open(url);
-          }
-        },{
-              xtype: 'container',              
+                    }, {
+                      xtype: 'button',
+                      text: locale[lang].close,
+                      handler: function () {
+                        korwin.close();
+                      }
+                    }, {
+                      xtype: 'textfield',
+                      name: 'lemma',
+                    }, {
+                      xtype: 'button',
+                      name: 'searchbutton',
+                      text: locale[lang].search,
+                      handler: function () {
+                        console.log('search')
+                        let lemma = korwin.query('[name=lemma]')[0].getValue();
+                        console.log(lemma)
+                        Ext.Ajax.request({
+                          url: '/korpus',
+                          method: 'get',
+                          params: {
+                            lemma: encodeURI(lemma)
+                          },
+                          success: function (response) {
+                            let data = JSON.parse(response.responseText);
+                            let url = 'https://app.sketchengine.eu/#concordance?corpname=preloaded%2Fcstenten19_mj2&tab=basic&keyword='+encodeURI(lemma)+'&viewmode=sen&gdex_enabled=1&gdexcnt=50&structs=s%2Cg&refs=%3Ddoc.url&showresults=1&gdexconf=__default__';
+                            let korcont = korwin.query('[name=korresults]')[0];
+                            korcont.removeAll();
+                            for (let i = 0; i < data.Lines.length; i++) {
+                              let line = data.Lines[i];
+                              let str = '';
+                              let str_form = '';
+                              for (let j = 0; j < line.Left.length; j++) {
+                                str += line.Left[j].str;
+                                str_form += line.Left[j].str;
+                              }
+                              for (let j = 0; j < line.Kwic.length; j++) {
+                                str_form += '<b>' + line.Kwic[0].str + '</b>';
+                                str += line.Kwic[0].str;
+                              }
+                              for (let j = 0; j < line.Right.length; j++) {
+                                str += line.Right[j].str;
+                                str_form += line.Right[j].str;
+                              }
+                              let docref = '';
+                              if (line.Tbl_refs[0] != undefined) {
+                                docref = line.Tbl_refs[0];
+                              }
+  
+                              let newcom = Ext.create('Ext.Component', {
+                                width: 1100,
+                                height: 60,
+                                border: 1,
+                                margin: 5,
+                                style: {
+                                  borderColor: 'var(--bila)',
+                                  borderStyle: 'solid'
+                                },
+                                html: str_form,
+                                name: 'commenthtml'
+                              });
+                              let nrow = Ext.create('Ext.container.Container', {
+                                layout: {
+                                  type: 'hbox'
+                                },
+                                items: [newcom, {
+                                  xtype: 'button',
+                                  text: locale[lang].corpususe,
+                                  datavalue: i,
+                                  datastr: str,
+                                  datasrc: docref,
+                                  handler: function () {
+                                    Ext.getCmp(name).query('[name=' + name + '_text]')[0].setValue(this.datastr);
+                                    Ext.getCmp(name).query('[name=copy_admin]')[0].setValue(url);
+                                    Ext.getCmp(name).query('[name=copy_zdroj]')[0].setValue(this.datasrc);
+                                    korwin.close();
+                                  }
+                                }]
+                              });
+                              korcont.add(nrow)
+                            }
+                          }
+                        });
+                      }
+                    }]
+                  },{
+                    xtype: 'container',
+                    layout: {
+                      type: 'vbox'
+                    },
+                    name: 'korresults'
+                  }]
+                }).show();
+                korwin.query('[name=lemma]')[0].setValue(Ext.getCmp('tabForm').query('[name=lemma]')[0].getValue());
+                korwin.query('[name=searchbutton]')[0].el.dom.click();
+              }
+            },
+            { xtype: 'button',
+              text: locale[lang].corpusweb,
+              handler: function() 
+                { var lemma = Ext.getCmp('tabForm').query('[name=lemma]')[0].getValue();
+                  var url = 'https://app.sketchengine.eu/#concordance?corpname=preloaded%2Fcstenten19_mj2&tab=basic&keyword='+encodeURI(lemma)+'&viewmode=sen&gdex_enabled=1&gdexcnt=50&structs=s%2Cg&refs=%3Ddoc.url&showresults=1&gdexconf=__default__';
+                  koncwindow = window.open(url);
+                }
+            },
+            { xtype: 'container',              
               name: 'prazdny',
               width: 115,
               fieldLabel: '',              
-              },
-                create_comment_button(name, usage_id), create_stav(),{
-      xtype: 'button',
-      icon: '/editor/delete.png',
-      cls: 'del',
-      handler: function() {
-        Ext.getCmp(name).destroy();
-      }
-    }]
-      },{
-        xtype: 'container',
-        layout: {
-          type: 'hbox'
-        },
-        items: [{
-          xtype: 'textarea',
-          id: name+'_text',
-          name: name+'_text',
-          width: 500,
-          listeners: {
-            'blur': function(text, ev, eopts) {
-              checkxmltext(text, 'příklad užití');
+            },
+            create_comment_button(name, usage_id), create_stav(),
+            { xtype: 'button', icon: '/editor/delete.png', cls: 'del',
+              handler: function() 
+              { Ext.getCmp(name).destroy(); }
             }
-          }
-        },{
-          xtype: 'container',
+          ]
+        },
+        { xtype: 'container',
           layout: {
-            type: 'vbox'
+            type: 'hbox'
           },
-          items: [{
-            xtype: 'combobox',
-            name: 'rellink',
-            store: relationlist,
-            displayField: 'title',
-            valueField: 'id',
-            editable: true,
-            emptyText: locale[lang].searchrel,
-            queryMode: 'local',
-            width: 160,
-            listeners:{
-              'select': function(combo, record, index) {
-                if (combo.getValue() != '') {
-                  console.log(combo.getValue())
-                  var textbox = Ext.getCmp(name+'_text');
-                  textbox.setValue(textbox.getValue() + '[' + combo.getValue() + ']')
+          items: [
+            {  xtype: 'textarea', fieldLabel: 'text', id: name+'_text', name: name+'_text', cls: 'priklad', width: 550,
+               listeners: 
+                { 'blur': function(text, ev, eopts) 
+                  { checkxmltext(text, 'příklad užití'); }
                 }
-              },
-              specialkey: function(field, e) {
-                if (e.getKey() == e.ENTER) {
-                  reload_rel(field.getValue(), field, dictcode);
-                }
-              }
             },
-            listConfig: {
-              getInnerTpl: function() {
-                return '<div><b>{title}: {number}:</b> <i>{def}</i></div>';
-              }
+            { xtype: 'container',
+              layout: { type: 'vbox' },
+              items: [
+                { xtype: 'combobox',
+                  name: 'rellink',
+                  store: relationlist,
+                  displayField: 'title',
+                  valueField: 'id',
+                  editable: true,
+                  emptyText: locale[lang].searchrel,
+                  queryMode: 'local',
+                  width: 160,
+                  listeners:{
+                    'select': function(combo, record, index) {
+                      if (combo.getValue() != '') {
+                        console.log(combo.getValue())
+                        var textbox = Ext.getCmp(name+'_text');
+                        textbox.setValue(textbox.getValue() + '[' + combo.getValue() + ']')
+                      }
+                    },
+                    specialkey: function(field, e) {
+                      if (e.getKey() == e.ENTER) {
+                        reload_rel(field.getValue(), field, dictcode);
+                      }
+                    }
+                  },
+                  listConfig: {
+                    getInnerTpl: function() {
+                      return '<div><b>{title}: {number}:</b> <i>{def}</i></div>';
+                    }
+                  }
+                },
+                create_text_buttons(name+'_text')
+              ]
             }
-          },create_text_buttons(name+'_text')]
-        }]
-      },{
-        xtype: 'container',
-        layout: {
-          type: 'hbox'
+          ]
         },
-        items: [{
-          xtype: 'radiofield',
-          name: name+'usage_type',
-          boxLabel: locale[lang].usage_veta,
-          inputValue: 'sentence',
-        },{
-          xtype: 'radiofield',
-          name: name+'usage_type',
-          boxLabel: locale[lang].usage_spojeni,
-          inputValue: 'colloc',
-          handler: function(ctl, val) {
-            if (val) {
-              ctl.up().query('[name=exrelbox]')[0].show();
-              //var transset = create_priklad_links(name+'_rellinks');
-              //Ext.getCmp(name+'_rellinks').insert(Ext.getCmp(name+'_rellinks').items.length-1,transset);
-            }
-          }              
-        },{
-          xtype: 'fieldcontainer',
-          hidden: true,
-          id: name+'_rellinks',
-          name: 'exrelbox',
-          items:[{
-            xtype: 'button',
-            icon: '/editor/add.png',
-            cls: 'add',
-            handler: function() {
-              var transset = create_priklad_links(name+'_rellinks');
-              Ext.getCmp(name+'_rellinks').insert(Ext.getCmp(name+'_rellinks').items.length-1,transset);
-              track_change();
-            }
-          }]
-        },/*{
-          fieldLabel: locale[lang].usage_link,
-          hidden: true,
-          xtype: 'combobox',
-          name: 'colloc_link',
-          store: relationlist,
-          displayField: 'title',
-          valueField: 'id',
-          editable: true,
-          queryMode: 'local',
-          width: 220,
-          listeners:{
-            'select': function(combo, record, index) {
-              if (combo.getValue() != '') {
-                console.log(combo.getValue())
-                combo.setRawValue(combo.getValue())
-              }
+        { xtype: 'container',
+          layout: { type: 'hbox' },
+          items: [
+            { xtype: 'container', name: 'prazdny', width: 106, fieldLabel: '' },
+            { xtype: 'radiofield', style: { width: '120px' }, name: name + 'usage_type', boxLabel: locale[lang].usage_veta, inputValue: 'sentence' },
+            { xtype: 'radiofield', style: { width: '150px' }, name: name + 'usage_type', boxLabel: locale[lang].usage_spojeni, inputValue: 'colloc',
+              handler: function(ctl, val) 
+              { if (val) 
+                { ctl.up().query('[name=exrelbox]')[0].show(); }
+              }              
             },
-            specialkey: function(field, e) {
-              if (e.getKey() == e.ENTER) {
-                reload_rel(field.getValue(), field, 'czj');
-              }
+            { xtype: 'container', hidden: true, id: name+'_rellinks', name: 'exrelbox', cls: 'equiv',
+              items:[
+                { xtype: 'button', icon: '/editor/add.png', cls: 'add', text: locale[lang].new_translation,
+                  handler: function() 
+                  { var transset = create_priklad_links(name+'_rellinks');
+                    Ext.getCmp(name+'_rellinks').insert(Ext.getCmp(name+'_rellinks').items.length-1,transset);
+                    track_change();
+                  }
+                }
+              ]
             }
-          },
-          tpl: new Ext.XTemplate(
-            '<tpl for="."><div class="x-boundlist-item"><b>{title}: {number}:</b> <i>{def}</i> <tpl if="loc!=&quot;&quot;">{loc} <img width="80" src="/media/video{target}/thumb/{loc}/thumb.jpg"></tpl></div></tpl>'
-          ),
-        }*/
-        ]
-      }, create_copyrightM(name+'copyright', false)]
+          ]
+        }, 
+        create_copyrightM(name+'copyright', false)
+      ]
     }]
   });
   if (add_copy) {
@@ -2999,22 +2904,23 @@ function create_colloc(entryid) {
   counter_colloc += 1;
   var name = 'colloc_'+Ext.id();
   var sw = Ext.create('Ext.container.Container', {
-    layout: {
-      type: 'hbox'
-    },
+    layout: { type: 'hbox' },
+    width: 200,
+    style: {float: 'left'},
     id: name,
     name: 'colitem',
     items: [{
       xtype: 'displayfield',
-      value: counter_colloc+': '
+      value: counter_colloc+': ',
+      cls: 'col-label',
     },{
       xtype: 'combobox',
       name: 'colid',
-      store: linklist,
-      displayField: 'title',
+      store: linklist, displayField: 'title',
       valueField: 'id',
       editable: true,
       queryMode: 'local',
+      emptyText: locale[lang].searchrel, 
       width: 160,
       listeners:{
         'select': function(combo, record, index) {
@@ -3102,6 +3008,7 @@ function create_text_buttons(name) {
   return box;
 }
 
+// význam
 function create_vyznam(entryid, add_copy, meaning_id) {
   var meanskupina = '';
   if (meaning_id == undefined) {
@@ -3122,211 +3029,152 @@ function create_vyznam(entryid, add_copy, meaning_id) {
     }
   }
 
-  var name = 'vyznam_'+Ext.id();
+  var name = 'vyznam_' + Ext.id();
   var sense = Ext.create('Ext.form.FieldSet', {
-    layout: {
-      type: 'hbox'
-    },
+    layout: { type: 'vbox' },
     id: name,
     name: 'vyznam',
-    style: {borderColor:'#1c2641', borderBottomStyle:'dashed', borderBottomWidth:'2px'},
+    style: { borderColor: '#03c9a9', borderBottomStyle: 'dashed', borderBottomWidth: '2px' },
     frame: true,
-    items: [{
-      xtype: 'container',
-      layout: {
-        type: 'hbox'
-      },
-      items: [{
-        xtype: 'container',
-        layout: {
-          type: 'vbox'
-        },
-        flex: 1,
-        name: 'vyznam_topcont',
-        items: [{
-          xtype: 'container',
-          layout: {
-            type: 'hbox'
-          },
-          items: [{
-            xtype: 'textfield',
-            disabled: true,
-            name: 'meaning_id',
-            labelWidth: 50,
-            fieldLabel: 'ID',
-            value: meaning_id
-          },{            
-            xtype: 'textfield',
-            name: 'meaning_nr',
-            allowBlank: false,
-            fieldLabel: locale[lang].order
-          },{
-              xtype: 'container',              
-              name: 'prazdny',
-              width: 50,
-              fieldLabel: '',              
-          },{
-        xtype: 'container',
-        name: 'vyznammeta',
-        layout: {
-          type: 'vbox'
-        },
+    items: [
+      { xtype: 'container',  // záhlaví významu 
+        name: 'vyznam_topmeta',
+        height: 30,
+        width: 1640,
+        cls: 'vyznam-zahlavi',
+        layout: { type: 'hbox' },
         items: [
-          create_stav(),
-          create_comment_button(name, 'vyznam'+meaning_id)
+          { xtype: 'textfield', name: 'meaning_nr', allowBlank: false, labelWidth: 50,  width: 100, fieldLabel: locale[lang].order },
+          { xtype: 'textfield', disabled: true, name: 'meaning_id', labelWidth: 50, fieldLabel: 'ID', value: meaning_id },                  
+          { xtype: 'container', name: 'prazdny', width: 70, fieldLabel: ''},
+          { fieldLabel: locale[lang].workgroup, name: 'pracskupina', xtype: 'combobox', editable: false, queryMode: 'local', displayField: 'text', valueField: 'value', store: pracskupinaStore, allowBlank: true, value: meanskupina },
+          { xtype: 'tbfill', width: 300},
+          { xtype: 'button', icon: '/editor/delete.png', cls: 'del',
+            handler: function () 
+              { Ext.getCmp(name).destroy();}
+          },          
         ]
-      },{
-            xtype: 'button',
-            icon: '/editor/delete.png',
-            cls: 'del',
-            handler: function() {
-              Ext.getCmp(name).destroy();
-            }
-            }]
-        },{
-          xtype: 'container',
-          layout: {
-            type: 'hbox'
-          },
-          items: [{
-            xtype: 'combobox',
-            fieldLabel: locale[lang].obor2,
-            name: 'vyzn_oblast',
-            queryMode: 'local',
-            displayField: 'text',
-            valueField: 'value',
-            store: oblastStore,
-            forceSelection: true,
-            autoSelect: true,
-            editable: false,
-            allowBlank: true,
-            multiSelect: true,
-          },{
-            fieldLabel: locale[lang].workgroup,
-            name: 'pracskupina',
-            xtype: 'combobox',
-            editable: false,
-            queryMode: 'local',
-            displayField: 'text',
-            valueField: 'value',
-            store: pracskupinaStore,
-            allowBlank: true,
-            value: meanskupina
-          }]
-          },{
-          xtype: 'container',
-          layout: {
-            type: 'hbox'
-          },
-          items: [{
-            xtype: 'textarea',
-            fieldLabel: locale[lang].definice,
-            id: name+'_text',
-            name: name+'_text',
-            width: 500,
-            listeners: {
-              'blur': function(text, ev, eopts) {
-                checkxmltext(text, 'definice');
-              }
-            }
-          },{
-            xtype: 'container',
-            layout: {
-              type: 'vbox'
-            },
-            items: [{
-              xtype: 'combobox',
-              name: 'rellink',
-              store: relationlist,
-              displayField: 'title',
-              valueField: 'id',
-              editable: true,
-              emptyText: locale[lang].searchrel,
-              queryMode: 'local',
-              width: 100,
-              listeners:{
-                'select': function(combo, record, index) {
-                  if (combo.getValue() != '') {
-                    console.log(combo.getValue())
-                    var textbox = Ext.getCmp(name+'_text');
-                    textbox.setValue(textbox.getValue() + '[' + combo.getValue() + ']')
-                  }
-                },
-                specialkey: function(field, e) {
-                  if (e.getKey() == e.ENTER) {
-                    reload_rel(field.getValue(), field, dictcode);
-                  }
-                }
-              },
-              listConfig: {
-                getInnerTpl: function() {
-                  return '<div><b>{title}: {number}:</b> <i>{def}</i></div>';
-                }
-              }
-            },create_text_buttons(name+'_text')]
-          }]
-        },{
-          xtype: 'fieldcontainer',
-          fieldLabel: locale[lang].relations,
-          id: name+'_rellinks',
-          name: 'relbox',
-          items:[{
-            xtype: 'button',
-            icon: '/editor/add.png',
-            cls: 'add',
-            text: locale[lang].new_translation,
-            name: 'relsadd',
-            handler: function() {
-              var transset = create_vyznam_links(name+'_rellinks');
-              Ext.getCmp(name+'_rellinks').insert(Ext.getCmp(name+'_rellinks').items.length-3,transset);
-              track_change();
-            }
-          },{
-            xtype: 'button',
-            icon: '/editor/refresh.png',
-            name: 'relsrefresh',
-            handler: function() {
-              var set_rel = Ext.getCmp('tabForm').query('[name=usersetrel]')[0].getValue()
-              refresh_relations(name+'_rellinks', set_rel);
-            }
-          },{
-            name: 'relswait',
-            width: 20,
-            height: 20,
-            xtype: 'image',
-            hidden: true,
-            src: '/editor/wait.gif',
-          },{
-          xtype: 'checkbox',
-          boxLabel: locale[lang].translationunknown,
-          name: 'translation_unknown'
-        }]
-        },create_copyrightM(name, false)]
-      },{
-        xtype: 'tbfill',
-        flex: 1
-      }]
-    },{
-      xtype: 'fieldcontainer',
-      id: name+'_uziti',
-      cls: 'priklady',
-      name: 'usagebox',
-      fieldLabel: locale[lang].usages,
-      labelWidth: 50,
-      layout: {
-        type: 'vbox'
       },
-      items: [{
-          xtype: 'button',
-          icon: '/editor/add.png',
-          cls: 'add',
-          handler: function() {
-            var priklad = create_priklad(name+'_uziti', entryid, true, meaning_id);
-            Ext.getCmp(name+'_uziti').insert(Ext.getCmp(name+'_uziti').items.length-1,priklad);
-            track_change();
-          }
-      }]
-    }]
+      { xtype: 'tbfill', height: 5},     
+      { xtype: 'container',  // dva sloupce, vlevo definice, příklady, vpravo překlady
+        layout: { type: 'hbox' },
+        items: [
+          { xtype: 'container',  // levý sloupec defince, atd
+            layout: { type: 'vbox' },
+            width: 970,
+            flex: 1,
+            name: 'vyznam_topcont',
+            items: [              
+              { xtype: 'container',
+                layout: { type: 'hbox' },
+                items: [
+                  { xtype: 'combobox', fieldLabel: locale[lang].obor2, name: 'vyzn_oblast', queryMode: 'local', displayField: 'text', valueField: 'value', store: oblastStore, forceSelection: true, autoSelect: true, editable: false, allowBlank: true, multiSelect: true },
+                  { xtype: 'tbfill', width: 440},
+                  { xtype: 'container', name: 'vyznammeta', 
+                    layout: { type: 'vbox'},
+                    items: [
+                      create_stav(),
+                    ]
+                  } 
+                ]
+              },
+              { xtype: 'container',
+                layout: { type: 'hbox' },
+                items: [
+                  { xtype: 'textarea', fieldLabel: locale[lang].definice, id: name+'_text', name: name+'_text', width: 600,
+                    listeners: {
+                      'blur': function(text, ev, eopts) {
+                        checkxmltext(text, 'definice');
+                      }
+                    }
+                  },
+                  { xtype: 'container',
+                    layout: { type: 'vbox' },
+                    items: [
+                      { xtype: 'combobox', name: 'rellink', store: relationlist, displayField: 'title', valueField: 'id', editable: true, emptyText: locale[lang].searchrel, queryMode: 'local', width: 100,
+                        listeners:{
+                          'select': function(combo, record, index) {
+                            if (combo.getValue() != '') {
+                              console.log(combo.getValue())
+                              var textbox = Ext.getCmp(name+'_text');
+                              textbox.setValue(textbox.getValue() + '[' + combo.getValue() + ']')
+                            }
+                          },
+                          specialkey: function(field, e) {
+                            if (e.getKey() == e.ENTER) {
+                              reload_rel(field.getValue(), field, dictcode);
+                            }
+                          }
+                        },
+                        listConfig: {
+                          getInnerTpl: function() {
+                            return '<div><b>{title}: {number}:</b> <i>{def}</i></div>';
+                          }
+                        }
+                      },
+                      create_text_buttons(name+'_text')
+                    ]
+                  },
+                  create_comment_button(name, 'vyznam' + meaning_id)
+                ]
+              },
+              create_copyrightM(name, false), // copyright pro definici
+              { xtype: 'fieldset', // příklady
+                collapsible: true,
+                title: locale[lang].usages,                                
+                id: name + '_uziti',
+                name: 'usagebox',
+                cls: 'priklady',
+                layout: { type: 'vbox' },
+                items: [
+                  { xtype: 'button', icon: '/editor/add.png', cls: 'add',
+                    handler: function() {
+                      var priklad = create_priklad(name+'_uziti', entryid, true, meaning_id);
+                      Ext.getCmp(name+'_uziti').insert(Ext.getCmp(name+'_uziti').items.length-1,priklad);
+                      track_change();
+                    }
+                  }
+                ]
+              }              
+            ]
+          },
+          { xtype: 'fieldset',    // překlady box užití
+            collapsible: true,
+            title: locale[lang].relations,   
+            cls: 'equiv', 
+            items: [
+              { xtype: 'container',  // překlady, ekvivalenty
+                layout: { type: 'hbox' },
+                items: [
+                  { xtype: 'fieldcontainer',
+                    id: name+'_rellinks',
+                    name: 'relbox',
+                    width: 625,     
+                    items:[
+                      { xtype: 'button', icon: '/editor/add.png', cls: 'add', text: locale[lang].new_translation, name: 'relsadd',
+                        handler: function() {
+                          var transset = create_vyznam_links(name+'_rellinks');
+                          Ext.getCmp(name+'_rellinks').insert(Ext.getCmp(name+'_rellinks').items.length-3,transset);
+                          track_change();
+                        }
+                      },
+                      { xtype: 'button', icon: '/editor/refresh.png', name: 'relsrefresh',
+                        handler: function() {
+                          var set_rel = Ext.getCmp('tabForm').query('[name=usersetrel]')[0].getValue()
+                          refresh_relations(name+'_rellinks', set_rel);
+                        }
+                      },
+                      { name: 'relswait', width: 20, height: 20, xtype: 'image', hidden: true, src: '/editor/wait.gif'},
+                      { xtype: 'checkbox', boxLabel: locale[lang].translationunknown, name: 'translation_unknown' }
+                    ]
+                  }
+                ]
+              }
+            ]
+          } 
+        ]
+      }  
+    ]
   });
   if (add_copy) {
     //Ext.getCmp(name+'_copybox').query('[name=copy_copy]')[0].setValue(Ext.getCmp('tabForm').query('component[name="defaultcopy"]')[0].getValue());
@@ -3352,11 +3200,9 @@ Ext.onReady(function(){
         xtype: 'fieldset',
         title: locale[lang].basicinfo,
         id: 'boxlemma',
-        style: {backgroundColor: bgSilver},
+        cls: 'techinfo-box',
         collapsible: true,
-        layout:  {
-          type: 'vbox'
-        },
+        layout:  { type: 'vbox' },
         items: [{
           xtype: 'container',
           layout: {
@@ -3510,7 +3356,7 @@ Ext.onReady(function(){
               }}
             },{
               xtype: 'splitter',
-              width: 200
+              width: 150
             },{xtype:'tbfill'},create_comment_button('boxcolloc'),create_stav()
             ]
           },{
@@ -3536,289 +3382,230 @@ Ext.onReady(function(){
               }]
             }]
           }]
-        },{
-            xtype: 'container',
-            layout: {
-              type: 'hbox'
-            },
-            items:[{
-              xtype: 'textfield',              
-              fieldLabel: locale[lang].lemma, 
-              width: 350,               
-              name: 'lemma'
-            },{
-              xtype: 'textfield',              
-              fieldLabel: locale[lang].pravopis_variant,
-              labelWidth: 150,               
-              name: 'lemma_var'
-            },
-            {
-              xtype: 'textfield',
-              fieldLabel: locale[lang].vyslovnost,
-              name: 'pron'
-            }]
-          },{
-            xtype: 'container',
-            layout: {
-              type: 'vbox'
-            },
-            items:[{
-              xtype: 'box',
-              name: 'ssc_html',
-              cls: 'ssc_html',              
-              //maxWidth: '1606',
-              //maxHeight: (Ext.getBody().getViewSize().height)
-              maxWidth: (Ext.getBody().getViewSize().width-400)
-            },{
-              xtype: 'box',
-              name: 'gram_html',
-            }]
-          },{
-          xtype: 'fieldset',
+        },
+        { xtype: 'container',
+          layout: { type: 'hbox' }, // lemma
+            items:[
+              { xtype: 'textfield', fieldLabel: locale[lang].lemma, cls: 'lemmawrite', width: 350, name: 'lemma' },
+              { xtype: 'textfield', fieldLabel: locale[lang].pravopis_variant, labelWidth: 150, name: 'lemma_var' },
+              { xtype: 'textfield', fieldLabel: locale[lang].vyslovnost, name: 'pron' }
+            ]
+        },       
+        { xtype: 'fieldset',
+         layout: { type: 'vbox' },
+         collapsible: true,
+         title: 'SSC',
+         items:[
+           { xtype: 'box', 
+             name: 'ssc_html',
+             cls: 'ssc_html',              
+             maxWidth: '1606',
+             //maxHeight: (Ext.getBody().getViewSize().height)
+             //maxWidth: (Ext.getBody().getViewSize().width-400)
+           },
+           { xtype: 'box', name: 'gram_html'}
+         ]
+        },
+        { xtype: 'fieldset', // gramatický popis
           title: locale[lang].gramdesc,
           collapsible: true,
           id: 'gramdesc',
-          layout: {
-            type: 'vbox'
-          },
-          items: [{
-            xtype: 'container',
-            layout: {
-              type: 'hbox'
-            },
-            items: [{
-              name: 'gramcont',              
-              id: 'gramcont',
-              items: [create_gram(entryid),{
-                xtype: 'button',
-                icon: '/editor/add.png',
-                cls: 'add',
-                handler: function() {
-                  var transset = create_gram(entryid);
-                  Ext.getCmp('gramcont').insert(Ext.getCmp('gramcont').items.length-1,transset);
-                  track_change();
-                }
-              }]
-            },{
-              xtype: 'container',              
-              name: 'prazdny',
-              width: 400,
-              fieldLabel: '',              
-              }, create_comment_button('gramdesc'), create_stav()]
-          },{
-            xtype: 'container',
-            layout: {
-              type: 'hbox'
-            },
-            items: [{
-              xtype: 'container',
-              layout: {
-                type: 'vbox'
-              },
-              items:[{
-              xtype: 'combobox',
-              fieldLabel: locale[lang].puvod,
-              name: 'puvod_slova',
-              queryMode: 'local',
-              displayField: 'text',
-              valueField: 'value',
-              store: puvodStore,
-              forceSelection: false,
-              autoSelect: true,
-              editable: true,
-            },{
-              xtype: 'fieldcontainer',
-              fieldLabel: locale[lang].varianty,
-              id: 'gvarbox',
-              layout:  {
-                type: 'vbox'
-              },
-              items: [{
-                xtype: 'button',
-                icon: '/editor/add.png',
-                cls: 'add',
-                handler: function() {
-                  var sw = create_variant(entryid);
-                  Ext.getCmp('gvarbox').insert(Ext.getCmp('gvarbox').items.length-1,sw);
-                  track_change();
-                }
-              }]
-            },{
-                xtype: 'container',
-                layout: {
-                  type: 'hbox'
-                },
-                items: [ {
-                xtype: 'textarea',
-                fieldLabel: 'text',
-                id: 'gramatikatext_text',
-                name: 'gramatikatext_text',
-                width: 500,
-                listeners: {
-                  'blur': function(text, ev, eopts) {
-                    checkxmltext(text, 'gramatický popis');
-                  }
-                }
-              },{
-                xtype: 'container',
-                layout: {
-                  type: 'vbox'
-                },
-                items: [{
-                  xtype: 'combobox',
-                  name: 'rellink',
-                  store: relationlist,
-                  displayField: 'title',
-                  emptyText: locale[lang].searchrel,
-                  valueField: 'id',
-                  editable: true,
-                  queryMode: 'local',
-                  width: 160,
-                  listeners:{
-                    'select': function(combo, record, index) {
-                      if (combo.getValue() != '') {
-                        console.log(combo.getValue())
-                        var textbox = Ext.getCmp('gramatikatext_text');
-                        textbox.setValue(textbox.getValue() + '[' + combo.getValue() + ']')
-                      }
+          width: 1635,
+          layout: { type: 'vbox' },
+          items: [
+            { xtype: 'container', //1
+              layout: { type: 'hbox' },
+              items: [
+                { xtype: 'container', //2
+                  layout: { type: 'vbox' },
+                  items: [
+                    { xtype: 'container', //23
+                      layout: { type: 'hbox' },
+                      items: [
+                        { xtype: 'container', //3
+                          layout: { type: 'vbox' },
+                          name: 'gramcont',
+                          id: 'gramcont',
+                          items: [
+                            create_gram(entryid), // přidá slovní druh
+                            { xtype: 'button', icon: '/editor/add.png', cls: 'add',
+                              handler: function() 
+                                { var transset = create_gram(entryid);
+                                  Ext.getCmp('gramcont').insert(Ext.getCmp('gramcont').items.length-1,transset);
+                                  track_change();
+                                }   
+                            }
+                          ]
+                        }, 
+                        { xtype:'tbfill', width: 520},
+                        create_comment_button('gramdesc'), create_stav() 
+                      ]
                     },
-                    specialkey: function(field, e) {
-                      if (e.getKey() == e.ENTER) {
-                        reload_rel(field.getValue(), field, dictcode);
-                      }
-                    }
-                  },
-                  listConfig: {
-                    getInnerTpl: function() {
-                      return '<div><b>{title}: {number}:</b> <i>{def}</i></div>';
-                    }
-                  }
-                },create_text_buttons('gramatikatext_text')]
-              }]},{
-              fieldLabel: locale[lang].flexe,
-              xtype: 'checkbox',
-              boxLabel: locale[lang].nesklonne,
-              name: 'flexe_neskl'
-            }]
-          },{
-            xtype: 'container',
-            layout: {
-              type: 'vbox'
-            },
-            items: [{
-              fieldLabel: locale[lang].deklinace,
-              id: 'deklcont',
-              xtype: 'fieldcontainer',
-              layout: {
-              type: 'vbox'
-              },
-              items: [{
-                xtype: 'container',
-                layout: {
-                  type: 'hbox'
-                },
-                items: [{
-                  xtype: 'button',
-                  icon: '/editor/add.png',
-                  cls: 'add',
-                  text: locale[lang].row,
-                  handler: function() {
-                    var sw = create_deklin(entryid);
-                    Ext.getCmp('deklcont').insert(Ext.getCmp('deklcont').items.length-2,sw);
-                    track_change();
-                  }
-                },{
-              xtype: 'container',              
-              name: 'prazdny',
-              width: 50,
-              fieldLabel: '',              
-              },{
-                  xtype: 'button',
-                text: locale[lang].taketable,
-                  handler: function() {
-                    var get_id = Ext.getCmp('deklcont').query('[name=get_deklin]')[0].getValue();
-                    Ext.Ajax.request({
-                      url: '/'+dictcode+'/getgram/'+get_id,
-                      method: 'get',
-                      success: function(response) {
-                        var data = JSON.parse(response.responseText);
-                        Ext.suspendLayouts();
-                        var dekls = Ext.getCmp('deklcont').query('[name=deklinitem]');
-                        for (var i = 0; i < dekls.length; i++) {
-                          dekls[i].destroy();
+                    { xtype: 'container',
+                      layout: { type: 'hbox' },
+                      items: [
+                        { xtype: 'container',
+                          layout: { type: 'vbox' },
+                          width: 300,
+                          items:[
+                            { xtype: 'combobox', fieldLabel: locale[lang].puvod, name: 'puvod_slova', queryMode: 'local', displayField: 'text',
+                              valueField: 'value', store: puvodStore, forceSelection: false, autoSelect: true, editable: true, },                    
+                            { fieldLabel: locale[lang].flexe, xtype: 'checkbox', boxLabel: locale[lang].nesklonne, name: 'flexe_neskl' },
+                            { xtype: 'fieldcontainer', fieldLabel: locale[lang].varianty,
+                              id: 'gvarbox',
+                              layout:  { type: 'vbox' },
+                              items: [
+                                { xtype: 'button', icon: '/editor/add.png', cls: 'add',
+                                  handler: function() {
+                                    var sw = create_variant(entryid);
+                                    Ext.getCmp('gvarbox').insert(Ext.getCmp('gvarbox').items.length-1,sw);
+                                    track_change();
+                                  }
+                                }
+                              ]
+                            },
+                          ]
+                        },
+                        { xtype: 'container',
+                          width: 650,
+                          layout: { type: 'hbox' },
+                          items: [ 
+                            { xtype: 'textarea', fieldLabel: 'text', labelWidth: 80, id: 'gramatikatext_text', name: 'gramatikatext_text', width: 500,
+                              listeners: 
+                                { 'blur': function(text, ev, eopts) {
+                                  checkxmltext(text, 'gramatický popis');
+                                  }
+                                }
+                            },
+                            { xtype: 'container',
+                              layout: { type: 'vbox' },
+                              items: [
+                                { xtype: 'combobox',
+                                  name: 'rellink',
+                                  store: relationlist,
+                                  displayField: 'title',
+                                  emptyText: locale[lang].searchrel,
+                                  valueField: 'id',
+                                  editable: true,
+                                  queryMode: 'local',
+                                  width: 140,
+                                  listeners:{
+                                    'select': function(combo, record, index) {
+                                      if (combo.getValue() != '') {
+                                        console.log(combo.getValue())
+                                        var textbox = Ext.getCmp('gramatikatext_text');
+                                        textbox.setValue(textbox.getValue() + '[' + combo.getValue() + ']')
+                                      }
+                                    },
+                                    specialkey: function(field, e) {
+                                      if (e.getKey() == e.ENTER) {
+                                        reload_rel(field.getValue(), field, dictcode);
+                                      }
+                                    }
+                                  },
+                                  listConfig: {
+                                    getInnerTpl: function() {
+                                      return '<div><b>{title}: {number}:</b> <i>{def}</i></div>';
+                                    }
+                                  }
+                                },
+                                create_text_buttons('gramatikatext_text')
+                              ]
+                            }
+                          ]
+                        },                
+                        { xtype: 'fieldset',
+                          layout: { type: 'vbox' },
+                          coollapsibe: true,
+                          cls: 'deklin-box',
+                          title: locale[lang].deklinace,
+                          items: [
+                            { id: 'deklcont',
+                              xtype: 'fieldcontainer',
+                              layout: { type: 'vbox' },
+                              items: [
+                                { xtype: 'container',
+                                  layout: { type: 'hbox' },
+                                  items: [
+                                    { xtype: 'button', icon: '/editor/add.png', cls: 'add', text: locale[lang].row,
+                                      handler: function() {
+                                        var sw = create_deklin(entryid);
+                                        Ext.getCmp('deklcont').insert(Ext.getCmp('deklcont').items.length-2,sw);
+                                        track_change();
+                                      }
+                                    },
+                                    { xtype: 'container', name: 'prazdny', width: 50, fieldLabel: '' },
+                                    { xtype: 'button', text: locale[lang].taketable,
+                                      handler: function() 
+                                        { var get_id = Ext.getCmp('deklcont').query('[name=get_deklin]')[0].getValue();
+                                          Ext.Ajax.request(
+                                            { url: '/'+dictcode+'/getgram/'+get_id,
+                                              method: 'get',
+                                              success: function(response) 
+                                                { var data = JSON.parse(response.responseText);
+                                                  Ext.suspendLayouts();
+                                                  var dekls = Ext.getCmp('deklcont').query('[name=deklinitem]');
+                                                  for (var i = 0; i < dekls.length; i++) 
+                                                    { dekls[i].destroy(); }
+                                                  for (var i = 0; i < data.form.length; i++) 
+                                                    { var sw = create_deklin(entryid);
+                                                      sw.query('[name=dekl_tag]')[0].setValue(data.form[i]['@tag']);
+                                                      sw.query('[name=dekl_tvar]')[0].setValue(data.form[i]['_text']);
+                                                      Ext.getCmp('deklcont').insert(Ext.getCmp('deklcont').items.length-2,sw);
+                                                    }
+                                                  Ext.resumeLayouts(true);
+                                                }
+                                            }
+                                          );
+                                        }
+                                    },
+                                    { xtype: 'textfield', name: 'get_deklin', width: 80 }
+                                  ]
+                                },
+                                { xtype: 'container', 
+                                  layout: { type: 'hbox' },
+                                  items: []
+                                },
+                              ]
+                            }
+                          ]
+                        },
+                        { fieldLabel: locale[lang].novatabulka, xtype: 'fieldcontainer',            
+                          layout: { type: 'vbox' },
+                          items:[
+                            { xtype: 'button', icon: '/editor/add.png', cls: 'add', text: locale[lang].pos_noun,
+                              handler: function() 
+                                { update_deklin('podst'); }
+                            },
+                            { xtype: 'button', icon: '/editor/add.png', cls: 'add', text: locale[lang].pos_adv,
+                              handler: function() 
+                                { update_deklin('prid'); }
+                            },
+                            { xtype: 'button', icon: '/editor/add.png', cls: 'add', text: locale[lang].pos_num,
+                              handler: function() 
+                                { update_deklin('cisl'); }
+                            },/*{
+                          xtype: 'button',
+                          icon: '/editor/add.png',
+                          text: locale[lang].pos_adj,
+                          handler: function() {
+                            update_deklin('pris');
+                          } 
+                        },*/{ xtype: 'button', icon: '/editor/add.png', cls: 'add', text: locale[lang].pos_verb,
+                              handler: function() { update_deklin('slov'); }
+                            }
+                          ]
                         }
-                        for (var i = 0; i < data.form.length; i++) {
-                          var sw = create_deklin(entryid);
-                          sw.query('[name=dekl_tag]')[0].setValue(data.form[i]['@tag']);
-                          sw.query('[name=dekl_tvar]')[0].setValue(data.form[i]['_text']);
-                          Ext.getCmp('deklcont').insert(Ext.getCmp('deklcont').items.length-2,sw);
-                        }
-                        Ext.resumeLayouts(true);
-                      }
-                    });
-                  }
-                },{
-                  xtype: 'textfield',
-                  name: 'get_deklin',
-                  width: 80,
-                }]
-              },{
-                xtype: 'container',
-                layout: {
-                  type: 'hbox'
-                },
-                items: []
-              },]
-            }]
-          },{
-            fieldLabel: locale[lang].novatabulka,
-            xtype: 'fieldcontainer',            
-            layout: {              
-              type: 'vbox'
-            },
-            items:[{
-              xtype: 'button',
-              icon: '/editor/add.png',
-              cls: 'add',
-              text: locale[lang].pos_noun,
-              handler: function() {
-                update_deklin('podst');
-              }
-            },{
-              xtype: 'button',
-              icon: '/editor/add.png',
-              cls: 'add',
-              text: locale[lang].pos_adv,
-              handler: function() {
-                update_deklin('prid');
-              }
-            },{
-              xtype: 'button',
-              icon: '/editor/add.png',
-              cls: 'add',
-              text: locale[lang].pos_num,
-              handler: function() {
-                update_deklin('cisl');
-              }
-            },/*{
-              xtype: 'button',
-              icon: '/editor/add.png',
-              text: locale[lang].pos_adj,
-              handler: function() {
-                update_deklin('pris');
-              } 
-            },*/{
-              xtype: 'button',
-              icon: '/editor/add.png',
-              cls: 'add',
-              text: locale[lang].pos_verb,
-              handler: function() {
-                update_deklin('slov');
-              }
-            }]
-          }]},        
-                  create_copyright('gram_popis', false)]
-      },{
+                      ]
+                    }
+                  ]
+                },                
+              ]
+            },        
+            create_copyright('gram_popis', false)
+          ]
+        },
+        {
         xtype: 'fieldset',
         title: locale[lang].styldesc,
         collapsible: true,
@@ -3975,6 +3762,7 @@ Ext.onReady(function(){
         xtype: 'button',
         text: locale[lang].admintools,
         icon: '/editor/img/admin_list.png',
+        cls: 'btn',
         handler: function() {           
           var odkaz = '/admin?action=report'+dictcode+'&lang='+lang;                   
           window.open(odkaz);
@@ -3984,6 +3772,7 @@ Ext.onReady(function(){
         xtype: 'button',
         text: locale[lang].newlemma,
         icon: '/editor/img/newlemma.png',
+        cls: 'btn',
         handler: function() {           
           var odkaz = '/editor'+dictcode+'/?id=&lang='+lang;                   
           window.open(odkaz);
@@ -3992,6 +3781,7 @@ Ext.onReady(function(){
         xtype: 'button',
         text: locale[lang].admintools,
         icon: '/editor/img/timeback_m.png',
+        cls: 'btn',
         handler: function() {           
           var odkaz = 'https://admin.dictio.info/history?code='+dictcode+'&entry='+entryid;          
           window.open(odkaz);
@@ -4000,6 +3790,7 @@ Ext.onReady(function(){
           xtype: 'button',
           text: locale[lang].viewplus,
           icon: '/editor/img/display.png',
+          cls: 'btn',
           handler: function() {           
             var odkaz = '/'+dictcode+'/show/'+entryid+'?lang='+lang;
             window.open(odkaz);
@@ -4008,6 +3799,7 @@ Ext.onReady(function(){
           xtype: 'button',
         text: locale[lang].saveview,
         icon: '/editor/img/savedisplay.png',
+        cls: 'btn',
         name: 'savebutton',
         handler: function() {
           Ext.Msg.alert('Stav', locale[lang].savemsg);
@@ -4047,6 +3839,7 @@ Ext.onReady(function(){
         },{
           xtype: 'button',
           text: locale[lang].deleteentry,          
+          cls: 'btn',
           icon: '/editor/img/delete2.png',          
           handler: function() {
             Ext.Msg.confirm('?', locale[lang].deletemsg, function(btn, text) {
@@ -4082,6 +3875,7 @@ Ext.onReady(function(){
       buttons: [{
         text: locale[lang].save,
         name: 'savebutton',
+        cls: 'btn',
         icon: '/editor/img/save.png',        
         handler: function() {
           Ext.Msg.alert('Stav', locale[lang].savemsg);
@@ -4114,6 +3908,7 @@ Ext.onReady(function(){
         text: locale[lang].saveview,
         icon: '/editor/img/savedisplay.png',
         name: 'savebutton',
+        cls: 'btn',
         handler: function() {
           Ext.Msg.alert('Stav', locale[lang].savemsg);
           console.log('savedisplay horni');
@@ -4144,6 +3939,7 @@ Ext.onReady(function(){
       },{
         text: locale[lang].viewplus,
         icon: '/editor/img/display.png',
+        cls: 'btn',
         handler: function() {          
    	   var odkaz = '/'+dictcode+'/show/'+entryid+'?lang='+lang;
           window.open(odkaz);
