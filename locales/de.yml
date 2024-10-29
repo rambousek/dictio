@@ -391,6 +391,7 @@ de:
       zdrob: 'winzig'
       zastar: 'veralteter Ausdruck'
       cirkev: 'kirliche Äußerung'
+      zc: 'sign supported Czech'
   error: 
     notfound: ":( Seite nicht gefunden"
     internal: ":( Internal error"

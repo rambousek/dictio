@@ -2502,7 +2502,7 @@ function create_copyright(idstart, hidden) {
       id: idstart + '_autor',
       cls: 'auth',
       name: 'copy_autor'
-    },
+    }
     create_src_list(idstart + '_autor'),
       , {
       fieldLabel: locale[lang].authorvideo,
@@ -3016,7 +3016,7 @@ function create_vyznam_links(parentid) {
             return '<div class="{value}">{text}</div>';
           }
         }
-      }, 
+      },
       { xtype: 'panel',
         name: 'vztahtitle',
         cls: 'vztah-title',
@@ -3024,7 +3024,7 @@ function create_vyznam_links(parentid) {
         width: 130,
         height: 22,
         color: 'red',
-      }, 
+      },
       { xtype: 'combobox',
         name: 'rellink',
         store: relationlist,
@@ -3210,7 +3210,7 @@ function create_priklad_links(parentid) {
         }
       },
       tpl: Ext.create('Ext.XTemplate', '<tpl for="."><div class="x-boundlist-item"><b>{title}: {number}:</b> <i>{def}</i><tpl if="loc!=\'\'"><br/><img src="https://www.dictio.info/thumb/video{target}/{loc}" width="120" height="96"/></tpl></div></tpl>'),
-    }, 
+    },
     { xtype: 'button', icon: '/editor/delete.png', cls: 'del',
       handler: function () 
         { Ext.getCmp(name).destroy(); }
@@ -3561,7 +3561,7 @@ function create_video(entryid, selectnew, vidid) {
               },
             }
           },
-          { xtype: 'container', layout: {type: 'vbox'},  
+          { xtype: 'container', layout: {type: 'vbox'},
             items: [
               { xtype: 'container', layout: {type: 'hbox'},
                 items: [              
@@ -3583,7 +3583,7 @@ function create_video(entryid, selectnew, vidid) {
                 editable: true,
                 queryMode: 'local',
                 width: 200,
-                typeAhead: false, 
+                typeAhead: false,
                 triggerAction: 'all',
                 disableKeyFilter: true,
                 autoSelect: false,
@@ -3632,7 +3632,7 @@ function create_video(entryid, selectnew, vidid) {
                     return '<div><img width="140" src="https://www.dictio.info/thumb/video'+dictcode+'/{location}">{location}</div>';
                   }
                 }
-              },                           
+              },
               { labelWidth: 50, width: 200, cls: 'transparent', fieldLabel: locale[lang].video, xtype: 'textfield', name: 'vidid'},
               { labelWidth: 50, width: 200, cls: 'transparent', xtype: 'combobox', name: 'type', queryMode: 'local', displayField: 'text', valueField: 'value', store: videotypeStore, forceSelection: true, autoSelect: true, editable: false, allowBlank: true, fieldLabel: locale[lang].type},
               { labelWidth: 50, width: 200, xtype: 'textfield', disabled: true, name: 'original', fieldLabel: locale[lang].originalname},
@@ -3644,11 +3644,11 @@ function create_video(entryid, selectnew, vidid) {
                     { boxLabel: locale[lang].pr, inputValue: 'pr', name: name+'orient', checked: true}
                   ]
               }]
-          }          
+          }
         ]
       },
       create_copyrightM(name, false) 
-    ]        
+    ]
   });
   
   if (selectnew) {
@@ -5011,3 +5011,5 @@ Ext.onReady(function () {
 }
 );
 
+}
+);
