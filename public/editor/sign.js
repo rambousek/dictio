@@ -2663,7 +2663,7 @@ function create_variant(entryid) {
         items: [
           { xtype: 'panel', name: 'variantpreview', cls: 'variant-preview', html: '', height: 90}, 
           { xtype: 'textfield', cls: 'transparent', name: 'variant', hidden: true }, 
-          { xtype: 'textfield', name: cls: 'transparent', 'variant_name', disabled: true, hidden: true }
+          { xtype: 'textfield', cls: 'transparent', name:'variant_name', disabled: true, hidden: true }
         ]
       },
       { xtype: 'container',  
