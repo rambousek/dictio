@@ -2669,7 +2669,7 @@ function create_variant(entryid) {
       { xtype: 'container',  
         layout: { type: 'vbox' },
         items: [
-          { xtype: 'combobox', name: 'video', store: filelist, displayField: 'location',
+          { xtype: 'combobox', name: 'video', cls: 'transparent', store: filelist, displayField: 'location',
             valueField: 'id', editable: true, queryMode: 'local',
             width: 150, minChars: 10,enableKeyEvents: true,
             listeners: {
