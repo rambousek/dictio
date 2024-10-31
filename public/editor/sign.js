@@ -2658,15 +2658,15 @@ function create_variant(entryid) {
     id: name,
     name: 'variantitem',
     items: [
-      { xtype: 'container',  // levý sloupec defince, atd
+      { xtype: 'container', 
         layout: { type: 'vbox' },
         items: [
           { xtype: 'panel', name: 'variantpreview', cls: 'variant-preview', html: '', height: 90}, 
-          { xtype: 'textfield', name: 'variant', hidden: true }, 
-          { xtype: 'textfield', name: 'variant_name', disabled: true, hidden: true }
+          { xtype: 'textfield', cls: 'transparent', name: 'variant', hidden: true }, 
+          { xtype: 'textfield', name: cls: 'transparent', 'variant_name', disabled: true, hidden: true }
         ]
       },
-      { xtype: 'container',  // levý sloupec defince, atd
+      { xtype: 'container',  
         layout: { type: 'vbox' },
         items: [
           { xtype: 'combobox', name: 'video', store: filelist, displayField: 'location',
@@ -2714,8 +2714,8 @@ function create_variant(entryid) {
               }
             }
           }, 
-          { xtype: 'textfield', name: 'variant_desc', fieldLabel: locale[lang].description, labelWidth: 40, width: 150 }, 
-          { xtype: 'textfield', name: 'variant_sw', fieldLabel: locale[lang].sw, labelWidth: 40, width: 70 }
+          { xtype: 'textfield', name: 'variant_desc', cls: 'transparent', fieldLabel: locale[lang].description, labelWidth: 40, width: 150 }, 
+          { xtype: 'textfield', name: 'variant_sw', cls: 'transparent', fieldLabel: locale[lang].sw, labelWidth: 40, width: 70 }
         ]
       },
       { xtype: 'button', icon: '/editor/delete.png', cls: 'del',
