@@ -42,6 +42,7 @@ label {
 .x-form-cb-label {
   font-size: 11px;
   color: var(--popisky);
+  text-align: right;
 }
 
 /* docasna uprava pro prechod na novy vzhled */
@@ -66,7 +67,7 @@ select {
 .auth input {
   font-size: 10px;
   background-color: transparent;
-  border: none;
+  border-bottom: dotted 1px gray;
 } 
 
 .priklad textarea {
@@ -100,6 +101,7 @@ select {
   border-radius: 10px;
   float: left;
   margin-right: 5px; 
+  margin-bottom: 5px;
   padding-right: 4px;
   background: var(--boxy-bg);
 }

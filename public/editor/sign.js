@@ -1466,6 +1466,7 @@ function add_video_fancybox() {
   });
 }
 
+// náhled v připojených souborech
 function add_videopreview() {
   /* add player tag */
   var mar = Ext.getCmp('mediabox').query('component[name=mediaitem]');
@@ -1473,7 +1474,7 @@ function add_videopreview() {
   for (var i = 0; i < mar.length; i++) {
     var loc = mar[i].query('component[name="vidid"]')[0].getValue();
     console.log('add preview ' + loc);
-    mar[i].query('component[name="mediaimg"]')[0].el.setHTML('<div id="flowvideo' + mar[i].query('component[name="mediaid"]')[0].getValue() + '" data-width="150" data-ratio="0.8" style="width:150px; background:#777 url(https://www.dictio.info/thumb/video' + dictcode + '/' + loc + ') no-repeat; background-size: 150px 112px; background-image-opacity: 0.5; "><video class=' + dictcode + ' poster="https://www.dictio.info/thumb/video' + dictcode + '/' + loc + '" onmouseover="this.play()" onmouseout="this.pause()" width="150px" loop="loop"><source type="video/mp4" src="https://files.dictio.info/video' + dictcode + '/' + loc + '"></source></video></div>');
+    mar[i].query('component[name="mediaimg"]')[0].el.setHTML('<div id="flowvideo' + mar[i].query('component[name="mediaid"]')[0].getValue() + '" data-width="200" data-ratio="0.8" style="width:200px; background:#777 url(https://www.dictio.info/thumb/video' + dictcode + '/' + loc + ') no-repeat; background-size: 200px 160px; background-image-opacity: 0.5; "><video class=' + dictcode + ' poster="https://www.dictio.info/thumb/video' + dictcode + '/' + loc + '" onmouseover="this.play()" onmouseout="this.pause()" width="200px" loop="loop"><source type="video/mp4" src="https://files.dictio.info/video' + dictcode + '/' + loc + '"></source></video></div>');
   }
   //  activate_player('.player2');
 }
@@ -2485,7 +2486,7 @@ function create_copy_button(idstart) {
   return button;
 }
 
-// copyright zakladni
+// copyright zakladni 
 function create_copyright(idstart, hidden) {
   if (hidden == undefined) {
     hidden = true;
@@ -2493,43 +2494,39 @@ function create_copyright(idstart, hidden) {
   var copy = Ext.create('Ext.container.Container', {
     id: idstart + '_copybox',
     name: 'copybox',
-    style: { width: '100%' },
+    cls: 'auth',
     hidden: hidden,
     layout: { type: 'hbox' },
-    items: [{
-      fieldLabel: locale[lang].author,
-      xtype: 'textfield',
-      id: idstart + '_autor',
+    items: [
+      { fieldLabel: locale[lang].author, xtype: 'textfield', labelWidth: 150, width: 350, id: idstart + '_autor', name: 'copy_autor' },
+      create_src_list(idstart + '_autor'),
+      { /* fieldLabel: locale[lang].authorvideo, */ xtype: 'textfield', labelWidth: 0, width: 0, id: idstart + '_copy',  name: 'copy_copy' },
+      { fieldLabel: locale[lang].source, xtype: 'textfield', labelWidth: 100, width: 300,  id: idstart + '_zdroj', name: 'copy_zdroj' }, 
+      create_src_list(idstart + '_zdroj'),
+      { fieldLabel: locale[lang].admincomment, xtype: 'textfield', labelWidth: 100, width: 300, id: idstart + '_poznamka', name: 'copy_admin' }
+    ]
+  });
+  return copy;
+}
+
+// copyright zakladni  SW
+function create_copyrightSW(idstart, hidden) {
+  if (hidden == undefined) { hidden = true; }
+  var copy = Ext.create('Ext.container.Container', 
+    { id: idstart + '_copybox',
+      name: 'copybox',
+      width: '600',
       cls: 'auth',
-      name: 'copy_autor'
-    },
-    create_src_list(idstart + '_autor'),
-      , {
-      fieldLabel: locale[lang].authorvideo,
-      xtype: 'textfield',
-      labelWidth: 160,
-      id: idstart + '_copy',
-      cls: 'auth',
-      name: 'copy_copy'
-    },
-    create_src_list(idstart + '_copy')
-      , {
-      fieldLabel: locale[lang].source,
-      xtype: 'textfield',
-      labelWidth: 50,
-      cls: 'auth',
-      id: idstart + '_zdroj',
-      name: 'copy_zdroj'
-    }, create_src_list(idstart + '_zdroj'),
-      , {
-      fieldLabel: locale[lang].admincomment,
-      xtype: 'textfield',
-      labelWidth: 100,
-      width: 300,
-      id: idstart + '_poznamka',
-      cls: 'auth',
-      name: 'copy_admin'
-    }]
+      hidden: hidden,
+      layout: { type: 'hbox' },
+      items: [
+        { fieldLabel: locale[lang].author, labelWidth: 50, width: 150, xtype: 'textfield', id: idstart + '_autor', name: 'copy_autor' },
+        create_src_list(idstart + '_autor'),
+        { fieldLabel: locale[lang].authorvideo, labelWidth: 0, width: 0, xtype: 'textfield', id: idstart + '_copy',  name: 'copy_copy', style: { display: 'none' }},
+        { fieldLabel: locale[lang].source, xtype: 'textfield',  labelWidth: 50, width: 150,  id: idstart + '_zdroj', name: 'copy_zdroj' }, 
+        create_src_list(idstart + '_zdroj'),
+        { fieldLabel: locale[lang].admincomment, xtype: 'textfield', labelWidth: 50, width: 150, id: idstart + '_poznamka', name: 'copy_admin' }
+      ]
   });
   return copy;
 }
@@ -2541,47 +2538,34 @@ function create_copyrightM(idstart, hidden) {
   var copy = Ext.create('Ext.container.Container', {
     id: idstart + '_copybox',
     name: 'copybox',
-    width: 560,
-    height: 22,
-    style: { backgroundColor: bgAuth, overFlow: hidden},
+    cls: 'auth',
+    width: 650,
     hidden: hidden,
-    layout: {
-      type: 'hbox'
-    },
-    items: [{
-      labelWidth: 40,
-      fieldLabel: locale[lang].author,
-      width: 160,
-      xtype: 'textfield',
-      id: idstart + '_autor',
-      name: 'copy_autor'
-    },
-    create_src_list(idstart + '_autor'),
-      , {
-      labelWidth: 40,
-      fieldLabel: locale[lang].videosrc,
-      width: 160,
-      xtype: 'textfield',
-      id: idstart + '_copy',
-      name: 'copy_copy'
-    },
-    create_src_list(idstart + '_copy')
-      , {
-      labelWidth: 40,
-      fieldLabel: locale[lang].source,
-      width: 160,
-      xtype: 'textfield',
-      id: idstart + '_zdroj',
-      name: 'copy_zdroj'
-    }, create_src_list(idstart + '_zdroj'),
-      , {
-      labelWidth: 40,
-      width: 160,
-      fieldLabel: locale[lang].admincomment,
-      xtype: 'textfield',
-      id: idstart + '_poznamka',
-      name: 'copy_admin'
-    }]
+    layout: { type: 'hbox' },
+    items: [
+      { xtype: 'container',
+        layout: { type: 'vbox'},
+        items: [
+          { xtype: 'container',
+            layout: { type: 'hbox' },
+            items: [
+              { labelWidth: 50, fieldLabel: locale[lang].author, width: 200, xtype: 'textfield', id: idstart + '_autor', name: 'copy_autor' },
+              create_src_list(idstart + '_autor'),
+              { labelWidth: 50, fieldLabel: locale[lang].videosrc, width: 200, xtype: 'textfield', id: idstart + '_copy', name: 'copy_copy' },
+              create_src_list(idstart + '_copy'),              
+              { labelWidth: 50, width: 200, fieldLabel: locale[lang].admincomment, xtype: 'textfield', id: idstart + '_poznamka', name: 'copy_admin' }
+            ]
+          },
+          { xtype: 'container',
+            layout: { type: 'hbox' },
+            items: [
+              { labelWidth: 50, fieldLabel: locale[lang].source, width: 500, xtype: 'textfield', id: idstart + '_zdroj', name: 'copy_zdroj' }, 
+              create_src_list(idstart + '_zdroj')
+            ]
+          }
+        ]
+      }
+    ]
   });
   return copy;
 }
@@ -3287,7 +3271,7 @@ function create_priklad(parentid, entryid, add_copy, meaning_id, saved_usage_id)
                 }
               ]
             },
-            create_copyrightM(name + 'copyright', false)
+            create_copyrightSW(name + 'copyright', false)
             ]
         }, {
           xtype: 'container',
@@ -3461,7 +3445,7 @@ function create_sw(entryid, add_copy) {
               }]
             }
           ]
-        }, create_copyrightM(name, false)
+        }, create_copyrightSW(name, false)
       ]
     }]
   });
@@ -3662,128 +3646,111 @@ function create_video(entryid, selectnew, vidid) {
 function create_media(entryid, upload, vidid) {
   var name = 'media_' + Ext.id();
   var sw = Ext.create('Ext.container.Container', {
-    layout: {
-      type: 'vbox'
-    },
-    style: { borderColor: '#000000', borderStyle: 'solid', borderWidth: '1px' },
+    layout: { type: 'vbox' },
+    width: 650,
     id: name,
+    cls: 'celnibocni',
     name: 'mediaitem',
     items: [
-      {
-        xtype: 'container',
-        layout: {
-          type: 'hbox'
-        },
-        items: [{
-          name: 'mediaimg',
-          xtype: 'box',
-          width: 150,
-          height: 120,
-        }, {
-          xtype: 'container',
-          name: 'mediaiteminfo',
-          layout: {
-            type: 'vbox'
-          },
-          items: [{
-            fieldLabel: locale[lang].video,
-            xtype: 'textfield',
-            name: 'mediaid',
-            inputId: name + 'mediaid',
-            hidden: true
-          }, {
-            xtype: 'filefield',
-            text: 'vybrat soubor',
-            name: 'filebutton',
-            inputId: name + 'filebutton',
-            hidden: true
-          }, {
-            xtype: 'button',
-            text: locale[lang].upload,
-            name: 'uploadbutton',
-            hidden: true,
-            handler: function () {
-              var mediaitem = this.up('[name=mediaitem]');
-              var metadata = {
-                'id_meta_author': mediaitem.query('component[name="copy_autor"]')[0].getValue(),
-                'id_meta_copyright': mediaitem.query('component[name="copy_copy"]')[0].getValue(),
-                'id_meta_source': mediaitem.query('component[name="copy_zdroj"]')[0].getValue(),
-                'admin_comment': mediaitem.query('component[name="copy_admin"]')[0].getValue(),
-                'status': mediaitem.query('component[name="stav"]')[0].getValue(),
-                'type': mediaitem.query('component[name="type"]')[0].getValue(),
-                'location': mediaitem.query('component[name="vidid"]')[0].getValue(),
-                'orient': mediaitem.query('component[name="' + mediaitem.id + 'orient"]')[0].getGroupValue()
-              };
-              console.log(metadata)
-              var waitBox = Ext.MessageBox.wait('Upload');
-              console.log(mediaitem.query('component[name="filebutton"]'))
-              var filedata = mediaitem.query('component[name="filebutton"]')[0].fileInputEl.dom.files[0];
-              var formData = new FormData();
-              formData.append("filedata", filedata);
-              formData.append('entryid', entryid);
-              formData.append('metadata', JSON.stringify(metadata));
-              console.log(formData)
-              xhr = new XMLHttpRequest();
-              xhr.open('POST', '/' + dictcode + '/upload', true);
-              xhr.onload = function () {
-                if (xhr.readyState == 4 && xhr.status === 200) {
-                  Ext.suspendLayouts();
-                  while (Ext.getCmp('mediabox').child('[name=mediaitem]')) {
-                    Ext.getCmp('mediabox').remove(Ext.getCmp('mediabox').child('[name=mediaitem]'))
-                  }
-                  reload_files(entryid, null, true);
-                  Ext.resumeLayouts(true);
-                  Ext.Msg.alert('Stav', JSON.parse(xhr.responseText).message);
-                  Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox);
-                } else {
-                  if (xhr.status === 413) {
-                    Ext.Msg.alert('Stav', 'Příliš velký soubor');
-                    Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox);
-                  } else {
-                    Ext.Msg.alert('Stav', JSON.parse(xhr.responseText).message);
-                    Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox);
-                  }
-                  //error
+      { xtype: 'container',
+        layout: { type: 'hbox' },
+        items: [
+          { name: 'mediaimg', xtype: 'box', width: 200, height: 160 }, 
+          { xtype: 'container',
+            name: 'mediaiteminfo',
+            layout: { type: 'vbox' }, 
+            items: [              
+              { xtype: 'container',
+                layout: { type: 'hbox' },
+                items: [
+                  { xtype: 'tbfill', width: 265 },
+                  create_stav(), 
+                  { xtype: 'button',
+                    icon: '/editor/delete.png',
+                    cls: 'del',
+                    handler: function () {
+                      Ext.Ajax.request({
+                        url: '/' + dictcode + '/remove_video',
+                        params: {
+                          entry_id: entryid,
+                          media_id: sw.query('[name=mediaid]')[0].getValue()
+                        },
+                        method: 'post',
+                        success: function (response) {
+                          Ext.getCmp(name).destroy();
+                        }
+                      });
+                    }
+                  },
+                ]
+              },              
+              { fieldLabel: locale[lang].video, xtype: 'textfield', name: 'mediaid', inputId: name + 'mediaid', hidden: true }, 
+              { xtype: 'filefield', text: 'vybrat soubor', name: 'filebutton', inputId: name + 'filebutton', hidden: true }, 
+              { xtype: 'button', text: locale[lang].upload, name: 'uploadbutton', hidden: true,
+                handler: function () 
+                { var mediaitem = this.up('[name=mediaitem]');
+                  var metadata = 
+                  { 'id_meta_author': mediaitem.query('component[name="copy_autor"]')[0].getValue(),
+                    'id_meta_copyright': mediaitem.query('component[name="copy_copy"]')[0].getValue(),
+                    'id_meta_source': mediaitem.query('component[name="copy_zdroj"]')[0].getValue(),
+                    'admin_comment': mediaitem.query('component[name="copy_admin"]')[0].getValue(),
+                    'status': mediaitem.query('component[name="stav"]')[0].getValue(),
+                    'type': mediaitem.query('component[name="type"]')[0].getValue(),
+                    'location': mediaitem.query('component[name="vidid"]')[0].getValue(),
+                    'orient': mediaitem.query('component[name="' + mediaitem.id + 'orient"]')[0].getGroupValue()
+                  };
+                  console.log(metadata)
+                  var waitBox = Ext.MessageBox.wait('Upload');
+                  console.log(mediaitem.query('component[name="filebutton"]'))
+                  var filedata = mediaitem.query('component[name="filebutton"]')[0].fileInputEl.dom.files[0];
+                  var formData = new FormData();
+                  formData.append("filedata", filedata);
+                  formData.append('entryid', entryid);
+                  formData.append('metadata', JSON.stringify(metadata));
+                  console.log(formData)
+                  xhr = new XMLHttpRequest();
+                  xhr.open('POST', '/' + dictcode + '/upload', true);
+                  xhr.onload = function () {
+                    if (xhr.readyState == 4 && xhr.status === 200) {
+                      Ext.suspendLayouts();
+                      while (Ext.getCmp('mediabox').child('[name=mediaitem]')) {
+                        Ext.getCmp('mediabox').remove(Ext.getCmp('mediabox').child('[name=mediaitem]'))
+                      }
+                      reload_files(entryid, null, true);
+                      Ext.resumeLayouts(true);
+                      Ext.Msg.alert('Stav', JSON.parse(xhr.responseText).message);
+                      Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox);
+                    } else {
+                      if (xhr.status === 413) {
+                        Ext.Msg.alert('Stav', 'Příliš velký soubor');
+                        Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox);
+                      } else {
+                        Ext.Msg.alert('Stav', JSON.parse(xhr.responseText).message);
+                        Ext.Function.defer(Ext.MessageBox.hide, 300, Ext.MessageBox);
+                      }
+                      //error
+                    }
+                  };
+                  xhr.send(formData);
                 }
-              };
-              xhr.send(formData);
-            }
-          }, 
-          { fieldLabel: locale[lang].video, xtype: 'textfield', width: 400, name: 'vidid'}, 
-          { xtype: 'combobox', name: 'type', width: 400, queryMode: 'local', displayField: 'text', valueField: 'value', store: mediatypeStore, forceSelection: true, autoSelect: true, editable: false, allowBlank: true, fieldLabel: locale[lang].type}, 
-          { xtype: 'textfield', width: 400, disabled: true, fieldLabel: locale[lang].originalname, name: 'original'}, 
-          { xtype: 'textfield', disabled: true, fieldLabel: 'ID', name: 'videoid'}, 
-          { xtype: 'radiogroup',
-            fieldLabel: locale[lang].dominance,
-            layout: {
-              type: 'hbox'
-            },
-            items: [
-              { boxLabel: locale[lang].lr, inputValue: 'lr', name: name + 'orient'}, 
-              { boxLabel: locale[lang].pr, inputValue: 'pr', name: name + 'orient', checked: true}
-            ]
-          }]
-        }, 
-        { xtype: 'container', name: 'prazdny', width: 300, fieldLabel: ''}, 
-        create_stav(), 
-        { xtype: 'button',
-          icon: '/editor/delete.png',
-          cls: 'del',
-          handler: function () {
-            Ext.Ajax.request({
-              url: '/' + dictcode + '/remove_video',
-              params: {
-                entry_id: entryid,
-                media_id: sw.query('[name=mediaid]')[0].getValue()
-              },
-              method: 'post',
-              success: function (response) {
-                Ext.getCmp(name).destroy();
+              },              
+              { fieldLabel: locale[lang].video, xtype: 'textfield', width: 350, labelWidth: 100, name: 'vidid', align: 'right', cls: 'transparent'}, 
+              { xtype: 'combobox', name: 'type', width: 350, labelWidth: 100, cls: 'transparent', queryMode: 'local', displayField: 'text', valueField: 'value', store: mediatypeStore, forceSelection: true, autoSelect: true, editable: false, allowBlank: true, fieldLabel: locale[lang].type}, 
+              { xtype: 'textfield', width: 350, labelWidth: 100, disabled: true, fieldLabel: locale[lang].originalname, name: 'original'}, 
+              { xtype: 'textfield', width: 350, labelWidth: 100, disabled: true, fieldLabel: 'ID', name: 'videoid'}, 
+              { xtype: 'radiogroup', width: 350, labelWidth: 100, fieldLabel: locale[lang].dominance,
+                layout: { type: 'hbox' },
+                items: [
+                  { boxLabel: locale[lang].lr, inputValue: 'lr', name: name + 'orient'}, 
+                  { boxLabel: locale[lang].pr, inputValue: 'pr', name: name + 'orient', checked: true}
+                ]
               }
-            });
-          }
-        }, create_comment_button(name, 'video' + vidid)]
-      }, create_copyright(name, false)
+            ]
+          }, 
+          { xtype: 'container', name: 'prazdny', width: 300, fieldLabel: ''},
+          create_comment_button(name, 'video' + vidid)
+        ]
+      }, create_copyrightM(name, false)
     ]
   });
   if (upload) {
@@ -3884,7 +3851,7 @@ function create_vyznam(entryid, add_copy, meaning_id) {
                   create_comment_button(name, 'vyznam' + meaning_id)
                 ]
               },
-              create_copyrightM(name, false), // copyright pro definici
+              create_copyrightSW(name, false), // copyright pro definici
               { xtype: 'fieldset',    // příklady užití
                 collapsible: true,
                 title: locale[lang].usages,                                
@@ -4493,7 +4460,7 @@ Ext.onReady(function () {
                 /* url: '/editor/hamnosys1.swf?lang=cs&table_xml_url=/editor/ham.txt&charsLayout_xml_url=/editor/charactersLayout.xml&form_field_id=hamndata',*/
                 width: 700,
                 height: 250,
-              }, create_copyright('hamnosys', false)]
+              }, create_copyrightSW('hamnosys', false)]
             }]
           }, 
           { xtype: 'fieldset',
@@ -4682,7 +4649,7 @@ Ext.onReady(function () {
     ]
   });
 
-  // panely
+  // panely - připojené soubory
   var mediatab = Ext.create('Ext.form.Panel', {
     title: locale[lang].attachedfiles,
     id: 'media',
@@ -4695,58 +4662,73 @@ Ext.onReady(function () {
     },
     items: [
       { xtype: 'container',
-        layout: { type: 'vbox' },
-        id: 'mediabox',
+        layout: { type: 'hbox' },
+        width: 1650,
+        id: 'mediabox-container',
         items: [
-          { xtype: 'button',
-            text: locale[lang].attachfile,
-            handler: function () {
-              var vid = create_media(entryid, true);
-              Ext.getCmp('mediabox').add(vid);
-            }
-          }, 
-          { xtype: 'button',
-            text: locale[lang].savefiles,
-            handler: function () {
-              var data = {};
-              data.update_video = []
-              var mar = Ext.getCmp('mediabox').query('[name=mediaitem]');
-              for (var i = 0; i < mar.length; i++) 
-                { data.update_video.push(
-                  { 'id': mar[i].query('component[name="mediaid"]')[0].getValue(),
-                    'id_meta_author': mar[i].query('component[name="copy_autor"]')[0].getValue(),
-                    'id_meta_copyright': mar[i].query('component[name="copy_copy"]')[0].getValue(),
-                    'id_meta_source': mar[i].query('component[name="copy_zdroj"]')[0].getValue(),
-                    'admin_comment': mar[i].query('component[name="copy_admin"]')[0].getValue(),
-                    'location': mar[i].query('component[name="vidid"]')[0].getValue(),
-                    'status': mar[i].query('component[name="stav"]')[0].getValue(),
-                    'orient': mar[i].query('component[name="' + mar[i].id + 'orient"]')[0].getGroupValue(),
-                    'type': mar[i].query('component[name="type"]')[0].getValue(),
-                  });
-                } 
-              console.log(data);
-              Ext.MessageBox.show(
-                { msg: 'Ukládám informace...',
-                  progressText: 'Ukládám...',
-                  width: 300,
-                  wait: true,
-                  waitConfig: { interval: 200 }
-                }
-              );
-              Ext.Ajax.request(
-                { url: '/' + dictcode + '/update_video',
-                  timeout: 240000,
-                  params: { data: Ext.encode(data)},
-                  method: 'post',
-                  success: function (response) 
-                    { console.log (response.responseText);
-                      Ext.Msg.alert
-                        ('Uloženo', 'uloženo', function (btn) { window.location.reload(); });
+          { xtype: 'container',
+            layout: { type: 'vbox' },
+            id: 'media-buttons',
+            items: [
+              { xtype: 'button', text: locale[lang].attachfile,
+                handler: function () 
+                  { var vid = create_media(entryid, true);
+                    Ext.getCmp('mediabox').insert(Ext.getCmp('mediabox').items.length, vid);
+                  }
+              }, 
+              { xtype: 'button', text: locale[lang].savefiles,
+                handler: function () {
+                  var data = {};
+                  data.update_video = []
+                  var mar = Ext.getCmp('mediabox').query('[name=mediaitem]');
+                  for (var i = 0; i < mar.length; i++) 
+                    { data.update_video.push(
+                      { 'id': mar[i].query('component[name="mediaid"]')[0].getValue(),
+                        'id_meta_author': mar[i].query('component[name="copy_autor"]')[0].getValue(),
+                        'id_meta_copyright': mar[i].query('component[name="copy_copy"]')[0].getValue(),
+                        'id_meta_source': mar[i].query('component[name="copy_zdroj"]')[0].getValue(),
+                        'admin_comment': mar[i].query('component[name="copy_admin"]')[0].getValue(),
+                        'location': mar[i].query('component[name="vidid"]')[0].getValue(),
+                        'status': mar[i].query('component[name="stav"]')[0].getValue(),
+                        'orient': mar[i].query('component[name="' + mar[i].id + 'orient"]')[0].getGroupValue(),
+                        'type': mar[i].query('component[name="type"]')[0].getValue(),
+                      });
+                    } 
+                  console.log(data);
+                  Ext.MessageBox.show(
+                    { msg: 'Ukládám informace...',
+                      progressText: 'Ukládám...',
+                      width: 300,
+                      wait: true,
+                      waitConfig: { interval: 200 }
                     }
+                  );
+                  Ext.Ajax.request(
+                    { url: '/' + dictcode + '/update_video',
+                      timeout: 240000,
+                      params: { data: Ext.encode(data)},
+                      method: 'post',
+                      success: function (response) 
+                        { console.log (response.responseText);
+                          Ext.Msg.alert
+                            ('Uloženo', 'uloženo', function (btn) { window.location.reload(); });
+                        }
+                    }
+                  );
                 }
-              );
-            }
-          }
+              }
+            ]
+          },
+          { xtype: 'fieldset',
+            layout: 'anchor',
+            width: 1250,
+            autoHeight: true,
+            flex: 1,
+            id: 'mediabox',
+            items: [
+              { xtype: 'tbfill'}
+            ]
+          }     
         ]
       }
     ]
