@@ -2833,6 +2833,7 @@ function create_priklad(parentid, entryid, add_copy, meaning_id, saved_usage_id)
                   displayField: 'title',
                   valueField: 'id',
                   editable: true,
+                  cls: 'transparent',
                   emptyText: locale[lang].searchrel,
                   queryMode: 'local',
                   width: 160,
@@ -3047,7 +3048,7 @@ function create_vyznam(entryid, add_copy, meaning_id) {
           { xtype: 'textfield', name: 'meaning_nr', allowBlank: false, labelWidth: 50,  width: 100, fieldLabel: locale[lang].order },
           { xtype: 'textfield', disabled: true, name: 'meaning_id', labelWidth: 50, fieldLabel: 'ID', value: meaning_id },                  
           { xtype: 'container', name: 'prazdny', width: 70, fieldLabel: ''},
-          { fieldLabel: locale[lang].workgroup, name: 'pracskupina', xtype: 'combobox', editable: false, queryMode: 'local', displayField: 'text', valueField: 'value', store: pracskupinaStore, allowBlank: true, value: meanskupina },
+          { fieldLabel: locale[lang].workgroup, name: 'pracskupina', xtype: 'combobox', editable: false, queryMode: 'local', displayField: 'text', valueField: 'value', store: pracskupinaStore, allowBlank: true, value: meanskupina, cls: 'transparent', },
           { xtype: 'tbfill', width: 300},
           { xtype: 'button', icon: '/editor/delete.png', cls: 'del',
             handler: function () 
@@ -3091,7 +3092,8 @@ function create_vyznam(entryid, add_copy, meaning_id) {
                   { xtype: 'container',
                     layout: { type: 'vbox' },
                     items: [
-                      { xtype: 'combobox', name: 'rellink', store: relationlist, displayField: 'title', valueField: 'id', editable: true, emptyText: locale[lang].searchrel, queryMode: 'local', width: 100,
+                      { xtype: 'combobox', name: 'rellink', store: relationlist, displayField: 'title', valueField: 'id', editable: true, 
+                        emptyText: locale[lang].searchrel, queryMode: 'local', width: 100, cls: 'transparent',
                         listeners:{
                           'select': function(combo, record, index) {
                             if (combo.getValue() != '') {
@@ -3241,6 +3243,7 @@ Ext.onReady(function(){
             editable: false,
             queryMode: 'local',
             displayField: 'text',
+            cls: 'transparent',
             valueField: 'value',
             store: pracskupinaStore,
             forceSelection: true,
@@ -3484,6 +3487,7 @@ Ext.onReady(function(){
                                   name: 'rellink',
                                   store: relationlist,
                                   displayField: 'title',
+                                  cls: 'transparent',
                                   emptyText: locale[lang].searchrel,
                                   valueField: 'id',
                                   editable: true,
@@ -3690,6 +3694,7 @@ Ext.onReady(function(){
               items: [{
                 xtype: 'combobox',
                 name: 'rellink',
+                cls: 'transparent',
                 emptyText: locale[lang].searchrel,
                 store: relationlist,
                 displayField: 'title',
