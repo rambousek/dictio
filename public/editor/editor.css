@@ -322,6 +322,9 @@ div.rellinkset {
 .deklin-tag input {
   color: grey !important;
   opacity: 50 !important;
+  border-right: 5px solid transparent;
+  border-bottom: 1px dotted;
+  font-size: 10px;
 }
 
 /*.droppable { background: #08c; color: #fff; padding: 30px 0; text-align: center; }*/
