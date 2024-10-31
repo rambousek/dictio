@@ -1,14 +1,14 @@
 /* zakladni styl */
 :root {
-  --zaklad-bg: #e4ebee;
-  --zaklad-bg2: whitesmoke;
+  --zaklad-bg: white;
+  --zaklad-bg2: #e4ebee;
   --bila: white;
   --bila2: white;
   --gram: darkgrey;
   --vyznamy: lightgray;
   --equiv: lightblue;
   --priklady-bg: rgb(214,122,80);
-  --boxy-bg: rgb(246,246,246);
+  --boxy-bg: aliceblue;
   --section-half: url(../img/section-half.png);  
   --popisky: darkolivegreen; 
   --zelena: yellowgreen;
@@ -112,8 +112,7 @@ select {
   margin: 5px;
 }
 
-#videobox-outerCt {
-}
+/* #videobox-outerCt {} */
 
 .x-panel-body-default {
   background: var(--zaklad-bg);
@@ -153,8 +152,7 @@ a.btn {
   border-bottom: 1px solid #03c9a9;  
 }
 
-.vyznam-text {
-}
+/* .vyznam-text {} */
 
 #textfield-1111-inputEl { /* lemmawrite */
   font-size: 24px;
@@ -189,8 +187,7 @@ border-top: solid 1px maroon;
   font-weight: bold;
 }
 
-.sw-change {
-}
+/* .sw-change {} */
 
 .stav-display-published div {
   color: var(--zelena); 
@@ -275,7 +272,7 @@ border-top: solid 1px maroon;
   font-size: 85%;
 }
 
-.ssc_html .t {}
+/* .ssc_html .t {} */
 
 .ssc_html .val {
   color: #408080;
@@ -283,9 +280,9 @@ border-top: solid 1px maroon;
   font-size: 85%;
 }
 
-.ssc_html .v {}
+/* .ssc_html .v {} */
 
-.ssc_html .f {}
+/* .ssc_html .f {} */
 
 .ssc_html .num {
   color: rgb(102, 102, 102);
@@ -328,7 +325,7 @@ div.rellinkset {
 }
 
 /*.droppable { background: #08c; color: #fff; padding: 30px 0; text-align: center; }*/
-.droppable {}
+/* .droppable {} */
 
 .droppable.dragover {
   background: black;
@@ -392,8 +389,9 @@ video.uzm {
 #topeditor {
   position: relative;
 }
-#topdiv {
-}
+
+/* #topdiv {} */
+
 #comments {
   display:none;
   border: solid red;
