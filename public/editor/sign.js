@@ -2714,7 +2714,7 @@ function create_variant(entryid) {
               }
             }
           }, 
-          { xtype: 'textfield', name: 'variant_desc', cls: 'transparent', fieldLabel: locale[lang].description, labelWidth: 40, width: 150 }, 
+          { xtype: 'textfield', name: 'variant_desc', fieldLabel: locale[lang].description, labelWidth: 40, width: 150 }, 
           { xtype: 'textfield', name: 'variant_sw', cls: 'transparent', fieldLabel: locale[lang].sw, labelWidth: 40, width: 70 }
         ]
       },

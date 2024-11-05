@@ -1955,8 +1955,8 @@ function create_copyright(idstart, hidden) {
   }
   var copy = Ext.create('Ext.container.Container', {
     id: idstart+'_copybox',
-    style: {backgroundColor: bgAuth},
     name: 'copybox',
+    cls: 'auth',
     hidden: hidden,
     layout: {
       type: 'hbox'
@@ -2014,7 +2014,7 @@ function create_copyrightM(idstart, hidden) {
   var copy = Ext.create('Ext.container.Container', {
     id: idstart+'_copybox',
     name: 'copybox',
-    style: {backgroundColor: bgAuth},
+    cls: 'auth',
     hidden: hidden,
     layout: {
       type: 'hbox'

@@ -68,6 +68,7 @@ select {
   font-size: 10px;
   background-color: transparent;
   border-bottom: dotted 1px gray;
+  color: gray;
 } 
 
 .priklad textarea {
