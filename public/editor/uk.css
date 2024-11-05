@@ -1,4 +1,20 @@
-.x-tab-bar-default-top{background-color:yellow; color: black;}
-.x-toolbar-footer{background-color:yellow; color: black;}
-.x-panel-header-default {background-color:yellow; color: black;};
+.btn, a.btn {
+/*    background-color: yellow;
+    color: black; */
+}
+  
+.formaltop {
+  border-left: 20px solid yellow;
+}
+
+.x-panel-header-default span.x-header-text {
+  color: yellow;
+  text-shadow: black 0px 0 5px;
+}
+
+.col-label {
+  border-top: solid 5px yellow;
+  border-bottom: solid 5px yellow;
+  font-weight: bold;
+}
 

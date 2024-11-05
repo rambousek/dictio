@@ -1,4 +1,31 @@
-.x-tab-bar-default-top{background-color:black;}
-.x-toolbar-footer{background-color:black;}
-.x-panel-header-default {background-color:black;};
+/* zakladni styl */
+:root {
+    --formaltop-color: black;
+  }  
+  
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --formaltop-color: grey;
+    }
+  }
+  
 
+.btn, a.btn {
+/*    background-color: rgb(31,31,31);
+    border: 1px solid darkslategray;
+    color: gray; */
+  }
+  
+  .formaltop {
+    border-left: 20px solid rgb(31,31,31);
+  }
+  
+  .x-panel-header-default {
+    color: var(--formaltop-color);
+  }
+  
+  .col-label {
+    border-top: solid 5px rgb(31,31,31);
+    border-bottom: solid 5px rgb(31,31,31);
+    font-weight: bold;
+  }

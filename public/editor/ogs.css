@@ -1,3 +1,17 @@
-.x-tab-bar-default-top{background-color:darkred;}
-.x-toolbar-footer{background-color:darkred;}
-.x-panel-header-default {background-color:darkred;};
+.btn, a.btn {
+/*    background-color: darkred; */
+  }
+  
+  .formaltop {
+    border-left: 20px solid darkred;
+  }
+  
+  .x-panel-header-default {
+    color: darkred;
+  }
+  
+  .col-label {
+    border-top: solid 5px darkred;
+    border-bottom: solid 5px darkred;
+    font-weight: bold;
+  }
