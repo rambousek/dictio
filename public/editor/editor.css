@@ -93,8 +93,8 @@ select {
 
 
 /* docasna uprava pro prechod na novy vzhled */
-.ssc_html {
-  background-color: lightblue;
+.ssc_html, .ssc_html span {
+  background-color: lightblue !important;
 }
 
 .celnibocni {
