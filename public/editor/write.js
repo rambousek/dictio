@@ -3757,7 +3757,7 @@ Ext.onReady(function(){
       border: false,
       bodyBorder: false,
       fieldDefaults: {
-        labelWidth: 100,
+        labelWidth: 200,
         msgTarget: 'side'
       },
        header:{
