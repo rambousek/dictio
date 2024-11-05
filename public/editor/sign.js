@@ -4847,7 +4847,7 @@ Ext.onReady(function () {
           flex: 6
         }, {
           xtype: 'button',
-          cls: 'btn',
+          cls: 'btn del',
           text: locale[lang].deleteentry,
           icon: '/editor/img/delete2.png',
           handler: function () {

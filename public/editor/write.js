@@ -3844,7 +3844,7 @@ Ext.onReady(function(){
         },{
           xtype: 'button',
           text: locale[lang].deleteentry,          
-          cls: 'btn',
+          cls: 'btn del',
           icon: '/editor/img/delete2.png',          
           handler: function() {
             Ext.Msg.confirm('?', locale[lang].deletemsg, function(btn, text) {
