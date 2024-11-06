@@ -1455,6 +1455,7 @@ class CZJDict < Object
           'lemma.completeness'=>{'$ne'=>'1'},
           '$or'=>[
             {'id'=>search},
+            {'meanings.id'=>search},
             {'lemma.video_front'=>{'$in'=>mlocs}},
             {'meanings.usages.text.file.@media_id'=>{'$in'=>mids}},
             {'meanings.text.file.@media_id'=>{'$in'=>mids}},
