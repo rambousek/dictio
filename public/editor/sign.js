@@ -1615,7 +1615,7 @@ function load_doc(id, history, historytype) {
             if (gram['_text'].match(/\[media_id=[0-9]*\]/)) {
               let tmed = gram['_text'].match(/\[media_id=([0-9]*)\]/)[1];
               let prevloc = data['media'][tmed]['location'];
-              if (prevloc) Ext.getCmp('tabForm').query('component[id="gramatikatext_videoprev"]')[0].update('<div id="flowvideo' + prevloc + '" data-width="150" data-ratio="0.8" style="width:150; background:#777) no-repeat; background-size: 150px 125px"><video poster="https://www.dictio.info/thumb/video' + dictcode + '/' + prevloc + '" width="150" loop="loop" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video' + dictcode + '/' + prevloc + '"></source></video></div>');
+              if (prevloc) Ext.getCmp('tabForm').query('component[id="gramatikatext_videoprev"]')[0].update('<div class="videofancybox" id="flowvideo' + prevloc + '" data-width="150" data-ratio="0.8" style="width:150; background:#777) no-repeat; background-size: 150px 125px; cursor: zoom-in"><video poster="https://www.dictio.info/thumb/video' + dictcode + '/' + prevloc + '" width="150" loop="loop" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video' + dictcode + '/' + prevloc + '"></source></video></div>');
             }
           }
           if (gram['@author']) Ext.getCmp('gramdesc').query('component[name="copy_autor"]')[0].setValue(gram['@author']);
@@ -1654,7 +1654,7 @@ function load_doc(id, history, historytype) {
             if (gram['_text'].match(/\[media_id=[0-9]*\]/)) {
               let tmed = gram['_text'].match(/\[media_id=([0-9]*)\]/)[1];
               let prevloc = data['media'][tmed]['location'];
-              if (prevloc) Ext.getCmp('tabForm').query('component[id="styltext_videoprev"]')[0].update('<div id="flowvideo' + prevloc + '" data-width="150" data-ratio="0.8" style="width:150; background:#777) no-repeat; background-size: 150px 125px"><video poster="https://www.dictio.info/thumb/video' + dictcode + '/' + prevloc + '" width="150" loop="loop" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video' + dictcode + '/' + prevloc + '"></source></video></div>');
+              if (prevloc) Ext.getCmp('tabForm').query('component[id="styltext_videoprev"]')[0].update('<div class="videofancybox" id="flowvideo' + prevloc + '" data-width="150" data-ratio="0.8" style="width:150; background:#777) no-repeat; background-size: 150px 125px; cursor: zoom-in"><video poster="https://www.dictio.info/thumb/video' + dictcode + '/' + prevloc + '" width="150" loop="loop" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video' + dictcode + '/' + prevloc + '"></source></video></div>');
             }
           }
           if (gram['@generace'] != null) {
