@@ -1193,8 +1193,13 @@ function load_doc(id, history, historytype) {
 
         /* puvodni heslo v ssc */
         if (data['html'] != null) {
-          Ext.getCmp('tabForm').query('[name=ssc_html]')[0].update(data['html']);
-          //Ext.getCmp('tabForm').query('[name=ssc_html]')[0].collapse();
+          Ext.getCmp('tabForm').query('[name=ssc_html]')[0].update(data['html']);          
+        }
+        else {
+          var sscFieldset = Ext.getCmp('tabForm').query('[name=ssc]')[0]; // Najde `fieldset` s `name: 'ssc'`
+          if (sscFieldset) {
+              sscFieldset.ownerCt.remove(sscFieldset, true); // Odstraní `fieldset` `ssc` z rodičovského kontejneru
+          }
         }
 
         /* gramatika */
@@ -1440,7 +1445,10 @@ function load_doc(id, history, historytype) {
         console.log('load end ' + new Date().getTime())
         update_stav();
         Ext.resumeLayouts(true);
-        Ext.ComponentQuery.query('[name=ssc_html]')[0].up().setHeight(Ext.ComponentQuery.query('[name=ssc_html]')[0].getHeight());
+        if (data['html'] != null) 
+          { Ext.ComponentQuery.query('[name=ssc_html]')[0].up().setHeight(Ext.ComponentQuery.query('[name=ssc_html]')[0].getHeight());
+            Ext.getCmp('tabForm').query('[name=ssc]')[0].collapse();
+          }
         check_perm(Ext.getCmp('tabForm').query('[name=pracskupina]')[0].getValue(), Ext.getCmp('tabForm').query('[name=userskupina]')[0].getValue(), Ext.getCmp('tabForm').query('[name=userperm]')[0].getValue());
         loadMask.hide();
         console.log('after mask ' + new Date().getTime());
@@ -3388,6 +3396,7 @@ Ext.onReady(function(){
         },
         { xtype: 'container',
           layout: { type: 'hbox' }, // lemma
+          height: 35,
             items:[
               { xtype: 'textfield', fieldLabel: locale[lang].lemma, cls: 'lemmawrite', width: 350, name: 'lemma' },
               { xtype: 'textfield', fieldLabel: locale[lang].pravopis_variant, labelWidth: 150, name: 'lemma_var' },
@@ -3397,6 +3406,7 @@ Ext.onReady(function(){
         { xtype: 'fieldset',
          layout: { type: 'vbox' },
          collapsible: true,
+         name: 'ssc',
          title: 'SSC',
          items:[
            { xtype: 'box', 
