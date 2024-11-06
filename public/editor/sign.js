@@ -1451,7 +1451,6 @@ function add_video_fancybox() {
   $('.videofancybox').each(function () {
     if ($(this).find('source')[0] != undefined) {
       var vid = $(this).find('source[type="video/mp4"]').attr('src');
-      //console.log(vid)
       $(this).on("click", function (e) {
         console.log(e)
         e.target.pause();
@@ -1680,7 +1679,7 @@ function load_doc(id, history, historytype) {
             variant.query('component[name="variant_desc"]')[0].setValue(gramvar['@desc']);
             variant.query('component[name="variant_sw"]')[0].setValue(gramvar['@sw']);
             var videoloc = data['media'][gramvar['_text']]['location'];
-            variant.query('component[name="variantpreview"]')[0].update('<div class="videofancybox" data-ratio="0.8" class="usage" style="width:120px; cursor: zoom-in;"><video class=' + dictcode + ' width="120px" poster="https://www.dictio.info/thumb/video' + dictcode + '/' + videoloc + '" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video' + dictcode + '/' + videoloc + '"></source></video></div>');
+            variant.query('component[name="variantpreview"]')[0].update('<div class="videofancybox usage" data-ratio="0.8" style="width:120px; cursor: zoom-in;"><video class=' + dictcode + ' width="120px" poster="https://www.dictio.info/thumb/video' + dictcode + '/' + videoloc + '" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video' + dictcode + '/' + videoloc + '"></source></video></div>');
             variant.query('component[name="variantpreview"]')[0].setHeight(90);
           });
         }
@@ -1945,7 +1944,7 @@ function load_doc(id, history, historytype) {
         loadMask.hide();
         console.log('after mask ' + new Date().getTime())
         add_preview_main();
-        add_video_fancybox();
+        setTimeout(add_video_fancybox, 1000); // pridat fancybox se zpozdenim
         for (let [key, value] of Object.entries(add_class_rels)) {
           document.getElementById(key).classList.add(value);
         }
