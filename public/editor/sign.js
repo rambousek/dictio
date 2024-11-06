@@ -3800,7 +3800,7 @@ function create_vyznam(entryid, add_copy, meaning_id) {
         cls: 'vyznam-zahlavi',
         layout: { type: 'hbox' },
         items: [
-          { xtype: 'textfield', name: 'meaning_nr', allowBlank: false, labelWidth: 50, width: 100, fieldLabel: locale[lang].order},                  
+          { xtype: 'textfield', name: 'meaning_nr', allowBlank: false, labelWidth: 50, width: 100, fieldLabel: locale[lang].order, cls: 'vyznamNum'},                  
           { xtype: 'textfield', disabled: true, name: 'meaning_id', labelWidth: 50, fieldLabel: 'ID', value: meaning_id, cls: 'meaning_id'},             
           { xtype: 'container', name: 'prazdny', width: 70, fieldLabel: ''}, 
           { fieldLabel: locale[lang].workgroup, name: 'pracskupina', 

@@ -97,6 +97,11 @@ select {
   background-color: lightblue !important;
 }
 
+.vyznamNum input {
+  font-size: 22px;
+  font-weight: 800;
+}
+
 .celnibocni {
   border: solid 1px var(--bg);
   border-radius: 10px;
