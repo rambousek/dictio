@@ -422,3 +422,8 @@ video.uzm {
   border-radius: 10px;
 }
 
+.comment {
+  border: solid 1px darkred;
+  border-radius: 10px;
+  padding: 5px;
+}
