@@ -1095,6 +1095,25 @@ function open_comments(box, type) {
   return kwin;
 }
 
+// náhled videa ve vyskakovacím okně
+function add_video_fancybox() {
+  $('.videofancybox').each(function () {
+    if ($(this).find('source')[0] != undefined) {
+      var vid = $(this).find('source[type="video/mp4"]').attr('src');
+      $(this).on("click", function (e) {
+        console.log(e)
+        e.target.pause();
+        var container = $('<div data-ratio="0.8" style="width:450px;"><video preload="none" controls="" width="450px" height="337px" poster="' + vid + '/thumb.jpg" autoplay=""><source type="video/mp4" src="' + vid + '"/></source></video></div>');
+        $.fancybox.open({
+          src: container,
+          type: 'html',
+          scrolling: 'no',
+        });
+      });
+    }
+  });
+}
+
 function new_entry() {
   var loadMask = new Ext.LoadMask(Ext.getBody(), {msg:" "});
   console.log('new start ' + new Date().getTime())
