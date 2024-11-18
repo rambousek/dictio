@@ -910,202 +910,189 @@ function create_comment_button(boxid, type) {
 }
 
 function open_comments(box, type) {
-  var name = 'koment_'+Ext.id();  
-  var kwin =   Ext.create('Ext.window.Window', {
-    title: locale[lang].coments,
-    height: 300,
-    width: 500,
-    layout: {
-      type: 'vbox'
-    },
-    bbar: [{
-      text: 'Zavřít',
-      handler: function () { this.up('window').close(); }
-    }],
+  var name = 'koment_' + Ext.id();
+
+  function loadComments() {
+    Ext.Ajax.request({
+      url: '/' + dictcode + '/comments/' + entryid + '/' + type,
+      method: 'get',
+      success: function (response) {
+        var data = JSON.parse(response.responseText);
+        var commentsContainer = kwin.queryById('commentsContainer'); // Kontejner pro komentáře
+        commentsContainer.removeAll(); // Odstraníme pouze existující komentáře
+
+        // Projdeme a přidáme každý komentář do kontejneru
+        for (let i = data.comments.length - 1; i >= 0; i--) {
+          var newcom = Ext.create('Ext.Component', {
+            width: 300,
+            cls: (data.comments[i].solved || data.comments[i].rejected) ? 'comment-solved' : 'comment',
+            html: '<span class="user">' + data.comments[i].user.charAt(0) + '</span><i>' + data.comments[i].user + (data.comments[i].assign ? ' → <strong>' + data.comments[i].assign + '</strong>' : '') + '<br />' + '<span class="com-date">' + data.comments[i].time + '</span></i>' + '<div class="comment-inner">' + data.comments[i].text + '</div>',
+            name: 'commenthtml'
+          });
+          var cid = data.comments[i]['_id']['$oid']; // ID komentáře
+          var nrow = Ext.create('Ext.container.Container', {
+            layout: { type: 'hbox' },
+            items: [
+              newcom,              
+              { xtype: 'container',
+                layout: { type: 'vbox' },
+                items: [
+                  { xtype: 'tbfill', height: 10},
+                  { xtype: 'container',
+                    layout: { type: 'hbox' },
+                    items: [
+                      {
+                        xtype: 'button',
+                        text: locale[lang].commentsave,
+                        icon: '/editor/img/save2.png',
+                        cidParam: cid, // Přidáme cid jako cidParam
+                        handler: function (btn) {
+                          Ext.Ajax.request({
+                            url: '/' + dictcode + '/save_comment/' + btn.cidParam,
+                            method: 'post',
+                            params: {
+                              solved: btn.up().up().query('[name=solved]')[0].getValue(),
+                              assign: btn.up().up().query('[name=user]')[0].getValue()
+                            },
+                            success: function (response) {
+                              loadComments(); // Znovu načteme komentáře po uložení
+                            }
+                          });
+                        }
+                      },
+                      {
+                        xtype: 'button',
+                        icon: '/editor/img/trash.png',
+                        cls: 'del',
+                        cidParam: cid, // Přidáme cid jako cidParam tlačítku pro mazání
+                        handler: function (btn) {
+                          if (confirm(locale[lang].commentconfirm)) {
+                            Ext.Ajax.request({
+                              url: '/' + dictcode + '/del_comment/' + btn.cidParam,
+                              method: 'get',
+                              success: function (response) {
+                                loadComments(); // Znovu načteme komentáře po smazání
+                              }
+                            });
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  { xtype: 'combo',
+                    name: 'user',
+                    queryMode: 'local',                    
+                    store: new Ext.data.ArrayStore(
+                      { fields: ['value'], data: entrydata['user_list'] }
+                    ),
+                    displayField: 'value',
+                    valueField: 'value',
+                    cls: 'transparent',
+                    emptyText: locale[lang].commentassign,
+                    width: 100, forceSelection: true,
+                    value: data.comments[i].assign
+                  },
+                  { xtype: 'combo', name: 'solved',
+                    forceSelection: true,
+                    queryMode: 'local',
+                    store: new Ext.data.ArrayStore(
+                      { fields: ['value', 'label'],
+                        data: [
+                          ['', '---'],
+                          ['solved', locale[lang].commentsolved],
+                          ['rejected', locale[lang].commentreject],
+                        ],
+                      }
+                    ),
+                    displayField: 'label', valueField: 'value',
+                    width: 100, editable: false,
+                    cls: 'transparent',
+                    value: data.comments[i].solved
+                  },                  
+                ]
+              }
+            ]
+          });
+          commentsContainer.add(nrow); // Přidáme komentář do kontejneru
+        }
+      }
+    });
+  }
+
+  // Vytvoříme okno s formulářem pro nový komentář a kontejnerem pro komentáře
+  var kwin = Ext.create('Ext.window.Window', {
+    title: locale[lang].comments,
+    height: 800,
+    width: 420,
+    layout: { type: 'vbox' },
     id: name,
     autoScroll: true,
-    items: { 
-      xtype: 'container',
-      items: [{
-        xtype: 'container',
-        layout: {
-          type: 'hbox'
+    closable: false, // odstraní výchozí tlačítko zavření
+    tools: [
+        {
+          xtype: 'button',
+          icon: '/editor/delete.png', // zavření okna
+          cls: 'del',
+          handler: function () { this.up('window').close(); }
         },
-        width: 470,
-        height: 65,
-        items: [{
-          xtype: 'textarea', 
-          name: 'newtext',
-          width: 300
-        },{
-          xtype: 'combo',
-          name: 'user',
-          queryMode: 'local',
-          store: new Ext.data.ArrayStore({
-            fields: ['value'],
-            data: entrydata['user_list']
-          }),
-          displayField: 'value',
-          valueField: 'value',
-          width: 100
-        },{
-          xtype:'button',
-          text: locale[lang].savechanges,
-          cls: 'btn',
-          handler: function() {
-            Ext.Ajax.request({
-              url: '/'+dictcode+'/add_comment',
-              params: {
-                entry: entryid,
-                box: type,
-                text: kwin.query('[name=newtext]')[0].getValue(),
-                user: kwin.query('[name=user]')[0].getValue()
-              },
-              method: 'post',
-              success: function(response) {
-                Ext.getCmp(box).query('[name=lastcomment]')[0].update(kwin.query('[name=newtext]')[0].getValue());
-                Ext.getCmp(box).query('[name=lastcomment]')[0].show(); 
-                kwin.close();
-              }
-            });
-          }
-        }]
-      }
       ],
-    }
-  });
-  Ext.Ajax.request({
-    url: '/'+dictcode+'/comments/'+entryid+'/'+type,
-    method: 'get',
-    success: function(response) {
-      var data = JSON.parse(response.responseText);
-      console.log('load comments' + new Date().getTime() + name)
-      var html = '';
-      for (i = 0; i < data.comments.length; i++) {
-        var newcom = Ext.create('Ext.Component', {
-          width: 300,
-          height: 65,
-          border: 1,
-          style: {
-            borderColor: 'blue',
-            borderStyle: 'solid'
-          },
-          html: data.comments[i].text + '<br/><i>' + data.comments[i].user + ', ' + data.comments[i].time + '</i>',
-          name: 'commenthtml'
-        });
-        var cid = data.comments[i]['_id']['$oid'];
-        var nrow = Ext.create('Ext.container.Container',{
-          layout: {
-            type: 'hbox'
-          },
-          items: [newcom,{
+    items: [
+      {
+        xtype: 'container',
+        itemId: 'commentsContainer', // Kontejner pro seznam komentářů
+        layout: { type: 'vbox' }
+      },
+      {
+        xtype: 'container',
+        layout: { type: 'hbox' },
+        cls: 'comment-nBox',
+        items: [
+          { xtype: 'textarea', name: 'newtext', width: 300, cls: 'comment-tArea' },
+          {
             xtype: 'container',
-            layout: {
-              type: 'vbox'
-            },
-            items: [{
-              xtype: 'combo',
-              name: 'user',
-              queryMode: 'local',
-              store: new Ext.data.ArrayStore({
-                fields: ['value'],
-                data: entrydata['user_list']
-              }),
-              displayField: 'value',
-              valueField: 'value',
-              width: 100,
-              forceSelection: true,
-              value: data.comments[i].assign
-            },{
-              xtype: 'combo',
-              name: 'solved',
-              forceSelection: true,
-              queryMode: 'local',
-              store: new Ext.data.ArrayStore({
-                fields: ['value', 'label'],
-                data: [
-                  ['', '---'],
-                  ['solved', locale[lang].commentsolved],
-                  ['rejected', locale[lang].commentreject],
-                ],
-              }),
-              displayField: 'label',
-              valueField: 'value',
-              width: 100,
-              editable: false,
-              value: data.comments[i].solved
-            }]
-          },{
-            xtype: 'container',
-            layout: {
-              type: 'vbox'
-            },
-            items: [{
-              xtype:'button',
-              text: locale[lang].commentsave,              
-              cidParam: cid,
-              handler: function(btn) {
-                if (confirm(locale[lang].commentconfirm)) {
+            layout: { type: 'vbox' },
+            items: [
+              { xtype: 'tbfill', height: 10},
+              {
+                xtype: 'button', text: locale[lang].savechanges,
+                icon: '/editor/img/save2.png',
+                handler: function () {
                   Ext.Ajax.request({
-                    url: '/'+dictcode+'/save_comment/'+btn.cidParam,
-                    method: 'post',
+                    url: '/' + dictcode + '/add_comment',
                     params: {
-                      solved: btn.up().up().query('[name=solved]')[0].getValue(),
-                      assign: btn.up().up().query('[name=user]')[0].getValue()
+                      entry: entryid,
+                      box: type,
+                      text: kwin.query('[name=newtext]')[0].getValue(),
+                      user: kwin.query('[name=user]')[0].getValue()
                     },
-                    success: function(response) {
+                    method: 'post',
+                    success: function (response) {
+                      loadComments(); // Znovu načteme komentáře po přidání nového komentáře
+                      Ext.getCmp(box).query('[name=lastcomment]')[0].update(kwin.query('[name=newtext]')[0].getValue());  // aktualizace komentaru na strance?
+                      Ext.getCmp(box).query('[name=lastcomment]')[0].show(); 
+                      kwin.query('[name=newtext]')[0].setValue('');
                     }
                   });
                 }
-              }
-            },{
-              xtype:'button',
-              text: locale[lang].delete,
-              cidParam: cid,
-              handler: function(btn) {
-                Ext.Ajax.request({
-                  url: '/'+dictcode+'/del_comment/'+btn.cidParam,
-                  method: 'get',
-                  success: function(response) {
-                    var lasttext = '';
-                    if (btn.up().up().query("[name=commenthtml]")[1] != undefined) {
-                      lasttext = btn.up().up().up().query("[name=commenthtml]")[1].getEl().dom.innerHTML;
-                    }
-                    Ext.getCmp(box).query('[name=lastcomment]')[0].update(lasttext);
-                    btn.up().up().up().remove(btn.up().up().id);
-                  }
-                });
-              }
-            }]
-          }]
-        });
-        kwin.add(nrow);
-      }  
-      kwin.show();
-      kwin.alignTo(box, "tr-tr")
-    }
+              },
+              {
+                xtype: 'combo', name: 'user', queryMode: 'local', emptyText: locale[lang].commentassign, cls: 'transparent',
+                store: new Ext.data.ArrayStore(
+                  { fields: ['value'], data: entrydata['user_list'] }
+                ),
+                displayField: 'value', valueField: 'value', width: 100
+              },             
+            ]
+          }
+        ]
+      }      
+    ]
   });
+
+  loadComments(); // Poprvé načteme komentáře při otevření okna
+  kwin.show();
+  kwin.alignTo(box, "tr-tr");
   return kwin;
-}
-
-
-function add_video_fancybox() {
-  $('.videofancybox').each(function() {
-    if ($(this).find('source')[0] != undefined) {
-      var vid = $(this).find('source').attr('src');
-      console.log(vid)
-      $(this).on("click",function(e) {
-      console.log(e)
-        e.target.pause();
-        var container = $('<div data-ratio="0.8" style="width:335px;"><video preload="none" controls="" width="285px" height="228px" poster="'+vid+'/thumb.jpg" autoplay=""><source type="video/webm" src="'+vid+'.webm"/><source type="video/mp4" src="'+vid+'"/></video></div>');
-        $.fancybox.open({
-          src: container,
-          type: 'html',
-          scrolling: 'no',
-        });
-      });
-    }
-  });
 }
 
 function new_entry() {
@@ -2430,7 +2417,7 @@ function create_vyznam_links(parentid) {
       { xtype: 'container',
         layout: { type: 'hbox' },
         items: [
-          { xtype: 'combobox', name: 'type', queryMode: 'local', displayField: 'text', valueField: 'value', store: typeStore, forceSelection: true, autoSelect: true, editable: false, allowBlank: true, width: 110,
+          { xtype: 'combobox', name: 'type', queryMode: 'local', displayField: 'text', valueField: 'value', store: typeStore, forceSelection: true, autoSelect: true, editable: false, allowBlank: true, width: 110, cls: 'transparent',
             listConfig: 
               { getInnerTpl: function () 
                 { return '<div class="{value}">{text}</div>'; }
@@ -2649,6 +2636,15 @@ function create_priklad(parentid, entryid, add_copy, meaning_id, saved_usage_id)
                   closable: true,
                   width: 1200,
                   height: 800,
+                  closable: false, // odstraní výchozí tlačítko zavření
+                  tools: [
+                      {
+                        xtype: 'button',
+                        icon: '/editor/delete.png',
+                        cls: 'del',
+                        handler: function () { this.up('window').close(); }
+                      },
+                    ],
                   items: [{
                     xtype: 'container',
                     layout: {
@@ -2663,17 +2659,9 @@ function create_priklad(parentid, entryid, add_copy, meaning_id, saved_usage_id)
                         koncwindow = window.open(url);
                         korwin.close();
                       }
-                    }, {
-                      xtype: 'button',
-                      text: locale[lang].close,
-                      handler: function () {
-                        korwin.close();
-                      }
-                    }, {
-                      xtype: 'textfield',
-                      name: 'lemma',
-                    }, {
-                      xtype: 'button',
+                    }, 
+                    { xtype: 'textfield', name: 'lemma' }, 
+                    { xtype: 'button',
                       name: 'searchbutton',
                       text: locale[lang].search,
                       handler: function () {
@@ -3169,7 +3157,7 @@ Ext.onReady(function(){
         xtype: 'fieldset',
         title: locale[lang].basicinfo,
         id: 'boxlemma',
-        cls: 'techinfo-box',
+        cls: 'techinfo-box',  // technické informace
         collapsible: true,
         layout:  { type: 'vbox' },
         items: [{
