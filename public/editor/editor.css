@@ -1,14 +1,14 @@
 /* zakladni styl */
 :root {
-  --zaklad-bg: white;
-  --zaklad-bg2: #e4ebee;
+  --zaklad-bg: rgb(238, 243, 247); /* white;*/
+  --zaklad-bg2: white; /* #e4ebee; */
   --bila: white;
   --bila2: white;
   --gram: darkgrey;
   --vyznamy: lightgray;
   --equiv: lightblue;
   --priklady-bg: rgb(214,122,80);
-  --boxy-bg: aliceblue;
+  --boxy-bg: rgb(238, 243, 247);
   --section-half: url(../img/section-half.png);  
   --popisky: darkolivegreen; 
   --zelena: yellowgreen;
@@ -60,7 +60,7 @@ select {
   font-size: 0.9rem;
   font-weight: 200;
   border: 0px;
-  border-bottom: solid 2px gray;
+  border-bottom: solid 1px lightseagreen;
   border-radius: 0px;
 }
 
@@ -122,9 +122,9 @@ select {
 
 /* #videobox-outerCt {} */
 
-.x-panel-body-default {
+/* .x-panel-body-default {
   background: var(--zaklad-bg);
-}
+} */
 
 a.btn {
   font-size: 14px;
@@ -150,6 +150,10 @@ a.btn {
   background-color: var(--zaklad-bg2);
   border-left: 20px solid #03c9a9;
   /*#d1e8dc;  */
+}
+
+#media-body {
+  background-color: var(--zaklad-bg2) ;
 }
 
 .video-label {
@@ -353,15 +357,15 @@ video.asl {
 }
 
 video.is {
-  border-left: solid 4px darkslateblue
+  border-left: solid 4px darkslateblue;
 }
 
 video.spj {
-  border-left: solid 4px mediumseagreen
+  border-left: solid 4px mediumseagreen;
 }
 
 video.ogs {
-  border-left: solid 4px darkred
+  border-left: solid 4px darkred;
 }
 
 video.uzm {
@@ -371,6 +375,10 @@ video.uzm {
 .redtext {
   color: red;
   font-style: italic;
+}
+
+.text-cs, .text-en, .text-sj, .text-de, .text-uk, .text-czj, .text-spj, .text-asl, .text-is, .text-ogs, .text-uzm {
+  background-color: var(--bila2);
 }
 
 .text-cs {
@@ -422,8 +430,69 @@ video.uzm {
   border-radius: 10px;
 }
 
+.comment-nBox {
+    width: 400px;
+    height: fit-content;
+    padding: 5px;
+}
+
 .comment {
-  border: solid 1px darkred;
-  border-radius: 10px;
+  background-color: darkred;
+  color: yellow;
+  border-radius: 20px;
+  padding: 10px;
+  width: 400;
+  height: fit-content;
+  margin: 5px;
+}
+
+.comment-solved {
+  background-color: lightgray;
+  color: gray;
+  border-radius: 20px;
+  padding: 10px;
+  width: 400;
+  height: fit-content;
+  margin: 5px;
+  text-decoration: line-through;
+}
+
+.comment-inner {
+  background: gray;
   padding: 5px;
+  border-radius: 10px;
+  margin: 4px;
+}
+
+.comment-solved .comment-inner {
+  border: solid 1px gray;
+  padding: 5px;
+  border-radius: 10px;
+  margin: 4px;
+  background: transparent;
+}
+
+.comment span.user {
+    border-radius: 50%;
+    padding: 11px;
+    background-color: gray;
+    color: white;
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    text-transform: uppercase;
+    font-weight: 900;
+}
+
+.com-date {
+  margin-left: 30px;
+}
+
+.comment-tArea textarea {
+    width: 100%;
+    border: darkred solid 1px;
+    color: var(--cerna);
+    padding: 10px;
+    border-radius: 20px;
+    height: 90px;
 }
