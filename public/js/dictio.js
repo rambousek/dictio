@@ -474,7 +474,7 @@ $( document ).ready(function() {
               }
               var video_controls = '<a href="/'+entry.dict+'/show/'+entry.id+'" class="video__link"><span class="icon icon--open-new-window"><svg class="icon__svg" xmlns:xlink="http://www.w3.org/1999/xlink"><use height="100%" width="100%" x="0" xlink:href="/img/icons.svg#open-new-window" y="0"></use></svg></span></a>';
               if (entry.lemma && entry.lemma.sw) {
-                video_controls += '<span class="video__sign"><img src="/sw/signwriting.png?generator[sw]='+entry.lemma.sw[0]['_text']+'&generator[align]=top_left&generator[set]=sw10"/></span>';
+                video_controls += '<span class="video__sign"><img src="https://sign.dictio.info/fsw/sign/png/'+entry.lemma.sw[0]['@fsw']+'-CG_white_"/></span>';
               }
               var newdiv = '';
               if (response.is_edit) {
