@@ -440,7 +440,7 @@ $( document ).ready(function() {
   $('.load_next_search').click(function() {
     $('.load_next_search').addClass('waiting');
     var total_results = $('.result-count').data('count');
-    var current_count;
+    let current_count;
     if ($('.search-results-write').length) {
       current_count = $('.search-results-write > li').length;
     }
@@ -479,7 +479,7 @@ $( document ).ready(function() {
               var newdiv = '';
               if (response.is_edit) {
                 newdiv += '<span class="trans__badge trans__badge__'+entry.dict+'" style="position: relative;">'; 
-                newdiv += '<a class="edit" href="https://edit.dictio.info/editor'+entry.dict+'/?id='+entry.id+'">'+entry.dict+'-'+entry.id+'</a>';
+                newdiv += '<a class="edit" href="https://edit.dictio.info/editor'+entry.dict+'/?id='+entry.id+'">'+entry.dict+'-'+entry.id+'</a></span>';
               }
               newdiv += '<div style="width:70%"><div class="video video--small"><div class="video__content">'+video_content+'</div><div class="video__controls">'+video_controls+'</div></div</div>';
               $('.search-results-sign').append(newdiv);
