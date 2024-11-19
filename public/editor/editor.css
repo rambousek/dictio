@@ -457,6 +457,12 @@ video.uzm {
   text-decoration: line-through;
 }
 
+.solved {
+  background-color: lightgray;
+  color: gray;
+  text-decoration: line-through;
+}
+
 .comment-inner {
   background: gray;
   padding: 5px;

@@ -980,17 +980,18 @@ function create_comment_button(boxid, type) {
   }
   var cont = Ext.create('Ext.container.Container', {
     layout: {
-      type: 'vbox'
+      type: 'vbox',
+      width: 200
     },
     items: [{
       xtype: 'button',
       name: 'commentbutton',
       icon: '/editor/img/comments.png',
       text: locale[lang].comment,
-      handler: function () {
+      handler: function() {
         open_comments(boxid, type);
       }
-    }, {
+    },{
       xtype: 'box',
       width: 200,
       name: 'lastcomment',
@@ -999,16 +1000,19 @@ function create_comment_button(boxid, type) {
     }]
   });
   Ext.Ajax.request({
-    url: '/' + dictcode + '/comments/' + g_entryid + '/' + type,
+    url: '/'+dictcode+'/comments/'+g_entryid+'/'+type,
     method: 'get',
-    success: function (response) {
+    success: function(response) {
+      /* fill media info */
       var data = JSON.parse(response.responseText);
       console.log('load comments' + new Date().getTime());
       if (data.comments.length > 0) {
-        if (cont.query('[name=lastcomment]')[0] != undefined) {
-          cont.query('[name=lastcomment]')[0].update(data.comments[0].text + ', <i>' + data.comments[0].user + ', ' + data.comments[0].time + '</i>');
-          cont.query('[name=lastcomment]')[0].show();
-        }
+        console.log(data.comments[data.comments.length - 1]);
+        cont.query('[name=lastcomment]')[0].update(data.comments[data.comments.length - 1].text + ', <i>' + data.comments[data.comments.length - 1].user + ', ' + data.comments[data.comments.length - 1].time + '</i>');
+        // Přidání třídy "solved" 
+      if (data.comments[data.comments.length - 1].solved || data.comments[data.comments.length - 1].rejected) 
+        { cont.query('[cls=comment-box]')[0].addCls('solved');}
+      cont.query('[name=lastcomment]')[0].show();        
       }
       if (data.comments.length > 1) {
         cont.query('[name=commentbutton]')[0].setText(locale[lang].opencomment);
@@ -1140,7 +1144,7 @@ function open_comments(box, type) {
     tools: [
         {
           xtype: 'button',
-          icon: '/editor/delete.png',
+          icon: '/editor/delete.png', // zavření okna
           cls: 'del',
           handler: function () { this.up('window').close(); }
         },
@@ -1177,6 +1181,9 @@ function open_comments(box, type) {
                     method: 'post',
                     success: function (response) {
                       loadComments(); // Znovu načteme komentáře po přidání nového komentáře
+                      Ext.getCmp(box).query('[name=lastcomment]')[0].update(kwin.query('[name=newtext]')[0].getValue());  // aktualizace komentaru na strance?
+                      Ext.getCmp(box).query('[name=lastcomment]')[0].show(); 
+                      kwin.query('[name=newtext]')[0].setValue('');
                     }
                   });
                 }

@@ -897,9 +897,12 @@ function create_comment_button(boxid, type) {
       var data = JSON.parse(response.responseText);
       console.log('load comments' + new Date().getTime());
       if (data.comments.length > 0) {
-        console.log(data.comments[0])
-        cont.query('[name=lastcomment]')[0].update(data.comments[0].text + ', <i>' + data.comments[0].user + ', ' + data.comments[0].time + '</i>');
-        cont.query('[name=lastcomment]')[0].show();
+        console.log(data.comments[data.comments.length - 1]);
+        cont.query('[name=lastcomment]')[0].update(data.comments[data.comments.length - 1].text + ', <i>' + data.comments[data.comments.length - 1].user + ', ' + data.comments[data.comments.length - 1].time + '</i>');
+        // Přidání třídy "solved" 
+      if (data.comments[data.comments.length - 1].solved || data.comments[data.comments.length - 1].rejected) 
+        { cont.query('[cls=comment-box]')[0].addCls('solved');}
+      cont.query('[name=lastcomment]')[0].show();        
       }
       if (data.comments.length > 1) {
         cont.query('[name=commentbutton]')[0].setText(locale[lang].opencomment);
