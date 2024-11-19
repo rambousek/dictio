@@ -47,6 +47,29 @@ function do_search() {
   }
 }
 
+function initializeSearchInteraction(inputId, buttonId, linkId) {
+  const inputField = document.getElementById(inputId);
+  const searchButton = document.getElementById(buttonId);
+  const searchLink = document.getElementById(linkId);
+
+  if (!inputField || !searchButton || !searchLink) {
+      console.error('Required elements not found: input, button, or link');
+      return;
+  }
+
+  // Při kliknutí na odkaz nastav znak '*' a simuluj kliknutí na tlačítko
+  searchLink.addEventListener('click', (event) => {
+      event.preventDefault(); // Zamezí navigaci odkazu
+      inputField.value = '*'; // Nastaví znak '*' do input pole
+      searchButton.click();  // Simuluje kliknutí na tlačítko hledání
+  });
+}
+
+// Inicializace na straně klienta
+document.addEventListener('DOMContentLoaded', function () {
+  initializeSearchInteraction('expression_trans', 'trans-button', 'trans-link');
+});
+
 function show_pos_list() {
   var dict = $('.search-alt__wrap .translate-from').val();
   $('.advanced-search .slovni_druh').hide();

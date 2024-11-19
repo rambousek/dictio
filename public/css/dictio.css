@@ -48,6 +48,16 @@ video.video-link {
   font-weight: bold;
 }
 
+.search-options {
+  margin-top: 0;
+    padding-top: 0;
+    width: 100%;
+    text-align: right;
+    margin-right: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
 .detail__badge__czj, .trans__badge__czj, .btn-czj, .trans__badge__czj a {
   background-color: #19B5FE !important;
   color: black;
