@@ -3777,8 +3777,7 @@ Ext.onReady(function(){
           xtype: 'button',
           text: locale[lang].viewplus,
           icon: '/editor/img/display.png',
-          cls: 'btn hidden',
-          id: 'btnSV1',
+          cls: 'btn',
           handler: function() {           
             var odkaz = '/'+dictcode+'/show/'+entryid+'?lang='+lang;
             window.open(odkaz);
@@ -3787,7 +3786,8 @@ Ext.onReady(function(){
           xtype: 'button',
         text: locale[lang].saveview,
         icon: '/editor/img/savedisplay.png',
-        cls: 'btn',
+        cls: 'btn hidden',
+        id: 'btnSV1',
         name: 'savebutton',
         handler: function() {
           Ext.Msg.alert('Stav', locale[lang].savemsg);
