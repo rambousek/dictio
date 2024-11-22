@@ -1576,11 +1576,15 @@ function entry_update_show(updated) {
     document.title = dictcode.toUpperCase()+' ' + entryid + ' *';
     Ext.getCmp('tabForm').setTitle(dictcode.toUpperCase()+'-' + entryid);
     Ext.getCmp('tabForm').query('component[name=modifiedlabel]')[0].setText(' * '+locale[lang].modified);
+    Ext.getCmp('btnSV1').removeCls('hidden');
+    Ext.getCmp('btnSV1').addCls('unhidden');
 
   } else {
     document.title = dictcode.toUpperCase()+' ' + entryid;
     Ext.getCmp('tabForm').setTitle(dictcode.toUpperCase()+'-' + entryid);
     Ext.getCmp('tabForm').query('component[name=modifiedlabel]')[0].setText('');
+    Ext.getCmp('btnSV1').removeCls('unhidden');
+    Ext.getCmp('btnSV1').addCls('hidden');
   }
 }
 
@@ -3773,7 +3777,8 @@ Ext.onReady(function(){
           xtype: 'button',
           text: locale[lang].viewplus,
           icon: '/editor/img/display.png',
-          cls: 'btn',
+          cls: 'btn hidden',
+          id: 'btnSV1',
           handler: function() {           
             var odkaz = '/'+dictcode+'/show/'+entryid+'?lang='+lang;
             window.open(odkaz);
