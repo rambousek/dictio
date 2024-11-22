@@ -18,6 +18,7 @@ var typingTimer;
 var doneTypingInterval = 5000;
 var bgAuth = 'lightsteelblue';
 var bgSilver = 'silver';
+var version = 2.1;
 
 var params = Ext.Object.fromQueryString(window.location.search.substring(1));
 if (params.empty != null && params.empty != '') {
@@ -1531,6 +1532,8 @@ function new_entry() {
 }
 
 function load_doc(id, history, historytype) {
+  const footerCopy = document.querySelector('.footer__copy');
+  if (footerCopy) { footerCopy.innerHTML += ` (SIGN v ${version})`; }
   var loadMask = new Ext.LoadMask(Ext.getBody(), { msg: " " });
   console.log('load start ' + new Date().getTime())
   Ext.suspendLayouts();

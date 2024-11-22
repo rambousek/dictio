@@ -19,6 +19,7 @@ var changes = new Array();
 var bgAuth = 'lightsteelblue';
 var bgSilver = 'silver';
 var bgLex = 'darkgray';
+const version = 2.1;
 
 var params = Ext.Object.fromQueryString(window.location.search.substring(1));
 if (params.empty != null && params.empty != '') {
@@ -680,8 +681,6 @@ function update_stav() {
   var video_front = false;
   var video_side = false;
 
-
-
   //vyklad
   var defset = Ext.getCmp('tabForm').query('component[name="vyznam"]');
   for (var j = 0; j < defset.length; j++) {
@@ -903,23 +902,18 @@ function create_comment_button(boxid, type) {
       if (data.comments.length > 0) {
         const firstComment = data.comments[data.comments.length - 1];
         console.log(firstComment);
-
         // Aktualizace obsahu
         const commentHTML =
           firstComment.user +
           (firstComment.assign ? ' → <strong>' + firstComment.assign + '</strong>' : '') +
           ': <br /><i>' + firstComment.text + '</i>';
         cont.query('[name=lastcomment]')[0].update(commentHTML);
-
         // Přidání třídy "solved", pokud je komentář vyřešen nebo zamítnut
         if (firstComment.solved || firstComment.rejected) {
           cont.query('[cls=comment-box]')[0].addCls('solved');
         }
-
-        // Zobrazení posledního komentáře
         cont.query('[name=lastcomment]')[0].show();
       }
-
       // Změna textu tlačítka, pokud existuje více než jeden komentář
       if (data.comments.length > 1) {
         cont.query('[name=commentbutton]')[0].setText(locale[lang].opencomment);
@@ -961,11 +955,9 @@ function open_comments(box, type) {
                   { xtype: 'container',
                     layout: { type: 'hbox' },
                     items: [
-                      {
-                        xtype: 'button',
-                        text: locale[lang].commentsave,
+                      { xtype: 'button', text: locale[lang].commentsave,
                         icon: '/editor/img/save2.png',
-                        cidParam: cid, // Přidáme cid jako cidParam
+                        cidParam: cid, 
                         handler: function (btn) {
                           Ext.Ajax.request({
                             url: '/' + dictcode + '/save_comment/' + btn.cidParam,
@@ -974,24 +966,19 @@ function open_comments(box, type) {
                               solved: btn.up().up().query('[name=solved]')[0].getValue(),
                               assign: btn.up().up().query('[name=user]')[0].getValue()
                             },
-                            success: function (response) {
-                              loadComments(); // Znovu načteme komentáře po uložení
-                            }
+                            success: function (response) { loadComments(); } // Znovu načteme komentáře po uložení
                           });
                         }
                       },
-                      {
-                        xtype: 'button',
-                        icon: '/editor/img/trash.png',
-                        cls: 'del',
-                        cidParam: cid, // Přidáme cid jako cidParam tlačítku pro mazání
+                      { xtype: 'button', icon: '/editor/img/trash.png', cls: 'del',
+                        cidParam: cid,
                         handler: function (btn) {
                           if (confirm(locale[lang].commentconfirm)) {
                             Ext.Ajax.request({
                               url: '/' + dictcode + '/del_comment/' + btn.cidParam,
                               method: 'get',
                               success: function (response) {
-                                loadComments(); // Znovu načteme komentáře po smazání
+                                loadComments(); 
                               }
                             });
                           }
@@ -1047,34 +1034,27 @@ function open_comments(box, type) {
     layout: { type: 'vbox' },
     id: name,
     autoScroll: true,
-    closable: false, // odstraní výchozí tlačítko zavření
+    closable: false, 
     tools: [
-        {
-          xtype: 'button',
-          icon: '/editor/delete.png', // zavření okna
-          cls: 'del',
+        { xtype: 'button', icon: '/editor/delete.png', cls: 'del', 
           handler: function () { this.up('window').close(); }
         },
       ],
     items: [
-      {
-        xtype: 'container',
+      { xtype: 'container',
         itemId: 'commentsContainer', // Kontejner pro seznam komentářů
         layout: { type: 'vbox' }
       },
-      {
-        xtype: 'container',
+      { xtype: 'container',
         layout: { type: 'hbox' },
         cls: 'comment-nBox',
         items: [
           { xtype: 'textarea', name: 'newtext', width: 300, cls: 'comment-tArea' },
-          {
-            xtype: 'container',
+          { xtype: 'container',
             layout: { type: 'vbox' },
             items: [
               { xtype: 'tbfill', height: 10},
-              {
-                xtype: 'button', text: locale[lang].savechanges,
+              { xtype: 'button', text: locale[lang].savechanges,
                 icon: '/editor/img/save2.png',
                 handler: function () {
                   Ext.Ajax.request({
@@ -1176,6 +1156,8 @@ function new_entry() {
 }
 
 function load_doc(id, history, historytype) {
+  const footerCopy = document.querySelector('.footer__copy');
+  if (footerCopy) { footerCopy.innerHTML += ` (WRITE v ${version})`; }
   var loadMask = new Ext.LoadMask(Ext.getBody(), {msg:" "});
   console.log('load start ' + new Date().getTime())
   Ext.suspendLayouts();
