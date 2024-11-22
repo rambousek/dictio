@@ -502,3 +502,12 @@ video.uzm {
     border-radius: 20px;
     height: 90px;
 }
+
+.hidden {
+  display: none !important;
+}
+
+.unhidden {
+  display: inline;
+  top: 0px !important;
+}

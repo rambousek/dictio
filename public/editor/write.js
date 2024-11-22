@@ -865,45 +865,62 @@ function change_gram(elid, pos) {
 }
 
 function create_comment_button(boxid, type) {
-  if (type == undefined) {
-    var type = boxid;
+  if (type === undefined) {
+    type = boxid;
   }
+
   var cont = Ext.create('Ext.container.Container', {
     layout: {
       type: 'vbox',
       width: 200
     },
-    items: [{
-      xtype: 'button',
-      name: 'commentbutton',
-      icon: '/editor/img/comments.png',
-      text: locale[lang].comment,
-      handler: function() {
-        open_comments(boxid, type);
+    items: [
+      { xtype: 'button',
+        name: 'commentbutton',
+        icon: '/editor/img/comments.png',
+        text: locale[lang].comment,
+        handler: function () {
+          open_comments(boxid, type);
+        }
+      },
+      { xtype: 'box',
+        width: 200,
+        name: 'lastcomment',
+        cls: 'comment-box',
+        hidden: true
       }
-    },{
-      xtype: 'box',
-      width: 200,
-      name: 'lastcomment',
-      cls: 'comment-box',
-      hidden: true,
-    }]
+    ]
   });
+
   Ext.Ajax.request({
-    url: '/'+dictcode+'/comments/'+g_entryid+'/'+type,
+    url: '/' + dictcode + '/comments/' + g_entryid + '/' + type,
     method: 'get',
-    success: function(response) {
+    success: function (response) {
       /* fill media info */
       var data = JSON.parse(response.responseText);
-      console.log('load comments' + new Date().getTime());
+      console.log('load comments ' + new Date().getTime());
+
       if (data.comments.length > 0) {
-        console.log(data.comments[data.comments.length - 1]);
-        cont.query('[name=lastcomment]')[0].update(data.comments[data.comments.length - 1].text + ', <i>' + data.comments[data.comments.length - 1].user + ', ' + data.comments[data.comments.length - 1].time + '</i>');
-        // Přidání třídy "solved" 
-      if (data.comments[data.comments.length - 1].solved || data.comments[data.comments.length - 1].rejected) 
-        { cont.query('[cls=comment-box]')[0].addCls('solved');}
-      cont.query('[name=lastcomment]')[0].show();        
+        const firstComment = data.comments[data.comments.length - 1];
+        console.log(firstComment);
+
+        // Aktualizace obsahu
+        const commentHTML =
+          firstComment.user +
+          (firstComment.assign ? ' → <strong>' + firstComment.assign + '</strong>' : '') +
+          ': <br /><i>' + firstComment.text + '</i>';
+        cont.query('[name=lastcomment]')[0].update(commentHTML);
+
+        // Přidání třídy "solved", pokud je komentář vyřešen nebo zamítnut
+        if (firstComment.solved || firstComment.rejected) {
+          cont.query('[cls=comment-box]')[0].addCls('solved');
+        }
+
+        // Zobrazení posledního komentáře
+        cont.query('[name=lastcomment]')[0].show();
       }
+
+      // Změna textu tlačítka, pokud existuje více než jeden komentář
       if (data.comments.length > 1) {
         cont.query('[name=commentbutton]')[0].setText(locale[lang].opencomment);
       }
