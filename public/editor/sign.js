@@ -1533,7 +1533,7 @@ function new_entry() {
 
 function load_doc(id, history, historytype) {
   const footerCopy = document.querySelector('.footer__copy');
-  if (footerCopy) { footerCopy.innerHTML += ` (SIGN v ${version})`; }
+  if (footerCopy) { footerCopy.innerHTML += ` (eDictSIGN v ${version})`; }
   var loadMask = new Ext.LoadMask(Ext.getBody(), { msg: " " });
   console.log('load start ' + new Date().getTime())
   Ext.suspendLayouts();
