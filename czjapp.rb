@@ -145,6 +145,7 @@ class CzjApp < Sinatra::Base
     cookies.set(:dictio_pref, {:httponly=>false, :value=>(write_dicts+sign_dicts).map{|i| 'dict-'+i+'=true'}.join(';')})
     @is_edit = $is_edit
     @is_admin = $is_admin
+    @is_test = $is_test
   end
 
   get '/' do

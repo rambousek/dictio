@@ -13,7 +13,10 @@ header.header role="banner"
           svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
             use xlink:href="/img/icons.svg#logo-symbol" x="0" y="0" width="100%" height="100%"
         .logo__text Dictio
-        img src="/img/beta.png" style="height: 13px"
+        - if @is_test  
+          img src="/img/test.png" style="height: 13px"
+        - else
+          img src="/img/beta.png" style="height: 13px"
 
       nav.nav.nav--header role="navigation"
         .nav__desktop
