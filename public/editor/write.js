@@ -19,6 +19,7 @@ var changes = new Array();
 var bgAuth = 'lightsteelblue';
 var bgSilver = 'silver';
 var bgLex = 'darkgray';
+const version = 2.1;
 
 var params = Ext.Object.fromQueryString(window.location.search.substring(1));
 if (params.empty != null && params.empty != '') {
@@ -680,8 +681,6 @@ function update_stav() {
   var video_front = false;
   var video_side = false;
 
-
-
   //vyklad
   var defset = Ext.getCmp('tabForm').query('component[name="vyznam"]');
   for (var j = 0; j < defset.length; j++) {
@@ -865,43 +864,57 @@ function change_gram(elid, pos) {
 }
 
 function create_comment_button(boxid, type) {
-  if (type == undefined) {
-    var type = boxid;
+  if (type === undefined) {
+    type = boxid;
   }
+
   var cont = Ext.create('Ext.container.Container', {
     layout: {
       type: 'vbox',
       width: 200
     },
-    items: [{
-      xtype: 'button',
-      name: 'commentbutton',
-      icon: '/editor/img/comments.png',
-      text: locale[lang].comment,
-      handler: function() {
-        open_comments(boxid, type);
+    items: [
+      { xtype: 'button',
+        name: 'commentbutton',
+        icon: '/editor/img/comments.png',
+        text: locale[lang].comment,
+        handler: function () {
+          open_comments(boxid, type);
+        }
+      },
+      { xtype: 'box',
+        width: 200,
+        name: 'lastcomment',
+        cls: 'comment-box',
+        hidden: true
       }
-    },{
-      xtype: 'box',
-      width: 200,
-      name: 'lastcomment',
-      cls: 'comment-box',
-      hidden: true,
-      autoScroll: true
-    }]
+    ]
   });
+
   Ext.Ajax.request({
-    url: '/'+dictcode+'/comments/'+g_entryid+'/'+type,
+    url: '/' + dictcode + '/comments/' + g_entryid + '/' + type,
     method: 'get',
-    success: function(response) {
+    success: function (response) {
       /* fill media info */
       var data = JSON.parse(response.responseText);
-      console.log('load comments' + new Date().getTime());
+      console.log('load comments ' + new Date().getTime());
+
       if (data.comments.length > 0) {
-        console.log(data.comments[0])
-        cont.query('[name=lastcomment]')[0].update(data.comments[0].text + ', <i>' + data.comments[0].user + ', ' + data.comments[0].time + '</i>');
+        const firstComment = data.comments[data.comments.length - 1];
+        console.log(firstComment);
+        // Aktualizace obsahu
+        const commentHTML =
+          firstComment.user +
+          (firstComment.assign ? ' → <strong>' + firstComment.assign + '</strong>' : '') +
+          ': <br /><i>' + firstComment.text + '</i>';
+        cont.query('[name=lastcomment]')[0].update(commentHTML);
+        // Přidání třídy "solved", pokud je komentář vyřešen nebo zamítnut
+        if (firstComment.solved || firstComment.rejected) {
+          cont.query('[cls=comment-box]')[0].addCls('solved');
+        }
         cont.query('[name=lastcomment]')[0].show();
       }
+      // Změna textu tlačítka, pokud existuje více než jeden komentář
       if (data.comments.length > 1) {
         cont.query('[name=commentbutton]')[0].setText(locale[lang].opencomment);
       }
@@ -911,193 +924,186 @@ function create_comment_button(boxid, type) {
 }
 
 function open_comments(box, type) {
-  var name = 'koment_'+Ext.id();  
-  var kwin =   Ext.create('Ext.window.Window', {
-    title: locale[lang].coments,
-    height: 300,
-    width: 500,
-    layout: {
-      type: 'vbox'
-    },
-    bbar: [{
-      text: 'Zavřít',
-      handler: function () { this.up('window').close(); }
-    }],
+  var name = 'koment_' + Ext.id();
+
+  function loadComments() {
+    Ext.Ajax.request({
+      url: '/' + dictcode + '/comments/' + entryid + '/' + type,
+      method: 'get',
+      success: function (response) {
+        var data = JSON.parse(response.responseText);
+        var commentsContainer = kwin.queryById('commentsContainer'); // Kontejner pro komentáře
+        commentsContainer.removeAll(); // Odstraníme pouze existující komentáře
+
+        // Projdeme a přidáme každý komentář do kontejneru
+        for (let i = data.comments.length - 1; i >= 0; i--) {
+          var newcom = Ext.create('Ext.Component', {
+            width: 300,
+            cls: (data.comments[i].solved || data.comments[i].rejected) ? 'comment-solved' : 'comment',
+            html: '<span class="user">' + data.comments[i].user.charAt(0) + '</span><i>' + data.comments[i].user + (data.comments[i].assign ? ' → <strong>' + data.comments[i].assign + '</strong>' : '') + '<br />' + '<span class="com-date">' + data.comments[i].time + '</span></i>' + '<div class="comment-inner">' + data.comments[i].text + '</div>',
+            name: 'commenthtml'
+          });
+          var cid = data.comments[i]['_id']['$oid']; // ID komentáře
+          var nrow = Ext.create('Ext.container.Container', {
+            layout: { type: 'hbox' },
+            items: [
+              newcom,              
+              { xtype: 'container',
+                layout: { type: 'vbox' },
+                items: [
+                  { xtype: 'tbfill', height: 10},
+                  { xtype: 'container',
+                    layout: { type: 'hbox' },
+                    items: [
+                      { xtype: 'button', text: locale[lang].commentsave,
+                        icon: '/editor/img/save2.png',
+                        cidParam: cid, 
+                        handler: function (btn) {
+                          Ext.Ajax.request({
+                            url: '/' + dictcode + '/save_comment/' + btn.cidParam,
+                            method: 'post',
+                            params: {
+                              solved: btn.up().up().query('[name=solved]')[0].getValue(),
+                              assign: btn.up().up().query('[name=user]')[0].getValue()
+                            },
+                            success: function (response) { loadComments(); } // Znovu načteme komentáře po uložení
+                          });
+                        }
+                      },
+                      { xtype: 'button', icon: '/editor/img/trash.png', cls: 'del',
+                        cidParam: cid,
+                        handler: function (btn) {
+                          if (confirm(locale[lang].commentconfirm)) {
+                            Ext.Ajax.request({
+                              url: '/' + dictcode + '/del_comment/' + btn.cidParam,
+                              method: 'get',
+                              success: function (response) {
+                                loadComments(); 
+                              }
+                            });
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  { xtype: 'combo',
+                    name: 'user',
+                    queryMode: 'local',                    
+                    store: new Ext.data.ArrayStore(
+                      { fields: ['value'], data: entrydata['user_list'] }
+                    ),
+                    displayField: 'value',
+                    valueField: 'value',
+                    cls: 'transparent',
+                    emptyText: locale[lang].commentassign,
+                    width: 100, forceSelection: true,
+                    value: data.comments[i].assign
+                  },
+                  { xtype: 'combo', name: 'solved',
+                    forceSelection: true,
+                    queryMode: 'local',
+                    store: new Ext.data.ArrayStore(
+                      { fields: ['value', 'label'],
+                        data: [
+                          ['', '---'],
+                          ['solved', locale[lang].commentsolved],
+                          ['rejected', locale[lang].commentreject],
+                        ],
+                      }
+                    ),
+                    displayField: 'label', valueField: 'value',
+                    width: 100, editable: false,
+                    cls: 'transparent',
+                    value: data.comments[i].solved
+                  },                  
+                ]
+              }
+            ]
+          });
+          commentsContainer.add(nrow); // Přidáme komentář do kontejneru
+        }
+      }
+    });
+  }
+
+  // Vytvoříme okno s formulářem pro nový komentář a kontejnerem pro komentáře
+  var kwin = Ext.create('Ext.window.Window', {
+    title: locale[lang].comments,
+    height: 800,
+    width: 420,
+    layout: { type: 'vbox' },
     id: name,
     autoScroll: true,
-    items: { 
-      xtype: 'container',
-      items: [{
-        xtype: 'container',
-        layout: {
-          type: 'hbox'
+    closable: false, 
+    tools: [
+        { xtype: 'button', icon: '/editor/delete.png', cls: 'del', 
+          handler: function () { this.up('window').close(); }
         },
-        width: 470,
-        height: 65,
-        items: [{
-          xtype: 'textarea', 
-          name: 'newtext',
-          width: 300
-        },{
-          xtype: 'combo',
-          name: 'user',
-          queryMode: 'local',
-          store: new Ext.data.ArrayStore({
-            fields: ['value'],
-            data: entrydata['user_list']
-          }),
-          displayField: 'value',
-          valueField: 'value',
-          width: 100
-        },{
-          xtype:'button',
-          text: locale[lang].savechanges,
-          handler: function() {
-            Ext.Ajax.request({
-              url: '/'+dictcode+'/add_comment',
-              params: {
-                entry: entryid,
-                box: type,
-                text: kwin.query('[name=newtext]')[0].getValue(),
-                user: kwin.query('[name=user]')[0].getValue()
-              },
-              method: 'post',
-              success: function(response) {
-                Ext.getCmp(box).query('[name=lastcomment]')[0].update(kwin.query('[name=newtext]')[0].getValue());
-                Ext.getCmp(box).query('[name=lastcomment]')[0].show(); 
-                kwin.close();
-              }
-            });
-          }
-        }]
-      }
       ],
-    }
-  });
-  Ext.Ajax.request({
-    url: '/'+dictcode+'/comments/'+entryid+'/'+type,
-    method: 'get',
-    success: function(response) {
-      var data = JSON.parse(response.responseText);
-      console.log('load comments' + new Date().getTime() + name)
-      var html = '';
-      for (i = 0; i < data.comments.length; i++) {
-        var newcom = Ext.create('Ext.Component', {
-          width: 300,
-          height: 65,
-          border: 1,
-          style: {
-            borderColor: 'blue',
-            borderStyle: 'solid'
-          },
-          html: data.comments[i].text + '<br/><i>' + data.comments[i].user + ', ' + data.comments[i].time + '</i>',
-          name: 'commenthtml'
-        });
-        var cid = data.comments[i]['_id']['$oid'];
-        var nrow = Ext.create('Ext.container.Container',{
-          layout: {
-            type: 'hbox'
-          },
-          items: [newcom,{
-            xtype: 'container',
-            layout: {
-              type: 'vbox'
-            },
-            items: [{
-              xtype: 'combo',
-              name: 'user',
-              queryMode: 'local',
-              store: new Ext.data.ArrayStore({
-                fields: ['value'],
-                data: entrydata['user_list']
-              }),
-              displayField: 'value',
-              valueField: 'value',
-              width: 100,
-              forceSelection: true,
-              value: data.comments[i].assign
-            },{
-              xtype: 'combo',
-              name: 'solved',
-              forceSelection: true,
-              queryMode: 'local',
-              store: new Ext.data.ArrayStore({
-                fields: ['value', 'label'],
-                data: [
-                  ['', '---'],
-                  ['solved', locale[lang].commentsolved],
-                  ['rejected', locale[lang].commentreject],
-                ],
-              }),
-              displayField: 'label',
-              valueField: 'value',
-              width: 100,
-              editable: false,
-              value: data.comments[i].solved
-            }]
-          },{
-            xtype: 'container',
-            layout: {
-              type: 'vbox'
-            },
-            items: [{
-              xtype:'button',
-              text: locale[lang].commentsave,
-              cidParam: cid,
-              handler: function(btn) {
-                if (confirm(locale[lang].commentconfirm)) {
+    items: [
+      { xtype: 'container',
+        itemId: 'commentsContainer', // Kontejner pro seznam komentářů
+        layout: { type: 'vbox' }
+      },
+      { xtype: 'container',
+        layout: { type: 'hbox' },
+        cls: 'comment-nBox',
+        items: [
+          { xtype: 'textarea', name: 'newtext', width: 300, cls: 'comment-tArea' },
+          { xtype: 'container',
+            layout: { type: 'vbox' },
+            items: [
+              { xtype: 'tbfill', height: 10},
+              { xtype: 'button', text: locale[lang].savechanges,
+                icon: '/editor/img/save2.png',
+                handler: function () {
                   Ext.Ajax.request({
-                    url: '/'+dictcode+'/save_comment/'+btn.cidParam,
-                    method: 'post',
+                    url: '/' + dictcode + '/add_comment',
                     params: {
-                      solved: btn.up().up().query('[name=solved]')[0].getValue(),
-                      assign: btn.up().up().query('[name=user]')[0].getValue()
+                      entry: entryid,
+                      box: type,
+                      text: kwin.query('[name=newtext]')[0].getValue(),
+                      user: kwin.query('[name=user]')[0].getValue()
                     },
-                    success: function(response) {
+                    method: 'post',
+                    success: function (response) {
+                      loadComments(); // Znovu načteme komentáře po přidání nového komentáře
+                      Ext.getCmp(box).query('[name=lastcomment]')[0].update(kwin.query('[name=newtext]')[0].getValue());  // aktualizace komentaru na strance?
+                      Ext.getCmp(box).query('[name=lastcomment]')[0].show(); 
+                      kwin.query('[name=newtext]')[0].setValue('');
                     }
                   });
                 }
-              }
-            },{
-              xtype:'button',
-              text: locale[lang].delete,
-              cidParam: cid,
-              handler: function(btn) {
-                Ext.Ajax.request({
-                  url: '/'+dictcode+'/del_comment/'+btn.cidParam,
-                  method: 'get',
-                  success: function(response) {
-                    var lasttext = '';
-                    if (btn.up().up().query("[name=commenthtml]")[1] != undefined) {
-                      lasttext = btn.up().up().up().query("[name=commenthtml]")[1].getEl().dom.innerHTML;
-                    }
-                    Ext.getCmp(box).query('[name=lastcomment]')[0].update(lasttext);
-                    btn.up().up().up().remove(btn.up().up().id);
-                  }
-                });
-              }
-            }]
-          }]
-        });
-        kwin.add(nrow);
-      }  
-      kwin.show();
-      kwin.alignTo(box, "tr-tr")
-    }
+              },
+              {
+                xtype: 'combo', name: 'user', queryMode: 'local', emptyText: locale[lang].commentassign, cls: 'transparent',
+                store: new Ext.data.ArrayStore(
+                  { fields: ['value'], data: entrydata['user_list'] }
+                ),
+                displayField: 'value', valueField: 'value', width: 100
+              },             
+            ]
+          }
+        ]
+      }      
+    ]
   });
+
+  loadComments(); // Poprvé načteme komentáře při otevření okna
+  kwin.show();
+  kwin.alignTo(box, "tr-tr");
   return kwin;
 }
 
-
+// náhled videa ve vyskakovacím okně
 function add_video_fancybox() {
-  $('.videofancybox').each(function() {
+  $('.videofancybox').each(function () {
     if ($(this).find('source')[0] != undefined) {
-      var vid = $(this).find('source').attr('src');
-      console.log(vid)
-      $(this).on("click",function(e) {
-      console.log(e)
+      var vid = $(this).find('source[type="video/mp4"]').attr('src');
+      $(this).on("click", function (e) {
+        console.log(e)
         e.target.pause();
-        var container = $('<div data-ratio="0.8" style="width:335px;"><video preload="none" controls="" width="285px" height="228px" poster="'+vid+'/thumb.jpg" autoplay=""><source type="video/webm" src="'+vid+'.webm"/><source type="video/mp4" src="'+vid+'"/></video></div>');
+        var container = $('<div data-ratio="0.8" style="width:450px;"><video preload="none" controls="" width="450px" height="337px" poster="' + vid + '/thumb.jpg" autoplay=""><source type="video/mp4" src="' + vid + '"/></source></video></div>');
         $.fancybox.open({
           src: container,
           type: 'html',
@@ -1150,6 +1156,8 @@ function new_entry() {
 }
 
 function load_doc(id, history, historytype) {
+  const footerCopy = document.querySelector('.footer__copy');
+  if (footerCopy) { footerCopy.innerHTML += ` (eDictWRITE v ${version})`; }
   var loadMask = new Ext.LoadMask(Ext.getBody(), {msg:" "});
   console.log('load start ' + new Date().getTime())
   Ext.suspendLayouts();
@@ -1192,7 +1200,13 @@ function load_doc(id, history, historytype) {
 
         /* puvodni heslo v ssc */
         if (data['html'] != null) {
-          Ext.getCmp('tabForm').query('[name=ssc_html]')[0].update(data['html']);
+          Ext.getCmp('tabForm').query('[name=ssc_html]')[0].update(data['html']);          
+        }
+        else {
+          var sscFieldset = Ext.getCmp('tabForm').query('[name=ssc]')[0]; // Najde `fieldset` s `name: 'ssc'`
+          if (sscFieldset) {
+              sscFieldset.ownerCt.remove(sscFieldset, true); // Odstraní `fieldset` `ssc` z rodičovského kontejneru
+          }
         }
 
         /* gramatika */
@@ -1438,7 +1452,10 @@ function load_doc(id, history, historytype) {
         console.log('load end ' + new Date().getTime())
         update_stav();
         Ext.resumeLayouts(true);
-        Ext.ComponentQuery.query('[name=ssc_html]')[0].up().setHeight(Ext.ComponentQuery.query('[name=ssc_html]')[0].getHeight());
+        if (data['html'] != null) 
+          { Ext.ComponentQuery.query('[name=ssc_html]')[0].up().setHeight(Ext.ComponentQuery.query('[name=ssc_html]')[0].getHeight());
+            Ext.getCmp('tabForm').query('[name=ssc]')[0].collapse();
+          }
         check_perm(Ext.getCmp('tabForm').query('[name=pracskupina]')[0].getValue(), Ext.getCmp('tabForm').query('[name=userskupina]')[0].getValue(), Ext.getCmp('tabForm').query('[name=userperm]')[0].getValue());
         loadMask.hide();
         console.log('after mask ' + new Date().getTime());
@@ -1508,7 +1525,7 @@ function log_changes(element) {
       change = 'pridat '+elparent.title;
       if (element.name == 'relsadd') {
         change = 'pridat vztah ';
-        change += 'vyznam ' + elparent.query('component[name="meaning_id"]')[0].getValue();
+        change += 'vyznam ' + elparent.up('fieldset').query('component[name="meaning_id"]')[0].getValue();
       }
       if (elparent.id == 'vyznamy_box') {
         change = 'pridat vyznam ';
@@ -1557,13 +1574,16 @@ function log_changes(element) {
 function entry_update_show(updated) {
   if (updated) {
     document.title = dictcode.toUpperCase()+' ' + entryid + ' *';
-    Ext.getCmp('tabForm').setTitle(dictcode.toUpperCase()+'-' + entryid);
+    Ext.getCmp('tabForm').setTitle(dictcode.toUpperCase()+'-' + entryid);    
+    Ext.getCmp('btnSV1').removeCls('hidden');
+    Ext.getCmp('btnSV1').addCls('unhidden');
     Ext.getCmp('tabForm').query('component[name=modifiedlabel]')[0].setText(' * '+locale[lang].modified);
-
   } else {
     document.title = dictcode.toUpperCase()+' ' + entryid;
     Ext.getCmp('tabForm').setTitle(dictcode.toUpperCase()+'-' + entryid);
     Ext.getCmp('tabForm').query('component[name=modifiedlabel]')[0].setText('');
+    Ext.getCmp('btnSV1').removeCls('unhidden');
+    Ext.getCmp('btnSV1').addCls('hidden');
   }
 }
 
@@ -1874,6 +1894,8 @@ function change_stav(stavcont, novystav) {
     stavcont.query('[name=stav]')[0].setValue('published');
     stavcont.query('[name=stavdisp]')[0].setValue(locale[lang].published);
     stavcont.query('[name=stavbutton]')[0].setText(locale[lang].hide);
+    stavcont.query('[name=stavdisp]')[0].removeCls('stav-display-hidden'); // Nastavení třídy
+    stavcont.query('[name=stavdisp]')[0].addCls('stav-display-published'); // Nastavení třídy
   } else {
     stavcont.query('[name=stav]')[0].setValue('hidden');
     stavcont.query('[name=stavdisp]')[0].setValue(locale[lang].hidden);
@@ -1881,46 +1903,36 @@ function change_stav(stavcont, novystav) {
   }
 }
 
+// stav skryto schvaleno
 function create_stav() {
   var stav = Ext.create('Ext.container.Container', {
-    layout: {
-      type: 'hbox'
-    },
+    layout: { type: 'hbox' },
     name: 'stavcont',
-    items: [{
-      xtype: 'textfield',
-      disabled: true,
-      name: 'stav',
-      value: 'hidden',
-      hidden: true
-    },{
-      xtype: 'displayfield',
-      value: locale[lang].hidden,
-      name: 'stavdisp',
-      cls: 'stav-display',
-      width: 80
-    },{
-      xtype: 'button',
-      name: 'stavbutton',
-      text: locale[lang].publish,
-      width: 90,
-      handler: function() {
-        Ext.suspendLayouts();
-        var par = this.up('[name=stavcont]');
-        if (par.query('[name=stav]')[0].getValue() == 'published') {
-          par.query('[name=stav]')[0].setValue('hidden');
-          par.query('[name=stavdisp]')[0].setValue(locale[lang].hidden);
-          par.query('[name=stavbutton]')[0].setText(locale[lang].publish);
-        } else {
-          par.query('[name=stav]')[0].setValue('published');
-          par.query('[name=stavdisp]')[0].setValue(locale[lang].published);
-          par.query('[name=stavbutton]')[0].setText(locale[lang].hide);
+    items: [
+      { xtype: 'textfield', disabled: true, name: 'stav', value: 'hidden', hidden: true }, 
+      { xtype: 'displayfield', value: locale[lang].hidden, name: 'stavdisp', cls: 'stav-display-hidden', width: 60 }, 
+      { xtype: 'button', name: 'stavbutton', text: locale[lang].publish, width: 100,
+        handler: function () {
+          Ext.suspendLayouts();
+          var par = this.up('[name=stavcont]');
+          if (par.query('[name=stav]')[0].getValue() == 'published') {
+            par.query('[name=stav]')[0].setValue('hidden');
+            par.query('[name=stavdisp]')[0].setValue(locale[lang].hidden);
+            par.query('[name=stavdisp]')[0].removeCls('stav-display-published'); // Nastavení třídy
+            par.query('[name=stavdisp]')[0].addCls('stav-display-hidden'); // Nastavení třídy
+            par.query('[name=stavbutton]')[0].setText(locale[lang].publish);
+          } else {
+            par.query('[name=stav]')[0].setValue('published');
+            par.query('[name=stavdisp]')[0].setValue(locale[lang].published);
+            par.query('[name=stavdisp]')[0].removeCls('stav-display-hidden'); // Nastavení třídy
+            par.query('[name=stavdisp]')[0].addCls('stav-display-published'); // Nastavení třídy
+            par.query('[name=stavbutton]')[0].setText(locale[lang].hide);
+          }
+          Ext.resumeLayouts(true);
         }
-        Ext.resumeLayouts(true);
       }
-    }]
+    ]
   });
-  stav.query('[name=stav]')[0].setValue('hidden');
   return stav;
 }
 
@@ -1961,8 +1973,8 @@ function create_copyright(idstart, hidden) {
   }
   var copy = Ext.create('Ext.container.Container', {
     id: idstart+'_copybox',
-    style: {backgroundColor: bgAuth},
     name: 'copybox',
+    cls: 'auth',
     hidden: hidden,
     layout: {
       type: 'hbox'
@@ -1975,6 +1987,7 @@ function create_copyright(idstart, hidden) {
       items: [{
         fieldLabel: locale[lang].author,
         xtype: 'textfield',
+        cls: 'auth',
         id: idstart+'_autor',
         name: 'copy_autor'
       },create_src_list(idstart+'_autor')]
@@ -2019,7 +2032,7 @@ function create_copyrightM(idstart, hidden) {
   var copy = Ext.create('Ext.container.Container', {
     id: idstart+'_copybox',
     name: 'copybox',
-    style: {backgroundColor: bgAuth},
+    cls: 'auth',
     hidden: hidden,
     layout: {
       type: 'hbox'
@@ -2067,8 +2080,8 @@ function create_gram(entryid) {
       type: 'hbox'
     },
     frame: true,
-    cls: 'gramframe',
     id: name,
+    cls: 'gramframe',
     name: 'gramitem',
     items: [{
         xtype: 'combobox',
@@ -2207,45 +2220,34 @@ function update_deklin(type) {
   Ext.resumeLayouts(true);
 }
 
+// varianty
 function create_variant(entryid) {
   var name = 'var_'+Ext.id();
   var text = Ext.create('Ext.container.Container', {
-        layout: {
-          type: 'hbox'
-        },
+        layout: { type: 'hbox' },
         id: name,
         name: 'variantitem',
-        items: [{
-          xtype: 'combobox',
-          name: 'varlink',
-          store: linklist,
-          displayField: 'title',
-          valueField: 'id',
-          editable: true,
-          queryMode: 'local',
-          width: 220,
-          listeners:{
-            'select': function(combo, record, index) {
-              if (combo.getValue() != '') {
-                console.log(combo.getValue())
-                combo.setRawValue(combo.getValue())
-              }
-            },
-            specialkey: function(field, e) {
-              if (e.getKey() == e.ENTER) {
-                reload_link(field.getValue(), field);
-              }
-            }
+        items: [
+          { xtype: 'combobox', name: 'varlink', store: linklist, displayField: 'title', valueField: 'id', editable: true, queryMode: 'local', width: 160, emptyText: locale[lang].searchrel,
+            listeners:
+              { 'select': function(combo, record, index) 
+                { if (combo.getValue() != '') 
+                  { console.log(combo.getValue())
+                    combo.setRawValue(combo.getValue())
+                  }
+                },
+                specialkey: function(field, e) 
+                  { if (e.getKey() == e.ENTER) 
+                    { reload_link(field.getValue(), field); }
+                  }
+              },
           },
-        },{
-          xtype: 'button',
-          icon: '/editor/delete.png',
-          cls: 'del',
-          handler: function() {
-            Ext.getCmp(name).destroy();
+          { xtype: 'button', icon: '/editor/delete.png', cls: 'del',
+            handler: function() 
+              { Ext.getCmp(name).destroy(); }
           }
-        }]
-  });
+        ]
+    });
   return text;
 }
 
@@ -2426,176 +2428,138 @@ function load_link_relations(target, combo, name, parentid, set_rel) {
   });
 }
 
-function create_vyznam_links(parentid) {
-  var name = 'rellink'+Ext.id();
-
+// překlady vazby
+function create_vyznam_links(parentid) {  
+  var name = 'rellink' + Ext.id();
   var transset = Ext.create('Ext.container.Container', {
     border: false,
     id: name,
     cls: 'rellinkset',
     name: 'rellinkset',
-    layout: {
-      type: 'vbox',
-      align: 'right'
-    },
-    items: [{
-      xtype: 'container',
-      layout: {
-        type: 'hbox'
-      },
-      items: [{
-        xtype: 'combobox',
-        name: 'type',
-        queryMode: 'local',
-        displayField: 'text',
-        valueField: 'value',
-        store: typeStore,
-        forceSelection: true,
-        autoSelect: true,
-        editable: false,
-        allowBlank: true,
-        width: 120,
-      },{
-        xtype: 'panel',
-        name: 'vztahtitle',
-        cls: 'vztah-title',
-        html: '',
-        width: 130,
-        autoHeight: true
-      },{
-        xtype: 'combobox',
-        name: 'rellink',
-        store: relationlist,
-        displayField: 'title',
-        valueField: 'id',
-        editable: true,
-        queryMode: 'local',
-        width: 210,
-        opened: false,
-        listeners:{
-          'blur': function(combo) {
-            if (Ext.getCmp(name).query('component[name="type"]')[0].getValue() != null && combo.getValue() != null) {
-              if ((!(Ext.getCmp(name).query('component[name="type"]')[0].getValue().startsWith('translation_'))) && combo.getValue().startsWith(entryid+'-')) {
-                Ext.Msg.alert('',locale[lang]['warn_same_entry']);
+    layout: { type: 'vbox', align: 'left', },
+    items: [
+      { xtype: 'container',
+        layout: { type: 'hbox' },
+        items: [
+          { xtype: 'combobox', name: 'type', queryMode: 'local', displayField: 'text', valueField: 'value', store: typeStore, forceSelection: true, autoSelect: true, editable: false, allowBlank: true, width: 110, cls: 'transparent',
+            listConfig: 
+              { getInnerTpl: function () 
+                { return '<div class="{value}">{text}</div>'; }
               }
-              var rellink = combo.getValue();
-              if (rellink.match(/^[0-9]*-[0-9]*/) == null) {
-                var prevbox = Ext.getCmp(combo.id).up().query('component[name="vztahtitle"]')[0];
-                prevbox.update(rellink);
-                document.getElementById(prevbox.id+"-innerCt").classList.add('redtext');
-              } else {
-                Ext.getCmp(name).query('component[name="row2"]')[0].hide();
-              }
-            }
-          },
-          'select': function(combo, record, index) {
-            if (combo.getValue() != '') {
-              console.log(combo.getValue())
-              combo.setRawValue(combo.getValue())
-              var type = Ext.getCmp(name).query('component[name="type"]')[0].getValue();
-              var target = dictcode;
-              if (type.startsWith('translation_')) {
-                var tar = type.split('_');
-                target = tar[1];
-              }
-              //ajax load preview
-              Ext.Ajax.request({
-                url: '/'+target+'/relationinfo',
-                params: {
-                  meaning_id: combo.getValue()
+          }, 
+          { xtype: 'panel', name: 'vztahtitle', cls: 'vztah-title', html: '', width: 130, height: 22, color: 'red' }, 
+          { xtype: 'combobox', name: 'rellink', store: relationlist, displayField: 'title', valueField: 'id', editable: true, cls: 'transparent', emptyText: locale[lang].search_entry, queryMode: 'local', width: 200, opened: false,
+            listeners: 
+              { 'blur': function (combo) 
+                { if ((!(Ext.getCmp(name).query('component[name="type"]')[0].getValue().startsWith('translation_'))) && combo.getValue().startsWith(entryid + '-')) 
+                  { Ext.Msg.alert('', locale[lang]['warn_same_entry']); }
+                  var rellink = combo.getValue();
+                  if (rellink.match(/^[0-9]*-[0-9]*/) == null) 
+                    { var prevbox = Ext.getCmp(combo.id).up().query('component[name="vztahtitle"]')[0];
+                      prevbox.update(rellink);
+                      document.getElementById(prevbox.id + "-innerCt").classList.add('redtext');
+                    } 
+                  else 
+                    { Ext.getCmp(name).query('component[name="row2"]')[0].hide(); }
                 },
-                method: 'get',
-                success: function(response) {
-                  var rinfo = response.responseText;
-                  var prevbox = Ext.getCmp(combo.id).up().query('component[name="vztahtitle"]')[0];
-                  if (rinfo.charAt(0) == 'T') {
-                    var rtitle = rinfo.substring(2);
-                    prevbox.update(rtitle);
+                'select': function (combo, record, index) 
+                  { console.log('select')
+                    console.log(parentid)
+                    if (combo.getValue() != '') 
+                      { console.log(combo.getValue());
+                        combo.setRawValue(combo.getValue());
+                        var type = Ext.getCmp(name).query('component[name="type"]')[0].getValue();
+                        var target = dictcode;
+                        if (type.startsWith('translation_')) 
+                          { var tar = type.split('_'); 
+                            target = tar[1];
+                          }
+                        //ajax load preview
+                        Ext.Ajax.request(
+                          { url: '/' + target + '/relationinfo',
+                            params: { meaning_id: combo.getValue() },
+                            method: 'get',
+                            success: function (response) 
+                              { var rinfo = response.responseText;
+                                var prevbox = Ext.getCmp(combo.id).up().query('component[name="vztahtitle"]')[0];
+                                if (rinfo.charAt(0) == 'T') 
+                                  { var rtitle = rinfo.substring(2);
+                                    prevbox.update(rtitle);
+                                  }
+                                if (rinfo.charAt(0) == 'V') 
+                                  { var videoloc = rinfo.substring(2);
+                                    prevbox.update('<div class="videofancybox" data-ratio="0.8" class="usage" style="width:120px; cursor: zoom-in;"><video width="80px" poster="https://www.dictio.info/thumb/video' + target + '/' + videoloc + '" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video' + target + '/' + videoloc + '"></source></video></div>')
+                                    prevbox.setHeight(60);
+                                  }
+                                document.getElementById(prevbox.id + "-innerCt").classList.add('text-' + target)
+                                document.getElementById(prevbox.id + "-innerCt").classList.remove('redtext')
+                              } 
+                          }
+                        );
+                        //ajax load linked relations
+                        window.setTimeout(function () 
+                          { console.log('refresh timeout');
+                            Ext.Array.each(Ext.getCmp('tabForm').query('[name=relsadd]'), function (item) { item.show() });
+                            Ext.Array.each(Ext.getCmp('tabForm').query('[name=relswait]'), function (item) { item.hide() });
+                          }, 60 * 1000);
+                        Ext.Array.each(Ext.getCmp('tabForm').query('[name=relsadd]'), function (item) { item.hide() });
+                        Ext.Array.each(Ext.getCmp('tabForm').query('[name=relswait]'), function (item) { item.show() });
+                        var set_rel = Ext.getCmp('tabForm').query('[name=usersetrel]')[0].getValue()
+                        load_link_relations(target, combo, name, parentid, set_rel);
+                      }
+                  },
+                'focus': function (field, e) { console.log('focus') },
+                'expand': function (field, e) 
+                  { console.log('expand')
+                    //if (/^[0-9]+-[0-9]+$/.test(field.getValue()) == false && this.opened == false) {
+                    if (Ext.getCmp(name).query('component[name="type"]')[0].getValue().startsWith('translation_')) 
+                      { var reltar = Ext.getCmp(name).query('component[name="type"]')[0].getValue().split('_')[1];
+                        reload_rel(field.getValue(), field, reltar);
+                      } 
+                    else 
+                      { reload_rel(field.getValue(), field, dictcode); }
+                  },
+                specialkey: function (field, e) 
+                  { if (e.getKey() == e.ENTER) 
+                    { // zpozdeni, protoze chvili trva, nez existuje layout pro seznam
+                      setTimeout(function () 
+                        { if (Ext.getCmp(name).query('component[name="type"]')[0].getValue().startsWith('translation_')) 
+                            { var reltar = Ext.getCmp(name).query('component[name="type"]')[0].getValue().split('_')[1];
+                              reload_rel(field.getValue(), field, reltar);
+                            } 
+                          else { reload_rel(field.getValue(), field, dictcode); }
+                        }, 100
+                      );
+                    }
                   }
-                  if (rinfo.charAt(0) == 'V') {
-                    var videoloc = rinfo.substring(2);
-                    prevbox.update('<div class="videofancybox" data-ratio="0.8" class="usage" style="width:120px; cursor: zoom-in;"><video width="80px" poster="https://www.dictio.info/thumb/video'+target+'/'+videoloc+'" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video'+target+'/'+videoloc+'"></source></video></div>')
-                    prevbox.setHeight(60);
-                  }
-                  document.getElementById(prevbox.id+"-innerCt").classList.add('text-'+target)
-                  document.getElementById(prevbox.id+"-innerCt").classList.remove('redtext')
+              },
+              tpl: new Ext.XTemplate( '<tpl for="."><div class="x-boundlist-item"><b>{title}: {number}:</b> <i>{def}</i><tpl if="front!=&quot;&quot;"><div cursor: hand;"><video width="80px" poster="https://www.dictio.info/thumb/video{target}/{front}" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video{target}/{front}"></video>{front}</div></tpl> <tpl if="loc!=&quot;&quot;"><div cursor: hand;"><video width="120px" poster="https://www.dictio.info/thumb/video{target}/{loc}" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video{target}/{loc}"></source></video>{loc}</div></tpl></div></tpl>' ),
+            }, 
+            create_stav(),
+            { xtype: 'button', icon: '/editor/delete.png', cls: 'del', 
+              handler: function () { Ext.getCmp(name).destroy(); } 
+            }
+        ]
+      },  
+      { xtype: 'container',
+        name: 'row2',
+        layout: { type: 'hbox' },
+        items: [
+          { xtype: 'textfield', name: 'notransuser', hidden: true }, 
+          { xtype: 'checkbox', boxLabel: locale[lang].notrans, width: 200, name: 'notrans', 
+            listeners: 
+              { change: function () 
+                { var ntuser = this.ownerCt.query('[name=notransuser]')[0];
+                  if (this.checked) 
+                    { if (ntuser.value == '' || ntuser.value == undefined) 
+                      { ntuser.value = entrydata.user_info.login + ' ' + Ext.Date.format(new Date(), 'Y-m-d H:i:s'); }
+                    } else { ntuser.value = ''; }
                 }
-              });
-              //ajax load linked relations
-              Ext.Array.each(Ext.getCmp('tabForm').query('[name=relsadd]'), function(item) {item.hide()});
-              Ext.Array.each(Ext.getCmp('tabForm').query('[name=relswait]'), function(item) {item.show()});
-              var set_rel = Ext.getCmp('tabForm').query('[name=usersetrel]')[0].getValue();
-              load_link_relations(target, combo, name, parentid, set_rel);
-            }
-          },
-          'expand': function(field, e) {
-            if (Ext.getCmp(name).query('component[name="type"]')[0].getValue().startsWith('translation_')) {
-              var reltar = Ext.getCmp(name).query('component[name="type"]')[0].getValue().split('_')[1];
-              reload_rel(field.getValue(), field, reltar);
-            } else {
-              reload_rel(field.getValue(), field, dictcode);
-            }
-          },
-          specialkey: function(field, e) {
-            if (e.getKey() == e.ENTER) {
-              if (Ext.getCmp(name).query('component[name="type"]')[0].getValue().startsWith('translation_')) {
-                var reltar = Ext.getCmp(name).query('component[name="type"]')[0].getValue().split('_')[1];
-                reload_rel(field.getValue(), field, reltar);
-              } else {
-                reload_rel(field.getValue(), field, dictcode);
               }
-            }
           }
-        },
-        /*listConfig: {
-        getInnerTpl: function() {
-          return '<div><b>{title}: {number}:</b> <i>{def}</i></div>';
-        }
-      }*/
-        tpl: new Ext.XTemplate(
-          '<tpl for="."><div class="x-boundlist-item"><b>{title}: {number}:</b> <i>{def}</i><tpl if="front!=&quot;&quot;"><div cursor: hand;"><video width="80px" poster="https://www.dictio.info/thumb/video{target}/{front}" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video{target}/{front}"></video>{front}</div></tpl> <tpl if="loc!=&quot;&quot;"><div cursor: hand;"><video width="120px" poster="https://www.dictio.info/thumb/video{target}/{loc}" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video{target}/{loc}"></source></video>{loc}</div></tpl></div></tpl>'
-        ),
-      },create_stav(),
-        {
-          xtype: 'button',
-          icon: '/editor/delete.png',
-          cls: 'del',
-          handler: function() {
-            Ext.getCmp(name).destroy();
-          }
-        }
-      ]
-    },{
-      xtype: 'container',
-      name: 'row2',
-      layout: {
-        type: 'hbox',
-        pack: 'end',
-        align: 'right',
-      },
-      items: [
-        {
-          xtype: 'textfield',
-          name: 'notransuser',
-          hidden: true
-        },{
-          xtype: 'checkbox',
-          boxLabel: locale[lang].notrans,
-          name: 'notrans',
-          listeners: {
-            change: function() {
-              var ntuser = this.ownerCt.query('[name=notransuser]')[0];
-              if (this.checked) {
-                if (ntuser.value == '' || ntuser.value == undefined) {
-                  ntuser.value = entrydata.user_info.login+' '+Ext.Date.format(new Date(), 'Y-m-d H:i:s');
-                }
-              } else {
-                ntuser.value = '';
-              }
-            }
-          }
-        }]
-    }]
+        ]
+      }
+    ]
   });
 
   return transset;
@@ -2609,72 +2573,42 @@ function create_priklad_links(parentid) {
     id: name,
     cls: 'rellinkset',
     name: 'exrellinkset',
-    layout: {
-      type: 'hbox'
-    },
-    items: [{
-      xtype: 'combobox',
-      name: 'type',
-      queryMode: 'local',
-      displayField: 'text',
-      valueField: 'value',
-      store: extypeStore,
-      forceSelection: true,
-      autoSelect: true,
-      editable: false,
-      allowBlank: true
-    /*},{
-      xtype: 'textfield',
-      name: 'rellink',
-      width: 80,*/
-    },{
-      xtype: 'combobox',
-      name: 'rellink',
-      store: relationlist,
-      displayField: 'title',
-      valueField: 'id',
-      editable: true,
-      queryMode: 'local',
-      width: 220,
-      listeners:{
-        'blur': function(combo) {
-          if ((!(Ext.getCmp(name).query('component[name="type"]')[0].getValue().startsWith('translation_'))) && combo.getValue().startsWith(entryid+'-')) {
-            Ext.Msg.alert('',locale[lang]['warn_same_entry']);
-          }
-        },
-        'select': function(combo, record, index) {
-          if (combo.getValue() != '') {
-            console.log(combo.getValue())
-            combo.setRawValue(combo.getValue())
-          }
-        },
-        specialkey: function(field, e) {
-          if (e.getKey() == e.ENTER) {
-            if (Ext.getCmp(name).query('component[name="type"]')[0].getValue().startsWith('translation_')) {
-              var reltar = Ext.getCmp(name).query('component[name="type"]')[0].getValue().split('_')[1];
-              reload_rel(field.getValue(), field, reltar);
-            } else {
-              reload_rel(field.getValue(), field, dictcode);
+    layout: { type: 'hbox'},
+    items: [
+      { xtype: 'combobox', name: 'type', queryMode: 'local', displayField: 'text', valueField: 'value', store: extypeStore, forceSelection: true, autoSelect: true, editable: false, width: 110, allowBlank: true }, 
+      { xtype: 'combobox', name: 'rellink', store: relationlist, displayField: 'title', valueField: 'id', editable: true, queryMode: 'local', width: 220,
+        listeners:{
+          'blur': function(combo) {
+            if ((!(Ext.getCmp(name).query('component[name="type"]')[0].getValue().startsWith('translation_'))) && combo.getValue().startsWith(entryid+'-')) {
+              Ext.Msg.alert('',locale[lang]['warn_same_entry']);
+            }
+          },
+          'select': function(combo, record, index) {
+            if (combo.getValue() != '') {
+              console.log(combo.getValue())
+              combo.setRawValue(combo.getValue())
+            }
+          },
+          specialkey: function(field, e) {
+            if (e.getKey() == e.ENTER) {
+              if (Ext.getCmp(name).query('component[name="type"]')[0].getValue().startsWith('translation_')) {
+                var reltar = Ext.getCmp(name).query('component[name="type"]')[0].getValue().split('_')[1];
+                reload_rel(field.getValue(), field, reltar);
+              } else {
+                reload_rel(field.getValue(), field, dictcode);
+              }
             }
           }
+        },
+        tpl: Ext.create('Ext.XTemplate','<tpl for="."><div class="x-boundlist-item"><b>{title}: {number}:</b> <i>{def}</i><tpl if="loc!=\'\'"><br/><img src="https://www.dictio.info/thumb/video{target}/{loc}" width="120" height="96"/></tpl></div></tpl>'),
+        },
+        { xtype: 'button', icon: '/editor/delete.png', cls: 'del',
+          handler: function() {
+            Ext.getCmp(name).destroy();
+          }
         }
-      },
-      /*listConfig: {
-        getInnerTpl: function() {
-          return '<div><b>{title}: {number}:</b> <i>{def}</i></div>';
-        }
-      }*/
-      tpl: Ext.create('Ext.XTemplate','<tpl for="."><div class="x-boundlist-item"><b>{title}: {number}:</b> <i>{def}</i><tpl if="loc!=\'\'"><br/><img src="https://www.dictio.info/thumb/video{target}/{loc}" width="120" height="96"/></tpl></div></tpl>'),
-    },{
-      xtype: 'button',
-      icon: '/editor/delete.png',
-      cls: 'del',
-      handler: function() {
-        Ext.getCmp(name).destroy();
-      }
-    }]
+      ]
   });
-
   return transset;
 }
 
@@ -2691,6 +2625,7 @@ function checkxmltext(text, type) {
 
 }
 
+// příklady
 function create_priklad(parentid, entryid, add_copy, meaning_id, saved_usage_id) {
   if (ar_priklady[meaning_id] == undefined) {
     ar_priklady[meaning_id] = 0;
@@ -2703,292 +2638,235 @@ function create_priklad(parentid, entryid, add_copy, meaning_id, saved_usage_id)
   }
   var name = 'prikladuziti_'+Ext.id();
   var priklad = Ext.create('Ext.form.FieldSet', {
-    fieldDefaults: {
-      labelAlign: 'right'
-    },
+    fieldDefaults: { labelAlign: 'right' },
     frame: true,
     id: name,
     name: 'usageset',
-    layout: {
-      type: 'hbox'
-    },
+    layout: { type: 'hbox' },
     items: [{
       xtype: 'container',
-      layout: {
-        type: 'vbox'
-      },
-      items: [{
-        xtype: 'container',
-        layout: {
-          type: 'hbox'
-        },
-        items: [{
-          xtype: 'textfield',
-          disabled: true,
-          name: 'usage_id',
-          labelWidth: 20, 
-          fieldLabel: 'ID',
-          value: usage_id
-        }, {
-          xtype: 'button',
-          text: locale[lang].corpus,
-          handler: function() {
-            var korwin = Ext.create('Ext.window.Window', {
-              title: 'Korpus',
-              autoScroll: true,
-              closable: true,
-              width: 1200,
-              height: 800,
-              items: [{
-                xtype: 'container',
-                layout: {
-                  type: 'hbox'
-                },
-                items: [{
-                  xtype: 'button',
-                  text: locale[lang].corpusdetail,
-                  handler: function () {
-                    let lemma = Ext.getCmp('tabForm').query('[name=lemma]')[0].getValue();
-                    let url = 'https://app.sketchengine.eu/#concordance?corpname=preloaded%2Fcstenten19_mj2&tab=basic&keyword='+encodeURI(lemma)+'&viewmode=sen&gdex_enabled=1&gdexcnt=50&structs=s%2Cg&refs=%3Ddoc.url&showresults=1&gdexconf=__default__';
-                    koncwindow = window.open(url);
-                    korwin.close();
-                  }
-                }, {
-                  xtype: 'button',
-                  text: locale[lang].close,
-                  handler: function () {
-                    korwin.close();
-                  }
-                }, {
-                  xtype: 'textfield',
-                  name: 'lemma',
-                }, {
-                  xtype: 'button',
-                  name: 'searchbutton',
-                  text: locale[lang].search,
-                  handler: function () {
-                    console.log('search')
-                    let lemma = korwin.query('[name=lemma]')[0].getValue();
-                    console.log(lemma)
-                    Ext.Ajax.request({
-                      url: '/korpus',
-                      method: 'get',
-                      params: {
-                        lemma: encodeURI(lemma)
+      layout: { type: 'vbox' },
+      items: [
+        { xtype: 'container',
+          layout: { type: 'hbox' },
+          items: [
+            { xtype: 'textfield', disabled: true, name: 'usage_id', labelWidth: 20, fieldLabel: 'ID', value: usage_id }, 
+            { xtype: 'button',
+              text: locale[lang].corpus,
+              handler: function() {
+                var korwin = Ext.create('Ext.window.Window', {
+                  title: 'Korpus',
+                  autoScroll: true,
+                  closable: true,
+                  width: 1200,
+                  height: 800,
+                  closable: false, // odstraní výchozí tlačítko zavření
+                  tools: [
+                      {
+                        xtype: 'button',
+                        icon: '/editor/delete.png',
+                        cls: 'del',
+                        handler: function () { this.up('window').close(); }
                       },
-                      success: function (response) {
-                        let data = JSON.parse(response.responseText);
+                    ],
+                  items: [{
+                    xtype: 'container',
+                    layout: {
+                      type: 'hbox'
+                    },
+                    items: [{
+                      xtype: 'button',
+                      text: locale[lang].corpusdetail,
+                      handler: function () {
+                        let lemma = Ext.getCmp('tabForm').query('[name=lemma]')[0].getValue();
                         let url = 'https://app.sketchengine.eu/#concordance?corpname=preloaded%2Fcstenten19_mj2&tab=basic&keyword='+encodeURI(lemma)+'&viewmode=sen&gdex_enabled=1&gdexcnt=50&structs=s%2Cg&refs=%3Ddoc.url&showresults=1&gdexconf=__default__';
-                        let korcont = korwin.query('[name=korresults]')[0];
-                        korcont.removeAll();
-                        for (let i = 0; i < data.Lines.length; i++) {
-                          let line = data.Lines[i];
-                          let str = '';
-                          let str_form = '';
-                          for (let j = 0; j < line.Left.length; j++) {
-                            str += line.Left[j].str;
-                            str_form += line.Left[j].str;
-                          }
-                          for (let j = 0; j < line.Kwic.length; j++) {
-                            str_form += '<b>' + line.Kwic[0].str + '</b>';
-                            str += line.Kwic[0].str;
-                          }
-                          for (let j = 0; j < line.Right.length; j++) {
-                            str += line.Right[j].str;
-                            str_form += line.Right[j].str;
-                          }
-                          let docref = '';
-                          if (line.Tbl_refs[0] != undefined) {
-                            docref = line.Tbl_refs[0];
-                          }
-
-                          let newcom = Ext.create('Ext.Component', {
-                            width: 1100,
-                            height: 60,
-                            border: 1,
-                            margin: 5,
-                            style: {
-                              borderColor: 'var(--bila)',
-                              borderStyle: 'solid'
-                            },
-                            html: str_form,
-                            name: 'commenthtml'
-                          });
-                          let nrow = Ext.create('Ext.container.Container', {
-                            layout: {
-                              type: 'hbox'
-                            },
-                            items: [newcom, {
-                              xtype: 'button',
-                              text: locale[lang].corpususe,
-                              datavalue: i,
-                              datastr: str,
-                              datasrc: docref,
-                              handler: function () {
-                                Ext.getCmp(name).query('[name=' + name + '_text]')[0].setValue(this.datastr);
-                                Ext.getCmp(name).query('[name=copy_admin]')[0].setValue(url);
-                                Ext.getCmp(name).query('[name=copy_zdroj]')[0].setValue(this.datasrc);
-                                korwin.close();
-                              }
-                            }]
-                          });
-                          korcont.add(nrow)
-                        }
+                        koncwindow = window.open(url);
+                        korwin.close();
                       }
-                    });
-                  }
-                }]
-              },{
-                xtype: 'container',
-                layout: {
-                  type: 'vbox'
-                },
-                name: 'korresults'
-              }]
-            }).show();
-            korwin.query('[name=lemma]')[0].setValue(Ext.getCmp('tabForm').query('[name=lemma]')[0].getValue());
-            korwin.query('[name=searchbutton]')[0].el.dom.click();
-          }
-        },{
-          xtype: 'button',
-          text: locale[lang].corpusweb,
-          handler: function() {
-            var lemma = Ext.getCmp('tabForm').query('[name=lemma]')[0].getValue();
-            var url = 'https://app.sketchengine.eu/#concordance?corpname=preloaded%2Fcstenten19_mj2&tab=basic&keyword='+encodeURI(lemma)+'&viewmode=sen&gdex_enabled=1&gdexcnt=50&structs=s%2Cg&refs=%3Ddoc.url&showresults=1&gdexconf=__default__';
-            koncwindow = window.open(url);
-          }
-        },{
-              xtype: 'container',              
+                    }, 
+                    { xtype: 'textfield', name: 'lemma' }, 
+                    { xtype: 'button',
+                      name: 'searchbutton',
+                      text: locale[lang].search,
+                      handler: function () {
+                        console.log('search')
+                        let lemma = korwin.query('[name=lemma]')[0].getValue();
+                        console.log(lemma)
+                        Ext.Ajax.request({
+                          url: '/korpus',
+                          method: 'get',
+                          params: {
+                            lemma: encodeURI(lemma)
+                          },
+                          success: function (response) {
+                            let data = JSON.parse(response.responseText);
+                            let url = 'https://app.sketchengine.eu/#concordance?corpname=preloaded%2Fcstenten19_mj2&tab=basic&keyword='+encodeURI(lemma)+'&viewmode=sen&gdex_enabled=1&gdexcnt=50&structs=s%2Cg&refs=%3Ddoc.url&showresults=1&gdexconf=__default__';
+                            let korcont = korwin.query('[name=korresults]')[0];
+                            korcont.removeAll();
+                            for (let i = 0; i < data.Lines.length; i++) {
+                              let line = data.Lines[i];
+                              let str = '';
+                              let str_form = '';
+                              for (let j = 0; j < line.Left.length; j++) {
+                                str += line.Left[j].str;
+                                str_form += line.Left[j].str;
+                              }
+                              for (let j = 0; j < line.Kwic.length; j++) {
+                                str_form += '<b>' + line.Kwic[0].str + '</b>';
+                                str += line.Kwic[0].str;
+                              }
+                              for (let j = 0; j < line.Right.length; j++) {
+                                str += line.Right[j].str;
+                                str_form += line.Right[j].str;
+                              }
+                              let docref = '';
+                              if (line.Tbl_refs[0] != undefined) {
+                                docref = line.Tbl_refs[0];
+                              }
+  
+                              let newcom = Ext.create('Ext.Component', {
+                                width: 1100,
+                                height: 60,
+                                border: 1,
+                                margin: 5,
+                                style: {
+                                  borderColor: 'var(--bila)',
+                                  borderStyle: 'solid'
+                                },
+                                html: str_form,
+                                name: 'commenthtml'
+                              });
+                              let nrow = Ext.create('Ext.container.Container', {
+                                layout: {
+                                  type: 'hbox'
+                                },
+                                items: [newcom, {
+                                  xtype: 'button',
+                                  text: locale[lang].corpususe,
+                                  datavalue: i,
+                                  datastr: str,
+                                  datasrc: docref,
+                                  handler: function () {
+                                    Ext.getCmp(name).query('[name=' + name + '_text]')[0].setValue(this.datastr);
+                                    Ext.getCmp(name).query('[name=copy_admin]')[0].setValue(url);
+                                    Ext.getCmp(name).query('[name=copy_zdroj]')[0].setValue(this.datasrc);
+                                    korwin.close();
+                                  }
+                                }]
+                              });
+                              korcont.add(nrow)
+                            }
+                          }
+                        });
+                      }
+                    }]
+                  },{
+                    xtype: 'container',
+                    layout: {
+                      type: 'vbox'
+                    },
+                    name: 'korresults'
+                  }]
+                }).show();
+                korwin.query('[name=lemma]')[0].setValue(Ext.getCmp('tabForm').query('[name=lemma]')[0].getValue());
+                korwin.query('[name=searchbutton]')[0].el.dom.click();
+              }
+            },
+            { xtype: 'button',
+              text: locale[lang].corpusweb,
+              handler: function() 
+                { var lemma = Ext.getCmp('tabForm').query('[name=lemma]')[0].getValue();
+                  var url = 'https://app.sketchengine.eu/#concordance?corpname=preloaded%2Fcstenten19_mj2&tab=basic&keyword='+encodeURI(lemma)+'&viewmode=sen&gdex_enabled=1&gdexcnt=50&structs=s%2Cg&refs=%3Ddoc.url&showresults=1&gdexconf=__default__';
+                  koncwindow = window.open(url);
+                }
+            },
+            { xtype: 'container',              
               name: 'prazdny',
               width: 115,
               fieldLabel: '',              
-              },
-                create_comment_button(name, usage_id), create_stav(),{
-      xtype: 'button',
-      icon: '/editor/delete.png',
-      cls: 'del',
-      handler: function() {
-        Ext.getCmp(name).destroy();
-      }
-    }]
-      },{
-        xtype: 'container',
-        layout: {
-          type: 'hbox'
-        },
-        items: [{
-          xtype: 'textarea',
-          id: name+'_text',
-          name: name+'_text',
-          width: 500,
-          listeners: {
-            'blur': function(text, ev, eopts) {
-              checkxmltext(text, 'příklad užití');
+            },
+            create_comment_button(name, usage_id), create_stav(),
+            { xtype: 'button', icon: '/editor/delete.png', cls: 'del',
+              handler: function() 
+              { Ext.getCmp(name).destroy(); }
             }
-          }
-        },{
-          xtype: 'container',
+          ]
+        },
+        { xtype: 'container',
           layout: {
-            type: 'vbox'
+            type: 'hbox'
           },
-          items: [{
-            xtype: 'combobox',
-            name: 'rellink',
-            store: relationlist,
-            displayField: 'title',
-            valueField: 'id',
-            editable: true,
-            emptyText: locale[lang].searchrel,
-            queryMode: 'local',
-            width: 160,
-            listeners:{
-              'select': function(combo, record, index) {
-                if (combo.getValue() != '') {
-                  console.log(combo.getValue())
-                  var textbox = Ext.getCmp(name+'_text');
-                  textbox.setValue(textbox.getValue() + '[' + combo.getValue() + ']')
+          items: [
+            {  xtype: 'textarea', fieldLabel: 'text', id: name+'_text', name: name+'_text', cls: 'priklad', width: 550,
+               listeners: 
+                { 'blur': function(text, ev, eopts) 
+                  { checkxmltext(text, 'příklad užití'); }
                 }
-              },
-              specialkey: function(field, e) {
-                if (e.getKey() == e.ENTER) {
-                  reload_rel(field.getValue(), field, dictcode);
-                }
-              }
             },
-            listConfig: {
-              getInnerTpl: function() {
-                return '<div><b>{title}: {number}:</b> <i>{def}</i></div>';
-              }
+            { xtype: 'container',
+              layout: { type: 'vbox' },
+              items: [
+                { xtype: 'combobox',
+                  name: 'rellink',
+                  store: relationlist,
+                  displayField: 'title',
+                  valueField: 'id',
+                  editable: true,
+                  cls: 'transparent',
+                  emptyText: locale[lang].searchrel,
+                  queryMode: 'local',
+                  width: 160,
+                  listeners:{
+                    'select': function(combo, record, index) {
+                      if (combo.getValue() != '') {
+                        console.log(combo.getValue())
+                        var textbox = Ext.getCmp(name+'_text');
+                        textbox.setValue(textbox.getValue() + '[' + combo.getValue() + ']')
+                      }
+                    },
+                    specialkey: function(field, e) {
+                      if (e.getKey() == e.ENTER) {
+                        reload_rel(field.getValue(), field, dictcode);
+                      }
+                    }
+                  },
+                  listConfig: {
+                    getInnerTpl: function() {
+                      return '<div><b>{title}: {number}:</b> <i>{def}</i></div>';
+                    }
+                  }
+                },
+                create_text_buttons(name+'_text')
+              ]
             }
-          },create_text_buttons(name+'_text')]
-        }]
-      },{
-        xtype: 'container',
-        layout: {
-          type: 'hbox'
+          ]
         },
-        items: [{
-          xtype: 'radiofield',
-          name: name+'usage_type',
-          boxLabel: locale[lang].usage_veta,
-          inputValue: 'sentence',
-        },{
-          xtype: 'radiofield',
-          name: name+'usage_type',
-          boxLabel: locale[lang].usage_spojeni,
-          inputValue: 'colloc',
-          handler: function(ctl, val) {
-            if (val) {
-              ctl.up().query('[name=exrelbox]')[0].show();
-              //var transset = create_priklad_links(name+'_rellinks');
-              //Ext.getCmp(name+'_rellinks').insert(Ext.getCmp(name+'_rellinks').items.length-1,transset);
-            }
-          }              
-        },{
-          xtype: 'fieldcontainer',
-          hidden: true,
-          id: name+'_rellinks',
-          name: 'exrelbox',
-          items:[{
-            xtype: 'button',
-            icon: '/editor/add.png',
-            cls: 'add',
-            handler: function() {
-              var transset = create_priklad_links(name+'_rellinks');
-              Ext.getCmp(name+'_rellinks').insert(Ext.getCmp(name+'_rellinks').items.length-1,transset);
-              track_change();
-            }
-          }]
-        },/*{
-          fieldLabel: locale[lang].usage_link,
-          hidden: true,
-          xtype: 'combobox',
-          name: 'colloc_link',
-          store: relationlist,
-          displayField: 'title',
-          valueField: 'id',
-          editable: true,
-          queryMode: 'local',
-          width: 220,
-          listeners:{
-            'select': function(combo, record, index) {
-              if (combo.getValue() != '') {
-                console.log(combo.getValue())
-                combo.setRawValue(combo.getValue())
-              }
+        { xtype: 'container',
+          layout: { type: 'hbox' },
+          items: [
+            { xtype: 'container', name: 'prazdny', width: 106, fieldLabel: '' },
+            { xtype: 'radiofield', style: { width: '120px' }, name: name + 'usage_type', boxLabel: locale[lang].usage_veta, inputValue: 'sentence' },
+            { xtype: 'radiofield', style: { width: '150px' }, name: name + 'usage_type', boxLabel: locale[lang].usage_spojeni, inputValue: 'colloc',
+              handler: function(ctl, val) 
+              { if (val) 
+                { ctl.up().query('[name=exrelbox]')[0].show(); }
+              }              
             },
-            specialkey: function(field, e) {
-              if (e.getKey() == e.ENTER) {
-                reload_rel(field.getValue(), field, 'czj');
-              }
+            { xtype: 'container', hidden: true, id: name+'_rellinks', name: 'exrelbox', cls: 'equiv',
+              items:[
+                { xtype: 'button', icon: '/editor/add.png', cls: 'add', text: locale[lang].new_translation,
+                  handler: function() 
+                  { var transset = create_priklad_links(name+'_rellinks');
+                    Ext.getCmp(name+'_rellinks').insert(Ext.getCmp(name+'_rellinks').items.length-1,transset);
+                    track_change();
+                  }
+                }
+              ]
             }
-          },
-          tpl: new Ext.XTemplate(
-            '<tpl for="."><div class="x-boundlist-item"><b>{title}: {number}:</b> <i>{def}</i> <tpl if="loc!=&quot;&quot;">{loc} <img width="80" src="/media/video{target}/thumb/{loc}/thumb.jpg"></tpl></div></tpl>'
-          ),
-        }*/
-        ]
-      }, create_copyrightM(name+'copyright', false)]
+          ]
+        }, 
+        create_copyrightM(name+'copyright', false)
+      ]
     }]
   });
   if (add_copy) {
@@ -3006,22 +2884,23 @@ function create_colloc(entryid) {
   counter_colloc += 1;
   var name = 'colloc_'+Ext.id();
   var sw = Ext.create('Ext.container.Container', {
-    layout: {
-      type: 'hbox'
-    },
+    layout: { type: 'hbox' },
+    width: 200,
+    style: {float: 'left'},
     id: name,
     name: 'colitem',
     items: [{
       xtype: 'displayfield',
-      value: counter_colloc+': '
+      value: counter_colloc+': ',
+      cls: 'col-label',
     },{
       xtype: 'combobox',
       name: 'colid',
-      store: linklist,
-      displayField: 'title',
+      store: linklist, displayField: 'title',
       valueField: 'id',
       editable: true,
       queryMode: 'local',
+      emptyText: locale[lang].searchrel, 
       width: 160,
       listeners:{
         'select': function(combo, record, index) {
@@ -3109,6 +2988,7 @@ function create_text_buttons(name) {
   return box;
 }
 
+// význam
 function create_vyznam(entryid, add_copy, meaning_id) {
   var meanskupina = '';
   if (meaning_id == undefined) {
@@ -3129,211 +3009,153 @@ function create_vyznam(entryid, add_copy, meaning_id) {
     }
   }
 
-  var name = 'vyznam_'+Ext.id();
+  var name = 'vyznam_' + Ext.id();
   var sense = Ext.create('Ext.form.FieldSet', {
-    layout: {
-      type: 'hbox'
-    },
+    layout: { type: 'vbox' },
     id: name,
     name: 'vyznam',
-    style: {borderColor:'#1c2641', borderBottomStyle:'dashed', borderBottomWidth:'2px'},
+    style: { borderColor: '#03c9a9', borderBottomStyle: 'dashed', borderBottomWidth: '2px' },
     frame: true,
-    items: [{
-      xtype: 'container',
-      layout: {
-        type: 'hbox'
-      },
-      items: [{
-        xtype: 'container',
-        layout: {
-          type: 'vbox'
-        },
-        flex: 1,
-        name: 'vyznam_topcont',
-        items: [{
-          xtype: 'container',
-          layout: {
-            type: 'hbox'
-          },
-          items: [{
-            xtype: 'textfield',
-            disabled: true,
-            name: 'meaning_id',
-            labelWidth: 50,
-            fieldLabel: 'ID',
-            value: meaning_id
-          },{            
-            xtype: 'textfield',
-            name: 'meaning_nr',
-            allowBlank: false,
-            fieldLabel: locale[lang].order
-          },{
-              xtype: 'container',              
-              name: 'prazdny',
-              width: 50,
-              fieldLabel: '',              
-          },{
-        xtype: 'container',
-        name: 'vyznammeta',
-        layout: {
-          type: 'vbox'
-        },
+    items: [
+      { xtype: 'container',  // záhlaví významu 
+        name: 'vyznam_topmeta',
+        height: 30,
+        width: 1640,
+        cls: 'vyznam-zahlavi',
+        layout: { type: 'hbox' },
         items: [
-          create_stav(),
-          create_comment_button(name, 'vyznam'+meaning_id)
+          { xtype: 'textfield', name: 'meaning_nr', allowBlank: false, labelWidth: 50,  width: 100, fieldLabel: locale[lang].order, cls: 'vyznamNum' },
+          { xtype: 'textfield', disabled: true, name: 'meaning_id', labelWidth: 50, fieldLabel: 'ID', value: meaning_id },                  
+          { xtype: 'container', name: 'prazdny', width: 70, fieldLabel: ''},
+          { fieldLabel: locale[lang].workgroup, name: 'pracskupina', xtype: 'combobox', editable: false, queryMode: 'local', displayField: 'text', valueField: 'value', store: pracskupinaStore, allowBlank: true, value: meanskupina, cls: 'transparent', },
+          { xtype: 'tbfill', width: 300},
+          { xtype: 'button', icon: '/editor/delete.png', cls: 'del',
+            handler: function () 
+              { Ext.getCmp(name).destroy();}
+          },          
         ]
-      },{
-            xtype: 'button',
-            icon: '/editor/delete.png',
-            cls: 'del',
-            handler: function() {
-              Ext.getCmp(name).destroy();
-            }
-            }]
-        },{
-          xtype: 'container',
-          layout: {
-            type: 'hbox'
-          },
-          items: [{
-            xtype: 'combobox',
-            fieldLabel: locale[lang].obor2,
-            name: 'vyzn_oblast',
-            queryMode: 'local',
-            displayField: 'text',
-            valueField: 'value',
-            store: oblastStore,
-            forceSelection: true,
-            autoSelect: true,
-            editable: false,
-            allowBlank: true,
-            multiSelect: true,
-          },{
-            fieldLabel: locale[lang].workgroup,
-            name: 'pracskupina',
-            xtype: 'combobox',
-            editable: false,
-            queryMode: 'local',
-            displayField: 'text',
-            valueField: 'value',
-            store: pracskupinaStore,
-            allowBlank: true,
-            value: meanskupina
-          }]
-          },{
-          xtype: 'container',
-          layout: {
-            type: 'hbox'
-          },
-          items: [{
-            xtype: 'textarea',
-            fieldLabel: locale[lang].definice,
-            id: name+'_text',
-            name: name+'_text',
-            width: 500,
-            listeners: {
-              'blur': function(text, ev, eopts) {
-                checkxmltext(text, 'definice');
-              }
-            }
-          },{
-            xtype: 'container',
-            layout: {
-              type: 'vbox'
-            },
-            items: [{
-              xtype: 'combobox',
-              name: 'rellink',
-              store: relationlist,
-              displayField: 'title',
-              valueField: 'id',
-              editable: true,
-              emptyText: locale[lang].searchrel,
-              queryMode: 'local',
-              width: 100,
-              listeners:{
-                'select': function(combo, record, index) {
-                  if (combo.getValue() != '') {
-                    console.log(combo.getValue())
-                    var textbox = Ext.getCmp(name+'_text');
-                    textbox.setValue(textbox.getValue() + '[' + combo.getValue() + ']')
-                  }
-                },
-                specialkey: function(field, e) {
-                  if (e.getKey() == e.ENTER) {
-                    reload_rel(field.getValue(), field, dictcode);
-                  }
-                }
-              },
-              listConfig: {
-                getInnerTpl: function() {
-                  return '<div><b>{title}: {number}:</b> <i>{def}</i></div>';
-                }
-              }
-            },create_text_buttons(name+'_text')]
-          }]
-        },{
-          xtype: 'fieldcontainer',
-          fieldLabel: locale[lang].relations,
-          id: name+'_rellinks',
-          name: 'relbox',
-          items:[{
-            xtype: 'button',
-            icon: '/editor/add.png',
-            cls: 'add',
-            text: locale[lang].new_translation,
-            name: 'relsadd',
-            handler: function() {
-              var transset = create_vyznam_links(name+'_rellinks');
-              Ext.getCmp(name+'_rellinks').insert(Ext.getCmp(name+'_rellinks').items.length-3,transset);
-              track_change();
-            }
-          },{
-            xtype: 'button',
-            icon: '/editor/refresh.png',
-            name: 'relsrefresh',
-            handler: function() {
-              var set_rel = Ext.getCmp('tabForm').query('[name=usersetrel]')[0].getValue()
-              refresh_relations(name+'_rellinks', set_rel);
-            }
-          },{
-            name: 'relswait',
-            width: 20,
-            height: 20,
-            xtype: 'image',
-            hidden: true,
-            src: '/editor/wait.gif',
-          },{
-          xtype: 'checkbox',
-          boxLabel: locale[lang].translationunknown,
-          name: 'translation_unknown'
-        }]
-        },create_copyrightM(name, false)]
-      },{
-        xtype: 'tbfill',
-        flex: 1
-      }]
-    },{
-      xtype: 'fieldcontainer',
-      id: name+'_uziti',
-      cls: 'priklady',
-      name: 'usagebox',
-      fieldLabel: locale[lang].usages,
-      labelWidth: 50,
-      layout: {
-        type: 'vbox'
       },
-      items: [{
-          xtype: 'button',
-          icon: '/editor/add.png',
-          cls: 'add',
-          handler: function() {
-            var priklad = create_priklad(name+'_uziti', entryid, true, meaning_id);
-            Ext.getCmp(name+'_uziti').insert(Ext.getCmp(name+'_uziti').items.length-1,priklad);
-            track_change();
-          }
-      }]
-    }]
+      { xtype: 'tbfill', height: 5},     
+      { xtype: 'container',  // dva sloupce, vlevo definice, příklady, vpravo překlady
+        layout: { type: 'hbox' },
+        items: [
+          { xtype: 'container',  // levý sloupec defince, atd
+            layout: { type: 'vbox' },
+            width: 970,
+            flex: 1,
+            name: 'vyznam_topcont',
+            items: [              
+              { xtype: 'container',
+                layout: { type: 'hbox' },
+                items: [
+                  { xtype: 'combobox', fieldLabel: locale[lang].obor2, name: 'vyzn_oblast', queryMode: 'local', displayField: 'text', valueField: 'value', store: oblastStore, forceSelection: true, autoSelect: true, editable: false, allowBlank: true, multiSelect: true },
+                  { xtype: 'tbfill', width: 440},
+                  { xtype: 'container', name: 'vyznammeta', 
+                    layout: { type: 'vbox'},
+                    items: [
+                      create_stav(),
+                    ]
+                  } 
+                ]
+              },
+              { xtype: 'container',
+                layout: { type: 'hbox' },
+                items: [
+                  { xtype: 'textarea', fieldLabel: locale[lang].definice, id: name+'_text', name: name+'_text', width: 600,
+                    listeners: {
+                      'blur': function(text, ev, eopts) {
+                        checkxmltext(text, 'definice');
+                      }
+                    }
+                  },
+                  { xtype: 'container',
+                    layout: { type: 'vbox' },
+                    items: [
+                      { xtype: 'combobox', name: 'rellink', store: relationlist, displayField: 'title', valueField: 'id', editable: true, 
+                        emptyText: locale[lang].searchrel, queryMode: 'local', width: 100, cls: 'transparent',
+                        listeners:{
+                          'select': function(combo, record, index) {
+                            if (combo.getValue() != '') {
+                              console.log(combo.getValue())
+                              var textbox = Ext.getCmp(name+'_text');
+                              textbox.setValue(textbox.getValue() + '[' + combo.getValue() + ']')
+                            }
+                          },
+                          specialkey: function(field, e) {
+                            if (e.getKey() == e.ENTER) {
+                              reload_rel(field.getValue(), field, dictcode);
+                            }
+                          }
+                        },
+                        listConfig: {
+                          getInnerTpl: function() {
+                            return '<div><b>{title}: {number}:</b> <i>{def}</i></div>';
+                          }
+                        }
+                      },
+                      create_text_buttons(name+'_text')
+                    ]
+                  },
+                  create_comment_button(name, 'vyznam' + meaning_id)
+                ]
+              },
+              create_copyrightM(name, false), // copyright pro definici
+              { xtype: 'fieldset', // příklady
+                collapsible: true,
+                title: locale[lang].usages,                                
+                id: name + '_uziti',
+                name: 'usagebox',
+                cls: 'priklady',
+                layout: { type: 'vbox' },
+                items: [
+                  { xtype: 'button', icon: '/editor/add.png', cls: 'add',
+                    handler: function() {
+                      var priklad = create_priklad(name+'_uziti', entryid, true, meaning_id);
+                      Ext.getCmp(name+'_uziti').insert(Ext.getCmp(name+'_uziti').items.length-1,priklad);
+                      track_change();
+                    }
+                  }
+                ]
+              }              
+            ]
+          },
+          { xtype: 'fieldset',    // překlady box užití
+            collapsible: true,
+            title: locale[lang].relations,   
+            cls: 'equiv', 
+            items: [
+              { xtype: 'container',  // překlady, ekvivalenty
+                layout: { type: 'hbox' },
+                items: [
+                  { xtype: 'fieldcontainer',
+                    id: name+'_rellinks',
+                    name: 'relbox',
+                    width: 625,     
+                    items:[
+                      { xtype: 'button', icon: '/editor/add.png', cls: 'add', text: locale[lang].new_translation, name: 'relsadd',
+                        handler: function() {
+                          var transset = create_vyznam_links(name+'_rellinks');
+                          Ext.getCmp(name+'_rellinks').insert(Ext.getCmp(name+'_rellinks').items.length-3,transset);
+                          track_change();
+                        }
+                      },
+                      { xtype: 'button', icon: '/editor/refresh.png', name: 'relsrefresh',
+                        handler: function() {
+                          var set_rel = Ext.getCmp('tabForm').query('[name=usersetrel]')[0].getValue()
+                          refresh_relations(name+'_rellinks', set_rel);
+                        }
+                      },
+                      { name: 'relswait', width: 20, height: 20, xtype: 'image', hidden: true, src: '/editor/wait.gif'},
+                      { xtype: 'checkbox', boxLabel: locale[lang].translationunknown, name: 'translation_unknown' }
+                    ]
+                  }
+                ]
+              }
+            ]
+          } 
+        ]
+      }  
+    ]
   });
   if (add_copy) {
     //Ext.getCmp(name+'_copybox').query('[name=copy_copy]')[0].setValue(Ext.getCmp('tabForm').query('component[name="defaultcopy"]')[0].getValue());
@@ -3359,11 +3181,9 @@ Ext.onReady(function(){
         xtype: 'fieldset',
         title: locale[lang].basicinfo,
         id: 'boxlemma',
-        style: {backgroundColor: bgSilver},
+        cls: 'techinfo-box',  // technické informace
         collapsible: true,
-        layout:  {
-          type: 'vbox'
-        },
+        layout:  { type: 'vbox' },
         items: [{
           xtype: 'container',
           layout: {
@@ -3402,6 +3222,7 @@ Ext.onReady(function(){
             editable: false,
             queryMode: 'local',
             displayField: 'text',
+            cls: 'transparent',
             valueField: 'value',
             store: pracskupinaStore,
             forceSelection: true,
@@ -3517,7 +3338,7 @@ Ext.onReady(function(){
               }}
             },{
               xtype: 'splitter',
-              width: 200
+              width: 150
             },{xtype:'tbfill'},create_comment_button('boxcolloc'),create_stav()
             ]
           },{
@@ -3543,290 +3364,233 @@ Ext.onReady(function(){
               }]
             }]
           }]
-        },{
-            xtype: 'container',
-            layout: {
-              type: 'hbox'
-            },
-            items:[{
-              xtype: 'textfield',              
-              fieldLabel: locale[lang].lemma, 
-              width: 350,               
-              name: 'lemma'
-            },{
-              xtype: 'textfield',              
-              fieldLabel: locale[lang].pravopis_variant,
-              labelWidth: 150,               
-              name: 'lemma_var'
-            },
-            {
-              xtype: 'textfield',
-              fieldLabel: locale[lang].vyslovnost,
-              name: 'pron'
-            }]
-          },{
-            xtype: 'container',
-            layout: {
-              type: 'vbox'
-            },
-            items:[{
-              xtype: 'box',
-              name: 'ssc_html',
-              cls: 'ssc_html',              
-              //maxWidth: '1606',
-              //maxHeight: (Ext.getBody().getViewSize().height)
-              maxWidth: (Ext.getBody().getViewSize().width-400)
-            },{
-              xtype: 'box',
-              name: 'gram_html',
-            }]
-          },{
-          xtype: 'fieldset',
+        },
+        { xtype: 'container',
+          layout: { type: 'hbox' }, // lemma
+          height: 35,
+            items:[
+              { xtype: 'textfield', fieldLabel: locale[lang].lemma, cls: 'lemmawrite', width: 350, name: 'lemma' },
+              { xtype: 'textfield', fieldLabel: locale[lang].pravopis_variant, labelWidth: 150, name: 'lemma_var' },
+              { xtype: 'textfield', fieldLabel: locale[lang].vyslovnost, name: 'pron' }
+            ]
+        },       
+        { xtype: 'fieldset',
+         layout: { type: 'vbox' },
+         collapsible: true,
+         name: 'ssc',
+         title: 'SSC',
+         items:[
+           { xtype: 'box', 
+             name: 'ssc_html',
+             cls: 'ssc_html',              
+             maxWidth: '1606',
+             //maxHeight: (Ext.getBody().getViewSize().height)
+             //maxWidth: (Ext.getBody().getViewSize().width-400)
+           },
+           { xtype: 'box', name: 'gram_html'}
+         ]
+        },
+        { xtype: 'fieldset', // gramatický popis
           title: locale[lang].gramdesc,
           collapsible: true,
           id: 'gramdesc',
-          layout: {
-            type: 'vbox'
-          },
-          items: [{
-            xtype: 'container',
-            layout: {
-              type: 'hbox'
-            },
-            items: [{
-              name: 'gramcont',              
-              id: 'gramcont', 
-              style: {backgroundColor: bgLex},
-              items: [create_gram(entryid),{
-                xtype: 'button',
-                icon: '/editor/add.png',
-                cls: 'add',
-                handler: function() {
-                  var transset = create_gram(entryid);
-                  Ext.getCmp('gramcont').insert(Ext.getCmp('gramcont').items.length-1,transset);
-                  track_change();
-                }
-              }]
-            },{
-              xtype: 'container',              
-              name: 'prazdny',
-              width: 400,
-              fieldLabel: '',              
-              }, create_comment_button('gramdesc'), create_stav()]
-          },{
-            xtype: 'container',
-            layout: {
-              type: 'hbox'
-            },
-            items: [{
-              xtype: 'container',
-              layout: {
-                type: 'vbox'
-              },
-              items:[{
-              xtype: 'combobox',
-              fieldLabel: locale[lang].puvod,
-              name: 'puvod_slova',
-              queryMode: 'local',
-              displayField: 'text',
-              valueField: 'value',
-              store: puvodStore,
-              forceSelection: false,
-              autoSelect: true,
-              editable: true,
-            },{
-              xtype: 'fieldcontainer',
-              fieldLabel: locale[lang].varianty,
-              id: 'gvarbox',
-              layout:  {
-                type: 'vbox'
-              },
-              items: [{
-                xtype: 'button',
-                icon: '/editor/add.png',
-                cls: 'add',
-                handler: function() {
-                  var sw = create_variant(entryid);
-                  Ext.getCmp('gvarbox').insert(Ext.getCmp('gvarbox').items.length-1,sw);
-                  track_change();
-                }
-              }]
-            },{
-                xtype: 'container',
-                layout: {
-                  type: 'hbox'
-                },
-                items: [ {
-                xtype: 'textarea',
-                fieldLabel: 'text',
-                id: 'gramatikatext_text',
-                name: 'gramatikatext_text',
-                width: 500,
-                listeners: {
-                  'blur': function(text, ev, eopts) {
-                    checkxmltext(text, 'gramatický popis');
-                  }
-                }
-              },{
-                xtype: 'container',
-                layout: {
-                  type: 'vbox'
-                },
-                items: [{
-                  xtype: 'combobox',
-                  name: 'rellink',
-                  store: relationlist,
-                  displayField: 'title',
-                  emptyText: locale[lang].searchrel,
-                  valueField: 'id',
-                  editable: true,
-                  queryMode: 'local',
-                  width: 160,
-                  listeners:{
-                    'select': function(combo, record, index) {
-                      if (combo.getValue() != '') {
-                        console.log(combo.getValue())
-                        var textbox = Ext.getCmp('gramatikatext_text');
-                        textbox.setValue(textbox.getValue() + '[' + combo.getValue() + ']')
-                      }
+          width: 1635,
+          layout: { type: 'vbox' },
+          items: [
+            { xtype: 'container', //1
+              layout: { type: 'hbox' },
+              items: [
+                { xtype: 'container', //2
+                  layout: { type: 'vbox' },
+                  items: [
+                    { xtype: 'container', //23
+                      layout: { type: 'hbox' },
+                      items: [
+                        { xtype: 'container', //3
+                          layout: { type: 'vbox' },
+                          name: 'gramcont',
+                          id: 'gramcont',
+                          items: [
+                            create_gram(entryid), // přidá slovní druh
+                            { xtype: 'button', icon: '/editor/add.png', cls: 'add',
+                              handler: function() 
+                                { var transset = create_gram(entryid);
+                                  Ext.getCmp('gramcont').insert(Ext.getCmp('gramcont').items.length-1,transset);
+                                  track_change();
+                                }   
+                            }
+                          ]
+                        }, 
+                        { xtype:'tbfill', width: 520},
+                        create_comment_button('gramdesc'), create_stav() 
+                      ]
                     },
-                    specialkey: function(field, e) {
-                      if (e.getKey() == e.ENTER) {
-                        reload_rel(field.getValue(), field, dictcode);
-                      }
-                    }
-                  },
-                  listConfig: {
-                    getInnerTpl: function() {
-                      return '<div><b>{title}: {number}:</b> <i>{def}</i></div>';
-                    }
-                  }
-                },create_text_buttons('gramatikatext_text')]
-              }]},{
-              fieldLabel: locale[lang].flexe,
-              xtype: 'checkbox',
-              boxLabel: locale[lang].nesklonne,
-              name: 'flexe_neskl'
-            }]
-          },{
-            xtype: 'container',
-            layout: {
-              type: 'vbox'
-            },
-            items: [{
-              fieldLabel: locale[lang].deklinace,
-              id: 'deklcont',
-              xtype: 'fieldcontainer',
-              layout: {
-              type: 'vbox'
-              },
-              items: [{
-                xtype: 'container',
-                layout: {
-                  type: 'hbox'
-                },
-                items: [{
-                  xtype: 'button',
-                  icon: '/editor/add.png',
-                  cls: 'add',
-                  text: locale[lang].row,
-                  handler: function() {
-                    var sw = create_deklin(entryid);
-                    Ext.getCmp('deklcont').insert(Ext.getCmp('deklcont').items.length-2,sw);
-                    track_change();
-                  }
-                },{
-              xtype: 'container',              
-              name: 'prazdny',
-              width: 50,
-              fieldLabel: '',              
-              },{
-                  xtype: 'button',
-                text: locale[lang].taketable,
-                  handler: function() {
-                    var get_id = Ext.getCmp('deklcont').query('[name=get_deklin]')[0].getValue();
-                    Ext.Ajax.request({
-                      url: '/'+dictcode+'/getgram/'+get_id,
-                      method: 'get',
-                      success: function(response) {
-                        var data = JSON.parse(response.responseText);
-                        Ext.suspendLayouts();
-                        var dekls = Ext.getCmp('deklcont').query('[name=deklinitem]');
-                        for (var i = 0; i < dekls.length; i++) {
-                          dekls[i].destroy();
+                    { xtype: 'container',
+                      layout: { type: 'hbox' },
+                      items: [
+                        { xtype: 'container',
+                          layout: { type: 'vbox' },
+                          width: 300,
+                          items:[
+                            { xtype: 'combobox', fieldLabel: locale[lang].puvod, name: 'puvod_slova', queryMode: 'local', displayField: 'text',
+                              valueField: 'value', store: puvodStore, forceSelection: false, autoSelect: true, editable: true, },                    
+                            { fieldLabel: locale[lang].flexe, xtype: 'checkbox', boxLabel: locale[lang].nesklonne, name: 'flexe_neskl' },
+                            { xtype: 'fieldcontainer', fieldLabel: locale[lang].varianty,
+                              id: 'gvarbox',
+                              layout:  { type: 'vbox' },
+                              items: [
+                                { xtype: 'button', icon: '/editor/add.png', cls: 'add',
+                                  handler: function() {
+                                    var sw = create_variant(entryid);
+                                    Ext.getCmp('gvarbox').insert(Ext.getCmp('gvarbox').items.length-1,sw);
+                                    track_change();
+                                  }
+                                }
+                              ]
+                            },
+                          ]
+                        },
+                        { xtype: 'container',
+                          width: 650,
+                          layout: { type: 'hbox' },
+                          items: [ 
+                            { xtype: 'textarea', fieldLabel: 'text', labelWidth: 80, id: 'gramatikatext_text', name: 'gramatikatext_text', width: 500,
+                              listeners: 
+                                { 'blur': function(text, ev, eopts) {
+                                  checkxmltext(text, 'gramatický popis');
+                                  }
+                                }
+                            },
+                            { xtype: 'container',
+                              layout: { type: 'vbox' },
+                              items: [
+                                { xtype: 'combobox',
+                                  name: 'rellink',
+                                  store: relationlist,
+                                  displayField: 'title',
+                                  cls: 'transparent',
+                                  emptyText: locale[lang].searchrel,
+                                  valueField: 'id',
+                                  editable: true,
+                                  queryMode: 'local',
+                                  width: 140,
+                                  listeners:{
+                                    'select': function(combo, record, index) {
+                                      if (combo.getValue() != '') {
+                                        console.log(combo.getValue())
+                                        var textbox = Ext.getCmp('gramatikatext_text');
+                                        textbox.setValue(textbox.getValue() + '[' + combo.getValue() + ']')
+                                      }
+                                    },
+                                    specialkey: function(field, e) {
+                                      if (e.getKey() == e.ENTER) {
+                                        reload_rel(field.getValue(), field, dictcode);
+                                      }
+                                    }
+                                  },
+                                  listConfig: {
+                                    getInnerTpl: function() {
+                                      return '<div><b>{title}: {number}:</b> <i>{def}</i></div>';
+                                    }
+                                  }
+                                },
+                                create_text_buttons('gramatikatext_text')
+                              ]
+                            }
+                          ]
+                        },                
+                        { xtype: 'fieldset',
+                          layout: { type: 'vbox' },
+                          coollapsibe: true,
+                          cls: 'deklin-box',
+                          title: locale[lang].deklinace,
+                          items: [
+                            { id: 'deklcont',
+                              xtype: 'fieldcontainer',
+                              layout: { type: 'vbox' },
+                              items: [
+                                { xtype: 'container',
+                                  layout: { type: 'hbox' },
+                                  items: [
+                                    { xtype: 'button', icon: '/editor/add.png', cls: 'add', text: locale[lang].row,
+                                      handler: function() {
+                                        var sw = create_deklin(entryid);
+                                        Ext.getCmp('deklcont').insert(Ext.getCmp('deklcont').items.length-2,sw);
+                                        track_change();
+                                      }
+                                    },
+                                    { xtype: 'container', name: 'prazdny', width: 50, fieldLabel: '' },
+                                    { xtype: 'button', text: locale[lang].taketable,
+                                      handler: function() 
+                                        { var get_id = Ext.getCmp('deklcont').query('[name=get_deklin]')[0].getValue();
+                                          Ext.Ajax.request(
+                                            { url: '/'+dictcode+'/getgram/'+get_id,
+                                              method: 'get',
+                                              success: function(response) 
+                                                { var data = JSON.parse(response.responseText);
+                                                  Ext.suspendLayouts();
+                                                  var dekls = Ext.getCmp('deklcont').query('[name=deklinitem]');
+                                                  for (var i = 0; i < dekls.length; i++) 
+                                                    { dekls[i].destroy(); }
+                                                  for (var i = 0; i < data.form.length; i++) 
+                                                    { var sw = create_deklin(entryid);
+                                                      sw.query('[name=dekl_tag]')[0].setValue(data.form[i]['@tag']);
+                                                      sw.query('[name=dekl_tvar]')[0].setValue(data.form[i]['_text']);
+                                                      Ext.getCmp('deklcont').insert(Ext.getCmp('deklcont').items.length-2,sw);
+                                                    }
+                                                  Ext.resumeLayouts(true);
+                                                }
+                                            }
+                                          );
+                                        }
+                                    },
+                                    { xtype: 'textfield', name: 'get_deklin', width: 80 }
+                                  ]
+                                },
+                                { xtype: 'container', 
+                                  layout: { type: 'hbox' },
+                                  items: []
+                                },
+                              ]
+                            }
+                          ]
+                        },
+                        { fieldLabel: locale[lang].novatabulka, xtype: 'fieldcontainer',            
+                          layout: { type: 'vbox' },
+                          items:[
+                            { xtype: 'button', icon: '/editor/add.png', cls: 'add', text: locale[lang].pos_noun,
+                              handler: function() 
+                                { update_deklin('podst'); }
+                            },
+                            { xtype: 'button', icon: '/editor/add.png', cls: 'add', text: locale[lang].pos_adv,
+                              handler: function() 
+                                { update_deklin('prid'); }
+                            },
+                            { xtype: 'button', icon: '/editor/add.png', cls: 'add', text: locale[lang].pos_num,
+                              handler: function() 
+                                { update_deklin('cisl'); }
+                            },/*{
+                          xtype: 'button',
+                          icon: '/editor/add.png',
+                          text: locale[lang].pos_adj,
+                          handler: function() {
+                            update_deklin('pris');
+                          } 
+                        },*/{ xtype: 'button', icon: '/editor/add.png', cls: 'add', text: locale[lang].pos_verb,
+                              handler: function() { update_deklin('slov'); }
+                            }
+                          ]
                         }
-                        for (var i = 0; i < data.form.length; i++) {
-                          var sw = create_deklin(entryid);
-                          sw.query('[name=dekl_tag]')[0].setValue(data.form[i]['@tag']);
-                          sw.query('[name=dekl_tvar]')[0].setValue(data.form[i]['_text']);
-                          Ext.getCmp('deklcont').insert(Ext.getCmp('deklcont').items.length-2,sw);
-                        }
-                        Ext.resumeLayouts(true);
-                      }
-                    });
-                  }
-                },{
-                  xtype: 'textfield',
-                  name: 'get_deklin',
-                  width: 80,
-                }]
-              },{
-                xtype: 'container',
-                layout: {
-                  type: 'hbox'
-                },
-                items: []
-              },]
-            }]
-          },{
-            fieldLabel: locale[lang].novatabulka,
-            xtype: 'fieldcontainer',            
-            layout: {              
-              type: 'vbox'
-            },
-            items:[{
-              xtype: 'button',
-              icon: '/editor/add.png',
-              cls: 'add',
-              text: locale[lang].pos_noun,
-              handler: function() {
-                update_deklin('podst');
-              }
-            },{
-              xtype: 'button',
-              icon: '/editor/add.png',
-              cls: 'add',
-              text: locale[lang].pos_adv,
-              handler: function() {
-                update_deklin('prid');
-              }
-            },{
-              xtype: 'button',
-              icon: '/editor/add.png',
-              cls: 'add',
-              text: locale[lang].pos_num,
-              handler: function() {
-                update_deklin('cisl');
-              }
-            },/*{
-              xtype: 'button',
-              icon: '/editor/add.png',
-              text: locale[lang].pos_adj,
-              handler: function() {
-                update_deklin('pris');
-              } 
-            },*/{
-              xtype: 'button',
-              icon: '/editor/add.png',
-              cls: 'add',
-              text: locale[lang].pos_verb,
-              handler: function() {
-                update_deklin('slov');
-              }
-            }]
-          }]},        
-                  create_copyright('gram_popis', false)]
-      },{
+                      ]
+                    }
+                  ]
+                },                
+              ]
+            },        
+            create_copyright('gram_popis', false)
+          ]
+        },
+        {
         xtype: 'fieldset',
         title: locale[lang].styldesc,
         collapsible: true,
@@ -3911,6 +3675,7 @@ Ext.onReady(function(){
               items: [{
                 xtype: 'combobox',
                 name: 'rellink',
+                cls: 'transparent',
                 emptyText: locale[lang].searchrel,
                 store: relationlist,
                 displayField: 'title',
@@ -3983,6 +3748,7 @@ Ext.onReady(function(){
         xtype: 'button',
         text: locale[lang].admintools,
         icon: '/editor/img/admin_list.png',
+        cls: 'btn',
         handler: function() {           
           var odkaz = '/admin?action=report'+dictcode+'&lang='+lang;                   
           window.open(odkaz);
@@ -3992,6 +3758,7 @@ Ext.onReady(function(){
         xtype: 'button',
         text: locale[lang].newlemma,
         icon: '/editor/img/newlemma.png',
+        cls: 'btn',
         handler: function() {           
           var odkaz = '/editor'+dictcode+'/?id=&lang='+lang;                   
           window.open(odkaz);
@@ -4000,6 +3767,7 @@ Ext.onReady(function(){
         xtype: 'button',
         text: locale[lang].admintools,
         icon: '/editor/img/timeback_m.png',
+        cls: 'btn',
         handler: function() {           
           var odkaz = 'https://admin.dictio.info/history?code='+dictcode+'&entry='+entryid;          
           window.open(odkaz);
@@ -4008,6 +3776,7 @@ Ext.onReady(function(){
           xtype: 'button',
           text: locale[lang].viewplus,
           icon: '/editor/img/display.png',
+          cls: 'btn',
           handler: function() {           
             var odkaz = '/'+dictcode+'/show/'+entryid+'?lang='+lang;
             window.open(odkaz);
@@ -4016,6 +3785,8 @@ Ext.onReady(function(){
           xtype: 'button',
         text: locale[lang].saveview,
         icon: '/editor/img/savedisplay.png',
+        cls: 'btn hidden',
+        id: 'btnSV1',
         name: 'savebutton',
         handler: function() {
           Ext.Msg.alert('Stav', locale[lang].savemsg);
@@ -4055,6 +3826,7 @@ Ext.onReady(function(){
         },{
           xtype: 'button',
           text: locale[lang].deleteentry,          
+          cls: 'btn del',
           icon: '/editor/img/delete2.png',          
           handler: function() {
             Ext.Msg.confirm('?', locale[lang].deletemsg, function(btn, text) {
@@ -4090,6 +3862,7 @@ Ext.onReady(function(){
       buttons: [{
         text: locale[lang].save,
         name: 'savebutton',
+        cls: 'btn',
         icon: '/editor/img/save.png',        
         handler: function() {
           Ext.Msg.alert('Stav', locale[lang].savemsg);
@@ -4122,6 +3895,7 @@ Ext.onReady(function(){
         text: locale[lang].saveview,
         icon: '/editor/img/savedisplay.png',
         name: 'savebutton',
+        cls: 'btn',
         handler: function() {
           Ext.Msg.alert('Stav', locale[lang].savemsg);
           console.log('savedisplay horni');
@@ -4152,6 +3926,7 @@ Ext.onReady(function(){
       },{
         text: locale[lang].viewplus,
         icon: '/editor/img/display.png',
+        cls: 'btn',
         handler: function() {          
    	   var odkaz = '/'+dictcode+'/show/'+entryid+'?lang='+lang;
           window.open(odkaz);

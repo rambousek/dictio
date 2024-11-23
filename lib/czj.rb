@@ -1315,6 +1315,10 @@ class CZJDict < Object
         query['type'] = 'sign_usage_example'
       when 'D'
         query['type'] = 'sign_definition'
+      when 'G'
+        query['type'] = 'sign_grammar'
+      when 'S'
+        query['type'] = 'sign_style'
       end
 
       $mongo['media'].find(query).each{|re| list << re}
@@ -1451,6 +1455,7 @@ class CZJDict < Object
           'lemma.completeness'=>{'$ne'=>'1'},
           '$or'=>[
             {'id'=>search},
+            {'meanings.id'=>search},
             {'lemma.video_front'=>{'$in'=>mlocs}},
             {'meanings.usages.text.file.@media_id'=>{'$in'=>mids}},
             {'meanings.text.file.@media_id'=>{'$in'=>mids}},

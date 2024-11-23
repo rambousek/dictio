@@ -1,4 +1,4 @@
-<!-- vyhledávání -->
+<!-- vyhledávání --> 
 .search-alt.keyboard-target style="#{@search_hidden}"
   .container
     .search-alt__wrapper
@@ -7,7 +7,7 @@
           .search__item 
             label for="translate-from" #{I18n.t("search.search_in")}
             .custom-select
-              select.translate-from name="translate-from" id="translate-from"
+              select.translate-from name="translate-from" id="translate-from" data-default-dict="#{@default_dict}" data-initial-dict="#{@dictcode}"
                 - @dict_info.each do |code, info|
                   option value="#{code}" selected=("selected" if (@dictcode == code or (@dictcode.to_s == '' and @default_dict == code))) #{I18n.t("dict_search."+code)}
           .search__item
@@ -18,7 +18,7 @@
               - else
                 input.expression type="text" id="expression_search" placeholder="#{I18n.t('search.placeholder')}" value=@search
               .keyboard-images height="100"
-              button.btn.btn--search
+              button.btn.btn--search 
                 span.icon.icon--magnifier
                   svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                     use xlink:href="/img/icons.svg#magnifier" x="0" y="0" width="100%" height="100%"
@@ -30,6 +30,4 @@
                 option value="" #{I18n.t('search.pos')}
                 - info['pos'].each do |sd|
                   option value="#{sd}" selected=("selected" if @search_params['slovni_druh'].to_s==sd)  #{I18n.t('gram.slovni_druh.'+sd)}
-      == slim :keyboard
-<!-- vyhledávání -->
-
+        

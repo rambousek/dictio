@@ -1,4 +1,18 @@
-.x-tab-bar-default-top{background-color:crimson;}
-.x-toolbar-footer{background-color:crimson;}
-.x-panel-header-default {background-color:crimson;};
-
+.btn, a.btn {
+/*    background-color: crimson; */
+  }
+  
+  .formaltop {
+    border-left: 20px solid crimson;
+  }
+  
+  .x-panel-header-default {
+    color: crimson;
+  }
+  
+  .col-label {
+    border-top: solid 5px crimson;
+    border-bottom: solid 5px crimson;
+    font-weight: bold;
+  }
+  

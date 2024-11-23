@@ -1,4 +1,13 @@
-.x-tab-bar-default-top{background-color:darkorange;}
-.x-toolbar-footer{background-color:darkorange;}
-.x-panel-header-default {background-color:darkorange;};
+.btn, a.btn {
+/*    background-color: darkorange !important;
+    color: white !important; */
+  }
+  
+.formaltop {
+    border-left: 20px solid darkorange;
+  }
 
+.x-panel-header-default {
+    color: darkorange;
+}
+  

@@ -1,4 +1,18 @@
-.x-tab-bar-default-top{background-color:darkmagenta;}
-.x-toolbar-footer{background-color:darkmagenta;}
-.x-panel-header-default {background-color:darkmagenta;};
+.btn, a.btn {
+/*    background-color: darkmagenta; */
+  }
+  
+  .formaltop {
+    border-left: 20px solid darkmagenta;
+  }
+  
+  .x-panel-header-default {
+    color: darkmagenta;
+  }
+  
+  .col-label {
+    border-top: solid 5px darkmagenta;
+    border-bottom: solid 5px darkmagenta;
+    font-weight: bold;
+  }
 

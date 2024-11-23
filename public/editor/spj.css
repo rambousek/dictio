@@ -1,91 +1,17 @@
-.x-tab-bar-default-top{background-color:mediumseagreen;}
-.x-toolbar-footer{background-color:mediumseagreen;}
-.x-panel-header-default {background-color:mediumseagreen;};
+.btn, a.btn {
+  /* background-color: mediumseagreen;*/
+}
 
-.x-panel-body-default {
-  background: white;
+.formaltop {
+  border-left: 20px solid mediumseagreen;
 }
-#gramdesc,#styldesc {
-  background-color: #fff3c6;  
+
+.x-panel-header-default {
+  color: mediumseagreen;
 }
-#vyznamy_box {
-  background-color: #E1EFF6;
-  /*#d1e8dc;  */
-}
-.stav-display div {
-  text-align: right;
+
+.col-label {
+  border-top: solid 5px mediumseagreen;
+  border-bottom: solid 5px mediumseagreen;
   font-weight: bold;
 }
-.ssc_html b {color:red}
-.ssc_html small {color:green} 
-.ssc_html i {color:darkred}
-.ssc_html span {padding-left: 10px; padding-right: 10px;}
-
-.ssc_html .h{color:#FF0000; font-weight:bold;}
-.ssc_html .h1{color:#FF0000; font-weight:bold;}
-.ssc_html .hh{color:#FF0000; font-weight:bold;}
-.ssc_html .hh1{color:#FF0000; font-weight:bold;}
-.ssc_html .s{color: rgb(119, 0, 0); font-style:italic}
-.ssc_html .phr{color:#800080; font-style:italic;}
-.ssc_html .e{color:#000000;}
-.ssc_html .o{color: rgb(0, 119, 0); font-size:85%;}
-.ssc_html .c{color: rgb(0, 119, 0); font-size:85%;}
-.ssc_html .r{color:#000080; font-size:85%;}
-.ssc_html .g{color: rgb(0, 119, 0); font-size:85%;}
-.ssc_html .t{}
-.ssc_html .val{color:#408080; font-style:italic; font-size:85%;}
-.ssc_html .v{}
-.ssc_html .f{}
-.ssc_html .num{color: rgb(102, 102, 102);}
-
-
-.gramframe {
-  border: solid 1px black;
-}
-.priklady {
-  background-color: rgb(152, 176, 197);
-}
-.deklin-label input {
-  background-color: white !important;
-  color: black !important;
-  opacity: 100 !important;
-}
-.deklin-tag input {
-  color: grey !important;
-  opacity: 50 !important;
-}
-
-.droppable { }
-.droppable.dragover { background: black; border: medium dashed green; }
-
-
-video.czj {border-left: solid 4px #19B5FE;}
-video.asl {border-left: solid 4px darkorange;}
-video.is {border-left: solid 4px darkslateblue}
-video.spj {border-left: solid 4px crimson}
-video.ogs {border-left: solid 4px darkred}
-
-.redtext {
-  color: red;
-  font-style: italic;
-}
-
-.text-cs {
-  border-left: solid 10px darkmagenta;
-  font-weight: bold;
-  }
-  
-.text-en {
-  border-left: solid 10px black; 
-  font-weight: bold;
-  }
-  
-.text-sj {
-  border-left: solid 10px crimson; 
-  font-weight: bold;
-  }  
-  
-.text-de {
-  border-left: solid 10px darkgoldenrod; 
-  font-weight: bold;
-  }  

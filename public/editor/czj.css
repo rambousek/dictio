@@ -1,67 +1,17 @@
-.x-panel-body-default {
-  background: white;
-}
-.x-mask {
-  background-color: transparent !important;
-}
-.x-item-disabled {
-  background-color: transparent !important;
-}
-.x-item-disabled .x-form-item-label, .x-item-disabled .x-form-field, .x-item-disabled .x-form-display-field, .x-item-disabled .x-form-cb-label, .x-item-disabled .x-form-trigger {
-  opacity: .6 !important;
-}
-#gramdesc,#styldesc {
-  background-color: #fff3c6;  
-}
-#vyznamy_box {
-  background-color: #E1EFF6;
-  /*#d1e8dc;  */
-}
-.stav-display div {
-  text-align: right;
-  font-weight: bold;
-}
-.ssc_html b {color:red}
-.ssc_html small {color:green} 
-.ssc_html i {color:darkred}
-.ssc_html span {padding-left: 10px; padding-right: 10px;}
-
-.ssc_html .h{color:#FF0000; font-weight:bold;}
-.ssc_html .h1{color:#FF0000; font-weight:bold;}
-.ssc_html .hh{color:#FF0000; font-weight:bold;}
-.ssc_html .hh1{color:#FF0000; font-weight:bold;}
-.ssc_html .s{color: rgb(119, 0, 0); font-style:italic}
-.ssc_html .phr{color:#800080; font-style:italic;}
-.ssc_html .e{color:#000000;}
-.ssc_html .o{color: rgb(0, 119, 0); font-size:85%;}
-.ssc_html .c{color: rgb(0, 119, 0); font-size:85%;}
-.ssc_html .r{color:#000080; font-size:85%;}
-.ssc_html .g{color: rgb(0, 119, 0); font-size:85%;}
-.ssc_html .t{}
-.ssc_html .val{color:#408080; font-style:italic; font-size:85%;}
-.ssc_html .v{}
-.ssc_html .f{}
-.ssc_html .num{color: rgb(102, 102, 102);}
-
-.gramframe {
-  border: solid 1px black;
+.btn, a.btn {
+/*  background-color: rgb(25, 181, 254); */
 }
 
-.deklin-label input {
-  background-color: white !important;
-  color: black !important;
-  opacity: 100 !important;
-}
-.deklin-tag input {
-  color: grey !important;
-  opacity: 50 !important;
+.formaltop {
+  border-left: 20px solid rgb(25, 181, 254);
 }
 
+.x-panel-header-default {
+  color: rgb(25, 181, 254);
+}
 
-/*.droppable { background: #08c; color: #fff; padding: 30px 0; text-align: center; }*/
-.droppable { }
-.droppable.dragover { background: black; border: medium dashed green; }
- 
-.modified-box {
+.col-label {
+  border-top: solid 5px rgb(25, 181, 254);
+  border-bottom: solid 5px rgb(25, 181, 254);
   font-weight: bold;
 }

@@ -1,4 +1,17 @@
-.x-tab-bar-default-top{background-color:darkgoldenrod;}
-.x-toolbar-footer{background-color:darkgoldenrod;}
-.x-panel-header-default {background-color:darkgoldenrod;};
-
+.btn, a.btn {
+/* background-color: darkgoldenrod; */
+  }
+  
+  .formaltop {
+    border-left: 20px solid darkgoldenrod;
+  }
+  
+  .x-panel-header-default {
+    color: darkgoldenrod;
+  }
+  
+  .col-label {
+    border-top: solid 5px darkgoldenrod;
+    border-bottom: solid 5px darkgoldenrod;
+    font-weight: bold;
+  }

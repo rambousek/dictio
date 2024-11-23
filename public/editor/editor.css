@@ -1,14 +1,18 @@
 /* zakladni styl */
 :root {
-  --zaklad-bg: #e4ebee;
-  --zaklad-bg2: whitesmoke;
+  --zaklad-bg: rgb(238, 243, 247); /* white;*/
+  --zaklad-bg2: white; /* #e4ebee; */
   --bila: white;
   --bila2: white;
   --gram: darkgrey;
   --vyznamy: lightgray;
   --equiv: lightblue;
-  --priklady-bg:  rgb(152, 176, 197);
-}
+  --priklady-bg: rgb(214,122,80);
+  --boxy-bg: rgb(238, 243, 247);
+  --section-half: url(../img/section-half.png);  
+  --popisky: darkolivegreen; 
+  --zelena: yellowgreen;
+}  
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -19,7 +23,11 @@
     --gram: grey;
     --vyznamy: #4A4A4F;
     --equiv: #1b4958;
-    --priklady-bg: dimgray;
+    --priklady-bg: rgb(214,122,80);
+    --boxy-bg: rgb(21,32,33);
+    --section-half: url(../img/section-half_black.png);   
+    --popisky: silver;
+    --zelena: greenyellow;
   }
 }
 
@@ -29,13 +37,21 @@ label {
   font-weight: 500;
 }
 
+/* úprava pro nový editor */
+.x-form-item-label, 
+.x-form-cb-label {
+  font-size: 11px;
+  color: var(--popisky);
+  text-align: right;
+}
+
 /* docasna uprava pro prechod na novy vzhled */
 #tabForm {
   border-top: solid 5px #1c2641;
 }
 
 .x-body {
-  background-color: var(--zaklad-bg)
+  background: var(--zaklad-bg);
 }
 
 input,
@@ -43,47 +59,156 @@ textarea,
 select {
   font-size: 0.9rem;
   font-weight: 200;
-  border-radius: 10px;
+  border: 0px;
+  border-bottom: solid 1px lightseagreen;
+  border-radius: 0px;
 }
 
+.auth input {
+  font-size: 10px;
+  background-color: transparent;
+  border-bottom: dotted 1px gray;
+  color: gray;
+} 
+
+.priklad textarea {
+  font-style: italic;
+} 
+
 .del:hover {
-  background: red;
+  background: red !important;
+}
+
+.del-usage {
+  left: 709px !important;
 }
 
 .add:hover {
   background: lawngreen;
 }
 
+.transparent input, .transparent textarea {
+  background: transparent;
+}
+
+
 /* docasna uprava pro prechod na novy vzhled */
-.ssc_html {
-  background-color: lightblue;
+.ssc_html, .ssc_html span {
+  background-color: lightblue !important;
 }
 
-#videobox-outerCt {
-  background-color: var(--bila2);
+.vyznamNum input {
+  font-size: 22px;
+  font-weight: 800;
 }
 
-.x-panel-body-default {
+.celnibocni {
+  border: solid 1px var(--bg);
+  border-radius: 10px;
+  float: left;
+  margin-right: 5px; 
+  margin-bottom: 5px;
+  padding-right: 4px;
+  background: var(--boxy-bg);
+}
+
+.techinfo-box {
+  border: 1px solid var(--gram);
+}
+
+.sw-img {
+  margin: 5px;
+}
+
+/* #videobox-outerCt {} */
+
+/* .x-panel-body-default {
+  background: var(--zaklad-bg);
+} */
+
+a.btn {
+  font-size: 14px;
+}
+
+.video-text {
+  width: 565px;
+  overflow: hidden;
+}
+
+.formaltop {
   background: var(--zaklad-bg2);
 }
 
 #gramdesc,
 #styldesc {
-  background-color: var(--gram);
+  border: 1px solid var(--gram);  
+  border-left: 20px solid var(--gram); 
+  background: var(--boxy-bg); 
 }
 
 #vyznamy_box {
-  background-color: var(--vyznamy);
+  background-color: var(--zaklad-bg2);
+  border-left: 20px solid #03c9a9;
   /*#d1e8dc;  */
 }
 
-#textfield-1107-inputEl {
-  font-size: 22px;
+#media-body {
+  background-color: var(--zaklad-bg2) ;
+}
+
+.video-label {
+  text-align: right;
+}
+
+.vyznam-zahlavi {
+  border-bottom: 1px solid #03c9a9;  
+}
+
+/* .vyznam-text {} */
+
+#textfield-1111-inputEl { /* lemmawrite */
+  font-size: 24px;
   font-weight: 800;
   font-family: 'Montserrat', sans-serif;
 }
 
-.stav-display div {
+.lemma-box { /* novy editor */
+  border: solid 1px var(--bila2);
+}
+
+.sw-box {
+  border: solid 1px maroon;
+  border-left: 20px solid maroon;
+  margin-top: 10px;
+  background: var(--boxy-bg);
+}
+
+.deklin-box {
+  border: solid 1px lightblue;
+  border-left: 20px solid lightblue;
+  margin-top: 10px;
+  background: var(--boxy-bg);
+}
+
+#swbox {
+border-top: solid 1px maroon;
+}
+.sw-label {
+  border-top: solid 5px maroon;
+  border-bottom: solid 5px maroon;
+  font-weight: bold;
+}
+
+/* .sw-change {} */
+
+.stav-display-published div {
+  color: var(--zelena); 
+  text-align: right;
+  font-weight: bold;
+}
+
+.stav-display-hidden div {
+  color: red;
   text-align: right;
   font-weight: bold;
 }
@@ -159,7 +284,7 @@ select {
   font-size: 85%;
 }
 
-.ssc_html .t {}
+/* .ssc_html .t {} */
 
 .ssc_html .val {
   color: #408080;
@@ -167,9 +292,9 @@ select {
   font-size: 85%;
 }
 
-.ssc_html .v {}
+/* .ssc_html .v {} */
 
-.ssc_html .f {}
+/* .ssc_html .f {} */
 
 .ssc_html .num {
   color: rgb(102, 102, 102);
@@ -181,27 +306,42 @@ select {
 }
 
 .priklady {
-  background-color: var(--priklady-bg);
+  border: solid 1px var(--priklady-bg);
+  border-left: solid 20px var(--priklady-bg);
+  background: var(--boxy-bg);
+}
+
+.equiv {
+  border: solid 1px var(--equiv);
+  border-left: solid 20px var(--equiv);
+  border-radius: 10px;
+  background: var(--boxy-bg);
 }
 
 div.rellinkset {
   margin-bottom: 4px;
-  background-color: var(--equiv);
 }
 
 .deklin-label input {
-  background-color: white !important;
-  color: black !important;
+  background-color: transparent !important;
+  color: var(--popisky);
   opacity: 100 !important;
+  border: none;
+  font-size: 12px;
+  font-weight: normal;
 }
 
 .deklin-tag input {
   color: grey !important;
   opacity: 50 !important;
+  border-right: 5px solid transparent;
+  border-bottom: 1px dotted;
+  font-size: 10px;
+  background-color: transparent;
 }
 
 /*.droppable { background: #08c; color: #fff; padding: 30px 0; text-align: center; }*/
-.droppable {}
+/* .droppable {} */
 
 .droppable.dragover {
   background: black;
@@ -217,15 +357,15 @@ video.asl {
 }
 
 video.is {
-  border-left: solid 4px darkslateblue
+  border-left: solid 4px darkslateblue;
 }
 
 video.spj {
-  border-left: solid 4px mediumseagreen
+  border-left: solid 4px mediumseagreen;
 }
 
 video.ogs {
-  border-left: solid 4px darkred
+  border-left: solid 4px darkred;
 }
 
 video.uzm {
@@ -235,6 +375,10 @@ video.uzm {
 .redtext {
   color: red;
   font-style: italic;
+}
+
+.text-cs, .text-en, .text-sj, .text-de, .text-uk, .text-czj, .text-spj, .text-asl, .text-is, .text-ogs, .text-uzm {
+  background-color: var(--bila2);
 }
 
 .text-cs {
@@ -265,8 +409,9 @@ video.uzm {
 #topeditor {
   position: relative;
 }
-#topdiv {
-}
+
+/* #topdiv {} */
+
 #comments {
   display:none;
   border: solid red;
@@ -285,3 +430,84 @@ video.uzm {
   border-radius: 10px;
 }
 
+.comment-nBox {
+    width: 400px;
+    height: fit-content;
+    padding: 5px;
+}
+
+.comment {
+  background-color: darkred;
+  color: yellow;
+  border-radius: 20px;
+  padding: 10px;
+  width: 400;
+  height: fit-content;
+  margin: 5px;
+}
+
+.comment-solved {
+  background-color: lightgray;
+  color: gray;
+  border-radius: 20px;
+  padding: 10px;
+  width: 400;
+  height: fit-content;
+  margin: 5px;
+  text-decoration: line-through;
+}
+
+.solved {
+  background-color: lightgray;
+  color: gray;
+  text-decoration: line-through;
+}
+
+.comment-inner {
+  background: gray;
+  padding: 5px;
+  border-radius: 10px;
+  margin: 4px;
+}
+
+.comment-solved .comment-inner {
+  border: solid 1px gray;
+  padding: 5px;
+  border-radius: 10px;
+  margin: 4px;
+  background: transparent;
+}
+
+.comment span.user {
+    border-radius: 50%;
+    padding: 11px;
+    background-color: gray;
+    color: white;
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    text-transform: uppercase;
+    font-weight: 900;
+}
+
+.com-date {
+  margin-left: 30px;
+}
+
+.comment-tArea textarea {
+    width: 100%;
+    border: darkred solid 1px;
+    color: var(--cerna);
+    padding: 10px;
+    border-radius: 20px;
+    height: 90px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.unhidden {
+  display: inline;
+  top: 0px !important;
+}
