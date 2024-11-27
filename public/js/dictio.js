@@ -253,6 +253,8 @@ $( document ).ready(function() {
   $('#expression_search').on('focus', function(event) {
     var dict = $('.search-alt__wrap .translate-from').val();
     if (['czj','spj','asl','is','ogs','uzm'].includes(dict)) {
+      $('.search .keyboard').hide();
+      $('.search').removeClass('keyboard-target');
       $('.search-alt__wrapper .keyboard').show();
       $('.search-alt').addClass('keyboard-target');
     }
@@ -260,6 +262,8 @@ $( document ).ready(function() {
   $('#expression_trans').on('focus', function(event) {
     var dict = $('.search__wrapper .translate-from').val();
     if (['czj','spj','asl','is','ogs'].includes(dict)) {
+      $('.search-alt__wrapper .keyboard').hide();
+      $('.search-alt').removeClass('keyboard-target');
       $('.search .keyboard').show();
       $('.search').addClass('keyboard-target');
     }

@@ -30,4 +30,6 @@
                 option value="" #{I18n.t('search.pos')}
                 - info['pos'].each do |sd|
                   option value="#{sd}" selected=("selected" if @search_params['slovni_druh'].to_s==sd)  #{I18n.t('gram.slovni_druh.'+sd)}
-        
+
+      == slim :keyboard
+<!-- /vyhledávání -->
