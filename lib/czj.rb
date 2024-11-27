@@ -1294,6 +1294,10 @@ class CZJDict < Object
         query['type'] = 'sign_usage_example'
       when 'D'
         query['type'] = 'sign_definition'
+      when 'G'
+        query['type'] = 'sign_grammar'
+      when 'S'
+        query['type'] = 'sign_style'
       end
     end
 

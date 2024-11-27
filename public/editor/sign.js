@@ -3974,10 +3974,10 @@ function callback(files) {
       var mtype = '';
       switch (filesv[j].name.charAt(0)) {
         case 'G':
-          mtype = 'grammar_description';
+          mtype = 'sign_grammar';
           break;
         case 'S':
-          mtype = 'style_description';
+          mtype = 'sign_style';
           break;
         case 'K':
           mtype = 'sign_usage_example';
