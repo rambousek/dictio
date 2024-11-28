@@ -1971,8 +1971,8 @@ function load_doc(id, history, historytype) {
           msg: locale[lang]['no_entry'] + ' (' + dictcode.toUpperCase() + ' ' + id + ').',
           buttons: Ext.Msg.YESNO, 
           buttonText: {
-              yes: 'locale[lang]['showhistory'] ', 
-              no: 'locale[lang]['back'] '
+              yes: locale[lang]['showhistory'], 
+              no: locale[lang]['back'] 
           },
           fn: function (btn) {
               if (btn === 'yes') {
