@@ -7,6 +7,6 @@
     td = entry['label']
     td
       - entry['entries_used'].each do |entry_id|
-        a.btn target="_blank" href="/#{@dictcode}/show/#{entry_id}" #{entry_id}, 
+        a.btn class="btn-#{@dictcode}" target="_blank" href="/#{@dictcode}/show/#{entry_id}" #{entry_id} 
         a.btn target="_blank" href="https://edit.dictio.info/editor#{@dictcode}/?id=#{entry_id}" edit
         br
