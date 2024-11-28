@@ -4,95 +4,63 @@ main role="main"
       .row
         article.col.col--2.col--start role="article"
           h1 style="color: white" #{I18n.t("menu.admin")} 
-          h2 class="btn btn-#{@dictcode}" style="color: white"  #{I18n.t("admin.dict")} #{I18n.t("dict_menu.#{@dictcode}")} - #{I18n.t("admin.video")} 
-  section.section 
-    .container
-      .search-top style="border-radius: 20px; padding: 15px;"
-        article.col.col--start role="article" 
+          h2 class="btn btn-#{@dictcode}" style="color: white"  #{I18n.t("admin.dict")} #{I18n.t("dict_menu.#{@dictcode}")} 
+          label #{I18n.t("admin.video")} 
+  .container
+    article.col.col--start role="article"
+      .row
+        aside.col.col--2.col--start.layout-aside-admin role="complementary"
           h2 #{I18n.t("admin.activeopt")} 
           form action="/#{@dictcode}/videoreport" method="get"
-            table 
-              tr
-                td 
-                  | typ videa:
-                td
-                  label
-                    input type="checkbox" value="1" name="type_a" checked=(@params['type_a']=='1') A - #{I18n.t("admin.videos.a")} 
-                td
-                  label
-                    input type="checkbox" value="1" name="type_b" checked=(@params['type_b']=='1') B - #{I18n.t("admin.videos.b")}
-                td
-                  label
-                    input type="checkbox" value="1" name="type_d" checked=(@params['type_d']=='1') D - #{I18n.t("admin.videos.d")} 
-                td
-                  label
-                    input type="checkbox" value="1" name="type_k" checked=(@params['type_k']=='1') K - #{I18n.t("admin.videos.k")}
-                td
-                  label
-                    input type="checkbox" value="1" name="type_g" checked=(@params['type_g']=='1') G - #{I18n.t("admin.videos.g")}  
-              tr
-                td
-                  label
-                    | autor:
-                td colspan="5"
-                  select name="author"
-                    option value=""
-                    - @autori.each do |aut|
-                      option value="#{aut}" selected=(params['author'].to_s == aut) #{aut}
-              tr
-                td
-                  label 
-                    | zdroj:
-                td colspan="5"
-                  select name="source"
-                    option value=""
-                    - @zdroje.each do |aut|
-                      option value="#{aut}" selected=(params['source'].to_s == aut) #{aut}
-              tr
-                td 
-                  label 
-                    | autor videa: 
-                td colspan="5"
-                  select name="copy"
-                    option value=""
-                    - @copys.each do |aut|
-                      option value="#{aut}" selected=(params['copy'].to_s == aut) #{aut}
-              tr
-                td
-                  label
-                    | prac. skupina:
-                td colspan="5"
-                  select name="def_skup"
-                    option value=""
-                    - @skupiny.each do |sk|
-                      - if sk.to_s.strip != ''
-                        option value="#{sk}" selected=(params['def_skup'].to_s == sk) #{I18n.t('admin.group.'+sk.to_s, :default=>sk)}
-              tr
-                td
-                  label
-                    | stav videa
-                td colspan="5"
-                  select name="status"
-                    option value="published" selected=(params['status'].to_s == 'published') schválené
-                    option value="hidden" selected=(params['status'].to_s == 'hidden') skryté
-                    option value="all" selected=(params['status'].to_s == 'all' or params['status'].to_s == '') všechna
-              tr  
-                td
-                td
-                  input.btn type="submit" value="zobrazit"
-                td
-                td
-                td
-                td
-                  a.btn style="background-color: gray" href="/#{@dictcode}/csvvideoreport?type_a=#{@params['type_a']}&type_b=#{@params['type_b']}&type_d=#{@params['type_d']}&type_k=#{@params['type_k']}&author=#{@params['author']}&source=#{@params['source']}&copy=#{@params['copy']}&def_skup=#{@params['def_skup']}&status=#{@params['status']}" CSV export
+            label 
+              | typ videa:
+              input type="checkbox" value="1" name="type_a" checked=(@params['type_a']=='1') A - #{I18n.t("admin.videos.a")} 
+              input type="checkbox" value="1" name="type_b" checked=(@params['type_b']=='1') B - #{I18n.t("admin.videos.b")}
+              input type="checkbox" value="1" name="type_d" checked=(@params['type_d']=='1') D - #{I18n.t("admin.videos.d")} 
+              input type="checkbox" value="1" name="type_k" checked=(@params['type_k']=='1') K - #{I18n.t("admin.videos.k")}
+              input type="checkbox" value="1" name="type_g" checked=(@params['type_g']=='1') G - #{I18n.t("admin.videos.g")}  
+            label
+              | autor:
+              select name="author"
+                option value=""
+                  - @autori.each do |aut|
+                    option value="#{aut}" selected=(params['author'].to_s == aut) #{aut}
+            label 
+              | zdroj:
+              select name="source"
+                option value=""
+                  - @zdroje.each do |aut|
+                    option value="#{aut}" selected=(params['source'].to_s == aut) #{aut}
+            label 
+              | autor videa: 
+              select name="copy"
+                option value=""
+                  - @copys.each do |aut|
+                    option value="#{aut}" selected=(params['copy'].to_s == aut) #{aut}
+            label
+              | prac. skupina:
+              select name="def_skup"
+                option value=""
+                  - @skupiny.each do |sk|
+                    - if sk.to_s.strip != ''
+                      option value="#{sk}" selected=(params['def_skup'].to_s == sk) #{I18n.t('admin.group.'+sk.to_s, :default=>sk)}
+            label
+              | stav videa
+              select name="status"
+                option value="published" selected=(params['status'].to_s == 'published') schválené
+                option value="hidden" selected=(params['status'].to_s == 'hidden') skryté
+                option value="all" selected=(params['status'].to_s == 'all' or params['status'].to_s == '') všechna
+            input.btn type="submit" value="zobrazit"
+            a.btn style="background-color: gray" href="/#{@dictcode}/csvvideoreport?type_a=#{@params['type_a']}&type_b=#{@params['type_b']}&type_d=#{@params['type_d']}&type_k=#{@params['type_k']}&author=#{@params['author']}&source=#{@params['source']}&copy=#{@params['copy']}&def_skup=#{@params['def_skup']}&status=#{@params['status']}" CSV export
 
-      table.table.table--no-margin.report-table data-resultcount=@report['resultcount']
-        tr
-          th width="10%" (#{@report['resultcount']})
-        tr
-          th video
-          th video
-          th label
-        == slim :videoreportresultlist
-      - if @report['resultcount'].to_i > @report['entries'].size
-        a.btn.load_next_videoreport data-dict=@dictcode #{I18n.t("search.load_next")}
+        .col.col--2.col--start.layout-aside 
+          table.table.table--no-margin.report-table data-resultcount=@report['resultcount']
+            tr
+              th width="10%" (#{@report['resultcount']})
+            tr
+              th video
+              th video
+              th label
+            == slim :videoreportresultlist
+          - if @report['resultcount'].to_i > @report['entries'].size
+            a.btn.load_next_videoreport data-dict=@dictcode #{I18n.t("search.load_next")}
