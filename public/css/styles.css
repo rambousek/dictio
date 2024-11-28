@@ -17,6 +17,8 @@
  --section-half: url(../img/section-half.png);      
  --border-0-transparent: 0 solid transparent;
  --zelena: darkgreen;   
+ --scroll1: gray;
+ --scroll2: white;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -31,6 +33,8 @@
     --section-half: url(../img/section-half_black.png);      
     --border-0-transparent: 1px solid slategray;
     --zelena: limegreen;
+    --scroll1: gray;
+    --scroll2: black;
   }
 
   .video__sign img {
@@ -961,7 +965,8 @@ select {
   caret-color: #03c9a9; 
   background-image: url('/img/gt.png');
   background-repeat: no-repeat;
-  background-position: right; }
+  background-position: right; 
+  scrollbar-color: var(--scroll1) var(--scroll2);}
   @supports (-webkit-touch-callout: none) {
     input,
     textarea,
