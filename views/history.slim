@@ -28,7 +28,8 @@ main role="main"
                   | #{I18n.t('admin.heslo')}
                   input type="text" name="entry" value="#{@params['entry']}" size="5"
                 input.btn type="submit" value="#{I18n.t('admin.show')}"
-                a.btn href="/admin/#{entry['dict']}/comments?entry=#{entry['_id']}" komentáře
+                a.btn href="/admin/#{entry['dict']}/comments?entry=#{entry['_id']}" 
+                  | komentáře
         .col.col--2.col--start.layout-aside-admin 
           table.table.table--no-margin.report-table 
             - i = 0
