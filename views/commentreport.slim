@@ -5,11 +5,11 @@ main role="main"
         article.col.col--2.col--start role="article"
           h1 style="color: white" #{I18n.t("menu.admin")} 
           h2 class="btn btn-#{@dictcode}" style="color: white" #{I18n.t("admin.dict")} #{I18n.t("dict_menu.#{@dictcode}")}
-  section.section 
-    .container
-      .report-table
-        article.col.col--start role="article" 
           h2 #{I18n.t('admin.commentreport.title')}
+  .container
+    article.col.col--start role="article" 
+      .row     
+        aside.col.col--2.col--start.layout-aside-admin role="complementary"   
           form method="get" action="/admin/#{@dictcode}/comments"
             p
               label style="display: inline-block"
@@ -24,33 +24,34 @@ main role="main"
                   - @users.each do |user|
                     option value="#{user['login']}" selected=("selected" if @params['assign'] and @params['assign'] == user['login']) #{user['login']}
               input type="submit" value="#{I18n.t('admin.commentreport.filter')}"
-      table.table.table--no-margin.report-table.report-results data-resultcount=@report['resultcount']
-        tr
-          th #{I18n.t('admin.commentreport.entry')}
-          th 
-          th 
-          th #{I18n.t('admin.commentreport.assign')}
-          th #{I18n.t('admin.commentreport.user')}
-          th
-        - @report['comments'].each do |koment|
-          tr.report-row
-            td 
-              a.btn class="btn-#{koment['dict']}" href="/#{koment['dict']}/show/#{koment['entry']}" target="_blank" #{koment['entry']}
-            td
-              - if @dict_info[@dictcode]['type'] == 'sign' and koment['video'] != ''
-                video class=@dictcode width="177" height="142" onmouseover="this.play()" onmouseout="this.pause()"
-                  source type="video/mp4" src="https://files.dictio.info/video#{@dictcode}/#{koment['video']}"
-              - if @dict_info[@dictcode]['type'] == 'write'
-                h3 #{koment['lemma']}
-            td 
-              b #{koment['box']} 
-              hr style="margin: 10px 0px 10px 0px"
-              p #{koment['text']}
-            td 
-              - if koment.include?('assign') and koment['assign'] != ''
-                b → #{koment['assign']}
-            td 
-              small
-                | #{koment['user']} #{koment['time']}
-            td 
-              a.btn href="https://edit.dictio.info/editor#{koment['dict']}/?id=#{koment['entry']}" target="_blank" edit
+        .col.col--2.col--start.layout-aside 
+          table.table.table--no-margin.report-table.report-results data-resultcount=@report['resultcount']
+            tr
+              th #{I18n.t('admin.commentreport.entry')}
+              th 
+              th 
+              th #{I18n.t('admin.commentreport.assign')}
+              th #{I18n.t('admin.commentreport.user')}
+              th
+            - @report['comments'].each do |koment|
+              tr.report-row
+                td 
+                  a.btn class="btn-#{koment['dict']}" href="/#{koment['dict']}/show/#{koment['entry']}" target="_blank" #{koment['entry']}
+                td
+                  - if @dict_info[@dictcode]['type'] == 'sign' and koment['video'] != ''
+                    video class=@dictcode width="177" height="142" onmouseover="this.play()" onmouseout="this.pause()"
+                      source type="video/mp4" src="https://files.dictio.info/video#{@dictcode}/#{koment['video']}"
+                  - if @dict_info[@dictcode]['type'] == 'write'
+                    h3 #{koment['lemma']}
+                td 
+                  b #{koment['box']} 
+                  hr style="margin: 10px 0px 10px 0px"
+                  p #{koment['text']}
+                td 
+                  - if koment.include?('assign') and koment['assign'] != ''
+                    b → #{koment['assign']}
+                td 
+                  small
+                    | #{koment['user']} #{koment['time']}
+                td 
+                  a.btn href="https://edit.dictio.info/editor#{koment['dict']}/?id=#{koment['entry']}" target="_blank" edit
