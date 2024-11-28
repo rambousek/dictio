@@ -2569,8 +2569,8 @@ a.btn {
     background: var(--translate-bg-seda) }
   @media (min-width: 992px) {
     .layout-aside-admin:first-child {
-      max-width: 190px;
-      padding: 88px 63px 70px 10px; } }      
+      max-width: 220px;
+      /* padding: 88px 63px 70px 10px; */} }      
 
 .layout-column:last-child {
   position: relative;
