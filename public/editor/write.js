@@ -1469,9 +1469,22 @@ function load_doc(id, history, historytype) {
       } else {
         Ext.resumeLayouts(true);
         loadMask.hide();
-        Ext.Msg.alert('Error', locale[lang]['no_entry']+': '+dictcode.toUpperCase()+' '+id, function() {
-          window.location = '/';
-        });
+        Ext.Msg.show({
+          title: 'Error',
+          msg: locale[lang]['no_entry'] + ' (' + dictcode.toUpperCase() + ' ' + id + ').',
+          buttons: Ext.Msg.YESNO, 
+          buttonText: {
+              yes: locale[lang]['showhistory'], 
+              no: locale[lang]['back'] 
+          },
+          fn: function (btn) {
+              if (btn === 'yes') {
+                  window.location = 'https://admin.dictio.info/history?code=' + dictcode + '&entry=' + entryid;
+              } else if (btn === 'no') {
+                  window.history.back();
+              }            
+          }
+        });      
       }
     }
   });
