@@ -28,25 +28,25 @@ main role="main"
                   | #{I18n.t('admin.heslo')}
                   input type="text" name="entry" value="#{@params['entry']}" size="5"
                 input.btn type="submit" value="#{I18n.t('admin.show')}"
-          .col.col--2.col--start.layout-aside 
-            table.table.table--no-margin.report-table 
-              - i = 0
-              - @report['entries'].each do |entry|
-                - i += 1
-                tr
-                  td rowspan=3 #{i}
-                  td colspan=3 #{entry['timestamp']}
-                  td rowspan=3 #{entry['detail']}
-                  td 
-                    - if entry['full_entry']
-                      a.btn href="/compare/#{entry['_id']}" target="_blank" #{I18n.t('admin.historycompare')}
-                tr
-                  td #{entry['dict']}
-                  td 
-                    a.btn class="btn-#{entry['dict']}" href="/#{entry['dict']}/show/#{entry['entry']}" target="_blank" #{entry['entry']}
-                  td #{entry['user']}
-                  td 
-                    - if entry['full_entry']
-                      a.compareedit href="#" data-href="https://edit.dictio.info/editor#{entry['dict']}/?id=#{entry['entry']}&history=#{entry['_id']}" #{I18n.t('admin.historycompareedit')}
-                tr
-                  td colspan=3
+        .col.col--2.col--start.layout-aside 
+          table.table.table--no-margin.report-table 
+            - i = 0
+            - @report['entries'].each do |entry|
+              - i += 1
+              tr
+                td rowspan=3 #{i}
+                td colspan=3 #{entry['timestamp']}
+                td rowspan=3 #{entry['detail']}
+                td 
+                  - if entry['full_entry']
+                    a.btn href="/compare/#{entry['_id']}" target="_blank" #{I18n.t('admin.historycompare')}
+              tr
+                td #{entry['dict']}
+                td 
+                  a.btn class="btn-#{entry['dict']}" href="/#{entry['dict']}/show/#{entry['entry']}" target="_blank" #{entry['entry']}
+                td #{entry['user']}
+                td 
+                  - if entry['full_entry']
+                    a.compareedit href="#" data-href="https://edit.dictio.info/editor#{entry['dict']}/?id=#{entry['entry']}&history=#{entry['_id']}" #{I18n.t('admin.historycompareedit')}
+              tr
+                td colspan=3
