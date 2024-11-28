@@ -4,44 +4,48 @@ main role="main"
       .row
         article.col.col--2.col--start role="article"
           h1 style="color: white" #{I18n.t("menu.admin")} 
-          h2 class="btn btn-#{@dictcode}" style="color: white" #{I18n.t("admin.dict")} #{I18n.t("dict_menu.#{@dictcode}")} - #{I18n.t("admin.dup")} 
-  section.section 
-    .container
-      .report-table
-        article.col.col--start role="article" 
-          p celkem: #{@report['count']}
-          table
-            tr
-              th
-              th lemma
-              th ID
-            - i = 0
-            - @report['duplicate'].each do |dup|
-              - i += 1
-              tr
-                td #{i}
-                - if @dict_info[@dictcode]['type'] == 'write'
-                  td ! #{dup['lemma'].to_s}
-                - else
-                  - if dup['front']
-                    td 
-                      video class=@dictcode width="177" height="142" onmouseover="this.play()" onmouseout="this.pause()"
-                        source type="video/mp4" src="https://files.dictio.info/video#{@dictcode}/#{dup['front'].to_s}"                        
-                  - else
-                    td !
-                  /    - dup['_id']['front'].each do |dtr|
-                  /      - dtr.each do |tran|
-                  /
-                  /    - dup['_id']['trans'].each do |dtr|
-                  /      - dtr.each do |tran|
-                  /        | #{tran['target']}: #{tran['meaning_id']},  
-                td
-                  - if dup['ids']
-                    - dup['ids'].each do |id|
-                      | ~ 
-                      a.btn class="btn-#{@dictcode}" href="https://edit.dictio.info/editor#{@dictcode}/?id=#{id}" #{id}
-                  - if dup['_id']['ids']
-                    - dup['_id']['ids'].each do |id|
-                      | ~ 
-                      a.btn class="btn-#{@dictcode}" href="https://edit.dictio.info/editor#{@dictcode}/?id=#{id}" #{id}
+          h2 class="btn btn-#{@dictcode}" style="color: white" #{I18n.t("admin.dict")} #{I18n.t("dict_menu.#{@dictcode}")} 
+          label #{I18n.t("admin.dup")} 
+  .container
+    article.col.col--start role="article"
+      .row
+        aside.col.col--2.col--start.layout-aside-admin role="complementary"
+        .col.col--2.col--start.layout-aside 
+          .report-table
+            article.col.col--start role="article" 
+              p celkem: #{@report['count']}
+              table
+                tr
+                  th
+                  th lemma
+                  th ID
+                - i = 0
+                - @report['duplicate'].each do |dup|
+                  - i += 1
+                  tr
+                    td #{i}
+                    - if @dict_info[@dictcode]['type'] == 'write'
+                      td ! #{dup['lemma'].to_s}
+                    - else
+                      - if dup['front']
+                        td 
+                          video class=@dictcode width="177" height="142" onmouseover="this.play()" onmouseout="this.pause()"
+                            source type="video/mp4" src="https://files.dictio.info/video#{@dictcode}/#{dup['front'].to_s}"                        
+                      - else
+                        td !
+                      /    - dup['_id']['front'].each do |dtr|
+                      /      - dtr.each do |tran|
+                      /
+                      /    - dup['_id']['trans'].each do |dtr|
+                      /      - dtr.each do |tran|
+                      /        | #{tran['target']}: #{tran['meaning_id']},  
+                    td
+                      - if dup['ids']
+                        - dup['ids'].each do |id|
+                          | ~ 
+                          a.btn class="btn-#{@dictcode}" href="https://edit.dictio.info/editor#{@dictcode}/?id=#{id}" #{id}
+                      - if dup['_id']['ids']
+                        - dup['_id']['ids'].each do |id|
+                          | ~ 
+                          a.btn class="btn-#{@dictcode}" href="https://edit.dictio.info/editor#{@dictcode}/?id=#{id}" #{id}
                      
