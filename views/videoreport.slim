@@ -10,15 +10,21 @@ main role="main"
     article.col.col--start role="article"
       .row
         aside.col.col--2.col--start.layout-aside-admin role="complementary"
-          h2 #{I18n.t("admin.activeopt")} 
+          em #{I18n.t("admin.activeopt")} 
           form action="/#{@dictcode}/videoreport" method="get"
             label 
               | typ videa:
-              input type="checkbox" value="1" name="type_a" checked=(@params['type_a']=='1') A - #{I18n.t("admin.videos.a")} 
-              input type="checkbox" value="1" name="type_b" checked=(@params['type_b']=='1') B - #{I18n.t("admin.videos.b")}
-              input type="checkbox" value="1" name="type_d" checked=(@params['type_d']=='1') D - #{I18n.t("admin.videos.d")} 
-              input type="checkbox" value="1" name="type_k" checked=(@params['type_k']=='1') K - #{I18n.t("admin.videos.k")}
-              input type="checkbox" value="1" name="type_g" checked=(@params['type_g']=='1') G - #{I18n.t("admin.videos.g")}  
+              ul style="list-style-type: none;"
+                li
+                  input type="checkbox" value="1" name="type_a" checked=(@params['type_a']=='1') A - #{I18n.t("admin.videos.a")} 
+                li
+                  input type="checkbox" value="1" name="type_b" checked=(@params['type_b']=='1') B - #{I18n.t("admin.videos.b")}
+                li  
+                  input type="checkbox" value="1" name="type_d" checked=(@params['type_d']=='1') D - #{I18n.t("admin.videos.d")} 
+                li                  
+                  input type="checkbox" value="1" name="type_k" checked=(@params['type_k']=='1') K - #{I18n.t("admin.videos.k")}
+                li                  
+                  input type="checkbox" value="1" name="type_g" checked=(@params['type_g']=='1') G - #{I18n.t("admin.videos.g")}  
             label
               | autor:
               select name="author"
@@ -53,7 +59,7 @@ main role="main"
             input.btn type="submit" value="zobrazit"
             a.btn style="background-color: gray" href="/#{@dictcode}/csvvideoreport?type_a=#{@params['type_a']}&type_b=#{@params['type_b']}&type_d=#{@params['type_d']}&type_k=#{@params['type_k']}&author=#{@params['author']}&source=#{@params['source']}&copy=#{@params['copy']}&def_skup=#{@params['def_skup']}&status=#{@params['status']}" CSV export
 
-        .col.col--2.col--start.layout-aside 
+        .col.col--2.col--start.layout-aside-admin 
           table.table.table--no-margin.report-table data-resultcount=@report['resultcount']
             tr
               th width="10%" (#{@report['resultcount']})
