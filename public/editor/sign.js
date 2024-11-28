@@ -1968,7 +1968,7 @@ function load_doc(id, history, historytype) {
         loadMask.hide();
         Ext.Msg.show({
           title: 'Error',
-          msg: locale[lang]['no_entry'] + ': ' + dictcode.toUpperCase() + ' ' + id,
+          msg: locale[lang]['no_entry'] + ' (' + dictcode.toUpperCase() + ' ' + id + ').',
           buttons: Ext.Msg.YESNO, 
           buttonText: {
               yes: 'Zobrazit historii', // Vlastní text tlačítka
