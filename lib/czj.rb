@@ -2475,12 +2475,14 @@ class CZJDict < Object
   def export_videoreport(params)
     report = {'entries'=>[], 'resultcount'=>0, 'query'=>{}}
     search_cond = {'dict': @dictcode}
-    if params['type_a'].to_s == '1' or params['type_b'].to_s == '1' or params['type_d'].to_s == '1' or params['type_k'].to_s == '1'
+    if params['type_a'].to_s == '1' or params['type_b'].to_s == '1' or params['type_d'].to_s == '1' or params['type_k'].to_s == '1' or params['type_g'].to_s == '1' or params['type_s'].to_s == '1'
       types = []
       types << 'sign_front' if params['type_a'].to_s == '1'
       types << 'sign_side' if params['type_b'].to_s == '1'
       types << 'sign_definition' if params['type_d'].to_s == '1'
       types << 'sign_usage_example' if params['type_k'].to_s == '1'
+      types << 'sign_grammar' if params['type_g'].to_s == '1'
+      types << 'sign_style' if params['type_s'].to_s == '1'
       search_cond['type'] = {'$in': types}
     end
     search_cond['id_meta_author'] = params['author'] if params['author'].to_s != ''
