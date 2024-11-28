@@ -12,12 +12,12 @@ main role="main"
         .row
           aside.col.col--2.col--start.layout-aside-admin role="complementary"
           .col.col--2.col--start.layout-aside-admin 
-            .report-table
-              h2 
-                | #{I18n.t("admin.notrans1")}
-              - if @report['notrans1']['notrans'].size == 0
-                | #{I18n.t("admin.notrans0")}
-              - else
+            h2 
+              | #{I18n.t("admin.notrans1")}
+            - if @report['notrans1']['notrans'].size == 0
+              | #{I18n.t("admin.notrans0")}
+            - else
+              .report-table
                 table style="border-collapse: collapse"
                   tr
                     th #{I18n.t("admin.heslo")}
@@ -41,14 +41,14 @@ main role="main"
                         span
                           textarea data-box="meaning#{entry['relation']['meaning']}rel#{entry['relation']['target']}#{entry['relation']['trans']}" data-dict="#{entry['dict']}" data-id="#{entry['id']}" name="kom_text"
                           button.notranscomment  #{I18n.t("admin.koment.add")}
-            
-            article.col.col--start role="article"
-              h2 
-                | #{I18n.t("admin.notrans2")}
-              - if @report['notrans2']['notrans'].size == 0
-                | #{I18n.t("admin.notrans0")}
-              - else
-                form method="get" action="/#{@dictcode}/notrans"
+                     
+            h2           
+            | #{I18n.t("admin.notrans2")}
+            - if @report['notrans2']['notrans'].size == 0
+              | #{I18n.t("admin.notrans0")}
+            - else
+              form method="get" action="/#{@dictcode}/notrans"
+                .report-table
                   table
                     tr
                       td #{I18n.t("admin.notransauth")}
