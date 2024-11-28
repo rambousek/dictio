@@ -1,12 +1,12 @@
 - @report['entries'].each do |entry|
-  tr.report-row
-    td = entry['location']
+  tr.report-row    
     td 
           video width="150" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{@dictcode}/#{entry['location']}" muted="muted"
             source src="https://files.dictio.info/video#{@dictcode}/#{entry['location']}" type="video/mp4"
+    td = entry['location']       
     td = entry['label']
     td
       - entry['entries_used'].each do |entry_id|
-        a target="_blank" href="/#{@dictcode}/show/#{entry_id}" #{entry_id}, 
-        a target="_blank" href="https://edit.dictio.info/editor#{@dictcode}/?id=#{entry_id}" edit
+        a.btn target="_blank" href="/#{@dictcode}/show/#{entry_id}" #{entry_id}, 
+        a.btn target="_blank" href="https://edit.dictio.info/editor#{@dictcode}/?id=#{entry_id}" edit
         br
