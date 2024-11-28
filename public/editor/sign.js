@@ -1966,7 +1966,7 @@ function load_doc(id, history, historytype) {
       } else {
         Ext.resumeLayouts(true);
         loadMask.hide();
-        Ext.Msg.alert({
+        Ext.Msg.show({
           title: 'Error',
           message: locale[lang]['no_entry'] + ': ' + dictcode.toUpperCase() + ' ' + id,
           buttons: Ext.Msg.YESNO, 
@@ -1975,7 +1975,7 @@ function load_doc(id, history, historytype) {
               no: 'Zpět'
           },
           fn: function (btn) {
-              if (btn === 'ok') {
+              if (btn === 'yes') {
                   // Přesměrování na požadovanou adresu
                   window.location = 'https://admin.dictio.info/history?code=' + dictcode + '&entry=' + entryid;
               } else if (btn === 'no') {
