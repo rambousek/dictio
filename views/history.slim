@@ -5,45 +5,48 @@ main role="main"
         article.col.col--2.col--start role="article"
           h1 style="color: white" #{I18n.t("menu.admin")} 
           h2 class="btn" style="color: white"  #{I18n.t("admin.history")} 
-.container
-  article.col.col--start role="article"
-    .row
-      aside.col.col--2.col--start.layout-aside-admin role="complementary"      
-        article.col.col--start role="article" 
-          form action="/history" method="get"
-            p
-              label #{I18n.t('admin.dict')}
-                select name="code"
-                  option value="" -
-                  - @dict_info.each do |code, info|
-                    option value="#{code}" selected=(code == @params['code']) #{I18n.t("dict."+code)}
-              label #{I18n.t('admin.users.login')}
-                select name="user"
-                  option value="" -
-                  - @users.each do |user|
-                    option value="#{user}" selected=(user == @params['user']) #{user}
-              label #{I18n.t('admin.heslo')}
-                input type="text" name="entry" value="#{@params['entry']}" size="5"
-              input.btn type="submit" value="#{I18n.t('admin.show')}"
-        .col.col--2.col--start.layout-aside 
-          table.table.table--no-margin.report-table 
-            - i = 0
-            - @report['entries'].each do |entry|
-              - i += 1
-              tr
-                td rowspan=3 #{i}
-                td colspan=3 #{entry['timestamp']}
-                td rowspan=3 #{entry['detail']}
-                td 
-                  - if entry['full_entry']
-                    a.btn href="/compare/#{entry['_id']}" target="_blank" #{I18n.t('admin.historycompare')}
-              tr
-                td #{entry['dict']}
-                td 
-                  a.btn class="btn-#{entry['dict']}" href="/#{entry['dict']}/show/#{entry['entry']}" target="_blank" #{entry['entry']}
-                td #{entry['user']}
-                td 
-                  - if entry['full_entry']
-                    a.compareedit href="#" data-href="https://edit.dictio.info/editor#{entry['dict']}/?id=#{entry['entry']}&history=#{entry['_id']}" #{I18n.t('admin.historycompareedit')}
-              tr
-                td colspan=3
+  .container
+    article.col.col--start role="article"
+      .row
+        aside.col.col--2.col--start.layout-aside-admin role="complementary"      
+          article.col.col--start role="article" 
+            form action="/history" method="get"
+              p
+                label style="display: inline-block"
+                  | #{I18n.t('admin.dict')}
+                  select name="code"
+                    option value="" -
+                    - @dict_info.each do |code, info|
+                      option value="#{code}" selected=(code == @params['code']) #{I18n.t("dict."+code)}
+                label style="display: inline-block"
+                  | #{I18n.t('admin.users.login')}
+                  select name="user"
+                    option value="" -
+                    - @users.each do |user|
+                      option value="#{user}" selected=(user == @params['user']) #{user}
+                label style="display: inline-block"
+                  | #{I18n.t('admin.heslo')}
+                  input type="text" name="entry" value="#{@params['entry']}" size="5"
+                input.btn type="submit" value="#{I18n.t('admin.show')}"
+          .col.col--2.col--start.layout-aside 
+            table.table.table--no-margin.report-table 
+              - i = 0
+              - @report['entries'].each do |entry|
+                - i += 1
+                tr
+                  td rowspan=3 #{i}
+                  td colspan=3 #{entry['timestamp']}
+                  td rowspan=3 #{entry['detail']}
+                  td 
+                    - if entry['full_entry']
+                      a.btn href="/compare/#{entry['_id']}" target="_blank" #{I18n.t('admin.historycompare')}
+                tr
+                  td #{entry['dict']}
+                  td 
+                    a.btn class="btn-#{entry['dict']}" href="/#{entry['dict']}/show/#{entry['entry']}" target="_blank" #{entry['entry']}
+                  td #{entry['user']}
+                  td 
+                    - if entry['full_entry']
+                      a.compareedit href="#" data-href="https://edit.dictio.info/editor#{entry['dict']}/?id=#{entry['entry']}&history=#{entry['_id']}" #{I18n.t('admin.historycompareedit')}
+                tr
+                  td colspan=3
