@@ -1966,9 +1966,24 @@ function load_doc(id, history, historytype) {
       } else {
         Ext.resumeLayouts(true);
         loadMask.hide();
-        Ext.Msg.alert('Error', locale[lang]['no_entry'] + ': ' + dictcode.toUpperCase() + ' ' + id, function () {
-          window.location = '/';
-        });
+        Ext.Msg.alert({
+          title: 'Error',
+          message: locale[lang]['no_entry'] + ': ' + dictcode.toUpperCase() + ' ' + id,
+          buttons: Ext.Msg.YESNO, 
+          buttonText: {
+              yes: 'Zobrazit historii', // Vlastní text tlačítka
+              no: 'Zpět'
+          },
+          fn: function (btn) {
+              if (btn === 'ok') {
+                  // Přesměrování na požadovanou adresu
+                  window.location = 'https://admin.dictio.info/history?code=' + dictcode + '&entry=' + entryid;
+              } else if (btn === 'no') {
+                  // Návrat na předchozí stránku
+                  window.history.back();
+              }            
+          }
+      });      
       }
     }
   });
