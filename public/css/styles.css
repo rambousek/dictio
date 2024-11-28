@@ -45,9 +45,7 @@
 }   
   
 postcss([
-  cssvariables({
-    preserve: true,
-  }),
+  cssvariables({ preserve: true }),
 ])
 
 html {
@@ -3698,7 +3696,7 @@ a.btn {
     left: 50%;
     width: 40px;
     height: 40px;
-    background: var(--translate-bg-seda)
+    background: var(--translate-bg-seda);
     -webkit-transform: translate(-50%, -50%) rotate(-45deg);
         -ms-transform: translate(-50%, -50%) rotate(-45deg);
             transform: translate(-50%, -50%) rotate(-45deg); }
