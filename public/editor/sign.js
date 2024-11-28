@@ -1971,15 +1971,13 @@ function load_doc(id, history, historytype) {
           msg: locale[lang]['no_entry'] + ' (' + dictcode.toUpperCase() + ' ' + id + ').',
           buttons: Ext.Msg.YESNO, 
           buttonText: {
-              yes: 'Zobrazit historii', // Vlastní text tlačítka
-              no: 'Zpět'
+              yes: 'locale[lang]['showhistory'] ', 
+              no: 'locale[lang]['back'] '
           },
           fn: function (btn) {
               if (btn === 'yes') {
-                  // Přesměrování na požadovanou adresu
                   window.location = 'https://admin.dictio.info/history?code=' + dictcode + '&entry=' + entryid;
               } else if (btn === 'no') {
-                  // Návrat na předchozí stránku
                   window.history.back();
               }            
           }
