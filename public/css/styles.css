@@ -17,7 +17,6 @@
  --section-half: url(../img/section-half.png);      
  --border-0-transparent: 0 solid transparent;
  --zelena: darkgreen;   
- --scroll1: #e4ebee; ;
  --scroll2: white;
 }
 
@@ -33,7 +32,6 @@
     --section-half: url(../img/section-half_black.png);      
     --border-0-transparent: 1px solid slategray;
     --zelena: limegreen;
-    --scroll1: gray;
     --scroll2: black;
   }
 
@@ -966,7 +964,7 @@ select {
   background-image: url('/img/gt.png');
   background-repeat: no-repeat;
   background-position: right; 
-  scrollbar-color: var(--scroll1) var(--scroll2);}
+  scrollbar-color: var(--zakladni-bg-seda1) var(--scroll2);}
   @supports (-webkit-touch-callout: none) {
     input,
     textarea,
