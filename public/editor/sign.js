@@ -257,6 +257,7 @@ data = [
   { 'value': 'asl', 'text': locale[lang].asl },
   { 'value': 'bsl', 'text': locale[lang].bsl },
   { 'value': 'rzj', 'text': locale[lang].rzj },
+  { 'value': 'israel', 'text': locale[lang].israel },
   { 'value': 'is', 'text': locale[lang].is },
   { 'value': 'zc', 'text': locale[lang].zc },
   { 'value': 'loc', 'text': locale[lang].loc },
