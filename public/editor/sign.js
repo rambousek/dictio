@@ -433,21 +433,22 @@ var stylprizStore = Ext.create('Ext.data.Store', {
   data: [
     { 'value': null, 'text': '-' },
     { 'value': 'abstrakt', 'text': 'abstraktní výraz' },
-    { 'value': 'basnicky', 'text': 'básnický výraz' },
-    { 'value': 'biblicky', 'text': 'biblický výraz' },
     { 'value': 'cirkev', 'text': 'církevní výraz' },
+    { 'value': 'biblicky', 'text': 'biblický výraz' },    
+    { 'value': 'hanlivy', 'text': 'hanlivý (neslušný) výraz' },    
+    { 'value': 'odborny', 'text': 'odborný výraz' },
+    { 'value': 'sz', 'text': 'specifický znak' },
+    { 'value': 'zc', 'text': 'výraz znakované češtiny' },
+    { 'value': 'basnicky', 'text': 'básnický výraz' },
     { 'value': 'detsky', 'text': 'dětský výraz' },
-    { 'value': 'eufem', 'text': 'eufemismus' },
-    { 'value': 'hanlivy', 'text': 'hanlivý (neslušný) výraz' },
+    { 'value': 'eufem', 'text': 'eufemismus' },    
     { 'value': 'lichotivy', 'text': 'lichotivý výraz' },
     { 'value': 'mazlivy', 'text': 'mazlivý výraz' },
-    { 'value': 'odborny', 'text': 'odborný výraz' },
     { 'value': 'zdvor', 'text': 'zdvořilostní výraz' },
     { 'value': 'zhrubely', 'text': 'zhrubělý výraz' },
     { 'value': 'zert', 'text': 'žertovný výraz' },
     { 'value': 'zdrob', 'text': 'zdrobnělina' },
     { 'value': 'zastar', 'text': 'zastaralý výraz' },
-    { 'value': 'zc', 'text': 'znakovaná čeština' },
   ]
 });
 
