@@ -394,6 +394,7 @@ de:
       zastar: 'veralteter Ausdruck'
       cirkev: 'kirliche Äußerung'
       zc: 'sign supported Czech'
+      sz: 'Deaf sign'
   error: 
     notfound: ":( Seite nicht gefunden"
     internal: ":( Internal error"
