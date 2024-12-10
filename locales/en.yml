@@ -395,6 +395,7 @@ en:
       zastar: 'obsolete expression'
       cirkev: 'church expression'
       zc: 'sign supported Czech'
+      sz: 'Deaf sign'
   error: 
     notfound: ":( Page not found"
     internal: ":( Internal error"

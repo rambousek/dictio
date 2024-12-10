@@ -398,6 +398,7 @@ cs:
       zastar: 'zastaralý výraz'
       cirkev: 'církevní výraz'
       zc: 'znakovaná čeština'
+      sz: 'specifický znak'
   error: 
     notfound: ":( stránka nenalezena"
     internal: ":( chyba serveru"
