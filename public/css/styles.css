@@ -3479,7 +3479,7 @@ a.btn {
   text-decoration: underline;
   text-transform: uppercase; }
 
-.naming {
+.naming, .cat3 {
   position: relative;
   /* display: inline-block; */
   margin: 0 0 16px 0;
@@ -3501,7 +3501,7 @@ a.btn {
     border-radius: 0 10px 10px 0;
     background: var(--zakladni-bg-seda1); }
   @media (min-width: 768px) {
-    .naming {
+    .naming, .cat3 {
       margin: 0 0 9px 0;
       padding: 0;
       color: var(--zakladni-text-cerna1);
