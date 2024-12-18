@@ -339,7 +339,6 @@ cs:
       redup: "plurál tvoří reduplikací"
       klf: "plurál tvoří reduplikací klasifikátoru nebo specifikátoru"
       redupKLF: "plurál tvoří přidáním reduplikovaného klasifikátoru nebo zájmena"
-    skupina2:
       proste: "prosté"
       shodove: "shodové"
       prostor: "prostorové"
@@ -382,7 +381,6 @@ cs:
       spec: ""
       partneg: "záporná"
       partcont: "kontaktová"
-    skupina3:
     origin:
       czj: "ČZJ"
       spj: "SPJ"
