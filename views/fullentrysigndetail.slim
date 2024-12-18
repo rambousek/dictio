@@ -84,7 +84,7 @@
                       | )
                       - if gr['@skupina3'].to_s != ''
                         p.naming (
-                        = I18n.t("gram.slovni_druh."+gr['@skupina3'])
+                        | I18n.t("gram.slovni_druh."+gr['@skupina3'])
                         | )
                 - unless sd.equal? slovni_druhy.uniq.last
                   | , 
