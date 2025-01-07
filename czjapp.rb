@@ -17,7 +17,6 @@ require 'damerau-levenshtein'
 require_relative 'lib/czj'
 require_relative 'lib/host-config'
 require_relative 'lib/dict-config'
-require_relative 'lib/search_helper'
 
 class CzjApp < Sinatra::Base
   $mongo = Mongo::Client.new($mongoHost)
