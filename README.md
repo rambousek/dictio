@@ -127,7 +127,32 @@ systemctl enable mongod
 
 /etc/mongod.conf - net: bindIp:
 
+crontab: mongo-counts.sh mongo-media.sh cleancomment.rb
+
+### sign
+https://github.com/sutton-signwriting/font-db
+
+/etc/systemd/system/signwriting.service
+
 ```
-use dictio
-db.entries.aggregate([{"$facet":{"rel": [{"$match": { "meanings.relation.type":{"$nin":["synonym","antonym"]}}},{"$unwind":"$meanings"},{"$unwind":"$meanings.relation"},{"$count":"count"}],"usgrel": [{"$match": { "meanings.usages.relation.type":{"$nin":["synonym","antonym"]}}},{"$unwind":"$meanings"},{"$unwind":"$meanings.usages"},{"$unwind":"$meanings.usages.relation"},{"$count":"count"}],"entries": [{"$count":"count"}] }},{"$addFields":{dateField: new Date()}}, {"$merge":"entryStat"}])
+[Unit]
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/node /opt/font-db/server/server.js
+WorkingDirectory=/opt/font-db
+#Type=forking
+Restart=always
+StandardOutput=syslog
+TimeoutSec=90
+SyslogIdentifier=signwriting
+User=nobody
+Group=wheel
+Environment=PATH=/usr/bin:/usr/local/bin
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
 ```
+
+```systemctl enable signwriting```
