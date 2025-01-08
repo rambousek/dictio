@@ -349,6 +349,8 @@ sk:
       subj: "subjektové"
       obj: "objektové"
       reci: "recipročné"
+      reci;subj: "recipročné, subjektovo"
+      reci;obj: "recipročné, objektovo"
       polo: "poloschodné"
       lok: "lokatívne"
       redo: "reduplikácia vyjadruje opakovanie deja"
