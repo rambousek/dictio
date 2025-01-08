@@ -400,6 +400,7 @@ class CzjApp < Sinatra::Base
           @result = dict.translate2(code, params['target'], @search.to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
           @resultwarn = true
         end
+        @resultwarn = "<em><strong>#{params['search']}</strong></em> nenalezeno. Zobrazeny výsledky pro: <strong><em>#{@search}</em></strong>"
       end
 
       # Zobrazení výsledků
