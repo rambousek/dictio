@@ -401,8 +401,17 @@ class CzjApp < Sinatra::Base
           @resultwarn = true
         end
       end
-      slim :transresultlist, :layout=>false
-    end
+
+      # Zobrazení výsledků
+      slim :transresultlist, layout: false
+      end
+
+    #  @result = dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
+    #  if @result['count'] == 0
+    #    File.open("public/log/translate.csv", "a"){|f| f << [code, params['target'],  params['search'].to_s, Time.now.strftime("%Y-%m-%d %H:%M:%S")].join(";")+"\n"}
+    #  end
+    #  slim :transresultlist, :layout=>false
+    # end
     get '/'+code+'/revcolloc/:id' do
       @entry = dict.get_revcolloc(params['id'], 'collocation')
       @type = 'collocation'
