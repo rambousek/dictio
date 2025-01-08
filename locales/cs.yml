@@ -351,6 +351,8 @@ cs:
       subj: "subjektově"
       obj: "objektově"
       reci: "reciproční"
+      reci;subj: "reciproční, subjektově"
+      reci;obj: "reciproční, objektově"
       polo: "poloshodové"
       lok: "lokativni"
       redo: "reduplikace vyjadřuje opakování děje"
