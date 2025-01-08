@@ -75,7 +75,7 @@ cs:
     pos: "-- slovní druh --"
     advanced: "rozšířené..."
     notfound: ":( Nenalezeno. Zkuste zadat jiný výraz, nebo jeho část. "
-    notfound2: " nenalezeno. Zoborazeno hledání "
+    notfound2: " nenalezeno. Zobrazeno hledání "
     search-notfound: ":( Chyba. Heslo nenalezeno. "
     try_search: "Heslo s tímto ID neobsahuje žádné ekvivalenty v cílovém jazyce. "
     link: "Zobrazit heslo v jednojazyčném slovníku."
