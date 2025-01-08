@@ -379,39 +379,12 @@ class CzjApp < Sinatra::Base
       @search = params['search']
       @input_type = params['type']
       @dictcode = code
-
-      # Funkce pro překlad
-      def perform_search(search_term)
-        dict.translate2(code, params['target'], search_term.to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
-      end
-      
-      # První pokus o hledání
-      @result = perform_search(@search)
-      
-      # Pokud nejsou nalezeny výsledky, zalogovat a iterativně zkracovat
+      @result = dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
       if @result['count'] == 0
-        # Zalogování původního hledaného výrazu
-        File.open("public/log/translate.csv", "a") do |f|
-          f << [code, params['target'], @search.to_s, Time.now.strftime("%Y-%m-%d %H:%M:%S")].join(";") + "\n"
-        end
-      
-        # Iterativní zkracování výrazu, dokud nejsou nalezeny výsledky nebo není výraz prázdný
-        while @result['count'] == 0 && @search.length > 1
-          @search = @search[0..-2] # Zkrátit o jeden znak od konce
-          @result = perform_search(@search)
-        end
+        File.open("public/log/translate.csv", "a"){|f| f << [code, params['target'],  params['search'].to_s, Time.now.strftime("%Y-%m-%d %H:%M:%S")].join(";")+"\n"}
       end
-      
-      # Zobrazení výsledků
-      slim :transresultlist, layout: false
-      end
-
-    #  @result = dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
-    #  if @result['count'] == 0
-    #    File.open("public/log/translate.csv", "a"){|f| f << [code, params['target'],  params['search'].to_s, Time.now.strftime("%Y-%m-%d %H:%M:%S")].join(";")+"\n"}
-    #  end
-    #  slim :transresultlist, :layout=>false
-    # end
+      slim :transresultlist, :layout=>false
+    end
     get '/'+code+'/revcolloc/:id' do
       @entry = dict.get_revcolloc(params['id'], 'collocation')
       @type = 'collocation'
