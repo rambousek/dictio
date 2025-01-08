@@ -74,6 +74,7 @@ sk:
     pos: "-- slovný druh --"
     advanced: "rozšírené..."
     notfound: ":( Je nám ľúto, ale nič také sme tu nenašli..."
+    notfound2: " nenalezeno. Zobrazeny výsledky pre: "
     try_search: "Heslo s týmto ID neobsahuje žiadne ekvivalenty v cieľovom jazyku."
     link: "Zobraziť heslo vo výkladovom slovníku."
     translate_view: "Zobraziť v prekladovom slovníku."

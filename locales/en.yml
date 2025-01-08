@@ -76,6 +76,7 @@ en:
     more: "further options"
     search_all: "show all"
     notfound: ":( I am sorry, but nothing like that seems to be in my database.. "
+    notfound2: " not found. Instead shown results for: "
     try_search: "Entry with this ID does not contain any equivalents in the target language. "
     link: "Show the entry in the dictionary."
     translate_view: "Display in multilingual dictionary"    
