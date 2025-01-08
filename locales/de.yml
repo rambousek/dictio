@@ -74,7 +74,7 @@ de:
     pos: "-- lexikalische Kategorie --"
     advanced: "Erweiterte..."
     notfound: ":(  Es tut mir leid, aber ich habe so etwas nicht gefunden.. "
-    notfound2: ":( Not found, searching for similar word. "
+    notfound2: " nicht gefunden. Ergebnisse werden angezeigt für: "
     try_search: "Einträge mit dieser ID enthalten keine Entsprechungen in der Zielsprache.  "
     link: "Zeigen Sie den Eintrag im Wörterbuch an."
     translate_view: "Zeigen Sie diesen Eintrag im mehrsprachigen Wörterbuch an"
