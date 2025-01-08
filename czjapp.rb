@@ -385,6 +385,7 @@ class CzjApp < Sinatra::Base
         while @result['count'] == 0 && @search.length > 1
           @search = @search[0..-2] 
           @result = dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
+        end
       end
       slim :transresultlist, :layout=>false
     end
