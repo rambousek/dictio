@@ -2,10 +2,9 @@
   p style="width: 100%" 
     strong
       em #{@search0}
-      | #{I18n.t('entry.notfound2')}
+      | #{I18n.t('search.notfound2')}
     strong
-      em
-        #{@search}
+      em #{@search}
 - @result['relations'].each do |rel|
   .col.col--3.col--precise.translate-box data-resultcount="#{@result['count']}" data-relinfo="#{rel['source_dict']+rel['source_id']+(rel['source_usage_id']?'us':'')+rel['target']+rel['meaning_id'].sub(/-.*$/,'')+(rel['meaning_id'].include?('_us')?'us':'')}"
         - if @dict_info[@dictcode]['type'] == 'write'
