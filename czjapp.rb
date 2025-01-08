@@ -368,6 +368,7 @@ class CzjApp < Sinatra::Base
         slim :transresult
       end
     end
+    
     get '/'+code+'/translatelist/:target/:type/:search(/:start)?(/:limit)?' do
       @dict_info = $dict_info
       @request = request
