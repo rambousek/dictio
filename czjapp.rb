@@ -384,7 +384,7 @@ class CzjApp < Sinatra::Base
         File.open("public/log/translate.csv", "a"){|f| f << [code, params['target'],  params['search'].to_s, Time.now.strftime("%Y-%m-%d %H:%M:%S")].join(";")+"\n"}
         while @result['count'] == 0 && @search.length > 1
           @search = @search[0..-2] 
-          @result = dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
+          @result = dict.translate2(code, params['target'], @search.to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
         end
       end
       slim :transresultlist, :layout=>false
