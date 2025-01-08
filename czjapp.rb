@@ -368,7 +368,6 @@ class CzjApp < Sinatra::Base
         slim :transresult
       end
     end
-    
     get '/'+code+'/translatelist/:target/:type/:search(/:start)?(/:limit)?' do
       @dict_info = $dict_info
       @request = request
@@ -405,7 +404,7 @@ class CzjApp < Sinatra::Base
 
       # Zobrazení výsledků
       slim :transresultlist, layout: false
-    end      
+      end
 
     #  @result = dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
     #  if @result['count'] == 0
