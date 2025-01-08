@@ -350,6 +350,8 @@ en:
       subj: "subjective"
       obj: "objective"
       reci: "reciprocal"
+      reci;subj: "reciprocal, subjective"
+      reci;obj: "reciprocal, objective"
       polo: "restricted"
       lok: "locative"
       redo: "reduplication expresses repetition of the action"
