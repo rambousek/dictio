@@ -12,6 +12,7 @@ require 'resolv'
 require 'sinatra/cookies'
 require 'maxmind/geoip2'
 require 'mail'
+require 'damerau-levenshtein'
 
 require_relative 'lib/czj'
 require_relative 'lib/host-config'
@@ -387,9 +388,7 @@ class CzjApp < Sinatra::Base
         @search0 = @search
     
         # Načtení seznamu všech možných výrazů pro porovnání
-        @all = "*"
-        possible_matches = dict.search(code, @all, params['type'].to_s, 0, @search_limit, more_params) # Tuto metodu implementujte ve vaší knihovně
-
+        possible_matches = dict.wordlist
         # Najděte nejbližší shodu pomocí Damerau-Levenshteinovy vzdálenosti
         closest_match = possible_matches.min_by do |term|
           DamerauLevenshtein.distance(@search, term)

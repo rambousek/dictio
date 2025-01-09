@@ -1,9 +1,11 @@
 class CZJDict < Object
   attr_accessor :dictcode, :write_dicts, :sign_dicts, :dict_info
+  attr_reader :wordlist
 
   def initialize(dictcode)
     @dictcode = dictcode 
     @entrydb = $mongo['entries']
+    build_wordlist
   end
 
   def getdoc(id, add_rev=true)
@@ -3464,6 +3466,26 @@ class CZJDict < Object
       res[code]['entry_pub_count'] = @entrydb.find({'dict': code, 'lemma.completeness': {'$ne': '1'}}).count_documents
     }
     return res
+  end
+
+  # Prepare array with list of words and assign to wordlist attr
+  def build_wordlist
+    wordlist = []
+    if $dict_info[@dictcode]['type'] == 'write'
+      # take list of titles for dictionary
+      $mongo['relation'].find({'source_dict' => @dictcode}).each do |entry|
+        if entry['source_title'] and entry['source_title'] != ''
+          wordlist << entry['source_title']
+        end
+      end
+      # take list of text translation with dictionary as target
+      $mongo['relation'].find({'target' => @dictcode, 'meaning_nr' => {'$exists' => false}}).each do |entry|
+        if entry['meaning_id'] and entry['meaning_id'] != ''
+          wordlist << entry['meaning_id']
+        end
+      end
+    end
+    @wordlist = wordlist.uniq
   end
 
   def normalize_fsw
