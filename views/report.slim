@@ -3,569 +3,100 @@ main role="main"
     .container
       .row
         article.col.col--2.col--start role="article"
-          h1 style="color: white" #{I18n.t("menu.admin")} 
-          h2 class="btn btn-#{@dictcode}" style="color: white" #{I18n.t("admin.dict")} #{I18n.t("dict_menu.#{@dictcode}")}
-  section.section 
-    .container
-      .report-table
-        article.col.col--start role="article" 
-          h2 #{I18n.t("admin.activeopt")} 
-          - if @params['idsf'] 
-            | #{I18n.t("admin.idsel")}: #{@params['idsf']}            
-          p 
-            | #{I18n.t("admin.lemma")}:  
-            - if @params['typhesla'] == 'ne' and @params['seltyphesla'] != ''
-              a.btn.btn-secondary.report-ano onclick="URLChange('typhesla','ano')" #{I18n.t("admin."+@params['seltyphesla'])}
-              span.closebtn2 onclick="URLRemove2('typhesla','seltyphesla')" x
-            - if @params['typhesla'] == 'ano' and @params['seltyphesla'] != ''
-              a.btn.btn-secondary.report-ne onclick="URLChange('typhesla','ne')" #{I18n.t("admin.not")} #{I18n.t("admin."+@params['seltyphesla'])}
-              span.closebtn2 onclick="URLRemove2('typhesla','seltyphesla')" x
-            - if @params['skup'] == 'ne' and @params['def_skup'].length > 0
-              - @params['def_skup'].each do |skup|
-                a.btn.btn-secondary.report-ano onclick="URLChange('skup','ano')" #{I18n.t("admin.group."+skup)}
-                span.closebtn2 onclick="URLRemove2('skup','def_skup[]')" x
-            - if @params['skup'] == 'ano' and @params['def_skup'].length > 0
-              - @params['def_skup'].each do |skup|
-                a.btn.btn-secondary.report-ne onclick="URLChange('skup','ne')" #{I18n.t("admin.not")} #{I18n.t("admin.group."+skup)}
-                span.closebtn2 onclick="URLRemove2('skup','def_skup[]')" x
-            - if @dict_info[@dictcode]['type'] == 'sign'
-              - if @params['schvcelni'] 
-                - if @params['schvcelni'] == 'ano'
-                  a.btn class="btn-secondary report-ano" onclick="URLChange('schvcelni','ne')" #{I18n.t("admin.schvcelni")}
-                - if @params['schvcelni'] == 'ne'
-                  a.btn class="btn-secondary report-ne" onclick="URLChange('schvcelni','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.schvcelni")}
-                span.closebtn2 onclick="URLRemove('schvcelni')" x               
-              - if @params['schvbocni'] 
-                - if @params['schvbocni'] == 'ano'
-                  a.btn class="btn-secondary report-ano" onclick="URLChange('schvbocni','ne')" #{I18n.t("admin.schvbocni")}
-                - if @params['schvbocni'] == 'ne'
-                  a.btn class="btn-secondary report-ne" onclick="URLChange('schvbocni','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.schvbocni")}
-                span.closebtn2 onclick="URLRemove('schvbocni')" x
-              - if @params['celni'] 
-                - if @params['celni'] == 'ano'
-                  a.btn class="btn-secondary report-ano" onclick="URLChange('celni','ne')" #{I18n.t("admin.celni")}
-                - if @params['celni'] == 'ne'
-                  a.btn class="btn-secondary report-ne" onclick="URLChange('celni','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.celni")}
-                span.closebtn2 onclick="URLRemove('celni')" x               
-              - if @params['bocni'] 
-                - if @params['bocni'] == 'ano'
-                  a.btn class="btn-secondary report-ano" onclick="URLChange('bocni','ne')" #{I18n.t("admin.bocni")}
-                - if @params['bocni'] == 'ne'
-                  a.btn class="btn-secondary report-ne" onclick="URLChange('bocni','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.bocni")}
-                span.closebtn2 onclick="URLRemove('bocni')" x
-                
-              - if @params['bez_sw'] 
-                - if @params['bez_sw'] == 'ano'
-                  a.btn class="btn-secondary report-ano" onclick="URLChange('bez_sw','ne')" #{I18n.t("admin.sw")}
-                - if @params['bez_sw'] == 'ne'
-                  a.btn class="btn-secondary report-ne" onclick="URLChange('bez_sw','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.sw")}
-                span.closebtn2 onclick="URLRemove('bez_sw')" x
+          h1 style="color: white" = I18n.t("menu.admin")
+          h2 class="btn btn-#{@dictcode}" style="color: white"
+            = I18n.t("admin.dict")
+            = I18n.t("dict_menu.#{@dictcode}")
+  .container
+    article.col.col--start role="article"
+      .row
+        aside.col.col--2.col--start.layout-aside-admin role="complementary"
+          h2 = I18n.t("admin.activeopt")
+          form action="/#{@dictcode}/report" method="get"
+            label
+              | #{I18n.t("admin.workgroup")}
+              ul#skupina style="display: none"
+              - groups = [
+                { key: 'teires_w', translation: 'admin.group.teires_w' },
+                { key: 'obecna', translation: 'admin.group.obecna' },
+                { key: 'upol', translation: 'admin.group.upol' },
+                { key: 'biologie', translation: 'admin.group.biologie' },
+                { key: 'informatika', translation: 'admin.group.informatika' },
+                { key: 'matematika', translation: 'admin.group.matematika' },
+                { key: 'vut_me', translation: 'admin.group.vut_me' },
+                { key: 'podnikani', translation: 'admin.group.podnikani' },
+                { key: 'spec', translation: 'admin.group.spec' },
+                { key: 'aka', translation: 'admin.group.aka' },
+                { key: 'soc', translation: 'admin.group.soc' },
+                { key: 'krest', translation: 'admin.group.krest' },
+                { key: 'test', translation: 'admin.group.test' },
+                { key: 'mdd', translation: 'admin.group.mdd' },
+                { key: 'ls', translation: 'admin.group.ls' },
+                { key: 'tczj', translation: 'admin.group.tczj' }
+              ]
+              - groups.each do |group|
+                - unless @params['skup'] && @params['def_skup[]'] == group[:key]
+                  li
+                    label
+                      input type="checkbox" name="def_skup[]" value=group[:key] 
+                      = I18n.t(group[:translation])            
+              
+              select#group-select name="def_skup[]"
+                option value="" selected=("selected" if !@params['def_skup[]']) = I18n.t("admin.group.select_placeholder")
+                - groups.each do |group|
+                  - selected = @params['def_skup[]'] == group[:key] ? "selected" : nil
+                  option value=group[:key] selected=selected = I18n.t(group[:translation])
+            label
+              input type="hidden" name="skup" value="ne" # Implicitní hodnota "ne"
+              input type="checkbox" name="skup" value="ano" onchange="this.form.elements['skup'][0].checked = !this.checked"
+              = I18n.t("-")
 
-              - if @params['nes_sw'] 
-                - if @params['nes_sw'] == 'ano'
-                  a.btn class="btn-secondary report-ano" onclick="URLChange('nes_sw','ne')" #{I18n.t("admin.schvsw")}
-                - if @params['nes_sw'] == 'ne'
-                  a.btn class="btn-secondary report-ne" onclick="URLChange('nes_sw','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.schvsw")}
-                span.closebtn2 onclick="URLRemove('nes_sw')" x
+        .col.col--2.col--start.layout-aside-admin 
 
-          p
-            | #{I18n.t("admin.desc")}:
-            - if @dict_info[@dictcode]['type'] == 'sign'
-              - if @params['mkok'] 
-                - if @params['mkok'] == 'ano'
-                  a.btn class="btn-secondary report-ano" onclick="URLChange('mkok','ne')" #{I18n.t("admin.mkok")}
-                - if @params['vyznamvid'] == 'ne'
-                  a.btn class="btn-secondary report-ne" onclick="URLChange('mkok','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.mkok")}
-                span.closebtn2 onclick="URLRemove('mkok')" x
+          - if @duplicate['duplicate'].select{|info| info['code'] == @dictcode}.size > 0
+            div style="color: red; font-style: italic; font-variant: all-small-caps"
+              | #{I18n.t("admin.dups_warn")} (#{@duplicate['duplicate'].select{|info| info['code'] == @dictcode}[0]['count']}). 
+              a href="https://admin.dictio.info/#{@dictcode}/duplicate" #{I18n.t("admin.show")} 
 
-            - if @params['sldruh'] == 'ne' and @params['slovni_druh'] != ''
-              a.btn.btn-secondary.report-ano onclick="URLChange('sldruh','ano')" #{I18n.t("gram.slovni_druh."+@params['slovni_druh'])}
-              span.closebtn2 onclick="URLRemove2('sldruh','slovni_druh')" x              
-            - if @params['sldruh'] == 'ano' and @params['slovni_druh'] != ''
-              a.btn.btn-secondary.report-ne onclick="URLChange('sldruh','ne')" #{I18n.t("admin.not")} #{I18n.t("gram.slovni_druh."+@params['slovni_druh'])}
-              span.closebtn2 onclick="URLRemove2('sldruh','slovni_druh')" x                
-          - if @params.count{|k,_| k =~ /^vyznam/} > 0 or @params.count{|k,_| k =~ /^usage/} > 0
-            p
-              | #{I18n.t("admin.sem")}:  
-              - if @params['vyznamcszad'] 
-                - if @params['vyznamcszad'] == 'ano'
-                  a.btn class="btn-secondary report-ano" onclick="URLChange('vyznamcszad','ne')" #{I18n.t("admin.vyznamvid")}
-                - if @params['vyznamcszad'] == 'ne'
-                  a.btn class="btn-secondary report-ne" onclick="URLChange('vyznamcszad','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.vyznamvid")}
-                span.closebtn2 onclick="URLRemove('vyznamcszad')" x
-                
-              - if @params['vyznamvid'] 
-                - if @params['vyznamvid'] == 'ano'
-                  a.btn class="btn-secondary report-ano" onclick="URLChange('vyznamvid','ne')" #{I18n.t("admin.vyznamvid")}
-                - if @params['vyznamvid'] == 'ne'
-                  a.btn class="btn-secondary report-ne" onclick="URLChange('vyznamvid','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.vyznamvid")}
-                span.closebtn2 onclick="URLRemove('vyznamvid')" x
-
-              - if @params['vyznam']     
-                - if @params['vyznam'] == 'ano' 
-                  a.btn class="btn-secondary report-ano" onclick="URLChange('vyznam','ne')" #{I18n.t("admin.vyznam")}
-                - if @params['vyznam'] == 'ne' 
-                  a.btn class="btn-secondary report-ne" onclick="URLChange('vyznam','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.vyznam")}  
-                span.closebtn2 onclick="URLRemove('vyznam')" x
-                
-              - if @params['vyznamcs']     
-                - if @params['vyznamcs'] == 'ano' 
-                  a.btn class="btn-secondary report-ano" onclick="URLChange('vyznamcs','ne')" #{I18n.t("admin.vyznam")}
-                - if @params['vyznamcs'] == 'ne' 
-                  a.btn class="btn-secondary report-ne" onclick="URLChange('vyznamcs','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.vyznam")}  
-                span.closebtn2 onclick="URLRemove('vyznamcs')" x
-                
-              - if @params['usagecszad'] 
-                - if @params['usagecszad'] == 'ano'
-                  a.btn class="btn-secondary report-ano" onclick="URLChange('usagecszad','ne')" #{I18n.t("admin.usagevid")}
-                - if @params['usagecszad'] == 'ne'
-                  a.btn class="btn-secondary report-ne" onclick="URLChange('usagecszad','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.usagevid")}
-                span.closebtn2 onclick="URLRemove('usagecszad')" x
-                
-              - if @params['usagevid'] 
-                - if @params['usagevid'] == 'ano'
-                  a.btn class="btn-secondary report-ano" onclick="URLChange('usagevid','ne')" #{I18n.t("admin.usagevid")}
-                - if @params['usagevid'] == 'ne'
-                  a.btn class="btn-secondary report-ne" onclick="URLChange('usagevid','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.usagevid")}
-                span.closebtn2 onclick="URLRemove('usagevid')" x
-
-              - if @params['usage']     
-                - if @params['usage'] == 'ano' 
-                  a.btn class="btn-secondary report-ano" onclick="URLChange('usage','ne')" #{I18n.t("admin.usage")}
-                - if @params['usage'] == 'ne' 
-                  a.btn class="btn-secondary report-ne" onclick="URLChange('usage','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.usage")}  
-                span.closebtn2 onclick="URLRemove('usage')" x
-                
-              - if @params['usagecs']     
-                - if @params['usagecs'] == 'ano' 
-                  a.btn class="btn-secondary report-ano" onclick="URLChange('usagecs','ne')" #{I18n.t("admin.usage")}
-                - if @params['usagecs'] == 'ne' 
-                  a.btn class="btn-secondary report-ne" onclick="URLChange('usagecs','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.usage")}  
-                span.closebtn2 onclick="URLRemove('usagecs')" x
-                                                      
-          - if @params.count{|k,_| k =~ /^translation/} > 0 or @params.count{|k,_| k =~ /^synonym/}
-            p
-              | #{I18n.t("admin.translation")}:
-              - $dict_info.each do |code,hash|
-                - if @params['translation'+code]
-                  - if @params['translation'+code] == 'ano'
-                    a.btn class="btn-secondary report-ano" onclick="URLChange('translation#{code}','ne')" #{code}
-                  - if @params['translation'+code] == 'ne'
-                    a.btn class="btn-secondary report-ne" onclick="URLChange('translation#{code}','ano')" #{I18n.t("admin.not")} #{code}
-                  span.closebtn2 onclick="URLRemove('translation#{code}')" x
-              - if @params['synonym']     
-                - if @params['synonym'] == 'ano' 
-                  a.btn class="btn-secondary report-ano" onclick="URLChange('synonym','ne')" #{I18n.t("admin.synonym")}
-                - if @params['synonym'] == 'ne' 
-                  a.btn class="btn-secondary report-ne" onclick="URLChange('synonym','ano')" #{I18n.t("admin.not")} #{I18n.t("admin.synonym")}
-                span.closebtn2 onclick="URLRemove('synonym')" x
-
-          - if @params.count{|k,_| k =~ /^pubtrans/} > 0 or @params.count{|k,_| k =~ /^pubsynonym/}
-            p
-              | #{I18n.t("admin.pubtrans")}:
-              - $dict_info.each do |code,hash|
-                - if @params['pubtrans'+code]
-                  - if @params['pubtrans'+code] == 'ano'
-                    a.btn class="btn-secondary report-ano" onclick="URLChange('pubtrans#{code}','ne')" #{code}
-                  - if @params['pubtrans'+code] == 'ne'
-                    a.btn class="btn-secondary report-ne" onclick="URLChange('pubtrans#{code}','ano')" #{I18n.t("admin.not")} #{code}
-                  span.closebtn2 onclick="URLRemove('pubtrans#{code}')" x
-              - if @params['pubsynonym']     
-                - if @params['pubsynonym'] == 'ano' 
-                  a.btn class="btn-secondary report-ano" onclick="URLChange('pubsynonym','ne')" #{I18n.t("admin.pubsynonym")}
-                - if @params['pubsynonym'] == 'ne' 
-                  a.btn class="btn-secondary report-ne" onclick="URLChange('pubsynonym','ano')" #{I18n.t("admin.not")} #{I18n.t("admin.synonym")}
-                span.closebtn2 onclick="URLRemove('pubsynonym')" x
-
-          - if @params.count{|k,_| k =~ /^komentbox/} > 0
-            p 
-              | #{I18n.t("admin.comments")}:
-              - if @params['koment'] == 'ne' and @params['komentbox'] != ''
-                a.btn.btn-secondary.report-ano onclick="URLChange('koment','ano')" #{I18n.t("admin.koment."+@params['komentbox'])}
-                span.closebtn2 onclick="URLRemove2('koment','komentbox')" x              
-              - if @params['koment'] == 'ano' and @params['seltyphesla'] != ''
-                a.btn.btn-secondary.report-ne onclick="URLChange('koment','ne')" #{I18n.t("admin.not")} #{I18n.t("admin.koment."+@params['komentbox'])}
-                span.closebtn2 onclick="URLRemove2('koment','komentbox')" x       
-          hr style="margin: 5px;"
-          a.btn style="background-color: gray;" href="/#{@dictcode}/csvreport?#{@params.map{|k,v| "#{k}=#{v}"}.join('&')}" CSV export
-          h2 onclick="showhide('allopt')" style="cursor: pointer"
-            | #{I18n.t("admin.moreopt")} >>
-          div id="allopt" style="display: none" 
-            div
-              span onclick="showhide('skupina')" style="cursor: pointer"
-                | #{I18n.t("admin.workgroup")}: >>            
-              div id="skupina" style="display: none"              
-                - unless @params['skup'] and @params['def_skup[]'] == 'teires_w'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','teires_w','skup','ne')" #{I18n.t("admin.group.teires_w")}
-                - unless @params['skup'] and @params['def_skup[]'] == 'obecna'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','obecna','skup','ne')" #{I18n.t("admin.group.obecna")}
-                - unless @params['skup'] and @params['def_skup[]'] == 'upol'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','upol','skup','ne')" #{I18n.t("admin.group.upol")}
-                - unless @params['skup'] and @params['def_skup[]'] == 'biologie'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','biologie','skup','ne')" #{I18n.t("admin.group.biologie")}  
-                - unless @params['skup'] and @params['def_skup[]'] == 'informatika'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','informatika','skup','ne')" #{I18n.t("admin.group.informatika")}
-                - unless @params['skup'] and @params['def_skup[]'] == 'matematika'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','matematika','skup','ne')" #{I18n.t("admin.group.matematika")}
-                - unless @params['skup'] and @params['def_skup[]'] == 'vut_me'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','vut_me','skup','ne')" #{I18n.t("admin.group.vut_me")}                            
-                - unless @params['skup'] and @params['def_skup[]'] == 'podnikani'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','podnikani','skup','ne')" #{I18n.t("admin.group.podnikani")}
-                - unless @params['skup'] and @params['def_skup[]'] == 'spec'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','spec','skup','ne')" #{I18n.t("admin.group.spec")}
-                - unless @params['skup'] and @params['def_skup[]'] == 'aka'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','aka','skup','ne')" #{I18n.t("admin.group.aka")}
-                - unless @params['skup'] and @params['def_skup[]'] == 'soc'
-                a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','soc','skup','ne')" #{I18n.t("admin.group.soc")}
-                - unless @params['skup'] and @params['def_skup[]'] == 'krest'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','krest','skup','ne')" #{I18n.t("admin.group.krest")}
-                - unless @params['skup'] and @params['def_skup[]'] == 'test'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','test','skup','ne')" #{I18n.t("admin.group.test")}
-                - unless @params['skup'] and @params['def_skup[]'] == 'mdd'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','mdd','skup','ne')" #{I18n.t("admin.group.mdd")}
-                - unless @params['skup'] and @params['def_skup[]'] == 'ls'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','ls','skup','ne')" #{I18n.t("admin.group.ls")}
-                - unless @params['skup'] and @params['def_skup[]'] == 'tczj'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','tczj','skup','ne')" #{I18n.t("admin.group.tczj")}
-            div
-              | #{I18n.t("admin.lemma")}:                                        
-              div
-                - unless @params['typhesla'] and @params['seltyphesla'] == 'single'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('seltyphesla','single','typhesla','ne')" #{I18n.t("admin.single")}            
-                - unless @params['typhesla'] and @params['seltyphesla'] == 'derivat'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('seltyphesla','derivat','typhesla','ne')" #{I18n.t("admin.derivat")}
-                - unless @params['typhesla'] and @params['seltyphesla'] == 'kompozitum'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('seltyphesla','kompozitum','typhesla','ne')" #{I18n.t("admin.kompozitum")}
-                - if @dict_info[@dictcode]['type'] == 'sign'
-                  - unless @params['typhesla'] and @params['seltyphesla'] == 'fingerspell'
-                    a.btn class="btn-secondary report-" onclick="URLChange2('seltyphesla','fingerspell','typhesla','ne')" #{I18n.t("admin.fingerspell")}              
-                - unless @params['typhesla'] and @params['seltyphesla'] == 'collocation'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('seltyphesla','collocation','typhesla','ne')" #{I18n.t("admin.collocation")}              
-
-              - if @dict_info[@dictcode]['type'] == 'sign'
-                div            
-                  - unless @params['schvcelni']
-                    a.btn class="btn-secondary report-" onclick="URLAppend('schvcelni')" #{I18n.t("admin.schvcelni")}
-                  - unless @params['schvbocni']
-                    a.btn class="btn-secondary report-" onclick="URLAppend('schvbocni')" #{I18n.t("admin.schvbocni")}
-                  - unless @params['celni']
-                    a.btn class="btn-secondary report-" onclick="URLAppend('celni')" #{I18n.t("admin.celni")}
-                  - unless @params['bocni']
-                    a.btn class="btn-secondary report-" onclick="URLAppend('bocni')" #{I18n.t("admin.bocni")}
-                  - unless @params['bez_sw']
-                    a.btn class="btn-secondary report-" onclick="URLAppend('bez_sw')" #{I18n.t("admin.sw")}
-                  - unless @params['nes_sw']
-                    a.btn class="btn-secondary report-" onclick="URLAppend('nes_sw')" #{I18n.t("admin.schvsw")}
-            - if @dict_info[@dictcode]['type'] == 'sign'
-              div
-                | #{I18n.t("admin.desc")}:
-                - unless @params['mkok']
-                  a.btn class="btn-secondary report-" onclick="URLAppend('mkok')" #{I18n.t("admin.mkok")}
-            div
-              span onclick="showhide('sldruh')" style="cursor: pointer"
-                | #{I18n.t("entry.lexical")}: >>
-              div id="sldruh" style="display: none"
-                - unless @params['sldruh'] and @params['slovni_druh'] == 'subst'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','subst','sldruh','ne')" #{I18n.t("gram.slovni_druh.subst")}
-                - unless @params['sldruh'] and @params['slovni_druh'] == 'adj'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','adj','sldruh','ne')" #{I18n.t("gram.slovni_druh.adj")}                                          
-                - unless @params['sldruh'] and @params['slovni_druh'] == 'pron'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','pron','sldruh','ne')" #{I18n.t("gram.slovni_druh.pron")}
-                - unless @params['sldruh'] and @params['slovni_druh'] == 'num'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','num','sldruh','ne')" #{I18n.t("gram.slovni_druh.num")}
-                - unless @params['sldruh'] and @params['slovni_druh'] == 'verb'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','verb','sldruh','ne')" #{I18n.t("gram.slovni_druh.verb")}
-                - unless @params['sldruh'] and @params['slovni_druh'] == 'adv'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','adv','sldruh','ne')" #{I18n.t("gram.slovni_druh.adv")}
-                - if @dict_info[@dictcode]['type'] == 'sign'
-                  - unless @params['sldruh'] and @params['slovni_druh'] == 'modif'
-                    a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','modif','sldruh','ne')" #{I18n.t("gram.slovni_druh.modif")}
-                  - unless @params['sldruh'] and @params['slovni_druh'] == 'taz'
-                    a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','taz','sldruh','ne')" #{I18n.t("gram.slovni_druh.taz")}                  
-                - unless @params['sldruh'] and @params['slovni_druh'] == 'part'          
-                  a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','part','sldruh','ne')" #{I18n.t("gram.slovni_druh.part")}              
-                - unless @params['sldruh'] and @params['slovni_druh'] == 'konj'                      
-                  a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','konj','sldruh','ne')" #{I18n.t("gram.slovni_druh.konj")}
-                - if @dict_info[@dictcode]['type'] == 'sign'    
-                  - unless @params['sldruh'] and @params['slovni_druh'] == 'kat'
-                    a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','kat','sldruh','ne')" #{I18n.t("gram.slovni_druh.kat")}                          
-                  - unless @params['sldruh'] and @params['slovni_druh'] == 'klf'            
-                    a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','klf','sldruh','ne')" #{I18n.t("gram.slovni_druh.klf")}
-                  - unless @params['sldruh'] and @params['slovni_druh'] == 'spc'
-                    a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','spc','sldruh','ne')" #{I18n.t("gram.slovni_druh.spc")}                                                                                             
-            div
-              | #{I18n.t("admin.sem")}:  
-              - if @dict_info[@dictcode]['type'] == 'sign'
-                - unless @params['vyznamvid']
-                  a.btn class="btn-secondary report-" onclick="URLAppend('vyznamvid')" #{I18n.t("admin.vyznamvid")}
-                - unless @params['vyznam']
-                  a.btn class="btn-secondary report-" onclick="URLAppend('vyznam')" #{I18n.t("admin.vyznam")}    
-                - unless @params['usagevid']
-                  a.btn class="btn-secondary report-" onclick="URLAppend('usagevid')" #{I18n.t("admin.usagevid")}
-                - unless @params['usage']
-                  a.btn class="btn-secondary report-" onclick="URLAppend('usage')" #{I18n.t("admin.usage")}
-
-              - if @dict_info[@dictcode]['type'] == 'write'
-                - unless @params['vyznamcszad']
-                  a.btn class="btn-secondary report-" onclick="URLAppend('vyznamcszad')" #{I18n.t("admin.vyznamvid")}
-                - unless @params['vyznamcs']
-                  a.btn class="btn-secondary report-" onclick="URLAppend('vyznamcs')" #{I18n.t("admin.vyznam")}
-                - unless @params['usagecszad']
-                  a.btn class="btn-secondary report-" onclick="URLAppend('usagecszad')" #{I18n.t("admin.usagevid")}
-                - unless @params['usagecs']
-                  a.btn class="btn-secondary report-" onclick="URLAppend('usagecs')" #{I18n.t("admin.usage")}
-            div
-              | #{I18n.t("admin.ekv")}: 
-              | #{I18n.t("admin.translation")}:               
-              - unless @params['translationcs']
-                a.btn class="btn-secondary report-" onclick="URLAppend('translationcs')" CS              
-              - unless @params['translationczj']
-                a.btn class="btn-secondary report-" onclick="URLAppend('translationczj')" ČZJ              
-              - unless @params['translationen']
-                a.btn class="btn-secondary report-" onclick="URLAppend('translationen')" EN
-              - unless @params['translationasl']
-                a.btn class="btn-secondary report-" onclick="URLAppend('translationasl')" ASL
-              - unless @params['translationis']
-                a.btn class="btn-secondary report-" onclick="URLAppend('translationis')" IS
-              - unless @params['translationsj']
-                a.btn class="btn-secondary report-" onclick="URLAppend('translationsj')" SJ
-              - unless @params['translationspj']
-                a.btn class="btn-secondary report-" onclick="URLAppend('translationspj')" SPJ
-              - unless @params['translationde']
-                a.btn class="btn-secondary report-" onclick="URLAppend('translationde')" DE                            
-              - unless @params['translationogs']
-                a.btn class="btn-secondary report-" onclick="URLAppend('translationogs')" ÖGS
-              - unless @params['translationuk']
-                a.btn class="btn-secondary report-" onclick="URLAppend('translationuk')" UA                            
-              - unless @params['translationuzm']
-                a.btn class="btn-secondary report-" onclick="URLAppend('translationuzm')" UŽM  
-              - unless @params['synonym']
-                a.btn class="btn-secondary report-" onclick="URLAppend('synonym')" #{I18n.t("admin.synonym")}
-            div
-              | #{I18n.t("admin.pubtrans")}:
-              - unless @params['pubtranscs']                       
-                a.btn class="btn-secondary report-" onclick="URLAppend('pubtranscs')" CS
-              - unless @params['pubtransczj']
-                a.btn class="btn-secondary report-" onclick="URLAppend('pubtransczj')" ČZJ            
-              - unless @params['pubtransen']
-                a.btn class="btn-secondary report-" onclick="URLAppend('pubtransen')" EN              
-              - unless @params['pubtransasl']
-                a.btn class="btn-secondary report-" onclick="URLAppend('pubtransasl')" ASL
-              - unless @params['pubtransis']
-                a.btn class="btn-secondary report-" onclick="URLAppend('pubtransis')" IS
-              - unless @params['pubtransj']
-                a.btn class="btn-secondary report-" onclick="URLAppend('pubtranssj')" SJ
-              - unless @params['pubtransspj']
-                a.btn class="btn-secondary report-" onclick="URLAppend('pubtransspj')" SPJ
-              - unless @params['pubtransde']
-                a.btn class="btn-secondary report-" onclick="URLAppend('pubtransde')" DE
-              - unless @params['pubtransogs']
-                a.btn class="btn-secondary report-" onclick="URLAppend('pubtransogs')" ÖGS
-              - unless @params['pubtransuk']
-                a.btn class="btn-secondary report-" onclick="URLAppend('pubtransuk')" UA
-              - unless @params['pubtransuzm']
-                a.btn class="btn-secondary report-" onclick="URLAppend('pubtransuzm')" UŽM
-              - unless @params['pubsynonym']
-                a.btn class="btn-secondary report-" onclick="URLAppend('pubsynonym')" #{I18n.t("admin.synonym")}
-            div
-              span onclick="showhide('comm')" style="cursor: pointer"
-                | #{I18n.t("admin.comments")}: >>
-              div id="comm" style="display: none" 
-                - unless @params['koment'] and @params['komentbox'] == 'boxlemma'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','boxlemma','koment','ne')" #{I18n.t("admin.koment.boxlemma")}      
-                - unless @params['koment'] and @params['komentbox'] == 'boxcolloc'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','boxcolloc','koment','ne')" #{I18n.t("admin.koment.boxcolloc")}
-                - if @dict_info[@dictcode]['type'] == 'sign'
-                  - unless @params['koment'] and @params['komentbox'] == 'video'
-                    a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','video','koment','ne')" #{I18n.t("admin.koment.video")}
-                  - unless @params['koment'] and @params['komentbox'] == 'swfield'
-                    a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','swfield','koment','ne')" #{I18n.t("admin.koment.swfield")}
-                  - unless @params['koment'] and @params['komentbox'] == 'hamnbox'
-                    a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','hamnbox','koment','ne')" #{I18n.t("admin.koment.hamnbox")}
-                - unless @params['koment'] and @params['komentbox'] == 'gramdesc'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','gramdesc','koment','ne')" #{I18n.t("admin.koment.gramdesc")}
-                - unless @params['koment'] and @params['komentbox'] == 'styldesc'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','styldesc','koment','ne')" #{I18n.t("admin.koment.styldesc")}
-                - unless @params['koment'] and @params['komentbox'] == 'vyznam'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','vyznam','koment','ne')" #{I18n.t("admin.koment.vyznam")}
-                - unless @params['koment'] and @params['komentbox'] == '_us'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','_us','koment','ne')" #{I18n.t("admin.koment._us")}
-                - unless @params['koment'] and @params['komentbox'] == 'vazby'
-                  a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','vazby','koment','ne')" #{I18n.t("admin.koment.vazby")}
-          h2 onclick="showhide('presets')" style="cursor: pointer"
-            | #{I18n.t("admin.presets.title")} >>
-          div id="presets" style="display: none"
-            - if @dict_info[@dictcode]['type'] == 'sign'
-              div
-                | #{I18n.t("admin.presets.waiting")}:  
-                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?schvcelni=ano&vyznamvid=ne&" #{I18n.t("admin.presets.def")}
-              div
-                | #{I18n.t("admin.presets.lacking")}:  
-                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagevid=ano&vyznamvid=ne&celni=ano&usagevid=ano&usage=ano" #{I18n.t("admin.presets.def")}
-                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagevid=ne&vyznamvid=ano&celni=ano&schvcelni=ano&vyznam=ano" #{I18n.t("admin.presets._us")}
-                | #{I18n.t("admin.presets.equiv")}: 
-                - unless @dictcode == 'cs' 
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationcs=ne" CS
-                - unless @dictcode == 'czj'
-                   a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationczj=ne" CZJ
-                - unless @dictcode == 'en' 
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationen=ne" EN
-                - unless @dictcode == 'asl'
-                   a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationasl=ne" ASL
-                - unless @dictcode == 'is' 
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationis=ne" IS
-                - unless @dictcode == 'sj' 
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationsj=ne" SJ
-                - unless @dictcode == 'spj'
-                   a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationspj=ne" SPJ
-                - unless @dictcode == 'de' 
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationde=ne" DE
-                - unless @dictcode == 'ogs'
-                   a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationogs=ne" ÖGS
-                - unless @dictcode == 'uk' 
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationuk=ne" UA
-                - unless @dictcode == 'uzm'
-                   a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationuzm=ne" UŽM
-              div
-                | #{I18n.t("admin.presets.toapprove")}:  
-                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ne&schvcelni=ano" #{I18n.t("admin.presets.def")}
-                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagevid=ano&vyznamvid=ano&celni=ano&usagevid=ano&usage=ne&vyznam=ano&schvcelni=ano" #{I18n.t("admin.presets._us")}
-                | #{I18n.t("admin.presets.equiv")}: 
-                - unless @dictcode == 'cs' 
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationcs=ano&pubtranscs=ne" CS
-                - unless @dictcode == 'czj'
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationczj=ano&pubtranscs=czj" CZJ
-                - unless @dictcode == 'en' 
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationen=ano&pubtransen=ne" EN
-                - unless @dictcode == 'asl'
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationasl=ano&pubtransasl=ne" ASL
-                - unless @dictcode == 'is' 
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationis=ano&pubtransis=ne" IS
-                - unless @dictcode == 'sj' 
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationsj=ano&pubtranssj=ne" SJ
-                - unless @dictcode == 'spj'
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationspj=ano&pubtransspj=ne" SPJ
-                - unless @dictcode == 'de' 
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationde=ano&pubtransde=ne" DE
-                - unless @dictcode == 'ogs'
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationogs=ano&pubtransogs=ne" ÖGS
-                - unless @dictcode == 'uk' 
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationuk=ano&pubtransuk=ne" UA
-                - unless @dictcode == 'uzm'
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationuzm=ano&pubtransuzm=ne" UŽM
-                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&pubsynonym=ne&synonym=ano" #{I18n.t("admin.presets.syn")}  
-
-              div 
-                | #{I18n.t("admin.presets.rev")}:  
-                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&komentbox=video&koment=ne" lemma
-                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&vyznamvid=ano&komentbox=vyznam&koment=ne" #{I18n.t("admin.presets.def")}
-                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&vyznamvid=ano&komentbox=_us&koment=ne" #{I18n.t("admin.presets._us")}
-                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&komentbox=vazby&koment=ne" #{I18n.t("admin.presets.equiv")}  
-
-            - if @dict_info[@dictcode]['type'] == 'write'
-              div
-                | #{I18n.t("admin.presets.waiting")}:  
-                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamcszad=ne" #{I18n.t("admin.presets.def")}
-              div
-                | #{I18n.t("admin.presets.lacking")}:  
-                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagecszad=ano&vyznamcszad=ne" #{I18n.t("admin.presets.def")}
-                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagecszad=ne&vyznamcszad=ano&vyznamcs=ano" #{I18n.t("admin.presets._us")}
-                | #{I18n.t("admin.presets.equiv")}: 
-                - unless @dictcode == 'cs' 
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamcszad=ano&vyznamcs=ano&translationcs=ne" CS
-                - unless @dictcode == 'czj'
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamcszad=ano&vyznamcs=ano&translationczj=ne" CZJ
-                - unless @dictcode == 'en' 
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamcszad=ano&vyznamcs=ano&translationen=ne" EN
-                - unless @dictcode == 'asl'
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamcszad=ano&vyznamcs=ano&translationasl=ne" ASL
-                - unless @dictcode == 'is' 
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamcszad=ano&vyznamcs=ano&translationis=ne" IS
-                - unless @dictcode == 'sj' 
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamcszad=ano&vyznamcs=ano&translationsj=ne" SJ
-                - unless @dictcode == 'spj'
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamcszad=ano&vyznamcs=ano&translationspj=ne" SPJ
-                - unless @dictcode == 'de' 
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamcszad=ano&vyznamcs=ano&translationde=ne" DE
-                - unless @dictcode == 'ogs'
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamcszad=ano&vyznamcs=ano&translationogs=ne" ÖGS
-                - unless @dictcode == 'uk' 
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamcszad=ano&vyznamcs=ano&translationuk=ne" UA
-                - unless @dictcode == 'uzm'
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamcszad=ano&vyznamcs=ano&translationuzm=ne" UŽM
-
-              div
-                | #{I18n.t("admin.presets.toapprove")}:  
-                a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamcszad=ano&vyznamcs=ne" #{I18n.t("admin.presets.def")}
-                a.btn class="btn-secondary report-" href="/#{@dictcode}/vyznamcszad=ano&vyznamcs=ano&usagecszad=ano&usagecs=ne" #{I18n.t("admin.presets._us")}
-                | #{I18n.t("admin.presets.equiv")}: 
-                - unless @dictcode == 'cs' 
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamcszad=ano&vyznamcs=ano&translationcs=ano&pubtranscs=ne" CS
-                - unless @dictcode == 'czj'
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamcszad=ano&vyznamcs=ano&translationczj=ano&pubtranscs=czj" CZJ
-                - unless @dictcode == 'en' 
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamcszad=ano&vyznamcs=ano&translationen=ano&pubtransen=ne" EN
-                - unless @dictcode == 'asl'
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamcszad=ano&vyznamcs=ano&translationasl=ano&pubtransasl=ne" ASL
-                - unless @dictcode == 'is' 
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamcszad=ano&vyznamcs=ano&translationis=ano&pubtransis=ne" IS
-                - unless @dictcode == 'sj' 
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamcszad=ano&vyznamcs=ano&translationsj=ano&pubtranssj=ne" SJ
-                - unless @dictcode == 'spj'
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamcszad=ano&vyznamcs=ano&translationspj=ano&pubtransspj=ne" SPJ
-                - unless @dictcode == 'de' 
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamcszad=ano&vyznamcs=ano&translationde=ano&pubtransde=ne" DE
-                - unless @dictcode == 'ogs'
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamcszad=ano&vyznamcs=ano&translationogs=ano&pubtransogs=ne" ÖGS
-                - unless @dictcode == 'uk' 
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamcszad=ano&vyznamcs=ano&translationuk=ano&pubtransuk=ne" UA
-                - unless @dictcode == 'uzm'
-                  a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamcszad=ano&vyznamcs=ano&translationuzm=ano&pubtransuzm=ne" UŽM
-
-      - if @duplicate['duplicate'].select{|info| info['code'] == @dictcode}.size > 0
-        div style="color: red; font-style: italic; font-variant: all-small-caps"
-          | #{I18n.t("admin.dups_warn")} (#{@duplicate['duplicate'].select{|info| info['code'] == @dictcode}[0]['count']}). 
-          a href="https://admin.dictio.info/#{@dictcode}/duplicate" #{I18n.t("admin.show")} 
-
-      table.table.table--no-margin.report-table.report-results data-resultcount=@report['resultcount']
-        tr
-          th width="10%" #{I18n.t("home.entries")}: #{@report['resultcount']}
-          th
-          - if @params['komentbox']
-            th
-              - if @params['koment'] == 'ne'
-                | Komentáře v poli: 
-              - if @params['koment'] == 'ano'
-                | Bez komentářů v poli  
-              - if @params['komentbox'] == ''
-                | neurčeno
-              - if @params['komentbox'] == 'boxlemma'
-                | #{I18n.t("admin.koment.boxlemma")}
-              - if @params['komentbox'] == 'boxcolloc'
-                | #{I18n.t("admin.koment.boxcolloc")}
-              - if @params['komentbox'] == 'video'
-                | #{I18n.t("admin.koment.video")}
-              - if @params['komentbox'] == 'swfieldset'
-                | #{I18n.t("admin.koment.swfieldset")}
-              - if @params['komentbox'] == 'hamnbox'
-                | #{I18n.t("admin.koment.hamnbox")} 
-              - if @params['komentbox'] == 'gramdesc'
-                | #{I18n.t("admin.koment.gramdesc")}
-              - if @params['komentbox'] == 'styldesc'
-                | #{I18n.t("admin.koment.styldesc")}
-              - if @params['komentbox'] == 'vyznam'
-                | #{I18n.t("admin.koment.vyznam")}
-              - if @params['komentbox'] == '_us'
-                | #{I18n.t("admin.koment._us")}
-              - if @params['komentbox'] == 'vazby'
-                | #{I18n.t("admin.koment.vazby")}
-          - if @is_admin or @is_edit
-            - if @params.count{|k,_| k =~ /sw/} > 0
-              th               
-            th width="10%"
-              a.btn class="btn-#{@dictcode}" href="https://edit.dictio.info/editor#{@dictcode}/?id=" 
-                | + #{I18n.t("admin.newentry")}        
-        == slim :reportresultlist
-      - if @report['resultcount'].to_i > @report['entries'].size
-        a.btn.load_next_report data-dict=@dictcode #{I18n.t("search.load_next")}
-        a.btn.load_rest_report data-dict=@dictcode #{I18n.t("search.load_rest")}
+          table.table.table--no-margin.report-table.report-results data-resultcount=@report['resultcount']
+            tr
+              th width="10%" #{I18n.t("home.entries")}: #{@report['resultcount']}
+              th
+              - if @params['komentbox']
+                th
+                  - if @params['koment'] == 'ne'
+                    | Komentáře v poli: 
+                  - if @params['koment'] == 'ano'
+                    | Bez komentářů v poli  
+                  - if @params['komentbox'] == ''
+                    | neurčeno
+                  - if @params['komentbox'] == 'boxlemma'
+                    | #{I18n.t("admin.koment.boxlemma")}
+                  - if @params['komentbox'] == 'boxcolloc'
+                    | #{I18n.t("admin.koment.boxcolloc")}
+                  - if @params['komentbox'] == 'video'
+                    | #{I18n.t("admin.koment.video")}
+                  - if @params['komentbox'] == 'swfieldset'
+                    | #{I18n.t("admin.koment.swfieldset")}
+                  - if @params['komentbox'] == 'hamnbox'
+                    | #{I18n.t("admin.koment.hamnbox")} 
+                  - if @params['komentbox'] == 'gramdesc'
+                    | #{I18n.t("admin.koment.gramdesc")}
+                  - if @params['komentbox'] == 'styldesc'
+                    | #{I18n.t("admin.koment.styldesc")}
+                  - if @params['komentbox'] == 'vyznam'
+                    | #{I18n.t("admin.koment.vyznam")}
+                  - if @params['komentbox'] == '_us'
+                    | #{I18n.t("admin.koment._us")}
+                  - if @params['komentbox'] == 'vazby'
+                    | #{I18n.t("admin.koment.vazby")}
+              - if @is_admin or @is_edit
+                - if @params.count{|k,_| k =~ /sw/} > 0
+                  th               
+                th width="10%"
+                  a.btn class="btn-#{@dictcode}" href="https://edit.dictio.info/editor#{@dictcode}/?id=" 
+                    | + #{I18n.t("admin.newentry")}        
+            == slim :reportresultlist
+          - if @report['resultcount'].to_i > @report['entries'].size
+            a.btn.load_next_report data-dict=@dictcode #{I18n.t("search.load_next")}
+            a.btn.load_rest_report data-dict=@dictcode #{I18n.t("search.load_rest")}
