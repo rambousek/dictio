@@ -379,9 +379,28 @@ class CzjApp < Sinatra::Base
       @search = params['search']
       @input_type = params['type']
       @dictcode = code
+      @resultwarn = false
+      puts "DEBUG: Calling translate2 with search term: #{@search}"
       @result = dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
       if @result['count'] == 0
         File.open("public/log/translate.csv", "a"){|f| f << [code, params['target'],  params['search'].to_s, Time.now.strftime("%Y-%m-%d %H:%M:%S")].join(";")+"\n"}
+        @search0 = @search
+    
+        # Načtení seznamu všech možných výrazů pro porovnání
+        @all = "*"
+        possible_matches = dict.search(code, @all, params['type'].to_s, 0, @search_limit, more_params) # Tuto metodu implementujte ve vaší knihovně
+
+        # Najděte nejbližší shodu pomocí Damerau-Levenshteinovy vzdálenosti
+        closest_match = possible_matches.min_by do |term|
+          DamerauLevenshtein.distance(@search, term)
+        end
+
+        # Pokus o vyhledání s nejbližším výrazem
+        if closest_match
+          @search = closest_match
+          @result = dict.translate2(code, params['target'], @search.to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
+          @resultwarn = true
+        end
       end
       slim :transresultlist, :layout=>false
     end
