@@ -3473,7 +3473,7 @@ class CZJDict < Object
     wordlist = []
     if $dict_info[@dictcode]['type'] == 'write'
       # take list of titles for dictionary
-      $mongo['relation'].find({'source_dict' => @dictcode}).each do |entry|
+      $mongo['relation'].find({'source_dict' => @dictcode, 'type' => 'translation'}).each do |entry|
         if entry['source_title'] and entry['source_title'] != ''
           wordlist << entry['source_title']
         end
