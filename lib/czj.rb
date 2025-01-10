@@ -3495,7 +3495,7 @@ class CZJDict < Object
             end
           end
         end
-        $stderr.puts @dictcode + target_code
+        $stdout.puts @dictcode + '-' + target_code
         wordlist[target_code] = list.uniq
       end
     end
