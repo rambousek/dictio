@@ -14,6 +14,8 @@ yum install nginx ruby-devel make gcc redhat-rpm-config certbot python3-certbot-
 gem install puma -v '4.3.12'
 gem install bson -v '4.15.0'
 gem install sinatra slim mongo i18n json net-scp ed25519 bcrypt_pbkdf resolv sinatra-contrib maxmind-geoip2
+gem install damerau-levenshtein
+ln -s /usr/lib64/libruby.so.2.7.8 /usr/lib64/libruby.so.2.5
 ```
 
 certifikát
