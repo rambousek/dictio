@@ -12,6 +12,7 @@ require 'resolv'
 require 'sinatra/cookies'
 require 'maxmind/geoip2'
 require 'mail'
+require 'damerau-levenshtein'
 
 require_relative 'lib/czj'
 require_relative 'lib/host-config'
@@ -380,18 +381,31 @@ class CzjApp < Sinatra::Base
       @input_type = params['type']
       @dictcode = code
       @resultwarn = false
+      puts "DEBUG: Calling translate2 with search term: #{@search}"
       @result = dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
       if @result['count'] == 0
         File.open("public/log/translate.csv", "a"){|f| f << [code, params['target'],  params['search'].to_s, Time.now.strftime("%Y-%m-%d %H:%M:%S")].join(";")+"\n"}
         @search0 = @search
-        while @result['count'] == 0 && @search.length > 1 # opakované hledání se zkráceným výrazem
-          @search = @search[0..-2] 
-          @result = dict.translate2(code, params['target'], @search.to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
+    
+        # Načtení seznamu všech možných výrazů pro porovnání
+        possible_matches = dict.wordlist[params['target']]
+        # Najděte nejbližší shodu pomocí Damerau-Levenshteinovy vzdálenosti
+        closest_match = possible_matches.min_by do |term|
+          DamerauLevenshtein.distance(@search, term)
         end
-        @resultwarn = true
+
+        # Pokus o vyhledání s nejbližším výrazem
+        if closest_match
+          @search = closest_match
+          @result = dict.translate2(code, params['target'], @search.to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
+          @resultwarn = true
+        end
       end
-      slim :transresultlist, :layout=>false
+
+      # Zobrazení výsledků
+      slim :transresultlist, layout: false
     end
+
     get '/'+code+'/revcolloc/:id' do
       @entry = dict.get_revcolloc(params['id'], 'collocation')
       @type = 'collocation'
