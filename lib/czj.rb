@@ -3469,23 +3469,37 @@ class CZJDict < Object
   end
 
   # Prepare array with list of words and assign to wordlist attr
+  # for each dictionary combination for translation, for search all words in current dictionary
   def build_wordlist
-    wordlist = []
+    wordlist = {}
     if $dict_info[@dictcode]['type'] == 'write'
-      # take list of titles for dictionary
-      $mongo['relation'].find({'source_dict' => @dictcode, 'type' => 'translation'}).each do |entry|
-        if entry['source_title'] and entry['source_title'] != ''
-          wordlist << entry['source_title']
+      $dict_info.each do |target_code, _|
+        list = []
+        if @dictcode == target_code
+          $mongo['entries'].find({'dict' => @dictcode, 'lemma.title': {'$exists': true}}).each do |entry|
+            if entry['lemma']['title'] != ''
+              list << entry['lemma']['title']
+            end
+          end
+        else
+          # take list of titles for dictionary
+          $mongo['relation'].find({'source_dict' => @dictcode, 'type' => 'translation', 'target' => target_code}).each do |entry|
+            if entry['source_title'] and entry['source_title'] != ''
+              list << entry['source_title']
+            end
+          end
+          # take list of text translation with dictionary as target
+          $mongo['relation'].find({'target' => @dictcode, 'source_dict' => target_code, 'meaning_nr' => {'$exists' => false}}).each do |entry|
+            if entry['meaning_id'] and entry['meaning_id'] != ''
+              list << entry['meaning_id']
+            end
+          end
         end
-      end
-      # take list of text translation with dictionary as target
-      $mongo['relation'].find({'target' => @dictcode, 'meaning_nr' => {'$exists' => false}}).each do |entry|
-        if entry['meaning_id'] and entry['meaning_id'] != ''
-          wordlist << entry['meaning_id']
-        end
+        $stderr.puts @dictcode + target_code
+        wordlist[target_code] = list.uniq
       end
     end
-    @wordlist = wordlist.uniq
+    @wordlist = wordlist
   end
 
   def normalize_fsw

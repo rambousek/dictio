@@ -388,7 +388,7 @@ class CzjApp < Sinatra::Base
         @search0 = @search
     
         # Načtení seznamu všech možných výrazů pro porovnání
-        possible_matches = dict.wordlist
+        possible_matches = dict.wordlist[params['target']]
         # Najděte nejbližší shodu pomocí Damerau-Levenshteinovy vzdálenosti
         closest_match = possible_matches.min_by do |term|
           DamerauLevenshtein.distance(@search, term)
