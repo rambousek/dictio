@@ -3491,13 +3491,15 @@ class CZJDict < Object
           end
         else
           # take list of titles for dictionary
-          $mongo['relation'].find({'source_dict' => @dictcode, 'type' => 'translation', 'target' => target_code}).each do |entry|
+          $mongo['relation'].find({'source_dict' => @dictcode, 'status' => 'published',
+                                   'type' => 'translation', 'target' => target_code}).each do |entry|
             if entry['source_title'] and entry['source_title'] != ''
               list << entry['source_title']
             end
           end
           # take list of text translation with dictionary as target
-          $mongo['relation'].find({'target' => @dictcode, 'source_dict' => target_code, 'meaning_nr' => {'$exists' => false}}).each do |entry|
+          $mongo['relation'].find({'target' => @dictcode, 'source_dict' => target_code,
+                                   'status' => 'published', 'meaning_nr' => {'$exists' => false}}).each do |entry|
             if entry['meaning_id'] and entry['meaning_id'] != ''
               list << entry['meaning_id']
             end
