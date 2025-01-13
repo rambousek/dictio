@@ -387,29 +387,31 @@ class CzjApp < Sinatra::Base
         # Logování neúspěšného vyhledávání
         File.open("public/log/translate.csv", "a"){|f| f << [code, params['target'],  params['search'].to_s, Time.now.strftime("%Y-%m-%d %H:%M:%S")].join(";")+"\n"}
         
-        # Opakované hledání s filtrováním a zkracováním výrazu
         @search0 = @search
-        possible_matches = dict.wordlist[params['target']] || []
-  
-        iteration_limit = 10
-        iteration_count = 0
-  
+        possible_matches = dict.wordlist[params['target']]
+        
         # Opakované hledání s filtrováním a zkracováním výrazu
-        while @result['count'] == 0 && @search.length > 1 && iteration_count < iteration_limit
-          iteration_count += 1
+        while @result['count'] == 0 && @search.length > 1
           
-          # Najděte nejbližší shodu
-          closest_match = filtered_matches.min_by do |term|
-            DamerauLevenshtein.distance(@search, term)
+          # Filtrujte termíny podle maximální vzdálenosti
+          filtered_matches = possible_matches.select do |term|
+            DamerauLevenshtein.distance(@search, term) <= 3
           end
           
-          if closest_match
-            @search = closest_match
-            @result = dict.translate2(code, params['target'], @search.to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
-            @resultwarn = true
+          if filtered_matches.any?  
+            # Najděte nejbližší shodu
+            closest_match = filtered_matches.min_by do |term|
+              DamerauLevenshtein.distance(@search, term) 
+            end
+          
+            if closest_match
+              @search = closest_match
+              @result = dict.translate2(code, params['target'], @search.to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
+              @resultwarn = true
+            end            
           else
             # Zkraťte výraz na polovinu, pokud není nalezena žádná shoda
-            @search = @search[0, @search.length / 2]
+            @search = @search[0, [@search.length / 2, 1].max]
           end
         end
       end
