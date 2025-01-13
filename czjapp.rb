@@ -388,7 +388,8 @@ class CzjApp < Sinatra::Base
         File.open("public/log/translate.csv", "a"){|f| f << [code, params['target'],  params['search'].to_s, Time.now.strftime("%Y-%m-%d %H:%M:%S")].join(";")+"\n"}
         
         @search0 = @search
-        possible_matches = dict.wordlist[params['target']].delete(@search)
+        possible_matches = dict.wordlist[params['target']]
+        possible_matches.delete(@search)
         
         # Opakované hledání s filtrováním a zkracováním výrazu
         while @result['count'] == 0 && @search.length > 1
