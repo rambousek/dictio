@@ -387,15 +387,16 @@ class CzjApp < Sinatra::Base
         # Logování neúspěšného vyhledávání
         File.open("public/log/translate.csv", "a"){|f| f << [code, params['target'],  params['search'].to_s, Time.now.strftime("%Y-%m-%d %H:%M:%S")].join(";")+"\n"}
         
-        @search0 = @search
-        possible_matches = dict.wordlist[params['target']]
-        
         # Opakované hledání s filtrováním a zkracováním výrazu
-        while @result['count'] == 0 && @search.length > 1
-          # Filtrujte termíny podle maximální vzdálenosti
-          filtered_matches = possible_matches.select do |term|
-            DamerauLevenshtein.distance(@search, term) <= 3
-          end
+        @search0 = @search
+        possible_matches = dict.wordlist[params['target']] || []
+  
+        iteration_limit = 10
+        iteration_count = 0
+  
+        # Opakované hledání s filtrováním a zkracováním výrazu
+        while @result['count'] == 0 && @search.length > 1 && iteration_count < iteration_limit
+          iteration_count += 1
           
           # Najděte nejbližší shodu
           closest_match = filtered_matches.min_by do |term|
