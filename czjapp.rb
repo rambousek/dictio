@@ -395,7 +395,7 @@ class CzjApp < Sinatra::Base
           
           # Filtrujte termíny podle maximální vzdálenosti
           filtered_matches = possible_matches.select do |term|
-            DamerauLevenshtein.distance(@search, term) <= 3
+            DamerauLevenshtein.distance(@search, term) <= 2
           end
           
           if filtered_matches.any?  
