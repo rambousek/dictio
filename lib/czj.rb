@@ -3491,15 +3491,20 @@ class CZJDict < Object
           end
         else
           # take list of titles for dictionary
-          $mongo['relation'].find({'source_dict' => @dictcode, 'status' => 'published',
-                                   'type' => 'translation', 'target' => target_code}).each do |entry|
+          cond1 = {'source_dict' => @dictcode, 'type' => 'translation', 'target' => target_code}
+          # take list of text translation with dictionary as target
+          cond2 = {'target' => @dictcode, 'source_dict' => target_code, 'meaning_nr' => {'$exists' => false}}
+          # for public, check status
+          if not $is_edit and not $is_admin
+            cond1['status'] = 'published'
+            cond2['status'] = 'published'
+          end
+          $mongo['relation'].find(cond1).each do |entry|
             if entry['source_title'] and entry['source_title'] != ''
               list << entry['source_title']
             end
           end
-          # take list of text translation with dictionary as target
-          $mongo['relation'].find({'target' => @dictcode, 'source_dict' => target_code,
-                                   'status' => 'published', 'meaning_nr' => {'$exists' => false}}).each do |entry|
+          $mongo['relation'].find(cond2).each do |entry|
             if entry['meaning_id'] and entry['meaning_id'] != ''
               list << entry['meaning_id']
             end
