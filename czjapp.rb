@@ -389,6 +389,12 @@ class CzjApp < Sinatra::Base
     
         # Načtení seznamu všech možných výrazů pro porovnání
         possible_matches = dict.wordlist[params['target']]
+        
+        # Filtrujte termíny podle maximální vzdálenosti 5
+        filtered_matches = possible_matches.select do |term|
+          DamerauLevenshtein.distance(@search, term) <= 5
+        end
+
         # Najděte nejbližší shodu pomocí Damerau-Levenshteinovy vzdálenosti
         closest_match = possible_matches.min_by do |term|
           DamerauLevenshtein.distance(@search, term)
