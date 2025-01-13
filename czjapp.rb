@@ -393,13 +393,13 @@ class CzjApp < Sinatra::Base
         # Opakované hledání s filtrováním a zkracováním výrazu
         while @result['count'] == 0 && @search.length > 1
           
-          # Filtrujte termíny podle maximální vzdálenosti
+          # prefiltrace s vzdalenosti max 2
           filtered_matches = possible_matches.select do |term|
             DamerauLevenshtein.distance(@search, term) <= 2
           end
           
           if filtered_matches.any?  
-            # Najděte nejbližší shodu
+            # nejbližší shoda
             closest_match = filtered_matches.min_by do |term|
               DamerauLevenshtein.distance(@search, term) 
             end
@@ -410,8 +410,8 @@ class CzjApp < Sinatra::Base
               @resultwarn = true
             end            
           else
-            # Zkraťte výraz na polovinu, pokud není nalezena žádná shoda
-            @search = @search[0, [@search.length / 2, 1].max]
+            # zkrátí na polovinu, pokud není nalezena žádná shoda
+            @search = @search[0, ([@search.length / 2, 1].max).ceil]
           end
         end
       end
