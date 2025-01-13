@@ -385,9 +385,7 @@ class CzjApp < Sinatra::Base
       @result = dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
       if @result['count'] == 0
         # Logování neúspěšného vyhledávání
-        File.open("public/log/translate.csv", "a") do |f|
-          f << [code, params['target'], params['search'].to_s, Time.now.strftime("%Y-%m-%d %H:%M:%S")].join(";") + "\n"
-        end
+        File.open("public/log/translate.csv", "a"){|f| f << [code, params['target'],  params['search'].to_s, Time.now.strftime("%Y-%m-%d %H:%M:%S")].join(";")+"\n"}
         
         @search0 = @search
         possible_matches = dict.wordlist[params['target']] || [] # Zajistěte, že possible_matches není nil
