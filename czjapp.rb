@@ -384,27 +384,34 @@ class CzjApp < Sinatra::Base
       puts "DEBUG: Calling translate2 with search term: #{@search}"
       @result = dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
       if @result['count'] == 0
-        File.open("public/log/translate.csv", "a"){|f| f << [code, params['target'],  params['search'].to_s, Time.now.strftime("%Y-%m-%d %H:%M:%S")].join(";")+"\n"}
-        @search0 = @search
-    
-        # Načtení seznamu všech možných výrazů pro porovnání
-        possible_matches = dict.wordlist[params['target']]
+        # Logování neúspěšného vyhledávání
+        File.open("public/log/translate.csv", "a") do |f|
+          f << [code, params['target'], params['search'].to_s, Time.now.strftime("%Y-%m-%d %H:%M:%S")].join(";") + "\n"
+        end
         
-        # Filtrujte termíny podle maximální vzdálenosti 5
-        filtered_matches = possible_matches.select do |term|
-          DamerauLevenshtein.distance(@search, term) <= 5
-        end
-
-        # Najděte nejbližší shodu pomocí Damerau-Levenshteinovy vzdálenosti
-        closest_match = possible_matches.min_by do |term|
-          DamerauLevenshtein.distance(@search, term)
-        end
-
-        # Pokus o vyhledání s nejbližším výrazem
-        if closest_match
-          @search = closest_match
-          @result = dict.translate2(code, params['target'], @search.to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
-          @resultwarn = true
+        @search0 = @search
+        possible_matches = dict.wordlist[params['target']] || [] # Zajistěte, že possible_matches není nil
+        
+        # Opakované hledání s filtrováním a zkracováním výrazu
+        while @result['count'] == 0 && @search.length > 1
+          # Filtrujte termíny podle maximální vzdálenosti
+          filtered_matches = possible_matches.select do |term|
+            DamerauLevenshtein.distance(@search, term) <= 3
+          end
+          
+          # Najděte nejbližší shodu
+          closest_match = filtered_matches.min_by do |term|
+            DamerauLevenshtein.distance(@search, term)
+          end
+          
+          if closest_match
+            @search = closest_match
+            @result = dict.translate2(code, params['target'], @search.to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
+            @resultwarn = true
+          else
+            # Zkraťte výraz na polovinu, pokud není nalezena žádná shoda
+            @search = @search[0, @search.length / 2]
+          end
         end
       end
 
