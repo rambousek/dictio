@@ -396,6 +396,7 @@ class CzjApp < Sinatra::Base
           closest_match = find_closest_match(words_array.first, possible_matches, 2)
           if closest_match
             @resultwarn = true
+            @search = closest_match
             return dict.translate2(code, params['target'], closest_match, params['type'], params['start'].to_i, params['limit'].to_i)            
           else
             words_array.shift
@@ -410,6 +411,7 @@ class CzjApp < Sinatra::Base
           closest_match = find_closest_match(search, possible_matches, 2)
           if closest_match
             @resultwarn = true
+            @search = closest_match
             return dict.translate2(code, params['target'], closest_match, params['type'], params['start'].to_i, params['limit'].to_i) 
           else
             search = search[0, [search.length / 2, 1].max]
