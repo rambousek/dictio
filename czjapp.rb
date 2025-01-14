@@ -381,43 +381,59 @@ class CzjApp < Sinatra::Base
       @input_type = params['type']
       @dictcode = code
       @resultwarn = false
-      puts "DEBUG: Calling translate2 with search term: #{@search}"
-      @result = dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
-      if @result['count'] == 0
-        # Logování neúspěšného vyhledávání
-        File.open("public/log/translate.csv", "a"){|f| f << [code, params['target'],  params['search'].to_s, Time.now.strftime("%Y-%m-%d %H:%M:%S")].join(";")+"\n"}
-        
-        @search0 = @search
-        possible_matches = dict.wordlist[params['target']]
-        possible_matches.delete(@search)
-        
-        # Opakované hledání s filtrováním a zkracováním výrazu
-        while @result['count'] == 0 && @search.length > 1
-          
-          # prefiltrace s vzdalenosti max 2
-          filtered_matches = possible_matches.select do |term|
-            DamerauLevenshtein.distance(@search, term) <= 2
-          end
-          
-          if filtered_matches.any?  
-            # nejbližší shoda
-            closest_match = filtered_matches.min_by do |term|
-              DamerauLevenshtein.distance(@search, term) 
-            end
-          
-            if closest_match
-              @search = closest_match
-              @result = dict.translate2(code, params['target'], @search.to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i)
-              @resultwarn = true
-            end            
+      puts "DEBUG: Calling translate2 with search term: #{@search}"              
+      
+      def find_closest_match(search, possible_matches, max_distance)
+        filtered_matches = possible_matches.select do |term|
+          DamerauLevenshtein.distance(search, term) <= max_distance
+        end
+        filtered_matches.min_by { |term| DamerauLevenshtein.distance(search, term) }
+      end
+      
+      def process_multisyllabic_search(words_array, possible_matches, dict, code, params)
+        words_array.shift if words_array.first.length <= 2
+        while words_array.size > 1
+          closest_match = find_closest_match(words_array.first, possible_matches, 2)
+          if closest_match
+            return dict.translate2(code, params['target'], closest_match, params['type'], params['start'].to_i, params['limit'].to_i)
+            @resultwarn = true
           else
-            # zkrátí na polovinu, pokud není nalezena žádná shoda
-            @search = @search[0, ([@search.length / 2, 1].max).ceil]
+            words_array.shift
           end
         end
       end
-
-      # Zobrazení výsledků
+      
+      def process_single_word_search(search, possible_matches, dict, code, params)
+        search.slice!(0, 2) if search.start_with?("ne") && (code == cs || code == sk) &&  search.length > 4
+        while search.length > 1
+          closest_match = find_closest_match(search, possible_matches, 2)
+          if closest_match
+            return dict.translate2(code, params['target'], closest_match, params['type'], params['start'].to_i, params['limit'].to_i)
+            @resultwarn = true
+          else
+            search = search[0, [search.length / 2, 1].max]
+          end
+        end
+      end
+      
+      @result = dict.translate2(code, params['target'], params['search'].strip, params['type'], params['start'].to_i, params['limit'].to_i)
+      if @result['count'] == 0
+        # Logování neúspěšného vyhledávání
+        File.open("public/log/translate.csv", "a"){|f| f << [code, params['target'],  params['search'].to_s, Time.now.strftime("%Y-%m-%d %H:%M:%S")].join(";")+"\n"}
+      
+        @search0 = @search
+        #načtení všech existujících překladů
+        possible_matches = dict.wordlist[params['target']]
+        possible_matches.delete(@search)
+      
+        words_array = @search.split.reject(&:empty?)
+        @result = if words_array.size > 1
+                    process_multisyllabic_search(words_array, possible_matches, dict, code, params)
+                  else
+                    process_single_word_search(@search, possible_matches, dict, code, params)
+                  end
+      end
+      #výpis výsledků hledání
       slim :transresultlist, layout: false
     end
 
