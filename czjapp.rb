@@ -427,11 +427,11 @@ class CzjApp < Sinatra::Base
         possible_matches.delete(@search)
       
         words_array = @search.split.reject(&:empty?)
-        @result = if words_array.size > 1
-                    process_multisyllabic_search(words_array, possible_matches, dict, code, params)
-                  else
-                    process_single_word_search(@search, possible_matches, dict, code, params)
-                  end
+        if words_array.size > 1
+          @result = process_multisyllabic_search(words_array, possible_matches, dict, code, params)
+        else
+          @result = process_single_word_search(@search, possible_matches, dict, code, params)
+        end
       end
       #výpis výsledků hledání
       slim :transresultlist, layout: false
