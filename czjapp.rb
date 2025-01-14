@@ -401,6 +401,7 @@ class CzjApp < Sinatra::Base
             words_array.shift
           end
         end
+        return nil
       end
       
       def process_single_word_search(search, possible_matches, dict, code, params)
@@ -409,11 +410,12 @@ class CzjApp < Sinatra::Base
           closest_match = find_closest_match(search, possible_matches, 2)
           if closest_match
             @resultwarn = true
-            return dict.translate2(code, params['target'], closest_match, params['type'], params['start'].to_i, params['limit'].to_i)            
+            return dict.translate2(code, params['target'], closest_match, params['type'], params['start'].to_i, params['limit'].to_i) 
           else
             search = search[0, [search.length / 2, 1].max]
           end
         end
+        return nil
       end
       
       @result = dict.translate2(code, params['target'], params['search'].strip, params['type'], params['start'].to_i, params['limit'].to_i)
@@ -427,10 +429,14 @@ class CzjApp < Sinatra::Base
         possible_matches.delete(@search)
       
         words_array = @search.split.reject(&:empty?)
+        result_similar = nil
         if words_array.size > 1
-          @result = process_multisyllabic_search(words_array, possible_matches, dict, code, params)
+          result_similar = process_multisyllabic_search(words_array, possible_matches, dict, code, params)
         else
-          @result = process_single_word_search(@search, possible_matches, dict, code, params)
+          result_similar = process_single_word_search(@search, possible_matches, dict, code, params)
+        end
+        if result_similar
+          @result = result_similar
         end
       end
       #výpis výsledků hledání
