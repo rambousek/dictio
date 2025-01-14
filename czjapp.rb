@@ -404,7 +404,7 @@ class CzjApp < Sinatra::Base
       end
       
       def process_single_word_search(search, possible_matches, dict, code, params)
-        search.slice!(0, 2) if search.start_with?("ne") && (code == cs || code == sk) &&  search.length > 4
+        search.slice!(0, 2) if search.start_with?("ne") && (code == "cs" || code == "sk") &&  search.length > 4
         while search.length > 1
           closest_match = find_closest_match(search, possible_matches, 2)
           if closest_match
