@@ -1,8 +1,13 @@
-- if @resultwarn 
+- if @resultinfo1 || @resultinfo2 || @resultinfo3 
   p style="width: 100%" 
     strong
       em #{@search0}
-    | #{I18n.t('search.notfound2')}
+    - if @resultinfo1
+      | #{I18n.t('search.info1')}?
+    - if @resultinfo2
+      | #{I18n.t('search.info2')}
+    - if @resultinfo3
+      | #{I18n.t('search.info3')}
     strong
       em #{@search}
 - @result['relations'].each do |rel|

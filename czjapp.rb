@@ -380,7 +380,9 @@ class CzjApp < Sinatra::Base
       @search = params['search']
       @input_type = params['type']
       @dictcode = code
-      @resultwarn = false
+      @resultinfo1 = false
+      @resultinfo2 = false
+      @resultinfo3 = false
       puts "DEBUG: Calling translate2 with search term: #{@search}"              
       
       def find_closest_match(search, possible_matches, max_distance)
@@ -395,7 +397,7 @@ class CzjApp < Sinatra::Base
         while words_array.size > 0
           closest_match = find_closest_match(words_array.first, possible_matches, 2)
           if closest_match
-            @resultwarn = true
+            @resultinfo3 = true
             @search = closest_match
             return dict.translate2(code, params['target'], closest_match, params['type'], params['start'].to_i, params['limit'].to_i)            
           else
@@ -407,10 +409,11 @@ class CzjApp < Sinatra::Base
       
       def process_single_word_search(search, possible_matches, dict, code, params)
         search.slice!(0, 2) if search.start_with?("ne") && (code == "cs" || code == "sk") &&  search.length > 4
+        @resultinfo1 = true
         while search.length > 1
           closest_match = find_closest_match(search, possible_matches, 2)
           if closest_match
-            @resultwarn = true
+            @resultinfo2 = true if not @resultinfo1
             @search = closest_match
             return dict.translate2(code, params['target'], closest_match, params['type'], params['start'].to_i, params['limit'].to_i) 
           else
@@ -419,6 +422,7 @@ class CzjApp < Sinatra::Base
             else
               search.slice!(-2, 2)
             end
+            @resultinfo1 = false if @resultinfo1
           end
         end
         return nil
