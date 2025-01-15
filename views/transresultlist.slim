@@ -3,13 +3,15 @@
     strong
       em #{@search0}
     - if @resultinfo1
-      | #{I18n.t('search.info1')}?
+      | #{I18n.t('search.info1')}
     - if @resultinfo2
       | #{I18n.t('search.info2')}
     - if @resultinfo3
       | #{I18n.t('search.info3')}
     strong
       em #{@search}
+      - if @resultinfo1
+      | ?
 - @result['relations'].each do |rel|
   .col.col--3.col--precise.translate-box data-resultcount="#{@result['count']}" data-relinfo="#{rel['source_dict']+rel['source_id']+(rel['source_usage_id']?'us':'')+rel['target']+rel['meaning_id'].sub(/-.*$/,'')+(rel['meaning_id'].include?('_us')?'us':'')}"
         - if @dict_info[@dictcode]['type'] == 'write'
