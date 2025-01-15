@@ -414,7 +414,11 @@ class CzjApp < Sinatra::Base
             @search = closest_match
             return dict.translate2(code, params['target'], closest_match, params['type'], params['start'].to_i, params['limit'].to_i) 
           else
-            search = search[0, [search.length / 2, 1].max]
+            if search.length >= 10
+              search = search[0, [search.length / 2, 1].max]
+            else
+              search.slice!(-2, 2)
+            end
           end
         end
         return nil
