@@ -76,7 +76,7 @@ sk:
     notfound: ":( Je nám ľúto, ale nič také sme tu nenašli..."
     info1: " nenalezeno. Mysleli jste: "
     info2: " nenalezeno. Nalezeno podobné: "
-    info3: " nenalezeno. První nelezené: "
+    info3: " nenalezeno. První nalezené: "
     try_search: "Heslo s týmto ID neobsahuje žiadne ekvivalenty v cieľovom jazyku."
     link: "Zobraziť heslo vo výkladovom slovníku."
     translate_view: "Zobraziť v prekladovom slovníku."
