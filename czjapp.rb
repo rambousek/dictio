@@ -392,7 +392,7 @@ class CzjApp < Sinatra::Base
       
       def process_multisyllabic_search(words_array, possible_matches, dict, code, params)
         words_array.shift if words_array.first.length <= 2
-        while words_array.size > 1
+        while words_array.size > 0
           closest_match = find_closest_match(words_array.first, possible_matches, 2)
           if closest_match
             @resultwarn = true
@@ -429,6 +429,7 @@ class CzjApp < Sinatra::Base
         #načtení všech existujících překladů
         possible_matches = dict.wordlist[params['target']]
         possible_matches.delete(@search)
+        @search = @search.downcase
       
         words_array = @search.split.reject(&:empty?)
         result_similar = nil
