@@ -2515,7 +2515,9 @@ class CZJDict < Object
       ri << res['id_meta_author']
       ri << res['id_meta_source']
       ri << res['id_meta_copyright']
-      ri << res2['created_at'][0..10]
+      if res2 and res2['created_at']
+        ri << res2['created_at'][0..10]
+      end
       report['entries'] << ri.join(';')
     }
     return report['entries']
