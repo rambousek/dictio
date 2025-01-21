@@ -25,6 +25,7 @@ main role="main"
               img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Click to show International Signing"
             div id="help1" style="display:none; position:fixed; top:105px; right:10px;"
               video src="https://files.dictio.info/help/helpIS01.mp4" height="300" controls=true autoplay=true
+              div.close onclick="showhide ('help1');"
           p.lead DICTIO contains dictionaries of several languages. Covered dictionaries are listed in the dropdown menu. DICTIO provides searching for equivalents (translations) between any two covered languages and searching for entry details among each covered language.
           p It is possible to use words or signs as an input for search.
 
@@ -49,6 +50,7 @@ main role="main"
               img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Click to show International Signing"
             div id="help2" style="display:none; position:fixed; top:105px; right:10px;"
               video src="https://files.dictio.info/help/helpIS02.mp4" height="300" controls=true autoplay=true
+              div.close onclick="showhide ('help2');"
           .row.row-start
             .col-2 style="width:50%;"
               ul
@@ -96,6 +98,7 @@ main role="main"
               img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Click to show International Signing"
             div id="help3" style="display:none; position:fixed; top:105px; right:10px;"
               video src="https://files.dictio.info/help/helpIS03.mp4" height="300" controls=true autoplay=true
+              div.close onclick="showhide ('help3');"
           p Each entry contains of three parts:
           ul
             li Header
@@ -109,6 +112,7 @@ main role="main"
               img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Click to show International Signing"
             div id="help4" style="display:none; position:fixed; top:105px; right:10px;"
               video src="https://files.dictio.info/help/helpIS04.mp4" height="300" controls=true autoplay=true
+               div.close onclick="showhide ('help4');"
           p <strong>Spoken language</strong> header contains lemma itself (1), unusual pronunciation in brackets (2) and another way of spelling if possible (3)
           img src="/img/help/headerwriteEN.png" align="left"
           p <strong>Sign Language</strong> header contains videos and notations since there is no firmly established conventional writing for sign languages. As a basic form showing the lemma itself is considered the frontal view video (1). It is accompanied by a side view as well (2). There is transcription in SignWriting (3). Transcription in HamNoSys (4) can be provided as well. 
@@ -168,6 +172,11 @@ main role="main"
           p Criteria for Assigning Signs to Lexical Categories
 
           h3 1) Nouns 
+            a href="#noun" onclick="showhide ('noun');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Český znakový jazyk"
+            div id="noun" style="display:none; position:fixed; top:105px; right:10px;"
+              video src="https://files.dictio.info/help/lexISnoun.mp4" height="300" controls=true autoplay=true
+              div.close onclick="showhide ('noun');"          
           p Signs classified as nouns meet the following criteria:
           ul 
             li <strong>Semantic</strong>: Denote entities (person, animal, object...) or qualities, materials, etc.
@@ -186,7 +195,9 @@ main role="main"
             li Aspectual modification is possible through non-manual means.
             li Reduplication is used to indicate aspect (or, in some cases, agreement with an object in terms of number).
           p Additionally, auxiliary indicators include the presence of oral components (in contrast to the verbal components seen in nouns) or the possibility of negation using non-manual means.
-          p Types of Verbs
+
+          p 
+            strong Types of Verbs
           p Based on further criteria, verbs are divided into the following four types:
           ul 
             li 
@@ -209,12 +220,22 @@ main role="main"
               p These incorporate handshapes (classifier forms) that agree with the object’s properties. Agreement is based on the object's shape, size, or other characteristics.
 
           h3 3) Pronouns
+            a href="#pron" onclick="showhide ('pron');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Český znakový jazyk"
+            div id="pron" style="display:none; position:fixed; top:105px; right:10px;"
+              video src="https://files.dictio.info/help/lexISpron.mp4" height="300" controls=true autoplay=true
+              div.close onclick="showhide ('pron');"          
           p Pronouns include exclusively expressions with deictic or anaphoric functions. They can be further divided into demonstrative pronouns and possessive pronouns:
           ul  
             li <strong>Demonstrative</strong> pronouns refer to a participant in the communication or an object within the communicative context (deictic use) or to a sign (anaphoric use) towards which an extended index finger is directed (e.g., I) or additional fingers for plural forms (e.g., we two).
             li <strong>Possessive </strong>pronouns indicate belonging to a participant in the communication or a sign towards which the speaker’s palm is directed (e.g., his).
 
           h3 4) Numerals
+            a href="#num" onclick="showhide ('num');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Český znakový jazyk"
+            div id="num" style="display:none; position:fixed; top:105px; right:10px;"
+              video src="https://files.dictio.info/help/lexISnum.mp4" height="300" controls=true autoplay=true
+              div.close onclick="showhide ('num');"          
           p Numerals include expressions related to numbers and counting. Based on semantic and other criteria, they are categorized as basic, ordinal, multiplicative, iconic, and indefinite numerals:
           ul
             li <strong>Basic</strong> numerals specify a simple, definite number and are signed in neutral space.
@@ -224,6 +245,11 @@ main role="main"
             li <strong>Indefinite</strong> numerals represent an indeterminate number.
 
           h3 5) Modifiers
+            a href="#mod" onclick="showhide ('mod');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Český znakový jazyk"
+            div id="mod" style="display:none; position:fixed; top:105px; right:10px;"
+              video src="https://files.dictio.info/help/lexISmod.mp4" height="300" controls=true autoplay=true
+              div.close onclick="showhide ('mod');"          
           p Modifiers include signs that provide additional specification to entities or verbal actions. They are categorized into qualitative, spatial, temporal, and aspectual modifiers:
           ul 
             li <strong>Qualitative</strong> modifiers express the qualities of entities or actions (e.g., beautiful). They differ from other groups in that they are typically gradable.
@@ -232,18 +258,38 @@ main role="main"
             li <strong>Spatial</strong> modifiers are generally deictic expressions that indicate not only the location of an object in space but also, potentially, the trajectory of its movement (e.g., beside).
 
           h3 6) Conjunctions
+            a href="#con" onclick="showhide ('con');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Český znakový jazyk"
+            div id="con" style="display:none; position:fixed; top:105px; right:10px;"
+              video src="https://files.dictio.info/help/lexIScon.mp4" height="300" controls=true autoplay=true
+              div.close onclick="showhide ('con');"          
           p Conjunctions include signs that express various logical relationships between two sentences or sentence elements.
 
           h3 7) Interrogative Expressions
+            a href="#inter" onclick="showhide ('inter');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Český znakový jazyk"
+            div id="inter" style="display:none; position:fixed; top:105px; right:10px;"
+              video src="https://files.dictio.info/help/lexISinter.mp4" height="300" controls=true autoplay=true
+              div.close onclick="showhide ('inter');"          
           p Interrogative expressions correspond to the linguistic concept of wh-words. These are signs used to form content questions, eliciting specific information.
 
           h3 8) Categorization Expressions
+            a href="#cat" onclick="showhide ('cat');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Český znakový jazyk"
+            div id="cat" style="display:none; position:fixed; top:105px; right:10px;"
+              video src="https://files.dictio.info/help/lexIScat.mp4" height="300" controls=true autoplay=true
+              div.close onclick="showhide ('cat');"          
           p The class of categorization expressions is defined by enumeration. From a semantic perspective, these are more or less grammaticalized expressions with the ability to organize hypernym-hyponym relationships among lexemes, specifically distinguishing the subordinate or superordinate level from the basic level.
 
           h3 9) Particles
           p  Particles include expressions that convey the speaker's subjective attitude toward the statement, its immediacy, or the degree of certainty. Within this group, negative particles are a distinct type. They negate a sentence element or the entire sentence (e.g., AT ALL).
 
           h3 10) Classifiers
+            a href="#clf" onclick="showhide ('clf');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Český znakový jazyk"
+            div id="clf" style="display:none; position:fixed; top:105px; right:10px;"
+              video src="https://files.dictio.info/help/lexISclf.mp4" height="300" controls=true autoplay=true 
+              div.close onclick="showhide ('clf');"          
           p Classifiers include classifier handshapes and shape/size specifiers.
           p For classifier handshapes, we distinguish the following semantic types:
           ul 
