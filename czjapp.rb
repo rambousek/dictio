@@ -393,14 +393,17 @@ class CzjApp < Sinatra::Base
       end
       
       def process_multisyllabic_search(words_array, possible_matches, dict, code, params)
+        puts "DEBUG: Calling multi_search: #{@search}"
         words_array.shift if words_array.first.length <= 2
         while words_array.size > 0
+          puts "DEBUG: Calling closest_match: #{words_array.first}"
           closest_match = find_closest_match(words_array.first, possible_matches, 2)
           if closest_match
             @resultinfo3 = true
             @search = closest_match
             return dict.translate2(code, params['target'], closest_match, params['type'], params['start'].to_i, params['limit'].to_i)            
           else
+            puts "DEBUG: closest_match FALSE > shift"
             words_array.shift
           end
         end
@@ -410,6 +413,7 @@ class CzjApp < Sinatra::Base
       def process_single_word_search(search, possible_matches, dict, code, params)
         search.slice!(0, 2) if search.start_with?("ne") && (code == "cs" || code == "sk") &&  search.length > 4
         @resultinfo1 = true
+        puts "DEBUG: Calling single_search: #{@search}"
         while search.length > 1
           closest_match = find_closest_match(search, possible_matches, 2)
           if closest_match
@@ -420,6 +424,7 @@ class CzjApp < Sinatra::Base
             if search.length >= 10
               search = search[0, [search.length / 2, 1].max]
             else
+              puts "DEBUG: closest_match FALSE > shorting"
               search.slice!(-2, 2)
             end
             @resultinfo1 = false if @resultinfo1
@@ -787,7 +792,7 @@ class CzjApp < Sinatra::Base
       content_type :json
       body = dict.get_videoreport(params).to_json
     end
-    get '/'+code+'/csvvideoreport' do
+    get '/'+code+'/videoreport' do
       content_type 'text/csv; charset=utf-8'
       attachment 'export.csv'
       csv = ['název;hesla;autor;zdroj;autor videa;datum']
