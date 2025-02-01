@@ -3490,6 +3490,13 @@ class CZJDict < Object
             if entry['lemma']['title'] != ''
               list << entry['lemma']['title']
             end
+            if entry['lemma']['gram'] and entry['lemma']['gram']['form']
+              entry['lemma']['gram']['form'].each{|decl|
+                if decl.is_a?(BSON::Document) and decl['_text'] and decl['_text'] != ''
+                  list << decl['_text']
+                end
+              }
+            end
           end
         else
           # take list of titles for dictionary
@@ -3504,6 +3511,13 @@ class CZJDict < Object
           $mongo['relation'].find(cond1).each do |entry|
             if entry['source_title'] and entry['source_title'] != ''
               list << entry['source_title']
+              if entry['entry_text']
+                entry['entry_text'].each{|decl|
+                  if decl != ''
+                    list << decl
+                  end
+                }
+              end
             end
           end
           $mongo['relation'].find(cond2).each do |entry|
