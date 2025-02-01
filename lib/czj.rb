@@ -2465,7 +2465,8 @@ class CZJDict < Object
         {'lemma.video_side': res['location']},
         {'meanings.text.file.@media_id': res['id']},
         {'meanings.usages.text.file.@media_id': res['id']},
-        {'lemma.grammar_note._text': {'$regex': '\[media_id=' + res['id'] + '\]'}}
+        {'lemma.grammar_note._text': {'$regex': '\[media_id=' + res['id'] + '\]'}},
+        {'lemma.style_note._text': {'$regex': '\[media_id=' + res['id'] + '\]'}}
       ]}, {'id': 1}).each{|entry|
         res['entries_used'] << entry['id']
       }
