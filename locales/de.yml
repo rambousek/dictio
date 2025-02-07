@@ -29,6 +29,7 @@ de:
     ogs: "ÖGS"
     asl: "ASL"
     uzm: "УЖМ"
+    istrael: "Istraeli SL"
   dict_search:
     cs: "Tschechisch"
     sj: "Slowakisch"
@@ -354,6 +355,8 @@ de:
       reci: "reziprok"
       reci;subj: "reziprok, subjektiv"
       reci;obj: "reziprok, objektiv"
+      subj;polo: "halbübereinstimmend; subjektiv"
+      obj;polo: "halbübereinstimmend; objektiv"
       polo: "halbübereinstimmend"
       lok: "lokativ"
       redo: "Reduplikation drückt Wiederholung der Handlung aus"
