@@ -151,11 +151,11 @@ video.uzm {
 h2.error {color: gray}
 img.error {align-self: center}
 
-.report-ano {background-color: darkgreen !important; font-size: 0.7rem !important;}
+.report-ano {background-color: darkgreen !important; font-size: 0.7rem !important; max-width: 140px; margin: 1px;}
 .report-ano:hover {background-color: darkred !important; font-size: 0.7rem !important;}
-.report-ne {background-color: darkred !important; font-size: 0.7rem !important;}
+.report-ne {background-color: darkred !important; font-size: 0.7rem !important; max-width: 140px; margin: 1px;}
 .report-ne:hover {background-color: darkgreen !important; font-size: 0.7rem !important;}
-.report- {background-color: gray !important; font-size: 0.7rem !important;}
+.report- {background-color: gray !important; font-size: 0.7rem !important; margin: 1px;}
 .report-:hover {background-color: darkgreen !important; font-size: 0.7rem !important;}
 .report-table {display: block; background: var(--zakladni-seda1); border-radius: 20px; padding: 15px; margin-bottom: 5px;}
 
@@ -266,4 +266,14 @@ div.close {
 div.close:hover {
   background-color: red;
   cursor: pointer;
+}
+
+div.sub {
+  border: 1px solid gray;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+div.sub h3 {
+  margin: 0;
 }
