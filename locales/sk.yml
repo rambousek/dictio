@@ -485,7 +485,7 @@ sk:
     report_old_main: "Rozcestnik"
     activeopt: "Zobrazujú sa heslá podľa nasledujúcich volieb:"
     idsel: "Iba heslá s ID"
-    moreopt: "Ďalšie možné voľby:"
+    moreopt: "Všetky voľby"
     dict: "Slovník"
     newentry: "nová lema"
     newentry2: "+ lema"
