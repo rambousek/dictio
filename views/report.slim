@@ -660,6 +660,7 @@ main role="main"
                     | + #{I18n.t("admin.newentry")}        
             == slim :reportresultlist
           - if @report['resultcount'].to_i > @report['entries'].size
-            a.btn.load_next_report data-dict=@dictcode #{I18n.t("search.load_next")}
-            a.btn.load_rest_report data-dict=@dictcode #{I18n.t("search.load_rest")}
+            div
+              a.btn.load_next_report data-dict=@dictcode #{I18n.t("search.load_next")}
+              a.btn.transparent.load_rest_report data-dict=@dictcode #{I18n.t("search.load_rest")}
     
