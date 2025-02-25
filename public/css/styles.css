@@ -1730,10 +1730,10 @@ a.btn--secondary {
   a.btn--secondary:focus {
     background-color: #0d111d; }
 
-.transparent {
-  color: #03c9a9;
-  border: solid 1px #03c9a9;
-  background: none;
+a.btn transparent {
+  color: #03c9a9 !important;
+  border: solid 1px #03c9a9 !important;
+  background: none !important;
 }    
 
 .btn--search,
