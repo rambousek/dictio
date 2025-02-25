@@ -1957,7 +1957,7 @@ function create_src_list(textid) {
     value: '...',
     width: 40,
     queryMode: 'local',
-    store: ['MU', 'Středisko Teiresiás', 'UPOL', 'Teiresiás S2', 'Teiresiás 1','Teiresiás 3','Teiresiás 3a', 'Teiresiás OBZ'],
+    store: ["Teiresiás OZZ", "Cambridge Dictionary", "Oxford Learner's Dictionary", "Dictionary.com"],
     listeners:{
       'select': function(combo, record, index) {
         if (combo.getValue() != '') {
