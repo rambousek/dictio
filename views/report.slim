@@ -290,12 +290,12 @@ main role="main"
                           span.icon class="icon--arrow-down nav-lang__dropdown"
                            svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                              use xlink:href="/img/icons.svg#arrow-down" width="100%" height="100%" x="0" y="0"
-                        div id="pre-rev" style="display: none"
-                          a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&komentbox=video&koment=ne" lemma
-                          a.btn class="btn-secondary report-" href="/#{@dictcode}/report?bez_sw=ano&komentbox=swfield&koment=ne" signwriting
-                          a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&vyznamvid=ano&komentbox=vyznam&koment=ne" #{I18n.t("admin.presets.def")}
-                          a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&vyznamvid=ano&komentbox=_us&koment=ne" #{I18n.t("admin.presets._us")}
-                          a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&komentbox=vazby&koment=ne" #{I18n.t("admin.presets.equiv")}  
+                      div id="pre-rev" style="display: none"
+                        a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&komentbox=video&koment=ne" lemma
+                        a.btn class="btn-secondary report-" href="/#{@dictcode}/report?bez_sw=ano&komentbox=swfield&koment=ne" signwriting
+                        a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&vyznamvid=ano&komentbox=vyznam&koment=ne" #{I18n.t("admin.presets.def")}
+                        a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&vyznamvid=ano&komentbox=_us&koment=ne" #{I18n.t("admin.presets._us")}
+                        a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&komentbox=vazby&koment=ne" #{I18n.t("admin.presets.equiv")}  
       
                   - if @dict_info[@dictcode]['type'] == 'write'
                     .sub
