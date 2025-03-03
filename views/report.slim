@@ -210,6 +210,7 @@ main role="main"
                             svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                               use xlink:href="/img/icons.svg#arrow-down" width="100%" height="100%" x="0" y="0"
                       div id="pre-wait" style="display: none"
+                        a.btn class="btn-secondary report-" href="/#{@dictcode}/report?schvcelni=ne&bez_sw=ne" signwriting
                         a.btn class="btn-secondary report-" href="/#{@dictcode}/report?schvcelni=ano&vyznamvid=ne&" #{I18n.t("admin.presets.def")}
                     .sub
                       span onclick="showhide('pre-lack')" style="cursor: pointer"
@@ -220,6 +221,7 @@ main role="main"
                               use xlink:href="/img/icons.svg#arrow-down" width="100%" height="100%" x="0" y="0"
                       div id="pre-lack" style="display: none"
                         a.btn class="btn-secondary report-" href="/#{@dictcode}/report?mkok=ne&schvcelni=ano" #{I18n.t("admin.mkok")}
+                        a.btn class="btn-secondary report-" href="/#{@dictcode}/report?schvcelni=ano&bocni=ano&bez_sw=ne" signwriting
                         a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagevid=ano&vyznamvid=ne&celni=ano&usagevid=ano&usage=ano" #{I18n.t("admin.presets.def")}
                         a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagevid=ne&vyznamvid=ano&celni=ano&schvcelni=ano&vyznam=ano" #{I18n.t("admin.presets._us")}
                         div #{I18n.t("admin.presets.equiv")}: 
@@ -253,6 +255,7 @@ main role="main"
                             svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                               use xlink:href="/img/icons.svg#arrow-down" width="100%" height="100%" x="0" y="0"
                       div id="pre-toapp" style="display: none"
+                        a.btn class="btn-secondary report-" href="/#{@dictcode}/report?schvcelni=ano&bocni=ano&bez_sw=ano&nes_sw=ne" signwriting
                         a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ne&schvcelni=ano" #{I18n.t("admin.presets.def")}
                         a.btn class="btn-secondary report-" href="/#{@dictcode}/report?usagevid=ano&vyznamvid=ano&celni=ano&usagevid=ano&usage=ne&vyznam=ano&schvcelni=ano" #{I18n.t("admin.presets._us")}
                         div #{I18n.t("admin.presets.equiv")}: 
@@ -289,6 +292,7 @@ main role="main"
                              use xlink:href="/img/icons.svg#arrow-down" width="100%" height="100%" x="0" y="0"
                         div id="pre-rev" style="display: none"
                           a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&komentbox=video&koment=ne" lemma
+                          a.btn class="btn-secondary report-" href="/#{@dictcode}/report?bez_sw=ano&komentbox=swfield&koment=ne" signwriting
                           a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&vyznamvid=ano&komentbox=vyznam&koment=ne" #{I18n.t("admin.presets.def")}
                           a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&vyznamvid=ano&komentbox=_us&koment=ne" #{I18n.t("admin.presets._us")}
                           a.btn class="btn-secondary report-" href="/#{@dictcode}/report?celni=ano&schvcelni=ano&komentbox=vazby&koment=ne" #{I18n.t("admin.presets.equiv")}  
