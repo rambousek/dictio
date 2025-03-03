@@ -60,6 +60,9 @@ header.header role="banner"
                             a href="https://admin.dictio.info/#{@dictcode}/notrans" #{I18n.t("admin.nolemma")}                                                  
                       li
                         - if @dictcode
+                            a href="https://admin.dictio.info/#{@dictcode}/comments" #{I18n.t("admin.comments")}  
+                      li
+                        - if @dictcode
                           a href="https://admin.dictio.info/#{@dictcode}/duplicate" #{I18n.t("admin.dup")}
                         - else     
                           a href="https://admin.dictio.info/duplicates" #{I18n.t("admin.dup")}
