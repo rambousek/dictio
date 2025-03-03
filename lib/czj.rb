@@ -58,10 +58,23 @@ class CZJDict < Object
       entrydata = getone(dict, id)
       if entrydata and entrydata['meanings']
         entrydata['meanings'].select{|m| m['id'] == type[6..-1]}.each{|m|
-          if m['text'] and m['text'].is_a?(Hash) and m['text']['file'] and m['text']['file']['@media_id']
-            video = get_media(m['text']['file']['@media_id'], dict, false)
-            if video
-              query['$or'] << {'box': 'video' + video['location']}
+          if m['text'] and m['text'].is_a?(Hash) and m['text']['file'] 
+            if m['text']['file'].is_a?(Hash)
+              if m['text']['file']['@media_id']
+                video = get_media(m['text']['file']['@media_id'], dict, false)
+                if video
+                  query['$or'] << {'box': 'video' + video['location']}
+                end
+              end
+            else
+              m['text']['file'].each{|mf|
+                if mf['@media_id']
+                  video = get_media(mf['@media_id'], dict, false)
+                  if video
+                    query['$or'] << {'box': 'video' + video['location']}
+                  end
+                end
+              }
             end
           end
         }
