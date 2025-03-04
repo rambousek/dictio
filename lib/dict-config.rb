@@ -1,6 +1,6 @@
 $dict_info = {
     'cs' => {'type' => 'write', 'label'=>'Czech', 'target'=>'czj', 'pos'=>['subst', 'verb', 'pron', 'num', 'konj', 'part', 'adj', 'adv', 'prep', 'int']},
-    'czj' => {'type' => 'sign', 'label'=>'ČZJ', 'search_in'=>'cs', 'target'=>'cs', 'pos'=>['subst', 'verb', 'modif', 'pron', 'num', 'konj', 'part', 'taz', 'kat', 'klf', 'spc']},
+    'czj' => {'type' => 'sign', 'label'=>'ČZJ', 'search_in'=>'cs', 'target'=>'cs', 'pos'=>['subst', 'verb', 'modif', 'pron', 'num', 'konj', 'part', 'taz', 'kat', 'klf', 'spc', 'finger']},
     'en' => {'type' => 'write', 'label'=>'English', 'target'=>'is', 'pos'=>['subst', 'verb', 'pron', 'num', 'konj', 'part', 'adj', 'adv', 'prep', 'int']},
     'asl' => {'type' => 'sign', 'label'=>'ASL', 'search_in'=>'en', 'target'=>'en', 'pos'=>['subst', 'verb', 'modif', 'pron', 'num', 'konj', 'part', 'taz', 'kat', 'klf', 'spc']},
     'is' => {'type' => 'sign', 'label'=>'IS', 'search_in'=>'en', 'target'=>'en', 'pos'=>['subst', 'verb', 'modif', 'pron', 'num', 'konj', 'part', 'taz', 'kat', 'klf', 'spc']},
