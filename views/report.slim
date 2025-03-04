@@ -500,7 +500,9 @@ main role="main"
                         - unless @params['sldruh'] and @params['slovni_druh'] == 'klf'            
                           a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','klf','sldruh','ne')" #{I18n.t("gram.slovni_druh.klf")}
                         - unless @params['sldruh'] and @params['slovni_druh'] == 'spc'
-                          a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','spc','sldruh','ne')" #{I18n.t("gram.slovni_druh.spc")}                                                                                             
+                          a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','spc','sldruh','ne')" #{I18n.t("gram.slovni_druh.spc")}
+                        - unless @params['sldruh'] and @params['slovni_druh'] == 'finger'
+                          a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','finger','sldruh','ne')" #{I18n.t("gram.slovni_druh.finger")}                                                                                                                                                                                            
                   .sub
                     span onclick="showhide('sem')" style="cursor: pointer"
                       h3
