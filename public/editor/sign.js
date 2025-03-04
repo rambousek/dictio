@@ -68,6 +68,7 @@ var posStore = Ext.create('Ext.data.Store', {
     { 'value': 'klf', 'text': locale[lang].lex_klf },
     { 'value': 'spc', 'text': locale[lang].lex_spc },
     { 'value': 'ustalene', 'text': locale[lang].lemma_colloc },
+    { 'value': 'finger', 'text': locale[lang].lemma_finger },
   ]
 });
 var emptyStore = Ext.create('Ext.data.Store', {
