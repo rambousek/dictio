@@ -50,7 +50,7 @@ main role="main"
               | Hledání na základě znaků znakového jazyka
               a href="#zjsearch" onclick="showhide ('help2');"
                 img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Český znakový jazyk"
-              div id="help1" style="display:none; position:fixed; top:105px; right:10px;"
+              div id="help2" style="display:none; position:fixed; top:105px; right:10px;"
                 video src="https://files.dictio.info/help/helpCZ02.mp4" height="300" controls=true autoplay=true
                 div.close onclick="showhide ('help2');"
             .row.row-start
@@ -93,7 +93,13 @@ main role="main"
                     img src="/img/keys_dark/both-move.png" align="left"
                   td Volba "obě ruce aktivní"
         
-          h2#heslo Struktura slovníkového hesla
+          h2#heslo 
+            | Struktura slovníkového hesla
+            a href="#heslo" onclick="showhide ('help3');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Český znakový jazyk"
+            div id="help3" style="display:none; position:fixed; top:105px; right:10px;"
+              video src="https://files.dictio.info/help/helpCZ03.mp4" height="300" controls=true autoplay=true
+              div.close onclick="showhide ('help3');"
           p Každé heslo se skládá z následujících částí:
           ul
             li Záhlaví
@@ -113,7 +119,13 @@ main role="main"
           p Záhlaví hesla <strong>znakového jazyka</strong> obsahuje více forem, které zachycují lemma samotné: video z čelního (1) i bočního (2) pohledu a transkripce SignWriting (3), případně HamNoSys (4). Video je doplněno o dominanci mluvčího (5). L: levá, P: pravá dominance. Lemma je reprezentováno více formami kvůli absenci konvenční formy zápisu. Pro účely slovníku je za základní formu (lemma) považován videozáznam z čelního pohledu.
           img src="/img/help/headersignEN.png" align="left"
 
-          h3 Formální část 
+          h3#formal
+            | Formální část 
+            a href="#formal" onclick="showhide ('help5');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Český znakový jazyk"
+            div id="help5" style="display:none; position:fixed; top:105px; right:10px;"
+              video src="https://files.dictio.info/help/helpCZ05.mp4" height="300" controls=true autoplay=true
+              div.close onclick="showhide ('help5');"
           p Formální část hesla <strong>mluveného jazyka</strong> zahrnuje tyto údaje:
           ul
             li původ slova (pokud jde o slovo přejaté),
