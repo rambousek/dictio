@@ -19,7 +19,13 @@ main role="main"
            p
              a href="#poznamky" Terminologické poznámky ke gramatickým informacím ČZJ
 
-          h2 id="jak" Jak používat slovník
+          h2 id="jak" 
+            | Jak používat slovník
+            a href="#jak" onclick="showhide ('help1');"
+                img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Český znakový jazyk"
+              div id="help1" style="display:none; position:fixed; top:105px; right:10px;"
+                video src="https://files.dictio.info/help/helpCZ01.mp4" height="300" controls=true autoplay=true
+                div.close onclick="showhide ('help1');"
           p.lead DICTIO se skládá z několik slovníků, které jsou navzájem provázané. Zahrnuté slovníky jsou viditelné v nabídce pro vyhledávání. DICTIO umožňuje hledání ekvivalentů mezi jednotlivými jazyky (hledání typických překladů) a také zobrazení podrobných informací o jednotlivých slovech a znacích.
           p Vyhledávání ve slovníku je možné jak na základě slov, tak na základě znaků znakového jazyka.
             
@@ -40,7 +46,13 @@ main role="main"
               video src="https://files.dictio.info/help/helpEN-IS.mp4" height="300" controls=true autoplay=true
 
           .block.mobile-hide
-            h3 Hledání na základě znaků znakového jazyka
+            h3 
+              | Hledání na základě znaků znakového jazyka
+              a href="#jak" onclick="showhide ('help2');"
+                img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Český znakový jazyk"
+              div id="help1" style="display:none; position:fixed; top:105px; right:10px;"
+                video src="https://files.dictio.info/help/helpCZ02.mp4" height="300" controls=true autoplay=true
+                div.close onclick="showhide ('help2');"
             .row.row-start
               .col-2 style="width:50%;"
                 ul
@@ -81,7 +93,13 @@ main role="main"
                     img src="/img/keys_dark/both-move.png" align="left"
                   td Volba "obě ruce aktivní"
         
-          h2#heslo Struktura slovníkového hesla
+          h2#heslo 
+            | Struktura slovníkového hesla
+            a href="#jak" onclick="showhide ('help3');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Český znakový jazyk"
+            div id="help3" style="display:none; position:fixed; top:105px; right:10px;"
+              video src="https://files.dictio.info/help/helpCZ03.mp4" height="300" controls=true autoplay=true
+              div.close onclick="showhide ('help3');"
           p Každé heslo se skládá z následujících částí:
           ul
             li Záhlaví
@@ -89,13 +107,25 @@ main role="main"
             li Významová část
             li Slovní spojení
               
-          h3 Záhlaví
+          h3 
+            | Záhlaví
+            a href="#jak" onclick="showhide ('help4');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Český znakový jazyk"
+            div id="help4" style="display:none; position:fixed; top:105px; right:10px;"
+              video src="https://files.dictio.info/help/helpCZ04.mp4" height="300" controls=true autoplay=true
+              div.close onclick="showhide ('help4');"
           p Záhlaví hesla <strong>mluveného jazyka</strong> je tvořeno lemmatem, tj. základní (slovníkovou) podobou lexému zobrazenou v&nbsp;souladu s kodifikovaným pravopisem (1), a je doplněno údajem o výslovnosti (3), pokud výslovnost není jednoznačná. Může obsahovat i pravopisnou variantu (2), pokud je kodifikováno více možností zápisu. 
           img src="/img/help/headerwriteEN.png" align="left"
           p Záhlaví hesla <strong>znakového jazyka</strong> obsahuje více forem, které zachycují lemma samotné: video z čelního (1) i bočního (2) pohledu a transkripce SignWriting (3), případně HamNoSys (4). Video je doplněno o dominanci mluvčího (5). L: levá, P: pravá dominance. Lemma je reprezentováno více formami kvůli absenci konvenční formy zápisu. Pro účely slovníku je za základní formu (lemma) považován videozáznam z čelního pohledu.
           img src="/img/help/headersignEN.png" align="left"
 
-          h3 Formální část 
+          h3 
+            | Formální část 
+            a href="#jak" onclick="showhide ('help5');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Český znakový jazyk"
+            div id="help5" style="display:none; position:fixed; top:105px; right:10px;"
+              video src="https://files.dictio.info/help/helpCZ05.mp4" height="300" controls=true autoplay=true
+              div.close onclick="showhide ('help5');"
           p Formální část hesla <strong>mluveného jazyka</strong> zahrnuje tyto údaje:
           ul
             li původ slova (pokud jde o slovo přejaté),
@@ -111,7 +141,13 @@ main role="main"
             li mluvní komponent – je uváděn pouze u lexémů, kde je mluvní komponent při artikulaci povinný, je uváděn malými písmeny. Část slova uvedená v závorce je nepovinná. Více možných variantních mluvních komponentů je odděleno lomítkem. Př.: "term(ín)/datum".<br />orální komponent – je uveden pouze v případě, že je povinný.
           p <a href="#zkratky">Seznam užitých zkratek</a> níže.
 
-          h3 Sémantická část
+          h3 
+            | Sémantická část
+            a href="#jak" onclick="showhide ('help6');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Český znakový jazyk"
+            div id="help6" style="display:none; position:fixed; top:105px; right:10px;"
+              video src="https://files.dictio.info/help/helpCZ067.mp4" height="300" controls=true autoplay=true
+              div.close onclick="showhide ('help6');"
           p Tato část zahrnuje výklad významu, příklady užití, informace o významových vztazích a ustálené víceslovné vazby obsahující vykládaný výraz.
           p <strong>Výklad významu</strong> (sémantická definice) respektuje zažitou formu slovníkové definice s drobnými úpravami pro znakový jazyk, které byly motivovány snahou o zachování přirozenosti definice jakožto výpovědi v daném jazyce (např. není vyžadován stejný slovní druh výrazu v záhlaví a výrazu tvořícího jádro významového výkladu; je akceptováno opakování vykládaného výrazu v úvodu definice). V souladu s lexikografickou tradicí jsou všechny významy, které se vztahují k jedné formě, řazeny do jednoho slovníkového hesla. Rozlišuje se homonymie (řazeno do více hesel) a polysémie (řazeno pod jedno heslo), v nejasných případech jsou jednotlivé významy řazeny pod jedno heslo. Jednotlivé výklady významu mohou být navíc označeny jednou z významových (sémantických) oblastí, která podává informaci o kontextu (vědní obor nebo obecně odvětví lidské činnosti), ve kterém se s příslušným výrazem v uvedeném významu lze obvykle setkat. Toto značení je přebíráno z původních zdrojů tam, kde je převzata i původní definice, u nově vzniklých hesel (především hesel terminologické povahy) je v případě potřeby přiřazena jedna ze sémantických oblastí zavedených v používaných zdrojích (o zdrojích podrobněji na stránce "<a href="/czj?action=page&page=about">O slovníku</a>"). Významy označené konkrétní oblastí následují po významech obecných (tj. po významech bez příslušnosti ke konkrétní oblasti). <!--Úplný seznam používaných sémantických oblastí je k nahlédnutí zde.-->
           p <strong>Příklady užití </strong> mají formu vět, případně výpovědí. Jejich účelem je demonstrovat gramatické (případně stylistické) vlastnosti i konkrétní významové odstíny popisovaného slova. V některých případech je tento oddíl zaměřen spíše na ukázky užití slova v typických syntaktických vazbách (např. s několika typickými slovesy nebo předložkami), jindy se jedná spíše o konkretizaci a zpřesnění významové definice. Příklady jsou v současné době získávány z několika zdrojů: v případě českého znakového jazyka vznikají přímo v pracovních skupinách, jsou tedy účelně tvořeny (nebo kontrolovány a schvalovány) rodilými uživateli českého znakového jazyka; v případě češtiny jsou a) dohledávány v korpusu existujících textů pomocí nástroje Sketch Engine (zdroje korpusu pro češtinu lze nalézt <a href="http://www.sketchengine.co.uk/documentation/wiki/Corpora/czes">zde</a>; b) přebírány ze zdrojových slovníků a přeformulovány do podoby vět v případě, že není vhodný příklad nalezen v korpusu.
