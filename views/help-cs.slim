@@ -19,7 +19,13 @@ main role="main"
            p
              a href="#poznamky" Terminologické poznámky ke gramatickým informacím ČZJ
 
-          h2 id="jak" Jak používat slovník
+          h2 id="jak" 
+            | Jak používat slovník
+            a href="#jak" onclick="showhide ('help1');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Český znakový jazyk"
+            div id="help1" style="display:none; position:fixed; top:105px; right:10px;"
+              video src="https://files.dictio.info/help/helpCZ01.mp4" height="300" controls=true autoplay=true
+              div.close onclick="showhide ('help1');"
           p.lead DICTIO se skládá z několik slovníků, které jsou navzájem provázané. Zahrnuté slovníky jsou viditelné v nabídce pro vyhledávání. DICTIO umožňuje hledání ekvivalentů mezi jednotlivými jazyky (hledání typických překladů) a také zobrazení podrobných informací o jednotlivých slovech a znacích.
           p Vyhledávání ve slovníku je možné jak na základě slov, tak na základě znaků znakového jazyka.
             
