@@ -1773,22 +1773,30 @@ function load_doc(id, history, historytype) {
             if (meaning['source']) Ext.getCmp(vyznam.id + '_copybox').query('component[name="copy_zdroj"]')[0].setValue(meaning['source']);
             if (meaning['copyright']) Ext.getCmp(vyznam.id + '_copybox').query('component[name="copy_copy"]')[0].setValue(meaning['copyright']);
             if (meaning['number']) vyznam.query('component[name="meaning_nr"]')[0].setValue(meaning['number']);
-            textval = '';
-            var previews = new Array();
+            let textval = '';
+            let previews = new Array();
             if (meaning['text'] && meaning['text']['file']) {
-              textval += ' [media_id=' + meaning['text']['file']['@media_id'] + ']';
-              previews.push(meaning['text']['file']['@media_id']);
+              if (Array.isArray(meaning['text']['file'])) {
+                textval += ' [media_id=' + meaning['text']['file'][0]['@media_id'] + ']';
+                previews.push(meaning['text']['file'][0]['@media_id']);
+              } else {
+                textval += ' [media_id=' + meaning['text']['file']['@media_id'] + ']';
+                previews.push(meaning['text']['file']['@media_id']);
+              }
             }
             vyznam.query('component[name="' + vyznam.id + '_text_text"]')[0].setValue($.trim(textval));
-            var previewstext = '';
-            for (var p = 0; p < previews.length; p++) {
-              var prevloc = data['media'][previews[p]]['location'];
-              previewstext += '<div class="videofancybox" data-ratio="0.8" class="usage" style="width:240px; cursor: zoom-in;"><video width="240px" poster="https://www.dictio.info/thumb/video' + dictcode + '/' + prevloc + '" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video' + dictcode + '/' + prevloc + '"></source></video></div><br/>';
+            let previewstext = '';
+            console.log(data['media'])
+            for (let p = 0; p < previews.length; p++) {
+              if (data['media'][previews[p]]) {
+                let prevloc = data['media'][previews[p]]['location'];
+                previewstext += '<div class="videofancybox" data-ratio="0.8" class="usage" style="width:240px; cursor: zoom-in;"><video width="240px" poster="https://www.dictio.info/thumb/video' + dictcode + '/' + prevloc + '" onmouseover="this.play()" onmouseout="this.pause()"><source type="video/mp4" src="https://files.dictio.info/video' + dictcode + '/' + prevloc + '"></source></video></div><br/>';
+              }
             }
             vyznam.query('component[name="vyznampreviews"]')[0].update(previewstext);
             change_stav(vyznam.query('component[name="stavcont"]')[0], meaning['status']);
             if (meaning['category'] && meaning['category'].length > 0) {
-              var categ_array = new Array();
+              let categ_array = new Array();
               meaning['category'].forEach(function (cat) {
                 categ_array.push(cat);
               });

@@ -5,7 +5,7 @@ class CZJDict < Object
   def initialize(dictcode)
     @dictcode = dictcode 
     @entrydb = $mongo['entries']
-    build_wordlist
+    # build_wordlist
   end
 
   def getdoc(id, add_rev=true)
@@ -382,7 +382,18 @@ class CZJDict < Object
     if not main_only
       if entry['meanings']
         entry['meanings'].each{|mean|
-          entry['media'][mean['text']['file']['@media_id'].to_s] = get_media(mean['text']['file']['@media_id'].to_s, entry['dict']) if mean['text'] and mean['text'].is_a?(Hash) and mean['text']['file'] and mean['text']['file'].is_a?(Hash)
+          if mean['text'] and mean['text'].is_a?(Hash) and mean['text']['file']
+            if mean['text']['file'].is_a?(Hash)
+              entry['media'][mean['text']['file']['@media_id'].to_s] = get_media(mean['text']['file']['@media_id'].to_s, entry['dict'])
+            end
+            if mean['text']['file'].is_a?(Array)
+              mean['text']['file'].each{|mv|
+                if mv['@media_id']
+                  entry['media'][mv['@media_id'].to_s] = get_media(mv['@media_id'].to_s, entry['dict'])
+                end
+              }
+            end
+          end
           if mean['usages']
             mean['usages'].each{|usg|
               if usg['text'] and usg['text']['file'] 
@@ -1275,7 +1286,16 @@ class CZJDict < Object
               files << us['text']['file']['@media_id'] if us['text'] and us['text']['file'] and us['text']['file'].is_a?(Hash) and us['text']['file']['@media_id']
             }
           end
-          files << me['text']['file']['@media_id'] if me['text'] and me['text'].is_a?(Hash) and me['text']['file'] and me['text']['file']['@media_id']
+          if me['text'] and me['text'].is_a?(Hash) and me['text']['file']
+            if me['text']['file'].is_a?(Hash) and me['text']['file']['@media_id']
+              files << me['text']['file']['@media_id']
+            end
+            if me['text']['file'].is_a?(Array)
+              me['text']['file'].each{|mv|
+                files << mv['@media_id'] if mv['@media_id']
+              }
+            end
+          end
         }
       end
       if entry['lemma']['grammar_note'] and entry['lemma']['grammar_note'][0] and entry['lemma']['grammar_note'][0]['variant']
