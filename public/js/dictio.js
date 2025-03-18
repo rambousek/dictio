@@ -861,3 +861,7 @@ function URLRemove2 (param1, param2) {
     queryParams.delete(param2)
     window.location.href = 'report?' + queryParams;
 }
+
+window.addEventListener('load', function() {
+  document.querySelectorAll('.loading').forEach(el => el.classList.remove('loading'));
+});

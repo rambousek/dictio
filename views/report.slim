@@ -669,5 +669,5 @@ main role="main"
           - if @report['resultcount'].to_i > @report['entries'].size
             div
               a.btn.load_next_report onclick="this.classList.add('loading')" data-dict=@dictcode #{I18n.t("search.load_next")}
-              a.btn.transparent.load_rest_report data-dict=@dictcode #{I18n.t("search.load_rest")}
+              a.btn.transparent.load_rest_report onclick="this.classList.add('loading')" data-dict=@dictcode #{I18n.t("search.load_rest")}
     
