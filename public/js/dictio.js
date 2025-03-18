@@ -593,6 +593,7 @@ $( document ).ready(function() {
       // maybe hide button
       current_count = $('.report-row').length;
       maxcount = $('.report-results').data('resultcount');
+      document.querySelectorAll('.loading').forEach(el => el.classList.remove('loading'));
       if (current_count >= maxcount) {
         $('.load_next_report').hide();
       }
@@ -862,6 +863,3 @@ function URLRemove2 (param1, param2) {
     window.location.href = 'report?' + queryParams;
 }
 
-window.addEventListener('load', function() {
-  document.querySelectorAll('.loading').forEach(el => el.classList.remove('loading'));
-});
