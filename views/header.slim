@@ -55,10 +55,10 @@ header.header role="banner"
                             a href="https://admin.dictio.info/video" #{I18n.t("admin.video")}
                       li
                         - if @dictcode
-                          a href="https://admin.dictio.info/#{@dictcode}/notrans" #{I18n.t("admin.nolemma")}                                                  
+                            a href="https://admin.dictio.info/#{@dictcode}/notrans" #{I18n.t("admin.nolemma")}                                                  
                       li
                         - if @dictcode
-                          a href="/admin/#{code}/comments?assign=#{@user_info['login']}" #{I18n.t("admin.comments")}  
+                            a href="/admin/#{@dictcode}/comments" #{I18n.t("admin.comments")}  
                       li
                         - if @dictcode
                           a href="https://admin.dictio.info/#{@dictcode}/duplicate" #{I18n.t("admin.dup")}
