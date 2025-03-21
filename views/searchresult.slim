@@ -35,8 +35,7 @@ main id="mobilespacetop" role="main"
               - @result['entries'].each do |entry|
                 - if entry['lemma'] and entry['lemma']['title']
                   li
-                    // a href="" onclick="return loadSearchResult(this)" data-entryid="#{entry['id']}" data-dict="#{entry['dict']}" = entry['lemma']['title'] 
-                    a href="/#{@dictcode}/search/text/#{entry['id']}" 
+                    a href="" onclick="return loadSearchResult(this)" data-entryid="#{entry['id']}" data-dict="#{entry['dict']}" = entry['lemma']['title']
                     - if @is_edit or @is_admin
                       span.trans__badge style="position: relative; margin-left: 5px" class="trans__badge__#{@dictcode}"
                         a.edit href="https://edit.dictio.info/editor#{entry['dict']}/?id=#{entry['id']}" #{@dictcode}-#{entry['id']}
