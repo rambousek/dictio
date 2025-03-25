@@ -83,12 +83,12 @@
                   - if gr['@slovni_druh'] == sd
                     - unless gr['@skupina'].to_s == '' and gr['@skupina2'].to_s == '' 
                       span.cat3  
-                        |  -
-                        - if gr['@skupina2'].to_s != ''
-                          = I18n.t("gram.skupina."+gr['@skupina2']) 
-                          | &nbsp; 
+                        |  -&nbsp;                         
                         - if gr['@skupina'].to_s != ''
                           = I18n.t("gram.skupina."+gr['@skupina'])                      
+                        - if gr['@skupina2'].to_s != ''
+                          | ,
+                          = I18n.t("gram.skupina."+gr['@skupina2']) 
                     - if gr['@skupina3'].to_s != ''
                       span.cat3
                         | (#{I18n.t("gram.skupina.#{gr['@skupina3']}")})
