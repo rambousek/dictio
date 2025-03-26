@@ -10,10 +10,10 @@ main role="main"
     article.col.col--start role="article"
       .row
         aside.col.col--2.col--start.layout-aside-admin role="complementary"
+          p celkem: #{@report['count']}
         .col.col--2.col--start.layout-aside-admin 
           .report-table 
             article.col.col--start role="article" 
-              p celkem: #{@report['count']}
               table style="width: 800px"
                 tr
                   th
