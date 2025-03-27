@@ -2127,8 +2127,9 @@ a.btn {
   margin: 0 0 30px 0;
   font-weight: 700; }
   .detail-category span {
-    display: inline-grid; /* inline-block */
+    display: inline; /* inline-block */
     font-size: 1.25rem;
+    font-style: italic;
     font-weight: 400; }
 
 .detail-word {
@@ -3496,7 +3497,7 @@ a.btn {
   padding: 8px 11px 6px 0;
   color: var(--zakladni-text-cerna1);
   font-family: 'Roboto', sans-serif;
-  font-size: 1rem;
+  font-size: 0.85rem;
   font-weight: 700; }
   .naming span {
    font-weight: 400; }
