@@ -71,7 +71,7 @@
             - @entry['lemma']['grammar_note'].each{|gr| slovni_druhy << gr['@slovni_druh']}
             - slovni_druhy.uniq.each do |sd|
               - if sd.to_s != ''
-                a.help href="/help##{sd}" target="_blank" style="text-decoration: none; color: var(--zakladni-text-cerna1); cursor: help"
+                a.help href="/help##{sd}" target="_blank" title="#{I18n.t("entry.lexical")}" style="text-decoration: none; color: var(--zakladni-text-cerna1); cursor: help"
                   = I18n.t("gram.slovni_druh."+sd)
                 - @entry['lemma']['grammar_note'].each do |gr|
                   - if gr['@slovni_druh'] == sd
