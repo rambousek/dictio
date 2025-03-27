@@ -301,18 +301,19 @@
                           - rel['entry']['lemma']['swmix'].each do |sw|
                             img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}#{$fsw_style}" alt=""
               p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_anto')
-  
-          - if meaning['usages'] and meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.size > 0
-              h4.detail-block__name = I18n.t("entry.examples")
-              .row.row--start.translation-group-sign
-                - meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.each do |usg|
-                  - if usg["text"] and usg["text"]["file"] and usg["text"]["file"].is_a?(Hash)
-                    .col.col--2.col--precise
-                      .video.video--small
-                        .video__content
-                          video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@show_dictcode}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}"
-                            source src="https://files.dictio.info/video#{@show_dictcode}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
-                p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_example')
+          - valid_usages = meaning['usages'].to_a.select do |usg|
+            - usg.dig('text', 'file').is_a?(Hash) && usg['type'] != 'colloc'
+          end
+          - if valid_usages.any?
+            h4.detail-block__name = I18n.t("entry.examples")
+            .row.row--start.translation-group-sign
+              - valid_usages.each do |usg|      
+                .col.col--2.col--precise
+                  .video.video--small
+                    .video__content
+                      video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@show_dictcode}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}"
+                        source src="https://files.dictio.info/video#{@show_dictcode}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
+              p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_example')
       .col.col--2
         .detail__block.detail__block--wide
           == slim :fullentrytrans
