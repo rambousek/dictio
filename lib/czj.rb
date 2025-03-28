@@ -5,7 +5,7 @@ class CZJDict < Object
   def initialize(dictcode)
     @dictcode = dictcode 
     @entrydb = $mongo['entries']
-    build_wordlist
+    # build_wordlist
   end
 
   def getdoc(id, add_rev=true)
@@ -679,48 +679,56 @@ class CZJDict < Object
           res << full_entry(re)
           resultcount = 1
         }
-      elsif search == '*'
-        @entrydb.find({'dict': dictcode}).each{|re|
-          res << re
-        }
+      # elsif search == '*'
+      #   @entrydb.find({'dict': dictcode}).each{|re|
+      #     res << re
+      #   }
       else
         if @write_dicts.include?(dictcode)
           fullids = []
           locale = dictcode
           locale = 'sk' if dictcode == 'sj'
           search_cond = {'dict': dictcode}
-          search_cond_title ={'$or': [{'lemma.title': search}, {'lemma.title_var': search}]}
-          search_cond_title[:$or] << {'lemma.title_dia': search} 
-          search_cond_title[:$or] << {'lemma.gram.form._text': search} 
-          search_cond_title[:$or] << {'lemma.grammar_note.variant._text': {'$regex': /(^| )#{search}/i}}
-          search_cond_title[:$or] << {'lemma.style_note.variant._text': {'$regex': /(^| )#{search}/i}}
-          if search != '' and more_params['slovni_druh'].to_s != ''
+          if search != '*'
+            if search != ''
+              search_cond_title ={'$or': [{'lemma.title': search}, {'lemma.title_var': search}]}
+              search_cond_title[:$or] << {'lemma.title_dia': search}
+              search_cond_title[:$or] << {'lemma.gram.form._text': search}
+              search_cond_title[:$or] << {'lemma.grammar_note.variant._text': {'$regex': /(^| )#{search}/i}}
+              search_cond_title[:$or] << {'lemma.style_note.variant._text': {'$regex': /(^| )#{search}/i}}
+            end
+            if search != ''  and more_params['slovni_druh'].to_s != ''
+              search_cond[:$and] = [search_cond_title,{'lemma.grammar_note.@slovni_druh'=> more_params['slovni_druh'].to_s}]
+            end
+            if search == '' and more_params['slovni_druh'].to_s != ''
+              search_cond['lemma.grammar_note.@slovni_druh'] = more_params['slovni_druh'].to_s
+            end
+            if search != '' and more_params['slovni_druh'].to_s == '' and search_cond_title
+              search_cond[:$or] = search_cond_title[:$or]
+            end
+            $stdout.puts search_cond
+            cursor = @entrydb.find(search_cond, :sort => {'lemma.title'=>1})
+            fullcount = 0
+            fullcount = cursor.count_documents if search != ''
+            cursor.each{|re|
+              res << re if fullcount > start and more_params['slovni_druh'].to_s == ''
+              fullids << re['id'] if more_params['slovni_druh'].to_s == ''
+            }
+            search_cond = {'dict': dictcode, 'id': {'$nin': fullids}}
+            search_cond_title = {'$or': [{'lemma.title': {'$regex': /^#{search}/i}}]}
+            search_cond_title[:$or] << {'lemma.title': {'$regex': /(^| )#{search}/i}}
+          else
+            fullcount = 0
+            search_cond = {'dict': dictcode}
+          end
+
+          if search != '' and search != '*' and more_params['slovni_druh'].to_s != ''
             search_cond[:$and] = [search_cond_title,{'lemma.grammar_note.@slovni_druh'=> more_params['slovni_druh'].to_s}]
           end
-          if search == '' and more_params['slovni_druh'].to_s != ''
+          if (search == '' or search == '*') and more_params['slovni_druh'].to_s != ''
             search_cond['lemma.grammar_note.@slovni_druh'] = more_params['slovni_druh'].to_s
           end
-          if search != '' and more_params['slovni_druh'].to_s == ''
-            search_cond[:$or] = search_cond_title[:$or]
-          end
-          $stdout.puts search_cond
-          cursor = @entrydb.find(search_cond, :sort => {'lemma.title'=>1})
-          fullcount = 0
-          fullcount = cursor.count_documents if search != ''
-          cursor.each{|re|
-            res << re if fullcount > start and more_params['slovni_druh'].to_s == ''
-            fullids << re['id'] if more_params['slovni_druh'].to_s == ''
-          }
-          search_cond = {'dict': dictcode, 'id': {'$nin': fullids}}
-          search_cond_title = {'$or': [{'lemma.title': {'$regex': /^#{search}/i}}]}
-          search_cond_title[:$or] << {'lemma.title': {'$regex': /(^| )#{search}/i}}
-          if search != '' and more_params['slovni_druh'].to_s != ''
-            search_cond[:$and] = [search_cond_title,{'lemma.grammar_note.@slovni_druh'=> more_params['slovni_druh'].to_s}]
-          end
-          if search == '' and more_params['slovni_druh'].to_s != ''
-            search_cond['lemma.grammar_note.@slovni_druh'] = more_params['slovni_druh'].to_s
-          end
-          if search != '' and more_params['slovni_druh'].to_s == ''
+          if search != '' and search != '*' and more_params['slovni_druh'].to_s == ''
             search_cond[:$or] = search_cond_title[:$or]
           end
           $stdout.puts search_cond
