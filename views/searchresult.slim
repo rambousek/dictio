@@ -19,7 +19,7 @@ main id="mobilespacetop" role="main"
                       - else
                         span.video-orient P
                       - if entry['lemma'] and entry['lemma']['video_front']
-                        video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-dict="#{entry['dict']}" data-entryid="#{entry['id']}" poster="/thumb/video#{entry['dict']}/#{entry['lemma']['video_front']}" muted="muted"
+                        video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-dict="#{entry['dict']}" data-entryid="#{entry['id']}" poster="/thumb/video#{entry['dict']}/#{entry['lemma']['video_front']}" muted="muted" href="#{@search_path}/#{entry['id']}#{(@url_params==''?'':'?')}#{@url_params}"
                           source src="https://files.dictio.info/video#{entry['dict']}/#{entry['lemma']['video_front']}" type="video/mp4"
                     .video__controls
                       a.video__link href="/#{entry['dict']}/show/#{entry['id']}"
@@ -35,7 +35,7 @@ main id="mobilespacetop" role="main"
               - @result['entries'].each do |entry|
                 - if entry['lemma'] and entry['lemma']['title']
                   li
-                    a href="/#{@dictcode}/search/text/#{entry['id']}" onclick="return loadSearchResult(this)" data-entryid="#{entry['id']}" data-dict="#{entry['dict']}" = entry['lemma']['title'] 
+                    a href="#{@search_path}/#{entry['id']}#{(@url_params==''?'':'?')}#{@url_params}" onclick="return loadSearchResult(this)" data-entryid="#{entry['id']}" data-dict="#{entry['dict']}" = entry['lemma']['title']
                     - if @is_edit or @is_admin
                       span.trans__badge style="position: relative; margin-left: 5px" class="trans__badge__#{@dictcode}"
                         a.edit href="https://edit.dictio.info/editor#{entry['dict']}/?id=#{entry['id']}" #{@dictcode}-#{entry['id']}

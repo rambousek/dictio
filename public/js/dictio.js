@@ -645,8 +645,11 @@ $( document ).ready(function() {
 
 // load search result entry
 function loadSearchResult(ev) {
-  var entryid = ev.getAttribute('data-entryid');
-  var dict = ev.getAttribute('data-dict');
+  let entryid = ev.getAttribute('data-entryid');
+  let dict = ev.getAttribute('data-dict');
+  let url = ev.getAttribute('href');
+  console.log(url)
+  window.history.pushState({}, '', url);
   $.get('/'+dict+'/searchentry/'+entryid, function(response) {
     $('.entry-content').html(response);
     $('.entry-content')[0].scrollIntoView();
