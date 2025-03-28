@@ -684,8 +684,8 @@ class CZJDict < Object
           fullids = []
           locale = dictcode
           locale = 'sk' if dictcode == 'sj'
-          search_cond = {'dict': dictcode}
           if search != '*'
+            search_cond = {'dict': dictcode}
             if search != ''
               search_cond_title ={'$or': [{'lemma.title': search}, {'lemma.title_var': search}]}
               search_cond_title[:$or] << {'lemma.title_dia': search}
@@ -715,7 +715,7 @@ class CZJDict < Object
             search_cond_title[:$or] << {'lemma.title': {'$regex': /(^| )#{search}/i}}
           else
             fullcount = 0
-            search_cond = {'dict': dictcode}
+            search_cond = {'dict': dictcode, '$and': [{'lemma.title': {'$exists': true}}, {'lemma.title': {'$ne': ''}}]}
           end
 
           if search != '' and search != '*' and more_params['slovni_druh'].to_s != ''
