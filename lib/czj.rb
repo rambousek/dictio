@@ -679,10 +679,6 @@ class CZJDict < Object
           res << full_entry(re)
           resultcount = 1
         }
-      # elsif search == '*'
-      #   @entrydb.find({'dict': dictcode}).each{|re|
-      #     res << re
-      #   }
       else
         if @write_dicts.include?(dictcode)
           fullids = []
@@ -747,14 +743,18 @@ class CZJDict < Object
             res << re #full_entry(re)
           }
         else
-          search_in = 'cs'
-          search_in = @dict_info[dictcode]['search_in'] unless @dict_info[dictcode]['search_in'].nil?
-          csl = [search]
-          search_cond = {'source_dict': search_in, 'entry_text': {'$regex': /(^| )#{search}/i}, 'target': dictcode}
-          $mongo['relation'].find(search_cond).each{|rl|
-            csl << rl['target_id']
-          }
-          search_cond = {'source_dict': dictcode, 'source_id': {'$in': csl}}
+          if search != '*'
+            search_in = 'cs'
+            search_in = @dict_info[dictcode]['search_in'] unless @dict_info[dictcode]['search_in'].nil?
+            csl = [search]
+            search_cond = {'source_dict': search_in, 'entry_text': {'$regex': /(^| )#{search}/i}, 'target': dictcode}
+            $mongo['relation'].find(search_cond).each{|rl|
+              csl << rl['target_id']
+            }
+            search_cond = {'source_dict': dictcode, 'source_id': {'$in': csl}}
+          else
+            search_cond = {'source_dict': dictcode}
+          end
           pipeline = [
             {'$match': search_cond},
             {'$group': {'_id': '$source_id', 'source_id': {'$first': '$source_id'}, 'source_dict': {'$first': '$source_dict'}, 'source_video': {'$first': '$source_video'}, 'source_sw': {'$first': '$source_sw'}, 'sort_key': {'$first': '$sort_key'}}}
