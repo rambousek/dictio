@@ -1901,9 +1901,11 @@ function load_doc(id, history, historytype) {
                 if (usage['admin']) Ext.getCmp(priklad.id + 'copyright_copybox').query('component[name="copy_admin"]')[0].setValue(usage['admin']);
                 if (usage['source']) Ext.getCmp(priklad.id + 'copyright_copybox').query('component[name="copy_zdroj"]')[0].setValue(usage['source']);
                 if (usage['copyright']) Ext.getCmp(priklad.id + 'copyright_copybox').query('component[name="copy_copy"]')[0].setValue(usage['copyright']);
-                if (usage['type'] == 'colloc') {
+                if (usage['type'] === 'colloc') { 
                   priklad.query('[inputValue=colloc]')[0].setValue(true);
-                } else {
+                } else if (usage['type'] === 'gram') { 
+                  priklad.query('[inputValue=gram]')[0].setValue(true);
+                } else { 
                   priklad.query('[inputValue=sentence]')[0].setValue(true);
                 }
                 /* relations */
@@ -2406,7 +2408,9 @@ function save_doc(id) {
         }
       }
       if (uses[j].query('[inputValue=colloc]')[0].getValue()) {
-        newuse['type'] = 'colloc';
+        newuse['type'] = 'colloc'; 
+      } else if (uses[j].query('[inputValue=gram]')[0].getValue()) {
+        newuse['type'] = 'gram';
       } else {
         newuse['type'] = 'sentence';
       }
@@ -3250,7 +3254,12 @@ function create_priklad(parentid, entryid, add_copy, meaning_id, saved_usage_id)
               items: [
                 { xtype: 'container', name: 'prazdny', width: 106, fieldLabel: '' },
                 { xtype: 'radiofield', style: { width: '120px' }, name: name + 'usage_type', boxLabel: locale[lang].usage_veta, inputValue: 'sentence' },
-                { xtype: 'radiofield', style: { width: '150px' }, name: name + 'usage_type', boxLabel: locale[lang].usage_spojeni, inputValue: 'colloc',
+                { xtype: 'radiofield', style: { width: '150px' }, name: name + 'usage_type', boxLabel: locale[lang].usage_spojeni, inputValue: 'colloc', 
+                  handler: function (ctl, val) {
+                    if (val) { ctl.up().query('[name=exrelbox]')[0].show(); }
+                  }
+                },
+                { xtype: 'radiofield', style: { width: '120px' }, name: name + 'usage_type', boxLabel: locale[lang].usage_gram, inputValue: 'gram', 
                   handler: function (ctl, val) {
                     if (val) { ctl.up().query('[name=exrelbox]')[0].show(); }
                   }
