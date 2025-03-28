@@ -3253,13 +3253,13 @@ function create_priklad(parentid, entryid, add_copy, meaning_id, saved_usage_id)
               layout: { type: 'hbox' },
               items: [
                 { xtype: 'container', name: 'prazdny', width: 106, fieldLabel: '' },
-                { xtype: 'radiofield', style: { width: '120px' }, name: name + 'usage_type', boxLabel: locale[lang].usage_veta, inputValue: 'sentence' },
-                { xtype: 'radiofield', style: { width: '150px' }, name: name + 'usage_type', boxLabel: locale[lang].usage_spojeni, inputValue: 'colloc', 
+                { xtype: 'radiofield', style: { width: '100px' }, name: name + 'usage_type', boxLabel: locale[lang].usage_veta, inputValue: 'sentence' },
+                { xtype: 'radiofield', style: { width: '130px' }, name: name + 'usage_type', boxLabel: locale[lang].usage_spojeni, inputValue: 'colloc', 
                   handler: function (ctl, val) {
                     if (val) { ctl.up().query('[name=exrelbox]')[0].show(); }
                   }
                 },
-                { xtype: 'radiofield', style: { width: '120px' }, name: name + 'usage_type', boxLabel: locale[lang].usage_gram, inputValue: 'gram', 
+                { xtype: 'radiofield', style: { width: '100px' }, name: name + 'usage_type', boxLabel: locale[lang].usage_gram, inputValue: 'gram', 
                   handler: function (ctl, val) {
                     if (val) { ctl.up().query('[name=exrelbox]')[0].show(); }
                   }
