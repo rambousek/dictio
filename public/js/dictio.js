@@ -485,7 +485,11 @@ $( document ).ready(function() {
           response.entries.forEach((entry) => {
             if ($('.search-results-write').length) {
               // new write entry
-              var newli = '<li><a href="" data-dict="'+entry.dict+'" data-entryid="'+entry.id+'" onclick="return loadSearchResult(this)">'+entry.lemma.title+'</a>';
+              let entry_title = ' ';
+              if (entry.lemma && entry.lemma.title) {
+                entry_title = entry.lemma.title;
+              }
+              var newli = '<li><a href="" data-dict="'+entry.dict+'" data-entryid="'+entry.id+'" onclick="return loadSearchResult(this)">'+entry_title+'</a>';
               if (response.is_edit) {
                 newli += '<span class="trans__badge trans__badge__'+entry.dict+'" style="position: relative; margin-left: 5px">'; 
                 newli += '<a class="edit" href="https://edit.dictio.info/editor'+entry.dict+'/?id='+entry.id+'">'+entry.dict+'-'+entry.id+'</a>';
