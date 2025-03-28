@@ -312,8 +312,9 @@
                           - rel['entry']['lemma']['swmix'].each do |sw|
                             img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}#{$fsw_style}" alt=""
               p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_anto')
-          - valid_usages = meaning['usages'].to_a.select do |usg|
-            - usg.dig('text', 'file').is_a?(Hash) && usg['type'] != 'colloc'
+          - order = { "sentence" => 1, "colloc" => 2 }
+          - valid_usages = meaning['usages'].to_a.select { |usg| usg.dig('text', 'file').is_a?(Hash) && usg['type'] != 'gram' }
+          - valid_usages = valid_usages.sort_by { |usg| order[usg['type']] || 99 }
           end
           - if valid_usages.any?
             h4.detail-block__name = I18n.t("entry.examples")
