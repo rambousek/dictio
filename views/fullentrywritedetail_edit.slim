@@ -386,12 +386,12 @@
                       |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
                   - else
                     = rel['entry']['lemma']['title']
-          - if meaning['usages'] and meaning['usages'].size > 0
+          - if meaning['usages'] && meaning['usages'].count { |usg| usg['type'] == 'sentence' } > 1
             h4 #{I18n.t("entry.examples")}:
-            - meaning['usages'].each do |usg|
+            - meaning['usages'].select { |usg| usg['type'] == 'sentence' }.each do |usg|
               p.example
-                em = usg['text']['_text']
-            p.more-example.link style="display:none;cursor:pointer" = I18n.t('entry.more_example')
+                em = usg.dig('text', '_text')
+            p.more-example.link style="display:none;cursor:pointer" = I18n.t('entry.more_example')  
   
       .col.col--2
         .detail__block.detail__block--wide
