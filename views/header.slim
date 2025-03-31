@@ -45,6 +45,8 @@ header.header role="banner"
                       li
                         - if @dictcode 
                           a href="/#{@dictcode}/report" #{I18n.t("admin.reports")}
+                          li  
+                            a href="https://edit.dictio.info/editor#{code}/?id=" #{I18n.t("admin.newentry2")} 
                         - else
                           a href="/admin" #{I18n.t("admin.reports")} 
                       - if @dictcode and @dict_info[@dictcode]['type'] == 'sign'
