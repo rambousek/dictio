@@ -9,37 +9,33 @@ main role="main"
       article.col.col--start role="article"
          .row
             aside.col.col--2.col--start.layout-aside-admin role="complementary"
-              ul style="list-style-type: none;"
-                li
-                  a.btn.btn--secondary href="/admin" #{I18n.t("admin.reports")} 
-                li
-                  a.btn.btn--secondary href="https://admin.dictio.info/video" #{I18n.t("admin.video")}
-                li
-                  a.btn.btn--secondary href="https://admin.dictio.info/duplicates" #{I18n.t("admin.dup")}            
+             
             .col.col--2.col--start.layout-aside 
               table
-                tr
-                  th
-                  th    
-                  th
-                    | #{I18n.t("home.entries")}
-                  th   
-                    | / #{I18n.t("home.published")}
-                  th
-                    | / #{I18n.t("admin.dup")}
                 - @dict_info.each do |code, info|
                   tr
                     td 
-                      a.btn class="btn-admin btn-#{code}" href="/#{code}/report" #{I18n.t("dict."+code)} 
+                      h2.btn class="btn-admin btn-#{code}" #{I18n.t("dict."+code)}: 
+                    td 
+                      a.btn class="btn--secondary" href="/#{code}/report" #{I18n.t("admin.reports")} (#{@lemma_counts[code]['entry_count']})
                     td
-                      a.btn class="btn--round btn-#{code}" href="https://edit.dictio.info/editor#{code}/?id=" #{I18n.t("admin.newentry2")} 
+                      a.btn class="btn--round" href="https://edit.dictio.info/editor#{code}/?id=" #{I18n.t("admin.newentry2")} 
                     td
-                      | #{@lemma_counts[code]['entry_count']} 
+                      / - if @dict_info[@dictcode]['type'] == 'sign'
+                      a.btn class="btn--secondary" href="/#{code}/videoreport" #{I18n.t("admin.video")} 
                     td
-                      | / #{@lemma_counts[code]['entry_pub_count']}
+                      - if @duplicate['duplicate'].select{|info| info['code'] == code}[0] != nil 
+                        a.btn class="btn--secondary" href="https://admin.dictio.info/#{code}/duplicate" 
+                          | #{I18n.t("admin.dup")} 
+                          span style="color: red" (#{@duplicate['duplicate'].select{|info| info['code'] == code}[0]['count']})
+                    td 
+                      a.btn class="btn--secondary" href="https://admin.dictio.info/#{code}/notrans" #{I18n.t("admin.nolemma")}
                     td
-                      - if @duplicate['duplicate'].select{|info| info['code'] == code}[0] != nil
-                        | (#{@duplicate['duplicate'].select{|info| info['code'] == code}[0]['count']}) 
-                        a href="https://admin.dictio.info/#{code}/duplicate" #{I18n.t("admin.show")} 
+                      a.btn class="btn--secondary" href="/admin/#{code}/comments?assign=#{@user_info['login']}" #{I18n.t('admin.commentreport.title')}
+                  tr 
+                    td                                     
+                    td (colspan=3)  
+                      | #{I18n.t("home.published")}: #{@lemma_counts[code]['entry_pub_count']}
+                  tr 
                     td
-                      a href="/admin/#{code}/comments?assign=#{@user_info['login']}" komentáře
+
