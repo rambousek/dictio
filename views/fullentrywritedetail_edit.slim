@@ -386,7 +386,7 @@
                       |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
                   - else
                     = rel['entry']['lemma']['title']
-          - if meaning['usages'] && meaning['usages'].count { |usg| usg['type'] == 'sentence' } > 1
+          - if meaning['usages'] && meaning['usages'].count { |usg| usg['type'] == 'sentence' } > 0
             h4 #{I18n.t("entry.examples")}:
             - meaning['usages'].select { |usg| usg['type'] == 'sentence' }.each do |usg|
               p.example
