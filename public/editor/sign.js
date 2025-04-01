@@ -188,7 +188,9 @@ var pos_numStore = Ext.create('Ext.data.Store', {
     { 'value': 'rad', 'text': locale[lang].num_rad },
     { 'value': 'nas', 'text': locale[lang].num_nas },
     { 'value': 'ikon', 'text': locale[lang].num_ikon },
+    { 'value': 'spec', 'text': locale[lang].num_spec },
     { 'value': 'neur', 'text': locale[lang].num_neur },
+
   ]
 });
 var pos_num_radStore = Ext.create('Ext.data.Store', {
