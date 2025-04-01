@@ -466,6 +466,7 @@ en:
     prev: "previous"
     next: "next"
     show: "show"
+    report-list: "Dictionaries overview"
     reports: "List of entries"
     dup: "List of duplicate entries"
     video: "List of video files"

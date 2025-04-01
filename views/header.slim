@@ -49,7 +49,7 @@ header.header role="banner"
                             li  
                               a href="https://edit.dictio.info/editor#{@dictcode}/?id=" #{I18n.t("admin.newentry2")} 
                         - else
-                          a href="/admin" #{I18n.t("admin.reports")} 
+                          a href="/admin" #{I18n.t("admin.report-list")} 
                       - if @dictcode and @dict_info[@dictcode]['type'] == 'sign'
                         li
                           - if @dictcode
