@@ -252,7 +252,7 @@ en:
       pron: "pronoun"
       num: "numeral"
       konj: "conjunction"
-      part: "particle"
+      par: "particle"
       taz: "interrogative expression"
       kat: "categorization expression"
       klf: "classifier handshape"

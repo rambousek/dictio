@@ -254,7 +254,7 @@ cs:
       pron: "zájmeno"
       num: "číslovka"
       konj: "spojka"
-      part: "částice"
+      par: "částice"
       taz: "tázací výraz"
       kat: "kategorizační výraz"
       klf: "klasifikátorový tvar ruky"

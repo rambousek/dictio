@@ -252,7 +252,7 @@ sk:
       pron: "zámeno"
       num: "číslovka"
       konj: "spojka"
-      part: "častica"
+      par: "častica"
       taz: "opytovací výraz"
       kat: "kategorizačný výraz"
       klf: "klasifikátorový tvar ruky"
