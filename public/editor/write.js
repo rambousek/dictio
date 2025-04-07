@@ -2870,6 +2870,11 @@ function create_priklad(parentid, entryid, add_copy, meaning_id, saved_usage_id)
                 { ctl.up().query('[name=exrelbox]')[0].show(); }
               }              
             },
+            { xtype: 'radiofield', style: { width: '100px' }, name: name + 'usage_type', boxLabel: locale[lang].usage_gram, inputValue: 'gram', 
+              handler: function (ctl, val) {
+                if (val) { ctl.up().query('[name=exrelbox]')[0].show(); }
+              }
+            },
             { xtype: 'container', hidden: true, id: name+'_rellinks', name: 'exrelbox', cls: 'equiv',
               items:[
                 { xtype: 'button', icon: '/editor/add.png', cls: 'add', text: locale[lang].new_translation,
