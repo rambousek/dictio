@@ -18,7 +18,7 @@ var typingTimer;
 var doneTypingInterval = 5000;
 var bgAuth = 'lightsteelblue';
 var bgSilver = 'silver';
-var version = 2.1;
+const version = "2.1.2";
 
 var params = Ext.Object.fromQueryString(window.location.search.substring(1));
 if (params.empty != null && params.empty != '') {

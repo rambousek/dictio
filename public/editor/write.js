@@ -19,7 +19,7 @@ var changes = new Array();
 var bgAuth = 'lightsteelblue';
 var bgSilver = 'silver';
 var bgLex = 'darkgray';
-const version = "2.1.1";
+const version = "2.1.2";
 
 var params = Ext.Object.fromQueryString(window.location.search.substring(1));
 if (params.empty != null && params.empty != '') {
@@ -1412,12 +1412,13 @@ function load_doc(id, history, historytype) {
                 if (usage['author']) Ext.getCmp(priklad.id+'copyright_copybox').query('component[name="copy_autor"]')[0].setValue(usage['author']);
                 if (usage['admin']) Ext.getCmp(priklad.id+'copyright_copybox').query('component[name="copy_admin"]')[0].setValue(usage['admin']);
                 if (usage['source']) Ext.getCmp(priklad.id+'copyright_copybox').query('component[name="copy_zdroj"]')[0].setValue(usage['source']);
-                if (usage['type'] == 'colloc') {
+                if (usage['type'] === 'colloc') { 
                   priklad.query('[inputValue=colloc]')[0].setValue(true);
-                } else {
+                } else if (usage['type'] === 'gram') { 
+                  priklad.query('[inputValue=gram]')[0].setValue(true);
+                } else { 
                   priklad.query('[inputValue=sentence]')[0].setValue(true);
-                }
-                /* relations */
+                }                /* relations */
                 if (usage['relation']) {
                   usage['relation'].forEach(function(trans) {
                     var parentid = priklad.query('component[name="exrelbox"]')[0].id;
