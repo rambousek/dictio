@@ -19,7 +19,7 @@ var changes = new Array();
 var bgAuth = 'lightsteelblue';
 var bgSilver = 'silver';
 var bgLex = 'darkgray';
-const version = 2.1;
+const version = 2.1.1;
 
 var params = Ext.Object.fromQueryString(window.location.search.substring(1));
 if (params.empty != null && params.empty != '') {
