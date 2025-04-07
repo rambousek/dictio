@@ -1819,7 +1819,9 @@ function save_doc(id) {
         }
       }
       if (uses[j].query('[inputValue=colloc]')[0].getValue()) {
-        newuse['type'] = 'colloc';
+        newuse['type'] = 'colloc'; 
+      } else if (uses[j].query('[inputValue=gram]')[0].getValue()) {
+        newuse['type'] = 'gram';
       } else {
         newuse['type'] = 'sentence';
       }
