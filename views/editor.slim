@@ -1,35 +1,54 @@
 doctype html
-html style="height: auto"
+html
   head
     title #{@dictcode.upcase}
+    meta charset="utf-8"
+
+    / Favicons
     link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png"
     link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png"
     link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png"
     link rel="manifest" href="/favicon/site.webmanifest"
-    meta charset="utf-8"
-    javascript:
+
+    / Global JS context
+    script:
       var dictcode = '#{@dictcode}';
       var lang = '#{@selectlang}';
-    script type="text/javascript" charset="utf-8" src="/editor/lib/ext-all.js"
-    script type="text/javascript" src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"
-    script type="text/javascript" charset="utf-8" src="/editor/locale.js?aa"
-    script type="text/javascript" charset="utf-8" src="/editor/#{@dict_info[@dictcode]['type']}.js?aa"
-    script type="text/javascript" charset="utf-8" src="/editor/swfobject/swfobject.js"
-    link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Roboto&subset=latin,latin-ext'
-    link href="/editor/lib/ext-all.css" rel="stylesheet" type="text/css"    
-    script type="text/javascript" src="/editor/fancybox/jquery.fancybox.min.js"
-    link rel="stylesheet" href="/editor/fancybox/jquery.fancybox.min.css" type="text/css" media="screen" 
-    link rel="stylesheet" href="/css/styles.css" type="text/css"
-    link href="/editor/editor.css" rel="stylesheet" type="text/css"
-    link href="/editor/#{@dictcode}.css" rel="stylesheet" type="text/css"
+
+    / JS knihovny
+    script src="/editor/lib/ext-all.js" type="text/javascript" charset="utf-8"
+    script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"
+    script src="/editor/locale.js?aa" type="text/javascript" charset="utf-8"
+    script src="/editor/#{@dict_info[@dictcode]['type']}.js?aa" type="text/javascript" charset="utf-8"
+    script src="/editor/swfobject/swfobject.js" type="text/javascript"
+
+    / Verze JS v konzoli
+    script:
+      console.log("Editor version: #{@app_version}");
+
+    / CSS styly
+    link href="https://fonts.googleapis.com/css?family=Roboto&subset=latin,latin-ext" rel="stylesheet"
+    link href="/editor/lib/ext-all.css" rel="stylesheet"
+    link href="/editor/fancybox/jquery.fancybox.min.css" rel="stylesheet"
+    link href="/css/styles.css" rel="stylesheet"
+    link href="/editor/editor.css" rel="stylesheet"
+    link href="/editor/#{@dictcode}.css" rel="stylesheet"
+
+    / Fancybox
+    script src="/editor/fancybox/jquery.fancybox.min.js"
+
   body
-    javascript:
+    script:
       parent.$('.fancybox-content').width("100%");
-    == slim :header    
-    div id="topeditor"
-      div.droppable id="topdiv"
-      div id="comments"
-    div id="inform"
+
+    == slim :header
+
+    div#topeditor
+      div#topdiv.droppable
+      div#comments
+    div#inform
+
     == slim :footer
+
     script src="/js/scripts.js"
     script src="/js/dictio.js"
