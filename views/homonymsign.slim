@@ -288,5 +288,8 @@
                 p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_example')
       .col.col--2
         .detail__block.detail__block--wide
-          == slim :fullentrytrans
+          - if @is_edit
+            == slim :fullentrytrans_edit
+          - else
+            == slim :fullentrytrans
 
