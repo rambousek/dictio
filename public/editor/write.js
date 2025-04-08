@@ -3775,7 +3775,7 @@ Ext.onReady(function(){
         icon: '/editor/img/admin_list.png',
         cls: 'btn',
         handler: function() {           
-          var odkaz = '/' + dictcode + '/report' + '&lang='+lang;                   
+          var odkaz = '/' + dictcode + '/report';
           window.open(odkaz);
         }
       },

@@ -18,7 +18,7 @@ var typingTimer;
 var doneTypingInterval = 5000;
 var bgAuth = 'lightsteelblue';
 var bgSilver = 'silver';
-const version = "2.1.2";
+const version = "2.1.3";
 
 var params = Ext.Object.fromQueryString(window.location.search.substring(1));
 if (params.empty != null && params.empty != '') {
@@ -4765,7 +4765,7 @@ Ext.onReady(function () {
           cls: 'btn',
           icon: '/editor/img/admin_list.png',
           handler: function () {
-            var odkaz = '/' + dictcode + '/report' + '&lang=' + lang;
+            var odkaz = '/' + dictcode + '/report';
             window.open(odkaz);
           }
         },
