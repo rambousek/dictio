@@ -211,6 +211,9 @@
             /    | Semantic region: 
             /    a href="#" Human body
             - if meaning["text"] and meaning["text"]["file"]
+              - if meaning['status'] == 'hidden'
+                img src="/img/warning.png" 
+                div.notapproved #{I18n.t("entry.notapproved")} 
               .video.video--shrink
                 .video__content
                   video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@show_dictcode}/#{@homonym['media'][meaning["text"]["file"]["@media_id"]]['location']}"
