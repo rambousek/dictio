@@ -18,7 +18,7 @@ var typingTimer;
 var doneTypingInterval = 5000;
 var bgAuth = 'lightsteelblue';
 var bgSilver = 'silver';
-const version = "2.1.3";
+const version = "2.1.4";
 
 var params = Ext.Object.fromQueryString(window.location.search.substring(1));
 if (params.empty != null && params.empty != '') {
@@ -168,7 +168,7 @@ var pos_modStore = Ext.create('Ext.data.Store', {
     { 'value': 'kval', 'text': locale[lang].mod_kval },
     { 'value': 'cas', 'text': locale[lang].mod_cas },
     { 'value': 'dej', 'text': locale[lang].mod_dej },
-    { 'value': 'prostor', 'text': locale[lang].mod_prostor },
+    { 'value': 'prost', 'text': locale[lang].mod_prostor },
   ]
 });
 var pos_cas2Store = Ext.create('Ext.data.Store', {
