@@ -265,6 +265,8 @@
               - meaning['relation'].select{|rel| rel['type'] == 'synonym' and rel['entry'] and rel['entry']['id']}.each do |rel|
                 - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id']
                 .col.col--2.col--precise
+                  - if rel['status'] == 'hidden'
+                    img src="/img/warning.png" style="width: 20px" title="#{I18n.t('entry.notapproved')}"
                   .video.video--small
                     .video__content
                         video.video-link width="100%" onmouseover="this.play()" onmouseout=""  data-url=(@search.to_s != ''? "#{@tran_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") poster="/thumb/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}"
@@ -321,6 +323,8 @@
             .row.row--start.translation-group-sign
               - valid_usages.each do |usg|      
                 .col.col--2.col--precise
+                  - if rel['status'] == 'hidden'
+                    img src="/img/warning.png" style="width: 20px" title="#{I18n.t('entry.notapproved')}"
                   .video.video--small
                     .video__content
                       video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@show_dictcode}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}"
