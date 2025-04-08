@@ -371,7 +371,7 @@ en:
       kval: "qualifying"
       cas: "temporal"
       dej: "aspectual"
-      prostor: "spatial"
+      prost: "spatial"
       zakl: "basic"
       rad: "ordinal"
       nas: "multiplicative"

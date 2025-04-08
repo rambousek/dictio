@@ -373,7 +373,7 @@ cs:
       kval: "kvalifikační"
       cas: "časový"
       dej: "aspektový"
-      prostor: "prostorový"
+      prost: "prostorový"
       zakl: "základní"
       rad: "řadová"
       nas: "násobná"
