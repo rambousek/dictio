@@ -265,6 +265,8 @@
               - meaning['relation'].select{|rel| rel['type'] == 'synonym' and rel['entry'] and rel['entry']['id']}.each do |rel|
                 - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id']
                 .col.col--2.col--precise
+                  - if meaning['relation'] == 'hidden'
+                    img src="/img/warning.png" style="width: 20px" title="#{I18n.t('entry.notapproved')}"
                   .video.video--small
                     .video__content
                         video.video-link width="100%" onmouseover="this.play()" onmouseout=""  data-url=(@search.to_s != ''? "#{@tran_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") poster="/thumb/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}"
@@ -292,6 +294,8 @@
               - meaning['relation'].select{|rel| rel['type'] == 'antonym' and rel['entry'] and rel['entry']['id']}.each do |rel|
                 - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id']
                 .col.col--2.col--precise
+                  - if meaning['relation'] == 'hidden'
+                    img src="/img/warning.png" style="width: 20px" title="#{I18n.t('entry.notapproved')}"
                   .video.video--small
                     .video__content
                         video.video-link width="100%" onmouseover="this.play()" onmouseout=""  data-url=(@search.to_s != ''? "#{@tran_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") poster="/thumb/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}"
@@ -319,7 +323,9 @@
           - if valid_usages.any?
             h4.detail-block__name = I18n.t("entry.examples")
             .row.row--start.translation-group-sign
-              - valid_usages.each do |usg|      
+              - valid_usages.each do |usg|
+                - if meaning['usages'] == 'hidden'
+                  img src="/img/warning.png" style="width: 20px" title="#{I18n.t('entry.notapproved')}"      
                 .col.col--2.col--precise
                   .video.video--small
                     .video__content
