@@ -19,7 +19,7 @@ var changes = new Array();
 var bgAuth = 'lightsteelblue';
 var bgSilver = 'silver';
 var bgLex = 'darkgray';
-const version = "2.1.2";
+const version = "2.1.3";
 
 var params = Ext.Object.fromQueryString(window.location.search.substring(1));
 if (params.empty != null && params.empty != '') {
@@ -3775,7 +3775,7 @@ Ext.onReady(function(){
         icon: '/editor/img/admin_list.png',
         cls: 'btn',
         handler: function() {           
-          var odkaz = '/admin?action=report'+dictcode+'&lang='+lang;                   
+          var odkaz = '/' + dictcode + '/report' + '&lang='+lang;                   
           window.open(odkaz);
         }
       },
