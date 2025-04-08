@@ -127,6 +127,17 @@ class CzjApp < Sinatra::Base
 
   before do
     protected! if $is_edit or $is_admin
+    if $is_edit or $is_admin
+      js_path = File.join(settings.public_folder, "editor", "#{@dict_info[@dictcode]['type']}.js")
+      
+      if File.exist?(js_path)
+        js_file = File.read(js_path)
+        version_match = js_file.match(/const\s+version\s*=\s*["'](.+?)["']/)
+        @app_version = version_match ? version_match[1] : "unknown"
+      else
+        @app_version = "not_found"
+      end
+    end
     if @user_info and @user_info['default_lang'].to_s != "" and I18n.available_locales.map(&:to_s).include?(@user_info["default_lang"]) and session[:locale].to_s == ""
       session[:locale] = @user_info['default_lang']
     end
