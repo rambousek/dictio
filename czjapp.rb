@@ -621,6 +621,9 @@ class CzjApp < Sinatra::Base
       get '/editor'+code, :dict_allowed => code do
         @dictcode = code
         @dict_info = $dict_info
+	js_type = $dict_info[code]['type']
+	js_path = File.join(settings.public_folder, "editor", "#{js_type}.js")
+	@app_version = File.mtime(js_path).to_i
         slim :editor, :layout=>false
       end
       get '/editor'+code do
