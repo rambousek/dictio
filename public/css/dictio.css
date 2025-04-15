@@ -46,6 +46,7 @@ video.video-link {
   margin-left: 5px; 
   margin-top: 5px; 
   font-weight: bold;
+  z-index: 100;
 }
 
 .search-options {
