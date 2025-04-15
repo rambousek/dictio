@@ -313,15 +313,13 @@
                             img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}#{$fsw_style}" alt=""
               p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_anto')
           - order = { "sentence" => 1, "colloc" => 2 }
-          - valid_usages = meaning['usages'].to_a.select { |usg| usg.dig('text', 'file').is_a?(Hash) && usg['type'] != 'gram' }
+          - valid_usages = meaning['usages'].to_a.select { |usg| usg.dig('text', 'file').is_a?(Hash) && usg['type'] != 'gram' && usg['status'] != 'hidden'}
           - valid_usages = valid_usages.sort_by { |usg| order[usg['type']] || 99 }
           - if valid_usages.any?
             h4.detail-block__name = I18n.t("entry.examples")
             .row.row--start.translation-group-sign
               - valid_usages.each do |usg|
                 .col.col--2.col--precise
-                  - if usg['status'] == 'hidden'
-                    img src="/img/warning.png" style="width: 20px" title="#{I18n.t('entry.notapproved')}"      
                   .video.video--small
                     .video__content
                       video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@show_dictcode}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}"
