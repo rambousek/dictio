@@ -260,13 +260,13 @@
                   svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                     use xlink:href="/img/icons.svg#info" x="0" y="0" width="100%" height="100%"
                  p style="color: gray; font-style: italic; padding-left: 50px;" #{I18n.t("entry.nocontent")}
-          - if meaning['relation'].find{|rel| rel['type'] == 'synonym'}
-            h4 = I18n.t("entry.synonyms")
+          - if meaning['relation'].find { |rel| rel['type'] == 'synonym' }
+            h4= I18n.t("entry.synonyms")
             .row.row--start.translation-group-sign
-              - meaning['relation'].select{|rel| rel['type'] == 'synonym' and rel['entry'] and rel['entry']['id']}.each do |rel|
-                - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id']
+              - meaning['relation'].select { |rel| rel['type'] == 'synonym' && rel['entry'] && rel['entry']['id'] }.each do |rel|
+                - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target'] + '-' + rel['entry']['id']
                 .col.col--2.col--precise
-                  - if meaning['relation'] == 'hidden'
+                  - if rel['status'] == 'hidden'
                     img src="/img/warning.png" style="width: 20px" title="#{I18n.t('entry.notapproved')}"
                   .video.video--small
                     .video__content
@@ -320,12 +320,11 @@
           - order = { "sentence" => 1, "colloc" => 2 }
           - valid_usages = meaning['usages'].to_a.select { |usg| usg.dig('text', 'file').is_a?(Hash) && usg['type'] != 'gram' }
           - valid_usages = valid_usages.sort_by { |usg| order[usg['type']] || 99 }
-          end
           - if valid_usages.any?
             h4.detail-block__name = I18n.t("entry.examples")
             .row.row--start.translation-group-sign
               - valid_usages.each do |usg|
-                - if meaning['usages'] == 'hidden'
+                - if usg['status'] == 'hidden'
                   img src="/img/warning.png" style="width: 20px" title="#{I18n.t('entry.notapproved')}"      
                 .col.col--2.col--precise
                   .video.video--small
