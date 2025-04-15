@@ -289,7 +289,6 @@
           - if meaning['relation'].any? { |rel| rel['type'] == 'antonym' && rel['status'] != 'hidden' }
             h4 = I18n.t("entry.antonyms")
             .row.row--start.translation-group-sign
-              -# jen veřejná synonyma
               - meaning['relation'].select{|rel| rel['type'] == 'antonym' and rel['entry'] and rel['entry']['id']}.each do |rel|
                 - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id']
                 .col.col--2.col--precise
@@ -313,10 +312,7 @@
                           - rel['entry']['lemma']['swmix'].each do |sw|
                             img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}#{$fsw_style}" alt=""
               p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_anto')
-
-          -# řazení příkladů
           - order = { "sentence" => 1, "colloc" => 2 }
-          -# jen veřejné příklady
           - valid_usages = meaning['usages'].to_a.select { |usg| usg.dig('text', 'file').is_a?(Hash) && usg['type'] != 'gram' && usg['status'] != 'hidden'}
           - valid_usages = valid_usages.sort_by { |usg| order[usg['type']] || 99 }
           - if valid_usages.any?
