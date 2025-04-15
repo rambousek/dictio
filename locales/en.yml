@@ -85,6 +85,8 @@ en:
   entry:
     frontview: "Front view"
     sideview: "Profile view"
+    domP: "R"
+    domL: "L"
     lexical: "Lexical category"
     composed_collocation: "involved entries"
     composed_deriv: "derived from entries"

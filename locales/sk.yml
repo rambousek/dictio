@@ -85,6 +85,8 @@ sk:
   entry:
     frontview: "Čelný pohľad"
     sideview: "Bočný pohľad"
+    domP: "P"
+    domL: "L"
     lexical: "Slovný druh"
     composed_collocation: "Časti slovného spojenia"
     composed_deriv: "Výraz vznikol odvodením od posunkov"

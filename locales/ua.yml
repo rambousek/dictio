@@ -85,6 +85,8 @@ ua:
   entry:
     frontview: "Вид спереду"
     sideview: "Вид збоку"
+    domP: "П"
+    domL: "Л"
     lexical: "Тип слова"
     composed_collocation: "Частини фрази"
     composed_deriv: "Вираз, похідний від виразу"

@@ -86,6 +86,8 @@ de:
   entry:
     frontview: "Frontansicht"
     sideview: "Seitenansicht"
+    domP: "R"
+    domL: "L"
     lexical: "Lexikalische Kategorie"
     composed_collocation: "Komponente Anzeigen"
     composed_deriv: "Abgeleitet von Einträgen"
