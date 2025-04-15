@@ -323,10 +323,10 @@
           - if valid_usages.any?
             h4.detail-block__name = I18n.t("entry.examples")
             .row.row--start.translation-group-sign
-              - valid_usages.each do |usg|
-                - if usg['status'] == 'hidden'
-                  img src="/img/warning.png" style="width: 20px" title="#{I18n.t('entry.notapproved')}"      
+              - valid_usages.each do |usg|                
                 .col.col--2.col--precise
+                  - if usg['status'] == 'hidden'
+                    img src="/img/warning.png" style="width: 20px" title="#{I18n.t('entry.notapproved')}"      
                   .video.video--small
                     .video__content
                       video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@show_dictcode}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}"
