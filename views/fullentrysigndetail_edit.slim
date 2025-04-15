@@ -109,7 +109,8 @@
               |  / 
           - if @entry['lemma']['grammar_note'][0]['@oral_komp'].to_s.strip != ''
             | #{I18n.t("entry.oralcomp")}: 
-            span style="text-transform: uppercase" [#{@entry['lemma']['grammar_note'][0]['@oral_komp']}] 
+            a.help href="/help#zkratky" target="_blank" style="text-decoration: none; color: var(--zakladni-text-cerna1); cursor: help"
+              span style="text-transform: uppercase" [#{@entry['lemma']['grammar_note'][0]['@oral_komp']}] 
             - if @entry['lemma']['grammar_note'][0]['@oral_komp_sel'] == 'povinny' or @entry['lemma']['grammar_note'][0]['@oral_komp_sel'] == 'nepovinny'
               span - #{I18n.t("gram."+@entry['lemma']['grammar_note'][0]['@oral_komp_sel'])} 
       - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['_text'].nil? or @entry['lemma']['grammar_note'][0]['_text'].to_s == ''
@@ -295,7 +296,7 @@
               - meaning['relation'].select{|rel| rel['type'] == 'antonym' and rel['entry'] and rel['entry']['id']}.each do |rel|
                 - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id']
                 .col.col--2.col--precise
-                  - if meaning['relation'] == 'hidden'
+                  - if rel['status'] == 'hidden'
                     img src="/img/warning.png" style="width: 20px" title="#{I18n.t('entry.notapproved')}"
                   .video.video--small
                     .video__content
@@ -323,7 +324,7 @@
           - if valid_usages.any?
             h4.detail-block__name = I18n.t("entry.examples")
             .row.row--start.translation-group-sign
-              - valid_usages.each do |usg|                
+              - valid_usages.each do |usg|
                 .col.col--2.col--precise
                   - if usg['status'] == 'hidden'
                     img src="/img/warning.png" style="width: 20px" title="#{I18n.t('entry.notapproved')}"      

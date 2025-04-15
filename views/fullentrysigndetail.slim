@@ -3,15 +3,22 @@
     a class="btn btn-secondary" style="background-color: dimgray; font-size: 0.7rem" href="/#{@entry['dict']}/show/#{@entry['id']}"
       | #{I18n.t("entry.all_translations")}
 .detail__head
+  -if @entry['lemma']['completeness'] == '1'    
+    .notpublic 
+      | #{I18n.t("entry.hidden_lemma")}
+      img src="/img/hidden.png"
   p.detail__badge.detail__badge--top class=((@is_edit? "detail__badge__#{@entry['dict']}":""))
     | #{I18n.t("dict."+@entry['dict'])} 
-    - if @is_edit
+    - if (@is_edit or @is_admin)
      a class="edit" href="/editor#{@entry['dict']}/?id=#{@entry['id']}" 
       | [#{@entry['dict']}-#{@entry['id']}]
       span.icon.icon--edit
        svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
         use xlink:href="/img/edit.svg#Capa_1" x="0" y="0" width="100%" height="100%"
   .video-top
+    -if @entry['media']['video_front'] and @entry['media']['video_front']['status'] == 'hidden'
+      img src="/img/warning.png" 
+      div.notapproved #{I18n.t("entry.notapproved")}
     .video
       .video__content.video-front
         - orient = @entry.dig('media', 'video_front', 'orient').to_s
@@ -72,7 +79,7 @@
             - @entry['lemma']['grammar_note'].each{|gr| slovni_druhy << gr['@slovni_druh']}
             - slovni_druhy.uniq.each do |sd|
               - if sd.to_s != ''
-                a.help href="/help##{sd}" target="_blank" title="#{I18n.t("entry.lexical")}" style="text-decoration: none; color: var(--zakladni-text-cerna1); cursor: help"
+                a.help href="/help##{sd}" target="_blank" style="text-decoration: none; color: var(--zakladni-text-cerna1); cursor: help"
                   = I18n.t("gram.slovni_druh."+sd)
                 - @entry['lemma']['grammar_note'].each do |gr|
                   - if gr['@slovni_druh'] == sd
@@ -125,29 +132,10 @@
                       source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][gm[0]]['location']}" type="video/mp4"
                 .video__info
                   | video #{gcount}
-      - unless @entry['lemma']['style_note'].nil? or @entry['lemma']['style_note'][0].nil? or @entry['lemma']['style_note'][0]['_text'].nil? or @entry['lemma']['style_note'][0]['_text'].to_s == ''
-        p.naming 
-          | #{I18n.t("entry.style_details")}: 
-          span  
-            - gcount = 0
-            - grtext = @entry['lemma']['style_note'][0]['_text'].gsub(/\[media_id=[0-9]+\]/) {|s| gcount+=1; I18n.t("entry.see_video")+' '+gcount.to_s}
-            = grtext
-        - if @entry['lemma']['style_note'][0]['_text'] =~ /media_id=/
-          .row.row--start
-            - gcount = 0
-            - @entry['lemma']['style_note'][0]['_text'].scan(/\[media_id=([0-9]+)\]/) do |gm|
-              - gcount += 1 
-              .col.col--3.col--precise
-                .video.video--small
-                  .video__content
-                    video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@entry['media'][gm[0]]['location']}"
-                      source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][gm[0]]['location']}" type="video/mp4"
-                .video__info
-                  | video #{gcount}
-      - if @entry['lemma']['style_note'] != nil and @entry['lemma']['style_note'].find{|gr| gr['variant'] != nil and gr['variant'].size > 0}
-        p.naming #{I18n.t("entry.style_variant")}:
+      - if @entry['lemma']['grammar_note'] != nil and @entry['lemma']['grammar_note'].find{|gr| gr['variant'] != nil and gr['variant'].size > 0}
+        p.naming #{I18n.t("entry.grammar_variant")}:
         .row.row--start 
-          - @entry['lemma']['style_note'].each do |gram|
+          - @entry['lemma']['grammar_note'].each do |gram|
             - if gram['variant'] != nil 
               - gram['variant'].each do |var|
                 - selmedia = @entry['media'][var['_text']]
@@ -169,6 +157,26 @@
                         span.video__sign
                           - sw = @entry['lemma']['sw'][(var['@sw'].ord-65)]
                           img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}#{$fsw_style}" alt=""
+
+      - unless @entry['lemma']['style_note'].nil? or @entry['lemma']['style_note'][0].nil? or @entry['lemma']['style_note'][0]['_text'].nil? or @entry['lemma']['style_note'][0]['_text'].to_s == ''
+        p.naming 
+          | #{I18n.t("entry.style_details")}: 
+          span  
+            - gcount = 0
+            - grtext = @entry['lemma']['style_note'][0]['_text'].gsub(/\[media_id=[0-9]+\]/) {|s| gcount+=1; I18n.t("entry.see_video")+' '+gcount.to_s}
+            = grtext
+        - if @entry['lemma']['style_note'][0]['_text'] =~ /media_id=/
+          .row.row--start
+            - gcount = 0
+            - @entry['lemma']['style_note'][0]['_text'].scan(/\[media_id=([0-9]+)\]/) do |gm|
+              - gcount += 1 
+              .col.col--3.col--precise
+                .video.video--small
+                  .video__content
+                    video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@entry['media'][gm[0]]['location']}"
+                      source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][gm[0]]['location']}" type="video/mp4"
+                .video__info
+                  | video #{gcount}
       - unless @entry['lemma']['grammar_note'].nil? or @entry['lemma']['grammar_note'][0].nil? or @entry['lemma']['grammar_note'][0]['@region'].to_s == ''
         p.naming 
           | #{I18n.t("entry.distribution_area")}: 
@@ -195,10 +203,10 @@
           - @entry['lemma']['style_note'][0]['@generace'].to_s.split(';').each do |gen|
             span
               = I18n.t("gram.generace."+gen)
-      - if @entry['lemma']['grammar_note'] != nil and @entry['lemma']['grammar_note'].find{|gr| gr['variant'] != nil and gr['variant'].size > 0}
-        p.naming #{I18n.t("entry.grammar_variant")}:
+      - if @entry['lemma']['style_note'] != nil and @entry['lemma']['style_note'].find{|gr| gr['variant'] != nil and gr['variant'].size > 0}
+        p.naming #{I18n.t("entry.style_variant")}:
         .row.row--start 
-          - @entry['lemma']['grammar_note'].each do |gram|
+          - @entry['lemma']['style_note'].each do |gram|
             - if gram['variant'] != nil 
               - gram['variant'].each do |var|
                 - selmedia = @entry['media'][var['_text']]
@@ -238,22 +246,24 @@
             /  p 
             /    | Semantic region: 
             /    a href="#" Human body
-            - if meaning["text"] and meaning['text'].is_a?(Hash) and meaning["text"]["file"]
+            - if meaning.dig('text', 'file') and meaning['status'] != 'hidden'
               .video.video--shrink
                 .video__content
                   video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@show_dictcode}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}"
                     source src="https://files.dictio.info/video#{@show_dictcode}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
+                  a.videoshare href="/#{@entry['dict']}/show/#{@entry['id']}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}" sdílet video
             - else 
               .info.is-pushed style="margin-top: 0; padding: 0"
                  span.icon.icon--info.info__icon style="margin-top: 0; color: gray; top: -1px;" 
                   svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                     use xlink:href="/img/icons.svg#info" x="0" y="0" width="100%" height="100%"
                  p style="color: gray; font-style: italic; padding-left: 50px;" #{I18n.t("entry.nocontent")}
-          - if meaning['relation'].find{|rel| rel['type'] == 'synonym'}
-            h4 = I18n.t("entry.synonyms")
-            .row.row--start.translation-group-sign
-              - meaning['relation'].select{|rel| rel['type'] == 'synonym' and rel['entry'] and rel['entry']['id']}.each do |rel|
-                - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id']
+          - if meaning['relation'].any? { |rel| rel['type'] == 'synonym' && rel['status'] != 'hidden' }
+            h4= I18n.t("entry.synonyms")
+            .row.row--start.translation-group-sign 
+              -# jen veřejná synonyma
+              - meaning['relation'].select { |rel| rel['type'] == 'synonym' && rel['status'] != 'hidden' && rel['entry'] && rel['entry']['id'] }.each do |rel|
+                - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target'] + '-' + rel['entry']['id']
                 .col.col--2.col--precise
                   .video.video--small
                     .video__content
@@ -276,7 +286,7 @@
                             img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}#{$fsw_style}" alt=""
               p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_syno')
   
-          - if meaning['relation'].find{|rel| rel['type'] == 'antonym'}
+          - if meaning['relation'].any? { |rel| rel['type'] == 'antonym' && rel['status'] != 'hidden' }
             h4 = I18n.t("entry.antonyms")
             .row.row--start.translation-group-sign
               - meaning['relation'].select{|rel| rel['type'] == 'antonym' and rel['entry'] and rel['entry']['id']}.each do |rel|
@@ -305,12 +315,13 @@
           - order = { "sentence" => 1, "colloc" => 2 }
           - valid_usages = meaning['usages'].to_a.select { |usg| usg.dig('text', 'file').is_a?(Hash) && usg['type'] != 'gram' }
           - valid_usages = valid_usages.sort_by { |usg| order[usg['type']] || 99 }
-          end
           - if valid_usages.any?
             h4.detail-block__name = I18n.t("entry.examples")
             .row.row--start.translation-group-sign
-              - valid_usages.each do |usg|      
+              - valid_usages.each do |usg|
                 .col.col--2.col--precise
+                  - if usg['status'] == 'hidden'
+                    img src="/img/warning.png" style="width: 20px" title="#{I18n.t('entry.notapproved')}"      
                   .video.video--small
                     .video__content
                       video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@show_dictcode}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}"
