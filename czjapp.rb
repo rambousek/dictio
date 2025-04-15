@@ -326,7 +326,11 @@ class CzjApp < Sinatra::Base
       @entry = dict.getdoc(params['entry'], false)
       @search_type = 'search'
       if @entry != nil and @entry != {}
-        slim :entry
+        if $dict_info[code]['type'] == 'write'
+          slim :entrywritedetail, :layout=>false
+        else
+          slim :entrysigndetail, :layout=>false
+        end
       else
         return ''
       end
