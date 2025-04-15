@@ -87,6 +87,8 @@ cs:
   entry:
     frontview: "Čelní pohled"
     sideview: "Boční pohled"
+    domP: "P"
+    domL: "L"
     lexical: "Slovní druh"
     composed_collocation: "Části slovního spojení"
     composed_deriv: "Výraz vznikl odvozením z výrazu"
