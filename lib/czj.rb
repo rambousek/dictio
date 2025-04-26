@@ -921,110 +921,114 @@ class CZJDict < Object
           }
         end
       }
-      data['meanings'].each{|m|
-        #remove relations
-        if oldrels[m['id']]
-          oldrels[m['id']].each{|olr|
-            if m['relation'] and m['relation'].select{|r| r['meaning_id']==olr['meaning_id'] and r['type']==olr['type']}.length == 0
-              $stdout.puts 'smazat relation '+olr['meaning_id']
-              if olr['type'] == 'translation'
-                target = olr['target'].to_s
+      if data['meanings']
+        data['meanings'].each{|m|
+          #remove relations
+          if oldrels[m['id']]
+            oldrels[m['id']].each{|olr|
+              if m['relation'] and m['relation'].select{|r| r['meaning_id']==olr['meaning_id'] and r['type']==olr['type']}.length == 0
+                $stdout.puts 'smazat relation '+olr['meaning_id']
+                if olr['type'] == 'translation'
+                  target = olr['target'].to_s
+                else
+                  target = dict
+                end
+                remove_relation(target, m['id'], olr['meaning_id'], olr['type'], dict)
+              end
+            }
+          end
+          #add relations
+          if m['relation']
+            m['relation'].each{|rel|
+              $stdout.puts 'pridat relation '+rel['meaning_id']
+              if rel['type'] == 'translation'
+                target = rel['target'].to_s
               else
                 target = dict
               end
-              remove_relation(target, m['id'], olr['meaning_id'], olr['type'], dict)
-            end
-          }
-        end
-        #add relations
-        if m['relation']
-          m['relation'].each{|rel|
-            $stdout.puts 'pridat relation '+rel['meaning_id']
-            if rel['type'] == 'translation'
-              target = rel['target'].to_s
-            else
-              target = dict
-            end
-            add_relation(target, m['id'], rel['meaning_id'], rel['type'], rel['status'], dict) 
-            if rel['meaning_id'].include?('_us') and rel['status'] == 'published' and /^([0-9]*)-.*/.match(rel['meaning_id']) != nil
-              publish_usage_relation(target, rel['meaning_id'])
-            end
-          }
-        end
-        if m['usages']
-          m['usages'].each{|usg|
-            #remove relations in usages
-            if oldrels[usg['id']]
-              oldrels[usg['id']].each{|olr|
-                if usg['relation'].nil? or usg['relation'].select{|r| r['meaning_id']==olr['meaning_id'] and r['type']==olr['type']}.length == 0
-                  $stdout.puts 'smazat relation '+olr['meaning_id']
-                  if olr['type'] == 'translation'
-                    target = olr['target'].to_s
+              add_relation(target, m['id'], rel['meaning_id'], rel['type'], rel['status'], dict) 
+              if rel['meaning_id'].include?('_us') and rel['status'] == 'published' and /^([0-9]*)-.*/.match(rel['meaning_id']) != nil
+                publish_usage_relation(target, rel['meaning_id'])
+              end
+            }
+          end
+          if m['usages']
+            m['usages'].each{|usg|
+              #remove relations in usages
+              if oldrels[usg['id']]
+                oldrels[usg['id']].each{|olr|
+                  if usg['relation'].nil? or usg['relation'].select{|r| r['meaning_id']==olr['meaning_id'] and r['type']==olr['type']}.length == 0
+                    $stdout.puts 'smazat relation '+olr['meaning_id']
+                    if olr['type'] == 'translation'
+                      target = olr['target'].to_s
+                    else
+                      target = dictcode
+                    end
+                    remove_relation(target, usg['id'], olr['meaning_id'], olr['type'], dict)
+                  end
+                }
+              end
+              #add relations in usages
+              if usg['relation']
+                usg['relation'].each{|rel|
+                  $stdout.puts 'pridat relation '+rel['meaning_id']
+                  if rel['type'] == 'translation'
+                    target = rel['target'].to_s
                   else
                     target = dictcode
                   end
-                  remove_relation(target, usg['id'], olr['meaning_id'], olr['type'], dict)
-                end
-              }
-            end
-            #add relations in usages
-            if usg['relation']
-              usg['relation'].each{|rel|
-                $stdout.puts 'pridat relation '+rel['meaning_id']
-                if rel['type'] == 'translation'
-                  target = rel['target'].to_s
-                else
-                  target = dictcode
-                end
-                add_relation(target, usg['id'], rel['meaning_id'], rel['type'], usg['status'], dict) 
-                if rel['meaning_id'].include?('_us') and usg['status'] == 'published' and /^([0-9]*)-.*/.match(rel['meaning_id']) != nil
-                  publish_usage_relation(target, rel['meaning_id'])
-                end
-              }
-            end
-          }
-        end
-      }
+                  add_relation(target, usg['id'], rel['meaning_id'], rel['type'], usg['status'], dict) 
+                  if rel['meaning_id'].include?('_us') and usg['status'] == 'published' and /^([0-9]*)-.*/.match(rel['meaning_id']) != nil
+                    publish_usage_relation(target, rel['meaning_id'])
+                  end
+                }
+              end
+            }
+          end
+        }
+      end
     end
 
     # for new entries, add relations
     if olddata.nil?
-      data['meanings'].each{|m|
-        #add relations
-        if m['relation']
-          m['relation'].each{|rel|
-            $stdout.puts 'pridat relation '+rel['meaning_id']
-            if rel['type'] == 'translation'
-              target = rel['target'].to_s
-            else
-              target = dict
-            end
-            add_relation(target, m['id'], rel['meaning_id'], rel['type'], rel['status'], dict) 
-            if rel['meaning_id'].include?('_us') and rel['status'] == 'published' and /^([0-9]*)-.*/.match(rel['meaning_id']) != nil
-              publish_usage_relation(target, rel['meaning_id'])
-            end
-          }
-        end
-        if m['usages']
-          m['usages'].each{|usg|
-            #add relations in usages
-            if usg['relation']
-              usg['relation'].each{|rel|
-                $stdout.puts 'pridat relation '+rel['meaning_id']
-                if rel['type'] == 'translation'
-                  target = rel['target'].to_s
-                else
-                  target = dictcode
-                end
-                add_relation(target, usg['id'], rel['meaning_id'], rel['type'], usg['status'], dict) 
-                if rel['meaning_id'].include?('_us') and usg['status'] == 'published' and /^([0-9]*)-.*/.match(rel['meaning_id']) != nil
-                  publish_usage_relation(target, rel['meaning_id'])
-                end
-              }
-            end
-          }
-        end
-      }
+      if data['meanings']
+        data['meanings'].each{|m|
+          #add relations
+          if m['relation']
+            m['relation'].each{|rel|
+              $stdout.puts 'pridat relation '+rel['meaning_id']
+              if rel['type'] == 'translation'
+                target = rel['target'].to_s
+              else
+                target = dict
+              end
+              add_relation(target, m['id'], rel['meaning_id'], rel['type'], rel['status'], dict) 
+              if rel['meaning_id'].include?('_us') and rel['status'] == 'published' and /^([0-9]*)-.*/.match(rel['meaning_id']) != nil
+                publish_usage_relation(target, rel['meaning_id'])
+              end
+            }
+          end
+          if m['usages']
+            m['usages'].each{|usg|
+              #add relations in usages
+              if usg['relation']
+                usg['relation'].each{|rel|
+                  $stdout.puts 'pridat relation '+rel['meaning_id']
+                  if rel['type'] == 'translation'
+                    target = rel['target'].to_s
+                  else
+                    target = dictcode
+                  end
+                  add_relation(target, usg['id'], rel['meaning_id'], rel['type'], usg['status'], dict) 
+                  if rel['meaning_id'].include?('_us') and usg['status'] == 'published' and /^([0-9]*)-.*/.match(rel['meaning_id']) != nil
+                    publish_usage_relation(target, rel['meaning_id'])
+                  end
+                }
+              end
+            }
+          end
+        }
+      end
     end
     
 
