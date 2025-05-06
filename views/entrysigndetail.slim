@@ -284,6 +284,12 @@
     a class="btn btn-secondary" style="background-color: dimgray; font-size: 0.7rem" href="/#{@entry['dict']}/show/#{@entry['id']}"
       | #{I18n.t("search.translate_view")}
 
+- if @entry['homonym']
+  - @entry['homonym'].each do |homonym|
+    .homonym-block
+      - @homonym = homonym
+      == slim :homosigndetail
+
 - if @entry['revcollocation'] and @entry['revcollocation']['count'].to_i > 0
   .detail__block.detail__block--line
     div.detail-block
