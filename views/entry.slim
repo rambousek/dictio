@@ -1,0 +1,10 @@
+- if @is_edit or @is_admin
+  - if $dict_info[@dictcode]['type'] == 'write'
+    == slim :entrywritedetail_edit
+  - else
+    == slim :entrysigndetail_edit
+- else
+  - if $dict_info[@dictcode]['type'] == 'write'
+    == slim :entrywritedetail
+  - else
+    == slim :entrysigndetail

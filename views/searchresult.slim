@@ -49,8 +49,5 @@ main id="mobilespacetop" role="main"
                   use height="100%" width="100%" x="0" xlink:href="/img/icons.svg#magnifier" y="0"
               span #{I18n.t("search.notfound")}
           - if @entry != nil
-            - if @dict_info[@dictcode]['type'] == 'sign'
-              == slim :entrysigndetail
-            - else
-              == slim :entrywritedetail
+            == slim :entry
 
