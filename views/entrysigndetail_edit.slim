@@ -1,10 +1,10 @@
 .detail__head style="max-width:100%"
   - if @is_edit
     p.detail__badge.detail__badge--top class="detail__badge__#{@entry['dict']}"
-     a class="edit" href="/editor#{@entry['dict']}/?id=#{@entry['id']}" 
+    a class="edit" href="/editor#{@entry['dict']}/?id=#{@entry['id']}" 
       | #{@entry['dict']}-#{@entry['id']}
       span.icon.icon--edit
-       svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+      svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
         use xlink:href="/img/edit.svg#Capa_1" x="0" y="0" width="100%" height="100%"
   .video-top
     .video
@@ -220,25 +220,27 @@
           - meaning['relation'].select{|rel| rel['type'] == 'synonym' and rel['entry']}.each do |rel|
             - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id']
             .col.col--2.col--precise
-              .video.video--small
-                .video__content
-                    video.video-link width="100%" onmouseover="this.play()" onmouseout=""  data-url=(@search.to_s != ''? "#{@search_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") poster="/thumb/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}"
-                      source src="https://files.dictio.info/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
-                .video__controls
-                  - if @search.to_s != ''
-                    a.video__link href="#{@search_path}/#{relid}"
-                      span.icon.icon--open-new-window
-                        svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
-                          use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
-                  - else
-                    a.video__link href="/#{rel['target']}/show/#{rel['entry']['id']}"
-                      span.icon.icon--open-new-window
-                        svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
-                          use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
-                  - if rel['entry'] and rel['entry']['lemma'] and rel['entry']['lemma']['swmix']
-                    span.video__sign
-                      - rel['entry']['lemma']['swmix'].each do |sw|
-                        img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}#{$fsw_style}" alt=""
+            - if rel['status'] == 'hidden'
+              img src="/img/warning.png" style="width: 20px" title="#{I18n.t('entry.notapproved')}"
+            .video.video--small
+              .video__content
+                  video.video-link width="100%" onmouseover="this.play()" onmouseout=""  data-url=(@search.to_s != ''? "#{@search_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") poster="/thumb/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}"
+                    source src="https://files.dictio.info/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
+              .video__controls
+                - if @search.to_s != ''
+                  a.video__link href="#{@search_path}/#{relid}"
+                    span.icon.icon--open-new-window
+                      svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                        use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
+                - else
+                  a.video__link href="/#{rel['target']}/show/#{rel['entry']['id']}"
+                    span.icon.icon--open-new-window
+                      svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                        use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
+                - if rel['entry'] and rel['entry']['lemma'] and rel['entry']['lemma']['swmix']
+                  span.video__sign
+                    - rel['entry']['lemma']['swmix'].each do |sw|
+                      img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}#{$fsw_style}" alt=""
           p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_syno')
   
       - if meaning['relation'] and meaning['relation'].find{|rel| rel['type'] == 'antonym' and rel['entry']}
@@ -247,6 +249,8 @@
           - meaning['relation'].select{|rel| rel['type'] == 'antonym' and rel['entry']}.each do |rel|
             - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id']
             .col.col--2.col--precise
+              - if rel['status'] == 'hidden'
+                img src="/img/warning.png" style="width: 20px" title="#{I18n.t('entry.notapproved')}"
               .video.video--small
                 .video__content
                     video.video-link width="100%" onmouseover="this.play()" onmouseout=""  data-url=(@search.to_s != ''? "#{@search_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") poster="/thumb/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}"
@@ -274,12 +278,14 @@
             - meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.each do |usg|
               - if usg["text"] and usg["text"]["file"] and usg["text"]["file"].is_a?(Hash)
                 .col.col--2.col--precise
-                  .video.video--small
-                    .video__content
-                      video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}"
-                        source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
-                      - if @is_edit
-                        a.videoshare href="/#{@entry['dict']}/show/#{@entry['id']}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}" sdílet video
+                - if usg['status'] == 'hidden'
+                  img src="/img/warning.png" style="width: 20px" title="#{I18n.t('entry.notapproved')}"      
+                .video.video--small
+                  .video__content
+                    video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}"
+                      source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
+                    - if @is_edit
+                      a.videoshare href="/#{@entry['dict']}/show/#{@entry['id']}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}" sdílet video
             p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_example')
 
 - if @search_type == 'search'
