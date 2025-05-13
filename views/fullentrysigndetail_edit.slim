@@ -341,7 +341,7 @@
   - @entry['homonym'].each do |homonym|
     .homonym-block
       - @homonym = homonym
-      == slim :homonymsign
+      == slim :homonymsign_edit
 
 - if @entry['revcollocation'] and @entry['revcollocation']['count'].to_i > 0
   .row.row--start
