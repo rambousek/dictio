@@ -199,7 +199,7 @@
         /  p 
         /    | Semantic region: 
         /    a href="#" Human body
-        - if meaning["text"] and meaning['text'].is_a?(Hash) and meaning["text"]["file"]
+        - if meaning.dig('text', 'file') and meaning['status'] != 'hidden'
           .video.video--shrink
             .video__content
               video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@homonym['dict']}/#{@homonym['media'][meaning["text"]["file"]["@media_id"]]['location']}"
@@ -212,10 +212,10 @@
              svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
               use xlink:href="/img/icons.svg#info" x="0" y="0" width="100%" height="100%"
             p style="color: gray; font-style: italic; padding-left: 50px;" #{I18n.t("entry.nocontent")}
-      - if meaning['relation'] and meaning['relation'].find{|rel| rel['type'] == 'synonym' and rel['entry']}
+      - if meaning['relation'].any? { |rel| rel['type'] == 'synonym' && rel['status'] != 'hidden' }
         h4 = I18n.t("entry.synonyms")
         .row.row--start.translation-group-sign
-          - meaning['relation'].select{|rel| rel['type'] == 'synonym' and rel['entry']}.each do |rel|
+          - meaning['relation'].select { |rel| rel['type'] == 'synonym' && rel['status'] != 'hidden' && rel['entry'] && rel['entry']['id'] }.each do |rel|
             - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id']
             .col.col--2.col--precise
               .video.video--small
@@ -239,10 +239,10 @@
                         img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}#{$fsw_style}" alt=""
           p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_syno')
   
-      - if meaning['relation'] and meaning['relation'].find{|rel| rel['type'] == 'antonym' and rel['entry']}
+      - if meaning['relation'].any? { |rel| rel['type'] == 'antonym' && rel['status'] != 'hidden' }
         h4 = I18n.t("entry.antonyms")
         .row.row--start.translation-group-sign
-          - meaning['relation'].select{|rel| rel['type'] == 'antonym' and rel['entry']}.each do |rel|
+          - meaning['relation'].select{|rel| rel['type'] == 'antonym' and rel['entry'] and rel['entry']['id']}.each do |rel|
             - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id']
             .col.col--2.col--precise
               .video.video--small
@@ -266,19 +266,19 @@
                         img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}#{$fsw_style}" alt=""
           p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_syno')
   
-      - if meaning['usages'] and meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.size > 0
-          h4.detail-block__name = I18n.t("entry.examples")
-          .row.row--start.translation-group-sign
-            - meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.each do |usg|
-              - if usg["text"] and usg["text"]["file"] and usg["text"]["file"].is_a?(Hash)
-                .col.col--2.col--precise
-                  .video.video--small
-                    .video__content
-                      video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@homonym['dict']}/#{@homonym['media'][usg["text"]["file"]["@media_id"]]['location']}"
-                        source src="https://files.dictio.info/video#{@homonym['dict']}/#{@homonym['media'][usg["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
-                      - if @is_edit
-                        a.videoshare href="/#{@homonym['dict']}/show/#{@homonym['id']}/#{@homonym['media'][usg["text"]["file"]["@media_id"]]['location']}" sdílet video
-            p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_example')
+      - order = { "sentence" => 1, "colloc" => 2 }
+      - valid_usages = meaning['usages'].to_a.select { |usg| usg.dig('text', 'file').is_a?(Hash) && usg['type'] != 'gram' && usg['status'] != 'hidden'}
+      - valid_usages = valid_usages.sort_by { |usg| order[usg['type']] || 99 }
+      - if valid_usages.any?
+        h4.detail-block__name = I18n.t("entry.examples")
+        .row.row--start.translation-group-sign
+          - valid_usages.each do |usg|
+            .col.col--2.col--precise
+              .video.video--small
+                .video__content
+                  video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@show_dictcode}/#{@homonym['media'][usg["text"]["file"]["@media_id"]]['location']}"
+                    source src="https://files.dictio.info/video#{@show_dictcode}/#{@homonym['media'][usg["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
+          p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_example')
 
 - if @search_type == 'search'
   p.mobile-hide style="float: right;margin-top: 50px;"
