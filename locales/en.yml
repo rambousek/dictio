@@ -78,7 +78,7 @@ en:
     notfound: ":( I am sorry, but nothing like that seems to be in my database.. "
     info1: " not found. Did you mean: "
     info2: " not found. What about: "
-    info3: " not found. This is not a translator. Found: "
+    info3: " not found. Found: "
     try_search: "Entry with this ID does not contain any equivalents in the target language. "
     link: "Show the entry in the dictionary."
     translate_view: "Display in multilingual dictionary"    
