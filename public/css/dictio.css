@@ -211,9 +211,9 @@ img.error {align-self: center}
 }
 
 /* multiple label */
-p.naming span:not(:last-child):after {
+/* p.naming span:not(:last-child):after {
   content: ', ';
-}
+} */
 
 p.naming2 span {
   color: darkgrey;
