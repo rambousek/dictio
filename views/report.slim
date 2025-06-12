@@ -192,7 +192,9 @@ main role="main"
                     a.btn.btn-secondary.report-ne onclick="URLChange('koment','ne')" #{I18n.t("admin.not")} #{I18n.t("admin.koment."+@params['komentbox'])}
                     span.closebtn2 onclick="URLRemove2('koment','komentbox')" x       
               hr style="margin: 5px;"
-              a.btn style="background-color: gray;" href="/#{@dictcode}/csvreport?#{@params.map{|k,v| "#{k}=#{v}"}.join('&')}" CSV export
+              - require 'rack/utils'
+              - query_string = Rack::Utils.build_query(@params)
+              a.btn style="background-color: gray;" href="/#{@dictcode}/csvreport?#{query_string}" CSV export
 
               .sub                          
                 h2 onclick="showhide('presets')" style="cursor: pointer"
