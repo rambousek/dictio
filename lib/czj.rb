@@ -2461,7 +2461,7 @@ class CZJDict < Object
 			{'lemma.homonym': {'$exists': false}},
 			{'lemma.homonym': []},
 			{'lemma.homonym': ''}
-		]})
+		]}
 	end
     end
 
