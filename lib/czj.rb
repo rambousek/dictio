@@ -2455,7 +2455,8 @@ class CZJDict < Object
     # homonym, ma/nema
     if params['homonym'].to_s != ''
     	if params['homonym'].to_s == 'ano'
-		search_cond << {'lemma.homonym': {'$exists': true, '$ne': [], '$ne': ''}}
+		search_cond << {'lemma.homonym': {'$exists': true, '$ne': []}}
+		search_cond << {'lemma.homonym': {'$ne': ''}}
 	else
 		search_cond << {'$or': [
 			{'lemma.homonym': {'$exists': false}},
