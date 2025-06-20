@@ -16,3 +16,8 @@ gem "resolv", "~> 0.6.0"
 gem "sinatra-contrib", "~> 4.1"
 gem "maxmind-geoip2", "~> 1.3"
 gem "damerau-levenshtein", "~> 1.3"
+gem "rackup", "~> 2.2"
+
+gem "bigdecimal", "~> 3.2"
+
+gem "mail", "~> 2.8"
