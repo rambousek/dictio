@@ -2452,6 +2452,19 @@ class CZJDict < Object
       end
     end
 
+    # homonym, ma/nema
+    if params['homonym'].to_s != ''
+    	if params['homonym'].to_s == 'ano'
+		search_cond << {'lemma.homonym': {'$exists': true, '$ne': [], '$ne': ''}}
+	else
+		search_cond << {'$or': [
+			{'lemma.homonym': {'$exists': false}},
+			{'lemma.homonym': []},
+			{'lemma.homonym': ''}
+		]})
+	end
+    end
+
     #'region',
     #'bez_hns',
     #'nes_hns',
