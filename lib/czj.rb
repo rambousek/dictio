@@ -5,7 +5,7 @@ class CZJDict < Object
   def initialize(dictcode)
     @dictcode = dictcode 
     @entrydb = $mongo['entries']
-    build_wordlist
+    # build_wordlist
   end
 
   def getdoc(id, add_rev=true)
@@ -2873,6 +2873,10 @@ class CZJDict < Object
             rel['source_dict'] = entry['dict']
             rel['source_id'] = entry['id']
             rel['source_meaning_id'] = mean['id']
+            rel['source_pos'] = ''
+            if entry['lemma']['grammar_note'] and entry['lemma']['grammar_note'][0] and entry['lemma']['grammar_note'][0]['@slovni_druh']
+              rel['source_pos'] = entry['lemma']['grammar_note'][0]['@slovni_druh'].to_s
+            end
             texts = []
             if entry['lemma']['title']
               texts << entry['lemma']['title'] 
@@ -2907,6 +2911,11 @@ class CZJDict < Object
               targetentry = getone(rel['target'], rel['target_id'])
               if targetentry
                 targetentry = get_sw(targetentry)
+                rel['target_pos'] = ''
+                if targetentry['lemma']['grammar_note'] and targetentry['lemma']['grammar_note'][0] and targetentry['lemma']['grammar_note'][0]['@slovni_druh']
+                  rel['target_pos'] = entry['lemma']['grammar_note'][0]['@slovni_druh'].to_s
+                end
+
                 if rel['meaning_nr'].include?('_us')
                   if $dict_info[targetentry['dict']]['type'] == 'write'
                     rel['target_title'] = get_usage_target(targetentry, rel['meaning_id'])
