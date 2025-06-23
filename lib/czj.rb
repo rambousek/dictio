@@ -755,6 +755,9 @@ class CZJDict < Object
           else
             search_cond = {'source_dict': dictcode}
           end
+          if more_params['slovni_druh'].to_s != ''
+            search_cond['source_pos'] = more_params['slovni_druh'].to_s
+          end
           pipeline = [
             {'$match': search_cond},
             {'$group': {'_id': '$source_id', 'source_id': {'$first': '$source_id'}, 'source_dict': {'$first': '$source_dict'}, 'source_video': {'$first': '$source_video'}, 'source_sw': {'$first': '$source_sw'}, 'sort_key': {'$first': '$sort_key'}}}
