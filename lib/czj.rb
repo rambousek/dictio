@@ -2929,14 +2929,14 @@ class CZJDict < Object
                 rel['target_region'] = ''
                 if targetentry['lemma']['grammar_note'] and targetentry['lemma']['grammar_note'][0]
                   if targetentry['lemma']['grammar_note'][0]['@slovni_druh']
-                    rel['target_pos'] = entry['lemma']['grammar_note'][0]['@slovni_druh'].to_s
+                    rel['target_pos'] = targetentry['lemma']['grammar_note'][0]['@slovni_druh'].to_s
                   end
                   if targetentry['lemma']['grammar_note'][0]['@region']
-                    rel['target_region'] = entry['lemma']['grammar_note'][0]['@region'].to_s
+                    rel['target_region'] = targetentry['lemma']['grammar_note'][0]['@region'].to_s
                   end
                 end
                 if targetentry['lemma']['style_note'] and targetentry['lemma']['style_note'][0] and targetentry['lemma']['style_note'][0]['@stylpriznak']
-                  rel['target_priznak'] = entry['lemma']['style_note'][0]['@stylpriznak'].to_s
+                  rel['target_priznak'] = targetentry['lemma']['style_note'][0]['@stylpriznak'].to_s
                 end
 
                 if rel['meaning_nr'].include?('_us')
