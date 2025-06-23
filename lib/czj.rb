@@ -2877,8 +2877,18 @@ class CZJDict < Object
             rel['source_id'] = entry['id']
             rel['source_meaning_id'] = mean['id']
             rel['source_pos'] = ''
-            if entry['lemma']['grammar_note'] and entry['lemma']['grammar_note'][0] and entry['lemma']['grammar_note'][0]['@slovni_druh']
-              rel['source_pos'] = entry['lemma']['grammar_note'][0]['@slovni_druh'].to_s
+            rel['source_region'] = ''
+            rel['source_priznak'] = ''
+            if entry['lemma']['grammar_note'] and entry['lemma']['grammar_note'][0]
+              if entry['lemma']['grammar_note'][0]['@slovni_druh']
+                rel['source_pos'] = entry['lemma']['grammar_note'][0]['@slovni_druh'].to_s
+              end
+              if entry['lemma']['grammar_note'][0]['@region']
+                rel['source_region'] = entry['lemma']['grammar_note'][0]['@region'].to_s
+              end
+            end
+            if entry['lemma']['style_note'] and entry['lemma']['style_note'][0] and entry['lemma']['style_note'][0]['@slovni_druh']
+              rel['source_priznak'] = entry['lemma']['style_note'][0]['@stylpriznak'].to_s
             end
             texts = []
             if entry['lemma']['title']
@@ -2915,8 +2925,18 @@ class CZJDict < Object
               if targetentry
                 targetentry = get_sw(targetentry)
                 rel['target_pos'] = ''
-                if targetentry['lemma']['grammar_note'] and targetentry['lemma']['grammar_note'][0] and targetentry['lemma']['grammar_note'][0]['@slovni_druh']
-                  rel['target_pos'] = entry['lemma']['grammar_note'][0]['@slovni_druh'].to_s
+                rel['target_priznak'] = ''
+                rel['target_region'] = ''
+                if targetentry['lemma']['grammar_note'] and targetentry['lemma']['grammar_note'][0]
+                  if targetentry['lemma']['grammar_note'][0]['@slovni_druh']
+                    rel['target_pos'] = entry['lemma']['grammar_note'][0]['@slovni_druh'].to_s
+                  end
+                  if targetentry['lemma']['grammar_note'][0]['@region']
+                    rel['target_region'] = entry['lemma']['grammar_note'][0]['@region'].to_s
+                  end
+                end
+                if targetentry['lemma']['style_note'] and targetentry['lemma']['style_note'][0] and targetentry['lemma']['style_note'][0]['@stylpriznak']
+                  rel['target_priznak'] = entry['lemma']['style_note'][0]['@stylpriznak'].to_s
                 end
 
                 if rel['meaning_nr'].include?('_us')
