@@ -29,20 +29,28 @@ function do_mobile_translate(target) {
   }
 }
 function do_search() {
-  var search = $('.search-alt__wrap #expression_search').val();
+  let expr_search =  $('.search-alt__wrap #expression_search');
+  var search = expr_search.val();
   var dict = $('.search-alt__wrap .translate-from').val();
   var slovniDruh = $('.search-alt__wrap #slovni_druh_'+dict).val();
-  if (search != '' || slovniDruh != '') {
+  var styl = $('.search-alt__wrap #stylpriznak_'+dict).val();
+  var oblast = $('.search-alt__wrap #oblast_'+dict).val();
+  if (search != '' || slovniDruh != '' || oblast != '' || styl != '') {
     var type = 'text';
-    if (($('.search-alt__wrap #expression_search').data('codes_hand') != undefined && $('.search-alt__wrap #expression_search').data('codes_hand') != '') || ($('.search-alt__wrap #expression_search').data('codes_place') != undefined && $('.search-alt__wrap #expression_search').data('codes_place') != '')) {
+    if ((expr_search.data('codes_hand') != undefined && expr_search.data('codes_hand') != '') || (expr_search.data('codes_place') != undefined && expr_search.data('codes_place') != '')) {
       type = 'key';
     }
+    let url;
     if (search == '') {
-      var url = '/'+dict+'/search/'+type+'/_';
+      url = '/'+dict+'/search/'+type+'/_';
     } else {
-      var url = '/'+dict+'/search/'+type+'/'+search;
+      url = '/'+dict+'/search/'+type+'/'+search;
     }
-    if (slovniDruh != '') url += '?slovni_druh='+slovniDruh;
+    let moreParams = [];
+    if (slovniDruh != '') moreParams.push('slovni_druh=' + slovniDruh);
+    if (styl != undefined && styl != '') moreParams.push('stylpriznak=' + styl);
+    if (oblast != undefined && oblast != '') moreParams.push('oblast=' + oblast);
+    if (moreParams.length > 0) url += '?' + moreParams.join('&');
     window.location = url;
   }
 }
