@@ -489,7 +489,14 @@ $( document ).ready(function() {
       var search_path = $('.load_next_search').data('search');
       var dict = search_path.split('/')[1];
       var slovniDruh = $('.search-alt__wrap #slovni_druh_'+dict).val();
-      var search_url = search_path.replace('/search/', '/jsonsearch/') + '/' + current_count + '/10?slovni_druh='+slovniDruh;
+      var styl = $('.search-alt__wrap #stylpriznak_'+dict).val();
+      var oblast = $('.search-alt__wrap #oblast_'+dict).val();
+      let moreParams = [];
+      if (slovniDruh != '') moreParams.push('slovni_druh=' + slovniDruh);
+      if (styl != undefined && styl != '') moreParams.push('stylpriznak=' + styl);
+      if (oblast != undefined && oblast != '') moreParams.push('oblast=' + oblast);
+      let search_url = search_path.replace('/search/', '/jsonsearch/') + '/' + current_count + '/10';
+      if (moreParams.length > 0) search_url += '?' + moreParams.join('&');
       $.get(search_url, function(response) {
         if (response.entries) {
           response.entries.forEach((entry) => {
