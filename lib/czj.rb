@@ -5,7 +5,7 @@ class CZJDict < Object
   def initialize(dictcode)
     @dictcode = dictcode 
     @entrydb = $mongo['entries']
-    # build_wordlist
+    build_wordlist
   end
 
   def getdoc(id, add_rev=true)
@@ -684,31 +684,35 @@ class CZJDict < Object
           fullids = []
           locale = dictcode
           locale = 'sk' if dictcode == 'sj'
-          if search != '*'
+          if search != '*' and search != ''
             search_cond = {'dict': dictcode}
-            if search != ''
-              search_cond_title ={'$or': [{'lemma.title': search}, {'lemma.title_var': search}]}
-              search_cond_title[:$or] << {'lemma.title_dia': search}
-              search_cond_title[:$or] << {'lemma.gram.form._text': search}
-              search_cond_title[:$or] << {'lemma.grammar_note.variant._text': {'$regex': /(^| )#{search}/i}}
-              search_cond_title[:$or] << {'lemma.style_note.variant._text': {'$regex': /(^| )#{search}/i}}
+            search_cond_title ={'$or': [{'lemma.title': search}, {'lemma.title_var': search}]}
+            search_cond_title[:$or] << {'lemma.title_dia': search}
+            search_cond_title[:$or] << {'lemma.gram.form._text': search}
+            search_cond_title[:$or] << {'lemma.grammar_note.variant._text': {'$regex': /(^| )#{search}/i}}
+            search_cond_title[:$or] << {'lemma.style_note.variant._text': {'$regex': /(^| )#{search}/i}}
+            search_cond[:$and] = [search_cond_title]
+            if more_params['slovni_druh'].to_s != ''
+              search_cond[:$and] << {'lemma.grammar_note.@slovni_druh'=> more_params['slovni_druh'].to_s}
             end
-            if search != ''  and more_params['slovni_druh'].to_s != ''
-              search_cond[:$and] = [search_cond_title,{'lemma.grammar_note.@slovni_druh'=> more_params['slovni_druh'].to_s}]
+            if more_params['oblast'].to_s != ''
+              search_cond[:$and] << {'lemma.grammar_note.@region'=> more_params['oblast'].to_s}
             end
-            if search == '' and more_params['slovni_druh'].to_s != ''
-              search_cond['lemma.grammar_note.@slovni_druh'] = more_params['slovni_druh'].to_s
+            if more_params['stylpriznak'].to_s != ''
+              search_cond[:$and] << {'lemma.style_note.@stylpriznak'=> more_params['stylpriznak'].to_s}
             end
-            if search != '' and more_params['slovni_druh'].to_s == '' and search_cond_title
+            if search_cond_title and more_params['slovni_druh'].to_s == '' and more_params['oblast'].to_s == '' and more_params['stylpriznak'].to_s == ''
               search_cond[:$or] = search_cond_title[:$or]
             end
             $stdout.puts search_cond
             cursor = @entrydb.find(search_cond, :sort => {'lemma.title'=>1})
             fullcount = 0
-            fullcount = cursor.count_documents if search != ''
+            fullcount = cursor.count_documents
             cursor.each{|re|
-              res << re if fullcount > start and more_params['slovni_druh'].to_s == ''
-              fullids << re['id'] if more_params['slovni_druh'].to_s == ''
+              if more_params['slovni_druh'].to_s == '' and more_params['oblast'].to_s == '' and more_params['stylpriznak'].to_s == ''
+                res << re if fullcount > start
+                fullids << re['id']
+              end
             }
             search_cond = {'dict': dictcode, 'id': {'$nin': fullids}}
             search_cond_title = {'$or': [{'lemma.title': {'$regex': /^#{search}/i}}]}
@@ -718,13 +722,23 @@ class CZJDict < Object
             search_cond = {'dict': dictcode, '$and': [{'lemma.title': {'$exists': true}}, {'lemma.title': {'$ne': ''}}]}
           end
 
-          if search != '' and search != '*' and more_params['slovni_druh'].to_s != ''
-            search_cond[:$and] = [search_cond_title,{'lemma.grammar_note.@slovni_druh'=> more_params['slovni_druh'].to_s}]
+          if more_params['slovni_druh'].to_s != '' or more_params['stylpriznak'].to_s != '' or more_params['oblast'].to_s != ''
+            if search != '' and search != '*'
+              search_cond[:$and] = [search_cond_title]
+            end
+            if search_cond[:$and]
+              if more_params['slovni_druh'].to_s != ''
+                search_cond[:$and] << {'lemma.grammar_note.@slovni_druh'=> more_params['slovni_druh'].to_s}
+              end
+              if more_params['oblast'].to_s != ''
+                search_cond[:$and] << {'lemma.grammar_note.@region'=> more_params['oblast'].to_s}
+              end
+              if more_params['stylpriznak'].to_s != ''
+                search_cond[:$and] << {'lemma.style_note.@stylpriznak'=> more_params['stylpriznak'].to_s}
+              end
+            end
           end
-          if (search == '' or search == '*') and more_params['slovni_druh'].to_s != ''
-            search_cond['lemma.grammar_note.@slovni_druh'] = more_params['slovni_druh'].to_s
-          end
-          if search != '' and search != '*' and more_params['slovni_druh'].to_s == ''
+          if search != '' and search != '*' and more_params['slovni_druh'].to_s == '' and more_params['stylpriznak'].to_s == '' and more_params['oblast'].to_s == ''
             search_cond[:$or] = search_cond_title[:$or]
           end
           $stdout.puts search_cond
@@ -743,7 +757,7 @@ class CZJDict < Object
             res << re #full_entry(re)
           }
         else
-          if search != '*'
+          if search != '*' and search != '' and search != '_'
             search_in = 'cs'
             search_in = @dict_info[dictcode]['search_in'] unless @dict_info[dictcode]['search_in'].nil?
             csl = [search]
@@ -757,6 +771,12 @@ class CZJDict < Object
           end
           if more_params['slovni_druh'].to_s != ''
             search_cond['source_pos'] = more_params['slovni_druh'].to_s
+          end
+          if more_params['oblast'].to_s != ''
+            search_cond['source_region'] = more_params['oblast'].to_s
+          end
+          if more_params['stylpriznak'].to_s != ''
+            search_cond['source_priznak'] = more_params['stylpriznak'].to_s
           end
           pipeline = [
             {'$match': search_cond},
@@ -792,6 +812,12 @@ class CZJDict < Object
       search_query = {'dict'=>dictcode, '$or'=>get_key_search(search)}
       if more_params['slovni_druh'].to_s != ''
         search_query['lemma.grammar_note.@slovni_druh'] = more_params['slovni_druh'].to_s
+      end
+      if more_params['stylpriznak'].to_s != ''
+        search_query['lemma.style_note.@stylpriznak'] = more_params['stylpriznak'].to_s
+      end
+      if more_params['oblast'].to_s != ''
+        search_query['lemma.grammar_note.@region'] = more_params['oblast'].to_s
       end
       $stdout.puts search_query
       cursor = $mongo['entries'].find(search_query, {:sort => {'sort_key' => -1}})

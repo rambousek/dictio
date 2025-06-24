@@ -282,9 +282,11 @@ class CzjApp < Sinatra::Base
     get '/'+code+'/jsonsearch/:type/:search(/:start)?(/:limit)?' do 
       content_type :json
       more_params = {}
-      if params['slovni_druh'].to_s != '' and params['slovni_druh'].to_s != 'undefined'
-        more_params['slovni_druh'] = params['slovni_druh']
-      end
+      %w[slovni_druh stylpriznak oblast].each{|parname|
+        if params[parname].to_s != '' and params[parname].to_s != 'undefined'
+          more_params[parname] = params[parname]
+        end
+      }
       body = dict.search(code, params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i, more_params).to_json
     end
     get '/'+code+'/jsontranslate/:target/:type/:search(/:start)?(/:limit)?' do 
@@ -297,10 +299,12 @@ class CzjApp < Sinatra::Base
       @search_path = '/'+code+'/search/'+params['type']+'/'+params['search']
       more_params = {}
       url_pars = []
-      if params['slovni_druh'].to_s != ''
-        url_pars << 'slovni_druh='+params['slovni_druh']
-        more_params['slovni_druh'] = params['slovni_druh']
-      end
+      %w[slovni_druh stylpriznak oblast].each{|parname|
+        if params[parname].to_s != ''
+          url_pars << parname + '=' + params[parname]
+          more_params[parname] = params[parname]
+        end
+      }
       @url_params = url_pars.join('&')
       @result = dict.search(code, params['search'].to_s.strip, params['type'].to_s, 0, @search_limit, more_params)
       $stdout.puts(@result['count'])
