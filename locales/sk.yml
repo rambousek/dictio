@@ -82,6 +82,8 @@ sk:
     translate_view: "Zobraziť v prekladovom slovníku."
     more: "další možnosti"
     search_all: "zobraziť všetko"
+    oblast: "-- oblast --"
+    stylpriznak: "-- styl --"
   entry:
     frontview: "Čelný pohľad"
     sideview: "Bočný pohľad"

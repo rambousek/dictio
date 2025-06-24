@@ -5,7 +5,7 @@ class CZJDict < Object
   def initialize(dictcode)
     @dictcode = dictcode 
     @entrydb = $mongo['entries']
-    build_wordlist
+    # build_wordlist
   end
 
   def getdoc(id, add_rev=true)

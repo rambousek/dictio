@@ -82,6 +82,8 @@ ua:
     translate_view: "Показати еквіваленти іноземною мовою"
     more: "більше опцій"
     search_all: "показати все"
+    oblast: "-- region --"
+    stylpriznak: "-- style --"
   entry:
     frontview: "Вид спереду"
     sideview: "Вид збоку"

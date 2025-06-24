@@ -3658,6 +3658,10 @@ a.btn {
     margin-right: 38px; }
     .search-alt__options .checkbox:last-child {
       margin-right: 0; }
+.search-alt__options .advanced-search select {
+  margin-right: 0;
+  width: 30%;
+}
 
 .search-top {
   display: block;

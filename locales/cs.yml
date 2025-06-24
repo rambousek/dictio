@@ -84,6 +84,8 @@ cs:
     translate_view: "Zobrazit ekvivalenty v jiných jazycích"
     more: "další možnosti"
     search_all: "zobrazit vše"
+    stylpriznak: "-- styl. příznak --"
+    oblast: "-- oblast --"
   entry:
     frontview: "Čelní pohled"
     sideview: "Boční pohled"

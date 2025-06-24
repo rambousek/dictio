@@ -81,7 +81,9 @@ en:
     info3: " not found. Found: "
     try_search: "Entry with this ID does not contain any equivalents in the target language. "
     link: "Show the entry in the dictionary."
-    translate_view: "Display in multilingual dictionary"    
+    translate_view: "Display in multilingual dictionary"
+    oblast: "-- region --"
+    stylpriznak: "-- style --"
   entry:
     frontview: "Front view"
     sideview: "Profile view"

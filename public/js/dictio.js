@@ -73,13 +73,21 @@ document.addEventListener('DOMContentLoaded', function () {
 function show_pos_list() {
   var dict = $('.search-alt__wrap .translate-from').val();
   $('.advanced-search .slovni_druh').hide();
+  $('.advanced-search .stylpriznak').hide();
+  $('.advanced-search .oblast').hide();
   $('.advanced-search #slovni_druh_'+dict).show();
+  $('.advanced-search #stylpriznak_'+dict).show();
+  $('.advanced-search #oblast_'+dict).show();
 }
 function change_pos_list() {
   var dict = $('.search-alt__wrap .translate-from').val();
   if ($('.advanced-search .slovni_druh:visible').length > 0) {
     $('.advanced-search .slovni_druh').hide();
+    $('.advanced-search .stylpriznak').hide();
+    $('.advanced-search .oblast').hide();
     $('.advanced-search #slovni_druh_'+dict).show();
+    $('.advanced-search #stylpriznak_'+dict).show();
+    $('.advanced-search #oblast_'+dict).show();
   }
 }
 

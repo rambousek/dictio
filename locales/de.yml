@@ -83,6 +83,8 @@ de:
     translate_view: "Zeigen Sie diesen Eintrag im mehrsprachigen Wörterbuch an"
     more: "Alle Optionen"
     search_all: "alle anzeigen"
+    oblast: "-- region --"
+    stylpriznak: "-- style --"
   entry:
     frontview: "Frontansicht"
     sideview: "Seitenansicht"
