@@ -1,0 +1,22 @@
+title
+  - if @search_type
+    - if @search_type == 'translate'
+      - if @entry
+        - if $dict_info[@show_dictcode]['type'] == 'write'
+          | Dictio: #{I18n.t('dict.' + @show_dictcode)}: #{@entry['lemma']['title']}
+        - else
+          | Dictio: #{I18n.t('dict.' + @show_dictcode)}: #{@entry['id']}
+      - else
+        | Dictio: #{I18n.t('dict.' + @dictcode)} > #{I18n.t('dict.' + @target)}: #{@search}
+    - if @search_type == 'search'
+      - if @entry
+        - if $dict_info[@dictcode]['type'] == 'write'
+          | Dictio: #{I18n.t('dict.' + @dictcode)}: #{@entry['lemma']['title']}
+        - else
+          | Dictio: #{I18n.t('dict.' + @dictcode)}: #{@entry['id']}
+      - else
+        | Dictio: #{I18n.t('dict.' + @dictcode)}: #{@search}
+  - elsif @selected_page
+    | Dictio: #{I18n.t('menu.' + @selected_page)}
+  - else
+    | Dictio
