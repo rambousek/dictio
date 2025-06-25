@@ -2913,7 +2913,7 @@ class CZJDict < Object
                 rel['source_region'] = entry['lemma']['grammar_note'][0]['@region'].to_s
               end
             end
-            if entry['lemma']['style_note'] and entry['lemma']['style_note'][0] and entry['lemma']['style_note'][0]['@slovni_druh']
+            if entry['lemma']['style_note'] and entry['lemma']['style_note'][0] and entry['lemma']['style_note'][0]['@stylpriznak']
               rel['source_priznak'] = entry['lemma']['style_note'][0]['@stylpriznak'].to_s
             end
             texts = []
