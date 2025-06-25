@@ -1,11 +1,19 @@
 title
+  - locale_target = I18n.locale.to_s
+  - if locale_target == 'ua'
+    - locale_target = 'uk'
+  - if locale_target == 'sk'
+    - locale_target = 'sj'
   - if @search_type
     - if @search_type == 'translate'
       - if @entry
         - if $dict_info[@show_dictcode]['type'] == 'write'
           | Dictio: #{I18n.t('dict.' + @show_dictcode)}: #{@entry['lemma']['title']}
         - else
-          | Dictio: #{I18n.t('dict.' + @show_dictcode)}: #{@entry['id']}
+          |> Dictio: #{I18n.t('dict.' + @show_dictcode)}:
+          - @entry['meanings'].each do |meaning|
+            - meaning['relation'].select { |rel| rel['type'] == 'translation' && rel['status'] != 'hidden' && rel['target'] == locale_target }.each do |rel|
+              |> #{rel['entry']['lemma']['title']},
       - else
         | Dictio: #{I18n.t('dict.' + @dictcode)} > #{I18n.t('dict.' + @target)}: #{@search}
     - if @search_type == 'search'
@@ -13,7 +21,10 @@ title
         - if $dict_info[@dictcode]['type'] == 'write'
           | Dictio: #{I18n.t('dict.' + @dictcode)}: #{@entry['lemma']['title']}
         - else
-          | Dictio: #{I18n.t('dict.' + @dictcode)}: #{@entry['id']}
+          |> Dictio: #{I18n.t('dict.' + @dictcode)}:
+          - @entry['meanings'].each do |meaning|
+            - meaning['relation'].select { |rel| rel['type'] == 'translation' && rel['status'] != 'hidden' && rel['target'] == locale_target }.each do |rel|
+              |> #{rel['entry']['lemma']['title']},
       - else
         | Dictio: #{I18n.t('dict.' + @dictcode)}: #{@search}
   - elsif @selected_page
