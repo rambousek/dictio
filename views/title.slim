@@ -12,9 +12,11 @@ title
         - else
           | Dictio: #{I18n.t('dict.' + @show_dictcode)}-#{@entry['id']} 
           - @entry['meanings'].each do |meaning|
-            | (         
-            - meaning['relation'].select { |rel| rel['type'] == 'translation' && rel['status'] != 'hidden' && rel['target'] == locale_target }.each do |rel|
-              | #{rel['entry']['lemma']['title']},
+            | ( 
+            = meaning['relation']
+              .select { |rel| rel['type'] == 'translation' && rel['status'] != 'hidden' && rel['target'] == locale_target }
+              .map { |rel| rel['entry']['lemma']['title'] }
+              .join(', ')
             | )
       - else
         | Dictio: #{I18n.t('dict.' + @dictcode)} > #{I18n.t('dict.' + @target)}: #{@search}
@@ -26,9 +28,11 @@ title
           | Dictio: #{I18n.t('dict.' + @dictcode)}:
           - @entry['meanings'].each do |meaning|
             | ( 
-            - meaning['relation'].select { |rel| rel['type'] == 'translation' && rel['status'] != 'hidden' && rel['target'] == locale_target }.each do |rel|
-              | #{rel['entry']['lemma']['title']},
-            | ) 
+            = meaning['relation']
+              .select { |rel| rel['type'] == 'translation' && rel['status'] != 'hidden' && rel['target'] == locale_target }
+              .map { |rel| rel['entry']['lemma']['title'] }
+              .join(', ')
+            | )
       - else
         | Dictio: #{I18n.t('dict.' + @dictcode)}: #{@search}
   - elsif @selected_page
