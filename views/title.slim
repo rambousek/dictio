@@ -10,7 +10,7 @@ title
         - if $dict_info[@show_dictcode]['type'] == 'write'
           | Dictio: #{@entry['lemma']['title']} (#{I18n.t('dict.' + @show_dictcode)})
         - else
-          | Dictio: #{I18n.t('dict.' + @show_dictcode)}-#{rel['entry']['id']} 
+          | Dictio: #{I18n.t('dict.' + @show_dictcode)}-#{@entry['id']} 
           - @entry['meanings'].each do |meaning|
             | (         
             - meaning['relation'].select { |rel| rel['type'] == 'translation' && rel['status'] != 'hidden' && rel['target'] == locale_target }.each do |rel|
