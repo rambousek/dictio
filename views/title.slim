@@ -13,7 +13,7 @@ title
           | Dictio: #{I18n.t('dict.' + @show_dictcode)}-#{@entry['id']} 
           - @entry['meanings'].each do |meaning|
             - translations = meaning['relation'].select { |rel| rel['type'] == 'translation' && rel['status'] != 'hidden' && rel['target'] == locale_target }.map { |rel| rel['entry']['lemma']['title'] }.join(', ')
-            | ( 
+            | (
             = translations
             | )
       - else
@@ -26,7 +26,7 @@ title
           | Dictio: #{I18n.t('dict.' + @dictcode)}:
           - @entry['meanings'].each do |meaning|
             - translations = meaning['relation'].select { |rel| rel['type'] == 'translation' && rel['status'] != 'hidden' && rel['target'] == locale_target }.map { |rel| rel['entry']['lemma']['title'] }.join(', ')
-            | ( 
+            | (
             = translations
             | )
       - else
