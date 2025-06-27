@@ -23,14 +23,14 @@ title
         - if $dict_info[@dictcode]['type'] == 'write'
           | Dictio: #{@entry['lemma']['title']} (#{I18n.t('dict.' + @dictcode)})
         - else
-          | Dictio: #{I18n.t('dict.' + @dictcode)}:
+          | Dictio: #{I18n.t('dict.' + @dictcode)}-#{@entry['id']} 
           - @entry['meanings'].each do |meaning|
             - translations = meaning['relation'].select { |rel| rel['type'] == 'translation' && rel['status'] != 'hidden' && rel['target'] == locale_target }.map { |rel| rel['entry']['lemma']['title'] }.join(', ')
             | (
             = translations
             | )
       - else
-        | Dictio: #{I18n.t('dict.' + @dictcode)}: #{@search}
+        | Dictio - #{I18n.t('dict.' + @dictcode)}: #{@search}
   - elsif @selected_page
     | Dictio: #{I18n.t('menu.' + @selected_page)}
   - else
