@@ -18,7 +18,7 @@ title
             | )
       - else
         | Dictio: #{I18n.t('dict.' + @dictcode)} > #{I18n.t('dict.' + @target)}: #{@search}
-    - if @search_type == 'search'
+    - if @search_type == 'search' || @search_type == 'show'
       - if @entry
         - if $dict_info[@dictcode]['type'] == 'write'
           | Dictio: #{@entry['lemma']['title']} (#{I18n.t('dict.' + @dictcode)})
