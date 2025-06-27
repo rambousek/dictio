@@ -8,7 +8,7 @@ title
     - if @search_type == 'translate'
       - if @entry
         - if $dict_info[@show_dictcode]['type'] == 'write'
-          | Dictio: #{@entry['lemma']['title']} (#{I18n.t('dict.' + @show_dictcode)} > #{I18n.t('dict.' + @target)})
+          | Dictio: #{@entry['lemma']['title']} (#{I18n.t('dict.' + @show_dictcode)})
         - else
           | Dictio: #{I18n.t('dict.' + @show_dictcode)}-#{@entry['id']} 
           - @entry['meanings'].each do |meaning|
@@ -16,7 +16,6 @@ title
             | (
             = translations
             | )
-          | > #{I18n.t('dict.' + @target)}
       - else
         | Dictio: #{I18n.t('dict.' + @dictcode)} > #{I18n.t('dict.' + @target)}: #{@search}
     - if @search_type == 'search' || @search_type == 'show'
