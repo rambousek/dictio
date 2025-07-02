@@ -831,13 +831,17 @@ class CZJDict < Object
     return {'count'=> resultcount, 'entries'=> res, 'is_edit'=> ($is_edit or $is_admin)}
   end
 
-  def translate2(source, target, search, type, start=0, limit=nil)
+  def translate2(source, target, search, type, start=0, limit=nil, more_params=[])
     res = []
     resultcount = 0
+    $stderr.puts more_params
+    $stderr.puts type
     case type
     when 'text'
       search = search.downcase
-      if search =~ /^[0-9]*$/
+      if search == ''
+        search_cond = {'source_dict': source, 'target': target}
+      elsif search =~ /^[0-9]+$/
         resultcount = 0
         @entrydb.find({'dict': dictcode, 'id': search, 'meanings.relation.target': target}).each{|re|
           entry = add_rels(re, false, 'translation', target)
@@ -889,6 +893,15 @@ class CZJDict < Object
     when 'key'
       search_cond = {'source_dict': dictcode, 'target': target, 'type': 'translation', '$or': get_key_search(search, 'source_sw')}
       collate = {:collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'sort_key' => -1}}
+    end
+    if more_params['slovni_druh'].to_s != ''
+      search_cond['source_pos'] = more_params['slovni_druh'].to_s
+    end
+    if more_params['oblast'].to_s != ''
+      search_cond['source_region'] = more_params['oblast'].to_s
+    end
+    if more_params['stylpriznak'].to_s != ''
+      search_cond['source_priznak'] = more_params['stylpriznak'].to_s
     end
     if not $is_edit and not $is_admin
       search_cond['status'] = 'published'

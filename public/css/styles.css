@@ -3649,16 +3649,46 @@ a.btn {
   .search-alt__top .search__translate__item {
     margin-right: 30px; }
 
-.search-alt__options {
+.search-alt__options, .trans-options {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
-  display: flex; }
-  .search-alt__options .checkbox {
-    margin-right: 38px; }
-    .search-alt__options .checkbox:last-child {
-      margin-right: 0; }
-.search-alt__options .advanced-search select {
+  display: flex;
+}
+.trans-options {
+  width: 80%;
+  display: inline-block;
+}
+.trans-options checkbox {
+  margin-top: 0;
+  display: inline-block;
+}
+.advanced-trans {
+  width: 80%;
+  display: inline-block;
+}
+.advanced-trans select {
+  margin-top: 0;
+}
+
+.search-options {
+  margin-top: 0;
+  padding-top: 0;
+  text-align: right;
+  margin-right: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  width: 15%;
+  float: right;
+  display: inline-block;
+}
+.search-alt__options .checkbox, .trans-options .checkbox {
+  margin-right: 38px;
+}
+.search-alt__options .checkbox:last-child, .trans-options .checkbox:last-child {
+  margin-right: 0;
+}
+.search-alt__options .advanced-search select, .trans-options .advanced-trans select {
   margin-right: 0;
   width: 30%;
 }

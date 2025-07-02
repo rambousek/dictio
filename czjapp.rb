@@ -342,9 +342,17 @@ class CzjApp < Sinatra::Base
       selected = params['selected']
       @tran_path = '/'+code+'/translate/'+params['target']+'/'+params['type']+'/'+params['search']
       url_pars = []
+      @search_params = {}
+      %w[slovni_druh stylpriznak oblast].each{|parname|
+        if params[parname].to_s != ''
+          url_pars << parname + '=' + params[parname]
+          @search_params[parname] = params[parname]
+        end
+      }
       @url_params = url_pars.join('&')
       @search_type = 'translate'
-      @search = params['search']
+      @search = ''
+      @search = params['search'] if params['search'] != '_'
       @input_type = params['type']
       @dictcode = code
       @entry = nil
@@ -374,12 +382,22 @@ class CzjApp < Sinatra::Base
       @target = params['target']
       selected = params['selected']
       @tran_path = '/'+code+'/translate/'+params['target']+'/'+params['type']+'/'+params['search']
+      more_params = {}
       url_pars = []
+      %w[slovni_druh stylpriznak oblast].each{|parname|
+        if params[parname].to_s != ''
+          url_pars << parname + '=' + params[parname]
+          more_params[parname] = params[parname]
+        end
+      }
       @url_params = url_pars.join('&')
+      @tran_path += '?' + @url_params if @url_params != ''
       @search_type = 'translate'
-      @search = params['search']
+      @search = ''
+      @search = params['search'].strip if params['search'] != '_'
       @input_type = params['type']
       @dictcode = code
+      @search_params = more_params
       @resultinfo1 = false
       @resultinfo2 = false
       @resultinfo3 = false
@@ -428,8 +446,8 @@ class CzjApp < Sinatra::Base
         return nil
       end
       
-      @result = dict.translate2(code, params['target'], params['search'].strip, params['type'], params['start'].to_i, params['limit'].to_i)
-      if @result['count'] == 0
+      @result = dict.translate2(code, params['target'], @search, params['type'], params['start'].to_i, params['limit'].to_i, more_params)
+      if @result['count'] == 0 and @search != ''
         # Logování neúspěšného vyhledávání
         File.open("public/log/translate.csv", "a"){|f| f << [code, params['target'],  params['search'].to_s, Time.now.strftime("%Y-%m-%d %H:%M:%S")].join(";")+"\n"}
       

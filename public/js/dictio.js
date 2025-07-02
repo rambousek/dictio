@@ -1,13 +1,26 @@
 function do_translate() {
-  var search = $('.search__wrapper #expression_trans').val();
-  if (search != '') {
-    var dict = $('.search__wrapper .translate-from').val();
-    var target = $('.search__wrapper #translate-to').val();
-    var type = 'text';
+  let search = $('.search__wrapper #expression_trans').val();
+  let dict = $('.search__wrapper .translate-from').val();
+  let slovniDruh = $('.search__wrapper .slovni_druh_'+dict).val();
+  let styl = $('.search__wrapper .stylpriznak_'+dict).val();
+  let oblast = $('.search__wrapper .oblast_'+dict).val();
+  if (search != '' || slovniDruh != '' || oblast != '' || styl != '') {
+    let target = $('.search__wrapper #translate-to').val();
+    let type = 'text';
     if (($('.search__wrapper #expression_trans').data('codes_hand') != undefined && $('.search__wrapper #expression_trans').data('codes_hand') != '') || ($('.search__wrapper #expression_trans').data('codes_place') != undefined && $('.search__wrapper #expression_trans').data('codes_place') != '')) {
       type = 'key';
     }
-    var url = '/'+dict+'/translate/'+target+'/'+type+'/'+search;
+    let url;
+    if (search != '') {
+      url = '/' + dict + '/translate/' + target + '/' + type + '/' + search;
+    } else {
+      url = '/' + dict + '/translate/' + target + '/' + type + '/_';
+    }
+    let moreParams = [];
+    if (slovniDruh != '') moreParams.push('slovni_druh=' + slovniDruh);
+    if (styl != undefined && styl != '') moreParams.push('stylpriznak=' + styl);
+    if (oblast != undefined && oblast != '') moreParams.push('oblast=' + oblast);
+    if (moreParams.length > 0) url += '?' + moreParams.join('&');
     window.location = url;
   }
 }
@@ -92,7 +105,20 @@ function change_pos_list() {
     show_pos_list();
   }
 }
-
+function show_advanced_trans() {
+  let dict = $('.search__wrapper .translate-from').val();
+  $('.advanced-trans .slovni_druh').hide();
+  $('.advanced-trans .stylpriznak').hide();
+  $('.advanced-trans .oblast').hide();
+  $('.advanced-trans .slovni_druh_'+dict).show();
+  $('.advanced-trans .stylpriznak_'+dict).show();
+  $('.advanced-trans .oblast_'+dict).show();
+}
+function change_trans_pos_list() {
+  if ($('.advanced-trans .slovni_druh:visible').length > 0) {
+    show_advanced_trans();
+  }
+}
 function onLoadSearchResult() {
   /* switch front/back video */
   $('.btn-side').on('click', function(event) {
@@ -222,6 +248,8 @@ $( document ).ready(function() {
   // advanced search
   $('#advanced-search-toggle').click(show_pos_list);
   $('.search-alt__wrap .select-items div').click(change_pos_list);
+  $('#advanced-trans-toggle').click(show_advanced_trans);
+  $('.search__wrapper .select-items div').click(change_trans_pos_list);
 
   /* switch direction translate */
   $('.search__switch').click(function(event) {
@@ -231,6 +259,7 @@ $( document ).ready(function() {
     $('.search__wrapper .translate-from ~ .select-selected').html( $('.search__wrapper .translate-from option[value='+$('.search__wrapper .translate-from').val()+']').html() );
     $('.search__wrapper #translate-to').val(source).change();
     $('.search__wrapper #translate-to ~ .select-selected').html( $('.search__wrapper #translate-to option[value='+$('.search__wrapper #translate-to').val()+']').html() );
+    change_trans_pos_list();
   });
 
   /* clickable video */
@@ -557,12 +586,16 @@ $( document ).ready(function() {
 
   // load more translate results
   $('.load_next_trans').click(function() {
-    $('.load_next_trans').addClass('waiting');
-    var current_count;
+    let trans_button = $('.load_next_trans');
+    trans_button.addClass('waiting');
+    let current_count;
     current_count = $('.translate-results > div.translate-box').length;
     console.log(current_count);
-    var search_path = $('.load_next_trans').data('search');
-    var search_url = search_path.replace('/translate/', '/translatelist/') + '/' + current_count + '/9';
+    let search_path = trans_button.data('search');
+    let search_url = search_path.replace('/translate/', '/translatelist/') + '/' + current_count + '/9';
+    if (trans_button.data('urlparams') != '') {
+      search_url += '?' + trans_button.data('urlparams');
+    }
     console.log(search_url)
     $.get(search_url, function(response) {
       $('.translate-results').append(response);
