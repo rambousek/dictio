@@ -670,11 +670,16 @@ function loadSearchResult(ev) {
   let dict = ev.getAttribute('data-dict');
   let url = ev.getAttribute('href');
   console.log(url)
-  window.history.pushState({}, '', url);
+  window.history.pushState({}, '', url); //add entry url to browser history
   $.get('/'+dict+'/searchentry/'+entryid, function(response) {
     $('.entry-content').html(response);
     $('.entry-content')[0].scrollIntoView();
     onLoadSearchResult();
+    // update window title
+    let title = $('#search-title-meta title');
+    if (title && title.html() != '') {
+      document.title = title.html();
+    }
   });
   return false;
 }
