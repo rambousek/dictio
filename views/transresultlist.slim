@@ -20,7 +20,7 @@
               - if (@is_edit or @is_admin)
                   span.trans__badge style="position: relative; margin-right: 5px;" class="trans__badge__#{@dictcode}"
                     a.edit href="https://edit.dictio.info/editor#{@dictcode}/?id=#{rel['source_id']}" #{@dictcode}-#{rel['source_id']}
-              a.btn.btn--simple.btn--simple--lg href="#{@tran_path}/#{rel['source_id']}" 
+              a.btn.btn--simple.btn--simple--lg href="#{@tran_path}/#{rel['source_id']}?#{@url_params}"
                 | #{rel['source_title']} 
                 / (#{entry['meanings'][0]['number']})
               - if (@is_edit or @is_admin)
@@ -30,7 +30,7 @@
                 - if (@is_edit or @is_admin)
                     span.trans__badge style="position: relative;" class="trans__badge__#{@dictcode}"
                       a.edit href="https://edit.dictio.info/editor#{@dictcode}/?id=#{rel['target_id']}" #{@dictcode}-#{rel['target_id']}
-                a.btn.btn--simple.btn--simple--lg.x href="#{@tran_path}/#{rel['target_id']}" 
+                a.btn.btn--simple.btn--simple--lg.x href="#{@tran_path}/#{rel['target_id']}?#{@url_params}"
                   | #{rel['target_title']}
                 - if (@is_edit or @is_admin)
                   span.pluscount
@@ -46,7 +46,7 @@
                 span.video-orient = rel['source_video']['orient'][0].upcase
               - else
                 span.video-orient R
-              video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url="#{@tran_path}/#{rel['source_id']}" poster="/thumb/video#{@dictcode}/#{rel['source_video']['location']}" muted="muted"
+              video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url="#{@tran_path}/#{rel['source_id']}?#{@url_params}" poster="/thumb/video#{@dictcode}/#{rel['source_video']['location']}" muted="muted"
                 source src="https://files.dictio.info/video#{@dictcode}/#{rel['source_video']['location']}" type="video/mp4"
             .video__controls
               - if (@is_edit or @is_admin)
@@ -54,7 +54,7 @@
                   a.edit href="https://edit.dictio.info/editor#{@dictcode}/?id=#{rel['source_id']}" #{@dictcode}-#{rel['source_id']}
               - if (@is_edit or @is_admin)
                 span.pluscount
-              a.video__link href="/#{@tran_path}/#{rel['source_id']}"
+              a.video__link href="/#{@tran_path}/#{rel['source_id']}?#{@url_params}"
                 span.icon.icon--open-new-window
                   svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                     use xlink:href="/img/icons.svg#open-new-window" x="0" y="0" width="100%" height="100%"
@@ -69,14 +69,14 @@
         - if @dict_info[@target]['type'] == 'write'
           - if rel['target'] == @target and rel['target_id']
             p
-              a.link href="#{@tran_path}/#{@target}-#{rel['target_id']}"  #{rel['target_title']} 
+              a.link href="#{@tran_path}/#{@target}-#{rel['target_id']}?#{@url_params}"  #{rel['target_title']}
               |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
               - if (@is_edit or @is_admin)
                 span.trans__badge style="position: relative;" class="trans__badge__#{@target}" 
                   a.edit href="https://edit.dictio.info/editor#{@target}/?id=#{rel['target_id']}" #{@target}-#{rel['target_id']}
           - elsif rel['source_dict'] == @target
             p
-              a.link href="#{@tran_path}/#{@target}-#{rel['source_id']}"  #{rel['source_title']} 
+              a.link href="#{@tran_path}/#{@target}-#{rel['source_id']}?#{@url_params}"  #{rel['source_title']}
           - else
             p
               em = rel['target_title']
@@ -95,7 +95,7 @@
                   span.video-orient = rel[use_entry+'_video']['orient'].to_s[0].upcase
                 - else
                   span.video-orient R
-                video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url="#{@tran_path}/#{@target}-#{rel[use_entry+'_id']}" poster="/thumb/video#{@target}/#{rel[use_entry+'_video']['location']}" muted="muted"
+                video.video-link width="100%" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" data-url="#{@tran_path}/#{@target}-#{rel[use_entry+'_id']}?#{@url_params}" poster="/thumb/video#{@target}/#{rel[use_entry+'_video']['location']}" muted="muted"
                   source src="https://files.dictio.info/video#{@target}/#{rel[use_entry+'_video']['location']}" type="video/mp4"
               .video__controls
                 - if (@is_edit or @is_admin)

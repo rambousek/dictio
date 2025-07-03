@@ -391,7 +391,6 @@ class CzjApp < Sinatra::Base
         end
       }
       @url_params = url_pars.join('&')
-      @tran_path += '?' + @url_params if @url_params != ''
       @search_type = 'translate'
       @search = ''
       @search = params['search'].strip if params['search'] != '_'
