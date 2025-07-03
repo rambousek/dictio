@@ -36,17 +36,17 @@
           span.checkbox id="advanced-trans-toggle" style="cursor: pointer;" = I18n.t("search.advanced")
           .advanced-trans
             - @dict_info.each do |code, info|
-              select.checkbox.slovni_druh class="slovni_druh_#{code}" style="text-indent: 0px; #{"display: none;" if code != @dictcode or (@search_params and @search_params['slovni_druh'].to_s== '')}"
+              select.checkbox.slovni_druh class="slovni_druh_#{code}" style="text-indent: 0px; #{"display: none;" if code != @target or (@search_params and @search_params['slovni_druh'].to_s== '')}"
                 option value="" #{I18n.t('search.pos')}
                 - info['pos'].each do |sd|
                   option value="#{sd}" selected=("selected" if @search_params and @search_params['slovni_druh'].to_s== sd)  #{I18n.t('gram.slovni_druh.' + sd)}
               - if info['stylpriznak'] and info['stylpriznak'].length > 0
-                select.checkbox.stylpriznak class="stylpriznak_#{code}" style="text-indent: 0px; #{"display: none;" if code != @dictcode or (@search_params and @search_params['stylpriznak'].to_s== '')}"
+                select.checkbox.stylpriznak class="stylpriznak_#{code}" style="text-indent: 0px; #{"display: none;" if code != @target or (@search_params and @search_params['stylpriznak'].to_s== '')}"
                   option value="" #{I18n.t('search.stylpriznak')}
                   - info['stylpriznak'].each do |sp|
                     option value="#{sp}" selected=("selected" if @search_params and @search_params['stylpriznak'].to_s== sp)  #{I18n.t('gram.stylpriznak.' + sp)}
               - if info['oblast'] and info['oblast'].length > 0
-                select.checkbox.oblast class="oblast_#{code}" style="text-indent: 0px; #{"display: none;" if code != @dictcode or (@search_params and @search_params['oblast'].to_s== '')}"
+                select.checkbox.oblast class="oblast_#{code}" style="text-indent: 0px; #{"display: none;" if code != @target or (@search_params and @search_params['oblast'].to_s== '')}"
                   option value="" #{I18n.t('search.oblast')}
                   - info['oblast'].each do |op|
                     option value="#{op}" selected=("selected" if @search_params and @search_params['oblast'].to_s== op)  #{I18n.t('gram.region.' + op)}
