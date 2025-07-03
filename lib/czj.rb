@@ -831,7 +831,7 @@ class CZJDict < Object
     return {'count'=> resultcount, 'entries'=> res, 'is_edit'=> ($is_edit or $is_admin)}
   end
 
-  def translate2(source, target, search, type, start=0, limit=nil, more_params=[])
+  def translate2(source, target, search, type, start=0, limit=nil, more_params={})
     res = []
     resultcount = 0
     $stderr.puts more_params
