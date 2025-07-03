@@ -895,13 +895,13 @@ class CZJDict < Object
       collate = {:collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'sort_key' => -1}}
     end
     if more_params['slovni_druh'].to_s != ''
-      search_cond['source_pos'] = more_params['slovni_druh'].to_s
+      search_cond['target_pos'] = more_params['slovni_druh'].to_s
     end
     if more_params['oblast'].to_s != ''
-      search_cond['source_region'] = more_params['oblast'].to_s
+      search_cond['target_region'] = more_params['oblast'].to_s
     end
     if more_params['stylpriznak'].to_s != ''
-      search_cond['source_priznak'] = more_params['stylpriznak'].to_s
+      search_cond['target_priznak'] = more_params['stylpriznak'].to_s
     end
     if not $is_edit and not $is_admin
       search_cond['status'] = 'published'

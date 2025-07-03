@@ -1,11 +1,11 @@
 function do_translate() {
   let search = $('.search__wrapper #expression_trans').val();
   let dict = $('.search__wrapper .translate-from').val();
-  let slovniDruh = $('.search__wrapper .slovni_druh_'+dict).val();
-  let styl = $('.search__wrapper .stylpriznak_'+dict).val();
-  let oblast = $('.search__wrapper .oblast_'+dict).val();
+  let target = $('.search__wrapper #translate-to').val();
+  let slovniDruh = $('.search__wrapper .slovni_druh_'+target).val();
+  let styl = $('.search__wrapper .stylpriznak_'+target).val();
+  let oblast = $('.search__wrapper .oblast_'+target).val();
   if (search != '' || slovniDruh != '' || oblast != '' || styl != '') {
-    let target = $('.search__wrapper #translate-to').val();
     let type = 'text';
     if (($('.search__wrapper #expression_trans').data('codes_hand') != undefined && $('.search__wrapper #expression_trans').data('codes_hand') != '') || ($('.search__wrapper #expression_trans').data('codes_place') != undefined && $('.search__wrapper #expression_trans').data('codes_place') != '')) {
       type = 'key';
@@ -106,7 +106,9 @@ function change_pos_list() {
   }
 }
 function show_advanced_trans() {
-  let dict = $('.search__wrapper .translate-from').val();
+  console.log('x')
+  let dict = $('.search__wrapper #translate-to').val();
+  console.log(dict)
   $('.advanced-trans .slovni_druh').hide();
   $('.advanced-trans .stylpriznak').hide();
   $('.advanced-trans .oblast').hide();
