@@ -1,37 +1,39 @@
 function do_translate() {
-  let search = $('.search__wrapper #expression_trans').val();
+  let search_expr = $('.search__wrapper #expression_trans');
+  let search = search_expr.val();
   let dict = $('.search__wrapper .translate-from').val();
   let target = $('.search__wrapper #translate-to').val();
   let slovniDruh = $('.search__wrapper .slovni_druh_'+target).val();
   let styl = $('.search__wrapper .stylpriznak_'+target).val();
   let oblast = $('.search__wrapper .oblast_'+target).val();
-  if (search != '' || slovniDruh != '' || oblast != '' || styl != '') {
+  if (search !== '' || slovniDruh !== '' || oblast !== '' || styl !== '') {
     let type = 'text';
-    if (($('.search__wrapper #expression_trans').data('codes_hand') != undefined && $('.search__wrapper #expression_trans').data('codes_hand') != '') || ($('.search__wrapper #expression_trans').data('codes_place') != undefined && $('.search__wrapper #expression_trans').data('codes_place') != '')) {
+    if ((search_expr.data('codes_hand') !== undefined && search_expr.data('codes_hand') !== '') ||
+        (search_expr.data('codes_place') !== undefined && search_expr.data('codes_place') !== '')) {
       type = 'key';
     }
     let url;
-    if (search != '') {
+    if (search !== '') {
       url = '/' + dict + '/translate/' + target + '/' + type + '/' + search;
     } else {
       url = '/' + dict + '/translate/' + target + '/' + type + '/_';
     }
     let moreParams = [];
-    if (slovniDruh != '') moreParams.push('slovni_druh=' + slovniDruh);
-    if (styl != undefined && styl != '') moreParams.push('stylpriznak=' + styl);
-    if (oblast != undefined && oblast != '') moreParams.push('oblast=' + oblast);
+    if (slovniDruh !== '') moreParams.push('slovni_druh=' + slovniDruh);
+    if (styl !== undefined && styl !== '') moreParams.push('stylpriznak=' + styl);
+    if (oblast !== undefined && oblast !== '') moreParams.push('oblast=' + oblast);
     if (moreParams.length > 0) url += '?' + moreParams.join('&');
     window.location = url;
   }
 }
 function do_mobile_translate(target) {
-  var searchParent = target.parents('.mobile-search')
-  var search = searchParent.find('.mobile-search__input-wrap input').val();
-  if (search != '') {
-    var dict = searchParent.find('.mobile-search__source .mobile-search__selected').attr('value');
-    var target = searchParent.find('.mobile-search__target .mobile-search__selected').attr('value');
-    var url = '/'+dict+'/translate/'+target+'/text/'+search;
-    var params = new Array();
+  let searchParent = target.parents('.mobile-search');
+  let search = searchParent.find('.mobile-search__input-wrap input').val();
+  if (search !== '') {
+    let dict = searchParent.find('.mobile-search__source .mobile-search__selected').attr('value');
+    let target = searchParent.find('.mobile-search__target .mobile-search__selected').attr('value');
+    let url = '/'+dict+'/translate/'+target+'/text/'+search;
+    let params = [];
     if ($('.search__wrapper [name=deklin]').prop('checked')) {
       params.push('deklin=on')
     }
@@ -43,26 +45,27 @@ function do_mobile_translate(target) {
 }
 function do_search() {
   let expr_search =  $('.search-alt__wrap #expression_search');
-  var search = expr_search.val();
-  var dict = $('.search-alt__wrap .translate-from').val();
-  var slovniDruh = $('.search-alt__wrap #slovni_druh_'+dict).val();
-  var styl = $('.search-alt__wrap #stylpriznak_'+dict).val();
-  var oblast = $('.search-alt__wrap #oblast_'+dict).val();
-  if (search != '' || slovniDruh != '' || oblast != '' || styl != '') {
-    var type = 'text';
-    if ((expr_search.data('codes_hand') != undefined && expr_search.data('codes_hand') != '') || (expr_search.data('codes_place') != undefined && expr_search.data('codes_place') != '')) {
+  let search = expr_search.val();
+  let dict = $('.search-alt__wrap .translate-from').val();
+  let slovniDruh = $('.search-alt__wrap #slovni_druh_'+dict).val();
+  let styl = $('.search-alt__wrap #stylpriznak_'+dict).val();
+  let oblast = $('.search-alt__wrap #oblast_'+dict).val();
+  if (search !== '' || slovniDruh !== '' || oblast !== '' || styl !== '') {
+    let type = 'text';
+    if ((expr_search.data('codes_hand') !== undefined && expr_search.data('codes_hand') !== '') ||
+        (expr_search.data('codes_place') !== undefined && expr_search.data('codes_place') !== '')) {
       type = 'key';
     }
     let url;
-    if (search == '') {
+    if (search === '') {
       url = '/'+dict+'/search/'+type+'/_';
     } else {
       url = '/'+dict+'/search/'+type+'/'+search;
     }
     let moreParams = [];
-    if (slovniDruh != '') moreParams.push('slovni_druh=' + slovniDruh);
-    if (styl != undefined && styl != '') moreParams.push('stylpriznak=' + styl);
-    if (oblast != undefined && oblast != '') moreParams.push('oblast=' + oblast);
+    if (slovniDruh !== '') moreParams.push('slovni_druh=' + slovniDruh);
+    if (styl !== undefined && styl !== '') moreParams.push('stylpriznak=' + styl);
+    if (oblast !== undefined && oblast !== '') moreParams.push('oblast=' + oblast);
     if (moreParams.length > 0) url += '?' + moreParams.join('&');
     window.location = url;
   }
@@ -92,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function show_pos_list() {
-  var dict = $('.search-alt__wrap .translate-from').val();
+  let dict = $('.search-alt__wrap .translate-from').val();
   $('.advanced-search .slovni_druh').hide();
   $('.advanced-search .stylpriznak').hide();
   $('.advanced-search .oblast').hide();
@@ -106,9 +109,7 @@ function change_pos_list() {
   }
 }
 function show_advanced_trans() {
-  console.log('x')
   let dict = $('.search__wrapper #translate-to').val();
-  console.log(dict)
   $('.advanced-trans .slovni_druh').hide();
   $('.advanced-trans .stylpriznak').hide();
   $('.advanced-trans .oblast').hide();
@@ -219,31 +220,33 @@ $( document ).ready(function() {
 
   $('.search-alt__wrap #expression_search').keypress(function(event) {
     var keycode = (event.keyCode ? event.keyCode : event.which);
-    if (keycode == '13') {
+    if (keycode === 13) {
       do_search();
     }
   });
   $('.search__wrapper #expression_trans').keypress(function(event) {
     var keycode = (event.keyCode ? event.keyCode : event.which);
-    if (keycode == '13') {
+    if (keycode === 13) {
       do_translate();
     }
   });
   $('.mobile-search__input-wrap input').keypress(function(event) {
     var keycode = (event.keyCode ? event.keyCode : event.which);
-    if (keycode == '13') {
+    if (keycode === 13) {
       do_mobile_translate($(this));
     }
   });
 
   $('.mobile-search__source ul li').click(function(event) {
-    $('.mobile-search__source .mobile-search__selected').attr('value', $(this).attr('value'))
-    $('.mobile-search__source .mobile-search__selected').text($(this).text())
+    let search_expr = $('.mobile-search__source .mobile-search__selected');
+    search_expr.attr('value', $(this).attr('value'))
+    search_expr.text($(this).text())
     $('.mobile-search__select').removeClass('is-open');
   });
   $('.mobile-search__target ul li').click(function(event) {
-    $('.mobile-search__target .mobile-search__selected').attr('value', $(this).attr('value'))
-    $('.mobile-search__target .mobile-search__selected').text($(this).text())
+    let search_expr = $('.mobile-search__target .mobile-search__selected');
+    search_expr.attr('value', $(this).attr('value'))
+    search_expr.text($(this).text())
     $('.mobile-search__select').removeClass('is-open');
   });
 
@@ -255,19 +258,21 @@ $( document ).ready(function() {
 
   /* switch direction translate */
   $('.search__switch').click(function(event) {
-    var source = $('.search__wrapper .translate-from').val();
-    var target = $('.search__wrapper #translate-to').val();
-    $('.search__wrapper .translate-from').val(target).change();
-    $('.search__wrapper .translate-from ~ .select-selected').html( $('.search__wrapper .translate-from option[value='+$('.search__wrapper .translate-from').val()+']').html() );
-    $('.search__wrapper #translate-to').val(source).change();
-    $('.search__wrapper #translate-to ~ .select-selected').html( $('.search__wrapper #translate-to option[value='+$('.search__wrapper #translate-to').val()+']').html() );
+    let source_expr = $('.search__wrapper .translate-from');
+    let target_expr = $('.search__wrapper #translate-to');
+    let source = source_expr.val();
+    let target = target_expr.val();
+    source_expr.val(target).change();
+    $('.search__wrapper .translate-from ~ .select-selected').html( $('.search__wrapper .translate-from option[value=' + source_expr.val() + ']').html() );
+    target_expr.val(source).change();
+    $('.search__wrapper #translate-to ~ .select-selected').html( $('.search__wrapper #translate-to option[value=' + target_expr.val() + ']').html() );
     change_trans_pos_list();
   });
 
   /* clickable video */
   $('.video-link').on('click', function(event) {
     event.preventDefault();
-    if ($(this).data('url') && $(this).data('url') != "") {
+    if ($(this).data('url') && $(this).data('url') !== "") {
       window.location = $(this).data('url');
     } else {
       loadSearchResult(this);
@@ -328,34 +333,36 @@ $( document ).ready(function() {
   });
   /* switch back from keyboard */
   $('.search-alt .select-items div').on('click', function(event) {
-    var dict = $('.search-alt__wrap .translate-from').val();
+    let dict = $('.search-alt__wrap .translate-from').val();
     if (!(['czj','spj','asl','is','ogs'].includes(dict))) {
       $('.search-alt .expression').show();
       $('.search-alt .keyboard-images').hide();
       $('.keyboard').hide();
-      $('.keyboard-target .expression').val('');
-      $('.keyboard-target .expression').data('codes_hand', '');
-      $('.keyboard-target .expression').data('codes_place', '');
-      $('.keyboard-target .expression').data('codes_two', '');
-      $('.keyboard-target .expression').data('places', '');
-      $('.keyboard-target .expression').data('hands', '');
-      $('.keyboard-target .expression').data('two', '');
+      let target_expr = $('.keyboard-target .expression');
+      target_expr.val('');
+      target_expr.data('codes_hand', '');
+      target_expr.data('codes_place', '');
+      target_expr.data('codes_two', '');
+      target_expr.data('places', '');
+      target_expr.data('hands', '');
+      target_expr.data('two', '');
       $('.js-key').removeClass('js-key-selected');
     }
   });
   $('.search .select-items div').on('click', function(event) {
-    var dict = $('.search__wrapper .translate-from').val();
+    let dict = $('.search__wrapper .translate-from').val();
     if (!(['czj','spj','asl','is','ogs'].includes(dict))) {
       $('.search .expression').show();
       $('.search .keyboard-images').hide();
       $('.keyboard').hide();
-      $('.keyboard-target .expression').val('');
-      $('.keyboard-target .expression').data('codes_hand', '');
-      $('.keyboard-target .expression').data('codes_place', '');
-      $('.keyboard-target .expression').data('codes_two', '');
-      $('.keyboard-target .expression').data('places', '');
-      $('.keyboard-target .expression').data('hands', '');
-      $('.keyboard-target .expression').data('two', '');
+      let target_expr = $('.keyboard-target .expression');
+      target_expr.val('');
+      target_expr.data('codes_hand', '');
+      target_expr.data('codes_place', '');
+      target_expr.data('codes_two', '');
+      target_expr.data('places', '');
+      target_expr.data('hands', '');
+      target_expr.data('two', '');
       $('.js-key').removeClass('js-key-selected');
     }
   });
@@ -380,12 +387,12 @@ $( document ).ready(function() {
       }
 
       // display images and collect codes
-      var codes_hand = new Array();
-      var codes_place = new Array();
-      var codes_two = new Array();
-      var hands = new Array()
-      var places = new Array()
-      var two = new Array();
+      let codes_hand = [];
+      let codes_place = [];
+      let codes_two = [];
+      let hands = [];
+      let places = []
+      let two = [];
       $('.keyboard-target .keyboard-images img').remove();
       $(this).parents('.keyboard').find('.js-key-selected').each(function() {
         if ($(this).parent().hasClass('buttons-hand')) {
@@ -404,20 +411,21 @@ $( document ).ready(function() {
           $('.keyboard-target .keyboard-images').append('<img data-type="two" data-hand="'+$(this).data('hand')+'" src="/img/keys_dark/'+$(this).data('hand')+'.png"/>');
         }
       });
-      $('.keyboard-target .expression').data('codes_hand', codes_hand.join(','));
-      $('.keyboard-target .expression').data('codes_place', codes_place.join(','));
-      $('.keyboard-target .expression').data('codes_two', codes_two.join(','));
-      $('.keyboard-target .expression').data('hands', hands.join(','));
-      $('.keyboard-target .expression').data('places', places.join(','));
-      $('.keyboard-target .expression').data('two', two.join(','));
-      if (codes_hand.length == 0 && codes_place.length == 0 && codes_two.length == 0) {
+      let keyboard_expr = $('.keyboard-target .expression');
+      keyboard_expr.data('codes_hand', codes_hand.join(','));
+      keyboard_expr.data('codes_place', codes_place.join(','));
+      keyboard_expr.data('codes_two', codes_two.join(','));
+      keyboard_expr.data('hands', hands.join(','));
+      keyboard_expr.data('places', places.join(','));
+      keyboard_expr.data('two', two.join(','));
+      if (codes_hand.length === 0 && codes_place.length === 0 && codes_two.length === 0) {
         $('.keyboard-target .keyboard-images').hide();
-        $('.keyboard-target .expression').val('');
-        $('.keyboard-target .expression').show();
+        keyboard_expr.val('');
+        keyboard_expr.show();
       } else {
-        $('.keyboard-target .expression').val(codes_hand.join(',')+'|'+codes_place.join(',')+'|'+codes_two.join(','));
+        keyboard_expr.val(codes_hand.join(',')+'|'+codes_place.join(',')+'|'+codes_two.join(','));
         $('.keyboard-target .keyboard-images').show();
-        $('.keyboard-target .expression').hide();
+        keyboard_expr.hide();
 
         //click on selected image to delete
         $('.keyboard-images img').on("click", function() {
@@ -430,14 +438,15 @@ $( document ).ready(function() {
     //delete all key
     $('.js-key-back').on('click', function (event) {
       $('.keyboard-target .keyboard-images').hide();
-      $('.keyboard-target .expression').val('');
-      $('.keyboard-target .expression').show();
-      $('.keyboard-target .expression').data('codes_hand', '');
-      $('.keyboard-target .expression').data('codes_place', '');
-      $('.keyboard-target .expression').data('codes_two', '');
-      $('.keyboard-target .expression').data('places', '');
-      $('.keyboard-target .expression').data('hands', '');
-      $('.keyboard-target .expression').data('two', '');
+      let keyboard_expr = $('.keyboard-target .expression');
+      keyboard_expr.val('');
+      keyboard_expr.show();
+      keyboard_expr.data('codes_hand', '');
+      keyboard_expr.data('codes_place', '');
+      keyboard_expr.data('codes_two', '');
+      keyboard_expr.data('places', '');
+      keyboard_expr.data('hands', '');
+      keyboard_expr.data('two', '');
       $('.js-key').removeClass('js-key-selected');
     });
 
@@ -621,12 +630,13 @@ $( document ).ready(function() {
       // maybe hide button
       $('.load_next_trans').removeClass('waiting');
       current_count = $('.translate-results > div.translate-box').length;
-      $('.translate-results').data('resultcount', $('.col[data-resultcount]').data('resultcount'));
-      maxcount = $('.translate-results').data('resultcount');
+      let result_expr = $('.translate-results');
+      result_expr.data('resultcount', $('.col[data-resultcount]').data('resultcount'));
+      let maxcount = result_expr.data('resultcount');
       if (current_count >= maxcount) {
         $('.load_next_trans').hide();
       }
-      if (maxcount == 0 || maxcount == "") {
+      if (maxcount === 0 || maxcount === "") {
         $('#no-search-results').show();
       }
       //activate video links
@@ -830,7 +840,7 @@ $( document ).ready(function() {
 
 // add class on scroll for mobile search
 window.onscroll = function() {
-  if ($('main.homepage').length == 0) {
+  if ($('main.homepage').length === 0) {
     var navbar = document.getElementById("navbar");
     if (navbar) {
       var sticky = navbar.offsetTop;
@@ -926,4 +936,3 @@ function URLRemove2 (param1, param2) {
     queryParams.delete(param2)
     window.location.href = 'report?' + queryParams;
 }
-
