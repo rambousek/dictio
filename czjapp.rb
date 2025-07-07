@@ -16,6 +16,8 @@ require 'damerau-levenshtein'
 require_relative 'lib/czj'
 require_relative 'lib/host-config'
 require_relative 'lib/dict-config'
+require_relative 'lib/czj_fsw'
+require_relative 'lib/czj_dict_sw'
 
 class CzjApp < Sinatra::Base
   $mongo = Mongo::Client.new($mongoHost)
@@ -501,7 +503,7 @@ class CzjApp < Sinatra::Base
     get '/'+code+'/cache_all_sw' do
       purge = false
       purge = true if params['purge'] == '1'
-      count = dict.cache_all_sw(purge)
+      count = dict.sw.cache_all_sw(purge)
       content_type :json
       body = {'count': count}.to_json
     end
@@ -518,7 +520,7 @@ class CzjApp < Sinatra::Base
       body = {'count': count}.to_json
     end
     get '/'+code+'/normalize_fsw' do
-      count = dict.normalize_fsw
+      count = dict.sw.normalize_fsw
       body = {'count': count}.to_json
     end
 
@@ -599,11 +601,11 @@ class CzjApp < Sinatra::Base
         body = data.to_json
       end
       get '/'+code+'/getfsw' do
-        fsw = dict.getfsw(params['sw'].to_s)
+        fsw = CzjFsw.getfsw(params['sw'].to_s)
         body = fsw
       end
       get '/'+code+'/fromfsw' do
-        sw = dict.fromfsw(params['fsw'].to_s)
+        sw = CzjFsw.fromfsw(params['fsw'].to_s)
         body = sw
       end
       get '/'+code+'/relationinfo' do

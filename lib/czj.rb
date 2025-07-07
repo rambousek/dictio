@@ -1,12 +1,13 @@
-require_relative 'czj_mail.rb'
+require_relative 'czj_mail'
 
 class CZJDict < Object
-  attr_accessor :dictcode, :write_dicts, :sign_dicts, :dict_info
+  attr_accessor :dictcode, :write_dicts, :sign_dicts, :dict_info, :sw
   attr_reader :wordlist
 
   def initialize(dictcode)
     @dictcode = dictcode 
     @entrydb = $mongo['entries']
+    @sw = CzjDictSw.new(self)
     Thread.new { build_wordlist }
   end
 
@@ -93,7 +94,7 @@ class CZJDict < Object
     $stdout.puts 'START fullentry '+Time.now.to_s
     entry = add_media(entry)
     entry, _ = add_colloc(entry, add_rev)
-    entry = get_sw(entry)
+    entry = @sw.get_sw(entry)
     $stdout.puts 'END fullentry '+Time.now.to_s
     return entry
   end
@@ -123,7 +124,7 @@ class CZJDict < Object
           ce = getone(entry['dict'], coll)
           unless ce.nil?
             ce, collocs_used = add_colloc(ce, add_rev, collocs_used)
-            ce = get_sw(ce)
+            ce = @sw.get_sw(ce)
             entry['collocations']['entries'] << ce
           end
         end
@@ -161,7 +162,7 @@ class CZJDict < Object
       @entrydb.find({'dict': entry['dict'], 'collocations.colloc': entry['id'], 'lemma.lemma_type': 'collocation'}, collate).each{|ce|
         if @sign_dicts.include?(entry['dict'])
           ce = add_media(ce)
-          ce = get_sw(ce)
+          ce = @sw.get_sw(ce)
         end
         entry['revcollocation']['entries'] << ce
       }
@@ -186,7 +187,7 @@ class CZJDict < Object
       @entrydb.find({'dict': entry['dict'], 'collocations.colloc': entry['id'], 'lemma.lemma_type': type}, collate).each{|ce|
         if @sign_dicts.include?(entry['dict'])
           ce = add_media(ce)
-          ce = get_sw(ce)
+          ce = @sw.get_sw(ce)
         end
         entry['rev'+type]['entries'] << ce
       }
@@ -196,163 +197,6 @@ class CZJDict < Object
     end
   end
 
-  def get_sw(entry)
-    if @write_dicts.include?(entry['dict'])
-      return entry
-    end
-    $stdout.puts 'GETSW, entry ' + entry['id'].to_s
-    swdoc = $mongo['sw'].find({'id': entry['id'], 'dict': entry['dict']})
-    if swdoc.first and swdoc.first['swmix'] and swdoc.first['swmix'].length > 0
-      entry['lemma']['swmix'] = swdoc.first['swmix']
-    end
-    return entry
-  end
-
-  def cache_all_sw(delete_existing=true)
-    count = {'single' => 0, 'compos' => 0, 'deleted' => 0}
-    swids = []
-    if delete_existing
-      res = $mongo['sw'].find({'dict': @dictcode}).delete_many
-      count['deleted'] = res.deleted_count
-    end
-    $mongo['sw'].find({'dict': @dictcode}).each{|sw|
-      swids << sw['id']
-    }
-    # nejprve jednoduche hesla
-    @entrydb.find({'dict': @dictcode, 'id': {'$nin': swids}, 'lemma.lemma_type': 'single'}).each{|entry|
-      count['single'] += 1
-      cache_sw(entry)
-    }
-
-    # slozene hesla, bez casti
-    @entrydb.find({'dict': @dictcode, 'id': {'$nin': swids}, 'lemma.lemma_type': {'$ne': 'single'}, 'collocations.colloc': []}).each{|entry|
-      count['compos'] += 1
-      cache_sw(entry)
-    }
-    # slozene hesla, s castmi
-    @entrydb.find({'dict': @dictcode, 'id': {'$nin': swids}, 'lemma.lemma_type': {'$ne': 'single'}, 'collocations.colloc': {'$exists': true, '$ne': []}}).each{|entry|
-      count['compos'] += 1
-      cache_sw(entry)
-    }
-    
-    return count
-  end
-
-  def cache_sw(entry)
-    if @write_dicts.include?(entry['dict'])
-      return entry
-    end
-    $stdout.puts 'CACHE SW, entry ' + @dictcode + ' ' + entry['id'].to_s
-    entries_used = [entry['id']]
-    entry['lemma']['swmix'] = []
-    if ['collocation','derivat','kompozitum','fingerspell'].include?(entry['lemma']['lemma_type'])
-      if entry['collocations']
-        # pridat colloc
-        entry, collocs_used = add_colloc(entry, false)
-        if entry['collocations']['entries']
-          entry['collocations']['entries'].each{|ce|
-            # nejdriv cache SW pro colloc, kdyz nemaji
-            if ce['lemma']['swmix'].nil? and not collocs_used.include?(ce['id'])
-              collocs_used = cache_sw(ce)
-              ce = get_sw(ce)
-            end
-          }
-        end
-
-        # spojeni
-        if entry['collocations']['swcompos'].to_s == ''
-          # prazdne SW compos
-          if entry['lemma']['lemma_type'] == 'derivat' or entry['lemma']['lemma_type'] == 'kompozitum'
-            # derivat/komp = zustava hlavni SW
-            if entry['lemma']['sw'] and entry['lemma']['sw'].find{|sw| sw['@primary'].to_s == 'true'}
-              # primary SW
-              entry['lemma']['swmix'] = entry['lemma']['sw'].select{|sw| sw['@primary'].to_s == 'true'}
-            else
-              # no primary SW
-              entry['lemma']['swmix'] = entry['lemma']['sw'].dup
-            end
-          else
-            # spojeni/spell = SW casti
-            if entry['collocations']['entries']
-              entry['collocations']['entries'].each{|ce|
-                entries_used << ce['id']
-                if ce['lemma'] and ce['lemma']['swmix']
-                  ce['lemma']['swmix'].each{|swc| entry['lemma']['swmix'] << swc.dup}
-                end
-              }
-            end
-          end
-        else
-          #vyplnene SW compos
-          entry['collocations']['swcompos'].split(',').each{|swid|
-            swid.strip!
-            $stdout.puts 'sw part '+swid
-            if swid[0,2].upcase == 'SW'
-              #copy from this entry
-              swn = swid[2..-1].to_i-1
-              entry['lemma']['swmix'] << entry['lemma']['sw'][swn].dup unless entry['lemma']['sw'][swn].nil?
-            elsif swid.upcase =~ /^[A-Z]$/
-              #copy from this entry
-              $stdout.puts 'get SW char from this entry ' + swid + ' = ' + (swid[0].ord-65).to_s
-              swn = swid[0].ord-65
-              entry['lemma']['swmix'] << entry['lemma']['sw'][swn].dup unless entry['lemma']['sw'].nil? or entry['lemma']['sw'][swn].nil?
-            else
-              # copy from part
-              if swid.upcase =~ /[A-Z]/
-                # copy one char
-                match = /([0-9]+)([A-Z]+)/.match(swid.upcase)
-                unless match.nil?
-                  $stdout.puts 'copy char '+swid+' ('+(match[1].to_i-1).to_s+':'+(match[2][0].ord-65).to_s+')'
-                  if entry['collocations'] and entry['collocations']['entries']
-                    unless entry['collocations']['entries'][match[1].to_i-1].nil?
-                      unless entry['collocations']['entries'][match[1].to_i-1]['lemma']['sw'].first.nil?
-                        entries_used << entry['collocations']['entries'][match[1].to_i-1]['id']
-                        entry['lemma']['swmix'] << entry['collocations']['entries'][match[1].to_i-1]['lemma']['sw'][match[2][0].ord-65].dup unless entry['collocations']['entries'][match[1].to_i-1]['lemma']['sw'][match[2][0].ord-65].nil?
-                      else
-                        entries_used << entry['collocations']['entries'][match[1].to_i-1]['id']
-                        entry['lemma']['swmix'] << entry['collocations']['entries'][match[1].to_i-1]['lemma']['swmix'][match[2][0].ord-65].dup unless entry['collocations']['entries'][match[1].to_i-1]['lemma']['swmix'][match[2][0].ord-65].nil?
-                      end
-                    end
-                  end
-                end
-              else
-                # copy full
-                $stdout.puts 'copy full '+swid
-                if entry['collocations'] and entry['collocations']['entries']
-                  unless entry['collocations']['entries'][swid.to_i-1].nil?
-                    if entry['collocations']['entries'][swid.to_i-1]['lemma']['swmix'].nil? or entry['collocations']['entries'][swid.to_i-1]['lemma']['swmix'].size == 0
-                      entries_used << entry['collocations']['entries'][swid.to_i-1]['id']
-                      entry['collocations']['entries'][swid.to_i-1]['lemma']['sw'].each{|swel|
-                        entry['lemma']['swmix'] << swel.dup
-                      }
-                    else
-                      entries_used << entry['collocations']['entries'][swid.to_i-1]['id']
-                      entry['collocations']['entries'][swid.to_i-1]['lemma']['swmix'].each{|swel|
-                        entry['lemma']['swmix'] << swel.dup
-                      }
-                    end
-                  end
-                end
-              end
-            end
-          }
-        end
-      end
-    else
-      # jednoduche
-      if entry['lemma']['sw']
-        if entry['lemma']['sw'].find{|sw| sw['@primary'].to_s == 'true'}
-          # primary SW
-          entry['lemma']['swmix'] = entry['lemma']['sw'].select{|sw| sw['@primary'].to_s == 'true'}
-        else
-          # no primary SW
-          entry['lemma']['swmix'] = entry['lemma']['sw'].dup
-        end
-      end
-    end
-    $mongo['sw'].insert_one({'id': entry['id'], 'dict': entry['dict'], 'swmix': entry['lemma']['swmix'], 'entries_used': entries_used})
-    return entry
-  end
 
   def get_media(media_id, dict, add_entries=true)
     media = $mongo['media'].find({'id': media_id, 'dict': dict})
@@ -361,7 +205,7 @@ class CZJDict < Object
       if add_entries
         entries = $mongo['entries'].find({'dict': dict, 'lemma.video_front': media_info['location']})
         if entries.first
-          media_info['main_for_entry'] = get_sw(entries.first)
+          media_info['main_for_entry'] = @sw.get_sw(entries.first)
         end
       end
       return media_info
@@ -464,7 +308,7 @@ class CZJDict < Object
             relentry = getone(rel['target'], lemmaid)
             next if relentry.nil?
             relentry, cu = add_colloc(relentry) if add_rev
-            relentry = get_sw(relentry)
+            relentry = @sw.get_sw(relentry)
             relentry = add_media(relentry, true)
             if relentry['meanings'] and relentry['meanings'].select{|m| m['id'] == rel['meaning_id']}.size > 0
               relmean = relentry['meanings'].select{|m| m['id'] == rel['meaning_id']}[0]
@@ -847,7 +691,7 @@ class CZJDict < Object
         resultcount = 0
         @entrydb.find({'dict': dictcode, 'id': search, 'meanings.relation.target': target}).each{|re|
           entry = add_rels(re, false, 'translation', target)
-          entry = get_sw(entry)
+          entry = @sw.get_sw(entry)
           if entry['meanings']
             entry['meanings'].each{|mean|
               if mean['relation']
@@ -1080,7 +924,7 @@ class CZJDict < Object
     if data['lemma']['sw']
       $stdout.puts "update sw"
       data['lemma']['sw'].each{|sw|
-        sw['@fsw'] = getfsw(sw['_text']) if sw['@fsw'] == '' or sw['@fsw'].start_with?('M500')
+        sw['@fsw'] = CzjFsw.getfsw(sw['_text']) if sw['@fsw'] == '' or sw['@fsw'].start_with?('M500')
       }
     end
 
@@ -1149,7 +993,7 @@ class CZJDict < Object
     if @sign_dicts.include?(dict)
       $stdout.puts "update sw cache"
       $mongo['sw'].find({'dict': dict, 'entries_used': entryid}).delete_many
-      cache_all_sw(false)
+      @sw.cache_all_sw(false)
     end
 
     #update relations cache
@@ -1419,68 +1263,6 @@ class CZJDict < Object
       $mongo['media'].find(query).each{|re| list << re}
     end
     return list
-  end
-
-  def getfsw(swstring)
-    fsw = 'M500x500'
-    swa = []
-    swstring.split('_').each{|e|
-      match = /([0-9]*)(\(.*\))?/.match(e)
-      unless match[1].nil?
-        info = {'id'=>match[1], 'x'=>0, 'y'=>0}
-        unless match[2].nil?
-          if match[2].include?('x') and match[2].include?('y')
-            match2 = /\(x([\-0-9]*)y([\-0-9]*)\)/.match(match[2])
-            info['x'] = match2[1].to_i
-            info['y'] = match2[2].to_i
-          elsif match[2].include?('x')
-            info['x'] = match[2].gsub(/[^0-9^-]/,'').to_i
-          else
-            info['y'] = match[2].gsub(/[^0-9^-]/,'').to_i
-          end
-        end
-        swa << info
-      end
-    }
-    swa.each{|info|
-      doc = $mongo['symbol'].find({'id'=>info['id']}).first
-      fsw += 'S' + doc['bs_code'].to_i.to_s(16) + (doc['fill'].to_i-1).to_s(16) + (doc['rot'].to_i-1).to_s(16) + (info['x']+500).to_s + 'x' + (info['y']+500).to_s
-    }
-    fsw = URI.open('http://sign.dictio.info/fsw/sign/normalize/'+fsw, &:read)
-    return fsw
-  end
-
-  def fromfsw(fswstring)
-    swa = []
-    maxx = 0
-    maxy = 0
-    match = /M([0-9]*)x([0-9]*)(S.*)/.match(fswstring)
-    unless (match.nil? or match[1].nil? or match[2].nil? or match[3].nil?)
-      maxx = match[1].to_i
-      maxy = match[2].to_i
-      match[3].split('S').each{|fs|
-        next if fs == ''
-        bs = fs[0..2].to_i(16)
-        fil = fs[3..3].to_i(16)+1
-        rot = fs[4..4].to_i(16)+1
-        res = $mongo['symbol'].find({'bs_code'=>bs.to_s, 'fill'=>fil.to_s, 'rot'=>rot.to_s})
-        next if res.first.nil?
-        doc = res.first
-        match2 = /([0-9]*)x([0-9]*)/.match(fs[5..-1])
-        x = match2[1].to_i - 500
-        y = match2[2].to_i - 500
-        swpos = ''
-        if x != 0 or y != 0
-          swpos = '('
-          swpos += 'x'+x.to_s if x != 0
-          swpos += 'y'+y.to_s if y != 0
-          swpos += ')'
-        end
-        swa << doc['id'] + swpos
-      }
-    end
-    swstring = swa.join('_')
-    return swstring
   end
 
   def find_relation(search)
@@ -2101,7 +1883,7 @@ class CZJDict < Object
     cursor.each{|res|
       entry = res
       if params['nes_sw'].to_s != '' or params['bez_sw'].to_s != ''
-        entry = get_sw(entry)
+        entry = @sw.get_sw(entry)
       end
       if params['koment'].to_s != ''
         entry = add_media(entry)
@@ -2909,7 +2691,7 @@ class CZJDict < Object
     $mongo['relation'].find({'source_dict': entry['dict'], 'source_id': entry['id']}).delete_many
     rels = []
     to_check = []
-    entry = get_sw(entry)
+    entry = @sw.get_sw(entry)
     if entry['meanings']
       entry['meanings'].each{|mean|
         if mean['relation']
@@ -2964,7 +2746,7 @@ class CZJDict < Object
               to_check << {'dict' => rel['target'], 'id' => rel['target_id']}
               targetentry = getone(rel['target'], rel['target_id'])
               if targetentry
-                targetentry = get_sw(targetentry)
+                targetentry = @sw.get_sw(targetentry)
                 rel['target_pos'] = ''
                 rel['target_priznak'] = ''
                 rel['target_region'] = ''
@@ -3031,7 +2813,7 @@ class CZJDict < Object
                   to_check << {'dict' => rel['target'], 'id'=> rel['target_id']}
                   targetentry = getone(rel['target'], rel['target_id'])
                   if targetentry
-                    targetentry = get_sw(targetentry)
+                    targetentry = @sw.get_sw(targetentry)
                     if rel['meaning_nr'].include?('_us')
                       if $dict_info[targetentry['dict']]['type'] == 'write'
                         rel['target_title'] = get_usage_target(targetentry, rel['meaning_id'])
@@ -3666,35 +3448,5 @@ class CZJDict < Object
     end
     @wordlist = wordlist
   end
-
-  def normalize_fsw
-    count = 0
-    @entrydb.find({
-      'dict': @dictcode,
-      'lemma.sw': {'$elemMatch':{
-        '_text': {'$exists':true, '$ne':''},
-        '$or': [{'@fsw':''}, {'@fsw':{'$regex':/^M500/}}]
-      }}
-    }).each{|entry|
-      entry['lemma']['sw'].each{|sw|
-        if sw['_text'].to_s != '' and (sw['@fsw'].to_s == '' or sw['@fsw'].start_with?('M500'))
-          fsw = getfsw(sw['_text'])
-          sw['@fsw'] = fsw
-          count += 1
-        end
-      }
-      # update entry
-      @entrydb.find({'dict': @dictcode, 'id': entry['id']}).delete_many
-      @entrydb.insert_one(entry)
-      # clear SW cache
-      $mongo['sw'].find({'dict': @dictcode, 'entries_used': entry['id']}).delete_many
-    }
-
-    # update SW cache
-    cache_all_sw(false)
-    return count
-  end
-
-
 end
 
