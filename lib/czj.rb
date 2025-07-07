@@ -1,3 +1,5 @@
+require_relative 'czj_mail.rb'
+
 class CZJDict < Object
   attr_accessor :dictcode, :write_dicts, :sign_dicts, :dict_info
   attr_reader :wordlist
@@ -2639,24 +2641,24 @@ class CZJDict < Object
       user = $mongo['users'].find({'login': data['login']}).first
       subject = ""
       if data['password'].to_s == '' and user != nil
-        subject, message = prepare_mail_text('changeuser', data)
+        subject, message = CzjMail::prepare_mail_text('changeuser', data)
         data['password'] = user['password']
       elsif data['password'].to_s != ''
         if user.nil?
-          subject, message = prepare_mail_text('newuser', data)
+          subject, message = CzjMail::prepare_mail_text('newuser', data)
         else
-          subject, message = prepare_mail_text('newpass', data)
+          subject, message = CzjMail::prepare_mail_text('newpass', data)
         end
         data['password'] = data['password'].crypt((Random.rand(1900)+100).to_s(16)[0,2])
       else
         data['password'] = (Random.rand(19000000)+200000000).to_s(16)
-        subject, message = prepare_mail_text('newuser', data)
+        subject, message = CzjMail::prepare_mail_text('newuser', data)
         data['password'] = data['password'].crypt((Random.rand(1900)+100).to_s(16)[0,2])
       end
       $mongo['users'].find({'login': data['login']}).delete_many
       $mongo['users'].insert_one(data)
       if subject != ""
-        send_mail(data['email'], subject, message)
+        CzjMail::send_mail(data['email'], subject, message)
       end
       return true
     else
@@ -2666,9 +2668,9 @@ class CZJDict < Object
   def delete_user(login)
     if login.to_s != ''
       user = $mongo['users'].find({'login': login.to_s}).first
-      subject, message = prepare_mail_text('deluser', user)
+      subject, message = CzjMail::prepare_mail_text('deluser', user)
       $mongo['users'].find({'login': login.to_s}).delete_many
-      send_mail(user["email"], subject, message)
+      CzjMail::send_mail(user["email"], subject, message)
       return true
     else
       return 'chybí login'
@@ -3693,50 +3695,6 @@ class CZJDict < Object
     return count
   end
 
-  def send_mail(to_addr, subject, text, from="dictio@teiresias.muni.cz")
-    mail= Mail.new do
-      subject subject
-      body text
-      to to_addr
-      from "DICTIO <" + from + ">"
-    end
-    mail.delivery_method :smtp, address: "relay.muni.cz", port: 25
-    mail.deliver
-  end
 
-  def prepare_mail_text(template, data)
-    path = File.join("mails", template+".txt")
-    if File.exists?(path)
-      text = File.read(path).split("\n")
-      subject = text[0].sub("Subject: ", "")
-      message = text[1..-1].join("\n")
-      message.gsub!('#{user}', data['login'])
-      message.gsub!('#{email}', data['email'])
-      message.gsub!('#{pass}', data['password']) 
-      perms = []
-      perms_en = []
-      skupiny = []
-      skupiny_en = []
-      data['editor'].each{|perm|
-        perms.append(I18n.t('admin.users.editor.'+perm, :locale=>'cs'))
-        perms_en.append(I18n.t('admin.users.editor.'+perm, :locale=>'en'))
-      }
-      data['revizor'].each{|perm|
-        perms.append(I18n.t('admin.users.revizor.'+perm, :locale=>'cs'))
-        perms_en.append(I18n.t('admin.users.revizor.'+perm, :locale=>'en'))
-      }
-      data['skupina'].each{|perm|
-        skupiny.append(I18n.t('admin.group.'+perm, :locale=>'cs'))
-        skupiny_en.append(I18n.t('admin.group.'+perm, :locale=>'en'))
-      }
-      message.gsub!('#{perms}', perms.join(', '))
-      message.gsub!('#{skupiny}', skupiny.join(', '))
-      message.gsub!('#{perms_en}', perms_en.join(', '))
-      message.gsub!('#{skupiny_en}', skupiny_en.join(', '))
-      return subject, message
-    else
-      return "", ""
-    end
-  end
 end
 
