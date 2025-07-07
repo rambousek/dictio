@@ -3416,9 +3416,9 @@ function create_sw(entryid, add_copy) {
                 xtype: 'button',
                 text: 'FSW',
                 handler: function () {
-                  var field = this.up('[name=switem]').query('[name=fsw]')[0];
+                  let field = this.up('[name=switem]').query('[name=fsw]')[0];
                   Ext.MessageBox.prompt('FSW', 'Zadejte FSW', function (btn, text) {
-                    if (btn == 'ok' && text != '') {
+                    if (btn === 'ok' && text !== '') {
                       field.setValue(text);
                       Ext.Ajax.request({
                         url: '/' + dictcode + '/fromfsw',
@@ -3430,10 +3430,10 @@ function create_sw(entryid, add_copy) {
                         success: function (response) {
                           console.log(field)
                           console.log(response.responseText)
-                          var swparent = field.up('[name=switem]')
+                          let swparent = field.up('[name=switem]');
                           swparent.query('[name=swdata]')[0].setValue(response.responseText);
-                          if (response.responseText != '') {
-                            swparent.query('[name=swimg]')[0].el.setHTML('<img src="https://www.dictio.info/sw/signwriting.png?generator[sw]=' + response.responseText + '&generator[align]=top_left&generator[set]=sw10"/>');
+                          if (response.responseText !== '') {
+                            swparent.query('[name=swimg]')[0].el.setHTML('<img src="https://sign.dictio.info/fsw/sign/png/' + text + '-CG_white_"/>');
                           } else {
                             swparent.query('[name=swimg]')[0].el.setHTML('');
                           }
