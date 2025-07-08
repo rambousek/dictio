@@ -1,3 +1,5 @@
+## Class to deal with Signwriting for one dictionary
+
 class CzjDictSw < Object
   # @param [CZJDict] dict
   def initialize(dict)
@@ -6,7 +8,8 @@ class CzjDictSw < Object
     @entrydb = $mongo['entries']
   end
 
-  # @return [Integer]
+  # Normalize FSW for every entry in dictionary
+  # @return [Integer] Count of update SW fields
   def normalize_fsw
     count = 0
     @entrydb.find({
@@ -35,8 +38,9 @@ class CzjDictSw < Object
     count
   end
 
-  # @param [Boolean] delete_existing
-  # @return [Hash{String->Integer}]
+  # Create SW cache table for all entries in dictionary
+  # @param [Boolean] delete_existing Delete all existing SW cache, or just add new one
+  # @return [Hash{String->Integer}] Counts of updated entries
   def cache_all_sw(delete_existing=true)
     puts @dictcode
     count = {'single' => 0, 'compos' => 0, 'deleted' => 0}
@@ -68,8 +72,10 @@ class CzjDictSw < Object
     count
   end
 
+  # Create SW for one entry, using all rules for collocations and composed signs.
+  # Stores all created SW in cache table.
   # @param [Hash] entry
-  # @return [Hash]
+  # @return [Hash] Updated entry with SW
   def cache_sw(entry)
     if @dict.write_dicts.include?(entry['dict'])
       return entry
@@ -186,8 +192,9 @@ class CzjDictSw < Object
     entry
   end
 
+  # Update entry, add SW for lemma from cache table
   # @param [Hash] entry
-  # @return [Hash]
+  # @return [Hash] Updated entry with SW
   def get_sw(entry)
     if @dict.write_dicts.include?(entry['dict'])
       return entry
