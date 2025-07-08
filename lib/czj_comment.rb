@@ -30,7 +30,7 @@ class CzjComment < Object
       end
     end
     comment_data = {
-      'dict' => @dictcode,
+      'dict' => dict.dictcode,
       'entry' => entry,
       'box' => box,
       'text' => text,
