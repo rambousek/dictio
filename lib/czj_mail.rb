@@ -18,9 +18,9 @@ module CzjMail
     mail.deliver
   end
 
-  # @param [String] template
-  # @param [Hash] data
-  # @return [[String, String]]
+  # @param [String] template Name of template file
+  # @param [Hash] data Data for email
+  # @return [[String, String]] Subject, message
   def self.prepare_mail_text(template, data)
     path = File.join("mails", template + ".txt")
     if File.exist?(path)
