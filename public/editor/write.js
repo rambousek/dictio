@@ -943,7 +943,7 @@ function open_comments(box, type) {
             html: '<span class="user">' + data.comments[i].user.charAt(0) + '</span><i>' + data.comments[i].user + (data.comments[i].assign ? ' → <strong>' + data.comments[i].assign + '</strong>' : '') + '<br />' + '<span class="com-date">' + data.comments[i].time + '</span></i>' + '<div class="comment-inner">' + data.comments[i].text + '</div>',
             name: 'commenthtml'
           });
-          var cid = data.comments[i]['_id']['$oid']; // ID komentáře
+          var cid = data.comments[i]['_id']; // ID komentáře
           var nrow = Ext.create('Ext.container.Container', {
             layout: { type: 'hbox' },
             items: [
