@@ -1,7 +1,7 @@
 require_relative 'czj_mail'
 
 class CZJDict < Object
-  attr_accessor :dictcode, :write_dicts, :sign_dicts, :dict_info, :sw
+  attr_accessor :dictcode, :write_dicts, :sign_dicts, :dict_info, :sw, :comments
   attr_reader :wordlist
 
   def initialize(dictcode)
@@ -44,50 +44,6 @@ class CZJDict < Object
     end
     $stdout.puts 'END getone '+Time.now.to_s
     return data
-  end
-
-  def get_comments(dict, id, type, exact=true)
-    coms = []
-    query = {'dict': dict, 'entry': id}
-    if type != ''
-      if exact
-        query['$or'] = [{'box': type}]
-      else
-        query['$or'] = [{'box': {'$regex':'.*'+type+'.*'}}]
-      end
-    end
-
-    if @sign_dicts.include?(dict) and type.start_with?('vyznam') and not type.include?('vazby')
-      entrydata = getone(dict, id)
-      if entrydata and entrydata['meanings']
-        entrydata['meanings'].select{|m| m['id'] == type[6..-1]}.each{|m|
-          if m['text'] and m['text'].is_a?(Hash) and m['text']['file'] 
-            if m['text']['file'].is_a?(Hash)
-              if m['text']['file']['@media_id']
-                video = get_media(m['text']['file']['@media_id'], dict, false)
-                if video
-                  query['$or'] << {'box': 'video' + video['location']}
-                end
-              end
-            else
-              m['text']['file'].each{|mf|
-                if mf['@media_id']
-                  video = get_media(mf['@media_id'], dict, false)
-                  if video
-                    query['$or'] << {'box': 'video' + video['location']}
-                  end
-                end
-              }
-            end
-          end
-        }
-      end
-    end
-
-    $mongo['koment'].find(query, :sort=>{'time'=>-1}).each{|com|
-      coms << com
-    }
-    return {'comments':coms}
   end
 
   def full_entry(entry, add_rev=true)
@@ -1125,48 +1081,6 @@ class CZJDict < Object
         @entrydb.insert_one(doc)
       end
     }
-  end
-
-  def comment_add(user, entry, box, text, assign_user)
-    if @sign_dicts.include?(@dictcode) and box.start_with?('vyznam') and not box.include?('vazby')
-      entrydata = getone(@dictcode, entry)
-      if entrydata and entrydata['meanings']
-        entrydata['meanings'].select{|m| m['id'] == box[6..-1]}.each{|m|
-          if m['text'] and m['text'].is_a?(Hash) and m['text']['file'] and m['text']['file']['@media_id']
-            video = get_media(m['text']['file']['@media_id'], @dictcode, false)
-            if video
-              box = 'video' + video['location']
-            end
-          end
-        }
-      end
-    end
-    comment_data = {
-      'dict' => @dictcode,
-      'entry' => entry,
-      'box' => box,
-      'text' => text,
-      'user' => user,
-      'time' => Time.new.strftime('%Y-%m-%d %H:%M'),
-      'assign' => assign_user
-    }
-    $stdout.puts comment_data
-    $mongo['koment'].insert_one(comment_data)
-  end
-
-  def comment_del(cid)
-    $mongo['koment'].find({'_id' => BSON::ObjectId.from_string(cid)}).delete_many
-  end
-
-  def comment_save(cid, assign, solved)
-    comments = $mongo['koment'].find({'_id' => BSON::ObjectId.from_string(cid)})
-    if comments.count() == 1
-      comment_data = comments.first
-      comment_data['assign'] = assign
-      comment_data['solved'] = solved
-      comments.delete_many
-      $mongo['koment'].insert_one(comment_data)
-    end
   end
 
   def get_entry_files(entry_id, type='')
@@ -2612,7 +2526,7 @@ class CZJDict < Object
             if rr['notrans'] and rr['notrans'] == true and rr['target'] == @dictcode and (user == '' or rr['notransuser'].start_with?(user+' '))
               ren = {'id' => re['id'], 'dict' => re['dict']}
               ren['relation'] = {'meaning' => rm['id'], 'target' => rr['target'], 'trans' => rr['meaning_id'], 'notransuser' => rr['notransuser']}
-              comm = get_comments(re['dict'], re['id'], 'meaning'+rm['id']+'rel'+rr['target']+rr['meaning_id'])[:comments]
+              comm = @comments.get_comments(re['dict'], re['id'], 'meaning'+rm['id']+'rel'+rr['target']+rr['meaning_id'])[:comments]
               ren['comment'] = comm[0] if comm.size > 0
               res['notrans'] << ren
             end
@@ -2631,7 +2545,7 @@ class CZJDict < Object
             if rr['notrans'] and rr['notrans'] == true and (user == '' or rr['notransuser'].start_with?(user+' '))
               ren = {'id' => re['id'], 'dict' => re['dict']}
               ren['relation'] = {'meaning' => rm['id'], 'target' => rr['target'], 'trans' => rr['meaning_id'], 'notransuser' => rr['notransuser']}
-              comm = get_comments(re['dict'], re['id'], 'meaning'+rm['id']+'rel'+rr['target']+rr['meaning_id'])[:comments]
+              comm = @comments.get_comments(re['dict'], re['id'], 'meaning'+rm['id']+'rel'+rr['target']+rr['meaning_id'])[:comments]
               ren['comment'] = comm[0] if comm.size > 0
               res['notrans'] << ren
             end

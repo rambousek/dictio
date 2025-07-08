@@ -18,6 +18,7 @@ require_relative 'lib/host-config'
 require_relative 'lib/dict-config'
 require_relative 'lib/czj_fsw'
 require_relative 'lib/czj_dict_sw'
+require_relative 'lib/czj_comment'
 
 class CzjApp < Sinatra::Base
   $mongo = Mongo::Client.new($mongoHost)
@@ -48,8 +49,9 @@ class CzjApp < Sinatra::Base
       sign_dicts << code
     end
   }
-
-  dict_array = {}
+  $dict_array = {}
+  comments = CzjComment.new
+  comments.sign_dicts = sign_dicts
 
   @user_info = nil
   helpers Sinatra::Cookies
@@ -203,8 +205,8 @@ class CzjApp < Sinatra::Base
     @search_params = {}
     @request = request
     @selected_page = 'admin'
-    @lemma_counts = dict_array['czj'].get_admin_counts
-    @duplicate = dict_array['czj'].get_duplicate_counts
+    @lemma_counts = $dict_array['czj'].get_admin_counts
+    @duplicate = $dict_array['czj'].get_duplicate_counts
     page = 'admin'
     slim page.to_sym
   end
@@ -215,7 +217,8 @@ class CzjApp < Sinatra::Base
     dict.write_dicts = write_dicts
     dict.sign_dicts = sign_dicts
     dict.dict_info = $dict_info
-    dict_array[code] = dict
+    dict.comments = comments
+    $dict_array[code] = dict
  
     get '/'+code do
       redirect to('/')
@@ -257,7 +260,7 @@ class CzjApp < Sinatra::Base
       add_rev = false
       add_rev = true if params['add_rev'] == 'true'
       if params['history'].to_s != '' and params['historytype'].to_s != ''
-        change = dict_array['czj'].get_history(params['history'])
+        change = $dict_array['czj'].get_history(params['history'])
         if params['historytype'].to_s == 'old'
           if change['full_entry_old']
             doc = change['full_entry_old']
@@ -267,14 +270,14 @@ class CzjApp < Sinatra::Base
         else
           doc = change['full_entry']
         end
-        doc = dict_array[code].full_entry(doc, false)
-        doc = dict_array[code].add_rels(doc, false)
+        doc = $dict_array[code].full_entry(doc, false)
+        doc = $dict_array[code].add_rels(doc, false)
       else
         doc = dict.getdoc(params['id'], add_rev)
       end
       if $is_edit
         doc['user_info'] = @user_info
-        doc['user_list'] = dict_array[code].get_users.
+        doc['user_list'] = $dict_array[code].get_users.
           select{|x| x['lang'].nil? or x['lang'].length == 0 or x['lang'].include?(code)}.
           collect{|x| [x['login']]}
       end
@@ -363,7 +366,7 @@ class CzjApp < Sinatra::Base
           @show_target = code
           sela = selected.split('-')
           @show_dictcode = sela[0]
-          @entry = dict_array[sela[0]].getdoc(sela[1], false)
+          @entry = $dict_array[sela[0]].getdoc(sela[1], false)
         else
           @show_target = @target
           @show_dictcode = @dictcode
@@ -536,7 +539,7 @@ class CzjApp < Sinatra::Base
       end
       get '/'+code+'/comments/:id(/:type)?' do
         content_type :json
-        body = dict.get_comments(code, params['id'], params['type'].to_s).to_json
+        body = comments.get_comments(code, params['id'], params['type'].to_s).to_json
       end
       post '/'+code+'/save' do
         data = JSON.parse(params['data'])
@@ -577,7 +580,7 @@ class CzjApp < Sinatra::Base
       end
       get '/'+code+'/del_comment/:cid' do
         if params['cid'] != ''
-          dict.comment_del(params['cid'])
+          comments.comment_del(params['cid'])
         end
         content_type :json
         body = {"success"=>true,"msg"=>"Uloženo"}.to_json
@@ -658,14 +661,14 @@ class CzjApp < Sinatra::Base
       post '/'+code+'/add_comment' do
         user = ''
         if params['box'] != '' and params['entry'] != '' and params['type'] != ''
-          dict.comment_add(@user_info['login'], params['entry'], params['box'], params['text'], params['user'])
+          comments.comment_add(dict, @user_info['login'], params['entry'], params['box'], params['text'], params['user'])
         end
         content_type :json
         body = {"success"=>true,"msg"=>"Uloženo"}.to_json
       end
       post '/'+code+'/save_comment/:cid' do
         if params['cid'] != ''
-          dict.comment_save(params['cid'], params['assign'], params['solved'])
+          comments.comment_save(params['cid'], params['assign'], params['solved'])
         end
         content_type :json
         body = {"success"=>true,"msg"=>"Uloženo"}.to_json
@@ -687,7 +690,7 @@ class CzjApp < Sinatra::Base
       @dict_info = $dict_info
       @params = params
       @report = dict.get_report(params, @user_info, 0, @report_limit)
-      @duplicate = dict_array['czj'].get_duplicate_counts
+      @duplicate = $dict_array['czj'].get_duplicate_counts
       slim :report
     end
     get '/'+code+'/reportlist(/:start)?(/:limit)?' do
@@ -914,7 +917,7 @@ class CzjApp < Sinatra::Base
     end
 
     post '/savesettings' do
-      dict_array['czj'].save_user_setting(@user_info, params)
+      $dict_array['czj'].save_user_setting(@user_info, params)
       redirect to('/usersettings?profile_save=true&lang='+params['default_lang'].to_s)
     end
   end
@@ -930,13 +933,13 @@ class CzjApp < Sinatra::Base
 
     get '/users', :admin => true do
       @dict_info = $dict_info
-      @users = dict_array['czj'].get_users
+      @users = $dict_array['czj'].get_users
       slim :users
     end
 
     post '/users/save', :admin => true do
       data = JSON.parse(params['user'])
-      res = dict_array['czj'].save_user(data)
+      res = $dict_array['czj'].save_user(data)
       content_type :json
       if res == true
         body = {"success"=>true,"msg"=>"Uloženo"}.to_json
@@ -946,7 +949,7 @@ class CzjApp < Sinatra::Base
     end
 
     post '/users/delete', :admin => true do
-      res = dict_array['czj'].delete_user(params['login'])
+      res = $dict_array['czj'].delete_user(params['login'])
       content_type :json
       if res == true
         body = {"success"=>true,"msg"=>"Uloženo"}.to_json
@@ -957,32 +960,32 @@ class CzjApp < Sinatra::Base
 
     get '/duplicates' do
       @dict_info = $dict_info
-      @report = dict_array['czj'].get_duplicate_counts
+      @report = $dict_array['czj'].get_duplicate_counts
       slim :duplicates
     end
 
     get '/history' do
       @dict_info = $dict_info
       @users = $mongo['history'].distinct('user').sort
-      @report = dict_array['czj'].list_history(params['code'].to_s, params['user'].to_s, params['entry'].to_s)
+      @report = $dict_array['czj'].list_history(params['code'].to_s, params['user'].to_s, params['entry'].to_s)
       @params = params
       slim :history
     end
 
     get '/compare/:cid' do
       @dict_info = $dict_info
-      @change = dict_array['czj'].get_history(params['cid'])
+      @change = $dict_array['czj'].get_history(params['cid'])
       @dictcode = @change['dict']
       @show_dictcode = @change['dict']
       @target = ''
       if @change['full_entry_old']
-        @entry_old = dict_array[@dictcode].full_entry(@change['full_entry_old'], false)
-        @entry_old = dict_array[@dictcode].add_rels(@entry_old, false)
+        @entry_old = $dict_array[@dictcode].full_entry(@change['full_entry_old'], false)
+        @entry_old = $dict_array[@dictcode].add_rels(@entry_old, false)
       end
-      @entry_new = dict_array[@dictcode].full_entry(@change['full_entry'], false)
-      @entry_new = dict_array[@dictcode].add_rels(@entry_new, false)
-      @prev = dict_array[@dictcode].history_prev(@change)
-      @next = dict_array[@dictcode].history_next(@change)
+      @entry_new = $dict_array[@dictcode].full_entry(@change['full_entry'], false)
+      @entry_new = $dict_array[@dictcode].add_rels(@entry_new, false)
+      @prev = $dict_array[@dictcode].history_prev(@change)
+      @next = $dict_array[@dictcode].history_next(@change)
       slim :historycompare
     end
 
@@ -995,15 +998,15 @@ class CzjApp < Sinatra::Base
       $stdout.puts params
       $stdout.puts params['data1']
       dir = Dir::mktmpdir('czj','/tmp')
-      dict_array['czj'].handle_upload(params['data1'], dir)
-      dict_array['czj'].handle_upload(params['data2'], dir)
-      dict_array['czj'].handle_upload(params['data3'], dir)
+      $dict_array['czj'].handle_upload(params['data1'], dir)
+      $dict_array['czj'].handle_upload(params['data2'], dir)
+      $dict_array['czj'].handle_upload(params['data3'], dir)
       redirect to('/import2?dir=' + dir)
     end
 
     post '/importwupload' do
       logid = Array.new(8) { (Array('a'..'z')+Array('0'..'9')).sample }.join
-      targetdict = dict_array[params['srcdict']]
+      targetdict = $dict_array[params['srcdict']]
       Thread.new{ targetdict.handle_upload_write(params['data'], @user_info['login'], logid) }
       redirect to('/importlog?logid=' + logid)
     end
@@ -1011,7 +1014,7 @@ class CzjApp < Sinatra::Base
     get '/import2' do
       @dict_info = $dict_info
       @dir = params['dir']
-      @importfiles, @gotmeta = dict_array['czj'].get_import_files(@dir)
+      @importfiles, @gotmeta = $dict_array['czj'].get_import_files(@dir)
       slim :adminimport2
     end
 
@@ -1023,9 +1026,9 @@ class CzjApp < Sinatra::Base
         if params['data']['targetdict'] == '-'
           targetdict = nil
         else
-          targetdict = dict_array[params['data']['targetdict']]
+          targetdict = $dict_array[params['data']['targetdict']]
         end
-        Thread.new{ dict_array[params['data']['srcdict']].import_run(params['data'], targetdict, params['data']['not_createrel'], @user_info['login'], logid) }
+        Thread.new{ $dict_array[params['data']['srcdict']].import_run(params['data'], targetdict, params['data']['not_createrel'], @user_info['login'], logid) }
         body = {'logid'=>logid}.to_json
       else
         body = {'error'=>'no dict info'}.to_json
