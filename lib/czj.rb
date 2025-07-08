@@ -1406,8 +1406,8 @@ class CZJDict < Object
   # remove all relations to entry
   def remove_all_relations(entry_id)
     query = {'$or'=>[
-      'meanings.relation'=>{'$elemMatch'=>{'target'=>@dictcode,'meaning_id'=>{'$regex'=>/^#{entry_id}-/}}},
-      'meanings.usages.relation'=>{'$elemMatch'=>{'target'=>@dictcode,'meaning_id'=>{'$regex'=>/^#{entry_id}-/}}}
+      {'meanings.relation'=>{'$elemMatch'=>{'target'=>@dictcode,'meaning_id'=>{'$regex'=>/^#{entry_id}-/}}}},
+      {'meanings.usages.relation'=>{'$elemMatch'=>{'target'=>@dictcode,'meaning_id'=>{'$regex'=>/^#{entry_id}-/}}}}
     ]}
     @entrydb.find(query).each{|doc|
       doc['meanings'].each{|mean|
