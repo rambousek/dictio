@@ -1,8 +1,8 @@
 ## Helper methods for FSW
 module CzjFsw
   # Convert SW to FSW
-  # @param [String] swstring
-  # @return [String]
+  # @param [String] swstring SW notation string
+  # @return [String] FSW notation string
   def self.getfsw(swstring)
     fsw = 'M500x500'
     swa = []
@@ -32,8 +32,8 @@ module CzjFsw
   end
 
   # Convert FSW to SW
-  # @param [String] fswstring
-  # @return [String]
+  # @param [String] fswstring FSW notation string
+  # @return [String] SW notation string
   def self.fromfsw(fswstring)
     swa = []
     match = /M([0-9]*)x([0-9]*)(S.*)/.match(fswstring)
