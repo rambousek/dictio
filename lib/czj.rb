@@ -468,6 +468,23 @@ class CZJDict < Object
       return search_query
   end
 
+  # @param [String] oblast
+  # @return [Array]
+  def get_search_cond_oblast(oblast)
+    $stderr.puts oblast
+    list_oblast = %w[cr]
+    case oblast
+    when 'morava'
+      list_oblast += %w[morava brno vm ot ol zl]
+    when 'cechy'
+      list_oblast += %w[cechy praha plzen cb jih hk]
+    else
+      list_oblast += [oblast]
+    end
+    $stderr.puts list_oblast
+    [{ 'source_region': { '$in': list_oblast}}, { 'source_region': ''}, { 'source_region': { '$exists': false}}]
+  end
+
   def search(dictcode, search, type, start=0, limit=nil, more_params=[])
     res = []
     resultcount = 0
@@ -575,7 +592,7 @@ class CZJDict < Object
             search_cond['source_pos'] = more_params['slovni_druh'].to_s
           end
           if more_params['oblast'].to_s != ''
-            search_cond['source_region'] = more_params['oblast'].to_s
+            search_cond['$or'] = get_search_cond_oblast(more_params['oblast'])
           end
           if more_params['stylpriznak'].to_s != ''
             search_cond['source_priznak'] = more_params['stylpriznak'].to_s
@@ -629,6 +646,8 @@ class CZJDict < Object
       cursor.each{|e|
         res << add_media(e, true)
       }
+    else
+      return {'count' => 0, 'entries' => []}
     end
     return {'count'=> resultcount, 'entries'=> res, 'is_edit'=> ($is_edit or $is_admin)}
   end
