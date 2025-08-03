@@ -4,7 +4,7 @@ stylpriznak_write = %w[biblicky cirkev odborny hanlivy]
 stylpriznak_sign = %w[biblicky cirkev odborny hanlivy sz zc]
 $dict_info = {
   'cs' => {'type' => 'write', 'label'=>'čeština', 'target'=>'czj', 'pos'=>pos_write, 'stylpriznak'=>stylpriznak_write},
-  'czj' => {'type' => 'sign', 'label'=>'ČZJ', 'search_in'=>'cs', 'target'=>'cs', 'pos'=>pos_sign+['finger'], 'stylpriznak'=>stylpriznak_sign, 'oblast'=>%w[cr cechy morava plzen praha brno vm hk jih zl cb ot ol]},
+  'czj' => {'type' => 'sign', 'label'=>'ČZJ', 'search_in'=>'cs', 'target'=>'cs', 'pos'=>pos_sign+['finger'], 'stylpriznak'=>stylpriznak_sign, 'oblast'=>%w[cr cechy morava]},
   'en' => {'type' => 'write', 'label'=>'English', 'target'=>'is', 'pos'=>pos_write, 'stylpriznak'=>stylpriznak_write},
   'asl' => {'type' => 'sign', 'label'=>'ASL', 'search_in'=>'en', 'target'=>'en', 'pos'=>pos_sign, 'stylpriznak'=>stylpriznak_sign},
   'is' => {'type' => 'sign', 'label'=>'IS', 'search_in'=>'en', 'target'=>'en', 'pos'=>pos_sign, 'stylpriznak'=>stylpriznak_sign},
