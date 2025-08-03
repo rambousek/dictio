@@ -263,7 +263,7 @@ class CZJDict < Object
             rel['meaning_nr'] = rela[1]
             relentry = getone(rel['target'], lemmaid)
             next if relentry.nil?
-            relentry, cu = add_colloc(relentry) if add_rev
+            relentry, _ = add_colloc(relentry) if add_rev
             relentry = @sw.get_sw(relentry)
             relentry = add_media(relentry, true)
             if relentry['meanings'] and relentry['meanings'].select{|m| m['id'] == rel['meaning_id']}.size > 0
@@ -1136,7 +1136,7 @@ class CZJDict < Object
     if type != ''
       case type
       when 'AB'
-        query['type'] = {'$in' => ['sign_front', 'sign_side']}
+        query['type'] = {'$in' => %w[sign_front sign_side] }
       when 'A'
         query['type'] = 'sign_front'
       when 'K'
@@ -1161,7 +1161,7 @@ class CZJDict < Object
       query = {'dict' => @dictcode, :$or => [{'location' => /#{search}/}, {'original_file_name' => /#{search}/}]}
       case type
       when 'AB'
-        query['type'] = {'$in' => ['sign_front', 'sign_side']}
+        query['type'] = {'$in' => %w[sign_front sign_side] }
       when 'A'
         query['type'] = 'sign_front'
       when 'K'
@@ -1212,7 +1212,7 @@ class CZJDict < Object
             {'label'=>{'$regex'=>/#{search.downcase}/i}},
             {'label'=>search}
           ],
-          'type'=>{'$in' => ['sign_front', 'sign_side', 'sign_definition']}
+          'type'=>{'$in' => %w[sign_front sign_side sign_definition] }
         }
         mids = []
         mlocs = []
@@ -1303,7 +1303,7 @@ class CZJDict < Object
             {'label'=>{'$regex'=>/#{search.downcase}/i}},
             {'label'=>search}
           ],
-          'type'=>{'$in' => ['sign_front', 'sign_side', 'sign_definition']}
+          'type'=>{'$in' => %w[sign_front sign_side sign_definition] }
         }
         mids = []
         mlocs = []
@@ -1787,7 +1787,7 @@ class CZJDict < Object
 
   def get_report(params, user_info, start=0, limit=nil)
     report = {'query'=>{},'entries'=>[], 'resultcount'=>0}
-    search_cond, trans_used = get_search_cond(params, user_info)
+    search_cond, _ = get_search_cond(params, user_info)
     $stdout.puts search_cond
     entry_ids = []
     cursor = @entrydb.find({'$and': search_cond}, :collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'id' => 1})
@@ -1931,7 +1931,7 @@ class CZJDict < Object
     end
 
     # schvaleny preklad
-    $dict_info.each{|code,hash| 
+    $dict_info.each{|code, _|
       if params['pubtrans'+code].to_s != '' or params['translation'+code].to_s != ''
         trans_cond = trans_cond(params['pubtrans'+code].to_s, params['translation'+code].to_s, code)
         search_cond << trans_cond if trans_cond != nil
@@ -2015,13 +2015,13 @@ class CZJDict < Object
     if params['bez_sw'].to_s != ''
       if params['bez_sw'].to_s == 'ano' # zadany SW
         search_cond << {'$or': [
-          {'lemma.lemma_type': {'$in': ['single','derivat','kompozitum']}, 'lemma.sw': {'$exists': true, '$not': {'$size': 0}}},
-          {'lemma.lemma_type': {'$in': ['fingerspell','collocation']}, 'collocations.swcompos': {'$exists': true, '$ne': ''}}
+          { 'lemma.lemma_type': {'$in': %w[single derivat kompozitum] }, 'lemma.sw': { '$exists': true, '$not': { '$size': 0}}},
+          { 'lemma.lemma_type': {'$in': %w[fingerspell collocation] }, 'collocations.swcompos': { '$exists': true, '$ne': ''}}
         ]}
       else # nezadany SW
         search_cond << {'$or': [
-          {'lemma.lemma_type': {'$in': ['single','derivat','kompozitum']},'$or': [{'lemma.sw': {'$exists': false}}, {'lemma.sw': {'$size': 0}}]},
-          {'lemma.lemma_type': {'$in': ['fingerspell','collocation']},'$or': [{'collocations.swcompos': {'$exists': false}}, {'collocations.swcompos': ''}], 'collocations.colloc': {'$exists': false}}
+          { 'lemma.lemma_type': {'$in': %w[single derivat kompozitum] }, '$or': [{ 'lemma.sw': { '$exists': false}}, { 'lemma.sw': { '$size': 0}}]},
+          { 'lemma.lemma_type': {'$in': %w[fingerspell collocation] }, '$or': [{ 'collocations.swcompos': { '$exists': false}}, { 'collocations.swcompos': ''}], 'collocations.colloc': { '$exists': false}}
         ]}
       end
     end
@@ -2030,13 +2030,13 @@ class CZJDict < Object
     if params['nes_sw'].to_s != ''
       if params['nes_sw'].to_s == 'ano' # schvaleny SW
         search_cond << {'$or': [
-          {'lemma.lemma_type': {'$in': ['single','derivat','kompozitum']}, 'lemma.@swstatus': 'published'},
-          {'lemma.lemma_type': {'$in': ['fingerspell','collocation']}, 'collocations.swcompos': {'$exists': true, '$ne': ''}}
+          { 'lemma.lemma_type': {'$in': %w[single derivat kompozitum] }, 'lemma.@swstatus': 'published'},
+          { 'lemma.lemma_type': {'$in': %w[fingerspell collocation] }, 'collocations.swcompos': { '$exists': true, '$ne': ''}}
         ]}
       else # neschvaleny SW
         search_cond << {'$or': [
-          {'lemma.lemma_type': {'$in': ['single','derivat','kompozitum']},'$or': [{'lemma.@swstatus': {'$exists': false}}, {'lemma.@swstatus': {'$ne': 'published'}}]},
-          {'lemma.lemma_type': {'$in': ['fingerspell','collocation']},'$or': [{'collocations.swcompos': {'$exists': false}}, {'collocations.swcompos': ''}], 'collocations.colloc': {'$exists': false}}
+          { 'lemma.lemma_type': {'$in': %w[single derivat kompozitum] }, '$or': [{ 'lemma.@swstatus': { '$exists': false}}, { 'lemma.@swstatus': { '$ne': 'published'}}]},
+          { 'lemma.lemma_type': {'$in': %w[fingerspell collocation] }, '$or': [{ 'collocations.swcompos': { '$exists': false}}, { 'collocations.swcompos': ''}], 'collocations.colloc': { '$exists': false}}
         ]}
       end
     end
@@ -2507,7 +2507,7 @@ class CZJDict < Object
 
   def get_duplicate_counts
     res = {'duplicate' => []}
-    @dict_info.each{|code,hash|
+    @dict_info.each{|code, _|
       pipeline = get_duplicate_pipeline(code)
       @entrydb.aggregate(pipeline+[{'$count'=>'total'}]).each{|re|
         count = re['total'].to_i
@@ -2573,7 +2573,7 @@ class CZJDict < Object
       user_data['edit_dict'] = []
       user_data['edit_synonym'] = true if new_info['edit_synonym'].to_s == 'on'
       user_data['edit_trans'] = true if new_info['edit_trans'].to_s == 'on'
-      $dict_info.each{|code, info|
+      $dict_info.each{|code, _|
         user_data['edit_dict'] << code if new_info['edit_dict_'+code].to_s == 'on'
       }
       $mongo['users'].find({'login': user_info['login']}).delete_many
@@ -2850,8 +2850,8 @@ class CZJDict < Object
     result = $mongo['history'].find(query, {}).sort({'timestamp'=> -1})
     result = result.limit(100) 
       # if entry.to_s == '' and query['user'].to_s == ''
-    result.each{|entry|
-      report['entries'] << entry
+    result.each{|r_entry|
+      report['entries'] << r_entry
     }
     return report
   end
@@ -2877,9 +2877,9 @@ class CZJDict < Object
       #zip?
       if filedata['filename'][-4..-1] == '.zip'
         system('unzip "' + filedata['tempfile'].path + '" -d "' + dir+'"')
-        Dir.entries(dir).each{|fn|
-          if fn.end_with?('mp4')
-            File.rename(dir+"/"+fn, dir+"/"+fn[0,2] + fn[2..-1].gsub('_',''))
+        Dir.entries(dir).each{|dir_fn|
+          if dir_fn.end_with?('mp4')
+            File.rename(dir+"/"+dir_fn, dir+"/"+dir_fn[0,2] + dir_fn[2..-1].gsub('_',''))
           end
         }
       else
@@ -3063,8 +3063,8 @@ class CZJDict < Object
     used_trans = []
     sign = {}
     videos = {}
-    data['files'].each{|n,h|
-      h.update(h) {|k, v| v.to_s.strip.gsub("\xEF\xBB\xBF".force_encoding('UTF-8'), '')}
+    data['files'].each{|_,h|
+      h.update(h) {|_, v| v.to_s.strip.gsub("\xEF\xBB\xBF".force_encoding('UTF-8'), '')}
       # list sign entries
       if sign[h['label'].strip].nil?
         if h.key?('eid') and h['eid'] != ''
@@ -3169,7 +3169,7 @@ class CZJDict < Object
     # prepare sign entries
     sign_entries = []
     sign_to_delete = []
-    sign.each{|lab, h|
+    sign.each{|_, h|
       next if sign_to_delete.member?(h['id'])
       if not h['new']
         entry = getdoc(h['id'])
@@ -3276,7 +3276,7 @@ class CZJDict < Object
 
     # upload files
     logfile.puts 'uploading files'
-    videos.each{|file, fid|
+    videos.each{|file, _|
       fpath = data['dir'] + '/' + file
       $stdout.puts file
       $stdout.puts fpath
@@ -3300,7 +3300,7 @@ class CZJDict < Object
 
   def get_admin_counts
     res = {}
-    $dict_info.each{|code,hash| 
+    $dict_info.each{|code, _|
       res[code] = {}
       res[code]['entry_count'] = @entrydb.find({'dict': code}).count_documents
       res[code]['entry_pub_count'] = @entrydb.find({'dict': code, 'lemma.completeness': {'$ne': '1'}}).count_documents
