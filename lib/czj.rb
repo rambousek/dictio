@@ -1,4 +1,5 @@
 require_relative 'czj_mail'
+require_relative 'czj_search_query'
 
 class CZJDict < Object
   attr_accessor :dictcode, :write_dicts, :sign_dicts, :dict_info, :sw, :comments
@@ -468,20 +469,7 @@ class CZJDict < Object
       return search_query
   end
 
-  # @param [String] oblast
-  # @return [Array]
-  def get_search_cond_oblast(field, oblast)
-    list_oblast = %w[cr]
-    case oblast
-    when 'morava'
-      list_oblast += %w[morava brno vm ot ol zl]
-    when 'cechy'
-      list_oblast += %w[cechy praha plzen cb jih hk]
-    else
-      list_oblast += [oblast]
-    end
-    [{ field: { '$in': list_oblast}}, { field: ''}, { field: { '$exists': false}}]
-  end
+
 
   def search(dictcode, search, type, start=0, limit=nil, more_params=[])
     res = []
@@ -590,7 +578,7 @@ class CZJDict < Object
             search_cond['source_pos'] = more_params['slovni_druh'].to_s
           end
           if more_params['oblast'].to_s != ''
-            search_cond['$or'] = get_search_cond_oblast('source_region', more_params['oblast'])
+            search_cond['$or'] = CzjSearchQuery.get_search_cond_oblast('source_region', more_params['oblast'])
           end
           if more_params['stylpriznak'].to_s != ''
             search_cond['source_priznak'] = more_params['stylpriznak'].to_s
@@ -634,7 +622,7 @@ class CZJDict < Object
         search_query['lemma.style_note.@stylpriznak'] = more_params['stylpriznak'].to_s
       end
       if more_params['oblast'].to_s != ''
-        search_query['$and'] << {'$or' => get_search_cond_oblast('lemma.grammar_note.@region', more_params['oblast'])}
+        search_query['$and'] << {'$or' => CzjSearchQuery.get_search_cond_oblast('lemma.grammar_note.@region', more_params['oblast'])}
 
       end
       $stdout.puts search_query
@@ -718,7 +706,7 @@ class CZJDict < Object
       search_cond['target_pos'] = more_params['slovni_druh'].to_s
     end
     if more_params['oblast'].to_s != ''
-      search_cond['$or'] = get_search_cond_oblast('target_region', more_params['oblast'])
+      search_cond['$or'] = CzjSearchQuery.get_search_cond_oblast('target_region', more_params['oblast'])
     end
     if more_params['stylpriznak'].to_s != ''
       search_cond['target_priznak'] = more_params['stylpriznak'].to_s
