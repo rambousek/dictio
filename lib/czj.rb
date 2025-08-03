@@ -470,8 +470,7 @@ class CZJDict < Object
 
   # @param [String] oblast
   # @return [Array]
-  def get_search_cond_oblast(oblast)
-    $stderr.puts oblast
+  def get_search_cond_oblast(field, oblast)
     list_oblast = %w[cr]
     case oblast
     when 'morava'
@@ -481,8 +480,7 @@ class CZJDict < Object
     else
       list_oblast += [oblast]
     end
-    $stderr.puts list_oblast
-    [{ 'source_region': { '$in': list_oblast}}, { 'source_region': ''}, { 'source_region': { '$exists': false}}]
+    [{ field: { '$in': list_oblast}}, { field: ''}, { field: { '$exists': false}}]
   end
 
   def search(dictcode, search, type, start=0, limit=nil, more_params=[])
@@ -592,7 +590,7 @@ class CZJDict < Object
             search_cond['source_pos'] = more_params['slovni_druh'].to_s
           end
           if more_params['oblast'].to_s != ''
-            search_cond['$or'] = get_search_cond_oblast(more_params['oblast'])
+            search_cond['$or'] = get_search_cond_oblast('source_region', more_params['oblast'])
           end
           if more_params['stylpriznak'].to_s != ''
             search_cond['source_priznak'] = more_params['stylpriznak'].to_s
@@ -628,7 +626,7 @@ class CZJDict < Object
         end
       end
     when 'key'
-      search_query = {'dict'=>dictcode, '$or'=>get_key_search(search)}
+      search_query = {'dict'=>dictcode, '$and'=> [{'$or'=>get_key_search(search)}]}
       if more_params['slovni_druh'].to_s != ''
         search_query['lemma.grammar_note.@slovni_druh'] = more_params['slovni_druh'].to_s
       end
@@ -636,7 +634,8 @@ class CZJDict < Object
         search_query['lemma.style_note.@stylpriznak'] = more_params['stylpriznak'].to_s
       end
       if more_params['oblast'].to_s != ''
-        search_query['lemma.grammar_note.@region'] = more_params['oblast'].to_s
+        search_query['$and'] << {'$or' => get_search_cond_oblast('lemma.grammar_note.@region', more_params['oblast'])}
+
       end
       $stdout.puts search_query
       cursor = $mongo['entries'].find(search_query, {:sort => {'sort_key' => -1}})
@@ -719,7 +718,7 @@ class CZJDict < Object
       search_cond['target_pos'] = more_params['slovni_druh'].to_s
     end
     if more_params['oblast'].to_s != ''
-      search_cond['target_region'] = more_params['oblast'].to_s
+      search_cond['$or'] = get_search_cond_oblast('target_region', more_params['oblast'])
     end
     if more_params['stylpriznak'].to_s != ''
       search_cond['target_priznak'] = more_params['stylpriznak'].to_s
