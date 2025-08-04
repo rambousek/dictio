@@ -706,7 +706,7 @@ class CZJDict < Object
       search_cond['target_pos'] = more_params['slovni_druh'].to_s
     end
     if more_params['oblast'].to_s != ''
-      search_cond['$or'] = CzjSearchQuery.get_search_cond_oblast('target_region', more_params['oblast'])
+      search_cond['$and'] = [{'$or' => CzjSearchQuery.get_search_cond_oblast('target_region', more_params['oblast'])}]
     end
     if more_params['stylpriznak'].to_s != ''
       search_cond['target_priznak'] = more_params['stylpriznak'].to_s
