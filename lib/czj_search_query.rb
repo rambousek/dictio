@@ -6,9 +6,9 @@ module CzjSearchQuery
     list_oblast = %w[cr]
     case oblast
     when 'morava'
-      list_oblast += %w[morava brno vm ot ol zl]
+      list_oblast += %w[morava brno vm ot ol zl kr]
     when 'cechy'
-      list_oblast += %w[cechy praha plzen cb jih hk]
+      list_oblast += %w[cechy praha plzen cb jih hk lib]
     else
       list_oblast += [oblast]
     end
