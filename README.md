@@ -149,6 +149,11 @@ Group=wheel
 Environment=PATH=/usr/bin:/usr/local/bin
 Environment=NODE_ENV=production
 
+### monitoring
+- prometheus
+- prometheus-node-exporter
+- https://github.com/percona/mongodb_exporter
+
 [Install]
 WantedBy=multi-user.target
 ```
