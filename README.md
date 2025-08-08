@@ -153,9 +153,11 @@ Environment=NODE_ENV=production
 WantedBy=multi-user.target
 ```
 
+```systemctl enable signwriting```
+
 ### monitoring
 - prometheus
 - prometheus-node-exporter
 - https://github.com/percona/mongodb_exporter
 
-```systemctl enable signwriting```
+
