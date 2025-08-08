@@ -149,13 +149,13 @@ Group=wheel
 Environment=PATH=/usr/bin:/usr/local/bin
 Environment=NODE_ENV=production
 
+[Install]
+WantedBy=multi-user.target
+```
+
 ### monitoring
 - prometheus
 - prometheus-node-exporter
 - https://github.com/percona/mongodb_exporter
-
-[Install]
-WantedBy=multi-user.target
-```
 
 ```systemctl enable signwriting```
