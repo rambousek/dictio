@@ -18,7 +18,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/private.key
           chmod 400 ~/.ssh/private.key
-          ssh -i ~/.ssh/private.key -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@www.dictio.info "cd /srv/dictio; GIT_SSH_COMMAND='ssh -i ~/.ssh/github' git pull; ./restart.sh"
+          ssh -i ~/.ssh/private.key -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@www.dictio.info "cd /srv/dictio; GIT_SSH_COMMAND='ssh -i ~/.ssh/github' git pull; bundle; ./restart.sh"
   deploy-edit:
     runs-on: ubuntu-latest
     steps:
@@ -28,7 +28,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/private.key
           chmod 400 ~/.ssh/private.key
-          ssh -i ~/.ssh/private.key -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@edit.dictio.info "cd /srv/dictio; GIT_SSH_COMMAND='ssh -i ~/.ssh/github' git pull; ./restart.sh"
+          ssh -i ~/.ssh/private.key -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@edit.dictio.info "cd /srv/dictio; GIT_SSH_COMMAND='ssh -i ~/.ssh/github' git pull; bundle; ./restart.sh"
   deploy-admin:
     runs-on: ubuntu-latest
     steps:
@@ -38,4 +38,4 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/private.key
           chmod 400 ~/.ssh/private.key
-          ssh -i ~/.ssh/private.key -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@admin.dictio.info "cd /srv/dictio; GIT_SSH_COMMAND='ssh -i ~/.ssh/github' git pull; ./restart.sh"
+          ssh -i ~/.ssh/private.key -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@admin.dictio.info "cd /srv/dictio; GIT_SSH_COMMAND='ssh -i ~/.ssh/github' git pull; bundle; ./restart.sh"
