@@ -12,6 +12,8 @@ require 'resolv'
 require 'sinatra/cookies'
 require 'maxmind/geoip2'
 require 'damerau-levenshtein'
+require 'yabeda'
+require 'yabeda/prometheus'
 
 require_relative 'lib/czj'
 require_relative 'lib/host-config'
