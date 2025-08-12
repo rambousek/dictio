@@ -1773,6 +1773,7 @@ class CZJDict < Object
 
     cursor.each{|kom|
       entry = getone(kom['dict'], kom['entry'])
+      {'video' => 'video ', 'vyznam' => 'význam '}.map{|k,v| kom['box'].sub!(k, v)}
       unless entry.nil?
         if @sign_dicts.include?(kom['dict'])
           kom['video'] = ''
