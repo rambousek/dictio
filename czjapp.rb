@@ -21,6 +21,7 @@ require_relative 'lib/dict-config'
 require_relative 'lib/czj_fsw'
 require_relative 'lib/czj_dict_sw'
 require_relative 'lib/czj_comment'
+require_relative 'lib/czj_report'
 
 class CzjApp < Sinatra::Base
   $mongo = Mongo::Client.new($mongoHost)
@@ -54,6 +55,8 @@ class CzjApp < Sinatra::Base
   $dict_array = {}
   comments = CzjComment.new
   comments.sign_dicts = sign_dicts
+  reports = CzjReport.new
+  reports.sign_dicts = sign_dicts
 
   @user_info = nil
   helpers Sinatra::Cookies
@@ -680,7 +683,7 @@ class CzjApp < Sinatra::Base
         @params = params
         @target = ''
         @dict_info = $dict_info
-        @report = dict.get_comment_report(params)
+        @report = reports.get_comment_report(dict, params)
         @users = dict.get_users
         slim :commentreport
       end
