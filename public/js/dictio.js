@@ -212,6 +212,17 @@ function onLoadSearchResult() {
       });
     });
   });
+
+  addSearchLinks();
+  //activate video links
+  $('.video-link').on('click', function(event) {
+    event.preventDefault();
+    if ($(this).data('url') && $(this).data('url') != "") {
+      window.location = $(this).data('url');
+    } else {
+      loadSearchResult(this);
+    }
+  });
 }
 
 $( document ).ready(function() {
@@ -730,6 +741,23 @@ function loadSearchResult(ev) {
     $('.showlink_edit').val('https://edit.dictio.info' + url);
   });
   return false;
+}
+
+// change /show/ link to /search/ url
+function addSearchLinks() {
+  let orig_url = window.location.pathname;
+  let orig_url_ar = orig_url.split('/');
+  $('.add-search-link').each(function () {
+    let link_ar = this.getAttribute('href').split('/');
+    let new_url_ar = [...orig_url_ar];
+    new_url_ar[1] = link_ar[1];
+    new_url_ar[5] = link_ar[3];
+    let new_url = new_url_ar.join('/');
+    this.setAttribute('href', new_url + window.location.search);
+    this.setAttribute('data-dict', link_ar[1]);
+    this.setAttribute('data-entryid', link_ar[3]);
+    this.setAttribute('onclick', 'return loadSearchResult(this)');
+  })
 }
 
 // run translation on document load
