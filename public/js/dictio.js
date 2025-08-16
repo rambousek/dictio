@@ -725,6 +725,9 @@ function loadSearchResult(ev) {
     if (title && title.html() != '') {
       document.title = title.html();
     }
+    // update share url
+    $('.showlink_public').val('https://www.dictio.info' + url);
+    $('.showlink_edit').val('https://edit.dictio.info' + url);
   });
   return false;
 }
