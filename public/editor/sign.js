@@ -18,7 +18,7 @@ var typingTimer;
 var doneTypingInterval = 5000;
 var bgAuth = 'lightsteelblue';
 var bgSilver = 'silver';
-const version = "2.1.4";
+const version = "2.1.5";
 
 var params = Ext.Object.fromQueryString(window.location.search.substring(1));
 if (params.empty != null && params.empty != '') {
@@ -1104,7 +1104,7 @@ function open_comments(box, type) {
                     ]
                   },
                   { xtype: 'combo',
-                    name: 'user',
+                    name: 'user', // tady by mělo být ASSIGN 
                     queryMode: 'local',                    
                     store: new Ext.data.ArrayStore(
                       { fields: ['value'], data: entrydata['user_list'] }
@@ -1192,8 +1192,9 @@ function open_comments(box, type) {
                   });
                 }
               },
+
               {
-                xtype: 'combo', name: 'user', queryMode: 'local', emptyText: locale[lang].commentassign, cls: 'transparent',
+                xtype: 'combo', name: 'user', queryMode: 'local', emptyText: locale[lang].commentassign, cls: 'transparent', // tady by mělo být ASSIGN
                 store: new Ext.data.ArrayStore(
                   { fields: ['value'], data: entrydata['user_list'] }
                 ),
@@ -3757,11 +3758,11 @@ function create_media(entryid, upload, vidid) {
                 ]
               }
             ]
-          }, 
-          { xtype: 'container', name: 'prazdny', width: 300, fieldLabel: ''},
-          create_comment_button(name, 'video' + vidid)
+          },           
         ]
-      }, create_copyrightM(name, false)
+      },
+        create_comment_button(name, 'video' + vidid),
+        create_copyrightM(name, false)
     ]
   });
   if (upload) {
