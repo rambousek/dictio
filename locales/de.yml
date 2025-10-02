@@ -55,6 +55,7 @@ de:
     not_authorized: "Not authorized"
   menu:
     about: "Über"
+    cite: ""
     contact: "Kontakt"
     help: "Hilfe"
     admin: "Verwaltung"

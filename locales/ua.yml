@@ -54,6 +54,7 @@ ua:
     not_authorized: "Недійсний вхід"
   menu:
     about: "О словнику"
+    cite: ""
     contact: "Контакт"
     help: "Допомога"
     admin: "Адміністрація"
