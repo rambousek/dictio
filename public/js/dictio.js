@@ -970,9 +970,7 @@ function URLRemove2 (param1, param2) {
 
 function citaceGen() {
   const now = new Date();
-  const formattedDate = now.toLocaleDateString('cs-CZ', {
-    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-  });
+  const formattedDate = now.toLocaleDateString('cs-CZ');
   const text = `<i>Dictio: Vícejazyčný slovník znakových jazyků</i> [online]. Brno: Masarykova univerzita, 2007. Cit. <i>${formattedDate}</i>. Dostupné z URL: https://www.dictio.info.`;
   document.getElementById("modalText").innerHTML = text;
   document.getElementById("modal").style.display = "flex";
