@@ -1,5 +1,11 @@
 <!-- patička -->
 footer.footer role="contentinfo"
+
+  .modal id="modal"
+    .modal-content
+      span.close onclick="zavriModal()">&times;
+      span id="modalText"
+
   .container
     .footer__wrapper
       p.footer__copy
@@ -13,8 +19,6 @@ footer.footer role="contentinfo"
             a href="/help" #{I18n.t("menu.help")}
           li
             a href="/contact" #{I18n.t("menu.contact")}
-
-
 
 <!-- /patička -->
 
