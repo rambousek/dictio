@@ -967,3 +967,11 @@ function URLRemove2 (param1, param2) {
     queryParams.delete(param2)
     window.location.href = 'report?' + queryParams;
 }
+
+function citaceGen() {
+  const baseText = "Dictio: Vícejazyčný slovník znakových jazyků [online]. Brno: Masarykova univerzita, 2007. Cit. ";
+  const linkText =  ". Dostupné z URL: https://www.dictio.info."
+  const now = new Date();
+  const formattedDate = now.toLocaleDateString('cs-CZ'); // např. 2.10.2025
+  alert(baseText + formattedDate);
+}
