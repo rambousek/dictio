@@ -150,12 +150,14 @@ class CzjApp < Sinatra::Base
       session[:locale] = @user_info['default_lang']
     end
     if params['lang'].to_s != "" and I18n.available_locales.map(&:to_s).include?(params["lang"]) and params['lang'] != session[:locale]
-      session[:locale] = 'cs' if session[:locale].to_s == ""
       session[:locale] = params['lang']
     end
     @selectlang = session[:locale]
     default_locale, @default_dict, @default_target = lang_defaults
-    @selectlang = default_locale if @selectlang.nil?
+    if @selectlang.nil?
+      @selectlang = default_locale
+      session[:locale] = default_locale
+    end
     I18n.locale = @selectlang
     @langpath = request.fullpath.gsub(/lang=[a-z]*/,'').gsub(/&&*/,'&')
     @langpath += '?' unless @langpath.include?('?')
