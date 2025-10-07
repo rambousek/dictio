@@ -14,6 +14,7 @@ require 'maxmind/geoip2'
 require 'damerau-levenshtein'
 require 'yabeda'
 require 'yabeda/prometheus'
+require 'resolv'
 
 require_relative 'lib/czj'
 require_relative 'lib/host-config'
@@ -97,14 +98,23 @@ class CzjApp < Sinatra::Base
     end
 
     def lang_defaults
+      unless request.get_header('HTTP_X_FORWARDED_FOR').nil?
+        ipaddr = request.get_header('HTTP_X_FORWARDED_FOR')
+      else
+        ipaddr = request.get_header('REMOTE_ADDR')
+      end
       if @user_info and @user_info['default_lang'].to_s != '' and @user_info['default_dict'].to_s != ''
         return @user_info['default_lang'].to_s, @user_info['default_dict'].to_s, $dict_info[@user_info['default_dict'].to_s]['target']
       else
         begin
-          georecord = $georeader.country(request.get_header('HTTP_X_FORWARDED_FOR').split(',')[0])
+          georecord = $georeader.country(ipaddr.split(',')[0])
           country = georecord.country.iso_code
         rescue
-          country = 'EN'
+          if get_hostname(ipaddr).end_with?('cz')
+            country = 'CZ'
+          else
+            country = 'EN'
+          end
         end
         case country
         when 'CZ'
