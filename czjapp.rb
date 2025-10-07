@@ -37,6 +37,7 @@ class CzjApp < Sinatra::Base
     set :logging, true
     set :environment, $environment
     set :host_authorization, permitted_host: [$hostname]
+    set :session_secret, $session_secret
     I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
     I18n.load_path = Dir[File.join(settings.root, 'locales', '*.yml')]
     I18n.backend.load_translations
