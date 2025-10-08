@@ -364,3 +364,4 @@
         div.detail-block
           h3.headline.detail-block__headline.revkompozitum-headline data-url="/#{@entry['dict']}/revkompozitum/#{@entry['id']}" == I18n.t("entry.kompozitum_with_this")
           div.dropdown id="revkompozitum"
+div#citeInfo data-page-type=@search_type data-lang-type="sign" data-page-lang=@entry['dict'] data-page-target=@dictcode data-lemma=@entry['lemma']['title'] data-lemma-id=@entry['id'] data-page-url="https://www.dictio.info/#{@entry['dict']}/show/#{@entry['id']}" data-video=@video

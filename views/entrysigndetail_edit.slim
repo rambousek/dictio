@@ -51,7 +51,7 @@
         .col.col--3.col--precise
           .video.video--small
             .video__content
-              video.video-link width="100%" onmouseover="this.play()" onmouseout=""  data-url=(@search.to_s != ''? "#{@search_path}/#{relid}" : "/#{coll['dict']}/show/#{coll['id']}") poster="/thumb/video#{coll['dict']}/#{coll['lemma']['video_front']}"
+              video.video-link width="100%" onmouseover="this.play()" onmouseout=""  data-dict="#{coll['dict']}" data-entryid="#{coll['id']}" href=(@search.to_s != ''? "#{@search_path}/#{relid}" : "/#{coll['dict']}/show/#{coll['id']}") poster="/thumb/video#{coll['dict']}/#{coll['lemma']['video_front']}"
                 source src="https://files.dictio.info/video#{coll['dict']}/#{coll['lemma']['video_front']}" type="video/mp4"
             .video__controls
               - unless coll['lemma']['swmix'].nil?
@@ -227,7 +227,7 @@
                 img src="/img/warning.png" style="width: 20px" title="#{I18n.t('entry.notapproved')}"
               .video.video--small
                 .video__content
-                    video.video-link width="100%" onmouseover="this.play()" onmouseout=""  data-url=(@search.to_s != ''? "#{@search_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") poster="/thumb/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}"
+                    video.video-link width="100%" onmouseover="this.play()" onmouseout=""  data-dict="#{rel['target']}" data-entryid="#{rel['entry']['id']}" href=(@search.to_s != ''? "#{@search_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") poster="/thumb/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}"
                       source src="https://files.dictio.info/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
                 .video__controls
                   - if @search.to_s != ''
@@ -256,7 +256,7 @@
                 img src="/img/warning.png" style="width: 20px" title="#{I18n.t('entry.notapproved')}"
               .video.video--small
                 .video__content
-                    video.video-link width="100%" onmouseover="this.play()" onmouseout=""  data-url=(@search.to_s != ''? "#{@search_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") poster="/thumb/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}"
+                    video.video-link width="100%" onmouseover="this.play()" onmouseout="" data-dict="#{rel['target']}" data-entryid="#{rel['entry']['id']}" href=(@search.to_s != ''? "#{@search_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") poster="/thumb/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}"
                       source src="https://files.dictio.info/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
                 .video__controls
                   - if @search.to_s != ''
@@ -307,3 +307,4 @@
     div.detail-block
       h3.headline.detail-block__headline.revcolloc-headline data-url="/#{@dictcode}/revcolloc/#{@entry['id']}" == I18n.t("entry.collocation_with_this")
       div.dropdown id="revcolloc"
+div#citeInfo data-page-type=@search_type data-lang-type="sign" data-page-target=@dictcode data-page-lang=@entry['dict'] data-lemma=@entry['lemma']['title'] data-lemma-id=@entry['id'] data-page-url="https://www.dictio.info/#{@entry['dict']}/search/text/#{@entry['id']}" data-video=@video

@@ -15,7 +15,7 @@
   h2.detail-category 
     | #{I18n.t("entry.composed_collocation")}: 
     - @entry['collocations']['entries'].each do |coll|
-      a href="#{@entry['dict']}/show/#{coll['id']}" #{coll['lemma']['title']}
+      a.add-search-link href="#{@entry['dict']}/show/#{coll['id']}" #{coll['lemma']['title']}
       - unless coll.equal?(@entry['collocations']['entries'].last)
         | , 
 - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'].to_s != ''}
@@ -43,7 +43,7 @@
         - if gram['variant']
           - gram['variant'].each do |var|
             - if var['@title'].to_s != ''
-              a href="/#{@entry['dict']}/show/#{var['_text']}" #{var['@title']}
+              a.add-search-link href="/#{@entry['dict']}/show/#{var['_text']}" #{var['@title']}
             - else
               = var['_text']
             |,
@@ -308,7 +308,7 @@
         - if gram['variant']
           - gram['variant'].each do |var|
             - if var['@title'].to_s != ''
-              a href="/#{@entry['dict']}/show/#{var['_text']}" #{var['@title']}
+              a.add-search-link href="/#{@entry['dict']}/show/#{var['_text']}" #{var['@title']}
             - else
               = var['_text']
             |,
@@ -341,10 +341,10 @@
             p
               - if rel['entry']['id']
                 - if @search.to_s != ''
-                  a.link href="#{@search_path}/#{relid}" #{rel['entry']['lemma']['title']}
+                  a.link href="#{@search_path}/#{relid}" data-entryid="#{rel['entry']['id']}" data-dict="#{rel['target']}" onclick="return loadSearchResult(this)" #{rel['entry']['lemma']['title']}
                   |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
                 - else
-                  a.link href="/#{rel['target']}/show/#{rel['entry']['id']}"  #{rel['entry']['lemma']['title']}
+                  a.link.add-search-link href="/#{rel['target']}/show/#{rel['entry']['id']}" #{rel['entry']['lemma']['title']}
                   |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
               - else
                 = rel['entry']['lemma']['title']
@@ -356,10 +356,10 @@
             p
               - if rel['entry']['id']
                 - if @search.to_s != ''
-                  a.link href="#{@search_path}/#{relid}" #{rel['entry']['lemma']['title']}
+                  a.link href="#{@search_path}/#{relid}" data-entryid="#{rel['entry']['id']}" data-dict="#{rel['target']}" onclick="return loadSearchResult(this)" #{rel['entry']['lemma']['title']}
                   |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
                 - else
-                  a.link href="/#{rel['target']}/show/#{rel['entry']['id']}"  #{rel['entry']['lemma']['title']}
+                  a.link.add-search-link href="/#{rel['target']}/show/#{rel['entry']['id']}" #{rel['entry']['lemma']['title']}
                   |  (#{I18n.t("entry.meaning_small")} #{rel['meaning_nr']})
               - else
                 = rel['entry']['lemma']['title']
@@ -380,3 +380,4 @@
     div.detail-block
       h3.headline.detail-block__headline.revcolloc-headline data-url="/#{@entry['dict']}/revcolloc/#{@entry['id']}" == I18n.t("entry.collocation_with_this")
       div.dropdown id="revcolloc"
+div#citeInfo data-page-type=@search_type data-lang-type="write" data-page-lang=@entry['dict'] data-page-target=@dictcode data-lemma=@entry['lemma']['title'] data-lemma-id=@entry['id'] data-page-url="https://www.dictio.info/#{@entry['dict']}/show/#{@entry['id']}" data-video=@video

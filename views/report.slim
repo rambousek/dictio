@@ -382,45 +382,22 @@ main role="main"
                     svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                       use xlink:href="/img/icons.svg#arrow-down" width="100%" height="100%" x="0" y="0"
                 div id="allopt" style="display: none" 
-                  .sub
-                    span onclick="showhide('skupina')" style="cursor: pointer"
-                      | #{I18n.t("admin.workgroup")}
-                      span.icon class="icon--arrow-down nav-lang__dropdown"
+
+                  = form_tag "/report", method: :get, class: "report-form" do
+                    .sub
+                      span onclick="showhide('skupina')" style="cursor: pointer"
+                        | #{I18n.t("admin.workgroup")}
+                        span.icon class="icon--arrow-down nav-lang__dropdown"
                           svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
-                            use xlink:href="/img/icons.svg#arrow-down" width="100%" height="100%" x="0" y="0"            
-                    div id="skupina" style="display: none"              
-                      - unless @params['skup'] and @params['def_skup[]'] == 'teires_w'
-                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','teires_w','skup','ne')" #{I18n.t("admin.group.teires_w")}
-                      - unless @params['skup'] and @params['def_skup[]'] == 'obecna'
-                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','obecna','skup','ne')" #{I18n.t("admin.group.obecna")}
-                      - unless @params['skup'] and @params['def_skup[]'] == 'upol'
-                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','upol','skup','ne')" #{I18n.t("admin.group.upol")}
-                      - unless @params['skup'] and @params['def_skup[]'] == 'biologie'
-                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','biologie','skup','ne')" #{I18n.t("admin.group.biologie")}  
-                      - unless @params['skup'] and @params['def_skup[]'] == 'informatika'
-                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','informatika','skup','ne')" #{I18n.t("admin.group.informatika")}
-                      - unless @params['skup'] and @params['def_skup[]'] == 'matematika'
-                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','matematika','skup','ne')" #{I18n.t("admin.group.matematika")}
-                      - unless @params['skup'] and @params['def_skup[]'] == 'vut_me'
-                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','vut_me','skup','ne')" #{I18n.t("admin.group.vut_me")}                            
-                      - unless @params['skup'] and @params['def_skup[]'] == 'podnikani'
-                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','podnikani','skup','ne')" #{I18n.t("admin.group.podnikani")}
-                      - unless @params['skup'] and @params['def_skup[]'] == 'spec'
-                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','spec','skup','ne')" #{I18n.t("admin.group.spec")}
-                      - unless @params['skup'] and @params['def_skup[]'] == 'aka'
-                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','aka','skup','ne')" #{I18n.t("admin.group.aka")}
-                      - unless @params['skup'] and @params['def_skup[]'] == 'soc'
-                      a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','soc','skup','ne')" #{I18n.t("admin.group.soc")}
-                      - unless @params['skup'] and @params['def_skup[]'] == 'krest'
-                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','krest','skup','ne')" #{I18n.t("admin.group.krest")}
-                      - unless @params['skup'] and @params['def_skup[]'] == 'test'
-                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','test','skup','ne')" #{I18n.t("admin.group.test")}
-                      - unless @params['skup'] and @params['def_skup[]'] == 'mdd'
-                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','mdd','skup','ne')" #{I18n.t("admin.group.mdd")}
-                      - unless @params['skup'] and @params['def_skup[]'] == 'ls'
-                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','ls','skup','ne')" #{I18n.t("admin.group.ls")}
-                      - unless @params['skup'] and @params['def_skup[]'] == 'tczj'
-                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','tczj','skup','ne')" #{I18n.t("admin.group.tczj")}
+                            use xlink:href="/img/icons.svg#arrow-down" width="100%" height="100%" x="0" y="0"
+                      div id="skupina" style="display: none"
+                        - groups = %w[teires_w obecna upol biologie informatika matematika vut_me podnikani spec aka soc krest test mdd ls tczj]
+                        - groups.each do |g|
+                          label
+                            = check_box_tag "def_skup[]", g, (@params['def_skup[]'] == g)
+                            = I18n.t("admin.group.#{g}")
+                    = submit_tag I18n.t("admin.confirm"), class: "btn btn-primary"
+
                   .sub
                     span onclick="showhide('lemma')" style="cursor: pointer"
                       h3 
@@ -473,36 +450,12 @@ main role="main"
                           svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                             use xlink:href="/img/icons.svg#arrow-down" width="100%" height="100%" x="0" y="0"
                     div id="sldruh" style="display: none"
-                      - unless @params['sldruh'] and @params['slovni_druh'] == 'subst'
-                        a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','subst','sldruh','ne')" #{I18n.t("gram.slovni_druh.subst")}
-                      - unless @params['sldruh'] and @params['slovni_druh'] == 'adj'
-                        a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','adj','sldruh','ne')" #{I18n.t("gram.slovni_druh.adj")}                                          
-                      - unless @params['sldruh'] and @params['slovni_druh'] == 'pron'
-                        a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','pron','sldruh','ne')" #{I18n.t("gram.slovni_druh.pron")}
-                      - unless @params['sldruh'] and @params['slovni_druh'] == 'num'
-                        a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','num','sldruh','ne')" #{I18n.t("gram.slovni_druh.num")}
-                      - unless @params['sldruh'] and @params['slovni_druh'] == 'verb'
-                        a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','verb','sldruh','ne')" #{I18n.t("gram.slovni_druh.verb")}
-                      - unless @params['sldruh'] and @params['slovni_druh'] == 'adv'
-                        a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','adv','sldruh','ne')" #{I18n.t("gram.slovni_druh.adv")}
-                      - if @dict_info[@dictcode]['type'] == 'sign'
-                        - unless @params['sldruh'] and @params['slovni_druh'] == 'modif'
-                          a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','modif','sldruh','ne')" #{I18n.t("gram.slovni_druh.modif")}
-                        - unless @params['sldruh'] and @params['slovni_druh'] == 'taz'
-                          a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','taz','sldruh','ne')" #{I18n.t("gram.slovni_druh.taz")}                  
-                      - unless @params['sldruh'] and @params['slovni_druh'] == 'part'          
-                        a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','part','sldruh','ne')" #{I18n.t("gram.slovni_druh.part")}              
-                      - unless @params['sldruh'] and @params['slovni_druh'] == 'konj'                      
-                        a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','konj','sldruh','ne')" #{I18n.t("gram.slovni_druh.konj")}
-                      - if @dict_info[@dictcode]['type'] == 'sign'    
-                        - unless @params['sldruh'] and @params['slovni_druh'] == 'kat'
-                          a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','kat','sldruh','ne')" #{I18n.t("gram.slovni_druh.kat")}                          
-                        - unless @params['sldruh'] and @params['slovni_druh'] == 'klf'            
-                          a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','klf','sldruh','ne')" #{I18n.t("gram.slovni_druh.klf")}
-                        - unless @params['sldruh'] and @params['slovni_druh'] == 'spc'
-                          a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','spc','sldruh','ne')" #{I18n.t("gram.slovni_druh.spc")}
-                        - unless @params['sldruh'] and @params['slovni_druh'] == 'finger'
-                          a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','finger','sldruh','ne')" #{I18n.t("gram.slovni_druh.finger")}                                                                                                                                                                                            
+                      - options = %w[subst adj pron num verb adv part konj]
+                      - options += %w[modif taz kat klf spc finger] if @dict_info[@dictcode]['type'] == 'sign'
+                      - options.each do |opt|
+                        label
+                          = radio_button_tag :slovni_druh, opt, (@params['slovni_druh'] == opt)
+                          = I18n.t("gram.slovni_druh.#{opt}")
                   .sub
                     span onclick="showhide('sem')" style="cursor: pointer"
                       h3

@@ -18,7 +18,7 @@ var typingTimer;
 var doneTypingInterval = 5000;
 var bgAuth = 'lightsteelblue';
 var bgSilver = 'silver';
-const version = "2.1.4";
+const version = "2.1.5";
 
 var params = Ext.Object.fromQueryString(window.location.search.substring(1));
 if (params.empty != null && params.empty != '') {
@@ -3753,15 +3753,15 @@ function create_media(entryid, upload, vidid) {
                 layout: { type: 'hbox' },
                 items: [
                   { boxLabel: locale[lang].lr, inputValue: 'lr', name: name + 'orient'}, 
-                  { boxLabel: locale[lang].pr, inputValue: 'pr', name: name + 'orient', checked: true}
+                  { boxLabel: locale[lang].pr, inputValue: 'pr', name: name + 'orient', checked: true},                  
                 ]
               }
             ]
-          }, 
-          { xtype: 'container', name: 'prazdny', width: 300, fieldLabel: ''},
-          create_comment_button(name, 'video' + vidid)
+          }           
         ]
-      }, create_copyrightM(name, false)
+      }, 
+        create_comment_button(name, 'video' + vidid),
+        create_copyrightM(name, false)
     ]
   });
   if (upload) {

@@ -17,3 +17,4 @@ main id="mobilespacetop" role="main"
         == slim :transresultlist
       - if @result['count'].to_i > @result['relations'].size or @result['initial']
         a.btn.load_next_trans data-search=@tran_path data-urlparams=@url_params #{I18n.t("search.load_next")}
+div#citeInfo data-page-type=@search_type data-page-search=@search data-page-lang=@dictcode data-page-target=@target

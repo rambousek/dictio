@@ -212,6 +212,17 @@ function onLoadSearchResult() {
       });
     });
   });
+
+  addSearchLinks();
+  //activate video links
+  $('.video-link').on('click', function(event) {
+    event.preventDefault();
+    if ($(this).data('url') && $(this).data('url') != "") {
+      window.location = $(this).data('url');
+    } else {
+      loadSearchResult(this);
+    }
+  });
 }
 
 $( document ).ready(function() {
@@ -725,8 +736,28 @@ function loadSearchResult(ev) {
     if (title && title.html() != '') {
       document.title = title.html();
     }
+    // update share url
+    $('.showlink_public').val('https://www.dictio.info' + url);
+    $('.showlink_edit').val('https://edit.dictio.info' + url);
   });
   return false;
+}
+
+// change /show/ link to /search/ url
+function addSearchLinks() {
+  let orig_url = window.location.pathname;
+  let orig_url_ar = orig_url.split('/');
+  $('.add-search-link').each(function () {
+    let link_ar = this.getAttribute('href').split('/');
+    let new_url_ar = [...orig_url_ar];
+    new_url_ar[1] = link_ar[1];
+    new_url_ar[5] = link_ar[3];
+    let new_url = new_url_ar.join('/');
+    this.setAttribute('href', new_url + window.location.search);
+    this.setAttribute('data-dict', link_ar[1]);
+    this.setAttribute('data-entryid', link_ar[3]);
+    this.setAttribute('onclick', 'return loadSearchResult(this)');
+  })
 }
 
 // run translation on document load
@@ -935,4 +966,140 @@ function URLRemove2 (param1, param2) {
     queryParams.delete(param1)    
     queryParams.delete(param2)
     window.location.href = 'report?' + queryParams;
+}
+
+function citaceGen() { /* funkce předávající hodnoty ze stránky pro citace */
+  const citeInfo = document.getElementById("citeInfo");
+
+  const pageType = citeInfo?.dataset.pageType ?? "";
+  const langType = citeInfo?.dataset.langType ?? "";
+  const pageLang = citeInfo?.dataset.pageLang ?? "";
+  const pageTarget = citeInfo?.dataset.pageTarget ?? "";
+  const lemmaId  = citeInfo?.dataset.lemmaId ?? "";
+  const pageUrl  = window.location.href;
+  const video  = citeInfo?.dataset.video ?? "";
+  const lemma  = citeInfo?.dataset.lemma ?? "";
+  const search  = citeInfo?.dataset.pageSearch ?? "";
+
+  if (pageType === "video" || pageType === "search") {
+    if (langType === "write") {
+      const langMap = {
+        cs: "češtiny",
+        sk: "slovenštiny",
+        en: "angličtiny",
+        de: "němčiny",
+        uk: "ukrajinštiny"
+      };
+      const slovnikText = langMap[pageLang] ?? "";
+      slovnik = `Výkladový slovník ${slovnikText}, heslo ${lemma}.`;
+    }
+    if (langType === "sign") {
+      const langMap = {
+        czj: "českého znakového jazyka",
+        spj: "slovenského znakového jazyka",
+        is: "mezinárodního znakového systému",
+        asl: "amerického znakového jazyka",
+        ogs: "rakouského znakového jazyka",
+        uzm: "ukrajinského znakového jazyka"
+      };
+      const slovnikText = langMap[pageLang] ?? "";
+      slovnik = `Výkladový slovník ${slovnikText}, heslo ${pageLang}-${lemmaId}.`;
+    }
+  }
+  else slovnik = ``;
+  
+  if (pageType === "translate") {
+    const langMap2 = {
+      cs: "čeština",
+      sk: "slovenština",
+      en: "angličtina",
+      de: "němčina",
+      uk: "ukrajinština",
+      czj: "český znakový jazyk",
+      spj: "slovenský znakový jazyk",
+      is: "mezinárodní znakový systém",
+      asl: "americký znakový jazyk",
+      ogs: "rakouský znakový jazyk",
+      uzm: "ukrajinský znakový jazyk"
+    };
+    const slovnikA = langMap2[pageLang] ?? "";
+    const slovnikB = langMap2[pageTarget] ?? "";
+    console.log(slovnikA); 
+    console.log(slovnikB); 
+
+    if (langType === "write") 
+      slovnik = `Překladový slovník ${slovnikA} - ${slovnikB}, heslo ${lemma}.`;
+    if (langType === "sign") 
+      slovnik = `Překladový slovník ${slovnikA} - ${slovnikB}, heslo ${pageLang}-${lemmaId}.`;
+    else slovnik = `Překladový slovník ${slovnikA} - ${slovnikB}, výsledky hledání ${search}.`;
+  }
+  if (pageType === "show") {
+    if (langType === "write") {
+      slovnik = `Překladový slovník, heslo ${lemma}.`;
+    }
+    if (langType === "sign") {
+      slovnik = `Překladový slovník, heslo ${pageLang}-${lemmaId}.`;
+    }
+  }
+  if (pageType === "video") {
+    const videoType = "Soubor s lexémem ";
+/*    if (videoType === "celni") {
+      const videoType = "Soubor s lexémem (čelní pohled) ";
+    }
+    if (videoType === "bocni") {
+      const videoType = "Soubor s lexémem (boční pohled) ";
+    }
+    if (prefix === "definice") {
+      const videoType = "Soubor s definicí ";
+    }
+    if (prefix === "priklad") {
+      const videoType = "Soubor s kontextovou citací ";
+    } */
+    videoText = `${video} [online]. ${videoType} českého znakového jazyka. In: `;
+    online = ``;  
+  }
+  else { 
+    videoText = ``;
+    online = ` [online]`;
+  }
+  if (pageType === "help") {
+    slovnik = `Nápověda.`;
+  }
+  if (pageType === "about") {
+    slovnik = `O slovníku.`;
+  }
+  if (pageType === "contact") {
+    slovnik = `Kontakt.`;
+  }
+  const now = new Date();
+  const formattedDate = now.toLocaleDateString('cs-CZ');
+  const text = `${videoText}<i>Dictio: Vícejazyčný slovník znakových jazyků</i>${online}. Brno: Masarykova univerzita, 2007. ${slovnik} Cit. <i>${formattedDate}</i>. Dostupné z URL: ${pageUrl}.`;
+  document.getElementById("modalText").innerHTML = text;
+  document.getElementById("modal").style.display = "flex";
+}
+
+function kopirovatText() {
+  const textElement = document.getElementById("modalText");
+  const copyButton = document.getElementById("copyButton");
+
+  if (!textElement || !copyButton) return;
+
+  const textToCopy = textElement.innerText || textElement.textContent;
+
+  navigator.clipboard.writeText(textToCopy)
+    .then(() => {
+      // změna textu tlačítka
+      copyButton.textContent = "Zkopírováno do schránky";
+      copyButton.disabled = true; // volitelně – deaktivace tlačítka
+
+      // po 3 sekundách vrátit původní text
+      setTimeout(() => {
+        copyButton.textContent = "Zkopírovat do schránky";
+        copyButton.disabled = false;
+      }, 10000);
+    })
+}
+
+function zavriModal() {
+  document.getElementById("modal").style.display = "none";
 }
