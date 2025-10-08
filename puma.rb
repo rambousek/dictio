@@ -6,7 +6,7 @@ rackup "#{root}/config.ru"
 state_path "#{root}/tmp/pids/puma.state"
 stdout_redirect "#{root}/logs/stdout", "#{root}/logs/stderr"
 
-workers 2
+workers 4
 preload_app! false
 
 require "yabeda/prometheus"

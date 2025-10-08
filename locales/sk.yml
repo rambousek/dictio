@@ -54,6 +54,7 @@ sk:
     not_authorized: "Neplatné přihlášení"
   menu:
     about: "O slovníku"
+    cite: "Citovat"
     contact: "Kontakt"
     help: "Pomocník"
     admin: "Administrácia"

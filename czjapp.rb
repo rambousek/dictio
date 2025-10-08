@@ -14,6 +14,7 @@ require 'maxmind/geoip2'
 require 'damerau-levenshtein'
 require 'yabeda'
 require 'yabeda/prometheus'
+require 'resolv'
 
 require_relative 'lib/czj'
 require_relative 'lib/host-config'
@@ -21,6 +22,7 @@ require_relative 'lib/dict-config'
 require_relative 'lib/czj_fsw'
 require_relative 'lib/czj_dict_sw'
 require_relative 'lib/czj_comment'
+require_relative 'lib/czj_report'
 
 class CzjApp < Sinatra::Base
   $mongo = Mongo::Client.new($mongoHost)
@@ -35,6 +37,7 @@ class CzjApp < Sinatra::Base
     set :logging, true
     set :environment, $environment
     set :host_authorization, permitted_host: [$hostname]
+    set :session_secret, $session_secret
     I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
     I18n.load_path = Dir[File.join(settings.root, 'locales', '*.yml')]
     I18n.backend.load_translations
@@ -54,6 +57,8 @@ class CzjApp < Sinatra::Base
   $dict_array = {}
   comments = CzjComment.new
   comments.sign_dicts = sign_dicts
+  reports = CzjReport.new
+  reports.sign_dicts = sign_dicts
 
   @user_info = nil
   helpers Sinatra::Cookies
@@ -94,14 +99,23 @@ class CzjApp < Sinatra::Base
     end
 
     def lang_defaults
+      unless request.get_header('HTTP_X_FORWARDED_FOR').nil?
+        ipaddr = request.get_header('HTTP_X_FORWARDED_FOR')
+      else
+        ipaddr = request.get_header('REMOTE_ADDR')
+      end
       if @user_info and @user_info['default_lang'].to_s != '' and @user_info['default_dict'].to_s != ''
         return @user_info['default_lang'].to_s, @user_info['default_dict'].to_s, $dict_info[@user_info['default_dict'].to_s]['target']
       else
         begin
-          georecord = $georeader.country(request.get_header('HTTP_X_FORWARDED_FOR').split(',')[0])
+          georecord = $georeader.country(ipaddr.split(',')[0])
           country = georecord.country.iso_code
         rescue
-          country = 'EN'
+          if get_hostname(ipaddr).end_with?('cz')
+            country = 'CZ'
+          else
+            country = 'EN'
+          end
         end
         case country
         when 'CZ'
@@ -137,12 +151,14 @@ class CzjApp < Sinatra::Base
       session[:locale] = @user_info['default_lang']
     end
     if params['lang'].to_s != "" and I18n.available_locales.map(&:to_s).include?(params["lang"]) and params['lang'] != session[:locale]
-      session[:locale] = 'cs' if session[:locale].to_s == ""
       session[:locale] = params['lang']
     end
     @selectlang = session[:locale]
     default_locale, @default_dict, @default_target = lang_defaults
-    @selectlang = default_locale if @selectlang.nil?
+    if @selectlang.nil?
+      @selectlang = default_locale
+      session[:locale] = default_locale
+    end
     I18n.locale = @selectlang
     @langpath = request.fullpath.gsub(/lang=[a-z]*/,'').gsub(/&&*/,'&')
     @langpath += '?' unless @langpath.include?('?')
@@ -680,7 +696,7 @@ class CzjApp < Sinatra::Base
         @params = params
         @target = ''
         @dict_info = $dict_info
-        @report = dict.get_comment_report(params)
+        @report = reports.get_comment_report(dict, params)
         @users = dict.get_users
         slim :commentreport
       end
