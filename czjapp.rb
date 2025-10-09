@@ -409,7 +409,7 @@ class CzjApp < Sinatra::Base
         @cite_attr = CzjWebHelper.get_cite_attr('translate', request.path_info, nil, $dict_info, @entry, @dictcode, @target)
         slim :fullentry
       else
-        @cite_attr = CzjWebHelper.get_cite_attr('translate', request.path_info, nil, nil, nil, @dictcode, @target)
+        @cite_attr = CzjWebHelper.get_cite_attr('translate', request.path_info, nil, nil, nil, @dictcode, @target, params['search'].to_s.strip)
         #@result = dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, 0, @translate_limit)
         @result = {'relations'=>[], 'initial'=>true}
         slim :transresult

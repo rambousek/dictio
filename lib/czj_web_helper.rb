@@ -8,8 +8,9 @@ module CzjWebHelper
   # @param [Hash] entry
   # @param [String] lang_from
   # @param [String] lang_to
+  # @param [String] page_search
   # @return [Hash]
-  def self.get_cite_attr(page_type, path = nil, page_name = nil, dict_info = nil, entry = nil, lang_from = nil, lang_to = nil)
+  def self.get_cite_attr(page_type, path = nil, page_name = nil, dict_info = nil, entry = nil, lang_from = nil, lang_to = nil, page_search = nil)
     data = {'page-type' => page_type}
     data['page-name'] = page_name if page_name
     if entry and dict_info
@@ -24,6 +25,7 @@ module CzjWebHelper
     end
     data['page-lang'] = lang_from if lang_from
     data['page-target'] = lang_to if lang_to
+    data['page-search'] = page_search if page_search
     data['page-url'] = 'https://www.dictio.info' + path if path
     return {'data' => data}
   end
