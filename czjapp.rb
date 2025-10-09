@@ -23,6 +23,7 @@ require_relative 'lib/czj_fsw'
 require_relative 'lib/czj_dict_sw'
 require_relative 'lib/czj_comment'
 require_relative 'lib/czj_report'
+require_relative 'lib/czj_web_helper'
 
 class CzjApp < Sinatra::Base
   $mongo = Mongo::Client.new($mongoHost)
@@ -179,6 +180,7 @@ class CzjApp < Sinatra::Base
     @count_entry = stat['entries'][0]['count']
     @count_rels = ((stat['rel'][0]['count'].to_i+stat['usgrel'][0]['count'].to_i)/2).round
     @params = params
+    @cite_attr = CzjWebHelper.get_cite_attr('page', request.path_info, 'index')
     slim :home
   end
 
@@ -188,6 +190,7 @@ class CzjApp < Sinatra::Base
     @request = request
     @selected_page = 'about'
     page = 'about-'+I18n.locale.to_s
+    @cite_attr = CzjWebHelper.get_cite_attr('page', request.path_info, @selected_page)
     slim page.to_sym
   end
 
@@ -197,6 +200,7 @@ class CzjApp < Sinatra::Base
     @request = request
     @selected_page = 'help'
     page = 'help-'+I18n.locale.to_s
+    @cite_attr = CzjWebHelper.get_cite_attr('page', request.path_info, @selected_page)
     slim page.to_sym
   end
 
@@ -206,6 +210,7 @@ class CzjApp < Sinatra::Base
     @request = request
     @selected_page = 'help'
     page = 'helpsign-'+I18n.locale.to_s
+    @cite_attr = CzjWebHelper.get_cite_attr('page', request.path_info, @selected_page)
     slim page.to_sym
   end
 
@@ -215,6 +220,7 @@ class CzjApp < Sinatra::Base
     @request = request
     @selected_page = 'contact'
     page = 'contact-'+I18n.locale.to_s
+    @cite_attr = CzjWebHelper.get_cite_attr('page', request.path_info, @selected_page)
     slim page.to_sym
   end
   
@@ -242,6 +248,9 @@ class CzjApp < Sinatra::Base
       redirect to('/')
     end
     get '/'+code+'/show/:id' do
+      $stderr.puts params
+      $stderr.puts request
+      $stderr.puts request.path_info
       @dict_info = $dict_info
       @dictcode = code
       @show_dictcode = code
@@ -251,7 +260,8 @@ class CzjApp < Sinatra::Base
       @entry = dict.getdoc(params['id'], false)
       if @entry != {}
         @title = $dict_info[code]['label'] + ' ' + params['id']
-        slim :fullentry 
+        @cite_attr = CzjWebHelper.get_cite_attr('show', request.path_info, nil, $dict_info, @entry, @dictcode)
+        slim :fullentry
       else
         slim :notfound
       end
@@ -335,8 +345,10 @@ class CzjApp < Sinatra::Base
         File.open("public/log/search.csv", "a"){|f| f << [code, params['search'].to_s, Time.now.strftime("%Y-%m-%d %H:%M:%S")].join(";")+"\n"}
       end
       @entry = nil
+      @cite_attr = CzjWebHelper.get_cite_attr('search', request.path_info)
       if params['selected'] != nil
-        @entry = dict.getdoc(params['selected']) 
+        @entry = dict.getdoc(params['selected'])
+        @cite_attr = CzjWebHelper.get_cite_attr('search', request.path_info, nil, $dict_info, @entry, @dictcode)
       end
       @search_type = 'search'
       @search = ''
@@ -353,6 +365,7 @@ class CzjApp < Sinatra::Base
       @entry = dict.getdoc(params['entry'], false)
       @search_type = 'search'
       if @entry != nil and @entry != {}
+        @cite_attr = CzjWebHelper.get_cite_attr('search', request.path_info, nil, $dict_info, @entry, @dictcode)
         slim :entry, :layout=>false
       else
         return ''
@@ -392,8 +405,10 @@ class CzjApp < Sinatra::Base
         end
       end
       if @entry != nil and @entry != {}
-          slim :fullentry
+        @cite_attr = CzjWebHelper.get_cite_attr('translate', request.path_info, nil, $dict_info, @entry, @dictcode, @target)
+        slim :fullentry
       else
+        @cite_attr = CzjWebHelper.get_cite_attr('translate', request.path_info, nil, nil, nil, @dictcode, @target)
         #@result = dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, 0, @translate_limit)
         @result = {'relations'=>[], 'initial'=>true}
         slim :transresult
