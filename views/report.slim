@@ -389,37 +389,38 @@ main role="main"
                           svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                             use xlink:href="/img/icons.svg#arrow-down" width="100%" height="100%" x="0" y="0"            
                     div id="skupina" style="display: none"              
-                      - unless @params['def_skup[]'] == 'teires_w'
+                      - def_skup = params[:def_skup] || []
+                      - if !def_skup.include?("teiresias_w")
                         a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','teires_w','skup','ne')" #{I18n.t("admin.group.teires_w")}
-                      - unless @params['def_skup[]'] == 'obecna'
+                      - if !def_skup.include?("obecna")
                         a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','obecna','skup','ne')" #{I18n.t("admin.group.obecna")}
-                      - unless @params['skup'] and @params['def_skup[]'] == 'upol'
+                      - if !def_skup.include?("upol")
                         a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','upol','skup','ne')" #{I18n.t("admin.group.upol")}
-                      - unless @params['skup'] and @params['def_skup[]'] == 'biologie'
+                      - if !def_skup.include?("biologie")
                         a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','biologie','skup','ne')" #{I18n.t("admin.group.biologie")}  
-                      - unless @params['skup'] and @params['def_skup[]'] == 'informatika'
+                      - if !def_skup.include?("informatika")
                         a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','informatika','skup','ne')" #{I18n.t("admin.group.informatika")}
-                      - unless @params['skup'] and @params['def_skup[]'] == 'matematika'
+                      - if !def_skup.include?("matematika")
                         a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','matematika','skup','ne')" #{I18n.t("admin.group.matematika")}
-                      - unless @params['skup'] and @params['def_skup[]'] == 'vut_me'
+                      - if !def_skup.include?("vut_me")
                         a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','vut_me','skup','ne')" #{I18n.t("admin.group.vut_me")}                            
-                      - unless @params['skup'] and @params['def_skup[]'] == 'podnikani'
+                      - if !def_skup.include?("podnikani")
                         a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','podnikani','skup','ne')" #{I18n.t("admin.group.podnikani")}
-                      - unless @params['skup'] and @params['def_skup[]'] == 'spec'
+                      - if !def_skup.include?("spec")
                         a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','spec','skup','ne')" #{I18n.t("admin.group.spec")}
-                      - unless @params['skup'] and @params['def_skup[]'] == 'aka'
+                      - if !def_skup.include?("aka")
                         a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','aka','skup','ne')" #{I18n.t("admin.group.aka")}
-                      - unless @params['skup'] and @params['def_skup[]'] == 'soc'
+                      - if !def_skup.include?("soc")
                         a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','soc','skup','ne')" #{I18n.t("admin.group.soc")}
-                      - unless @params['skup'] and @params['def_skup[]'] == 'krest'
+                      - if !def_skup.include?("krest")
                         a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','krest','skup','ne')" #{I18n.t("admin.group.krest")}
-                      - unless @params['skup'] and @params['def_skup[]'] == 'test'
+                      - if !def_skup.include?("test")
                         a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','test','skup','ne')" #{I18n.t("admin.group.test")}
-                      - unless @params['skup'] and @params['def_skup[]'] == 'mdd'
+                      - if !def_skup.include?("mdd")
                         a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','mdd','skup','ne')" #{I18n.t("admin.group.mdd")}
-                      - unless @params['skup'] and @params['def_skup[]'] == 'ls'
+                      - if !def_skup.include?("ls")
                         a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','ls','skup','ne')" #{I18n.t("admin.group.ls")}
-                      - unless @params['skup'] and @params['def_skup[]'] == 'tczj'
+                      - if !def_skup.include?("tczj")
                         a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','tczj','skup','ne')" #{I18n.t("admin.group.tczj")}
                   .sub
                     span onclick="showhide('lemma')" style="cursor: pointer"
