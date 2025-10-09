@@ -729,6 +729,10 @@ function loadSearchResult(ev) {
   window.history.pushState({}, '', url); //add entry url to browser history
   $.get('/'+dict+'/searchentry/'+entryid, function(response) {
     $('.entry-content').html(response);
+    if ($('.entry-content #citeInfo')) {
+      $('footer #citeInfo').remove();
+      $('.entry-content #citeInfo').detach().appendTo('footer');
+    }
     $('.entry-content')[0].scrollIntoView();
     onLoadSearchResult();
     // update window title

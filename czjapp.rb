@@ -366,6 +366,7 @@ class CzjApp < Sinatra::Base
       @search_type = 'search'
       if @entry != nil and @entry != {}
         @cite_attr = CzjWebHelper.get_cite_attr('search', request.path_info, nil, $dict_info, @entry, @dictcode)
+        @add_cite = true
         slim :entry, :layout=>false
       else
         return ''
