@@ -10,7 +10,6 @@ main role="main"
       .row
         aside.col.col--2.col--start.layout-aside-admin role="complementary"
 
-
           .report-table
             article.col.col--start role="article" 
               h2 #{I18n.t("admin.activeopt")} 
@@ -191,8 +190,7 @@ main role="main"
                   - if @params['koment'] == 'ano' and @params['seltyphesla'] != ''
                     a.btn.btn-secondary.report-ne onclick="URLChange('koment','ne')" #{I18n.t("admin.not")} #{I18n.t("admin.koment."+@params['komentbox'])}
                     span.closebtn2 onclick="URLRemove2('koment','komentbox')" x       
-              hr style="margin: 5px;"
-              a.btn style="background-color: gray;" href="/#{@dictcode}/csvreport?#{@params.map{|k,v| (k=='def_skup'?"def_skup[]=#{v[0]}":"#{k}=#{v}")}.join('&')}" CSV export
+            
 
               .sub                          
                 h2 onclick="showhide('presets')" style="cursor: pointer"
@@ -620,7 +618,8 @@ main role="main"
                         a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','_us','koment','ne')" #{I18n.t("admin.koment._us")}
                       - unless @params['koment'] and @params['komentbox'] == 'vazby'
                         a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','vazby','koment','ne')" #{I18n.t("admin.koment.vazby")}
-              
+              a.btn style="background-color: gray; margin-left: auto; margin-right: auto" href="/#{@dictcode}/csvreport?#{@params.map{|k,v| (k=='def_skup'?"def_skup[]=#{v[0]}":"#{k}=#{v}")}.join('&')}" CSV export
+
         .col.col--2.col--start.layout-aside-admin 
 
           - if @duplicate['duplicate'].select{|info| info['code'] == @dictcode}.size > 0
