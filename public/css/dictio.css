@@ -142,11 +142,11 @@ video.uzm {
 h2.error {color: gray}
 img.error {align-self: center}
 
-.report-ano {background-color: darkgreen !important; font-size: 0.7rem !important; max-width: 140px; margin: 1px;}
+.report-ano {background-color: darkgreen !important; font-size: 0.7rem !important; width: 140px; margin: 1px;}
 .report-ano:hover {background-color: darkred !important; font-size: 0.7rem !important;}
-.report-ne {background-color: darkred !important; font-size: 0.7rem !important; max-width: 140px; margin: 1px;}
+.report-ne {background-color: darkred !important; font-size: 0.7rem !important; width: 140px; margin: 1px;}
 .report-ne:hover {background-color: darkgreen !important; font-size: 0.7rem !important;}
-.report- {background-color: gray !important; font-size: 0.7rem !important; margin: 1px;}
+.report- {background-color: gray !important; font-size: 0.7rem !important; width: 140px; margin: 1px;}
 .report-:hover {background-color: darkgreen !important; font-size: 0.7rem !important;}
 .report-table {display: block; background: var(--zakladni-seda1); border-radius: 20px; padding: 15px; margin-bottom: 5px;}
 
@@ -285,11 +285,10 @@ div.sub h3 {
 }
 
 .modal-content {
-  background: white;
-  color: gray;
+  background: gainsboro;
   padding: 20px;
   border-radius: 10px;
-  max-width: 400px;
+  max-width: 90%;
   text-align: center;
 }
 
