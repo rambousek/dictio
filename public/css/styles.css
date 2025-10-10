@@ -3897,7 +3897,7 @@ a.btn {
     border: solid 1px darkred;
     border-radius: 10px;
     padding: 3px !important;
-    list-style: list-style: url(../img/comments.png);      
+    list-style: url(../img/comments.png);      
 }
 
 tr.head {background-color: #03c9a9; line-height: 3}  
