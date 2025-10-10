@@ -9,11 +9,6 @@
      --neschvaleno: #290000;
   }
 }
-postcss([
-  cssvariables({
-    preserve: true,
-  }),
-])
 
 video.video-link {
   cursor: pointer;
