@@ -181,6 +181,7 @@ class CzjApp < Sinatra::Base
     @count_rels = ((stat['rel'][0]['count'].to_i+stat['usgrel'][0]['count'].to_i)/2).round
     @params = params
     @cite_attr = CzjWebHelper.get_cite_attr('page', request.path_info, 'index')
+    @cite_text = CzjWebHelper.build_cite(@cite_attr)
     slim :home
   end
 
@@ -191,6 +192,7 @@ class CzjApp < Sinatra::Base
     @selected_page = 'about'
     page = 'about-'+I18n.locale.to_s
     @cite_attr = CzjWebHelper.get_cite_attr('page', request.path_info, @selected_page)
+    @cite_text = CzjWebHelper.build_cite(@cite_attr)
     slim page.to_sym
   end
 
@@ -201,6 +203,7 @@ class CzjApp < Sinatra::Base
     @selected_page = 'help'
     page = 'help-'+I18n.locale.to_s
     @cite_attr = CzjWebHelper.get_cite_attr('page', request.path_info, @selected_page)
+    @cite_text = CzjWebHelper.build_cite(@cite_attr)
     slim page.to_sym
   end
 
@@ -211,6 +214,7 @@ class CzjApp < Sinatra::Base
     @selected_page = 'help'
     page = 'helpsign-'+I18n.locale.to_s
     @cite_attr = CzjWebHelper.get_cite_attr('page', request.path_info, @selected_page)
+    @cite_text = CzjWebHelper.build_cite(@cite_attr)
     slim page.to_sym
   end
 
@@ -221,6 +225,7 @@ class CzjApp < Sinatra::Base
     @selected_page = 'contact'
     page = 'contact-'+I18n.locale.to_s
     @cite_attr = CzjWebHelper.get_cite_attr('page', request.path_info, @selected_page)
+    @cite_text = CzjWebHelper.build_cite(@cite_attr)
     slim page.to_sym
   end
   
@@ -261,6 +266,7 @@ class CzjApp < Sinatra::Base
       if @entry != {}
         @title = $dict_info[code]['label'] + ' ' + params['id']
         @cite_attr = CzjWebHelper.get_cite_attr('show', request.path_info, nil, $dict_info, @entry, @dictcode)
+        @cite_text = CzjWebHelper.build_cite(@cite_attr)
         slim :fullentry
       else
         slim :notfound
@@ -277,6 +283,8 @@ class CzjApp < Sinatra::Base
       if @entry != {}
         @title = $dict_info[code]['label'] + ' ' + params['id']
         @video = params['video']
+        @cite_attr = CzjWebHelper.get_cite_attr('video', request.path_info, nil, $dict_info, @entry, @dictcode, nil, nil, @video)
+        @cite_text = CzjWebHelper.build_cite(@cite_attr)
         slim :showvideo
       else
         slim :notfound
@@ -345,11 +353,12 @@ class CzjApp < Sinatra::Base
         File.open("public/log/search.csv", "a"){|f| f << [code, params['search'].to_s, Time.now.strftime("%Y-%m-%d %H:%M:%S")].join(";")+"\n"}
       end
       @entry = nil
-      @cite_attr = CzjWebHelper.get_cite_attr('search', request.path_info)
+      @cite_attr = CzjWebHelper.get_cite_attr('search', request.path_info, nil, $dict_info, nil, code, nil, params['search'])
       if params['selected'] != nil
         @entry = dict.getdoc(params['selected'])
-        @cite_attr = CzjWebHelper.get_cite_attr('search', request.path_info, nil, $dict_info, @entry, @dictcode)
+        @cite_attr = CzjWebHelper.get_cite_attr('search', request.path_info, nil, $dict_info, @entry, code)
       end
+      @cite_text = CzjWebHelper.build_cite(@cite_attr)
       @search_type = 'search'
       @search = ''
       @search = params['search'] if params['search'] != '_'
@@ -365,7 +374,8 @@ class CzjApp < Sinatra::Base
       @entry = dict.getdoc(params['entry'], false)
       @search_type = 'search'
       if @entry != nil and @entry != {}
-        @cite_attr = CzjWebHelper.get_cite_attr('search', request.path_info, nil, $dict_info, @entry, @dictcode)
+        @cite_attr = CzjWebHelper.get_cite_attr('search', request.path_info.sub('searchentry', 'show'), nil, $dict_info, @entry, @dictcode)
+        @cite_text = CzjWebHelper.build_cite(@cite_attr)
         @add_cite = true
         slim :entry, :layout=>false
       else
@@ -407,9 +417,11 @@ class CzjApp < Sinatra::Base
       end
       if @entry != nil and @entry != {}
         @cite_attr = CzjWebHelper.get_cite_attr('translate', request.path_info, nil, $dict_info, @entry, @dictcode, @target)
+        @cite_text = CzjWebHelper.build_cite(@cite_attr)
         slim :fullentry
       else
         @cite_attr = CzjWebHelper.get_cite_attr('translate', request.path_info, nil, nil, nil, @dictcode, @target, params['search'].to_s.strip)
+        @cite_text = CzjWebHelper.build_cite(@cite_attr)
         #@result = dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, 0, @translate_limit)
         @result = {'relations'=>[], 'initial'=>true}
         slim :transresult
