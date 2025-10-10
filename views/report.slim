@@ -10,7 +10,6 @@ main role="main"
       .row
         aside.col.col--2.col--start.layout-aside-admin role="complementary"
 
-
           .report-table
             article.col.col--start role="article" 
               h2 #{I18n.t("admin.activeopt")} 
@@ -191,8 +190,7 @@ main role="main"
                   - if @params['koment'] == 'ano' and @params['seltyphesla'] != ''
                     a.btn.btn-secondary.report-ne onclick="URLChange('koment','ne')" #{I18n.t("admin.not")} #{I18n.t("admin.koment."+@params['komentbox'])}
                     span.closebtn2 onclick="URLRemove2('koment','komentbox')" x       
-              hr style="margin: 5px;"
-              a.btn style="background-color: gray;" href="/#{@dictcode}/csvreport?#{@params.map{|k,v| (k=='def_skup'?"def_skup[]=#{v[0]}":"#{k}=#{v}")}.join('&')}" CSV export
+
 
               .sub                          
                 h2 onclick="showhide('presets')" style="cursor: pointer"
@@ -246,7 +244,7 @@ main role="main"
                         - unless @dictcode == 'uk' 
                           a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationuk=ne" UA
                         - unless @dictcode == 'uzm'
-                           a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationuzm=ne" UŽM
+                          a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationuzm=ne" UŽM
                     .sub 
                       span onclick="showhide('pre-toapp')" style="cursor: pointer"
                         h3
@@ -382,22 +380,46 @@ main role="main"
                     svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                       use xlink:href="/img/icons.svg#arrow-down" width="100%" height="100%" x="0" y="0"
                 div id="allopt" style="display: none" 
-
-                  = form_tag "/report", method: :get, class: "report-form" do
-                    .sub
-                      span onclick="showhide('skupina')" style="cursor: pointer"
-                        | #{I18n.t("admin.workgroup")}
-                        span.icon class="icon--arrow-down nav-lang__dropdown"
+                  .sub
+                    span onclick="showhide('skupina')" style="cursor: pointer"
+                      | #{I18n.t("admin.workgroup")}
+                      span.icon class="icon--arrow-down nav-lang__dropdown"
                           svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
-                            use xlink:href="/img/icons.svg#arrow-down" width="100%" height="100%" x="0" y="0"
-                      div id="skupina" style="display: none"
-                        - groups = %w[teires_w obecna upol biologie informatika matematika vut_me podnikani spec aka soc krest test mdd ls tczj]
-                        - groups.each do |g|
-                          label
-                            = check_box_tag "def_skup[]", g, (@params['def_skup[]'] == g)
-                            = I18n.t("admin.group.#{g}")
-                    = submit_tag I18n.t("admin.confirm"), class: "btn btn-primary"
-
+                            use xlink:href="/img/icons.svg#arrow-down" width="100%" height="100%" x="0" y="0"            
+                    div id="skupina" style="display: none"              
+                      - def_skup = params[:def_skup] || []
+                      - if !def_skup.include?("teiresias_w")
+                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','teires_w','skup','ne')" #{I18n.t("admin.group.teires_w")}
+                      - if !def_skup.include?("obecna")
+                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','obecna','skup','ne')" #{I18n.t("admin.group.obecna")}
+                      - if !def_skup.include?("upol")
+                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','upol','skup','ne')" #{I18n.t("admin.group.upol")}
+                      - if !def_skup.include?("biologie")
+                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','biologie','skup','ne')" #{I18n.t("admin.group.biologie")}
+                      - if !def_skup.include?("informatika")
+                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','informatika','skup','ne')" #{I18n.t("admin.group.informatika")}
+                      - if !def_skup.include?("matematika")
+                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','matematika','skup','ne')" #{I18n.t("admin.group.matematika")}
+                      - if !def_skup.include?("vut_me")
+                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','vut_me','skup','ne')" #{I18n.t("admin.group.vut_me")}
+                      - if !def_skup.include?("podnikani")
+                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','podnikani','skup','ne')" #{I18n.t("admin.group.podnikani")}
+                      - if !def_skup.include?("spec")
+                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','spec','skup','ne')" #{I18n.t("admin.group.spec")}
+                      - if !def_skup.include?("aka")
+                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','aka','skup','ne')" #{I18n.t("admin.group.aka")}
+                      - if !def_skup.include?("soc")
+                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','soc','skup','ne')" #{I18n.t("admin.group.soc")}
+                      - if !def_skup.include?("krest")
+                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','krest','skup','ne')" #{I18n.t("admin.group.krest")}
+                      - if !def_skup.include?("test")
+                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','test','skup','ne')" #{I18n.t("admin.group.test")}
+                      - if !def_skup.include?("mdd")
+                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','mdd','skup','ne')" #{I18n.t("admin.group.mdd")}
+                      - if !def_skup.include?("ls")
+                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','ls','skup','ne')" #{I18n.t("admin.group.ls")}
+                      - if !def_skup.include?("tczj")
+                        a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','tczj','skup','ne')" #{I18n.t("admin.group.tczj")}
                   .sub
                     span onclick="showhide('lemma')" style="cursor: pointer"
                       h3 
@@ -450,12 +472,36 @@ main role="main"
                           svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                             use xlink:href="/img/icons.svg#arrow-down" width="100%" height="100%" x="0" y="0"
                     div id="sldruh" style="display: none"
-                      - options = %w[subst adj pron num verb adv part konj]
-                      - options += %w[modif taz kat klf spc finger] if @dict_info[@dictcode]['type'] == 'sign'
-                      - options.each do |opt|
-                        label
-                          = radio_button_tag :slovni_druh, opt, (@params['slovni_druh'] == opt)
-                          = I18n.t("gram.slovni_druh.#{opt}")
+                      - unless @params['sldruh'] and @params['slovni_druh'] == 'subst'
+                        a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','subst','sldruh','ne')" #{I18n.t("gram.slovni_druh.subst")}
+                      - unless @params['sldruh'] and @params['slovni_druh'] == 'adj'
+                        a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','adj','sldruh','ne')" #{I18n.t("gram.slovni_druh.adj")}                                          
+                      - unless @params['sldruh'] and @params['slovni_druh'] == 'pron'
+                        a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','pron','sldruh','ne')" #{I18n.t("gram.slovni_druh.pron")}
+                      - unless @params['sldruh'] and @params['slovni_druh'] == 'num'
+                        a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','num','sldruh','ne')" #{I18n.t("gram.slovni_druh.num")}
+                      - unless @params['sldruh'] and @params['slovni_druh'] == 'verb'
+                        a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','verb','sldruh','ne')" #{I18n.t("gram.slovni_druh.verb")}
+                      - unless @params['sldruh'] and @params['slovni_druh'] == 'adv'
+                        a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','adv','sldruh','ne')" #{I18n.t("gram.slovni_druh.adv")}
+                      - if @dict_info[@dictcode]['type'] == 'sign'
+                        - unless @params['sldruh'] and @params['slovni_druh'] == 'modif'
+                          a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','modif','sldruh','ne')" #{I18n.t("gram.slovni_druh.modif")}
+                        - unless @params['sldruh'] and @params['slovni_druh'] == 'taz'
+                          a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','taz','sldruh','ne')" #{I18n.t("gram.slovni_druh.taz")}                  
+                      - unless @params['sldruh'] and @params['slovni_druh'] == 'part'          
+                        a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','part','sldruh','ne')" #{I18n.t("gram.slovni_druh.part")}              
+                      - unless @params['sldruh'] and @params['slovni_druh'] == 'konj'                      
+                        a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','konj','sldruh','ne')" #{I18n.t("gram.slovni_druh.konj")}
+                      - if @dict_info[@dictcode]['type'] == 'sign'    
+                        - unless @params['sldruh'] and @params['slovni_druh'] == 'kat'
+                          a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','kat','sldruh','ne')" #{I18n.t("gram.slovni_druh.kat")}                          
+                        - unless @params['sldruh'] and @params['slovni_druh'] == 'klf'            
+                          a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','klf','sldruh','ne')" #{I18n.t("gram.slovni_druh.klf")}
+                        - unless @params['sldruh'] and @params['slovni_druh'] == 'spc'
+                          a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','spc','sldruh','ne')" #{I18n.t("gram.slovni_druh.spc")}
+                        - unless @params['sldruh'] and @params['slovni_druh'] == 'finger'
+                          a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','finger','sldruh','ne')" #{I18n.t("gram.slovni_druh.finger")}                                                                                                                                                                                            
                   .sub
                     span onclick="showhide('sem')" style="cursor: pointer"
                       h3
@@ -572,7 +618,8 @@ main role="main"
                         a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','_us','koment','ne')" #{I18n.t("admin.koment._us")}
                       - unless @params['koment'] and @params['komentbox'] == 'vazby'
                         a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','vazby','koment','ne')" #{I18n.t("admin.koment.vazby")}
-              
+              a.btn style="background-color: gray; margin-left: auto; margin-right: auto" href="/#{@dictcode}/csvreport?#{@params.map{|k,v| (k=='def_skup'?"def_skup[]=#{v[0]}":"#{k}=#{v}")}.join('&')}" CSV export
+
         .col.col--2.col--start.layout-aside-admin 
 
           - if @duplicate['duplicate'].select{|info| info['code'] == @dictcode}.size > 0

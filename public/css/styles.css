@@ -3883,7 +3883,7 @@ a.btn {
     padding: 10px;
     line-height: 1.2;
     text-align: left;
-    border: 1px solid #abb1c2; }
+    border-bottom: 1px solid #abb1c2; }
   .table th {
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
@@ -3892,6 +3892,13 @@ a.btn {
     border-bottom: 1px solid #abb1c2; }
   .table tr:hover td {
     background-color: var(--translate-bg-seda) }
+
+.report-row li {
+    border: solid 1px darkred;
+    border-radius: 10px;
+    padding: 3px !important;
+    list-style: url(../img/comments.png);      
+}
 
 tr.head {background-color: #03c9a9; line-height: 3}  
 
