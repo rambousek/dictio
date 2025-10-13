@@ -729,9 +729,14 @@ function loadSearchResult(ev) {
   window.history.pushState({}, '', url); //add entry url to browser history
   $.get('/'+dict+'/searchentry/'+entryid, function(response) {
     $('.entry-content').html(response);
-    if ($('.entry-content #citeInfo')) {
+    let el_cite = $('.entry-content #citeInfo');
+    if (el_cite) {
       $('footer #citeInfo').remove();
-      $('.entry-content #citeInfo').detach().appendTo('footer');
+      el_cite.data('cite-text',
+          el_cite.data('cite-text')
+              .replace(/https:\/\/www.dictio.info\/.*searchentry\/[0-9]+/, 'https://www.dictio.info' + window.location.pathname)
+      );
+      el_cite.detach().appendTo('footer');
     }
     $('.entry-content')[0].scrollIntoView();
     onLoadSearchResult();
