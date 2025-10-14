@@ -30,8 +30,8 @@ main role="main"
               th #{I18n.t('admin.commentreport.entry')}
               th 
               th 
-              th #{I18n.t('admin.commentreport.assign')}
               th #{I18n.t('admin.commentreport.user')}
+              th #{I18n.t('admin.commentreport.assign')}              
               th
             - @report['comments'].each do |koment|
               tr.report-row
@@ -48,10 +48,10 @@ main role="main"
                   hr style="margin: 10px 0px 10px 0px"
                   div #{koment['text']}
                 td 
-                  - if koment.include?('assign') and koment['assign'] != ''
-                    b → #{koment['assign']}
-                td 
                   small
                     | #{koment['user']} #{koment['time']}
+                td 
+                  - if koment.include?('assign') and koment['assign'] != ''
+                    b → #{koment['assign']}
                 td 
                   a.btn href="https://edit.dictio.info/editor#{koment['dict']}/?id=#{koment['entry']}" target="_blank" edit

@@ -3905,7 +3905,8 @@ a.btn {
     display: list-item;
     border-radius: 10px;
     padding: 3px !important;
-    list-style-image: url(../img/comments.png);    
+    list-style-image: url(../img/comments.png);
+    margin-left: 40px;    
 }
 
 tr.head {background-color: #03c9a9; line-height: 3}  
