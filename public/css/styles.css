@@ -3525,6 +3525,10 @@ a.btn {
 
 .naming2 {color: darkgray;}
 
+p.naming.naming2 span:not(:last-child)::after {
+    content: ", "; /* oddělovač oblastí */
+}
+
 .recent {
   padding: 19px 0;
   background: var(--zakladni-bila); }
