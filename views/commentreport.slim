@@ -46,7 +46,7 @@ main role="main"
                 td 
                   b #{koment['box']} 
                   hr style="margin: 10px 0px 10px 0px"
-                  p #{koment['text']}
+                  div #{koment['text']}
                 td 
                   - if koment.include?('assign') and koment['assign'] != ''
                     b → #{koment['assign']}

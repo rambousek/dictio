@@ -3900,6 +3900,14 @@ a.btn {
     list-style: url(../img/comments.png);      
 }
 
+.report-row div {
+    border: solid 1px darkred;
+    display: list-item;
+    border-radius: 10px;
+    padding: 3px !important;
+    list-style-image: url(../img/comments.png);    
+}
+
 tr.head {background-color: #03c9a9; line-height: 3}  
 
 td.vertical {transform: rotate(190deg);
