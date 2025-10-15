@@ -32,7 +32,7 @@ main role="main"
           table.table.table--no-margin.report-table
             tr
               th
-              th lemma
+              th style="width: 175px" lemma
               th změna
               th
             - i = 0
@@ -41,13 +41,14 @@ main role="main"
               tr
                 td = i
                 td
-                  div = entry['timestamp']
+                  div 
+                    i = entry['timestamp']
                   div
-                    = entry['dict']
+                    = entry['dict'] 
                     a.btn class="btn-#{entry['dict']}" href="/#{entry['dict']}/show/#{entry['entry']}" target="_blank"
                       = entry['entry']
                 td
-                  = "#{entry['user']}:"
+                  b = "#{entry['user']}:"
                   p = entry['detail']
                 td
                   - if entry['full_entry']
