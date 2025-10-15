@@ -17,7 +17,7 @@ main role="main"
                 li
                   a.btn.btn--secondary href="https://admin.dictio.info/duplicates" #{I18n.t("admin.dup")}     
             .col.col--2.col--start.layout-aside 
-              table.table.table--no-margin.report-table
+              table
                 - @report['duplicate'].each do |dup|
                   tr
                     td 
