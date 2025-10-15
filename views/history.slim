@@ -49,7 +49,8 @@ main role="main"
                       = entry['entry']
                 td
                   b = "#{entry['user']}:"
-                  p = entry['detail']
+                  p style="font-size: smaller"
+                    = entry['detail']
                 td
                   - if entry['full_entry']
                     a.btn href="/compare/#{entry['_id']}" target="_blank"
