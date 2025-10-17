@@ -24,6 +24,8 @@ require_relative 'lib/czj_dict_sw'
 require_relative 'lib/czj_comment'
 require_relative 'lib/czj_report'
 require_relative 'lib/czj_web_helper'
+require_relative 'lib/czj_admin'
+require_relative 'lib/czj_admin_info'
 
 class CzjApp < Sinatra::Base
   $mongo = Mongo::Client.new($mongoHost)
@@ -60,6 +62,7 @@ class CzjApp < Sinatra::Base
   comments.sign_dicts = sign_dicts
   reports = CzjReport.new
   reports.sign_dicts = sign_dicts
+  admin_dict = CzjAdmin.new
 
   @user_info = nil
   helpers Sinatra::Cookies
@@ -236,6 +239,7 @@ class CzjApp < Sinatra::Base
     @selected_page = 'admin'
     @lemma_counts = $dict_array['czj'].get_admin_counts
     @duplicate = $dict_array['czj'].get_duplicate_counts
+    @notrans_count = admin_dict.info_count.get_count_relation_notrans
     page = 'admin'
     slim page.to_sym
   end
