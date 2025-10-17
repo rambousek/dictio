@@ -20,15 +20,18 @@ main role="main"
                     td
                       a.btn class="btn--round" href="https://edit.dictio.info/editor#{code}/?id=" #{I18n.t("admin.newentry2")} 
                     td
-                      / - if @dict_info[@dictcode]['type'] == 'sign'
-                      a.btn class="btn--secondary" href="/#{code}/videoreport" #{I18n.t("admin.video")} 
+                      - if $dict_info[code] and $dict_info[code]['type'] == 'sign'
+                        a.btn class="btn--secondary" href="/#{code}/videoreport" #{I18n.t("admin.video")}
                     td
                       - if @duplicate['duplicate'].select{|info| info['code'] == code}[0] != nil 
                         a.btn class="btn--secondary" href="https://admin.dictio.info/#{code}/duplicate" 
                           | #{I18n.t("admin.dup")} 
                           span style="color: red" (#{@duplicate['duplicate'].select{|info| info['code'] == code}[0]['count']})
-                    td 
-                      a.btn class="btn--secondary" href="https://admin.dictio.info/#{code}/notrans" #{I18n.t("admin.nolemma")}
+                    td
+                      - if @notrans_count[code] > 0
+                        a.btn class="btn--secondary" href="https://admin.dictio.info/#{code}/notrans"
+                          | #{I18n.t("admin.nolemma")}
+                          span style="color: red" (#{@notrans_count[code]})
                     td
                       a.btn class="btn--secondary" href="/admin/#{code}/comments?assign=#{@user_info['login']}" #{I18n.t('admin.commentreport.title')}
                   tr 
