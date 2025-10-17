@@ -1725,7 +1725,8 @@ a.btn--secondary {
     .btn--secondary,
     a.btn--secondary {
       border: solid 1px var(--zakladni-text-cerna1);  
-      color: var(--zakladni-text-cerna1) }
+      color: var(--zakladni-text-cerna1);
+      background-color: transparent; }
   .btn--secondary:hover, .btn--secondary:focus,
   a.btn--secondary:hover,
   a.btn--secondary:focus {
