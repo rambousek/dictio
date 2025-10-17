@@ -27,7 +27,7 @@ module CzjAdminInfo
 
   # number of entries and published entriess for each dictionary
   # @return [Hash]
-  def get_count_entry
+  def self.get_count_entry
     res = {}
     $dict_info.each{|code, _|
       res[code] = {}
