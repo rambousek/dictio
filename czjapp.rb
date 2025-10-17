@@ -237,7 +237,7 @@ class CzjApp < Sinatra::Base
     @search_params = {}
     @request = request
     @selected_page = 'admin'
-    @lemma_counts = $dict_array['czj'].get_admin_counts
+    @lemma_counts = admin_dict.info_count.get_count_entry
     @duplicate = $dict_array['czj'].get_duplicate_counts
     @notrans_count = admin_dict.info_count.get_count_relation_notrans
     page = 'admin'

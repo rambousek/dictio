@@ -3247,16 +3247,6 @@ class CZJDict < Object
     logfile.close
   end
 
-  def get_admin_counts
-    res = {}
-    $dict_info.each{|code, _|
-      res[code] = {}
-      res[code]['entry_count'] = @entrydb.find({'dict': code}).count_documents
-      res[code]['entry_pub_count'] = @entrydb.find({'dict': code, 'lemma.completeness': {'$ne': '1'}}).count_documents
-    }
-    return res
-  end
-
   # Prepare array with list of words and assign to wordlist attr
   # for each dictionary combination for translation, for search all words in current dictionary
   def build_wordlist

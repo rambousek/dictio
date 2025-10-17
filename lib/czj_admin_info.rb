@@ -23,4 +23,17 @@ module CzjAdminInfo
   def self.get_count_relation_notrans_from(dictcode)
     return $mongo['entries'].find({'dict': dictcode, 'meanings.relation.notrans': true}).count
   end
+
+
+  # number of entries and published entriess for each dictionary
+  # @return [Hash]
+  def get_count_entry
+    res = {}
+    $dict_info.each{|code, _|
+      res[code] = {}
+      res[code]['entry_count'] = @entrydb.find({'dict': code}).count_documents
+      res[code]['entry_pub_count'] = @entrydb.find({'dict': code, 'lemma.completeness': {'$ne': '1'}}).count_documents
+    }
+    res
+  end
 end
