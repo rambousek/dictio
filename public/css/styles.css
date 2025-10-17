@@ -1724,11 +1724,12 @@ a.btn--secondary {
   @media (min-width: 768px) {
     .btn--secondary,
     a.btn--secondary {
-      background-color: var(--zakladni-text-cerna1); } }
+      border: solid 1px var(--zakladni-text-cerna1);  
+      color: var(--zakladni-text-cerna1) }
   .btn--secondary:hover, .btn--secondary:focus,
   a.btn--secondary:hover,
   a.btn--secondary:focus {
-    background-color: #0d111d; }
+    background-color: #02977f; }
 
 a.transparent {
   color: #03c9a9 !important;
