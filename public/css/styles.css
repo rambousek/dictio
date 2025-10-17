@@ -1731,6 +1731,7 @@ a.btn--secondary {
   a.btn--secondary:hover,
   a.btn--secondary:focus {
     background-color: #02977f; }
+  }
 
 a.transparent {
   color: #03c9a9 !important;
