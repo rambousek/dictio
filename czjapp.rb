@@ -26,6 +26,7 @@ require_relative 'lib/czj_report'
 require_relative 'lib/czj_web_helper'
 require_relative 'lib/czj_admin'
 require_relative 'lib/czj_admin_info'
+require_relative 'lib/czj_admin_duplicate'
 
 class CzjApp < Sinatra::Base
   $mongo = Mongo::Client.new($mongoHost)
@@ -238,7 +239,7 @@ class CzjApp < Sinatra::Base
     @request = request
     @selected_page = 'admin'
     @lemma_counts = admin_dict.info_count.get_count_entry
-    @duplicate = $dict_array['czj'].get_duplicate_counts
+    @duplicate = CzjAdminDuplicate.get_duplicate_counts
     @notrans_count = admin_dict.info_count.get_count_relation_notrans
     page = 'admin'
     slim page.to_sym
@@ -740,7 +741,7 @@ class CzjApp < Sinatra::Base
       @dict_info = $dict_info
       @params = params
       @report = dict.get_report(params, @user_info, 0, @report_limit)
-      @duplicate = $dict_array['czj'].get_duplicate_counts
+      @duplicate = CzjAdminDuplicate.get_duplicate_counts
       slim :report
     end
     get '/'+code+'/reportlist(/:start)?(/:limit)?' do
@@ -917,18 +918,18 @@ class CzjApp < Sinatra::Base
     if $is_admin
       get '/'+code+'/jsonduplicate' do
         content_type :json
-        body = dict.get_duplicate.to_json
+        body = CzjAdminDuplicate.get_duplicate(dict).to_json
       end
       get '/'+code+'/duplicatelist(/:start)?(/:limit)?' do
         content_type :json
-        body = dict.get_duplicate(params['start'].to_i, params['limit'].to_i).to_json
+        body = CzjAdminDuplicate.get_duplicate(dict, params['start'].to_i, params['limit'].to_i).to_json
       end
       get '/'+code+'/duplicate' do
         @dictcode = code
         @target = ''
         @dict_info = $dict_info
         @params = params
-        @report = dict.get_duplicate
+        @report = CzjAdminDuplicate.get_duplicate(dict)
         slim :duplicate
       end
       get '/'+code+'/duplicatesyno' do
@@ -936,7 +937,7 @@ class CzjApp < Sinatra::Base
         @target = ''
         @dict_info = $dict_info
         @params = params
-        @report = dict.get_duplicate_syno
+        @report = CzjAdminDuplicate.get_duplicate_syno(dict)
         slim :duplicate
       end
       get '/'+code+'/notrans' do
@@ -1010,7 +1011,7 @@ class CzjApp < Sinatra::Base
 
     get '/duplicates' do
       @dict_info = $dict_info
-      @report = $dict_array['czj'].get_duplicate_counts
+      @report = CzjAdminDuplicate.get_duplicate_counts
       slim :duplicates
     end
 
