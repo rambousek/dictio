@@ -75,7 +75,7 @@ main role="main"
                               |  (#{entry['comment']['user']}, #{entry['comment']['time']})                            
                           span
                             textarea data-box="meaning#{entry['relation']['meaning']}rel#{entry['relation']['target']}#{entry['relation']['trans']}" data-dict="#{entry['dict']}" data-id="#{entry['id']}" name="kom_text"
-                            button.bt.notranscomment  #{I18n.t("admin.koment.add")}
+                            button.btn.notranscomment  #{I18n.t("admin.koment.add")}
                         td 
                           a href="/#{entry['dict']}/show/#{entry['id']}" target="_blank" #{entry['dict']} #{entry['id']} (#{entry['relation']['meaning']})
                           br
