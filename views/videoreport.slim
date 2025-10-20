@@ -63,10 +63,14 @@ main role="main"
           table.table.table--no-margin.report-table data-resultcount=@report['resultcount']
             tr
               th width="10%" (#{@report['resultcount']})
+              th 
+              th 
+              th
             tr
               th video
-              th video
+              th filename
               th label
+              th lemma
             == slim :videoreportresultlist
           - if @report['resultcount'].to_i > @report['entries'].size
             a.btn.load_next_videoreport data-dict=@dictcode #{I18n.t("search.load_next")}
