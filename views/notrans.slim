@@ -18,7 +18,7 @@ main role="main"
               | #{I18n.t("admin.notrans0")}
             - else
               .report-table
-                table style="border-collapse: collapse"
+                table.table.table--no-margin.report-table style="border-collapse: collapse"
                   tr
                     th #{I18n.t("admin.heslo")}
                     th  #{I18n.t("admin.source")} 
@@ -49,7 +49,7 @@ main role="main"
             - else
               form method="get" action="/#{@dictcode}/notrans"
                 .report-table
-                  table
+                  table.table.table--no-margin.report-table
                     tr
                       td #{I18n.t("admin.notransauth")}
                       td                  
@@ -57,7 +57,7 @@ main role="main"
                       td
                         input.btn type="submit" value="#{I18n.t('admin.show')}"
                 .report-table
-                  table style="border-collapse: collapse"
+                  table.table.table--no-margin.report-table style="border-collapse: collapse"
                     tr
                       th #{I18n.t("admin.heslo")}
                       th  #{I18n.t("admin.source")} 
