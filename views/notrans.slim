@@ -30,10 +30,10 @@ main role="main"
                         label #{entry['relation']['trans']} (#{entry['relation']['target']})
                       td #{entry['relation']['notransuser']}
                       td 
-                        div
-                          - if entry['comment'] && entry['comment']['text'] != ""
-                              i = entry['comment']['text']
-                              |  (#{entry['comment']['user']}, #{entry['comment']['time']})      
+                        - if entry['comment'] && entry['comment']['text'] != ""
+                          div
+                            i = entry['comment']['text']
+                            |  (#{entry['comment']['user']}, #{entry['comment']['time']})      
                         span
                           textarea data-box="meaning#{entry['relation']['meaning']}rel#{entry['relation']['target']}#{entry['relation']['trans']}" data-dict="#{entry['dict']}" data-id="#{entry['id']}" name="kom_text"
                           button.btn.notranscomment  #{I18n.t("admin.koment.add")}
@@ -69,8 +69,8 @@ main role="main"
                           label #{entry['relation']['trans']} (#{entry['relation']['target']})
                         td #{entry['relation']['notransuser']}
                         td 
-                          div
-                            - if entry['comment'] && entry['comment']['text'] != ""
+                          - if entry['comment'] && entry['comment']['text'] != ""
+                            div                            
                               i = entry['comment']['text']
                               |  (#{entry['comment']['user']}, #{entry['comment']['time']})
                           span
