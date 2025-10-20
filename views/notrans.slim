@@ -21,21 +21,22 @@ main role="main"
                 table.table.table--no-margin.report-table style="border-collapse: collapse"
                   tr
                     th #{I18n.t("admin.heslo")}
-                    th #{I18n.t("admin.comments")}
-                    th 
-                    th #{I18n.t("admin.source")} 
+                    th zadal
+                    th  #{I18n.t("admin.comments")}
+                    th  #{I18n.t("admin.source")} 
                   - @report['notrans1']['notrans'].each do |entry|
                     tr.report-row style="border-bottom: 1px solid white"
                       td 
                         label #{entry['relation']['trans']} (#{entry['relation']['target']})
                       td #{entry['relation']['notransuser']}
+                      td 
                         - if entry['comment'] && entry['comment']['text'] != ""
                           div
                             i = entry['comment']['text']
                             |  (#{entry['comment']['user']}, #{entry['comment']['time']})      
-                      td
-                        textarea data-box="meaning#{entry['relation']['meaning']}rel#{entry['relation']['target']}#{entry['relation']['trans']}" data-dict="#{entry['dict']}" data-id="#{entry['id']}" name="kom_text"
-                        button.btn.notranscomment  #{I18n.t("admin.koment.add")}
+                        span
+                          textarea data-box="meaning#{entry['relation']['meaning']}rel#{entry['relation']['target']}#{entry['relation']['trans']}" data-dict="#{entry['dict']}" data-id="#{entry['id']}" name="kom_text"
+                          button.btn.notranscomment  #{I18n.t("admin.koment.add")}
                       td 
                         a href="/#{entry['dict']}/show/#{entry['id']}" target="_blank" #{entry['dict']} #{entry['id']} (#{entry['relation']['meaning']})
                         br
@@ -59,21 +60,22 @@ main role="main"
                   table.table.table--no-margin.report-table style="border-collapse: collapse"
                     tr
                       th #{I18n.t("admin.heslo")}                      
-                      th #{I18n.t("admin.comments")}
-                      th 
-                      th #{I18n.t("admin.source")} 
+                      th zadal
+                      th  #{I18n.t("admin.comments")}
+                      th  #{I18n.t("admin.source")} 
                     - @report['notrans2']['notrans'].each do |entry|
                       tr.report-row style="border-bottom: 1px solid white"
                         td 
                           label #{entry['relation']['trans']} (#{entry['relation']['target']})
                         td #{entry['relation']['notransuser']}
+                        td 
                           - if entry['comment'] && entry['comment']['text'] != ""
                             div                            
                               i = entry['comment']['text']
                               |  (#{entry['comment']['user']}, #{entry['comment']['time']})
-                        td
-                          textarea data-box="meaning#{entry['relation']['meaning']}rel#{entry['relation']['target']}#{entry['relation']['trans']}" data-dict="#{entry['dict']}" data-id="#{entry['id']}" name="kom_text"
-                          button.btn.notranscomment  #{I18n.t("admin.koment.add")}
+                          span
+                            textarea data-box="meaning#{entry['relation']['meaning']}rel#{entry['relation']['target']}#{entry['relation']['trans']}" data-dict="#{entry['dict']}" data-id="#{entry['id']}" name="kom_text"
+                            button.btn.notranscomment  #{I18n.t("admin.koment.add")}
                         td 
                           a href="/#{entry['dict']}/show/#{entry['id']}" target="_blank" #{entry['dict']} #{entry['id']} (#{entry['relation']['meaning']})
                           br
