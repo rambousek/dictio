@@ -25,7 +25,7 @@ main role="main"
                     th zadal
                     th  #{I18n.t("admin.comments")}
                   - @report['notrans1']['notrans'].each do |entry|
-                    tr style="border-bottom: 1px solid white"
+                    tr.report-row style="border-bottom: 1px solid white"
                       td 
                         label #{entry['relation']['trans']} (#{entry['relation']['target']})
                       td 
@@ -34,10 +34,10 @@ main role="main"
                         a href="https://edit.dictio.info/editor#{entry['dict']}/?id=#{entry['id']}" target="_blank" edit                                
                       td #{entry['relation']['notransuser']}
                       td 
-                        - if entry['comment'] 
-                          i #{entry['comment']['text']}
-                          |  (#{entry['comment']['user']}, #{entry['comment']['time']})
-                          br
+                        div
+                          - if entry['comment'] 
+                            i #{entry['comment']['text']}
+                            |  (#{entry['comment']['user']}, #{entry['comment']['time']})                          
                         span
                           textarea data-box="meaning#{entry['relation']['meaning']}rel#{entry['relation']['target']}#{entry['relation']['trans']}" data-dict="#{entry['dict']}" data-id="#{entry['id']}" name="kom_text"
                           button.notranscomment  #{I18n.t("admin.koment.add")}
@@ -49,7 +49,7 @@ main role="main"
             - else
               form method="get" action="/#{@dictcode}/notrans"
                 .report-table
-                  table.table.table--no-margin.report-table
+                  table
                     tr
                       td #{I18n.t("admin.notransauth")}
                       td                  
@@ -64,7 +64,7 @@ main role="main"
                       th zadal
                       th  #{I18n.t("admin.comments")}
                     - @report['notrans2']['notrans'].each do |entry|
-                      tr style="border-bottom: 1px solid white"
+                      tr.report-row style="border-bottom: 1px solid white"
                         td 
                           label #{entry['relation']['trans']} (#{entry['relation']['target']})
                         td 
@@ -73,10 +73,10 @@ main role="main"
                           a href="https://edit.dictio.info/editor#{entry['dict']}/?id=#{entry['id']}" target="_blank" edit                                
                         td #{entry['relation']['notransuser']}
                         td 
-                          - if entry['comment'] 
-                            i #{entry['comment']['text']}
-                            |  (#{entry['comment']['user']}, #{entry['comment']['time']})
-                            br
+                          div
+                            - if entry['comment'] 
+                              i #{entry['comment']['text']}
+                              |  (#{entry['comment']['user']}, #{entry['comment']['time']})                            
                           span
                             textarea data-box="meaning#{entry['relation']['meaning']}rel#{entry['relation']['target']}#{entry['relation']['trans']}" data-dict="#{entry['dict']}" data-id="#{entry['id']}" name="kom_text"
                             button.notranscomment  #{I18n.t("admin.koment.add")}
