@@ -26,7 +26,7 @@ main role="main"
               input type="submit" value="#{I18n.t('admin.commentreport.filter')}"
         .col.col--2.col--start.layout-aside-admin 
           table.table.table--no-margin.report-table.report-results data-resultcount=@report['resultcount']
-            tr
+            tr class="btn-#{@dictcode}"
               th #{I18n.t('admin.commentreport.entry')}
               th 
               th 

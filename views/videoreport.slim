@@ -61,7 +61,7 @@ main role="main"
 
         .col.col--2.col--start.layout-aside-admin 
           table.table.table--no-margin.report-table data-resultcount=@report['resultcount']
-            tr
+            tr class="btn-#{@dictcode}"
               th width="10%" (#{@report['resultcount']})
               th 
               th 
