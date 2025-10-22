@@ -19,7 +19,7 @@ main role="main"
             - else
               .report-table
                 table.table.table--no-margin.report-table style="border-collapse: collapse"
-                  tr
+                  tr class="btn-#{@dictcode}"
                     th #{I18n.t("admin.heslo")}
                     th zadal
                     th  #{I18n.t("admin.comments")}
