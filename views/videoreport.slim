@@ -10,7 +10,7 @@ main role="main"
     article.col.col--start role="article"
       .row
         aside.col.col--2.col--start.layout-aside-admin role="complementary"
-          em #{I18n.t("admin.activeopt")} 
+          h2 #{I18n.t("admin.activeopt")} 
           form action="/#{@dictcode}/videoreport" method="get"
             label 
               | typ videa:
@@ -61,12 +61,12 @@ main role="main"
 
         .col.col--2.col--start.layout-aside-admin 
           table.table.table--no-margin.report-table data-resultcount=@report['resultcount']
-            tr class="btn-#{@dictcode}"
-              th width="10%" (#{@report['resultcount']})
+            tr 
+              th width="10%" (#{@report['resultcount']}) videí
               th 
               th 
               th
-            tr
+            tr class="btn-#{@dictcode}"
               th video
               th filename
               th label
