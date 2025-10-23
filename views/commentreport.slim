@@ -23,7 +23,7 @@ main role="main"
                   option value="_not" selected=("selected" if @params['assign'] and @params['assign'] == '_not') -#{I18n.t('admin.commentreport.notassigned')}-
                   - @users.each do |user|
                     option value="#{user['login']}" selected=("selected" if @params['assign'] and @params['assign'] == user['login']) #{user['login']}
-              input type="submit" value="#{I18n.t('admin.commentreport.filter')}"
+              input.btn type="submit" value="#{I18n.t('admin.commentreport.filter')}"
         .col.col--2.col--start.layout-aside-admin 
           table.table.table--no-margin.report-table.report-results data-resultcount=@report['resultcount']
             tr class="btn-#{@dictcode}"
