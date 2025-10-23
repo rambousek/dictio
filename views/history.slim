@@ -41,11 +41,14 @@ main role="main"
               tr
                 td = i
                 td
-                  div 
+                  div style="color: silver; font-size: small"
                     i = entry['timestamp']
                   div
                     = entry['dict'] 
-                    a.btn class="btn-#{entry['dict']}" href="/#{entry['dict']}/show/#{entry['entry']}" target="_blank"
+                    if entry['entry'] 
+                      a.btn class="btn-#{entry['dict']}" href="/history?code=#{entry['dict']}&user=#{entry['user']}&entry=#{entry['_id']}"
+                    else
+                      a.btn class="btn-#{entry['dict']}" href="/#{entry['dict']}/show/#{entry['entry']}" target="_blank"
                       = entry['entry']
                 td
                   b = "#{entry['user']}:"
