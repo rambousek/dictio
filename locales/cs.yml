@@ -551,6 +551,8 @@ cs:
     mkok: "mluvní / orální komponent"
     collocation: "slovní spojení"
     workgroup: "pracovní skupina"
+    published: "schváleno"
+    hidden: "skryté"
     group:
       biologie: "biologie MU"
       informatika: "informatika MU"

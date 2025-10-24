@@ -4492,3 +4492,5 @@ div.showlink {position: absolute; text-align: center; width: 100%; background-co
 div.showlink input {padding: 0; padding-left: 0px; font-size: 0.9rem; padding-left: 5px; max-width: 400px; background: black; color: lightgray;}
 span.closebtn {margin-right: 10px; color: white; font-weight: bold; float: right; font-size: 22px; line-height: 20px;  cursor: pointer;  transition: 0.3s;}
 span.closebtn2 {margin-right: 10px; color: gray; font-weight: bold; font-size: 22px; line-height: 20px;  cursor: pointer;  transition: 0.3s;}
+.published {font-weight: bold; color: var(--zelena)}
+.hidden {font-weight: bold; color: red}

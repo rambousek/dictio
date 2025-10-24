@@ -4,7 +4,8 @@
       video class=@dictcode width="200" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{@dictcode}/#{entry['location']}" muted="muted"
         source src="https://files.dictio.info/video#{@dictcode}/#{entry['location']}" type="video/mp4"
     td 
-      span = entry['status']
+      div class="float: right"
+        span class=entry['status'] = entry['status']
       br
       | název: 
       strong = entry['location'] 
