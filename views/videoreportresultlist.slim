@@ -1,10 +1,19 @@
 - @report['entries'].each do |entry|
-  tr.report-row    
+  tr style="border: none" 
     td 
-      video width="150" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{@dictcode}/#{entry['location']}" muted="muted"
+      video class=@dictcode width="200" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{@dictcode}/#{entry['location']}" muted="muted"
         source src="https://files.dictio.info/video#{@dictcode}/#{entry['location']}" type="video/mp4"
-    td = entry['location']       
-    td = entry['label']
+    td 
+      span = entry['status']
+      br
+      | název: 
+      strong = entry['location'] 
+      br      
+      | typ
+      br
+      | label: 
+      span = entry['label']
+      br 
     td
       - if entry['entries_used'] && entry['entries_used'].any?
         - entry['entries_used'].each do |entry_id|
@@ -13,4 +22,21 @@
           br
       - else
           span.btn class="btn--secondary" nepoužito
+    tr 
+      td
+        | autor: 
+        span = entry['author']
+      td
+        | video:
+        span = entry['copy']
+      td 
+        | skupina:
+        span = entry['def_skup']
+    tr
+      td colspan="3"
+        | zdroj: 
+        span = entry['source']
+
+    
+    
           

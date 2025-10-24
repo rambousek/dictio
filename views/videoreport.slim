@@ -61,16 +61,11 @@ main role="main"
 
         .col.col--2.col--start.layout-aside-admin 
           table.table.table--no-margin.report-table data-resultcount=@report['resultcount']
-            tr 
-              th width="10%" (#{@report['resultcount']}) videí
-              th 
-              th 
-              th
             tr class="btn-#{@dictcode}"
-              th video
-              th filename
-              th label
+              th #{@report['resultcount']} videí
+              th 
               th lemma
             == slim :videoreportresultlist
           - if @report['resultcount'].to_i > @report['entries'].size
             a.btn.load_next_videoreport data-dict=@dictcode #{I18n.t("search.load_next")}
+          
