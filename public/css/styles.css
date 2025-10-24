@@ -1708,7 +1708,8 @@ a.btn {
     .btn,
     a.btn {
       padding: 11px 20px;
-      font-size: 0.875rem; } }
+      font-size: 0.875rem; 
+      margin-bottom: 4px;} }
   .btn:hover, .btn:focus,
   a.btn:hover,
   a.btn:focus {
