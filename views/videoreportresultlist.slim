@@ -7,9 +7,9 @@
       div.right
         span class=entry['status'] 
           - if entry['status'] == 'published'
-            = I18n.t("admin_published")
+            = I18n.t("admin.published")
           - elsif entry['status'] == 'hidden'
-            = I18n.t("admin_hidden")
+            = I18n.t("admin.hidden")
       br
       | název: 
       strong = entry['location'] 
