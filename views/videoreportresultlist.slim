@@ -10,7 +10,8 @@
       | název: 
       strong = entry['location'] 
       br      
-      | typ
+      | typ: 
+      strong = entry['type'] 
       br
       | label: 
       span = entry['label']
@@ -26,17 +27,17 @@
     tr 
       td
         | autor: 
-        span = entry['author']
+        span = entry['id_meta_author']
       td
         | video:
-        span = entry['copy']
+        span = entry['id_meta_copyright']
       td 
         | skupina:
         span = entry['def_skup']
     tr
       td colspan="3"
         | zdroj: 
-        span = entry['source']
+        span = entry['id_meta_source']
 
     
     
