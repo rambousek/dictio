@@ -5,11 +5,8 @@
         source src="https://files.dictio.info/video#{@dictcode}/#{entry['location']}" type="video/mp4"
     td 
       div.right
-        span class=entry['status'] 
-          - if entry['status'] == 'published'
-            = I18n.t("admin.published")
-          - elsif entry['status'] == 'hidden'
-            = I18n.t("admin.hidden")
+        - if entry['status'] == 'published' || entry['status'] == 'hidden'
+          span class=entry['status'] = I18n.t("admin.#{entry['status']}", default: entry['status'])
       br
       | název: 
       strong = entry['location'] 
