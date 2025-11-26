@@ -693,7 +693,7 @@ $( document ).ready(function() {
 
   // load more videoreport results
   $('.load_next_videoreport').click(function() {
-    var current_count = $('.report-row').length;
+    var current_count = $('.videoreport-row').length;
     var report_url = '/' + $('.load_next_videoreport').data('dict') + '/videoreportlist/' + current_count + '/15' + window.location.search;
     console.log(report_url)
     $.get(report_url, function(response) {
@@ -701,7 +701,7 @@ $( document ).ready(function() {
     }).always(function() {
       // after adding
       // maybe hide button
-      current_count = $('.report-row').length;
+      current_count = $('.videoreport-row').length;
       maxcount = $('.report-table').data('resultcount');
       if (current_count >= maxcount) {
         $('.load_next_videoreport').hide();

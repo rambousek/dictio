@@ -1,5 +1,5 @@
 - @report['entries'].each do |entry|
-  tr style="border: none" 
+  tr.videoreport-row style="border: none"
     td 
       - if entry['location'] != '' 
         video class=@dictcode width="200" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" muted="muted" poster="/thumb/video#{@dictcode}/#{entry['location']}"
