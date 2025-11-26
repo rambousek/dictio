@@ -24,6 +24,7 @@ $mongo['entries'].find({
   }
  }).each do |entry|
   sws = []
+  fsw = []
   entry['lemma']['sw'].each{|sw|
     # puts sw['@fsw']
     sw['@fsw'].scan(/(S1[0-9a-f][0-9a-f].[0-7])|(S20[0-4].[0-7])|(S21[6789a-f])|(S22[0-9])/).each { |match|
@@ -33,9 +34,26 @@ $mongo['entries'].find({
         end
       }
     }
+    fsw << sw['@fsw']
+  }
+  tr = []
+  entry['meanings'].each{|me|
+    me['relation'].each{|rel|
+      if rel['target'] == 'cs' and rel['status'] == 'published'
+
+        if rel['meaning_id'].include?('-')
+          rid = rel['meaning_id'].split('-')[0]
+          $mongo['entries'].find({ 'dict': 'cs', 'id': rid}).each{|ren|
+            tr << ren['lemma']['title']
+          }
+        else
+          tr << rel['meaning_id']
+        end
+      end
+    }
   }
   if sws.uniq.length > 1
-    puts entry['id']
+    puts entry['id'] + ';' + tr.join(',') +  ';' + fsw.join(',')
   end
 end
 
