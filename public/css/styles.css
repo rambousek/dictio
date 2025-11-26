@@ -18,6 +18,7 @@
  --border-0-transparent: 0 solid transparent;
  --zelena: darkgreen;   
  --scroll2: white;
+ --border: #abb1c2;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -33,6 +34,7 @@
     --border-0-transparent: 1px solid slategray;
     --zelena: limegreen;
     --scroll2: black;
+    --border: rgb(82, 85, 109);
   }
 
   .video__sign img {
@@ -1708,7 +1710,8 @@ a.btn {
     .btn,
     a.btn {
       padding: 11px 20px;
-      font-size: 0.875rem; } }
+      font-size: 0.875rem; 
+      margin-bottom: 4px;} }
   .btn:hover, .btn:focus,
   a.btn:hover,
   a.btn:focus {
@@ -1724,11 +1727,14 @@ a.btn--secondary {
   @media (min-width: 768px) {
     .btn--secondary,
     a.btn--secondary {
-      background-color: var(--zakladni-text-cerna1); } }
+      border: solid 1px var(--zakladni-text-cerna1);  
+      color: var(--zakladni-text-cerna1);
+      background-color: transparent; }
   .btn--secondary:hover, .btn--secondary:focus,
   a.btn--secondary:hover,
   a.btn--secondary:focus {
-    background-color: #0d111d; }
+    background-color: #02977f; }
+  }
 
 a.transparent {
   color: #03c9a9 !important;
@@ -3887,7 +3893,7 @@ p.naming.naming2 span:not(:last-child)::after {
     padding: 10px;
     line-height: 1.2;
     text-align: left;
-    border-bottom: 1px solid #abb1c2; }
+    border-bottom: 1px solid var(--border)}
   .table th {
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
@@ -4488,3 +4494,5 @@ div.showlink {position: absolute; text-align: center; width: 100%; background-co
 div.showlink input {padding: 0; padding-left: 0px; font-size: 0.9rem; padding-left: 5px; max-width: 400px; background: black; color: lightgray;}
 span.closebtn {margin-right: 10px; color: white; font-weight: bold; float: right; font-size: 22px; line-height: 20px;  cursor: pointer;  transition: 0.3s;}
 span.closebtn2 {margin-right: 10px; color: gray; font-weight: bold; font-size: 22px; line-height: 20px;  cursor: pointer;  transition: 0.3s;}
+.published {font-weight: bold; color: var(--zelena)}
+.hidden {font-weight: bold; color: red}

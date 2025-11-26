@@ -1,12 +1,51 @@
 - @report['entries'].each do |entry|
-  tr.report-row    
+  tr style="border: none" 
     td 
-          video width="150" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" poster="/thumb/video#{@dictcode}/#{entry['location']}" muted="muted"
-            source src="https://files.dictio.info/video#{@dictcode}/#{entry['location']}" type="video/mp4"
-    td = entry['location']       
-    td = entry['label']
+      - if entry['location'] != '' 
+        video class=@dictcode width="200" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" muted="muted" poster="/thumb/video#{@dictcode}/#{entry['location']}"
+          source src="https://files.dictio.info/video#{@dictcode}/#{entry['location']}" type="video/mp4"
+      - else
+        img class=@dictcode src="/img/emptyvideo.jpg" width="200"
+    td 
+      div.right
+        - if entry['status'] == 'published' || entry['status'] == 'hidden'
+          span class=entry['status'] = I18n.t("admin.#{entry['status']}", default: entry['status'])
+      br
+      | název: 
+      strong = entry['location'] 
+      br      
+      | typ: 
+      strong 
+        - type_map = {'sign_front' => 'a', 'sign_side' => 'b', 'sign_definition' => 'd', 'sign_usage_example' => 'k', 'sign_grammar' => 'g', 'sign_style' => 's'}
+        - code = type_map[entry['type']]
+        = I18n.t("admin.videos.#{code}") if code
+      br
+      | label: 
+      span = entry['label']
+      br 
     td
-      - entry['entries_used'].each do |entry_id|
-        a.btn class="btn-#{@dictcode}" target="_blank" href="/#{@dictcode}/show/#{entry_id}" #{entry_id} 
-        a.btn target="_blank" href="https://edit.dictio.info/editor#{@dictcode}/?id=#{entry_id}" edit
-        br
+      - if entry['entries_used'] && entry['entries_used'].any?
+        - entry['entries_used'].each do |entry_id|
+          a.btn class="btn-#{@dictcode}" target="_blank" href="/#{@dictcode}/show/#{entry_id}" #{entry_id} 
+          a.btn target="_blank" href="https://edit.dictio.info/editor#{@dictcode}/?id=#{entry_id}" edit
+          br
+      - else
+          span.btn class="btn--secondary" nepoužito
+    tr 
+      td
+        | autor: 
+        span = entry['id_meta_author']
+      td
+        | video:
+        span = entry['id_meta_copyright']
+      td 
+        | skupina:
+        span = entry['def_skup']
+    tr
+      td colspan="3"
+        | zdroj: 
+        span = entry['id_meta_source']
+
+    
+    
+          

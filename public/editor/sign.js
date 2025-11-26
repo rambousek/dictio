@@ -18,7 +18,7 @@ var typingTimer;
 var doneTypingInterval = 5000;
 var bgAuth = 'lightsteelblue';
 var bgSilver = 'silver';
-const version = "2.1.5";
+const version = "2.1.6";
 
 var params = Ext.Object.fromQueryString(window.location.search.substring(1));
 if (params.empty != null && params.empty != '') {
@@ -1488,7 +1488,7 @@ function add_videopreview() {
   for (var i = 0; i < mar.length; i++) {
     var loc = mar[i].query('component[name="vidid"]')[0].getValue();
     console.log('add preview ' + loc);
-    mar[i].query('component[name="mediaimg"]')[0].el.setHTML('<div id="flowvideo' + mar[i].query('component[name="mediaid"]')[0].getValue() + '" data-width="200" data-ratio="0.8" style="width:200px; background:#777 url(https://www.dictio.info/thumb/video' + dictcode + '/' + loc + ') no-repeat; background-size: 200px 160px; background-image-opacity: 0.5; "><video class=' + dictcode + ' poster="https://www.dictio.info/thumb/video' + dictcode + '/' + loc + '" onmouseover="this.play()" onmouseout="this.pause()" width="200px" loop="loop"><source type="video/mp4" src="https://files.dictio.info/video' + dictcode + '/' + loc + '"></source></video></div>');
+    mar[i].query('component[name="mediaimg"]')[0].el.setHTML('<div id="flowvideo' + mar[i].query('component[name="mediaid"]')[0].getValue() + '" data-width="240" data-ratio="0.8" style="width:240px; background:#777 url(https://www.dictio.info/thumb/video' + dictcode + '/' + loc + ') no-repeat; background-size: 240px 160px; background-image-opacity: 0.5; "><video class=' + dictcode + ' poster="https://www.dictio.info/thumb/video' + dictcode + '/' + loc + '" onmouseover="this.play()" onmouseout="this.pause()" width="240px" loop="loop"><source type="video/mp4" src="https://files.dictio.info/video' + dictcode + '/' + loc + '"></source></video></div>');
   }
   //  activate_player('.player2');
 }
@@ -2596,7 +2596,7 @@ function create_copyrightM(idstart, hidden) {
     id: idstart + '_copybox',
     name: 'copybox',
     cls: 'auth',
-    width: 650,
+    width: 680,
     hidden: hidden,
     layout: { type: 'hbox' },
     items: [
@@ -2606,17 +2606,17 @@ function create_copyrightM(idstart, hidden) {
           { xtype: 'container',
             layout: { type: 'hbox' },
             items: [
-              { labelWidth: 50, fieldLabel: locale[lang].author, width: 200, xtype: 'textfield', id: idstart + '_autor', name: 'copy_autor' },
+              { labelWidth: 50, fieldLabel: locale[lang].author, width: 210, xtype: 'textfield', id: idstart + '_autor', name: 'copy_autor' },
               create_src_list(idstart + '_autor'),
-              { labelWidth: 50, fieldLabel: locale[lang].videosrc, width: 200, xtype: 'textfield', id: idstart + '_copy', name: 'copy_copy' },
+              { labelWidth: 50, fieldLabel: locale[lang].videosrc, width: 210, xtype: 'textfield', id: idstart + '_copy', name: 'copy_copy' },
               create_src_list(idstart + '_copy'),              
-              { labelWidth: 50, width: 200, fieldLabel: locale[lang].admincomment, xtype: 'textfield', id: idstart + '_poznamka', name: 'copy_admin' }
+              { labelWidth: 50, width: 210, fieldLabel: locale[lang].admincomment, xtype: 'textfield', id: idstart + '_poznamka', name: 'copy_admin' }
             ]
           },
           { xtype: 'container',
             layout: { type: 'hbox' },
             items: [
-              { labelWidth: 50, fieldLabel: locale[lang].source, width: 500, xtype: 'textfield', id: idstart + '_zdroj', name: 'copy_zdroj' }, 
+              { labelWidth: 50, fieldLabel: locale[lang].source, width: 530, xtype: 'textfield', id: idstart + '_zdroj', name: 'copy_zdroj' }, 
               create_src_list(idstart + '_zdroj')
             ]
           }
@@ -3659,7 +3659,7 @@ function create_media(entryid, upload, vidid) {
   var name = 'media_' + Ext.id();
   var sw = Ext.create('Ext.container.Container', {
     layout: { type: 'vbox' },
-    width: 650,
+    width: 690,
     id: name,
     cls: 'celnibocni',
     name: 'mediaitem',
@@ -3667,7 +3667,7 @@ function create_media(entryid, upload, vidid) {
       { xtype: 'container',
         layout: { type: 'hbox' },
         items: [
-          { name: 'mediaimg', xtype: 'box', width: 200, height: 160 }, 
+          { name: 'mediaimg', xtype: 'box', width: 240, height: 192 }, 
           { xtype: 'container',
             name: 'mediaiteminfo',
             layout: { type: 'vbox' }, 
@@ -4675,20 +4675,23 @@ Ext.onReady(function () {
     items: [
       { xtype: 'container',
         layout: { type: 'hbox' },
-        width: 1650,
+        width: 1750,
         id: 'mediabox-container',
         items: [
           { xtype: 'container',
             layout: { type: 'vbox' },
+            width: 280,
             id: 'media-buttons',
             items: [
-              { xtype: 'button', text: locale[lang].attachfile,
+              { xtype: 'button', text: locale[lang].attachfile, 
+                cls: 'btn btn--secondary',
                 handler: function () 
                   { var vid = create_media(entryid, true);
                     Ext.getCmp('mediabox').insert(Ext.getCmp('mediabox').items.length, vid);
                   }
               }, 
               { xtype: 'button', text: locale[lang].savefiles,
+                cls: 'btn btn--secondary',
                 handler: function () {
                   var data = {};
                   data.update_video = []
@@ -4733,7 +4736,7 @@ Ext.onReady(function () {
           },
           { xtype: 'fieldset',
             layout: 'anchor',
-            width: 1250,
+            width: 1250, 
             autoHeight: true,
             flex: 1,
             id: 'mediabox',

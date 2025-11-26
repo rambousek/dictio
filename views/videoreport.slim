@@ -4,13 +4,13 @@ main role="main"
       .row
         article.col.col--2.col--start role="article"
           h1 style="color: white" #{I18n.t("menu.admin")} 
+          h2 style="color: silver" #{I18n.t("admin.video")} 
           h2 class="btn btn-#{@dictcode}" style="color: white"  #{I18n.t("admin.dict")} #{I18n.t("dict_menu.#{@dictcode}")} 
-          label #{I18n.t("admin.video")} 
   .container
     article.col.col--start role="article"
       .row
         aside.col.col--2.col--start.layout-aside-admin role="complementary"
-          em #{I18n.t("admin.activeopt")} 
+          h2 #{I18n.t("admin.activeopt")} 
           form action="/#{@dictcode}/videoreport" method="get"
             label 
               | typ videa:
@@ -61,12 +61,11 @@ main role="main"
 
         .col.col--2.col--start.layout-aside-admin 
           table.table.table--no-margin.report-table data-resultcount=@report['resultcount']
-            tr
-              th width="10%" (#{@report['resultcount']})
-            tr
-              th video
-              th video
-              th label
+            tr class="btn-#{@dictcode}"
+              th celkem: #{@report['resultcount']} 
+              th 
+              th lemma
             == slim :videoreportresultlist
           - if @report['resultcount'].to_i > @report['entries'].size
             a.btn.load_next_videoreport data-dict=@dictcode #{I18n.t("search.load_next")}
+          

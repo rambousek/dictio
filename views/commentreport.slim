@@ -4,8 +4,8 @@ main role="main"
       .row
         article.col.col--2.col--start role="article"
           h1 style="color: white" #{I18n.t("menu.admin")} 
+          h2 style="color: silver" #{I18n.t('admin.commentreport.title')}
           h2 class="btn btn-#{@dictcode}" style="color: white" #{I18n.t("admin.dict")} #{I18n.t("dict_menu.#{@dictcode}")}
-          label #{I18n.t('admin.commentreport.title')}
   .container
     article.col.col--start role="article" 
       .row     
@@ -23,10 +23,10 @@ main role="main"
                   option value="_not" selected=("selected" if @params['assign'] and @params['assign'] == '_not') -#{I18n.t('admin.commentreport.notassigned')}-
                   - @users.each do |user|
                     option value="#{user['login']}" selected=("selected" if @params['assign'] and @params['assign'] == user['login']) #{user['login']}
-              input type="submit" value="#{I18n.t('admin.commentreport.filter')}"
+              input.btn type="submit" value="#{I18n.t('admin.commentreport.filter')}"
         .col.col--2.col--start.layout-aside-admin 
           table.table.table--no-margin.report-table.report-results data-resultcount=@report['resultcount']
-            tr
+            tr class="btn-#{@dictcode}"
               th #{I18n.t('admin.commentreport.entry')}
               th 
               th 
