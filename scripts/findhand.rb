@@ -30,7 +30,7 @@ $mongo['entries'].find({
     sw['@fsw'].scan(/(S1[0-9a-f][0-9a-f].[0-7])|(S20[0-4].[0-7])|(S21[6789a-f])|(S22[0-9])/).each { |match|
       match.each { |mm|
         if mm
-          sws << mm
+          sws << mm[0,4]
         end
       }
     }
