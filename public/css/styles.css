@@ -993,8 +993,8 @@ select {
       font-weight: 500;
       line-height: 1.125rem;
       border: 0 solid transparent;
-      border-radius: 20px;
-      background: var(--zakladni-bila);
+      /* border-radius: 20px; */
+      /* background: var(--zakladni-bila); */
       -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
               box-shadow: 0 0 4px rgba(0, 0, 0, 0.1); } }
   input:focus,
@@ -1709,7 +1709,7 @@ input[type='radio'] {
 .block p:last-child, .block p:last-of-type {
   margin: 0; }
 
-.col. btn, .btn,
+.btn,
 a.btn {
   display: inline-block;
   padding: 8px 14px;
@@ -1731,7 +1731,7 @@ a.btn {
   -webkit-transform: translateZ(0);
           transform: translateZ(0); }
   @media (min-width: 768px) {
-    .col .btn, .btn,
+    .btn,
     a.btn {
       padding: 11px 20px;
       font-size: 0.875rem; 
