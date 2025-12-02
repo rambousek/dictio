@@ -2,7 +2,7 @@
   / musí zůstat class=videoreport-row jednou pro každý záznam
   tr.videoreport-row style="border: none"
     td 
-      - if entry['location'] != '' 
+      - if entry['location'].end_with?('.mp4')
         video class=@dictcode width="200" onmouseover="this.play()" onmouseout="this.pause()" loop="loop" muted="muted" poster="/thumb/video#{@dictcode}/#{entry['location']}"
           source src="https://files.dictio.info/video#{@dictcode}/#{entry['location']}" type="video/mp4"
       - else
