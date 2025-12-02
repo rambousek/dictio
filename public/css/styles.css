@@ -988,7 +988,7 @@ select {
     textarea,
     select {
       width: 100%;
-      padding: 0;
+      padding: 10px;
       font-size: 1.125rem;
       font-weight: 500;
       line-height: 1.125rem;
