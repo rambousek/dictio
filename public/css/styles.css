@@ -1709,7 +1709,7 @@ input[type='radio'] {
 .block p:last-child, .block p:last-of-type {
   margin: 0; }
 
-.btn,
+.col. btn, .btn,
 a.btn {
   display: inline-block;
   padding: 8px 14px;
@@ -1731,7 +1731,7 @@ a.btn {
   -webkit-transform: translateZ(0);
           transform: translateZ(0); }
   @media (min-width: 768px) {
-    .btn,
+    .col .btn, .btn,
     a.btn {
       padding: 11px 20px;
       font-size: 0.875rem; 
