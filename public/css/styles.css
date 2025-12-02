@@ -984,6 +984,18 @@ select {
       background: var(--zakladni-bila);
       -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
               box-shadow: 0 0 4px rgba(0, 0, 0, 0.1); } }
+    .col input,
+    textarea,
+    select {
+      width: 100%;
+      font-size: 1.125rem;
+      font-weight: 500;
+      line-height: 1.125rem;
+      border: 0 solid transparent;
+      border-radius: 20px;
+      background: var(--zakladni-bila);
+      -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+              box-shadow: 0 0 4px rgba(0, 0, 0, 0.1); } }
   input:focus,
   textarea:focus,
   select:focus {
@@ -1013,6 +1025,16 @@ label {
   font-family: 'Montserrat', sans-serif;
   font-size: 1.125rem;
   font-weight: 900;
+  -webkit-transition: all 300ms ease;
+  -o-transition: all 300ms ease;
+  transition: all 300ms ease; }
+
+.col label {
+  display: block;
+  margin: 0 0 17px 0;
+  color: var(--zakladni-cerna2);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.125rem;
   -webkit-transition: all 300ms ease;
   -o-transition: all 300ms ease;
   transition: all 300ms ease; }
