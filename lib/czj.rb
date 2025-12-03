@@ -1,14 +1,17 @@
 require_relative 'czj_mail'
 require_relative 'czj_search_query'
+require_relative 'czj_edit_media'
+require_relative 'czj_dict_sw'
 
 class CZJDict < Object
-  attr_accessor :dictcode, :write_dicts, :sign_dicts, :dict_info, :sw, :comments
+  attr_accessor :dictcode, :write_dicts, :sign_dicts, :dict_info, :sw, :comments, :edit_media
   attr_reader :wordlist
 
   def initialize(dictcode)
     @dictcode = dictcode 
     @entrydb = $mongo['entries']
     @sw = CzjDictSw.new(self)
+    @edit_media = CzjEditMedia.new(self)
     Thread.new { build_wordlist }
   end
 
@@ -1555,9 +1558,10 @@ class CZJDict < Object
       'type' => metadata['type'],
       'status' => metadata['status'],
       'orient' => metadata['orient'],
-      'created_at' => Time.now.strftime("%Y-%m-%d %H:%M:%S")
+      'created_at' => Time.now.strftime("%Y-%m-%d %H:%M:%S"),
+      'entry_folder' => []
     }
-    data['entry_folder'] = entry_id.to_s if entry_id.to_s != ''
+    data['entry_folder'] << entry_id.to_s if entry_id.to_s != ''
     $stdout.puts data
     $mongo['media'].insert_one(data)
 
@@ -1568,39 +1572,6 @@ class CZJDict < Object
       ssh.exec(command)
     }
     return filename, mediaid.to_s
-  end
-
-  def attach_file(location, entry_id, metadata)
-    media = get_media_location(location, @dictcode)
-    if media == {}
-      cursor = $mongo['media'].find({'dict' => @dictcode}, {:projection => {'id':1}, :collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'id' => -1}})
-      cursor = cursor.limit(1)
-      mediaid = 1
-      cursor.each{|r|
-        mediaid = r['id'].to_i + 1
-      }
-      media = {
-        'id' => mediaid.to_s,
-        'dict' => @dictcode,
-        'location' => location,
-        'original_file_name' => location,
-        'label' => norm_name(location)[0],
-        'id_meta_copyright' => metadata['id_meta_copyright'],
-        'id_meta_author' => metadata['id_meta_author'],
-        'id_meta_source' => metadata['id_meta_source'],
-        'admin_comment' => metadata['admin_comment'],
-        'type' => metadata['type'],
-        'status' => metadata['status'],
-        'orient' => metadata['orient'],
-        'created_at' => Time.now.strftime("%Y-%m-%d %H:%M:%S")
-      }
-    else
-      mediaid = media['id'].to_s
-      $mongo['media'].find({'dict'=> @dictcode, 'id'=> mediaid}).delete_many
-    end
-    media['entry_folder'] = entry_id.to_s if entry_id.to_s != ''
-    $mongo['media'].insert_one(media)
-    return mediaid
   end
 
   def save_media(data)
@@ -1633,16 +1604,6 @@ class CZJDict < Object
     $mongo['media'].find({'dict'=> @dictcode, 'id'=> data['id'].to_s}).delete_many
     $mongo['media'].insert_one(media)
     return media['id'].to_s
-  end
-
-  def remove_video(entryid, mediaid)
-    media = get_media(mediaid, @dictcode, false)
-    if media != {}
-      media.delete('entry_folder')
-      media.delete('media_folder_id')
-      $mongo['media'].find({'dict'=> @dictcode, 'id'=> media['id'].to_s}).delete_many
-      $mongo['media'].insert_one(media)
-    end
   end
 
   def get_gram(entryid)

@@ -20,7 +20,6 @@ require_relative 'lib/czj'
 require_relative 'lib/host-config'
 require_relative 'lib/dict-config'
 require_relative 'lib/czj_fsw'
-require_relative 'lib/czj_dict_sw'
 require_relative 'lib/czj_comment'
 require_relative 'lib/czj_report'
 require_relative 'lib/czj_web_helper'
@@ -623,7 +622,7 @@ class CzjApp < Sinatra::Base
       post '/'+code+'/remove_video' do
         content_type :json
         if params['entry_id'].to_s != '' and params['media_id'].to_s != ''
-          dict.remove_video(params['entry_id'].to_s, params['media_id'].to_s)
+          dict.edit_media.remove_video(params['entry_id'].to_s, params['media_id'].to_s)
           body = {"success"=>true, "message"=>"Soubor odebrán"}.to_json
         else
           body = {'success'=>false, 'message'=>"Chybí parametry videa"}.to_json
@@ -681,7 +680,7 @@ class CzjApp < Sinatra::Base
           body = {'success'=>true, 'message'=>"Soubor nahrán: #{filename} (#{mediaid})", 'mediaid'=>mediaid, 'filename'=>filename}.to_json
         end
         if (params['filedata'].nil? or params['filedata'] == 'undefined') and metadata['location'].to_s != ''
-          dict.attach_file(metadata['location'].to_s, params['entryid'].to_s, metadata)
+          dict.edit_media.attach_file(metadata['location'].to_s, params['entryid'].to_s, metadata)
           body = {'success'=>true, 'message'=>"Soubor připojen: #{metadata['@location']}"}.to_json
         end
         content_type :json
