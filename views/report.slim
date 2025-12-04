@@ -166,7 +166,7 @@ main role="main"
                     span.closebtn2 onclick="URLRemove('synonym')" x
     
               - if @params.count{|k,_| k =~ /^pubtrans/} > 0 or @params.count{|k,_| k =~ /^pubsynonym/}
-                p
+                label
                   | #{I18n.t("admin.pubtrans")}:
                   - $dict_info.each do |code,hash|
                     - if @params['pubtrans'+code]
@@ -183,7 +183,7 @@ main role="main"
                     span.closebtn2 onclick="URLRemove('pubsynonym')" x
     
               - if @params.count{|k,_| k =~ /^komentbox/} > 0
-                p 
+                label 
                   | #{I18n.t("admin.comments")}:
                   - if @params['koment'] == 'ne' and @params['komentbox'] != ''
                     a.btn.btn-secondary.report-ano onclick="URLChange('koment','ano')" #{I18n.t("admin.koment."+@params['komentbox'])}
@@ -194,7 +194,7 @@ main role="main"
 
 
               .sub                          
-                h2 onclick="showhide('presets')" style="cursor: pointer"
+                label onclick="showhide('presets')" style="cursor: pointer"
                   | #{I18n.t("admin.presets.title")} 
                   span.icon class="icon--arrow-down nav-lang__dropdown"
                     svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -203,7 +203,7 @@ main role="main"
                   - if @dict_info[@dictcode]['type'] == 'sign'
                     .sub
                       span onclick="showhide('pre-wait')" style="cursor: pointer"
-                        h3
+                        label  
                           | #{I18n.t("admin.presets.waiting")}
                           span.icon class="icon--arrow-down nav-lang__dropdown"
                             svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -213,7 +213,7 @@ main role="main"
                         a.btn class="btn-secondary report-" href="/#{@dictcode}/report?schvcelni=ano&vyznamvid=ne&" #{I18n.t("admin.presets.def")}
                     .sub
                       span onclick="showhide('pre-lack')" style="cursor: pointer"
-                        h3
+                        label
                           | #{I18n.t("admin.presets.lacking")}
                           span.icon class="icon--arrow-down nav-lang__dropdown"
                             svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -248,7 +248,7 @@ main role="main"
                           a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamvid=ano&celni=ano&vyznam=ano&schvcelni=ano&translationuzm=ne" UŽM
                     .sub 
                       span onclick="showhide('pre-toapp')" style="cursor: pointer"
-                        h3
+                        label
                           | #{I18n.t("admin.presets.toapprove")}
                           span.icon class="icon--arrow-down nav-lang__dropdown"
                             svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -284,7 +284,7 @@ main role="main"
       
                     .sub 
                       span onclick="showhide('pre-rev')" style="cursor: pointer" 
-                        h3
+                        label
                           | #{I18n.t("admin.presets.rev")} 
                           span.icon class="icon--arrow-down nav-lang__dropdown"
                            svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -299,7 +299,7 @@ main role="main"
                   - if @dict_info[@dictcode]['type'] == 'write'
                     .sub
                       span onclick="showhide('pre-rev')" style="cursor: pointer" 
-                        h3
+                        label
                           | #{I18n.t("admin.presets.waiting")} 
                           span.icon class="icon--arrow-down nav-lang__dropdown"
                             svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -308,7 +308,7 @@ main role="main"
                         a.btn class="btn-secondary report-" href="/#{@dictcode}/report?vyznamcszad=ne" #{I18n.t("admin.presets.def")}
                     .sub
                       span onclick="showhide('pre-lack')" style="cursor: pointer" 
-                        h3
+                        label
                           | #{I18n.t("admin.presets.lacking")} 
                           span.icon class="icon--arrow-down nav-lang__dropdown"
                             svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -342,7 +342,7 @@ main role="main"
       
                     .sub
                       span onclick="showhide('pre-toapp')" style="cursor: pointer" 
-                        h3
+                        label
                           | #{I18n.t("admin.presets.toapprove")} 
                           span.icon class="icon--arrow-down nav-lang__dropdown"
                             svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -374,7 +374,7 @@ main role="main"
                         - unless @dictcode == 'uzm'
                           a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamcszad=ano&vyznamcs=ano&translationuzm=ano&pubtransuzm=ne" UŽM
 
-              .sub
+              div
                 h2 onclick="showhide('allopt')" style="cursor: pointer"                
                   | #{I18n.t("admin.moreopt")} 
                   span.icon class="icon--arrow-down nav-lang__dropdown"
@@ -423,7 +423,7 @@ main role="main"
                         a.btn class="btn-secondary report-" onclick="URLChange2('def_skup[]','tczj','skup','ne')" #{I18n.t("admin.group.tczj")}
                   .sub
                     span onclick="showhide('lemma')" style="cursor: pointer"
-                      h3 
+                      label 
                         | #{I18n.t("admin.lemma")} 
                         span.icon class="icon--arrow-down nav-lang__dropdown"
                           svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -467,7 +467,7 @@ main role="main"
                           a.btn class="btn-secondary report-" onclick="URLAppend('mkok')" #{I18n.t("admin.mkok")}
                   .sub
                     span onclick="showhide('sldruh')" style="cursor: pointer"
-                      h3
+                      label
                         | #{I18n.t("entry.lexical")} 
                         span.icon class="icon--arrow-down nav-lang__dropdown"
                           svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -505,7 +505,7 @@ main role="main"
                           a.btn class="btn-secondary report-" onclick="URLChange2('slovni_druh','finger','sldruh','ne')" #{I18n.t("gram.slovni_druh.finger")}                                                                                                                                                                                            
                   .sub
                     span onclick="showhide('sem')" style="cursor: pointer"
-                      h3
+                      label
                         | #{I18n.t("admin.sem")} 
                         span.icon class="icon--arrow-down nav-lang__dropdown"
                           svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -532,7 +532,7 @@ main role="main"
                             a.btn class="btn-secondary report-" onclick="URLAppend('usagecs')" #{I18n.t("admin.usage")}
                   .sub
                     span onclick="showhide('ekv')" style="cursor: pointer"
-                      h3
+                      label
                         | #{I18n.t("admin.ekv")} 
                         span.icon class="icon--arrow-down nav-lang__dropdown"
                           svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -592,7 +592,7 @@ main role="main"
                           a.btn class="btn-secondary report-" onclick="URLAppend('pubsynonym')" #{I18n.t("admin.synonym")}
                   .sub
                     span onclick="showhide('comm')" style="cursor: pointer"
-                      h3 
+                      label 
                         | #{I18n.t("admin.comments")} 
                         span.icon class="icon--arrow-down nav-lang__dropdown"
                           svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
