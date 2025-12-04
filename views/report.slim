@@ -11,13 +11,13 @@ main role="main"
       .row
         aside.col.col--2.col--start.layout-aside-admin role="complementary"
 
-          .report-table
+          div
             article.col.col--start role="article" 
               h2 #{I18n.t("admin.activeopt")} 
               - if @params['idsf'] 
                 | #{I18n.t("admin.idsel")}: 
                 div style="overflow-x: scroll; overflow-y: hidden; max-width: 170px;" #{@params['idsf']}            
-              p 
+              label 
                 | #{I18n.t("admin.lemma")}:  
                 - if @params['typhesla'] == 'ne' and @params['seltyphesla'] != ''
                   a.btn.btn-secondary.report-ano onclick="URLChange('typhesla','ano')" #{I18n.t("admin."+@params['seltyphesla'])}
@@ -194,7 +194,7 @@ main role="main"
 
 
               .sub                          
-                label onclick="showhide('presets')" style="cursor: pointer"
+                h3 onclick="showhide('presets')" style="cursor: pointer"
                   | #{I18n.t("admin.presets.title")} 
                   span.icon class="icon--arrow-down nav-lang__dropdown"
                     svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -374,7 +374,7 @@ main role="main"
                         - unless @dictcode == 'uzm'
                           a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamcszad=ano&vyznamcs=ano&translationuzm=ano&pubtransuzm=ne" UŽM
 
-              div
+              .sub
                 h2 onclick="showhide('allopt')" style="cursor: pointer"                
                   | #{I18n.t("admin.moreopt")} 
                   span.icon class="icon--arrow-down nav-lang__dropdown"
