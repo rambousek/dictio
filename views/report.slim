@@ -13,7 +13,7 @@ main role="main"
 
           div
             article.col.col--start role="article" style="display: block"
-              h2 #{I18n.t("admin.activeopt")} 
+              h3 #{I18n.t("admin.activeopt")} 
               - if @params['idsf'] 
                 | #{I18n.t("admin.idsel")}: 
                 div style="overflow-x: scroll; overflow-y: hidden; max-width: 170px;" #{@params['idsf']}            
@@ -196,7 +196,7 @@ main role="main"
                     - if @params['koment'] == 'ano' and @params['seltyphesla'] != ''
                       a.btn.btn-secondary.report-ne onclick="URLChange('koment','ne')" #{I18n.t("admin.not")} #{I18n.t("admin.koment."+@params['komentbox'])}
                       span.closebtn2 onclick="URLRemove2('koment','komentbox')" x       
-  
+
 
               .sub                          
                 h3 onclick="showhide('presets')" style="cursor: pointer"
@@ -380,7 +380,7 @@ main role="main"
                           a.btn class="btn-secondary report-" href="/#{@dictcode}report?vyznamcszad=ano&vyznamcs=ano&translationuzm=ano&pubtransuzm=ne" UŽM
 
               .sub
-                h2 onclick="showhide('allopt')" style="cursor: pointer"                
+                h3 onclick="showhide('allopt')" style="cursor: pointer"                
                   | #{I18n.t("admin.moreopt")} 
                   span.icon class="icon--arrow-down nav-lang__dropdown"
                     svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
