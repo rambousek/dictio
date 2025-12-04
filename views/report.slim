@@ -150,52 +150,52 @@ main role="main"
                         a.btn class="btn-secondary report-ne" onclick="URLChange('usagecs','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.usage")}  
                       span.closebtn2 onclick="URLRemove('usagecs')" x
 
-                - if @params.count{|k,_| k =~ /^translation/} > 0 or @params.count{|k,_| k =~ /^synonym/}
-                  label
-                    | #{I18n.t("admin.translation")}:
-                  div.options  
-                    - $dict_info.each do |code,hash|
-                      - if @params['translation'+code]
-                        - if @params['translation'+code] == 'ano'
-                          a.btn class="btn-secondary report-ano" onclick="URLChange('translation#{code}','ne')" #{code}
-                        - if @params['translation'+code] == 'ne'
-                          a.btn class="btn-secondary report-ne" onclick="URLChange('translation#{code}','ano')" #{I18n.t("admin.not")} #{code}
-                        span.closebtn2 onclick="URLRemove('translation#{code}')" x
-                    - if @params['synonym']     
-                      - if @params['synonym'] == 'ano' 
-                        a.btn class="btn-secondary report-ano" onclick="URLChange('synonym','ne')" #{I18n.t("admin.synonym")}
-                      - if @params['synonym'] == 'ne' 
-                        a.btn class="btn-secondary report-ne" onclick="URLChange('synonym','ano')" #{I18n.t("admin.not")} #{I18n.t("admin.synonym")}
-                      span.closebtn2 onclick="URLRemove('synonym')" x
+              - if @params.count{|k,_| k =~ /^translation/} > 0 or @params.count{|k,_| k =~ /^synonym/}
+                label
+                  | #{I18n.t("admin.translation")}:
+                div.options  
+                  - $dict_info.each do |code,hash|
+                    - if @params['translation'+code]
+                      - if @params['translation'+code] == 'ano'
+                        a.btn class="btn-secondary report-ano" onclick="URLChange('translation#{code}','ne')" #{code}
+                      - if @params['translation'+code] == 'ne'
+                        a.btn class="btn-secondary report-ne" onclick="URLChange('translation#{code}','ano')" #{I18n.t("admin.not")} #{code}
+                      span.closebtn2 onclick="URLRemove('translation#{code}')" x
+                  - if @params['synonym']     
+                    - if @params['synonym'] == 'ano' 
+                      a.btn class="btn-secondary report-ano" onclick="URLChange('synonym','ne')" #{I18n.t("admin.synonym")}
+                    - if @params['synonym'] == 'ne' 
+                      a.btn class="btn-secondary report-ne" onclick="URLChange('synonym','ano')" #{I18n.t("admin.not")} #{I18n.t("admin.synonym")}
+                    span.closebtn2 onclick="URLRemove('synonym')" x
 
-                - if @params.count{|k,_| k =~ /^pubtrans/} > 0 or @params.count{|k,_| k =~ /^pubsynonym/}
-                  label
-                    | #{I18n.t("admin.pubtrans")}:
-                  div.options  
-                    - $dict_info.each do |code,hash|
-                      - if @params['pubtrans'+code]
-                        - if @params['pubtrans'+code] == 'ano'
-                          a.btn class="btn-secondary report-ano" onclick="URLChange('pubtrans#{code}','ne')" #{code}
-                        - if @params['pubtrans'+code] == 'ne'
-                          a.btn class="btn-secondary report-ne" onclick="URLChange('pubtrans#{code}','ano')" #{I18n.t("admin.not")} #{code}
-                        span.closebtn2 onclick="URLRemove('pubtrans#{code}')" x
-                    - if @params['pubsynonym']     
-                      - if @params['pubsynonym'] == 'ano' 
-                        a.btn class="btn-secondary report-ano" onclick="URLChange('pubsynonym','ne')" #{I18n.t("admin.pubsynonym")}
-                      - if @params['pubsynonym'] == 'ne' 
-                        a.btn class="btn-secondary report-ne" onclick="URLChange('pubsynonym','ano')" #{I18n.t("admin.not")} #{I18n.t("admin.synonym")}
-                      span.closebtn2 onclick="URLRemove('pubsynonym')" x
+             - if @params.count{|k,_| k =~ /^pubtrans/} > 0 or @params.count{|k,_| k =~ /^pubsynonym/}
+                label
+                  | #{I18n.t("admin.pubtrans")}:
+                div.options  
+                  - $dict_info.each do |code,hash|
+                    - if @params['pubtrans'+code]
+                      - if @params['pubtrans'+code] == 'ano'
+                        a.btn class="btn-secondary report-ano" onclick="URLChange('pubtrans#{code}','ne')" #{code}
+                      - if @params['pubtrans'+code] == 'ne'
+                        a.btn class="btn-secondary report-ne" onclick="URLChange('pubtrans#{code}','ano')" #{I18n.t("admin.not")} #{code}
+                      span.closebtn2 onclick="URLRemove('pubtrans#{code}')" x
+                  - if @params['pubsynonym']     
+                    - if @params['pubsynonym'] == 'ano' 
+                      a.btn class="btn-secondary report-ano" onclick="URLChange('pubsynonym','ne')" #{I18n.t("admin.pubsynonym")}
+                    - if @params['pubsynonym'] == 'ne' 
+                      a.btn class="btn-secondary report-ne" onclick="URLChange('pubsynonym','ano')" #{I18n.t("admin.not")} #{I18n.t("admin.synonym")}
+                    span.closebtn2 onclick="URLRemove('pubsynonym')" x
 
-                - if @params.count{|k,_| k =~ /^komentbox/} > 0
-                  label 
-                    | #{I18n.t("admin.comments")}:
-                  div.options  
-                    - if @params['koment'] == 'ne' and @params['komentbox'] != ''
-                      a.btn.btn-secondary.report-ano onclick="URLChange('koment','ano')" #{I18n.t("admin.koment."+@params['komentbox'])}
-                      span.closebtn2 onclick="URLRemove2('koment','komentbox')" x              
-                    - if @params['koment'] == 'ano' and @params['seltyphesla'] != ''
-                      a.btn.btn-secondary.report-ne onclick="URLChange('koment','ne')" #{I18n.t("admin.not")} #{I18n.t("admin.koment."+@params['komentbox'])}
-                      span.closebtn2 onclick="URLRemove2('koment','komentbox')" x       
+             - if @params.count{|k,_| k =~ /^komentbox/} > 0
+                label 
+                  | #{I18n.t("admin.comments")}:
+                div.options  
+                  - if @params['koment'] == 'ne' and @params['komentbox'] != ''
+                    a.btn.btn-secondary.report-ano onclick="URLChange('koment','ano')" #{I18n.t("admin.koment."+@params['komentbox'])}
+                    span.closebtn2 onclick="URLRemove2('koment','komentbox')" x              
+                  - if @params['koment'] == 'ano' and @params['seltyphesla'] != ''
+                    a.btn.btn-secondary.report-ne onclick="URLChange('koment','ne')" #{I18n.t("admin.not")} #{I18n.t("admin.koment."+@params['komentbox'])}
+                    span.closebtn2 onclick="URLRemove2('koment','komentbox')" x       
 
 
               .sub                          
