@@ -16,7 +16,8 @@ main role="main"
               h3 #{I18n.t("admin.activeopt")} 
               - if @params['idsf'] 
                 | #{I18n.t("admin.idsel")}: 
-                div style="overflow-x: scroll; overflow-y: hidden; max-width: 170px;" #{@params['idsf']}            
+                div style="overflow-x: scroll; overflow-y: hidden; max-width: 170px;" #{@params['idsf']}    
+                        
               label 
                 | #{I18n.t("admin.lemma")}:
               div.options  
@@ -89,7 +90,8 @@ main role="main"
                     span.closebtn2 onclick="URLRemove2('sldruh','slovni_druh')" x              
                   - if @params['sldruh'] == 'ano' and @params['slovni_druh'] != ''
                     a.btn.btn-secondary.report-ne onclick="URLChange('sldruh','ne')" #{I18n.t("admin.not")} #{I18n.t("gram.slovni_druh."+@params['slovni_druh'])}
-                    span.closebtn2 onclick="URLRemove2('sldruh','slovni_druh')" x                
+                    span.closebtn2 onclick="URLRemove2('sldruh','slovni_druh')" x     
+
               - if @params.count{|k,_| k =~ /^vyznam/} > 0 or @params.count{|k,_| k =~ /^usage/} > 0
                 label                  
                   | #{I18n.t("admin.sem")}:  
@@ -143,7 +145,7 @@ main role="main"
                       a.btn class="btn-secondary report-ne" onclick="URLChange('usagecs','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.usage")}  
                     span.closebtn2 onclick="URLRemove('usagecs')" x
 
-              - if @params.count{|k,_| k =~ /^translation/} > 0 or @params.count{|k,_| k =~ /^synonym/}
+              - if @params.count{|k,_| k =~ /^translation/} > 0 or @params.count{|k,_| k =~ /^synonym/} > 0
                 label
                   | #{I18n.t("admin.translation")}:
                 div.options  
@@ -161,7 +163,7 @@ main role="main"
                       a.btn class="btn-secondary report-ne" onclick="URLChange('synonym','ano')" #{I18n.t("admin.not")} #{I18n.t("admin.synonym")}
                     span.closebtn2 onclick="URLRemove('synonym')" x
 
-              - if @params.count{|k,_| k =~ /^pubtrans/} > 0 or @params.count{|k,_| k =~ /^pubsynonym/}
+              - if @params.count{|k,_| k =~ /^pubtrans/} > 0 or @params.count{|k,_| k =~ /^pubsynonym/} > 0
                 label
                   | #{I18n.t("admin.pubtrans")}:
                 div.options  
