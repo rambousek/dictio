@@ -19,69 +19,68 @@ main role="main"
                 div style="overflow-x: scroll; overflow-y: hidden; max-width: 170px;" #{@params['idsf']}            
               label 
                 | #{I18n.t("admin.lemma")}:  
-                - if @params['typhesla'] == 'ne' and @params['seltyphesla'] != ''
-                  a.btn.btn-secondary.report-ano onclick="URLChange('typhesla','ano')" #{I18n.t("admin."+@params['seltyphesla'])}
-                  span.closebtn2 onclick="URLRemove2('typhesla','seltyphesla')" x
-                - if @params['typhesla'] == 'ano' and @params['seltyphesla'] != ''
-                  a.btn.btn-secondary.report-ne onclick="URLChange('typhesla','ne')" #{I18n.t("admin.not")} #{I18n.t("admin."+@params['seltyphesla'])}
-                  span.closebtn2 onclick="URLRemove2('typhesla','seltyphesla')" x
-                - if @params['skup'] == 'ne' and @params['def_skup'].length > 0
-                  - @params['def_skup'].each do |skup|
-                    a.btn.btn-secondary.report-ano onclick="URLChange('skup','ano')" #{I18n.t("admin.group."+skup)}
-                    span.closebtn2 onclick="URLRemove2('skup','def_skup[]')" x
-                - if @params['skup'] == 'ano' and @params['def_skup'].length > 0
-                  - @params['def_skup'].each do |skup|
-                    a.btn.btn-secondary.report-ne onclick="URLChange('skup','ne')" #{I18n.t("admin.not")} #{I18n.t("admin.group."+skup)}
-                    span.closebtn2 onclick="URLRemove2('skup','def_skup[]')" x
-                - if @dict_info[@dictcode]['type'] == 'sign'
-                  - if @params['schvcelni'] 
-                    - if @params['schvcelni'] == 'ano'
-                      a.btn class="btn-secondary report-ano" onclick="URLChange('schvcelni','ne')" #{I18n.t("admin.schvcelni")}
-                    - if @params['schvcelni'] == 'ne'
-                      a.btn class="btn-secondary report-ne" onclick="URLChange('schvcelni','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.schvcelni")}
-                    span.closebtn2 onclick="URLRemove('schvcelni')" x               
-                  - if @params['schvbocni'] 
-                    - if @params['schvbocni'] == 'ano'
-                      a.btn class="btn-secondary report-ano" onclick="URLChange('schvbocni','ne')" #{I18n.t("admin.schvbocni")}
-                    - if @params['schvbocni'] == 'ne'
-                      a.btn class="btn-secondary report-ne" onclick="URLChange('schvbocni','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.schvbocni")}
-                    span.closebtn2 onclick="URLRemove('schvbocni')" x
-                  - if @params['celni'] 
-                    - if @params['celni'] == 'ano'
-                      a.btn class="btn-secondary report-ano" onclick="URLChange('celni','ne')" #{I18n.t("admin.celni")}
-                    - if @params['celni'] == 'ne'
-                      a.btn class="btn-secondary report-ne" onclick="URLChange('celni','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.celni")}
-                    span.closebtn2 onclick="URLRemove('celni')" x               
-                  - if @params['bocni'] 
-                    - if @params['bocni'] == 'ano'
-                      a.btn class="btn-secondary report-ano" onclick="URLChange('bocni','ne')" #{I18n.t("admin.bocni")}
-                    - if @params['bocni'] == 'ne'
-                      a.btn class="btn-secondary report-ne" onclick="URLChange('bocni','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.bocni")}
-                    span.closebtn2 onclick="URLRemove('bocni')" x
-                    
-                  - if @params['bez_sw'] 
-                    - if @params['bez_sw'] == 'ano'
-                      a.btn class="btn-secondary report-ano" onclick="URLChange('bez_sw','ne')" #{I18n.t("admin.sw")}
-                    - if @params['bez_sw'] == 'ne'
-                      a.btn class="btn-secondary report-ne" onclick="URLChange('bez_sw','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.sw")}
-                    span.closebtn2 onclick="URLRemove('bez_sw')" x
+              - if @params['typhesla'] == 'ne' and @params['seltyphesla'] != ''
+                a.btn.btn-secondary.report-ano onclick="URLChange('typhesla','ano')" #{I18n.t("admin."+@params['seltyphesla'])}
+                span.closebtn2 onclick="URLRemove2('typhesla','seltyphesla')" x
+              - if @params['typhesla'] == 'ano' and @params['seltyphesla'] != ''
+                a.btn.btn-secondary.report-ne onclick="URLChange('typhesla','ne')" #{I18n.t("admin.not")} #{I18n.t("admin."+@params['seltyphesla'])}
+                span.closebtn2 onclick="URLRemove2('typhesla','seltyphesla')" x
+              - if @params['skup'] == 'ne' and @params['def_skup'].length > 0
+                - @params['def_skup'].each do |skup|
+                  a.btn.btn-secondary.report-ano onclick="URLChange('skup','ano')" #{I18n.t("admin.group."+skup)}
+                  span.closebtn2 onclick="URLRemove2('skup','def_skup[]')" x
+              - if @params['skup'] == 'ano' and @params['def_skup'].length > 0
+                - @params['def_skup'].each do |skup|
+                  a.btn.btn-secondary.report-ne onclick="URLChange('skup','ne')" #{I18n.t("admin.not")} #{I18n.t("admin.group."+skup)}
+                  span.closebtn2 onclick="URLRemove2('skup','def_skup[]')" x
+              - if @dict_info[@dictcode]['type'] == 'sign'
+                - if @params['schvcelni'] 
+                  - if @params['schvcelni'] == 'ano'
+                    a.btn class="btn-secondary report-ano" onclick="URLChange('schvcelni','ne')" #{I18n.t("admin.schvcelni")}
+                  - if @params['schvcelni'] == 'ne'
+                    a.btn class="btn-secondary report-ne" onclick="URLChange('schvcelni','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.schvcelni")}
+                  span.closebtn2 onclick="URLRemove('schvcelni')" x               
+                - if @params['schvbocni'] 
+                  - if @params['schvbocni'] == 'ano'
+                    a.btn class="btn-secondary report-ano" onclick="URLChange('schvbocni','ne')" #{I18n.t("admin.schvbocni")}
+                  - if @params['schvbocni'] == 'ne'
+                    a.btn class="btn-secondary report-ne" onclick="URLChange('schvbocni','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.schvbocni")}
+                  span.closebtn2 onclick="URLRemove('schvbocni')" x
+                - if @params['celni'] 
+                  - if @params['celni'] == 'ano'
+                    a.btn class="btn-secondary report-ano" onclick="URLChange('celni','ne')" #{I18n.t("admin.celni")}
+                  - if @params['celni'] == 'ne'
+                    a.btn class="btn-secondary report-ne" onclick="URLChange('celni','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.celni")}
+                  span.closebtn2 onclick="URLRemove('celni')" x               
+                - if @params['bocni'] 
+                  - if @params['bocni'] == 'ano'
+                    a.btn class="btn-secondary report-ano" onclick="URLChange('bocni','ne')" #{I18n.t("admin.bocni")}
+                  - if @params['bocni'] == 'ne'
+                    a.btn class="btn-secondary report-ne" onclick="URLChange('bocni','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.bocni")}
+                  span.closebtn2 onclick="URLRemove('bocni')" x
+                  
+                - if @params['bez_sw'] 
+                  - if @params['bez_sw'] == 'ano'
+                    a.btn class="btn-secondary report-ano" onclick="URLChange('bez_sw','ne')" #{I18n.t("admin.sw")}
+                  - if @params['bez_sw'] == 'ne'
+                    a.btn class="btn-secondary report-ne" onclick="URLChange('bez_sw','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.sw")}
+                  span.closebtn2 onclick="URLRemove('bez_sw')" x
+                - if @params['nes_sw'] 
+                  - if @params['nes_sw'] == 'ano'
+                    a.btn class="btn-secondary report-ano" onclick="URLChange('nes_sw','ne')" #{I18n.t("admin.schvsw")}
+                  - if @params['nes_sw'] == 'ne'
+                    a.btn class="btn-secondary report-ne" onclick="URLChange('nes_sw','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.schvsw")}
+                  span.closebtn2 onclick="URLRemove('nes_sw')" x
     
-                  - if @params['nes_sw'] 
-                    - if @params['nes_sw'] == 'ano'
-                      a.btn class="btn-secondary report-ano" onclick="URLChange('nes_sw','ne')" #{I18n.t("admin.schvsw")}
-                    - if @params['nes_sw'] == 'ne'
-                      a.btn class="btn-secondary report-ne" onclick="URLChange('nes_sw','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.schvsw")}
-                    span.closebtn2 onclick="URLRemove('nes_sw')" x
-    
-              p
+              label
                 | #{I18n.t("admin.desc")}:
-                - if @dict_info[@dictcode]['type'] == 'sign'
-                  - if @params['mkok'] 
-                    - if @params['mkok'] == 'ano'
-                      a.btn class="btn-secondary report-ano" onclick="URLChange('mkok','ne')" #{I18n.t("admin.mkok")}
-                    - if @params['mkok'] == 'ne'
-                      a.btn class="btn-secondary report-ne" onclick="URLChange('mkok','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.mkok")}
-                    span.closebtn2 onclick="URLRemove('mkok')" x
+              - if @dict_info[@dictcode]['type'] == 'sign'
+                - if @params['mkok'] 
+                  - if @params['mkok'] == 'ano'
+                    a.btn class="btn-secondary report-ano" onclick="URLChange('mkok','ne')" #{I18n.t("admin.mkok")}
+                  - if @params['mkok'] == 'ne'
+                    a.btn class="btn-secondary report-ne" onclick="URLChange('mkok','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.mkok")}
+                  span.closebtn2 onclick="URLRemove('mkok')" x
     
                 - if @params['sldruh'] == 'ne' and @params['slovni_druh'] != ''
                   a.btn.btn-secondary.report-ano onclick="URLChange('sldruh','ano')" #{I18n.t("gram.slovni_druh."+@params['slovni_druh'])}
@@ -90,107 +89,107 @@ main role="main"
                   a.btn.btn-secondary.report-ne onclick="URLChange('sldruh','ne')" #{I18n.t("admin.not")} #{I18n.t("gram.slovni_druh."+@params['slovni_druh'])}
                   span.closebtn2 onclick="URLRemove2('sldruh','slovni_druh')" x                
               - if @params.count{|k,_| k =~ /^vyznam/} > 0 or @params.count{|k,_| k =~ /^usage/} > 0
-                p
+                label
                   | #{I18n.t("admin.sem")}:  
-                  - if @params['vyznamcszad'] 
-                    - if @params['vyznamcszad'] == 'ano'
-                      a.btn class="btn-secondary report-ano" onclick="URLChange('vyznamcszad','ne')" #{I18n.t("admin.vyznamvid")}
-                    - if @params['vyznamcszad'] == 'ne'
-                      a.btn class="btn-secondary report-ne" onclick="URLChange('vyznamcszad','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.vyznamvid")}
-                    span.closebtn2 onclick="URLRemove('vyznamcszad')" x
-                    
-                  - if @params['vyznamvid'] 
-                    - if @params['vyznamvid'] == 'ano'
-                      a.btn class="btn-secondary report-ano" onclick="URLChange('vyznamvid','ne')" #{I18n.t("admin.vyznamvid")}
-                    - if @params['vyznamvid'] == 'ne'
-                      a.btn class="btn-secondary report-ne" onclick="URLChange('vyznamvid','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.vyznamvid")}
-                    span.closebtn2 onclick="URLRemove('vyznamvid')" x
-    
-                  - if @params['vyznam']     
-                    - if @params['vyznam'] == 'ano' 
-                      a.btn class="btn-secondary report-ano" onclick="URLChange('vyznam','ne')" #{I18n.t("admin.vyznam")}
-                    - if @params['vyznam'] == 'ne' 
-                      a.btn class="btn-secondary report-ne" onclick="URLChange('vyznam','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.vyznam")}  
-                    span.closebtn2 onclick="URLRemove('vyznam')" x
-                    
-                  - if @params['vyznamcs']     
-                    - if @params['vyznamcs'] == 'ano' 
-                      a.btn class="btn-secondary report-ano" onclick="URLChange('vyznamcs','ne')" #{I18n.t("admin.vyznam")}
-                    - if @params['vyznamcs'] == 'ne' 
-                      a.btn class="btn-secondary report-ne" onclick="URLChange('vyznamcs','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.vyznam")}  
-                    span.closebtn2 onclick="URLRemove('vyznamcs')" x
-                    
-                  - if @params['usagecszad'] 
-                    - if @params['usagecszad'] == 'ano'
-                      a.btn class="btn-secondary report-ano" onclick="URLChange('usagecszad','ne')" #{I18n.t("admin.usagevid")}
-                    - if @params['usagecszad'] == 'ne'
-                      a.btn class="btn-secondary report-ne" onclick="URLChange('usagecszad','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.usagevid")}
-                    span.closebtn2 onclick="URLRemove('usagecszad')" x
-                    
-                  - if @params['usagevid'] 
-                    - if @params['usagevid'] == 'ano'
-                      a.btn class="btn-secondary report-ano" onclick="URLChange('usagevid','ne')" #{I18n.t("admin.usagevid")}
-                    - if @params['usagevid'] == 'ne'
-                      a.btn class="btn-secondary report-ne" onclick="URLChange('usagevid','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.usagevid")}
-                    span.closebtn2 onclick="URLRemove('usagevid')" x
-    
-                  - if @params['usage']     
-                    - if @params['usage'] == 'ano' 
-                      a.btn class="btn-secondary report-ano" onclick="URLChange('usage','ne')" #{I18n.t("admin.usage")}
-                    - if @params['usage'] == 'ne' 
-                      a.btn class="btn-secondary report-ne" onclick="URLChange('usage','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.usage")}  
-                    span.closebtn2 onclick="URLRemove('usage')" x
-                    
-                  - if @params['usagecs']     
-                    - if @params['usagecs'] == 'ano' 
-                      a.btn class="btn-secondary report-ano" onclick="URLChange('usagecs','ne')" #{I18n.t("admin.usage")}
-                    - if @params['usagecs'] == 'ne' 
-                      a.btn class="btn-secondary report-ne" onclick="URLChange('usagecs','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.usage")}  
-                    span.closebtn2 onclick="URLRemove('usagecs')" x
+                - if @params['vyznamcszad'] 
+                  - if @params['vyznamcszad'] == 'ano'
+                    a.btn class="btn-secondary report-ano" onclick="URLChange('vyznamcszad','ne')" #{I18n.t("admin.vyznamvid")}
+                  - if @params['vyznamcszad'] == 'ne'
+                    a.btn class="btn-secondary report-ne" onclick="URLChange('vyznamcszad','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.vyznamvid")}
+                  span.closebtn2 onclick="URLRemove('vyznamcszad')" x
+                  
+                - if @params['vyznamvid'] 
+                  - if @params['vyznamvid'] == 'ano'
+                    a.btn class="btn-secondary report-ano" onclick="URLChange('vyznamvid','ne')" #{I18n.t("admin.vyznamvid")}
+                  - if @params['vyznamvid'] == 'ne'
+                    a.btn class="btn-secondary report-ne" onclick="URLChange('vyznamvid','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.vyznamvid")}
+                  span.closebtn2 onclick="URLRemove('vyznamvid')" x
+  
+                - if @params['vyznam']     
+                  - if @params['vyznam'] == 'ano' 
+                    a.btn class="btn-secondary report-ano" onclick="URLChange('vyznam','ne')" #{I18n.t("admin.vyznam")}
+                  - if @params['vyznam'] == 'ne' 
+                    a.btn class="btn-secondary report-ne" onclick="URLChange('vyznam','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.vyznam")}  
+                  span.closebtn2 onclick="URLRemove('vyznam')" x
+                  
+                - if @params['vyznamcs']     
+                  - if @params['vyznamcs'] == 'ano' 
+                    a.btn class="btn-secondary report-ano" onclick="URLChange('vyznamcs','ne')" #{I18n.t("admin.vyznam")}
+                  - if @params['vyznamcs'] == 'ne' 
+                    a.btn class="btn-secondary report-ne" onclick="URLChange('vyznamcs','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.vyznam")}  
+                  span.closebtn2 onclick="URLRemove('vyznamcs')" x
+                  
+                - if @params['usagecszad'] 
+                  - if @params['usagecszad'] == 'ano'
+                    a.btn class="btn-secondary report-ano" onclick="URLChange('usagecszad','ne')" #{I18n.t("admin.usagevid")}
+                  - if @params['usagecszad'] == 'ne'
+                    a.btn class="btn-secondary report-ne" onclick="URLChange('usagecszad','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.usagevid")}
+                  span.closebtn2 onclick="URLRemove('usagecszad')" x
+                  
+                - if @params['usagevid'] 
+                  - if @params['usagevid'] == 'ano'
+                    a.btn class="btn-secondary report-ano" onclick="URLChange('usagevid','ne')" #{I18n.t("admin.usagevid")}
+                  - if @params['usagevid'] == 'ne'
+                    a.btn class="btn-secondary report-ne" onclick="URLChange('usagevid','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.usagevid")}
+                  span.closebtn2 onclick="URLRemove('usagevid')" x
+  
+                - if @params['usage']     
+                  - if @params['usage'] == 'ano' 
+                    a.btn class="btn-secondary report-ano" onclick="URLChange('usage','ne')" #{I18n.t("admin.usage")}
+                  - if @params['usage'] == 'ne' 
+                    a.btn class="btn-secondary report-ne" onclick="URLChange('usage','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.usage")}  
+                  span.closebtn2 onclick="URLRemove('usage')" x
+                  
+                - if @params['usagecs']     
+                  - if @params['usagecs'] == 'ano' 
+                    a.btn class="btn-secondary report-ano" onclick="URLChange('usagecs','ne')" #{I18n.t("admin.usage")}
+                  - if @params['usagecs'] == 'ne' 
+                    a.btn class="btn-secondary report-ne" onclick="URLChange('usagecs','ano')" #{I18n.t("admin.not")}#{I18n.t("admin.usage")}  
+                  span.closebtn2 onclick="URLRemove('usagecs')" x
                                                           
               - if @params.count{|k,_| k =~ /^translation/} > 0 or @params.count{|k,_| k =~ /^synonym/}
-                p
+                label
                   | #{I18n.t("admin.translation")}:
-                  - $dict_info.each do |code,hash|
-                    - if @params['translation'+code]
-                      - if @params['translation'+code] == 'ano'
-                        a.btn class="btn-secondary report-ano" onclick="URLChange('translation#{code}','ne')" #{code}
-                      - if @params['translation'+code] == 'ne'
-                        a.btn class="btn-secondary report-ne" onclick="URLChange('translation#{code}','ano')" #{I18n.t("admin.not")} #{code}
-                      span.closebtn2 onclick="URLRemove('translation#{code}')" x
-                  - if @params['synonym']     
-                    - if @params['synonym'] == 'ano' 
-                      a.btn class="btn-secondary report-ano" onclick="URLChange('synonym','ne')" #{I18n.t("admin.synonym")}
-                    - if @params['synonym'] == 'ne' 
-                      a.btn class="btn-secondary report-ne" onclick="URLChange('synonym','ano')" #{I18n.t("admin.not")} #{I18n.t("admin.synonym")}
-                    span.closebtn2 onclick="URLRemove('synonym')" x
+                - $dict_info.each do |code,hash|
+                  - if @params['translation'+code]
+                    - if @params['translation'+code] == 'ano'
+                      a.btn class="btn-secondary report-ano" onclick="URLChange('translation#{code}','ne')" #{code}
+                    - if @params['translation'+code] == 'ne'
+                      a.btn class="btn-secondary report-ne" onclick="URLChange('translation#{code}','ano')" #{I18n.t("admin.not")} #{code}
+                    span.closebtn2 onclick="URLRemove('translation#{code}')" x
+                - if @params['synonym']     
+                  - if @params['synonym'] == 'ano' 
+                    a.btn class="btn-secondary report-ano" onclick="URLChange('synonym','ne')" #{I18n.t("admin.synonym")}
+                  - if @params['synonym'] == 'ne' 
+                    a.btn class="btn-secondary report-ne" onclick="URLChange('synonym','ano')" #{I18n.t("admin.not")} #{I18n.t("admin.synonym")}
+                  span.closebtn2 onclick="URLRemove('synonym')" x
     
               - if @params.count{|k,_| k =~ /^pubtrans/} > 0 or @params.count{|k,_| k =~ /^pubsynonym/}
                 label
                   | #{I18n.t("admin.pubtrans")}:
-                  - $dict_info.each do |code,hash|
-                    - if @params['pubtrans'+code]
-                      - if @params['pubtrans'+code] == 'ano'
-                        a.btn class="btn-secondary report-ano" onclick="URLChange('pubtrans#{code}','ne')" #{code}
-                      - if @params['pubtrans'+code] == 'ne'
-                        a.btn class="btn-secondary report-ne" onclick="URLChange('pubtrans#{code}','ano')" #{I18n.t("admin.not")} #{code}
-                      span.closebtn2 onclick="URLRemove('pubtrans#{code}')" x
-                  - if @params['pubsynonym']     
-                    - if @params['pubsynonym'] == 'ano' 
-                      a.btn class="btn-secondary report-ano" onclick="URLChange('pubsynonym','ne')" #{I18n.t("admin.pubsynonym")}
-                    - if @params['pubsynonym'] == 'ne' 
-                      a.btn class="btn-secondary report-ne" onclick="URLChange('pubsynonym','ano')" #{I18n.t("admin.not")} #{I18n.t("admin.synonym")}
-                    span.closebtn2 onclick="URLRemove('pubsynonym')" x
-    
+                - $dict_info.each do |code,hash|
+                  - if @params['pubtrans'+code]
+                    - if @params['pubtrans'+code] == 'ano'
+                      a.btn class="btn-secondary report-ano" onclick="URLChange('pubtrans#{code}','ne')" #{code}
+                    - if @params['pubtrans'+code] == 'ne'
+                      a.btn class="btn-secondary report-ne" onclick="URLChange('pubtrans#{code}','ano')" #{I18n.t("admin.not")} #{code}
+                    span.closebtn2 onclick="URLRemove('pubtrans#{code}')" x
+                - if @params['pubsynonym']     
+                  - if @params['pubsynonym'] == 'ano' 
+                    a.btn class="btn-secondary report-ano" onclick="URLChange('pubsynonym','ne')" #{I18n.t("admin.pubsynonym")}
+                  - if @params['pubsynonym'] == 'ne' 
+                    a.btn class="btn-secondary report-ne" onclick="URLChange('pubsynonym','ano')" #{I18n.t("admin.not")} #{I18n.t("admin.synonym")}
+                  span.closebtn2 onclick="URLRemove('pubsynonym')" x
+  
               - if @params.count{|k,_| k =~ /^komentbox/} > 0
                 label 
                   | #{I18n.t("admin.comments")}:
-                  - if @params['koment'] == 'ne' and @params['komentbox'] != ''
-                    a.btn.btn-secondary.report-ano onclick="URLChange('koment','ano')" #{I18n.t("admin.koment."+@params['komentbox'])}
-                    span.closebtn2 onclick="URLRemove2('koment','komentbox')" x              
-                  - if @params['koment'] == 'ano' and @params['seltyphesla'] != ''
-                    a.btn.btn-secondary.report-ne onclick="URLChange('koment','ne')" #{I18n.t("admin.not")} #{I18n.t("admin.koment."+@params['komentbox'])}
-                    span.closebtn2 onclick="URLRemove2('koment','komentbox')" x       
+                - if @params['koment'] == 'ne' and @params['komentbox'] != ''
+                  a.btn.btn-secondary.report-ano onclick="URLChange('koment','ano')" #{I18n.t("admin.koment."+@params['komentbox'])}
+                  span.closebtn2 onclick="URLRemove2('koment','komentbox')" x              
+                - if @params['koment'] == 'ano' and @params['seltyphesla'] != ''
+                  a.btn.btn-secondary.report-ne onclick="URLChange('koment','ne')" #{I18n.t("admin.not")} #{I18n.t("admin.koment."+@params['komentbox'])}
+                  span.closebtn2 onclick="URLRemove2('koment','komentbox')" x       
 
 
               .sub                          
@@ -382,7 +381,7 @@ main role="main"
                       use xlink:href="/img/icons.svg#arrow-down" width="100%" height="100%" x="0" y="0"
                 div id="allopt" style="display: none" 
                   .sub
-                    span onclick="showhide('skupina')" style="cursor: pointer"
+                    label onclick="showhide('skupina')" style="cursor: pointer"
                       | #{I18n.t("admin.workgroup")}
                       span.icon class="icon--arrow-down nav-lang__dropdown"
                           svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -457,7 +456,7 @@ main role="main"
                             a.btn class="btn-secondary report-" onclick="URLAppend('nes_sw')" #{I18n.t("admin.schvsw")}
                   - if @dict_info[@dictcode]['type'] == 'sign'
                     .sub
-                      span onclick="showhide('desc')" style="cursor: pointer"
+                      label onclick="showhide('desc')" style="cursor: pointer"
                         | #{I18n.t("admin.desc")} 
                         span.icon class="icon--arrow-down nav-lang__dropdown"
                           svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -466,7 +465,7 @@ main role="main"
                         - unless @params['mkok']
                           a.btn class="btn-secondary report-" onclick="URLAppend('mkok')" #{I18n.t("admin.mkok")}
                   .sub
-                    span onclick="showhide('sldruh')" style="cursor: pointer"
+                    label onclick="showhide('sldruh')" style="cursor: pointer"
                       label
                         | #{I18n.t("entry.lexical")} 
                         span.icon class="icon--arrow-down nav-lang__dropdown"
