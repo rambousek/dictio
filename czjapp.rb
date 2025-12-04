@@ -20,7 +20,6 @@ require_relative 'lib/czj'
 require_relative 'lib/host-config'
 require_relative 'lib/dict-config'
 require_relative 'lib/czj_fsw'
-require_relative 'lib/czj_dict_sw'
 require_relative 'lib/czj_comment'
 require_relative 'lib/czj_report'
 require_relative 'lib/czj_web_helper'
@@ -614,7 +613,7 @@ class CzjApp < Sinatra::Base
         data = JSON.parse(params['data'])
         if data['update_video']
           data['update_video'].each{|uv|
-            dict.save_media(uv)
+            dict.edit_media.save_media(uv)
           }
         end
         content_type :json
@@ -623,7 +622,7 @@ class CzjApp < Sinatra::Base
       post '/'+code+'/remove_video' do
         content_type :json
         if params['entry_id'].to_s != '' and params['media_id'].to_s != ''
-          dict.remove_video(params['entry_id'].to_s, params['media_id'].to_s)
+          dict.edit_media.remove_video(params['entry_id'].to_s, params['media_id'].to_s)
           body = {"success"=>true, "message"=>"Soubor odebrán"}.to_json
         else
           body = {'success'=>false, 'message'=>"Chybí parametry videa"}.to_json
@@ -637,9 +636,9 @@ class CzjApp < Sinatra::Base
         body = {"success"=>true,"msg"=>"Uloženo"}.to_json
       end
       get '/'+code+'/filelist/:id' do
-        list = dict.get_entry_files(params['id'], params['type'].to_s)
+        list = dict.edit_media.get_entry_files(params['id'], params['type'].to_s)
         if params['search'].to_s != ''
-          list = dict.find_files(params['search'].to_s, params['type'].to_s)
+          list = dict.edit_media.find_files(params['search'].to_s, params['type'].to_s)
         end
         content_type :json
         body = list.to_json
@@ -677,11 +676,11 @@ class CzjApp < Sinatra::Base
         body = {'success'=>false, 'message'=>"Chyba při uploadu"}.to_json
         metadata = JSON.parse(params['metadata'].to_s)
         if not params['filedata'].nil? and params['filedata'] != 'undefined'
-          filename, mediaid = dict.save_uploaded_file(params['filedata'], metadata, params['entryid'].to_s)
+          filename, mediaid = dict.edit_media.save_uploaded_file(params['filedata'], metadata, params['entryid'].to_s)
           body = {'success'=>true, 'message'=>"Soubor nahrán: #{filename} (#{mediaid})", 'mediaid'=>mediaid, 'filename'=>filename}.to_json
         end
         if (params['filedata'].nil? or params['filedata'] == 'undefined') and metadata['location'].to_s != ''
-          dict.attach_file(metadata['location'].to_s, params['entryid'].to_s, metadata)
+          dict.edit_media.attach_file(metadata['location'].to_s, params['entryid'].to_s, metadata)
           body = {'success'=>true, 'message'=>"Soubor připojen: #{metadata['@location']}"}.to_json
         end
         content_type :json
