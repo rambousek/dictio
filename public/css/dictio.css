@@ -261,9 +261,9 @@ div.close:hover {
 }
 
 div.sub {
-  border: 1px solid gray;
+  border-top: 1px dotted gray;
   padding: 12px;
-  border-radius: 5px;
+  margin-top: 5px;
 }
 
 div.sub h3 {
