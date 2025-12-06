@@ -1728,6 +1728,7 @@ class CZJDict < Object
           end
         end
       end
+      koment_cond['$or'] = [{'solved': ''}, {'solved': {'$exists': false}}]
       if koment_aggr
         $mongo['koment'].aggregate(koment_cond).each{|kom|
           koment_ids << kom['_id']['entry']
