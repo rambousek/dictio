@@ -110,7 +110,7 @@
                       .video.video--small
                         .video__content
                           - if @entry['media'][var['_text']]['main_for_entry']
-                            video.video-link width="100%" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}" data-url="/#{@entry['media'][var['_text']]['main_for_entry']['dict']}/show/#{@entry['media'][var['_text']]['main_for_entry']['id']}"
+                            video.video-link width="100%" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}" data-dict="#{@entry['media'][var['_text']]['main_for_entry']['dict']}" data-entryid="#{@entry['media'][var['_text']]['main_for_entry']['id']}" href=(@search.to_s != ''? "#{@search_path}/#{@entry['media'][var['_text']]['main_for_entry']['id']}" : "/#{@entry['media'][var['_text']]['main_for_entry']['dict']}/show/#{@entry['media'][var['_text']]['main_for_entry']['id']}")
                               source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}" type="video/mp4"
                           - else
                             video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}"
@@ -170,7 +170,7 @@
                   .video.video--small
                     .video__content
                       - if @entry['media'][var['_text']]['main_for_entry']
-                        video.video-link width="100%" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}" data-url="/#{@entry['media'][var['_text']]['main_for_entry']['dict']}/show/#{@entry['media'][var['_text']]['main_for_entry']['id']}"
+                        video.video-link width="100%" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}" data-dict="#{@entry['media'][var['_text']]['main_for_entry']['dict']}" data-entryid="#{@entry['media'][var['_text']]['main_for_entry']['id']}" href=(@search.to_s != ''? "#{@search_path}/#{@entry['media'][var['_text']]['main_for_entry']['id']}" : "/#{@entry['media'][var['_text']]['main_for_entry']['dict']}/show/#{@entry['media'][var['_text']]['main_for_entry']['id']}")
                           source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}" type="video/mp4"
                       - else
                         video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@entry['media'][var['_text']]['location']}"

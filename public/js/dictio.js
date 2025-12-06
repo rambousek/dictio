@@ -756,17 +756,23 @@ function loadSearchResult(ev) {
 function addSearchLinks() {
   let orig_url = window.location.pathname;
   let orig_url_ar = orig_url.split('/');
-  $('.add-search-link').each(function () {
-    let link_ar = this.getAttribute('href').split('/');
-    let new_url_ar = [...orig_url_ar];
-    new_url_ar[1] = link_ar[1];
-    new_url_ar[5] = link_ar[3];
-    let new_url = new_url_ar.join('/');
-    this.setAttribute('href', new_url + window.location.search);
-    this.setAttribute('data-dict', link_ar[1]);
-    this.setAttribute('data-entryid', link_ar[3]);
-    this.setAttribute('onclick', 'return loadSearchResult(this)');
-  })
+  if (!orig_url.includes('/show/')) {
+    $('.add-search-link,.video-link').each(function () {
+      if (this.getAttribute('href') != '' && this.getAttribute('href').includes('/show/')) {
+        let link_ar = this.getAttribute('href').split('/');
+        let new_url_ar = [...orig_url_ar];
+        new_url_ar[1] = link_ar[1];
+        new_url_ar[5] = link_ar[3];
+        let new_url = new_url_ar.join('/');
+        this.setAttribute('href', new_url + window.location.search);
+        this.setAttribute('data-dict', link_ar[1]);
+        this.setAttribute('data-entryid', link_ar[3]);
+        if (!$(this).hasClass('video-link')) {
+          this.setAttribute('onclick', 'return loadSearchResult(this)');
+        }
+      }
+    })
+  }
 }
 
 // run translation on document load
