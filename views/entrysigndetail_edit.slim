@@ -1,11 +1,11 @@
 .detail__head style="max-width:100%"
   - if @is_edit
     p.detail__badge.detail__badge--top class="detail__badge__#{@entry['dict']}"
-     a class="edit" href="/editor#{@entry['dict']}/?id=#{@entry['id']}" 
-      | #{@entry['dict']}-#{@entry['id']}
+      a class="edit" href="/editor#{@entry['dict']}/?id=#{@entry['id']}"
+        | #{@entry['dict']}-#{@entry['id']}
       span.icon.icon--edit
-       svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
-        use xlink:href="/img/edit.svg#Capa_1" x="0" y="0" width="100%" height="100%"    
+        svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+          use xlink:href="/img/edit.svg#Capa_1" x="0" y="0" width="100%" height="100%"
   .video-top
     -if @entry['media']['video_front'] and @entry['media']['video_front']['status'] == 'hidden'
       img src="/img/warning.png" 
@@ -67,13 +67,13 @@
           - if @entry['lemma']['grammar_note'].find { |gr| !%w[ustalene finger].include?(gr['@slovni_druh']) }
             | #{I18n.t("entry.lexical")}: 
           span
-             - slovni_druhy = []
-             - @entry['lemma']['grammar_note'].each{|gr| slovni_druhy << gr['@slovni_druh']}
-             - slovni_druhy.uniq.each do |sd|
-               - if sd.to_s != ''
-                 =  I18n.t("gram.slovni_druh."+sd.to_s)
-                 - unless sd.equal? slovni_druhy.uniq.last
-                   | , 
+            - slovni_druhy = []
+            - @entry['lemma']['grammar_note'].each{|gr| slovni_druhy << gr['@slovni_druh']}
+            - slovni_druhy.uniq.each do |sd|
+              - if sd.to_s != ''
+                =  I18n.t("gram.slovni_druh."+sd.to_s)
+                - unless sd.equal? slovni_druhy.uniq.last
+                  | ,
       - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'][0] and (@entry['lemma']['grammar_note'][0]['@oral_komp'].to_s.strip != '' or @entry['lemma']['grammar_note'][0]['@mluv_komp'].to_s.strip != '')
         p.naming
           - if @entry['lemma']['grammar_note'][0]['@mluv_komp'].to_s.strip != ''
@@ -212,10 +212,10 @@
               - if @is_edit
                 a.videoshare href="/#{@entry['dict']}/show/#{@entry['id']}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}" sdílet video
         - else 
-         .info.is-pushed style="margin-top: 0; padding: 0"
+          .info.is-pushed style="margin-top: 0; padding: 0"
             span.icon.icon--info.info__icon style="margin-top: 0; color: gray; top: -1px;" 
-             svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
-              use xlink:href="/img/icons.svg#info" x="0" y="0" width="100%" height="100%"
+              svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                use xlink:href="/img/icons.svg#info" x="0" y="0" width="100%" height="100%"
             p style="color: gray; font-style: italic; padding-left: 50px;" #{I18n.t("entry.nocontent")}
       - if meaning['relation'] and meaning['relation'].find{|rel| rel['type'] == 'synonym' and rel['entry']}
         h4 = I18n.t("entry.synonyms")
@@ -227,8 +227,8 @@
                 img src="/img/warning.png" style="width: 20px" title="#{I18n.t('entry.notapproved')}"
               .video.video--small
                 .video__content
-                    video.video-link width="100%" onmouseover="this.play()" onmouseout=""  data-dict="#{rel['target']}" data-entryid="#{rel['entry']['id']}" href=(@search.to_s != ''? "#{@search_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") poster="/thumb/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}"
-                      source src="https://files.dictio.info/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
+                  video.video-link width="100%" onmouseover="this.play()" onmouseout=""  data-dict="#{rel['target']}" data-entryid="#{rel['entry']['id']}" href=(@search.to_s != ''? "#{@search_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") poster="/thumb/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}"
+                    source src="https://files.dictio.info/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
                 .video__controls
                   - if @search.to_s != ''
                     a.video__link href="#{@search_path}/#{relid}"
@@ -245,7 +245,7 @@
                       - rel['entry']['lemma']['swmix'].each do |sw|
                         img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}#{$fsw_style}" alt=""
           p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_syno')
-  
+
       - if meaning['relation'] and meaning['relation'].find{|rel| rel['type'] == 'antonym' and rel['entry']}
         h4 = I18n.t("entry.antonyms")
         .row.row--start.translation-group-sign
@@ -256,8 +256,8 @@
                 img src="/img/warning.png" style="width: 20px" title="#{I18n.t('entry.notapproved')}"
               .video.video--small
                 .video__content
-                    video.video-link width="100%" onmouseover="this.play()" onmouseout="" data-dict="#{rel['target']}" data-entryid="#{rel['entry']['id']}" href=(@search.to_s != ''? "#{@search_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") poster="/thumb/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}"
-                      source src="https://files.dictio.info/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
+                  video.video-link width="100%" onmouseover="this.play()" onmouseout="" data-dict="#{rel['target']}" data-entryid="#{rel['entry']['id']}" href=(@search.to_s != ''? "#{@search_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") poster="/thumb/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}"
+                    source src="https://files.dictio.info/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
                 .video__controls
                   - if @search.to_s != ''
                     a.video__link href="#{@search_path}/#{relid}"
@@ -274,9 +274,9 @@
                       - rel['entry']['lemma']['swmix'].each do |sw|
                         img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}#{$fsw_style}" alt=""
           p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_syno')
-  
+
       - if meaning['usages'] and meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.size > 0
-          h4.detail-block__name = I18n.t("entry.examples")
+        h4.detail-block__name = I18n.t("entry.examples")
           .row.row--start.translation-group-sign
             - meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.each do |usg|
               - if usg["text"] and usg["text"]["file"] and usg["text"]["file"].is_a?(Hash)
