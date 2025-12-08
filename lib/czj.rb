@@ -1364,71 +1364,6 @@ class CZJDict < Object
     return newid
   end
 
-  def norm_name(name)
-    name = name.sub('.flv','')
-    name = name.sub('.mp4','')
-    sense = ''
-    name.sub!(/^[ABDKabdk][-_]/,'')
-    var = ''
-    var = 'A' if name.include?('_1_FLV_HQ')
-    var = 'B' if name.include?('_2_FLV_HQ')
-    var = 'C' if name.include?('_3_FLV_HQ')
-    var = 'D' if name.include?('_4_FLV_HQ')
-    var = 'E' if name.include?('_5_FLV_HQ')
-    var = 'F' if name.include?('_6_FLV_HQ')
-    name.sub!('_1_FLV_HQ','')
-    name.sub!('_2_FLV_HQ','')
-    name.sub!('_3_FLV_HQ','')
-    name.sub!('_4_FLV_HQ','')
-    name.sub!('_5_FLV_HQ','')
-    name.sub!('_6_FLV_HQ','')
-    name.gsub!('FLV_HQ','')
-    if name =~ /_[1-9]$/
-      var += name[/_([1-9])$/,1]
-      name.sub!(/_[1-9]$/,'')
-    end
-    var = 'A' if name =~ /_I$/
-    var = 'B' if name =~ /_II$/
-    var = 'C' if name =~ /_III$/
-    var = 'D' if name =~ /_IV$/
-    name.sub!(/_I$/,'')
-    name.sub!(/_II$/,'')
-    name.sub!(/_III$/,'')
-    name.sub!(/_IV$/,'')
-    name.sub!('A-C1','A1')
-    name.sub!('A-C-D','A1d')
-    if name =~ /[A-Z]$/ and not name =~ /[A-Z][A-Z]$/
-      var = name[-1,1]
-      name = name[0..-2]
-    end
-    if name =~ /[A-Z][1-9]$/
-      var = name[-2,1]
-      sense = name[-1,1]
-      name = name[0..-3]
-    end
-    if name =~ /[A-Z][1-9][a-z]$/
-      var = name[-3,3]
-      name = name[0..-4]
-    end
-    if name =~ /[0-9][a-z]$/
-      var = (name[/([0-9])[a-z]$/,1].to_i+64).chr + (name[/[0-9]([a-z])$/,1][0].ord-96).to_s
-      name = name[0..-3]
-    end
-    if name =~ /[a-z][0-9]$/
-      var = (name[/([0-9])$/,1].to_i+64).chr
-      name = name[0..-2]
-    end
-    var = name.gsub(/.*[a-z0-9\p{Cyrillic}]([A-Z])[A-Z]+[0-9]+([0-9])$/,'\1\2') if var == ''
-    var = 'A' if var == ''
-    name.gsub!(/[A-Z]+[0-9]+$/,'')
-    name.gsub!(/([a-z])([A-Z])/, '\1-\2')
-    name.gsub!(/_$/,'')
-    name.gsub!('_','-')
-    name.gsub!('(','')
-    name.gsub!(')','')
-    name.downcase!
-    return name+'=='+var, sense
-  end
 
   def get_gram(entryid)
     data = getone(@dictcode, entryid)
@@ -2619,7 +2554,7 @@ class CZJDict < Object
     end
     Dir.entries(dir).each{|fn|
       if fn.end_with?('mp4')
-        label = norm_name(fn)[0]
+        label = @edit_media.norm_name(fn)[0]
         data = {
           'filename'=> fn,
           'label' => label,
