@@ -2522,7 +2522,7 @@ class CZJDict < Object
     importfiles = []
     meta = {}
     gotmeta = false
-    if File.exists?(File.join(dir, 'meta.csv'))
+    if File.exist?(File.join(dir, 'meta.csv'))
       gotmeta = true
       fmeta = File.open(File.join(dir, 'meta.csv'))
       fmeta.each{|lm|
