@@ -62,6 +62,12 @@ class CzjReport
     report
   end
 
+  # @param [CZJDict] dict
+  # @param [Hash] params
+  # @param [Hash] user_info
+  # @param [Integer] start
+  # @param [Integer] limit
+  # @return [Hash]
   def get_report(dict, params, user_info, start=0, limit=nil)
     report = {'query'=>{},'entries'=>[], 'resultcount'=>0}
     search_cond, _ = get_search_cond(dict, params, user_info)
@@ -98,6 +104,11 @@ class CzjReport
     report
   end
 
+  # build search query
+  # @param [CZJDict] dict
+  # @param [Hash] params
+  # @param [Hash] user_info
+  # @return [Hash]
   def get_search_cond(dict, params, user_info)
     search_cond = []
     trans_used = []
@@ -228,70 +239,8 @@ class CzjReport
 
     # komentare
     if params['koment'].to_s != '' and params['komentbox'].to_s != ''
-      koment_ids = []
-      koment_user = params['koment_user'].to_s
-      komentbox = params['komentbox'].to_s
-      koment_moje = params['koment_moje'].to_s
-      koment_cond = {}
-      koment_aggr = false
-
-      if komentbox == ''
-        if koment_user != ''
-          koment_cond = {'user': koment_user}
-        else
-          if koment_moje == 'on'
-            koment_cond = {'user': user_info['login']}
-          end
-        end
-      else
-        if komentbox == 'video'
-          if koment_user != ''
-            koment_cond = {'user': koment_user, 'box': {'$regex': /^video/}}
-          else
-            if koment_moje == 'on'
-              koment_cond = {'user': user_info['login'], 'box': {'$regex': /^video/}}
-            else
-              koment_cond = {'box': {'$regex': /^video/}}
-            end
-          end
-        elsif komentbox == 'vyznam'
-          if koment_user != ''
-            koment_cond = {'user': koment_user, '$or': [{'box': {'$regex': /^videoD/}}, {'$and': [{'box': {'$regex': /^vyznam/}}, {'box': {'$not': {'$regex': /vazby/}}}]}]}
-          else
-            if koment_moje == 'on'
-              koment_cond = {'user': user_info['login'], '$or': [{'box': {'$regex': /^videoD/}}, {'$and': [{'box': {'$regex': /^vyznam/}}, {'box': {'$not': {'$regex': /vazby/}}}]}]}
-            else
-              koment_cond = {'$or': [{'box': {'$regex': /^videoD/}}, {'$and': [{'box': {'$regex': /^vyznam/}}, {'box': {'$not': {'$regex': /vazby/}}}]}]}
-            end
-          end
-        else
-          if koment_user != ''
-            koment_cond = {'user': koment_user, 'box': {'$regex': /#{komentbox}/}}
-          else
-            if koment_moje == 'on'
-              koment_cond = {'user': user_info['login'], 'box': {'$regex': /#{komentbox}/}}
-            else
-              koment_cond = {'box': {'$regex': /#{komentbox}/}}
-            end
-          end
-        end
-      end
-      koment_cond['$or'] = [{'solved': ''}, {'solved': {'$exists': false}}]
-      if koment_aggr
-        $mongo['koment'].aggregate(koment_cond).each{|kom|
-          koment_ids << kom['_id']['entry']
-        }
-      else
-        koment_cond['dict'] = dict.dictcode
-        $mongo['koment'].find(koment_cond).each{|kom|
-          koment_ids << kom['entry']
-        }
-      end
-      if params['koment'].to_s == 'ano'
-        search_cond << {'id': {'$nin': koment_ids}}
-      else
-        search_cond << {'id': {'$in': koment_ids}}
-      end
+      koment_cond = koment_cond(dict, params, user_info)
+      search_cond << koment_cond if koment_cond != nil
     end
 
     # zadany SW
@@ -508,6 +457,12 @@ class CzjReport
     [search_cond, trans_used]
   end
 
+  # build translation query
+  # @param [String] pubtrans
+  # @param [String] trans
+  # @param [String] target
+  # @param [String] type
+  # @return [Hash, nil]
   def trans_cond(pubtrans, trans, target, type="translation")
     trans_cond = nil
     # jen pubtrans, schvaleny preklad
@@ -582,4 +537,69 @@ class CzjReport
     trans_cond
   end
 
+  # build koment query
+  # @param [CZJDict] dict
+  # @param [Hash] params
+  # @param [Hash] user_info
+  # @return [Hash]
+  def koment_cond(dict, params, user_info)
+    koment_ids = []
+    koment_user = params['koment_user'].to_s
+    komentbox = params['komentbox'].to_s
+    koment_moje = params['koment_moje'].to_s
+    koment_cond = {}
+
+    if komentbox == ''
+      if koment_user != ''
+        koment_cond = {'user': koment_user}
+      else
+        if koment_moje == 'on'
+          koment_cond = {'user': user_info['login']}
+        end
+      end
+    else
+      if komentbox == 'video'
+        if koment_user != ''
+          koment_cond = {'user': koment_user, 'box': {'$regex': /^video/}}
+        else
+          if koment_moje == 'on'
+            koment_cond = {'user': user_info['login'], 'box': {'$regex': /^video/}}
+          else
+            koment_cond = {'box': {'$regex': /^video/}}
+          end
+        end
+      elsif komentbox == 'vyznam'
+        if koment_user != ''
+          koment_cond = {'user': koment_user, '$or': [{'box': {'$regex': /^videoD/}}, {'$and': [{'box': {'$regex': /^vyznam/}}, {'box': {'$not': {'$regex': /vazby/}}}]}]}
+        else
+          if koment_moje == 'on'
+            koment_cond = {'user': user_info['login'], '$or': [{'box': {'$regex': /^videoD/}}, {'$and': [{'box': {'$regex': /^vyznam/}}, {'box': {'$not': {'$regex': /vazby/}}}]}]}
+          else
+            koment_cond = {'$or': [{'box': {'$regex': /^videoD/}}, {'$and': [{'box': {'$regex': /^vyznam/}}, {'box': {'$not': {'$regex': /vazby/}}}]}]}
+          end
+        end
+      else
+        if koment_user != ''
+          koment_cond = {'user': koment_user, 'box': {'$regex': /#{komentbox}/}}
+        else
+          if koment_moje == 'on'
+            koment_cond = {'user': user_info['login'], 'box': {'$regex': /#{komentbox}/}}
+          else
+            koment_cond = {'box': {'$regex': /#{komentbox}/}}
+          end
+        end
+      end
+    end
+    koment_cond['$or'] = [{'solved': ''}, {'solved': {'$exists': false}}]
+    koment_cond['dict'] = dict.dictcode
+    $mongo['koment'].find(koment_cond).each{|kom|
+      koment_ids << kom['entry']
+    }
+
+    if params['koment'].to_s == 'ano'
+      {'id': {'$nin': koment_ids}}
+    else
+      {'id': {'$in': koment_ids}}
+    end
+  end
 end
