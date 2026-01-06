@@ -739,7 +739,7 @@ class CzjApp < Sinatra::Base
       @target = ''
       @dict_info = $dict_info
       @params = params
-      @report = dict.get_report(params, @user_info, 0, @report_limit)
+      @report = reports.get_report(dict, params, @user_info, 0, @report_limit)
       @duplicate = CzjAdminDuplicate.get_duplicate_counts
       slim :report
     end
@@ -748,19 +748,19 @@ class CzjApp < Sinatra::Base
       @target = ''
       @dict_info = $dict_info
       @params = params
-      @report = dict.get_report(params, @user_info, params['start'].to_i, params['limit'].to_i)
+      @report = reports.get_report(dict, params, @user_info, params['start'].to_i, params['limit'].to_i)
       slim :reportresultlist, :layout=>false
     end
     get '/'+code+'/jsonreport' do
       content_type :json
-      body = dict.get_report(params, @user_info).to_json
+      body = reports.get_report(dict, params, @user_info).to_json
     end
     get '/'+code+'/csvreport' do
       content_type 'text/csv; charset=utf-8'
       attachment code+'report.csv'
       if $dict_info[code]['type'] == 'sign'
-	csv = ['ID;video čelní;video boční;překlady;překlady text;fsw;synonyma;varianty;sl.druh;sl.druh2;sl.druh3']
-        dict.get_report(params, @user_info)['entries'].each{|rep|
+	      csv = ['ID;video čelní;video boční;překlady;překlady text;fsw;synonyma;varianty;sl.druh;sl.druh2;sl.druh3']
+        reports.get_report(dict, params, @user_info)['entries'].each{|rep|
           ri = [rep['id']]
           ri << rep['lemma']['video_front'].to_s
           ri << rep['lemma']['video_side'].to_s
@@ -843,7 +843,7 @@ class CzjApp < Sinatra::Base
         }
       else
         csv = ['ID;lemma;slovní druh;význam ID;definice;zdroj definice;*příklad ID;*příklad;*zdroj příkladu;překlady;překlady text']
-        dict.get_report(params, @user_info)['entries'].each{|rep|
+        reports.get_report(dict, params, @user_info)['entries'].each{|rep|
           if rep['meanings'].size > 0
             rep['meanings'].each{|rm|
               ri = [rep['id']]
