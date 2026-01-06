@@ -505,8 +505,7 @@ class CzjReport
     #'texttranslationen',
     #'trpriklad'
 
-
-    return search_cond, trans_used
+    [search_cond, trans_used]
   end
 
   def trans_cond(pubtrans, trans, target, type="translation")
