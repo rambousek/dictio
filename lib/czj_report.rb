@@ -558,7 +558,8 @@ class CzjReport
         end
       end
     else
-      if komentbox == 'video'
+      case komentbox
+      when 'video'
         if koment_user != ''
           koment_cond = {'user': koment_user, 'box': {'$regex': /^video/}}
         else
@@ -568,7 +569,27 @@ class CzjReport
             koment_cond = {'box': {'$regex': /^video/}}
           end
         end
-      elsif komentbox == 'vyznam'
+      when 'videoAB'
+        if koment_user != ''
+          koment_cond = {'user': koment_user, 'box': {'$regex': /^video[AB]/}}
+        else
+          if koment_moje == 'on'
+            koment_cond = {'user': user_info['login'], 'box': {'$regex': /^video[AB]/}}
+          else
+            koment_cond = {'box': {'$regex': /^video[AB]/}}
+          end
+        end
+      when 'videoK'
+        if koment_user != ''
+          koment_cond = {'user': koment_user, '$or': [{'box': {'$regex': /^videoK/}}, {'$and': [{'box': {'$regex': /_us[0-9]/}}, {'box': {'$not': {'$regex': /vazby/}}}]}]}
+        else
+          if koment_moje == 'on'
+            koment_cond = {'user': user_info['login'], '$or': [{'box': {'$regex': /^videoK/}}, {'$and': [{'box': {'$regex': /_us[0-9]/}}, {'box': {'$not': {'$regex': /vazby/}}}]}]}
+          else
+            koment_cond = {'$and': [{'$or': [{'box': {'$regex': /^videoK/}}, {'$and': [{'box': {'$regex': /_us[0-9]/}}, {'box': {'$not': {'$regex': /vazby/}}}]}]}]}
+          end
+        end
+      when 'vyznam'
         if koment_user != ''
           koment_cond = {'user': koment_user, '$or': [{'box': {'$regex': /^videoD/}}, {'$and': [{'box': {'$regex': /^vyznam/}}, {'box': {'$not': {'$regex': /vazby/}}}]}]}
         else
