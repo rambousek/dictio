@@ -64,10 +64,10 @@ class CzjReport
 
   def get_report(dict, params, user_info, start=0, limit=nil)
     report = {'query'=>{},'entries'=>[], 'resultcount'=>0}
-    search_cond, _ = get_search_cond(params, user_info)
+    search_cond, _ = get_search_cond(dict, params, user_info)
     $stdout.puts search_cond
     entry_ids = []
-    cursor = @entrydb.find(
+    cursor = $mongo['entries'].find(
       {'$and': search_cond},
       :collation => {'locale' => 'cs', 'numericOrdering'=>true},
       :sort => {'id' => 1}
@@ -78,19 +78,19 @@ class CzjReport
     cursor.each{|res|
       entry = res
       if params['nes_sw'].to_s != '' or params['bez_sw'].to_s != ''
-        entry = @sw.get_sw(entry)
+        entry = dict.sw.get_sw(entry)
       end
       if params['koment'].to_s != ''
-        entry = add_media(entry)
+        entry = dict.add_media(entry)
       end
-      entry = add_rels(entry, false, "translation")
+      entry = dict.add_rels(entry, false, "translation")
       report['entries'] << entry
       entry_ids << res['id']
     }
     report['query'] = search_cond
     if params['koment'].to_s != ''
       report['koment'] = {}
-      $mongo['koment'].find({'dict': dict.code, 'entry': {'$in': entry_ids}}).each{|kom|
+      $mongo['koment'].find({'dict': dict.dictcode, 'entry': {'$in': entry_ids}}).each{|kom|
         report['koment'][kom['entry']] = [] if report['koment'][kom['entry']].nil?
         report['koment'][kom['entry']] << kom
       }
@@ -98,11 +98,12 @@ class CzjReport
     report
   end
 
-  def get_search_cond(params, user_info)
+  def get_search_cond(dict, params, user_info)
     search_cond = []
     trans_used = []
 
-    search_cond << {'dict': @dictcode, 'empty': {'$exists': false}}
+    search_cond << {'dict': dict.dictcode, 'empty': {'$exists': false}}
+    $stderr.puts params
 
     # zadane ID
     if params['idsf'].to_s != ''
@@ -114,7 +115,7 @@ class CzjReport
     # celni video schvalene
     if params['schvcelni'].to_s != ''
       vids = []
-      $mongo['media'].find({'dict': @dictcode, 'status': 'published'}).each{|m| vids << m['location']}
+      $mongo['media'].find({'dict': dict.dictcode, 'status': 'published'}).each{|m| vids << m['location']}
       if params['schvcelni'].to_s == 'ano'
         search_cond << {'lemma.video_front': {'$in': vids}}
       else
@@ -125,7 +126,7 @@ class CzjReport
     # bocni video schvalene
     if params['schvbocni'].to_s != ''
       vids = []
-      $mongo['media'].find({'dict': @dictcode, 'status': 'published'}).each{|m| vids << m['location']}
+      $mongo['media'].find({'dict': dict.dictcode, 'status': 'published'}).each{|m| vids << m['location']}
       if params['schvbocni'].to_s == 'ano'
         search_cond << {'lemma.video_side': {'$in': vids}}
       else
@@ -221,7 +222,7 @@ class CzjReport
 
     # synonym
     if params['pubsynonym'].to_s != '' or params['synonym'].to_s != ''
-      trans_cond = trans_cond(params['pubsynonym'].to_s, params['synonym'].to_s, @dictcode, 'synonym')
+      trans_cond = trans_cond(params['pubsynonym'].to_s, params['synonym'].to_s, dict.dictcode, 'synonym')
       search_cond << trans_cond if trans_cond != nil
     end
 
@@ -281,7 +282,7 @@ class CzjReport
           koment_ids << kom['_id']['entry']
         }
       else
-        koment_cond['dict'] = @dictcode
+        koment_cond['dict'] = dict.dictcode
         $mongo['koment'].find(koment_cond).each{|kom|
           koment_ids << kom['entry']
         }
