@@ -28,9 +28,9 @@
           - if @report['koment'][entry['id']]
             - @report['koment'][entry['id']].each do |koment|
               - if not koment.include?('solved') or koment['solved'] == ''
-                - if @params['komentbox'].to_s == '' or (koment['box'].include?(@params['komentbox'].to_s) and @params['komentbox'].to_s != 'vyznam' and @params['komentbox'].to_s != 'video')
+                - if @params['komentbox'].to_s == '' or (koment['box'].include?(@params['komentbox'].to_s) and @params['komentbox'].to_s != 'vyznam' and @params['komentbox'].to_s != 'video' and @params['komentbox'].to_s != 'videoAB' and @params['komentbox'].to_s != 'videoK')
                   li 
-                    | #{koment['text']} 
+                    | #{koment['text']}
                     - if koment.include?('assign') and koment['assign'] != ''
                       b → #{koment['assign']}  
                     small 
@@ -44,7 +44,18 @@
                           b → #{koment['assign']}  
                         small 
                           | (#{koment['user']}, #{koment['time']})
-                - if @params['komentbox'].to_s == 'video'
+                - if @params['komentbox'].to_s == 'videoK' and entry['meanings']
+                  - entry['meanings'].each do |km|
+                    - if km['usages']
+                      - km['usages'].each do |ku|
+                        - if koment['box'] == ku['id']
+                          li
+                            | #{koment['text']}
+                            - if koment.include?('assign') and koment['assign'] != ''
+                              b → #{koment['assign']}
+                            small
+                              | (#{koment['user']}, #{koment['time']})
+                - if (@params['komentbox'].to_s == 'video' or @params['komentbox'].to_s == 'videoAB') and koment['box'] =~ /^video[AB]/
                   li
                     | #{koment['box'][5..-1]}: #{koment['text']}
                     - if koment.include?('assign') and koment['assign'] != ''
