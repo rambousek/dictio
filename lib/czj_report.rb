@@ -436,12 +436,18 @@ class CzjReport
       if komentbox == 'vyznam' and kom['box'].start_with?('videoD')
         media = dict.get_media_location(kom['box'][5..-1], dict.dictcode)
         entries = $mongo['entries'].find({'dict': dict.dictcode, 'meanings.text.file.@media_id': media['id']})
-        include = false if entries.count == 0
+        include = false
+        entries.each{|entry|
+          include = true if entry['id'] == kom['entry']
+        }
       end
       if komentbox == 'videoK' and kom['box'].start_with?('videoK')
         media = dict.get_media_location(kom['box'][5..-1], dict.dictcode)
         entries = $mongo['entries'].find({'dict': dict.dictcode, 'meanings.usages.text.file.@media_id': media['id']})
-        include = false if entries.count == 0
+        include = false
+        entries.each{|entry|
+          include = true if entry['id'] == kom['entry']
+        }
       end
       koment_ids << kom['entry'] if include
     }
