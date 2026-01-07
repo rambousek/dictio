@@ -408,12 +408,12 @@ class CzjReport
         end
       when 'vyznam'
         if koment_user != ''
-          koment_cond = {'user': koment_user, '$and': [{'box': {'$regex': /^vyznam/}}, {'box': {'$not': {'$regex': /vazby/}}}]}
+          koment_cond = {'user': koment_user, '$or': [{'box': {'$regex': /^videoD/}}, {'$and': [{'box': {'$regex': /^vyznam/}}, {'box': {'$not': {'$regex': /vazby/}}}]}]}
         else
           if koment_moje == 'on'
-            koment_cond = {'user': user_info['login'], '$and': [{'box': {'$regex': /^vyznam/}}, {'box': {'$not': {'$regex': /vazby/}}}]}
+            koment_cond = {'user': user_info['login'], '$or': [{'box': {'$regex': /^videoD/}}, {'$and': [{'box': {'$regex': /^vyznam/}}, {'box': {'$not': {'$regex': /vazby/}}}]}]}
           else
-            koment_cond = {'$and': [{'box': {'$regex': /^vyznam/}}, {'box': {'$not': {'$regex': /vazby/}}}]}
+            koment_cond = {'$and': [{'$or': [{'box': {'$regex': /^videoD/}}, {'$and': [{'box': {'$regex': /^vyznam/}}, {'box': {'$not': {'$regex': /vazby/}}}]}]}]}
           end
         end
       else
@@ -431,7 +431,14 @@ class CzjReport
     koment_cond['$or'] = [{'solved': ''}, {'solved': {'$exists': false}}]
     koment_cond['dict'] = dict.dictcode
     $mongo['koment'].find(koment_cond).each{|kom|
-      koment_ids << kom['entry']
+      include = true
+      # check if video is used in entry
+      if komentbox == 'vyznam' and kom['box'].start_with?('videoD')
+        media = dict.get_media_location(kom['box'][5..-1], dict.dictcode)
+        entries = $mongo['entries'].find({'dict': dict.dictcode, 'meanings.text.file.@media_id': media['id']})
+        include = false if entries.count == 0
+      end
+      koment_ids << kom['entry'] if include
     }
 
     if params['koment'].to_s == 'ano'
