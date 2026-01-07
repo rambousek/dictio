@@ -337,90 +337,22 @@ class CzjReport
 
     # sign, schvaleny priklad
     if params['usage'].to_s != ''
-      if params['usage'].to_s == 'ano'
-        search_cond << {'meanings': {'$not': {'$elemMatch': {'$or': [
-          {'usages': {'$size': 0}},
-          {'usages': {'$exists': false}},
-          {'usages': {'$elemMatch': {'$or': [
-            {'status': {'$ne': 'published'}},
-            {'text.file.@media_id': ''}
-          ]}}}
-        ]}}}}
-      else
-        search_cond << {'$or': [
-          {'meanings.usages': {'$elemMatch': {'$or': [
-            {'status': {'$ne': 'published'}},
-            {'text.file.@media_id': ''}
-          ]}}},
-          {'meanings': {'$elemMatch': {'$or': [
-            {'usages': {'$exists': false}},
-            {'usages': {'$size': 0}}
-          ]}}}
-        ]}
-      end
+      search_cond << cond_usage(params)
     end
 
     # sign, zadany priklad
     if params['usagevid'].to_s != ''
-      if params['usagevid'].to_s == 'ano'
-        search_cond << {'meanings': {'$not': {'$elemMatch': {'$or': [
-          {'usages': {'$size': 0}},
-          {'usages': {'$exists': false}},
-          {'usages.text.file.@media_id': {'$exists': false}},
-          {'usages.text.file.@media_id': ''}
-        ]}}}}
-      else
-        search_cond << {'meanings': {'$elemMatch': {'$or': [
-          {'usages': {'$size': 0}},
-          {'usages': {'$exists': false}},
-          {'usages.text.file.@media_id': {'$exists': false}},
-          {'usages.text.file.@media_id': ''}
-        ]}}}
-      end
+      search_cond << cond_usagevid(params)
     end
 
     # write, schvaleny priklad
     if params['usagecs'].to_s != ''
-      if params['usagecs'].to_s == 'ano'
-        search_cond << {'meanings': {'$not': {'$elemMatch': {'$or': [
-          {'usages': {'$size': 0}},
-          {'usages': {'$exists': false}},
-          {'usages': {'$elemMatch': {'$or': [
-            {'status': {'$ne': 'published'}},
-            {'text._text': ''}
-          ]}}}
-        ]}}}}
-      else
-        search_cond << {'$or': [
-          {'meanings.usages': {'$elemMatch': {'$or': [
-            {'status': {'$ne': 'published'}},
-            {'text._text': ''}
-          ]}}},
-          {'meanings': {'$elemMatch': {'$or': [
-            {'usages': {'$exists': false}},
-            {'usages': {'$size': 0}}
-          ]}}}
-        ]}
-      end
+      search_cond << cond_usagecs(params)
     end
 
     # write, zadany priklad
     if params['usagecszad'].to_s != ''
-      if params['usagecszad'].to_s == 'ano'
-        search_cond << {'meanings': {'$not': {'$elemMatch': {'$or': [
-          {'usages': {'$size': 0}},
-          {'usages': {'$exists': false}},
-          {'usages.text._text': {'$exists': false}},
-          {'usages.text._text': ''}
-        ]}}}}
-      else
-        search_cond << {'meanings': {'$elemMatch': {'$or': [
-          {'usages': {'$size': 0}},
-          {'usages': {'$exists': false}},
-          {'usages.text._text': {'$exists': false}},
-          {'usages.text._text': ''}
-        ]}}}
-      end
+      search_cond << cond_usagecszad(params)
     end
 
     # homonym, ma/nema
@@ -604,6 +536,102 @@ class CzjReport
       {'id': {'$nin': koment_ids}}
     else
       {'id': {'$in': koment_ids}}
+    end
+  end
+
+  # query for usagecs
+  # @param [Hash] params
+  # @return [Hash]
+  def cond_usagecs(params)
+    if params['usagecs'].to_s == 'ano'
+      {'meanings': {'$not': {'$elemMatch': {'$or': [
+        {'usages': {'$size': 0}},
+        {'usages': {'$exists': false}},
+        {'usages': {'$elemMatch': {'$or': [
+          {'status': {'$ne': 'published'}},
+          {'text._text': ''}
+        ]}}}
+      ]}}}}
+    else
+      {'$or': [
+        {'meanings.usages': {'$elemMatch': {'$or': [
+          {'status': {'$ne': 'published'}},
+          {'text._text': ''}
+        ]}}},
+        {'meanings': {'$elemMatch': {'$or': [
+          {'usages': {'$exists': false}},
+          {'usages': {'$size': 0}}
+        ]}}}
+      ]}
+    end
+  end
+
+  # query for usagecszad
+  # @param [Hash] params
+  # @return [Hash]
+  def cond_usagecszad(params)
+    if params['usagecszad'].to_s == 'ano'
+      {'meanings': {'$not': {'$elemMatch': {'$or': [
+        {'usages': {'$size': 0}},
+        {'usages': {'$exists': false}},
+        {'usages.text._text': {'$exists': false}},
+        {'usages.text._text': ''}
+      ]}}}}
+    else
+      {'meanings': {'$elemMatch': {'$or': [
+        {'usages': {'$size': 0}},
+        {'usages': {'$exists': false}},
+        {'usages.text._text': {'$exists': false}},
+        {'usages.text._text': ''}
+      ]}}}
+    end
+  end
+
+  # query for usagevid
+  # @param [Hash] params
+  # @return [Hash]
+  def cond_usagevid(params)
+    if params['usagevid'].to_s == 'ano'
+      {'meanings': {'$not': {'$elemMatch': {'$or': [
+        {'usages': {'$size': 0}},
+        {'usages': {'$exists': false}},
+        {'usages.text.file.@media_id': {'$exists': false}},
+        {'usages.text.file.@media_id': ''}
+      ]}}}}
+    else
+      {'meanings': {'$elemMatch': {'$or': [
+        {'usages': {'$size': 0}},
+        {'usages': {'$exists': false}},
+        {'usages.text.file.@media_id': {'$exists': false}},
+        {'usages.text.file.@media_id': ''}
+      ]}}}
+    end
+  end
+
+  # query for usage
+  # @param [Hash] params
+  # @return [Hash]
+  def cond_usage(params)
+    if params['usage'].to_s == 'ano'
+      {'meanings': {'$not': {'$elemMatch': {'$or': [
+        {'usages': {'$size': 0}},
+        {'usages': {'$exists': false}},
+        {'usages': {'$elemMatch': {'$or': [
+          {'status': {'$ne': 'published'}},
+          {'text.file.@media_id': ''}
+        ]}}}
+      ]}}}}
+    else
+      {'$or': [
+        {'meanings.usages': {'$elemMatch': {'$or': [
+          {'status': {'$ne': 'published'}},
+          {'text.file.@media_id': ''}
+        ]}}},
+        {'meanings': {'$elemMatch': {'$or': [
+          {'usages': {'$exists': false}},
+          {'usages': {'$size': 0}}
+        ]}}}
+      ]}
     end
   end
 end
