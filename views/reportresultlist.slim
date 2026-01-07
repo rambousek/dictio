@@ -58,7 +58,7 @@
                       - km['usages'].each do |ku|
                         - if koment['box'] == ku['id']
                           li
-                            | #{koment['text']}
+                            | #{km['number']}: #{koment['text']}
                             - if koment.include?('assign') and koment['assign'] != ''
                               b → #{koment['assign']}
                             small
