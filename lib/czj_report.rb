@@ -226,21 +226,20 @@ class CzjReport
     # schvaleny preklad
     $dict_info.each{|code, _|
       if params['pubtrans'+code].to_s != '' or params['translation'+code].to_s != ''
-        trans_cond = trans_cond(params['pubtrans'+code].to_s, params['translation'+code].to_s, code)
+        trans_cond = cond_trans(params['pubtrans'+code].to_s, params['translation'+code].to_s, code)
         search_cond << trans_cond if trans_cond != nil
       end
     }
 
     # synonym
     if params['pubsynonym'].to_s != '' or params['synonym'].to_s != ''
-      trans_cond = trans_cond(params['pubsynonym'].to_s, params['synonym'].to_s, dict.dictcode, 'synonym')
+      trans_cond = cond_trans(params['pubsynonym'].to_s, params['synonym'].to_s, dict.dictcode, 'synonym')
       search_cond << trans_cond if trans_cond != nil
     end
 
     # komentare
     if params['koment'].to_s != '' and params['komentbox'].to_s != ''
-      koment_cond = koment_cond(dict, params, user_info)
-      search_cond << koment_cond if koment_cond != nil
+      search_cond << cond_koment(dict, params, user_info)
     end
 
     # zadany SW
@@ -438,22 +437,6 @@ class CzjReport
       end
     end
 
-    #'region',
-    #'bez_hns',
-    #'nes_hns',
-    #'rucne',
-    #'vztahy',
-    #'videa',
-    #'noupdate',
-    #'videa2',
-    #'artik',
-    #'coll',
-    #'autocomp',
-    #'autocompbox',
-    #'relpub',
-    #'texttranslationen',
-    #'trpriklad'
-
     [search_cond, trans_used]
   end
 
@@ -463,7 +446,7 @@ class CzjReport
   # @param [String] target
   # @param [String] type
   # @return [Hash, nil]
-  def trans_cond(pubtrans, trans, target, type="translation")
+  def cond_trans(pubtrans, trans, target, type="translation")
     trans_cond = nil
     # jen pubtrans, schvaleny preklad
     if pubtrans != '' and trans == ''
@@ -542,7 +525,7 @@ class CzjReport
   # @param [Hash] params
   # @param [Hash] user_info
   # @return [Hash]
-  def koment_cond(dict, params, user_info)
+  def cond_koment(dict, params, user_info)
     koment_ids = []
     koment_user = params['koment_user'].to_s
     komentbox = params['komentbox'].to_s
