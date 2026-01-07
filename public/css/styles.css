@@ -949,6 +949,10 @@ p + hr {
     p + hr {
       margin: 67px 0; } }
 
+.report-row hr {
+  margin: 0;
+  background: darkred}      
+
 input,
 textarea,
 select {

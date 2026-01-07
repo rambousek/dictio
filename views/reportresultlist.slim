@@ -10,7 +10,7 @@
         h3 #{entry['lemma']['title']}                                       
       - else
         - if entry['lemma']['video_front']
-          = entry['lemma']['video_front']
+          small = entry['lemma']['video_front']
           br
           video class=@dictcode width="177" height="142" onmouseover="this.play()" onmouseout="this.pause()"
             source type="video/mp4" src="https://files.dictio.info/video#{@dictcode}/#{entry['lemma']['video_front']}"
@@ -32,7 +32,8 @@
                   li 
                     | #{koment['text']}
                     - if koment.include?('assign') and koment['assign'] != ''
-                      b → #{koment['assign']}  
+                      b → #{koment['assign']} 
+                    hr 
                     small 
                       | (#{koment['user']}, #{koment['time']})                    
                 - if @params['komentbox'].to_s == 'vyznam' and entry['meanings']
@@ -45,6 +46,7 @@
                           | #{koment['text']}
                           - if koment.include?('assign') and koment['assign'] != ''
                             b → #{koment['assign']}
+                          hr
                           small
                             | (#{koment['user']}, #{koment['time']})
                   - if koment['box'].start_with?('videoD') and not shown
@@ -52,6 +54,7 @@
                       | #{koment['text']}
                       - if koment.include?('assign') and koment['assign'] != ''
                         b → #{koment['assign']}
+                      hr
                       small
                         | (#{koment['user']}, #{koment['time']})
                 - if @params['komentbox'].to_s == 'videoK' and entry['meanings']
@@ -63,6 +66,7 @@
                             | #{koment['text']}
                             - if koment.include?('assign') and koment['assign'] != ''
                               b → #{koment['assign']}
+                            hr
                             small
                               | (#{koment['user']}, #{koment['time']})
                 - if (@params['komentbox'].to_s == 'video' or @params['komentbox'].to_s == 'videoAB') and koment['box'] =~ /^video[AB]/
@@ -70,6 +74,7 @@
                     | #{koment['box'][5..-1]}: #{koment['text']}
                     - if koment.include?('assign') and koment['assign'] != ''
                       b → #{koment['assign']}
+                    hr
                     small
                       | (#{koment['user']}, #{koment['time']})
     - if entry['meanings'] and entry['meanings'].select{|m| m['is_translation_unknown'].to_s == '1' or (m['relation'] and m['relation'].select{|r| r['notrans'].to_s == 'true'}.size > 0)}.size > 0
