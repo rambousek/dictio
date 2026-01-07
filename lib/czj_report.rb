@@ -438,6 +438,11 @@ class CzjReport
         entries = $mongo['entries'].find({'dict': dict.dictcode, 'meanings.text.file.@media_id': media['id']})
         include = false if entries.count == 0
       end
+      if komentbox == 'videoK' and kom['box'].start_with?('videoK')
+        media = dict.get_media_location(kom['box'][5..-1], dict.dictcode)
+        entries = $mongo['entries'].find({'dict': dict.dictcode, 'meanings.usages.text.file.@media_id': media['id']})
+        include = false if entries.count == 0
+      end
       koment_ids << kom['entry'] if include
     }
 
