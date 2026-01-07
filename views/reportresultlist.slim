@@ -36,20 +36,18 @@
                     small 
                       | (#{koment['user']}, #{koment['time']})                    
                 - if @params['komentbox'].to_s == 'vyznam' and entry['meanings']
-                  - shown = false
                   - if entry['meanings']
                     - entry['meanings'].each do |km|
-                      - if koment['box'] == 'vyznam'+km['id'] or (koment['box'].start_with?('videoD') and entry['media'].is_a?(Hash) and entry['media'].select{|k,v| v['location'] == koment['box'][5..-1]}.size > 0)
-                        - shown = true
+                      - if koment['box'] == 'vyznam'+km['id']
                         li
-                          | #{koment['text']}
+                          | #{km['number']}: #{koment['text']}
                           - if koment.include?('assign') and koment['assign'] != ''
                             b → #{koment['assign']}
                           small
                             | (#{koment['user']}, #{koment['time']})
-                  - if koment['box'].start_with?('videoD') and not shown
+                  - if koment['box'].start_with?('videoD')
                     li
-                      | #{koment['text']}
+                      | #{koment['box'][5..-1]}: #{koment['text']}
                       - if koment.include?('assign') and koment['assign'] != ''
                         b → #{koment['assign']}
                       small
