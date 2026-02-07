@@ -844,7 +844,7 @@ class CzjApp < Sinatra::Base
       else
         csv = ['ID;lemma;slovní druh;význam ID;definice;zdroj definice;*příklad ID;*příklad;*zdroj příkladu;překlady;překlady text']
         reports.get_report(dict, params, @user_info)['entries'].each{|rep|
-          if rep['meanings'].size > 0
+          if rep['meanings'] and rep['meanings'].size > 0
             rep['meanings'].each{|rm|
               ri = [rep['id']]
               ri << rep['lemma']['title']
