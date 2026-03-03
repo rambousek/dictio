@@ -510,26 +510,26 @@ main role="main"
                         span.icon class="icon--arrow-down nav-lang__dropdown"
                           svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                             use xlink:href="/img/icons.svg#arrow-down" width="100%" height="100%" x="0" y="0"
-                      div id="sem" style="display: none"  
-                        - if @dict_info[@dictcode]['type'] == 'sign'
-                          - unless @params['vyznamvid']
-                            a.btn class="btn-secondary report-" onclick="URLAppend('vyznamvid')" #{I18n.t("admin.vyznamvid")}
-                          - unless @params['vyznam']
-                            a.btn class="btn-secondary report-" onclick="URLAppend('vyznam')" #{I18n.t("admin.vyznam")}    
-                          - unless @params['usagevid']
-                            a.btn class="btn-secondary report-" onclick="URLAppend('usagevid')" #{I18n.t("admin.usagevid")}
-                          - unless @params['usage']
-                            a.btn class="btn-secondary report-" onclick="URLAppend('usage')" #{I18n.t("admin.usage")}
-          
-                        - if @dict_info[@dictcode]['type'] == 'write'
-                          - unless @params['vyznamcszad']
-                            a.btn class="btn-secondary report-" onclick="URLAppend('vyznamcszad')" #{I18n.t("admin.vyznamvid")}
-                          - unless @params['vyznamcs']
-                            a.btn class="btn-secondary report-" onclick="URLAppend('vyznamcs')" #{I18n.t("admin.vyznam")}
-                          - unless @params['usagecszad']
-                            a.btn class="btn-secondary report-" onclick="URLAppend('usagecszad')" #{I18n.t("admin.usagevid")}
-                          - unless @params['usagecs']
-                            a.btn class="btn-secondary report-" onclick="URLAppend('usagecs')" #{I18n.t("admin.usage")}
+                    div id="sem" style="display: none"  
+                      - if @dict_info[@dictcode]['type'] == 'sign'
+                        - unless @params['vyznamvid']
+                          a.btn class="btn-secondary report-" onclick="URLAppend('vyznamvid')" #{I18n.t("admin.vyznamvid")}
+                        - unless @params['vyznam']
+                          a.btn class="btn-secondary report-" onclick="URLAppend('vyznam')" #{I18n.t("admin.vyznam")}    
+                        - unless @params['usagevid']
+                          a.btn class="btn-secondary report-" onclick="URLAppend('usagevid')" #{I18n.t("admin.usagevid")}
+                        - unless @params['usage']
+                          a.btn class="btn-secondary report-" onclick="URLAppend('usage')" #{I18n.t("admin.usage")}
+        
+                      - if @dict_info[@dictcode]['type'] == 'write'
+                        - unless @params['vyznamcszad']
+                          a.btn class="btn-secondary report-" onclick="URLAppend('vyznamcszad')" #{I18n.t("admin.vyznamvid")}
+                        - unless @params['vyznamcs']
+                          a.btn class="btn-secondary report-" onclick="URLAppend('vyznamcs')" #{I18n.t("admin.vyznam")}
+                        - unless @params['usagecszad']
+                          a.btn class="btn-secondary report-" onclick="URLAppend('usagecszad')" #{I18n.t("admin.usagevid")}
+                        - unless @params['usagecs']
+                          a.btn class="btn-secondary report-" onclick="URLAppend('usagecs')" #{I18n.t("admin.usage")}
                   .sub
                     span onclick="showhide('ekv')" style="cursor: pointer"
                       label
@@ -603,8 +603,8 @@ main role="main"
                       - unless @params['koment'] and @params['komentbox'] == 'boxcolloc'
                         a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','boxcolloc','koment','ne')" #{I18n.t("admin.koment.boxcolloc")}
                       - if @dict_info[@dictcode]['type'] == 'sign'
-                        - unless @params['koment'] and @params['komentbox'] == 'video'
-                          a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','video','koment','ne')" #{I18n.t("admin.koment.video")}
+                        - unless @params['koment'] and @params['komentbox'] == 'videoAB'
+                          a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','videoAB','koment','ne')" #{I18n.t("admin.koment.video")}
                         - unless @params['koment'] and @params['komentbox'] == 'swfield'
                           a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','swfield','koment','ne')" #{I18n.t("admin.koment.swfield")}
                         - unless @params['koment'] and @params['komentbox'] == 'hamnbox'
@@ -644,7 +644,7 @@ main role="main"
                     | #{I18n.t("admin.koment.boxlemma")}
                   - if @params['komentbox'] == 'boxcolloc'
                     | #{I18n.t("admin.koment.boxcolloc")}
-                  - if @params['komentbox'] == 'video'
+                  - if @params['komentbox'] == 'videoAB'
                     | #{I18n.t("admin.koment.video")}
                   - if @params['komentbox'] == 'swfieldset'
                     | #{I18n.t("admin.koment.swfieldset")}
