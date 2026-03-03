@@ -576,7 +576,8 @@ de:
     koment:
       boxlemma: "Technische Einstellungen"
       boxcolloc: "Lemmaart"
-      video: "lemma (video)"
+      video: "video"
+      videoAB: "lemma (video)"
       swfield: "SignWriting"
       hamnbox: "HamNoSys"
       gramdesc: "Grammartikalische Beschreibung"

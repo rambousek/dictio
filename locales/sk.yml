@@ -577,7 +577,8 @@ sk:
     koment:
       boxlemma: "technické informácie"
       boxcolloc: "typ hesla"
-      video: "záhlavie (video)"
+      video: "video"
+      videoAB: "záhlavie (video)"
       swfield: "signwriting"
       hamnbox: "hamnosys"
       gramdesc: "gramatický popis"

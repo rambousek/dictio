@@ -575,7 +575,8 @@ ua:
     koment:
       boxlemma: "технічна інформація"
       boxcolloc: "тип пароля"
-      video: "заголовок (відео)"
+      video: "відео"
+      videoAB: "заголовок (відео)"
       swfield: "підпис"
       hamnbox: "hamnosys"
       gramdesc: "граматичний опис"

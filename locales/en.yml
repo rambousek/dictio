@@ -577,7 +577,8 @@ en:
     koment:
       boxlemma: "technical details"
       boxcolloc: "entry type"
-      video: "lemma (video)"
+      video: "video"
+      videoAB: "lemma (video)"
       swfield: "signwriting"
       hamnbox: "hamnosys"
       gramdesc: "grammar details"
