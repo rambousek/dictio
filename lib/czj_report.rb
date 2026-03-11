@@ -388,12 +388,12 @@ class CzjReport
         end
       when 'videoAB'
         if koment_user != ''
-          koment_cond = {'user': koment_user, 'box': {'$regex': /^video[AB]/}}
+          koment_cond = {'user': koment_user, 'box': {'$regex': /^video[^DK]/}}
         else
           if koment_moje == 'on'
-            koment_cond = {'user': user_info['login'], 'box': {'$regex': /^video[AB]/}}
+            koment_cond = {'user': user_info['login'], 'box': {'$regex': /^video[^DK]/}}
           else
-            koment_cond = {'box': {'$regex': /^video[AB]/}}
+            koment_cond = {'box': {'$regex': /^video[^DK]/}}
           end
         end
       when 'videoK'
