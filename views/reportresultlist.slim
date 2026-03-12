@@ -67,7 +67,7 @@
                             hr
                             small
                               | (#{koment['user']}, #{koment['time']})
-                - if (@params['komentbox'].to_s == 'video' or @params['komentbox'].to_s == 'videoAB') and koment['box'] =~ /^video[AB]/
+                - if (@params['komentbox'].to_s == 'video' or @params['komentbox'].to_s == 'videoAB') and koment['box'] =~ /^video[^DK]/
                   li
                     | #{koment['box'][5..-1]}: #{koment['text']}
                     - if koment.include?('assign') and koment['assign'] != ''
