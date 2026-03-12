@@ -287,13 +287,13 @@ class CzjReport
       if pubtrans == 'ano'
         trans_cond = {'$or': [
           {'meanings.relation': {'$elemMatch': {'type': type, 'target': target, 'status': 'published'}}},
-          {'meanings.usages': {'$elemMatch': {'status':'published', 'relation': {'$elemMatch': {'type': type, 'target': target}}}}}
+          # {'meanings.usages': {'$elemMatch': {'status':'published', 'relation': {'$elemMatch': {'type': type, 'target': target}}}}}
         ]}
       else
         trans_cond = {'meanings': {'$elemMatch': {'is_translation_unknown': {'$ne': '1'}, '$or': [
           {'meanings.relation': {'$not': {'$elemMatch': {'type': type, 'target': target}}}},
           {'meanings.relation': {'$elemMatch': {'type': type, 'target': target, 'status': 'hidden'}}},
-          {'meanings.usages': {'$elemMatch': {'status':'hidden', 'relation': {'$elemMatch': {'type': type, 'target': target}}}}}
+          # {'meanings.usages': {'$elemMatch': {'status':'hidden', 'relation': {'$elemMatch': {'type': type, 'target': target}}}}}
         ]}}}
       end
     end
@@ -303,12 +303,12 @@ class CzjReport
       if trans == 'ano'
         trans_cond = {'meanings': {'$elemMatch': {'$or': [
           {'relation': {'$elemMatch': {'type': type, 'target': target, 'meaning_id': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}},
-          {'usages.relation': {'$elemMatch': {'type': type, 'target': target, 'meaning_id': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}
+          # {'usages.relation': {'$elemMatch': {'type': type, 'target': target, 'meaning_id': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}
         ]}}}
       else
         trans_cond = {'meanings': {'$not': {'$elemMatch': {'$or': [
           {'relation': {'$elemMatch': {'type': type, 'target': target, 'meaning_id': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}},
-          {'usages.relation': {'$elemMatch': {'type': type, 'target': target, 'meaning_id': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}
+          # {'usages.relation': {'$elemMatch': {'type': type, 'target': target, 'meaning_id': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}
         ]}}}}
       end
     end
@@ -318,7 +318,7 @@ class CzjReport
     if pubtrans == 'ne' and trans == 'ano'
       trans_cond = {'meanings': {'$elemMatch': {'$or': [
         {'relation': {'$elemMatch': {'status': {'$ne': 'published'}, 'target': target, 'type': type, 'meaning_id': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}},
-        {'usages': {'$elemMatch':{'status': {'$ne': 'published'}, 'relation.0':{'$exists':true}, 'relation': {'$elemMatch': {'target': target, 'type': type, 'meaning_id': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}}}
+        # {'usages': {'$elemMatch':{'status': {'$ne': 'published'}, 'relation.0':{'$exists':true}, 'relation': {'$elemMatch': {'target': target, 'type': type, 'meaning_id': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}}}
       ]}}}
     end
 
@@ -326,10 +326,10 @@ class CzjReport
     if pubtrans == 'ne' and trans == 'ne'
       trans_cond = {'meanings': {'$elemMatch': {'$or': [
         {'relation': {'$elemMatch': {'status': {'$ne': 'published'}, 'target': target, 'type': type, 'meaning_id': {'$not': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}},
-        {'usages': {'$elemMatch': {'status': {'$ne': 'published'}, 'relation': {'$elemMatch': {'target': target, 'type': type, 'meaning_id': {'$not': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}}}},
+        # {'usages': {'$elemMatch': {'status': {'$ne': 'published'}, 'relation': {'$elemMatch': {'target': target, 'type': type, 'meaning_id': {'$not': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}}}},
         {'$and': [
           {'relation': {'$not': {'$elemMatch': {'type': type, 'target': target}}}},
-          {'usages.relation': {'$not': {'$elemMatch': {'type': type, 'target': target}}}}
+          # {'usages.relation': {'$not': {'$elemMatch': {'type': type, 'target': target}}}}
         ]}
       ]}}}
     end
@@ -338,7 +338,7 @@ class CzjReport
     if pubtrans == 'ano' and trans == 'ano'
       trans_cond = {'meanings': {'$elemMatch': {'$or': [
         {'relation': {'$elemMatch': {'status': 'published', 'target': target, 'type': type, 'meaning_id': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}},
-        {'usages': {'$elemMatch': {'status': 'published', 'relation': {'$elemMatch': {'target': target, 'type': type, 'meaning_id': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}}}
+        # {'usages': {'$elemMatch': {'status': 'published', 'relation': {'$elemMatch': {'target': target, 'type': type, 'meaning_id': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}}}
       ]}}}
     end
 
@@ -346,7 +346,7 @@ class CzjReport
     if pubtrans == 'ano' and trans == 'ne'
       trans_cond = {'meanings': {'$elemMatch': {'$or': [
         {'relation': {'$elemMatch': {'status': 'published', 'target': target, 'type': type, 'meaning_id': {'$not': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}},
-        {'usages': {'$elemMatch': {'status': 'published', 'relation': {'$elemMatch': {'target': target, 'type': type, 'meaning_id': {'$not': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}}}}
+        # {'usages': {'$elemMatch': {'status': 'published', 'relation': {'$elemMatch': {'target': target, 'type': type, 'meaning_id': {'$not': {'$regex': /^[-0-9]*(_us[0-9]*)?$/}}}}}}}
       ]}}}
     end
 
