@@ -146,7 +146,7 @@ class CzjReport
     # schvalena definice
     if params['vyznam'].to_s != ''
       if params['vyznam'].to_s == 'ano'
-        search_cond << {'$and':[{'meanings.status':{'$ne':'hidden'}},{'meanings.text.file':{'$not':{'$exists':false}}}]}
+        search_cond << {'meanings': {'$elemMatch': {'status': {'$ne': "hidden"}, 'text.file': {'$exists': true}}}}
       else
         search_cond << {'meanings': {'$elemMatch': {'$or':[{'status':{'$ne':'published'}},{'text.file':{'$exists':false}}]}}}
       end
