@@ -277,19 +277,19 @@
 
       - if meaning['usages'] and meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.size > 0
         h4.detail-block__name = I18n.t("entry.examples")
-          .row.row--start.translation-group-sign
-            - meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.each do |usg|
-              - if usg["text"] and usg["text"]["file"] and usg["text"]["file"].is_a?(Hash)
-                .col.col--2.col--precise
-                  - if usg['status'] == 'hidden'
-                    img src="/img/warning.png" style="width: 20px" title="#{I18n.t('entry.notapproved')}"      
-                  .video.video--small
-                    .video__content
-                      video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}"
-                        source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
-                      - if @is_edit
-                        a.videoshare href="/#{@entry['dict']}/show/#{@entry['id']}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}" sdílet video
-            p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_example')
+        .row.row--start.translation-group-sign
+          - meaning['usages'].select{|usg| usg['text'] and usg['text']['file']}.each do |usg|
+            - if usg["text"] and usg["text"]["file"] and usg["text"]["file"].is_a?(Hash)
+              .col.col--2.col--precise
+                - if usg['status'] == 'hidden'
+                  img src="/img/warning.png" style="width: 20px" title="#{I18n.t('entry.notapproved')}"
+                .video.video--small
+                  .video__content
+                    video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@entry['dict']}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}"
+                      source src="https://files.dictio.info/video#{@entry['dict']}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
+                    - if @is_edit
+                      a.videoshare href="/#{@entry['dict']}/show/#{@entry['id']}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}" sdílet video
+          p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_example')
 
 - if @search_type == 'search'
   p.mobile-hide style="float: right;margin-top: 50px;"
