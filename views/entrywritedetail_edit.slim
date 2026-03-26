@@ -48,11 +48,14 @@
               = var['_text']
             |,
 - if @entry['lemma']['gram'] and @entry['lemma']['gram']['form']
-  - if  @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc1'}.size > 0
+  - if  @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc1'}.size > 0 or  @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc1'}.size > 0
     table.table.table--no-margin
       tr
         th
-        th = I18n.t("gram.detail.jednotne")
+        - if @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc1'}.size > 0
+          th = I18n.t("gram.detail.jednotne")
+        - else 
+          th
         th = I18n.t("gram.detail.mnozne")
       tr
         td

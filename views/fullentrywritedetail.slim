@@ -66,7 +66,10 @@
       table.table.table--no-margin
         tr
           th
-          th = I18n.t("gram.detail.jednotne")
+          - if @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc1'}.size > 0
+            th = I18n.t("gram.detail.jednotne")
+          - else 
+            th
           th = I18n.t("gram.detail.mnozne")
         tr
           td
