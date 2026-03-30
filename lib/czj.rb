@@ -1845,7 +1845,7 @@ class CZJDict < Object
     $mongo['history'].insert_one(history)
   end
 
-  def list_history(code, user, entry)
+  def list_history(code, user, entry, limit = 100)
     report = {'entries'=>[]}
     $stderr.puts code
     $stderr.puts entry
@@ -1853,10 +1853,10 @@ class CZJDict < Object
     query['dict'] = code if code.to_s != ''
     query['user'] = user if user.to_s != ''
     query['entry'] = entry if entry.to_s != ''
+
     $stderr.puts query
-    result = $mongo['history'].find(query, {}).sort({'timestamp'=> -1})
-    result = result.limit(100) 
-      # if entry.to_s == '' and query['user'].to_s == ''
+    result = $mongo['history'].find(query, {}).sort({ 'timestamp' => -1 }).limit(limit)
+
     result.each{|r_entry|
       report['entries'] << r_entry
     }
