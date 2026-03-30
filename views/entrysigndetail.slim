@@ -61,9 +61,24 @@
             - @entry['lemma']['grammar_note'].each{|gr| slovni_druhy << gr['@slovni_druh']}
             - slovni_druhy.uniq.each do |sd|
               - if sd.to_s != ''
-                =  I18n.t("gram.slovni_druh."+sd.to_s)
-                - unless sd.equal? slovni_druhy.uniq.last
-                  | ,
+                a.help href="/help##{sd}" target="_blank" style="text-decoration: none; color: var(--zakladni-text-cerna1); cursor: help"
+                  = I18n.t("gram.slovni_druh."+sd)
+                - @entry['lemma']['grammar_note'].each do |gr|
+                  - if gr['@slovni_druh'] == sd
+                    - unless gr['@skupina'].to_s == '' and gr['@skupina2'].to_s == '' 
+                      span.cat3  
+                        - if gr['@skupina'].to_s != ''
+                          |  (
+                          = I18n.t("gram.skupina."+gr['@skupina'])                      
+                          - if gr['@skupina2'].to_s != ''
+                            |  - 
+                            = I18n.t("gram.skupina."+gr['@skupina2']) 
+                          | )
+                    - if gr['@skupina3'].to_s != ''
+                      div.cat3
+                        | #{I18n.t("gram.skupina.#{gr['@skupina3']}")}
+                / - unless sd.equal? slovni_druhy.uniq.last
+                /  | , 
       - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'][0] and (@entry['lemma']['grammar_note'][0]['@oral_komp'].to_s.strip != '' or @entry['lemma']['grammar_note'][0]['@mluv_komp'].to_s.strip != '')
         p.naming
           - if @entry['lemma']['grammar_note'][0]['@mluv_komp'].to_s.strip != ''
