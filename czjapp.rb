@@ -1017,7 +1017,9 @@ class CzjApp < Sinatra::Base
     get '/history' do
       @dict_info = $dict_info
       @users = $mongo['history'].distinct('user').sort
-      @report = $dict_array['czj'].list_history(params['code'].to_s, params['user'].to_s, params['entry'].to_s)
+	  limit = params['limit'].to_i
+      limit = 100 if limit.nil? or limit == 0
+      @report = $dict_array['czj'].list_history(params['code'].to_s, params['user'].to_s, params['entry'].to_s, limit)
       @params = params
       slim :history
     end
