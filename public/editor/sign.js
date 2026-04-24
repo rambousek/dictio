@@ -18,7 +18,7 @@ var typingTimer;
 var doneTypingInterval = 5000;
 var bgAuth = 'lightsteelblue';
 var bgSilver = 'silver';
-const version = "2.1.6";
+const version = "2.1.7";
 
 var params = Ext.Object.fromQueryString(window.location.search.substring(1));
 if (params.empty != null && params.empty != '') {
@@ -1533,6 +1533,10 @@ function new_entry() {
       Ext.resumeLayouts(true);
       loadMask.hide();
       console.log('after mask ' + new Date().getTime())
+
+      const urlUP = new URL(window.location);
+      urlUP.searchParams.set("id", entryid);
+      window.history.pushState({}, "", urlUP);
     }
   });
 }
