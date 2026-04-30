@@ -212,37 +212,41 @@ class CzjEditMedia < Object
     $stdout.puts 'SAVE UPLOAD'
     $stdout.puts filedata['filename']
     $stdout.puts filename
-    media = @dict.get_media_location(filename, @dictcode)
-    if media == {}
-      cursor = $mongo['media'].find({'dict' => @dictcode}, {:projection => {'id':1}, :collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'id' => -1}})
-      cursor = cursor.limit(1)
-      mediaid = 1
-      cursor.each{|r|
-        mediaid = r['id'].to_i + 1
+    mediaid = nil
+    db_session = $mongo.start_session
+    db_session.with_transaction do
+      media = @dict.get_media_location(filename, @dictcode)
+      if media == {}
+        cursor = $mongo['media'].find({'dict' => @dictcode}, {:projection => {'id':1}, :collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'id' => -1}})
+        cursor = cursor.limit(1)
+        mediaid = 1
+        cursor.each{|r|
+          mediaid = r['id'].to_i + 1
+        }
+      else
+        mediaid = media['id']
+        $mongo['media'].find({'dict'=> @dictcode, 'id'=> mediaid}).delete_many
+      end
+      data = {
+        'id' => mediaid.to_s,
+        'dict' => @dictcode,
+        'location' => filename,
+        'original_file_name' => filename,
+        'label' => norm_name(filename)[0],
+        'id_meta_copyright' => metadata['id_meta_copyright'],
+        'id_meta_author' => metadata['id_meta_author'],
+        'id_meta_source' => metadata['id_meta_source'],
+        'admin_comment' => metadata['admin_comment'],
+        'type' => metadata['type'],
+        'status' => metadata['status'],
+        'orient' => metadata['orient'],
+        'created_at' => Time.now.strftime("%Y-%m-%d %H:%M:%S"),
+        'entry_folder' => []
       }
-    else
-      mediaid = media['id']
-      $mongo['media'].find({'dict'=> @dictcode, 'id'=> mediaid}).delete_many
+      data['entry_folder'] << entry_id.to_s if entry_id.to_s != ''
+      $stdout.puts data
+      $mongo['media'].insert_one(data, session: db_session)
     end
-    data = {
-      'id' => mediaid.to_s,
-      'dict' => @dictcode,
-      'location' => filename,
-      'original_file_name' => filename,
-      'label' => norm_name(filename)[0],
-      'id_meta_copyright' => metadata['id_meta_copyright'],
-      'id_meta_author' => metadata['id_meta_author'],
-      'id_meta_source' => metadata['id_meta_source'],
-      'admin_comment' => metadata['admin_comment'],
-      'type' => metadata['type'],
-      'status' => metadata['status'],
-      'orient' => metadata['orient'],
-      'created_at' => Time.now.strftime("%Y-%m-%d %H:%M:%S"),
-      'entry_folder' => []
-    }
-    data['entry_folder'] << entry_id.to_s if entry_id.to_s != ''
-    $stdout.puts data
-    $mongo['media'].insert_one(data)
 
     Net::SSH.start("files.dictio.info", $files_user, :key_data=>$files_keys){|ssh|
       ssh.scp.upload!(filedata['tempfile'].path, '/home/adam/upload/'+@dictcode+'/'+filename)
