@@ -30,12 +30,7 @@ class CzjEditMedia < Object
   def attach_file(location, entry_id, metadata)
     media = @dict.get_media_location(location, @dictcode)
     if media == {}
-      cursor = $mongo['media'].find({'dict' => @dictcode}, {:projection => {'id':1}, :collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'id' => -1}})
-      cursor = cursor.limit(1)
-      mediaid = 1
-      cursor.each{|r|
-        mediaid = r['id'].to_i + 1
-      }
+      mediaid = get_next_sequence_value(@dictcode)
       media = {
         'id' => mediaid.to_s,
         'dict' => @dictcode,
@@ -171,12 +166,7 @@ class CzjEditMedia < Object
   # @return [String]
   def save_media(data)
     if data['id'].to_s == ''
-      cursor = $mongo['media'].find({'dict' => @dictcode}, {:projection => {'id':1}, :collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'id' => -1}})
-      cursor = cursor.limit(1)
-      mediaid = 1
-      cursor.each{|r|
-        mediaid = r['id'].to_i + 1
-      }
+      mediaid = get_next_sequence_value(@dictcode)
       media = {'id' => mediaid.to_s}
     else
       media = @dict.get_media(data['id'].to_s, @dictcode)
