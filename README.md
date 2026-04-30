@@ -124,12 +124,6 @@ server {
 systemctl enable mongod
 
 /etc/mongod.conf - net: bindIp:
-security:
-  authorization: enabled
-  keyFile: /var/lib/mongo/pki/keyfile
-replication:
-  replSetName: "rs0"
-
 
 crontab: mongo-counts.sh mongo-media.sh cleancomment.rb
 
