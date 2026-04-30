@@ -201,6 +201,15 @@ class CzjEditMedia < Object
     media['id'].to_s
   end
 
+  def get_next_sequence_value(dict_code)
+    result = $mongo['counters'].find_one_and_update(
+      { '_id' => "media_id_#{dict_code}" },
+      { '$inc' => { 'seq' => 1 } },
+      {upsert: true, return_document: :after}
+    )
+    result['seq']
+  end
+
   # upload file, store metadata
   # @param [Hash] filedata
   # @param [Hash] metadata
@@ -213,13 +222,8 @@ class CzjEditMedia < Object
     $stdout.puts filedata['filename']
     $stdout.puts filename
     media = @dict.get_media_location(filename, @dictcode)
-    if media == {}
-      cursor = $mongo['media'].find({'dict' => @dictcode}, {:projection => {'id':1}, :collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'id' => -1}})
-      cursor = cursor.limit(1)
-      mediaid = 1
-      cursor.each{|r|
-        mediaid = r['id'].to_i + 1
-      }
+    if media.empty?
+      mediaid = get_next_sequence_value(@dictcode)
     else
       mediaid = media['id']
       $mongo['media'].find({'dict'=> @dictcode, 'id'=> mediaid}).delete_many
@@ -242,7 +246,7 @@ class CzjEditMedia < Object
     }
     data['entry_folder'] << entry_id.to_s if entry_id.to_s != ''
     $stdout.puts data
-    $mongo['media'].insert_one(data)
+    $mongo['media'].update_one({'id' => mediaid.to_s}, {'$set' => data}, upsert: true)
 
     Net::SSH.start("files.dictio.info", $files_user, :key_data=>$files_keys){|ssh|
       ssh.scp.upload!(filedata['tempfile'].path, '/home/adam/upload/'+@dictcode+'/'+filename)
