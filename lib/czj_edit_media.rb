@@ -207,7 +207,6 @@ class CzjEditMedia < Object
       { '$inc' => { 'seq' => 1 } },
       {upsert: true, return_document: :after}
     )
-    $stderr.puts result
     result['seq']
   end
 
