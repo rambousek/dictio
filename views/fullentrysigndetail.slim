@@ -286,7 +286,7 @@
                             img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}#{$fsw_style}" alt=""
               p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_syno')
   
-          - if meaning['relation'].any? { |rel| rel['type'] == 'antonym' && rel['status'] != 'hidden' }
+          - if meaning['relation'] and meaning['relation'].any? { |rel| rel['type'] == 'antonym' && rel['status'] != 'hidden' }
             h4 = I18n.t("entry.antonyms")
             .row.row--start.translation-group-sign
               - meaning['relation'].select{|rel| rel['type'] == 'antonym' and rel['entry'] and rel['entry']['id']}.each do |rel|
