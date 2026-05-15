@@ -216,7 +216,7 @@ class CZJDict < Object
           end
         }
       end
-      if entry['lemma']['grammar_note']
+      if entry['lemma'] and entry['lemma']['grammar_note']
         entry['lemma']['grammar_note'].each{|gn|
           if gn['variant']
             gn['variant'].each{|gv|
@@ -230,7 +230,7 @@ class CZJDict < Object
           end
         }
       end
-      if entry['lemma']['style_note']
+      if entry['lemma'] and entry['lemma']['style_note']
         entry['lemma']['style_note'].each{|gn|
           if gn['variant']
             gn['variant'].each{|gv|
@@ -245,11 +245,13 @@ class CZJDict < Object
         }
       end
     end
-    if entry['lemma']['video_front'].to_s != ''
-      entry['media']['video_front'] = get_media_location(entry['lemma']['video_front'].to_s, entry['dict'])
-    end
-    if entry['lemma']['video_side'].to_s != ''
-      entry['media']['video_side'] = get_media_location(entry['lemma']['video_side'].to_s, entry['dict'])
+    if entry['lemma']
+      if entry['lemma']['video_front'].to_s != ''
+        entry['media']['video_front'] = get_media_location(entry['lemma']['video_front'].to_s, entry['dict'])
+      end
+      if entry['lemma']['video_side'].to_s != ''
+        entry['media']['video_side'] = get_media_location(entry['lemma']['video_side'].to_s, entry['dict'])
+      end
     end
     return entry
   end
