@@ -261,7 +261,7 @@
                   svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                     use xlink:href="/img/icons.svg#info" x="0" y="0" width="100%" height="100%"
                  p style="color: gray; font-style: italic; padding-left: 50px;" #{I18n.t("entry.nocontent")}
-          - if meaning['relation'].find { |rel| rel['type'] == 'synonym' }
+          - if meaning['relation'] and meaning['relation'].find { |rel| rel['type'] == 'synonym' }
             h4= I18n.t("entry.synonyms")
             .row.row--start.translation-group-sign
               - meaning['relation'].select { |rel| rel['type'] == 'synonym' && rel['entry'] && rel['entry']['id'] }.each do |rel|
