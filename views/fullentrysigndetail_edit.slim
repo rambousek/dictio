@@ -15,7 +15,8 @@
       span.icon.icon--edit
        svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
         use xlink:href="/img/edit.svg#Capa_1" x="0" y="0" width="100%" height="100%"
-  .video-top
+  .video-top.quotable data-quote="#{@entry['dict'].upcase}-#{@entry['id']}"
+    span.quote-btn title="Citace video" ❝
     -if @entry['media']['video_front'] and @entry['media']['video_front']['status'] == 'hidden'
       img src="/img/warning.png" 
       div.notapproved #{I18n.t("entry.notapproved")}
@@ -235,8 +236,9 @@
     .row
       .col.col--2
         .detail__block.detail__block--line
-          .video-simple
-            h3 id="meaning#{meaning['number']}" #{I18n.t("entry.meaning")} #{meaning['number']}            
+          .video-simple.quotable data-quote="#{@entry['dict'].upcase}-#{@entry['id']}, #{I18n.t('entry.meaning')} #{meaning['number']}"
+            h3 id="meaning#{meaning['number']}" #{I18n.t("entry.meaning")} #{meaning['number']}
+            span.quote-btn title="Citace význam" ❝
             - if meaning['category'] and meaning['category'].find{|cat| not cat.nil?}
               p.naming class="naming2"
                 / | #{I18n.t("entry.category")}: 
@@ -328,7 +330,8 @@
                 .col.col--2.col--precise
                   - if usg['status'] == 'hidden'
                     img src="/img/warning.png" style="width: 20px" title="#{I18n.t('entry.notapproved')}"      
-                  .video.video--small
+                  .video.video--small.quotable data-quote="#{@entry['dict'].upcase}-#{@entry['id']} - příklad"
+                    span.quote-btn title="Citace příklad" ❝
                     .video__content
                       video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@show_dictcode}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}"
                         source src="https://files.dictio.info/video#{@show_dictcode}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}" type="video/mp4"

@@ -911,7 +911,7 @@ function showhide(id) {
      e.style.display = 'block';
 }
 
-var showhide_obj=NULL;
+var showhide_obj=null;
 
 function showhide2(id) {
   var e = document.getElementById(id);
@@ -1013,3 +1013,75 @@ function kopirovatText() {
 function zavriModal() {
   document.getElementById("modal").style.display = "none";
 }
+
+(function() {
+  let quoteMode = false;
+
+  window.toggleQuoteMode = function() {
+    quoteMode = !quoteMode;
+    document.querySelectorAll('.quote-btn').forEach(btn => {
+      btn.style.display = quoteMode ? 'inline-flex' : 'none';
+    });
+    const toggle = document.getElementById('quote-toggle');
+    if (toggle) toggle.classList.toggle('quote-toggle--active', quoteMode);
+  };
+
+  function triggerQuote(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    const section = e.currentTarget.closest('.quotable');
+    const text = section.dataset.quote || window.location.href;
+    showQuoteOverlay(text);
+  }
+
+  function showQuoteOverlay(text) {
+    // Remove any existing overlay
+    const existing = document.getElementById('quote-overlay');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.id = 'quote-overlay';
+    overlay.innerHTML = `
+      <div id="quote-overlay__box" class="modal-content">
+        <div id="quote-overlay__body">
+          ${text}
+        </div>
+        <div id="quote-overlay__footer" class="modal-buttons">
+          <button class="btn" id="quote-overlay__close" title="Zavřít">Zavřít</button>
+          <button class="btn" id="quote-overlay__copy">Kopírovat</button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    // Copy button
+    overlay.querySelector('#quote-overlay__copy').addEventListener('click', () => {
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = overlay.querySelector('#quote-overlay__copy');
+        btn.textContent = 'Zkopírováno ✓';
+        btn.style.background = '#2ecc71';
+        setTimeout(() => {
+          btn.textContent = 'Kopírovat';
+          btn.style.background = '';
+        }, 2000);
+      });
+    });
+
+    // Close on button
+    overlay.querySelector('#quote-overlay__close').addEventListener('click', () => overlay.remove());
+
+    // Close on backdrop click
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) overlay.remove();
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.quote-btn').forEach(btn => {
+      btn.addEventListener('click', triggerQuote);
+    });
+    const toggle = document.getElementById('quote-toggle');
+    if (toggle) toggle.addEventListener('click', toggleQuoteMode);
+  });
+})();
