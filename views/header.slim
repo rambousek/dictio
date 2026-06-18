@@ -1,10 +1,10 @@
 <!-- hlavička -->
 - if @is_edit
   div style="background-color: red; width: 100%; height: 15px; font-size: 12px; position: fixed; text-align: right; z-index: 101;"
-   div.container class="container--wide" #{I18n.t("admin.user")} (#{@user_info['login']})
+    div.container class="container--wide" #{I18n.t("admin.user")} (#{@user_info['login']})
 - if @is_admin
   div style="background-color: lightblue; width: 100%; height: 15px; font-size: 12px; position: fixed; text-align: right; z-index: 101;"
-   div.container class="container--wide" #{I18n.t("admin.user")} (#{@user_info['login']})
+    div.container class="container--wide" #{I18n.t("admin.user")} (#{@user_info['login']})
 header.header role="banner"
   .container.container--wide
     .header__wrapper
@@ -58,10 +58,10 @@ header.header role="banner"
                             a href="https://admin.dictio.info/video" #{I18n.t("admin.video")}
                       li
                         - if @dictcode
-                            a href="https://admin.dictio.info/#{@dictcode}/notrans" #{I18n.t("admin.nolemma")}                                                  
+                          a href="https://admin.dictio.info/#{@dictcode}/notrans" #{I18n.t("admin.nolemma")}
                       li
                         - if @dictcode
-                            a href="/admin/#{@dictcode}/comments?assign=#{@user_info['login']}" #{I18n.t("admin.comments")}  
+                          a href="/admin/#{@dictcode}/comments?assign=#{@user_info['login']}" #{I18n.t("admin.comments")}
                       li
                         - if @dictcode
                           a href="https://admin.dictio.info/#{@dictcode}/duplicate" #{I18n.t("admin.dup")}
@@ -149,11 +149,11 @@ header.header role="banner"
                     a href="#{@langpath}#{(@langpath[-1]=='?')?'':'&'}lang=de" == I18n.t("locale.de")
               .mobile-menu__bottom
                 - if @is_edit
-                 img src="/img/user.png" style="height: 24px"  
-                 span.user #{@user_info['name']}  
-                 a.btn href="https://www.dictio.info" onclick="logout()" #{I18n.t("menu.logout")}
+                  img src="/img/user.png" style="height: 24px"
+                  span.user #{@user_info['name']}
+                  a.btn href="https://www.dictio.info" onclick="logout()" #{I18n.t("menu.logout")}
                 - else   
-                 a.btn href="https://edit.dictio.info#{@request.fullpath}" #{I18n.t("menu.login")}
+                  a.btn href="https://edit.dictio.info#{@request.fullpath}" #{I18n.t("menu.login")}
         .nav__mobile
           .nav__mobile-search
             span.icon.icon--magnifier

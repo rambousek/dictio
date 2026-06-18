@@ -10,10 +10,10 @@
   p.detail__badge.detail__badge--top class=((@is_edit? "detail__badge__#{@entry['dict']}":""))
     | #{I18n.t("dict."+@entry['dict'])} 
     - if (@is_edit or @is_admin)
-     a class="edit" href="/editor#{@entry['dict']}/?id=#{@entry['id']}" 
-      | [#{@entry['dict']}-#{@entry['id']}]
+      a class="edit" href="/editor#{@entry['dict']}/?id=#{@entry['id']}"
+        | [#{@entry['dict']}-#{@entry['id']}]
       span.icon.icon--edit
-       svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+        svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
         use xlink:href="/img/edit.svg#Capa_1" x="0" y="0" width="100%" height="100%"
   .video-top
     -if @entry['media']['video_front'] and @entry['media']['video_front']['status'] == 'hidden'
@@ -184,9 +184,9 @@
             - if reg.to_s != ''
               span = I18n.t("gram.region."+reg)
       - unless @entry['lemma']['puvod'].to_s == ''
-         p.naming 
-           | #{I18n.t("entry.origin")}: 
-           span = I18n.t("gram.origin."+@entry['lemma']['puvod'])
+        p.naming
+          | #{I18n.t("entry.origin")}:
+          span = I18n.t("gram.origin."+@entry['lemma']['puvod'])
       - unless @entry['lemma']['style_note'].nil? or @entry['lemma']['style_note'][0].nil? or @entry['lemma']['style_note'][0]['@kategorie'].to_s == ''
         p.naming 
           span = I18n.t("gram.category."+@entry['lemma']['style_note'][0]['@kategorie'])
@@ -228,7 +228,6 @@
                         span.video__sign
                           - sw = @entry['lemma']['sw'][(var['@sw'].ord-65)]
                           img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}#{$fsw_style}" alt=""
-
 - if @entry['meanings']
   - @entry["meanings"].each do |meaning|
     - @meaning = meaning
@@ -254,10 +253,10 @@
                   a.videoshare href="/#{@entry['dict']}/show/#{@entry['id']}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}" sdílet video
             - else 
               .info.is-pushed style="margin-top: 0; padding: 0"
-                 span.icon.icon--info.info__icon style="margin-top: 0; color: gray; top: -1px;" 
+                span.icon.icon--info.info__icon style="margin-top: 0; color: gray; top: -1px;"
                   svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                     use xlink:href="/img/icons.svg#info" x="0" y="0" width="100%" height="100%"
-                 p style="color: gray; font-style: italic; padding-left: 50px;" #{I18n.t("entry.nocontent")}
+                p style="color: gray; font-style: italic; padding-left: 50px;" #{I18n.t("entry.nocontent")}
           - if meaning['relation'] and meaning['relation'].any? { |rel| rel['type'] == 'synonym' && rel['status'] != 'hidden' }
             h4= I18n.t("entry.synonyms")
             .row.row--start.translation-group-sign 
@@ -267,8 +266,8 @@
                 .col.col--2.col--precise
                   .video.video--small
                     .video__content
-                        video.video-link width="100%" onmouseover="this.play()" onmouseout=""  data-url=(@search.to_s != ''? "#{@tran_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") poster="/thumb/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}"
-                          source src="https://files.dictio.info/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
+                      video.video-link width="100%" onmouseover="this.play()" onmouseout=""  data-url=(@search.to_s != ''? "#{@tran_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") poster="/thumb/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}"
+                        source src="https://files.dictio.info/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
                     .video__controls
                       - if @search.to_s != ''
                         a.video__link href="#{@tran_path}/#{relid}"
@@ -285,7 +284,6 @@
                           - rel['entry']['lemma']['swmix'].each do |sw|
                             img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}#{$fsw_style}" alt=""
               p.more-trans.link style="display:none;cursor:pointer" = I18n.t('entry.more_syno')
-  
           - if meaning['relation'] and meaning['relation'].any? { |rel| rel['type'] == 'antonym' && rel['status'] != 'hidden' }
             h4 = I18n.t("entry.antonyms")
             .row.row--start.translation-group-sign
@@ -294,8 +292,8 @@
                 .col.col--2.col--precise
                   .video.video--small
                     .video__content
-                        video.video-link width="100%" onmouseover="this.play()" onmouseout=""  data-url=(@search.to_s != ''? "#{@tran_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") poster="/thumb/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}"
-                          source src="https://files.dictio.info/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
+                      video.video-link width="100%" onmouseover="this.play()" onmouseout=""  data-url=(@search.to_s != ''? "#{@tran_path}/#{relid}" : "/#{rel['target']}/show/#{rel['entry']['id']}") poster="/thumb/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}"
+                        source src="https://files.dictio.info/video#{rel['target']}/#{rel['entry']['lemma']['video_front']}" type="video/mp4"
                     .video__controls
                       - if @search.to_s != ''
                         a.video__link href="#{@tran_path}/#{relid}"
