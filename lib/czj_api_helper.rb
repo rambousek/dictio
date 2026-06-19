@@ -112,4 +112,51 @@ module CzjApiHelper
     end
     result
   end
+  def self.reformat_report_write(_dict, data)
+    result = data.map do |entry|
+      lemma = entry['lemma'] || {}
+      grammar_note = (lemma['grammar_note'] || []).first || {}
+
+      meanings = (entry['meanings'] || []).map do |meaning|
+        relations = meaning['relation'] || []
+
+        translations = relations
+                         .select { |rel| rel['type'] == 'translation' }
+                         .map do |rel|
+          rel_entry = rel['entry'] || {}
+          rel_lemma = rel_entry['lemma'] || {}
+          {
+            'target' => rel['target'],
+            'meaning_id' => rel['meaning_id'],
+            'title' => rel_lemma['title'],
+            'video' => rel_lemma['video_front']
+          }
+        end
+
+        examples = (meaning['example'] || []).map do |ex|
+          {
+            'usage_id' => ex['id'],
+            'text' => ex.dig('text', '_text').to_s.gsub("\n", ' '),
+            'source' => ex.dig('text', 'source')
+          }
+        end
+
+        {
+          'meaning_id' => meaning['id'],
+          'definition' => meaning.dig('text', '_text').to_s.gsub("\n", ' '),
+          'definition_source' => meaning.dig('text', 'source'),
+          'usages' => examples,
+          'translations' => translations
+        }
+      end
+
+      {
+        'ID'       => entry['id'],
+        'lemma'    => lemma['title'],
+        'pos'      => grammar_note['@slovni_druh'].to_s,
+        'meanings' => meanings
+      }
+    end
+    result
+  end
 end

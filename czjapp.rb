@@ -769,11 +769,11 @@ class CzjApp < Sinatra::Base
     end
     get '/'+code+'/export' do
       content_type :json
+      data = reports.get_report(dict, params, @user_info)['entries']
       if $dict_info[code]['type'] == 'sign'
-        data = reports.get_report(dict, params, @user_info)['entries']
         result = CzjApiHelper.reformat_report_sign(dict, data)
       else
-        result = []
+        result = CzjApiHelper.reformat_report_write(dict, data)
       end
       result.to_json
     end
