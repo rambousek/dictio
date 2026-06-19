@@ -231,9 +231,13 @@ module CzjSearchMethods
             search_in = 'cs'
             search_in = @dict_info[dictcode]['search_in'] unless @dict_info[dictcode]['search_in'].nil?
             csl = [search]
-            search_cond = {'source_dict': search_in, 'entry_text': {'$regex': /(^| )#{search}/i}, 'target': dictcode}
-            $mongo['relation'].find(search_cond).each{|rl|
+            search_in_cond = {'source_dict': search_in, 'entry_text': {'$regex': /(^| )#{search}/i}, 'target': dictcode}
+            $mongo['relation'].find(search_in_cond).each{|rl|
               csl << rl['target_id']
+            }
+            search_in_cond = {'source_dict': dictcode, 'target': search_in, 'meaning_id': search}
+            $mongo['relation'].find(search_in_cond).each{|rl|
+              csl << rl['source_id']
             }
             search_cond = {'source_dict': dictcode, 'source_id': {'$in': csl}}
           else
