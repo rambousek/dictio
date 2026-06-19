@@ -236,7 +236,6 @@ module CzjSave
     #update relations cache
     Thread.new{ cache_relations(data, true) }
 
-    return true
+    true
   end
-
 end

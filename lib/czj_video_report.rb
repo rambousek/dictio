@@ -46,7 +46,7 @@ module CzjVideoReport
       report['entries'] << res
     }
     report['query'] = search_cond
-    return report
+    report
   end
 
   def export_videoreport(params)
@@ -95,7 +95,7 @@ module CzjVideoReport
       end
       report['entries'] << ri.join(';')
     }
-    return report['entries']
+    report['entries']
   end
 
 end

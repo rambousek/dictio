@@ -134,7 +134,7 @@ module CzjSearchMethods
         search_query = search_jedno
       end
       $stderr.puts search_query
-      return search_query
+      search_query
   end
 
   def search(dictcode, search, type, start=0, limit=nil, more_params=[])
@@ -177,7 +177,6 @@ module CzjSearchMethods
             end
             $stdout.puts search_cond
             cursor = @entrydb.find(search_cond, :sort => {'lemma.title'=>1})
-            fullcount = 0
             fullcount = cursor.count_documents
             cursor.each{|re|
               if more_params['slovni_druh'].to_s == '' and more_params['oblast'].to_s == '' and more_params['stylpriznak'].to_s == ''
@@ -302,7 +301,7 @@ module CzjSearchMethods
     else
       return {'count' => 0, 'entries' => []}
     end
-    return {'count'=> resultcount, 'entries'=> res, 'is_edit'=> ($is_edit or $is_admin)}
+    { 'count'=> resultcount, 'entries'=> res, 'is_edit'=> ($is_edit or $is_admin)}
   end
 
   def translate2(source, target, search, type, start=0, limit=nil, more_params={})
@@ -388,7 +387,7 @@ module CzjSearchMethods
     cursor.each{|entry|
       res << entry
     }
-    return {'count'=> resultcount, 'relations'=> res}
+    { 'count'=> resultcount, 'relations'=> res}
   end
 
 end

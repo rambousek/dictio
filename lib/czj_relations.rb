@@ -1,7 +1,6 @@
 # Managing relations between entries/meanings: add/remove, lookup, caching of denormalized relation data.
 module CzjRelations
-  def remove_relation(dict, rel_meaning, rel_target_id, rel_type, rel_dict)
-    rel_type = 'synonym' if rel_type == 'synonym_strategie'
+  def remove_relation(dict, rel_meaning, rel_target_id, _rel_type, rel_dict)
     query = {'dict'=>dict, '$or'=>[{'meanings.id'=>rel_target_id}, {'meanings.usages.id'=>rel_target_id}]}
     @entrydb.find(query).each{|doc|
       doc['meanings'].each{|mean|
@@ -73,10 +72,10 @@ module CzjRelations
     doc = getone(@dictcode, entryid)
     if doc
       doc['lemma']['homonym'] = [] if doc['lemma']['homonym'].nil?
-      if not doc['lemma']['homonym'].include?(homonym)
+      unless doc['lemma']['homonym'].include?(homonym)
         doc['lemma']['homonym'] << homonym
-        $stdout.puts 'add homonym to target '+entryid + ':' + homonym
-        @entrydb.find({'dict'=>doc['dict'], 'id'=>doc['id']}).delete_many
+        $stdout.puts 'add homonym to target ' + entryid + ':' + homonym
+        @entrydb.find({ 'dict' => doc['dict'], 'id' => doc['id'] }).delete_many
         @entrydb.insert_one(doc)
       end
     end
@@ -93,10 +92,10 @@ module CzjRelations
         if doc['lemma'][type+'_note'][0]['variant'].nil?
           doc['lemma'][type+'_note'][0]['variant'] = []
         end
-        if not doc['lemma'][type+'_note'][0]['variant'].any?{|var| var['_text'] == origin_media}
-          doc['lemma'][type+'_note'][0]['variant'] << {'_text' => origin_media}
-          $stdout.puts 'add variant to entry '+ doc['id'].to_s+ ':' + origin_media.to_s + ' ' + type.to_s
-          @entrydb.find({'dict'=>doc['dict'], 'id'=>doc['id']}).delete_many
+        unless doc['lemma'][type + '_note'][0]['variant'].any? { |var| var['_text'] == origin_media }
+          doc['lemma'][type + '_note'][0]['variant'] << { '_text' => origin_media }
+          $stdout.puts 'add variant to entry ' + doc['id'].to_s + ':' + origin_media.to_s + ' ' + type.to_s
+          @entrydb.find({ 'dict' => doc['dict'], 'id' => doc['id'] }).delete_many
           @entrydb.insert_one(doc)
         end
       }
@@ -221,7 +220,7 @@ module CzjRelations
         }
       end
     end
-    return list.uniq.sort_by{|x| [x['title'], x['number'].to_i]}
+    list.uniq.sort_by{|x| [x['title'], x['number'].to_i]}
   end
 
   def find_link(search)
@@ -302,7 +301,7 @@ module CzjRelations
         }
       end
     end
-    return list.sort_by{|x| [x['title'], x['label'].to_i]}
+    list.sort_by{|x| [x['title'], x['label'].to_i]}
   end
 
   def get_relation_info(meaning_id)
@@ -314,7 +313,7 @@ module CzjRelations
         return 'V:'+data['lemma']['video_front'].to_s
       end
     end
-    return ''
+    ''
   end
 
   def get_relations(meaning_id, type, user_info=nil)
@@ -340,7 +339,7 @@ module CzjRelations
         end
       }
     end
-    return list
+    list
   end
 
   # remove all relations to entry
@@ -387,13 +386,12 @@ module CzjRelations
     @entrydb.find({'dict': @dictcode, '$or': [{'meanings.relation': {'$exists': true}}, {'meanings.usages.relation': {'$exists': true}}]}).each{|entry|
       count['inserted'] += cache_relations(entry)
     }
-    return count
+    count
   end
 
   def cache_relations_entry(dict, entry_id)
     entry = getone(dict, entry_id)
-    count = cache_relations(entry, true)
-    return count
+    cache_relations(entry, true)
   end
 
   def cache_relations(entry, cache_related=false)
@@ -569,7 +567,7 @@ module CzjRelations
       }
     end
 
-    return count
+    count
   end
 
 end
