@@ -231,9 +231,13 @@ module CzjSearchMethods
             search_in = 'cs'
             search_in = @dict_info[dictcode]['search_in'] unless @dict_info[dictcode]['search_in'].nil?
             csl = [search]
-            search_cond = {'source_dict': search_in, 'entry_text': {'$regex': /(^| )#{search}/i}, 'target': dictcode}
-            $mongo['relation'].find(search_cond).each{|rl|
+            search_in_cond = {'source_dict': search_in, 'entry_text': {'$regex': /(^| )#{search}/i}, 'target': dictcode}
+            $mongo['relation'].find(search_in_cond).each{|rl|
               csl << rl['target_id']
+            }
+            search_in_cond = {'source_dict': dictcode, 'target': search_in, 'meaning_id': search}
+            $mongo['relation'].find(search_in_cond).each{|rl|
+              csl << rl['source_id']
             }
             search_cond = {'source_dict': dictcode, 'source_id': {'$in': csl}}
           else
@@ -350,12 +354,19 @@ module CzjSearchMethods
           search_conds = []
           search_conds << {'source_dict': source, 'entry_text': {'$regex': /(^| )#{search}/i}, 'target': target}
           search_conds << {'source_dict': target, 'meaning_id': {'$regex': /(^| )#{search}/i}, 'target': source}
+          if more_params['slovni_druh'].to_s != ''
+            search_conds[0]['target_pos'] = more_params['slovni_druh'].to_s
+            search_conds[1]['source_pos'] = more_params['slovni_druh'].to_s
+          end
           search_cond = {'$or': search_conds,}
         else
           search_in = 'cs'
           search_in = @dict_info[dictcode]['search_in'] unless @dict_info[dictcode]['search_in'].nil?
           csl = [search]
           search_cond = {'source_dict': search_in, 'entry_text': {'$regex': /(^| )#{search}/i}, 'target': dictcode}
+          if more_params['slovni_druh'].to_s != ''
+            search_cond['target_pos'] = more_params['slovni_druh'].to_s
+          end
           $mongo['relation'].find(search_cond).each{|rl|
             csl << rl['target_id']
           }
@@ -366,9 +377,6 @@ module CzjSearchMethods
     when 'key'
       search_cond = {'source_dict': dictcode, 'target': target, 'type': 'translation', '$or': get_key_search(search, 'source_sw')}
       collate = {:collation => {'locale' => 'cs', 'numericOrdering'=>true}, :sort => {'sort_key' => -1}}
-    end
-    if more_params['slovni_druh'].to_s != ''
-      search_cond['target_pos'] = more_params['slovni_druh'].to_s
     end
     if more_params['oblast'].to_s != ''
       search_cond['$and'] = [{'$or' => CzjSearchQuery.get_search_cond_oblast('target_region', more_params['oblast'])}]
