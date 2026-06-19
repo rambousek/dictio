@@ -143,12 +143,12 @@ class CzjDictSw < Object
                   $stdout.puts 'copy char '+swid+' ('+(match[1].to_i-1).to_s+':'+(match[2][0].ord-65).to_s+')'
                   if entry['collocations'] and entry['collocations']['entries']
                     unless entry['collocations']['entries'][match[1].to_i-1].nil?
-                      unless entry['collocations']['entries'][match[1].to_i-1]['lemma']['sw'].first.nil?
-                        entries_used << entry['collocations']['entries'][match[1].to_i-1]['id']
-                        entry['lemma']['swmix'] << entry['collocations']['entries'][match[1].to_i-1]['lemma']['sw'][match[2][0].ord-65].dup unless entry['collocations']['entries'][match[1].to_i-1]['lemma']['sw'][match[2][0].ord-65].nil?
+                      if entry['collocations']['entries'][match[1].to_i - 1]['lemma']['sw'].first.nil?
+                        entries_used << entry['collocations']['entries'][match[1].to_i - 1]['id']
+                        entry['lemma']['swmix'] << entry['collocations']['entries'][match[1].to_i - 1]['lemma']['swmix'][match[2][0].ord - 65].dup unless entry['collocations']['entries'][match[1].to_i - 1]['lemma']['swmix'][match[2][0].ord - 65].nil?
                       else
-                        entries_used << entry['collocations']['entries'][match[1].to_i-1]['id']
-                        entry['lemma']['swmix'] << entry['collocations']['entries'][match[1].to_i-1]['lemma']['swmix'][match[2][0].ord-65].dup unless entry['collocations']['entries'][match[1].to_i-1]['lemma']['swmix'][match[2][0].ord-65].nil?
+                        entries_used << entry['collocations']['entries'][match[1].to_i - 1]['id']
+                        entry['lemma']['swmix'] << entry['collocations']['entries'][match[1].to_i - 1]['lemma']['sw'][match[2][0].ord - 65].dup unless entry['collocations']['entries'][match[1].to_i - 1]['lemma']['sw'][match[2][0].ord - 65].nil?
                       end
                     end
                   end
