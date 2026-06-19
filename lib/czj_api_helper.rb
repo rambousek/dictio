@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module CzjApiHelper
-  def self.reformat_report_sign(data)
+  def self.reformat_report_sign(dict, data)
     result = data.map do |entry|
       lemma = entry['lemma'] || {}
       grammar_note = (lemma['grammar_note'] || []).first || {}
@@ -28,16 +28,15 @@ module CzjApiHelper
 
       main_videos = [lemma['video_front'], lemma['video_side']].compact
       more_media = []
-      media.each do |media_id, media_data|
+      files = dict.edit_media.get_entry_files(entry['id'])
+      files.each do |media_data|
         next unless media_data.is_a?(Hash)
 
-        type = media_data['type']
-        location = media_data['location']
-        if %w[sign_front sign_side].include?(type)
-          unless main_videos.include?(location) || variant_ids.include?(media_id.to_s)
+        if %w[sign_front sign_side].include?(media_data['type'])
+          unless main_videos.include?(media_data['location']) || variant_ids.include?(media_data['id'].to_s)
             more_media << {
-              'id' => media_id,
-              'video' => location
+              'id' => media_data['id'],
+              'video' => media_data['location']
             }
           end
         end

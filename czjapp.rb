@@ -771,7 +771,7 @@ class CzjApp < Sinatra::Base
       content_type :json
       if $dict_info[code]['type'] == 'sign'
         data = reports.get_report(dict, params, @user_info)['entries']
-        result = CzjApiHelper.reformat_report_sign(data)
+        result = CzjApiHelper.reformat_report_sign(dict, data)
       else
         result = []
       end
