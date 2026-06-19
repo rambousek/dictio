@@ -30,19 +30,19 @@ module CzjHistory
     result.each{|r_entry|
       report['entries'] << r_entry
     }
-    return report
+    report
   end
 
   def get_history(cid)
-    return $mongo['history'].find({'_id': BSON::ObjectId.from_string(cid)}).first
+    $mongo['history'].find({ '_id': BSON::ObjectId.from_string(cid)}).first
   end
 
   def history_prev(change)
-    return $mongo['history'].find({'dict': change['dict'], 'entry': change['entry'], '_id': {'$lt': BSON::ObjectId.from_string(change['_id'])}}).sort('_id':-1).limit(1).first
+    $mongo['history'].find({ 'dict': change['dict'], 'entry': change['entry'], '_id': { '$lt': BSON::ObjectId.from_string(change['_id'])}}).sort('_id':-1).limit(1).first
   end
 
   def history_next(change)
-    return $mongo['history'].find({'dict': change['dict'], 'entry': change['entry'], '_id': {'$gt': BSON::ObjectId.from_string(change['_id'])}}).sort('_id':1).limit(1).first
+    $mongo['history'].find({ 'dict': change['dict'], 'entry': change['entry'], '_id': { '$gt': BSON::ObjectId.from_string(change['_id'])}}).sort('_id':1).limit(1).first
   end
 
 end

@@ -54,7 +54,7 @@ module CzjImport
           eid = entry["id"]
           logfile.puts 'update entry ' + @dictcode + ' ' + eid.to_s 
         end
-        if not entry['lemma']['grammar_note']
+        unless entry['lemma']['grammar_note']
           entry['lemma']['grammar_note'] = []
         end
         if entry['lemma']['grammar_note'].length == 0
@@ -63,7 +63,7 @@ module CzjImport
         if info[2] != ""
           entry['lemma']['grammar_note'][0]['@slovni_druh'] = info[2]
         end
-        if not entry["meanings"]
+        unless entry["meanings"]
           entry["meanings"] = []
         end
         if info[3] != "" and info[3] =~ /[0-9]+-[0-9]+/
@@ -76,18 +76,18 @@ module CzjImport
               m['source'] = info[5].to_s
               if info[6].to_s != ""
                 new_usg = {"id" => m["id"].to_s+"_us0", "text" => {"_text" => info[6].to_s}, "source" => info[7].to_s}
-                if not m['usages']
+                unless m['usages']
                   m['usages'] = []
                 end
                 m['usages'].push(new_usg)
               end
             end
           }
-          if not found_mean
-            new_mean = {"id" => info[3].to_s, "number" => info[3].to_s.split("-")[1], "text" => {"_text" => info[4].to_s}, "source" => info[5].to_s, "usages" => []}
+          unless found_mean
+            new_mean = { "id" => info[3].to_s, "number" => info[3].to_s.split("-")[1], "text" => { "_text" => info[4].to_s }, "source" => info[5].to_s, "usages" => [] }
             new_mean["updated_at"] = Time.now.strftime("%Y-%m-%d %H:%M:%S")
             if info[6].to_s != ""
-              new_usg = {"id" => info[3].to_s+"_us0", "text" => {"_text" => info[6].to_s}, "source" => info[7].to_s}
+              new_usg = { "id" => info[3].to_s + "_us0", "text" => { "_text" => info[6].to_s }, "source" => info[7].to_s }
               new_mean["usages"].push(new_usg)
             end
             entry["meanings"].push(new_mean)
@@ -131,7 +131,7 @@ module CzjImport
       gotmeta = true
       fmeta = File.open(File.join(dir, 'meta.csv'))
       fmeta.each{|lm|
-        ma = lm.strip.split(/[;]/)
+        ma = lm.strip.split(';')
         mrow = {}
         mrow['eid'] = ma[0] if ma[0].to_s != ''
         mrow['orient'] = ma[3] if ma[3].to_s != ''
@@ -176,7 +176,7 @@ module CzjImport
         importfiles << data
       end
     }
-    return importfiles.sort{|a,b| [a['label'], a['filename']] <=> [b['label'], b['filename']]}, gotmeta
+    [importfiles.sort { |a, b| [a['label'], a['filename']] <=> [b['label'], b['filename']] }, gotmeta]
   end
 
   def import_run(data, targetdict, not_createrel, user, logid)
@@ -225,7 +225,7 @@ module CzjImport
       media['location'] = h['file'].strip
       media['original_file_name'] = h['file'].strip
       media['label'] = h['label'].to_s
-      case h['file'][0] 
+      case h['file'][0]
       when 'A'
         media['type'] = 'sign_front'
         media['main_for_entry'] = sign[h['label'].strip]['id']
@@ -239,7 +239,9 @@ module CzjImport
       when 'G'
         media['type'] = 'sign_grammar'
       when 'S'
-        media['type'] = 'sign_style'                
+        media['type'] = 'sign_style'
+      else
+        media['type'] = ''
       end
       media['status'] = 'hidden'
       media['orient'] = 'P'
@@ -302,12 +304,12 @@ module CzjImport
     sign_to_delete = []
     sign.each{|_, h|
       next if sign_to_delete.member?(h['id'])
-      if not h['new']
+      unless h['new']
         entry = getdoc(h['id'])
         if entry == {}
-          h['new'] = true 
+          h['new'] = true
         else
-          logfile.puts 'update entry ' + data['srcdict'] + ' ' + h['id'].to_s 
+          logfile.puts 'update entry ' + data['srcdict'] + ' ' + h['id'].to_s
           sign_to_delete << h['id']
         end
       end
@@ -331,7 +333,7 @@ module CzjImport
       h['video'].sort.each{|f|
         mid = 0
         uid = 0
-        case f[0] 
+        case f[0]
         when 'A'
           entry['lemma']['video_front'] = f
         when 'B'
@@ -361,10 +363,12 @@ module CzjImport
             'created_at' => Time.now.strftime("%Y-%m-%d %H:%M:%S"),
             'text' => {'file' => {'@media_id' => videos[f].to_s}}
           }
-          if not entry['meanings'][0].has_key?('usages')
+          unless entry['meanings'][0].has_key?('usages')
             entry['meanings'][0]['usages'] = []
           end
           entry['meanings'][0]['usages'] << newu
+        else
+          # type code here
         end
       }
 
