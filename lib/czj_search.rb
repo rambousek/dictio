@@ -387,6 +387,8 @@ module CzjSearchMethods
     if not $is_edit and not $is_admin
       search_cond['status'] = 'published'
     end
+    # exclude usage-usage rels
+    search_cond['$nor'] = [{'meaning_id' => {'$regex' => /_us/}, 'source_usage_id' => {'$exists' => true}}]
     $stderr.puts search_cond
     cursor = $mongo['relation'].find(search_cond, collate)
     resultcount = cursor.count_documents
