@@ -477,6 +477,8 @@ data = [
   { 'value': 'translation_ogs', 'text': locale[lang].rel_trans_ogs },
   { 'value': 'translation_uk', 'text': locale[lang].rel_trans_uk },
   { 'value': 'translation_uzm', 'text': locale[lang].rel_trans_uzm },
+  { 'value': 'translation_es', 'text': locale[lang].rel_trans_es },
+  { 'value': 'translation_lse', 'text': locale[lang].rel_trans_lse },
   { 'value': 'synonym', 'text': locale[lang].rel_syn },
   /*{'value': 'synonym_strategie', 'text':locale[lang].rel_strat},*/
   { 'value': 'antonym', 'text': locale[lang].rel_ant },
@@ -499,6 +501,8 @@ data = [
   { 'value': 'translation_ogs', 'text': locale[lang].rel_trans_ogs },
   { 'value': 'translation_uk', 'text': locale[lang].rel_trans_uk },
   { 'value': 'translation_uzm', 'text': locale[lang].rel_trans_uzm },
+  { 'value': 'translation_es', 'text': locale[lang].rel_trans_es },
+  { 'value': 'translation_lse', 'text': locale[lang].rel_trans_lse },
 ];
 data = data.filter(val => val.value != 'translation_' + dictcode);
 var extypeStore = Ext.create('Ext.data.Store', {
