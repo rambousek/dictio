@@ -17,6 +17,8 @@ de:
     ogs: "ÖGS"
     asl: "ASL"
     uzm: "УЖМ"
+    es: "Spanish"
+    lse: "LSE"
   dict_menu:
     cs: "Tschechisch"
     sj: "Slowakisch"
@@ -30,6 +32,8 @@ de:
     asl: "ASL"
     uzm: "УЖМ"
     istrael: "Istraeli SL"
+    es: "Spanish"
+    lse: "LSE"
   dict_search:
     cs: "Tschechisch"
     sj: "Slowakisch"
@@ -42,6 +46,8 @@ de:
     ogs: "ÖGS"
     asl: "ASL"
     uzm: "УЖМ"
+    es: "Spanish"
+    lse: "LSE"
   dict_cite_1:
     cs: "češtiny"
     sj: "slovenštiny"

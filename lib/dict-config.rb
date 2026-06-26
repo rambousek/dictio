@@ -14,5 +14,7 @@ $dict_info = {
   'ogs' => {'type' => 'sign', 'label'=>'OGS', 'search_in'=>'de', 'target'=>'de', 'pos'=>pos_sign, 'stylpriznak'=>stylpriznak_sign},
   'uk' => {'type' => 'write', 'label'=>'українська', 'target'=>'uzm', 'pos'=>pos_write, 'stylpriznak'=>stylpriznak_write},
   'uzm' => {'type' => 'sign', 'label'=>'УЖМ', 'search_in'=>'uk', 'target'=>'uk', 'pos'=>pos_sign, 'stylpriznak'=>stylpriznak_sign},
+  'es' => {'type' => 'write', 'label'=>'español', 'target'=>'lse', 'pos'=>pos_write, 'stylpriznak'=>stylpriznak_write},
+  'lse' => {'type' => 'sign', 'label'=>'LSE', 'search_in'=>'es', 'target'=>'es', 'pos'=>pos_sign, 'stylpriznak'=>stylpriznak_sign},
 }
 $fsw_style = '-CG_white_'
