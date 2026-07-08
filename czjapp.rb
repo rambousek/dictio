@@ -17,7 +17,11 @@ require 'yabeda/prometheus'
 require 'resolv'
 
 require_relative 'lib/czj'
-require_relative 'lib/host-config'
+if ENV['RACK_ENV'] == 'test'
+  require_relative 'test/host-config'
+else
+  require_relative 'lib/host-config'
+end
 require_relative 'lib/dict-config'
 require_relative 'lib/czj_fsw'
 require_relative 'lib/czj_comment'

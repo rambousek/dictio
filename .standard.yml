@@ -2,3 +2,4 @@ ruby_version: 3.3
 ignore:
   - "public/**/*"
   - "lib/host-config.rb"
+  - "test/host-config.rb"
