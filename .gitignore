@@ -2,3 +2,4 @@ lib/host-config.rb
 logs/
 tmp/
 .idea/
+CLAUDE.local.md
