@@ -171,57 +171,61 @@ function onLoadSearchResult() {
     }
   });
 
-  /* load revcolloc */
-  $('.revcolloc-headline').click(function(event) {
-    $('#revcolloc').empty();
-    $('.revcolloc-headline').addClass('waiting');
-    var load_url = $('.revcolloc-headline').data('url');
-    $.get(load_url, function(response) {
-      $('#revcolloc').append(response);
-      $('.revcolloc-headline').removeClass('waiting');
-      $("#revcolloc .dropdown__item__name").click(function(e) {
-        $(this).parent().hasClass("is-open") ? ($(this).next(".dropdown__item__detail").slideUp(200), $(this).parent().removeClass("is-open")) : ($(this).next(".dropdown__item__detail").slideDown(200), $(this).parent().addClass("is-open"))
-      });
-    });
-  });
-
-  /* load revderivat */
-  $('.revderivat-headline').click(function(event) {
-    $('#revderivat').empty();
-    $('.revderivat-headline').addClass('waiting');
-    var load_url = $('.revderivat-headline').data('url');
-    $.get(load_url, function(response) {
-      $('#revderivat').append(response);
-      $('.revderivat-headline').removeClass('waiting');
-      $("#revderivat .dropdown__item__name").click(function(e) {
-        $(this).parent().hasClass("is-open") ? ($(this).next(".dropdown__item__detail").slideUp(200), $(this).parent().removeClass("is-open")) : ($(this).next(".dropdown__item__detail").slideDown(200), $(this).parent().addClass("is-open"))
-      });
-    });
-  });
-
-  /* load revkompozitum */
-  $('.revkompozitum-headline').click(function(event) {
-    $('#revkompozitum').empty();
-    $('.revkompozitum-headline').addClass('waiting');
-    var load_url = $('.revkompozitum-headline').data('url');
-    $.get(load_url, function(response) {
-      $('#revkompozitum').append(response);
-      $('.revkompozitum-headline').removeClass('waiting');
-      $("#revkompozitum .dropdown__item__name").click(function(e) {
-        $(this).parent().hasClass("is-open") ? ($(this).next(".dropdown__item__detail").slideUp(200), $(this).parent().removeClass("is-open")) : ($(this).next(".dropdown__item__detail").slideDown(200), $(this).parent().addClass("is-open"))
+  /* load reverse collocation/derivative/compound lists */
+  ['revcolloc', 'revderivat', 'revkompozitum'].forEach(function(name) {
+    $('.'+name+'-headline').click(function(event) {
+      $('#'+name).empty();
+      $('.'+name+'-headline').addClass('waiting');
+      var load_url = $('.'+name+'-headline').data('url');
+      $.get(load_url, function(response) {
+        $('#'+name).append(response);
+        $('.'+name+'-headline').removeClass('waiting');
+        $('#'+name+' .dropdown__item__name').click(toggleDropdownItem);
       });
     });
   });
 
   addSearchLinks();
-  //activate video links
-  $('.video-link').on('click', function(event) {
-    event.preventDefault();
-    if ($(this).data('url') && $(this).data('url') != "") {
-      window.location = $(this).data('url');
-    } else {
-      loadSearchResult(this);
-    }
+}
+
+function toggleDropdownItem() {
+  if ($(this).parent().hasClass('is-open')) {
+    $(this).next('.dropdown__item__detail').slideUp(200);
+    $(this).parent().removeClass('is-open');
+  } else {
+    $(this).next('.dropdown__item__detail').slideDown(200);
+    $(this).parent().addClass('is-open');
+  }
+}
+
+/* keyboard search: clear selected keys and entered codes */
+function resetKeyboardInput() {
+  let keyboard_expr = $('.keyboard-target .expression');
+  keyboard_expr.val('');
+  keyboard_expr.data('codes_hand', '');
+  keyboard_expr.data('codes_place', '');
+  keyboard_expr.data('codes_two', '');
+  keyboard_expr.data('places', '');
+  keyboard_expr.data('hands', '');
+  keyboard_expr.data('two', '');
+  $('.js-key').removeClass('js-key-selected');
+}
+
+/* keyboard search: show the image for a selected key */
+function appendKeyImage(type, hand) {
+  var src = {
+    hand: '/img/keys/Hand_'+hand+'.png',
+    place: '/img/keys/'+hand+'.jpg',
+    two: '/img/keys_dark/'+hand+'.png'
+  }[type];
+  $('.keyboard-target .keyboard-images').append('<img data-type="'+type+'" data-hand="'+hand+'" src="'+src+'"/>');
+}
+
+/* keyboard search: click on selected image to delete */
+function activateKeyImageDelete() {
+  $('.keyboard-images img').on("click", function() {
+    var path = '.keyboard-target .keyboard .buttons-'+$(this).data('type')+' button[data-hand='+$(this).data('hand')+']';
+    $(path).trigger('click');
   });
 }
 
@@ -280,8 +284,8 @@ $( document ).ready(function() {
     change_trans_pos_list();
   });
 
-  /* clickable video */
-  $('.video-link').on('click', function(event) {
+  /* clickable video (delegated so it also works for results loaded via AJAX) */
+  $(document).on('click', '.video-link', function(event) {
     event.preventDefault();
     if ($(this).data('url') && $(this).data('url') !== "") {
       window.location = $(this).data('url');
@@ -334,15 +338,7 @@ $( document ).ready(function() {
       $('.search-alt .expression').show();
       $('.search-alt .keyboard-images').hide();
       $('.keyboard').hide();
-      let target_expr = $('.keyboard-target .expression');
-      target_expr.val('');
-      target_expr.data('codes_hand', '');
-      target_expr.data('codes_place', '');
-      target_expr.data('codes_two', '');
-      target_expr.data('places', '');
-      target_expr.data('hands', '');
-      target_expr.data('two', '');
-      $('.js-key').removeClass('js-key-selected');
+      resetKeyboardInput();
     }
   });
   $('.search .select-items div').on('click', function(event) {
@@ -351,15 +347,7 @@ $( document ).ready(function() {
       $('.search .expression').show();
       $('.search .keyboard-images').hide();
       $('.keyboard').hide();
-      let target_expr = $('.keyboard-target .expression');
-      target_expr.val('');
-      target_expr.data('codes_hand', '');
-      target_expr.data('codes_place', '');
-      target_expr.data('codes_two', '');
-      target_expr.data('places', '');
-      target_expr.data('hands', '');
-      target_expr.data('two', '');
-      $('.js-key').removeClass('js-key-selected');
+      resetKeyboardInput();
     }
   });
 
@@ -394,17 +382,17 @@ $( document ).ready(function() {
         if ($(this).parent().hasClass('buttons-hand')) {
           codes_hand = codes_hand.concat($(this).data('key').split(','));
           hands.push($(this).data('hand'));
-          $('.keyboard-target .keyboard-images').append('<img data-type="hand" data-hand="'+$(this).data('hand')+'" src="/img/keys/Hand_'+$(this).data('hand')+'.png"/>');
+          appendKeyImage('hand', $(this).data('hand'));
         }
         if ($(this).parent().hasClass('buttons-place')) {
           codes_place = codes_place.concat($(this).data('key').split(','));
           places.push($(this).data('hand'));
-          $('.keyboard-target .keyboard-images').append('<img data-type="place" data-hand="'+$(this).data('hand')+'" src="/img/keys/'+$(this).data('hand')+'.jpg"/>');
+          appendKeyImage('place', $(this).data('hand'));
         }
         if ($(this).parent().hasClass('buttons-two')) {
           codes_two = codes_two.concat($(this).data('key').split(','));
           two.push($(this).data('hand'));
-          $('.keyboard-target .keyboard-images').append('<img data-type="two" data-hand="'+$(this).data('hand')+'" src="/img/keys_dark/'+$(this).data('hand')+'.png"/>');
+          appendKeyImage('two', $(this).data('hand'));
         }
       });
       let keyboard_expr = $('.keyboard-target .expression');
@@ -422,28 +410,15 @@ $( document ).ready(function() {
         keyboard_expr.val(codes_hand.join(',')+'|'+codes_place.join(',')+'|'+codes_two.join(','));
         $('.keyboard-target .keyboard-images').show();
         keyboard_expr.hide();
-
-        //click on selected image to delete
-        $('.keyboard-images img').on("click", function() {
-          var path = '.keyboard-target .keyboard .buttons-'+$(this).data('type')+' button[data-hand='+$(this).data('hand')+']';
-          $(path).trigger('click');
-        });
+        activateKeyImageDelete();
       }
     });
 
     //delete all key
     $('.js-key-back').on('click', function (event) {
       $('.keyboard-target .keyboard-images').hide();
-      let keyboard_expr = $('.keyboard-target .expression');
-      keyboard_expr.val('');
-      keyboard_expr.show();
-      keyboard_expr.data('codes_hand', '');
-      keyboard_expr.data('codes_place', '');
-      keyboard_expr.data('codes_two', '');
-      keyboard_expr.data('places', '');
-      keyboard_expr.data('hands', '');
-      keyboard_expr.data('two', '');
-      $('.js-key').removeClass('js-key-selected');
+      $('.keyboard-target .expression').show();
+      resetKeyboardInput();
     });
 
     // switch keyboard tabs
@@ -478,21 +453,21 @@ $( document ).ready(function() {
       $('.keyboard .buttons-hand button').each(function() {
         if (codes_hand.includes($(this).data('key'))) {
           hands.push($(this).data('hand'));
-          $('.keyboard-target .keyboard-images').append('<img data-type="hand" data-hand="'+$(this).data('hand')+'" src="/img/keys/Hand_'+$(this).data('hand')+'.png"/>');
+          appendKeyImage('hand', $(this).data('hand'));
           $(this).addClass('js-key-selected');
         }
       });
       $('.keyboard .buttons-place button').each(function() {
         if (codes_place.includes($(this).data('key'))) {
           places.push($(this).data('hand'));
-          $('.keyboard-target .keyboard-images').append('<img data-type="place" data-hand="'+$(this).data('hand')+'" src="/img/keys/'+$(this).data('hand')+'.jpg"/>');
+          appendKeyImage('place', $(this).data('hand'));
           $(this).addClass('js-key-selected');
         }
       });
       $('.keyboard .buttons-two button').each(function() {
         if (codes_two.includes($(this).data('key'))) {
           two.push($(this).data('hand'));
-          $('.keyboard-target .keyboard-images').append('<img data-type="two" data-hand="'+$(this).data('hand')+'" src="/img/keys_dark/'+$(this).data('hand')+'.png"/>');
+          appendKeyImage('two', $(this).data('hand'));
           $(this).addClass('js-key-selected');
         }
       });
@@ -500,12 +475,7 @@ $( document ).ready(function() {
       $('.keyboard-target .expression').data('places', places.join(','));
       $('.keyboard-target .expression').data('two', two.join(','));
       $('.keyboard-target .expression').hide();
-
-      //click on selected image to delete
-      $('.keyboard-images img').on("click", function() {
-        var path = '.keyboard-target .keyboard .buttons-'+$(this).data('type')+' button[data-hand='+$(this).data('hand')+']';
-        $(path).trigger('click');
-      });
+      activateKeyImageDelete();
     }
   }
 
@@ -520,7 +490,6 @@ $( document ).ready(function() {
     if ($('.search-results-sign').length) {
       current_count = $('.search-results-sign > div').length;
     }
-    console.log(current_count)
     if (current_count < total_results) {
       var search_path = $('.load_next_search').data('search');
       var dict = search_path.split('/')[1];
@@ -578,15 +547,6 @@ $( document ).ready(function() {
         if (current_count >= total_results) {
           $('.load_next_search').hide();
         }
-        //activate video links
-        $('.video-link').on('click', function(event) {
-          event.preventDefault();
-          if ($(this).data('url') && $(this).data('url') != "") {
-            window.location = $(this).data('url');
-          } else {
-            loadSearchResult(this);
-          }
-        });
       });
     }
   });
@@ -597,13 +557,11 @@ $( document ).ready(function() {
     trans_button.addClass('waiting');
     let current_count;
     current_count = $('.translate-results > div.translate-box').length;
-    console.log(current_count);
     let search_path = trans_button.data('search');
     let search_url = search_path.replace('/translate/', '/translatelist/') + '/' + current_count + '/9';
     if (trans_button.data('urlparams') != '') {
       search_url += '?' + trans_button.data('urlparams');
     }
-    console.log(search_url)
     $.get(search_url, function(response) {
       $('.translate-results').append(response);
     }).always(function() {
@@ -635,11 +593,6 @@ $( document ).ready(function() {
       if (maxcount === 0 || maxcount === "") {
         $('#no-search-results').show();
       }
-      //activate video links
-      $('.video-link').on('click', function(event) {
-        event.preventDefault();
-        window.location = $(this).data('url');
-      });
     });
   });
 
@@ -652,6 +605,9 @@ $( document ).ready(function() {
   }
 
   onLoadSearchResult();
+
+  // run translation on document load
+  $('.load_next_trans').click();
 });
 
 // load search result entry
@@ -659,7 +615,6 @@ function loadSearchResult(ev) {
   let entryid = ev.getAttribute('data-entryid');
   let dict = ev.getAttribute('data-dict');
   let url = ev.getAttribute('href');
-  console.log(url)
   window.history.pushState({}, '', url); //add entry url to browser history
   $.get('/'+dict+'/searchentry/'+entryid, function(response) {
     $('.entry-content').html(response);
@@ -709,11 +664,6 @@ function addSearchLinks() {
   }
 }
 
-// run translation on document load
-$( document ).ready(function() {
-  $('.load_next_trans').click();
-});
-
 // add class on scroll for mobile search
 window.onscroll = function() {
   if ($('main.homepage').length === 0) {
@@ -739,19 +689,6 @@ function showhide(id) {
      e.style.display = 'none';
   else
      e.style.display = 'block';
-}
-
-var showhide_obj=NULL;
-
-function showhide2(id) {
-  var e = document.getElementById(id);
-  if(showhide_obj!=NULL)
-     showhide_obj.style.display="none";
-  if(e.style.display == 'block')
-     e.style.display = 'none';
-  else
-     e.style.display = 'block';
-  showhide_obj = e;
 }
 
 function citaceGen() { /* funkce předávající hodnoty ze stránky pro citace */
