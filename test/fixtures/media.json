@@ -1,0 +1,36 @@
+[
+  {
+    "id": "11625",
+    "dict": "czj",
+    "location": "A_velryba1.mp4",
+    "original_file_name": "A_velryba1.mp4",
+    "id_meta_copyright": "Teiresiás OZZ",
+    "id_meta_author": "Teiresiás MUNI 4.0",
+    "id_meta_source": "LANGER, J. a kol. Znaková zásoba českého znakového jazyka k rozšiřujícímu studiu surdopedie se zaměřením na znakový jazyk (1., 2., 3., 4. díl). 2. doplněné vydání, Olomouc: Univerzita Palackého, 2005",
+    "status": "published",
+    "label": "velryba==A",
+    "type": "sign_front",
+    "created_at": "2020-01-08 19:26:02",
+    "orient": "lr",
+    "entry_folder": [
+      "10000"
+    ]
+  },
+  {
+    "id": "12381",
+    "dict": "czj",
+    "location": "A_horska_sluzba1.mp4",
+    "original_file_name": "A_horska_sluzba1.mp4",
+    "id_meta_copyright": "Teiresiás OZZ",
+    "id_meta_author": "Teiresiás MUNI 4.0",
+    "id_meta_source": "",
+    "status": "published",
+    "label": "horska-sluzba==A",
+    "type": "sign_front",
+    "created_at": "2019-12-18 12:14:50",
+    "orient": "lr",
+    "entry_folder": [
+      "10552"
+    ]
+  }
+]

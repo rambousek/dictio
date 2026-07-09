@@ -1,0 +1,63 @@
+[
+  {
+    "id": "10000",
+    "dict": "czj",
+    "swmix": [
+      {
+        "@id": "4440",
+        "@fsw": "M537x530S15d01514x487S27103500x504S28b02463x471",
+        "@misto": "neutral",
+        "@author": "Teiresiás S2",
+        "@copyright": "MU, Středisko Teiresiás",
+        "@source": "",
+        "@admin": "",
+        "@primary": "false",
+        "_text": "8930(x51y16)_35428(x37y33)_37923"
+      }
+    ],
+    "entries_used": [
+      "10000"
+    ]
+  },
+  {
+    "id": "10552",
+    "dict": "czj",
+    "swmix": [
+      {
+        "@id": "",
+        "@fsw": "M543x549S15d12462x528S34400482x483S29a06508x534S29a36490x534",
+        "@misto": "neutral",
+        "@author": "Teiresiás S2",
+        "@copyright": "MU, Středisko Teiresiás",
+        "@source": "",
+        "@admin": "",
+        "@primary": false,
+        "_text": "8947(y45)_55681(x20)_39367(x46y51)_39415(x28y51)"
+      },
+      {
+        "@id": "",
+        "@fsw": "M540x575S15d39487x543S15d40497x548S34600482x483S21100514x546S27100500x526",
+        "@misto": "ruka",
+        "@author": "Teiresiás S2",
+        "@copyright": "MU, Středisko Teiresiás",
+        "@source": "",
+        "@admin": "",
+        "@primary": false,
+        "_text": "8986(x5y60)_8993(x15y65)_55873_26209(x32y63)_35425(x18y43)"
+      }
+    ],
+    "entries_used": [
+      "10552",
+      "17145",
+      "2909"
+    ]
+  },
+  {
+    "id": "41198",
+    "dict": "cs",
+    "swmix": [],
+    "entries_used": [
+      "41198"
+    ]
+  }
+]

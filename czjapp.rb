@@ -33,7 +33,7 @@ require_relative 'lib/czj_admin_duplicate'
 require_relative 'lib/czj_api_helper'
 
 class CzjApp < Sinatra::Base
-  $mongo = Mongo::Client.new($mongoHost)
+  $mongo = Mongo::Client.new($mongoHost) if $mongo.nil?
   $georeader = MaxMind::GeoIP2::Reader.new(
     database: '/usr/share/GeoIP/GeoLite2-Country.mmdb'
   )
