@@ -32,6 +32,12 @@ class EntryPagesTest < AppTest
     assert_includes last_response.body, e["lemma"]["video_front"]
   end
 
+  def test_public_pages_do_not_load_edit_tools_js
+    get "/"
+    assert_includes last_response.body, "/js/dictio.js"
+    refute_includes last_response.body, "edit-tools.js"
+  end
+
   def test_show_unknown_entry_renders_notfound
     get "/cs/show/99999999"
     assert_predicate last_response, :ok?
