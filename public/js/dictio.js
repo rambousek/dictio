@@ -359,6 +359,10 @@ $( document ).ready(function() {
   }
 
   if ($('.keyboard').length) {
+    // scripts.js (theme bundle) binds its own generic js-key handlers for a
+    // .js-key-target input that exists nowhere on this site; its back-key
+    // handler throws (undefined.slice) and blocks our handlers below.
+    $('.js-key, .js-key-back').off('click');
     $('.js-key').on('click', function (event) {
       event.preventDefault();
       // switch class
