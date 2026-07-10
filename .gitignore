@@ -3,3 +3,7 @@ logs/
 tmp/
 .idea/
 CLAUDE.local.md
+node_modules/
+.playwright-browsers/
+test-results/
+playwright-report/
