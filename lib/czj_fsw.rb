@@ -28,7 +28,7 @@ module CzjFsw
       doc = $mongo['symbol'].find({ 'id' => info['id'] }).first
       fsw += 'S' + doc['bs_code'].to_i.to_s(16) + (doc['fill'].to_i - 1).to_s(16) + (doc['rot'].to_i - 1).to_s(16) + (info['x'] + 500).to_s + 'x' + (info['y'] + 500).to_s
     }
-    URI.open('http://sign.dictio.info/fsw/sign/normalize/' + fsw, &:read) or ''
+    URI.open('https://sign.dictio.info/fsw/sign/normalize/' + fsw, &:read) or ''
   end
 
   # Convert FSW to SW

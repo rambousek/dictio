@@ -125,6 +125,8 @@ class CzjEditMedia < Object
         query['type'] = 'sign_grammar'
       when 'S'
         query['type'] = 'sign_style'
+      else
+        query['type'] = ''
       end
     end
 
@@ -154,6 +156,8 @@ class CzjEditMedia < Object
         query['type'] = 'sign_grammar'
       when 'S'
         query['type'] = 'sign_style'
+      else
+        query['type'] = ''
       end
 
       $mongo['media'].find(query).each{|re| list << re}
@@ -315,6 +319,6 @@ class CzjEditMedia < Object
     name.gsub!(')','')
     name.downcase!
 
-    [name + '==' + var, sense]
+    [name + '==' + var.to_s, sense]
   end
 end

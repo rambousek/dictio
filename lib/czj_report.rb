@@ -86,9 +86,7 @@ class CzjReport
       if params['nes_sw'].to_s != '' or params['bez_sw'].to_s != ''
         entry = dict.sw.get_sw(entry)
       end
-      if params['koment'].to_s != ''
-        entry = dict.add_media(entry)
-      end
+      entry = dict.add_media(entry)
       entry = dict.add_rels(entry, false, "translation")
       report['entries'] << entry
       entry_ids << res['id']

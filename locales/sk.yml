@@ -17,6 +17,8 @@ sk:
     ogs: "ÖGS"
     asl: "ASL"
     uzm: "УЖМ"
+    es: "Spanish"
+    lse: "LSE"
   dict_menu:
     cs: "češtiny"
     sj: "slovenčiny"
@@ -29,6 +31,8 @@ sk:
     ogs: "ÖGS"
     asl: "ASL"
     uzm: "УЖМ"
+    es: "Spanish"
+    lse: "LSE"
   dict_search:
     cs: "češtine"
     sj: "slovenčine"
@@ -41,6 +45,8 @@ sk:
     ogs: "ÖGS"
     asl: "ASL"
     uzm: "УЖМ"
+    es: "Spanish"
+    lse: "LSE"
   dict_cite_1:
     cs: "češtiny"
     sj: "slovenštiny"

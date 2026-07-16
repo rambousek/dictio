@@ -5,39 +5,37 @@ main role="main"
         article.col.col--2.col--start role="article"
           h1 style="color: white" #{I18n.t("menu.admin")} 
   .container
-      article.col.col--start role="article"
-         .row
-            aside.col.col--2.col--start.layout-aside-admin role="complementary"
-             
-            .col.col--2.col--start.layout-aside 
-              table
-                - @dict_info.each do |code, info|
-                  tr
-                    td 
-                      h2.btn class="btn-admin btn-#{code}" #{I18n.t("dict."+code)}: 
-                    td 
-                      a.btn class="btn--secondary" href="/#{code}/report" #{I18n.t("admin.reports")} (#{@lemma_counts[code]['entry_count']})
-                    td
-                      a.btn class="btn--round" href="https://edit.dictio.info/editor#{code}/?id=" #{I18n.t("admin.newentry2")} 
-                    td
-                      - if $dict_info[code] and $dict_info[code]['type'] == 'sign'
-                        a.btn class="btn--secondary" href="/#{code}/videoreport" #{I18n.t("admin.video")}
-                    td
-                      - if @duplicate['duplicate'].select{|info| info['code'] == code}[0] != nil 
-                        a.btn class="btn--secondary" href="https://admin.dictio.info/#{code}/duplicate" 
-                          | #{I18n.t("admin.dup")} 
-                          span style="color: red" (#{@duplicate['duplicate'].select{|info| info['code'] == code}[0]['count']})
-                    td
-                      - if @notrans_count[code] > 0
-                        a.btn class="btn--secondary" href="https://admin.dictio.info/#{code}/notrans"
-                          | #{I18n.t("admin.nolemma")}
-                          span style="color: red" (#{@notrans_count[code]})
-                    td
-                      a.btn class="btn--secondary" href="/admin/#{code}/comments?assign=#{@user_info['login']}" #{I18n.t('admin.commentreport.title')}
-                  tr 
-                    td                                     
-                    td (colspan=3)  
-                      | #{I18n.t("home.published")}: #{@lemma_counts[code]['entry_pub_count']}
-                  tr 
-                    td
-
+    article.col.col--start role="article"
+      .row
+        aside.col.col--2.col--start.layout-aside-admin role="complementary"
+        .col.col--2.col--start.layout-aside
+          table
+            - @dict_info.each do |code, info|
+              tr
+                td
+                  h2.btn class="btn-admin btn-#{code}" #{I18n.t("dict."+code)}:
+                td
+                  a.btn class="btn--secondary" href="/#{code}/report" #{I18n.t("admin.reports")} (#{@lemma_counts[code]['entry_count']})
+                td
+                  a.btn class="btn--round" href="https://edit.dictio.info/editor#{code}/?id=" #{I18n.t("admin.newentry2")}
+                td
+                  - if $dict_info[code] and $dict_info[code]['type'] == 'sign'
+                    a.btn class="btn--secondary" href="/#{code}/videoreport" #{I18n.t("admin.video")}
+                td
+                  - if @duplicate['duplicate'].select{|info| info['code'] == code}[0] != nil
+                    a.btn class="btn--secondary" href="https://admin.dictio.info/#{code}/duplicate"
+                      | #{I18n.t("admin.dup")}
+                      span style="color: red" (#{@duplicate['duplicate'].select{|info| info['code'] == code}[0]['count']})
+                td
+                  - if @notrans_count[code] > 0
+                    a.btn class="btn--secondary" href="https://admin.dictio.info/#{code}/notrans"
+                      | #{I18n.t("admin.nolemma")}
+                      span style="color: red" (#{@notrans_count[code]})
+                td
+                  a.btn class="btn--secondary" href="/admin/#{code}/comments?assign=#{@user_info['login']}" #{I18n.t('admin.commentreport.title')}
+              tr
+                td
+                td (colspan=3)
+                  | #{I18n.t("home.published")}: #{@lemma_counts[code]['entry_pub_count']}
+              tr
+                td

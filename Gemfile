@@ -21,3 +21,10 @@ gem "bigdecimal", "~> 3.2"
 gem "mail", "~> 2.8"
 gem "yabeda-puma-plugin"
 gem "yabeda-prometheus"
+
+group :development do
+  gem "standard", require: false
+  gem "rake", require: false
+  gem "minitest", require: false
+  gem "rack-test", require: false
+end

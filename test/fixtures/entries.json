@@ -1,0 +1,1100 @@
+[
+  {
+    "id": "3881",
+    "dict": "cs",
+    "lemma": {
+      "title": "vosk",
+      "title_dia": "vosk",
+      "title_var": "",
+      "pron": "",
+      "gram": {
+        "form": [
+          {
+            "@tag": "nPc1",
+            "_text": "vosky"
+          },
+          {
+            "@tag": "nPc2",
+            "_text": "vosků"
+          },
+          {
+            "@tag": "nPc3",
+            "_text": "voskům"
+          },
+          {
+            "@tag": "nPc4",
+            "_text": "vosky"
+          },
+          {
+            "@tag": "nPc5",
+            "_text": "vosky"
+          },
+          {
+            "@tag": "nPc6",
+            "_text": "voscích"
+          },
+          {
+            "@tag": "nPc7",
+            "_text": "vosky"
+          },
+          {
+            "@tag": "nSc1",
+            "_text": "vosk"
+          },
+          {
+            "@tag": "nSc2",
+            "_text": "vosku"
+          },
+          {
+            "@tag": "nSc3",
+            "_text": "vosku"
+          },
+          {
+            "@tag": "nSc4",
+            "_text": "vosk"
+          },
+          {
+            "@tag": "nSc5",
+            "_text": "vosku"
+          },
+          {
+            "@tag": "nSc6",
+            "_text": "vosku"
+          },
+          {
+            "@tag": "nSc7",
+            "_text": "voskem"
+          }
+        ]
+      },
+      "completeness": "",
+      "pracskupina": "",
+      "admin_comment": "0",
+      "status": "published",
+      "puvod": "",
+      "lemma_type": "single",
+      "created_at": "2013-01-25 17:22:38",
+      "updated_at": "2016-02-04 15:20:11",
+      "grammar_note": [
+        {
+          "@skupina": "",
+          "@slovni_druh": "subst",
+          "@flexe_neskl": "false",
+          "@source": "",
+          "@skupina2": "m",
+          "@status": "published",
+          "@author": "",
+          "@admin": ""
+        }
+      ],
+      "style_note": [
+        {
+          "@source": "",
+          "@status": "published",
+          "@author": "",
+          "@stylpriznak": "",
+          "@admin": "",
+          "@kategorie": ""
+        }
+      ]
+    },
+    "type": "write",
+    "meanings": [
+      {
+        "id": "3881-1",
+        "mid": "cs.3881-1",
+        "author": "",
+        "copyright": null,
+        "source": "",
+        "admin": "",
+        "style_region": null,
+        "oblast": "",
+        "pracskupina": "",
+        "number": "1",
+        "status": "published",
+        "category": [],
+        "created_at": "2013-01-25 17:22:38",
+        "updated_at": "2016-02-04 15:20:11",
+        "relation": [],
+        "usages": [
+          {
+            "id": "3881-1_us0",
+            "mid": "cs.3881-1_us0",
+            "author": "",
+            "copyright": null,
+            "source": "http://zpravy.rozhlas.cz/cb/serialy/_zprava/seznamte-se-s-pravymi-sumavskymi-vyrobky-1-az-50-dil--682647",
+            "admin": "https://the.sketchengine.co.uk/bonito/run.cgi/first?iquery=v%C4%8Del%C3%AD+vosk&corpname=preloaded%2Fcztenten12_8&corpus-search-form=true",
+            "text": {
+              "_text": "Výrobky ze včelího vosku jsou stoprocentně přírodní produkt."
+            },
+            "type": "sentence",
+            "updated_at": "2016-02-04 15:20:11",
+            "created_at": null,
+            "status": "published"
+          },
+          {
+            "id": "3881-1_us1",
+            "mid": "cs.3881-1_us1",
+            "author": "",
+            "copyright": null,
+            "source": "http://www.dobra-koupe.cz/zbozi.asp?idshop=2546&amp;from=40",
+            "admin": "https://the.sketchengine.co.uk/bonito/run.cgi/first?iquery=vosk&corpname=preloaded%2Fcztenten12_8&corpus-search-form=true",
+            "text": {
+              "_text": "Bavlněná šňůrka o tloušťce jednoho milimetru potažená voskem je vhodným základem pro váš originální šperk."
+            },
+            "type": "sentence",
+            "updated_at": "2016-02-04 15:20:11",
+            "created_at": null,
+            "status": "published"
+          },
+          {
+            "id": "3881-1_us2",
+            "mid": "cs.3881-1_us2",
+            "author": "",
+            "copyright": null,
+            "source": "http://www.pindici.cz/fashion/?clanek=58",
+            "admin": "https://the.sketchengine.co.uk/bonito/run.cgi/first?iquery=vosk&corpname=preloaded%2Fcztenten12_8&corpus-search-form=true",
+            "text": {
+              "_text": "K tomuto účesu ovšem nutně potřebujete péči žehličky na vlasy a vosk na vytvoření pramenů."
+            },
+            "type": "sentence",
+            "updated_at": "2016-02-04 15:20:11",
+            "created_at": null,
+            "status": "published"
+          },
+          {
+            "id": "3881-1_us3",
+            "mid": "cs.3881-1_us3",
+            "author": "",
+            "copyright": null,
+            "source": "upraveno http://www.zadov-vancouver2010.cz/?p=68",
+            "admin": "https://the.sketchengine.co.uk/bonito/run.cgi/view?q=q[lc%3D%22vosk%22|lemma_lc%3D%22vosk%22]&q=e100+;fromp=3;corpname=preloaded%2Fcztenten12_8&attrs=word&ctxattrs=word&structs=p%2Cg&refs=doc&gdex_enabled=1&gdexconf=&iquery=vosk&attr_tooltip=nott",
+            "text": {
+              "_text": "Na běh jsme dostali nové lyže z Norska, hole měl každý své, vosky na skluznice byly od finské firmy."
+            },
+            "type": "sentence",
+            "updated_at": "2016-02-04 15:20:11",
+            "created_at": null,
+            "status": "published"
+          }
+        ],
+        "text": {
+          "_text": "tuhá, teplem tvárná a na omak mastná látka organického původu nebo chemicky vyrobená"
+        }
+      }
+    ],
+    "collocations": {
+      "status": "published"
+    }
+  },
+  {
+    "id": "10000",
+    "dict": "czj",
+    "lemma": {
+      "video_front": "A_velryba1.mp4",
+      "video_side": "B_velryba1.mp4",
+      "media_folder_id": "5632",
+      "hamnosys": {
+        "@author": "",
+        "@source": "",
+        "@copyright": "",
+        "@admin": "",
+        "@status": "hidden"
+      },
+      "sw": [
+        {
+          "@id": "4440",
+          "@fsw": "M537x530S15d01514x487S27103500x504S28b02463x471",
+          "@misto": "neutral",
+          "@author": "Teiresiás S2",
+          "@copyright": "MU, Středisko Teiresiás",
+          "@source": "",
+          "@admin": "",
+          "@primary": "false",
+          "_text": "8930(x51y16)_35428(x37y33)_37923"
+        }
+      ],
+      "completeness": "0",
+      "pracskupina": "upol",
+      "admin_comment": "",
+      "status": "hidden",
+      "puvod": "",
+      "lemma_type": "single",
+      "created_at": "2014-02-10 14:34:52",
+      "updated_at": "2020-06-02 14:36:58",
+      "grammar_note": [
+        {
+          "@region": "cr",
+          "@author": "",
+          "@copyright": "",
+          "@source": "",
+          "@admin": "",
+          "@status": "published",
+          "@mluv_komp": "",
+          "@mluv_komp_sel": "",
+          "@oral_komp": " ",
+          "@oral_komp_sel": "",
+          "@slovni_druh": "",
+          "@skupina": "",
+          "@skupina2": "",
+          "@skupina3": ""
+        }
+      ],
+      "style_note": [
+        {
+          "@generace": "",
+          "@kategorie": "",
+          "@gender": "",
+          "@author": "",
+          "@copyright": "",
+          "@source": "",
+          "@admin": "",
+          "@status": "published"
+        }
+      ]
+    },
+    "type": "sign",
+    "meanings": [
+      {
+        "id": "10000-1",
+        "mid": "czj.10000-1",
+        "author": "",
+        "copyright": "",
+        "source": "",
+        "admin": "",
+        "style_region": "",
+        "oblast": null,
+        "pracskupina": "",
+        "number": "1",
+        "status": "hidden",
+        "category": [
+          null
+        ],
+        "created_at": "2014-02-10 14:34:52",
+        "updated_at": "2020-06-02 14:36:58",
+        "relation": [
+          {
+            "target": "cs",
+            "meaning_id": "skákat do vody",
+            "status": "hidden",
+            "type": "translation",
+            "mid": "cs.skákat do vody"
+          }
+        ],
+        "usages": [],
+        "text": {}
+      }
+    ],
+    "collocations": {
+      "status": ""
+    },
+    "sort_key": "70010000"
+  },
+  {
+    "id": "10552",
+    "dict": "czj",
+    "lemma": {
+      "video_front": "A_horska_sluzba1.mp4",
+      "video_side": "B_horska_sluzba1.mp4",
+      "media_folder_id": "6004",
+      "hamnosys": {
+        "@author": "",
+        "@source": "",
+        "@copyright": "",
+        "@admin": "",
+        "@status": "hidden"
+      },
+      "completeness": "0",
+      "pracskupina": "upol",
+      "admin_comment": "",
+      "status": "hidden",
+      "puvod": "",
+      "lemma_type": "collocation",
+      "created_at": "2014-02-10 15:34:14",
+      "updated_at": "2020-06-23 10:41:56",
+      "grammar_note": [
+        {
+          "@region": "cechy",
+          "@author": "",
+          "@copyright": "",
+          "@source": "",
+          "@admin": "",
+          "@status": "published",
+          "@mluv_komp": "hor služba",
+          "@mluv_komp_sel": "",
+          "@oral_komp": "",
+          "@oral_komp_sel": "",
+          "@slovni_druh": "ustalene",
+          "@skupina": "",
+          "@skupina2": "",
+          "@skupina3": "",
+          "variant": [
+            {
+              "@lemma_region": "cechy",
+              "_text": "46023",
+              "swmix": {}
+            }
+          ]
+        }
+      ],
+      "style_note": [
+        {
+          "@generace": "",
+          "@kategorie": "",
+          "@gender": "",
+          "@author": "",
+          "@copyright": "",
+          "@source": "",
+          "@admin": "",
+          "@status": "published"
+        }
+      ]
+    },
+    "type": "sign",
+    "meanings": [
+      {
+        "id": "10552-1",
+        "mid": "czj.10552-1",
+        "author": "",
+        "copyright": "",
+        "source": "",
+        "admin": "",
+        "style_region": "",
+        "oblast": null,
+        "pracskupina": "",
+        "number": "1",
+        "status": "hidden",
+        "category": [
+          null
+        ],
+        "created_at": "2014-02-10 15:34:15",
+        "updated_at": "2020-06-23 10:41:56",
+        "relation": [
+          {
+            "target": "cs",
+            "meaning_id": "1683-1",
+            "status": "hidden",
+            "type": "translation",
+            "mid": "cs.1683-1"
+          }
+        ],
+        "usages": [],
+        "text": {}
+      }
+    ],
+    "collocations": {
+      "status": "hidden",
+      "colloc": [
+        "17145",
+        "2909"
+      ]
+    },
+    "sort_key": "60010552"
+  },
+  {
+    "id": "41198",
+    "dict": "cs",
+    "lemma": {
+      "title": "",
+      "title_dia": "",
+      "title_var": "",
+      "pron": "",
+      "completeness": "",
+      "pracskupina": "",
+      "admin_comment": "",
+      "status": "published",
+      "puvod": "",
+      "lemma_type": "collocation",
+      "created_at": "",
+      "updated_at": "2016-06-10 16:26:44",
+      "grammar_note": [
+        {
+          "@slovni_druh": "ustalene",
+          "@source": "",
+          "@status": "published",
+          "@skupina": "",
+          "@admin": "",
+          "@skupina2": "",
+          "@author": "",
+          "@flexe_neskl": "false"
+        }
+      ],
+      "style_note": [
+        {
+          "@source": "",
+          "@status": "hidden",
+          "@admin": "",
+          "@stylpriznak": "",
+          "@author": "",
+          "@kategorie": ""
+        }
+      ]
+    },
+    "type": "write",
+    "meanings": [
+      {
+        "id": "41198-1",
+        "mid": "cs.41198-1",
+        "author": "",
+        "copyright": null,
+        "source": "",
+        "admin": "",
+        "style_region": null,
+        "oblast": "ekon",
+        "pracskupina": "",
+        "number": "1",
+        "status": "published",
+        "category": [],
+        "created_at": null,
+        "updated_at": "2016-06-10 16:26:44",
+        "relation": [],
+        "usages": [
+          {
+            "id": "41198-1_us0",
+            "mid": "cs.41198-1_us0",
+            "author": "",
+            "copyright": null,
+            "source": "http://www.ft.vslib.cz/index.cgi?sou=projekty/../science/archiv/zamery/vz02.htm",
+            "admin": "https://ske.fi.muni.cz/bonito/run.cgi/first?iquery=kardin%C3%A1ln%C3%AD+%C5%A1k%C3%A1la&corpname=preloaded%2Fcztenten12_8&corpus-search-form=true",
+            "text": {
+              "_text": "Kromě klasické kardinální škály bude uvažována také škála ordinální, tj. charakteristiky typu stálost, stupeň opotřebení atd."
+            },
+            "type": "sentence",
+            "updated_at": "2016-06-10 16:26:44",
+            "created_at": null,
+            "status": "published"
+          }
+        ],
+        "text": {
+          "_text": "používající konkrétně definované rozdíly mezi přechodným a následným prvkem"
+        }
+      }
+    ],
+    "collocations": {
+      "status": "published",
+      "colloc": [
+        "115714",
+        "77330"
+      ]
+    }
+  },
+  {
+    "dict": "czj",
+    "id": "17145",
+    "lemma": {
+      "updated_at": "2024-11-26 13:04:22",
+      "media_folder_id": "",
+      "created_at": "2017-10-09 11:48:48",
+      "completeness": "0",
+      "pracskupina": "obecna",
+      "puvod": "",
+      "admin_comment": "",
+      "status": "hidden",
+      "homonym": [
+        ""
+      ],
+      "grammar_note": [
+        {
+          "_text": "",
+          "@region": "cr",
+          "@author": "",
+          "@copyright": "",
+          "@source": "",
+          "@admin": "",
+          "@status": "hidden",
+          "@mluv_komp": "hory",
+          "@mluv_komp_sel": "povinny",
+          "@oral_komp": "",
+          "@oral_komp_sel": null,
+          "variant": [],
+          "@slovni_druh": "",
+          "@skupina": null,
+          "@skupina2": "",
+          "@skupina3": ""
+        }
+      ],
+      "style_note": [
+        {
+          "_text": "",
+          "@generace": "",
+          "@kategorie": null,
+          "@stylpriznak": "",
+          "@gender": null,
+          "@author": "",
+          "@copyright": "",
+          "@source": "",
+          "@admin": "",
+          "@status": "hidden",
+          "variant": []
+        }
+      ],
+      "sw": [
+        {
+          "@id": "",
+          "@fsw": "M543x549S15d12462x528S34400482x483S29a06508x534S29a36490x534",
+          "@misto": "neutral",
+          "@author": "Teiresiás S2",
+          "@copyright": "MU, Středisko Teiresiás",
+          "@source": "",
+          "@admin": "",
+          "@primary": false,
+          "_text": "8947(y45)_55681(x20)_39367(x46y51)_39415(x28y51)"
+        }
+      ],
+      "video_front": "A_17145MUOZ221214010.mp4",
+      "video_side": "B_17145MUOZ221214010.mp4",
+      "hamnosys": {
+        "_text": "",
+        "@author": "",
+        "@source": "",
+        "@copyright": "",
+        "@admin": "",
+        "@status": "hidden"
+      },
+      "@swstatus": "hidden",
+      "lemma_type": "single"
+    },
+    "media": [],
+    "meanings": [
+      {
+        "id": "17145-1",
+        "status": "hidden",
+        "updated_at": "2024-11-26 13:04:22",
+        "category": [],
+        "relation": [
+          {
+            "meaning_id": "hory",
+            "type": "translation",
+            "target": "cs",
+            "status": "hidden"
+          }
+        ],
+        "author": "",
+        "copyright": "",
+        "source": "",
+        "admin": "",
+        "style_region": "",
+        "pracskupina": "",
+        "number": 1,
+        "created_at": null,
+        "text": {
+          "_text": ""
+        }
+      }
+    ],
+    "sort_key": "70017145"
+  },
+  {
+    "dict": "czj",
+    "id": "2909",
+    "lemma": {
+      "updated_at": "2025-02-18 11:49:43",
+      "media_folder_id": "",
+      "created_at": "2014-12-16 10:32:33",
+      "completeness": "0",
+      "pracskupina": "obecna",
+      "puvod": "",
+      "admin_comment": "",
+      "status": "hidden",
+      "homonym": [
+        "21592"
+      ],
+      "grammar_note": [
+        {
+          "_text": "",
+          "@region": "cr",
+          "@author": "",
+          "@copyright": "",
+          "@source": "",
+          "@admin": "",
+          "@status": "hidden",
+          "@mluv_komp": "služ(ba)",
+          "@mluv_komp_sel": "povinny",
+          "@oral_komp": "",
+          "@oral_komp_sel": null,
+          "variant": [],
+          "@slovni_druh": "verb",
+          "@skupina": "proste",
+          "@skupina2": "",
+          "@skupina3": ""
+        }
+      ],
+      "style_note": [
+        {
+          "_text": "",
+          "@generace": "",
+          "@kategorie": null,
+          "@stylpriznak": "",
+          "@gender": null,
+          "@author": "",
+          "@copyright": "",
+          "@source": "",
+          "@admin": "",
+          "@status": "hidden",
+          "variant": []
+        }
+      ],
+      "sw": [
+        {
+          "@id": "",
+          "@fsw": "M540x575S15d39487x543S15d40497x548S34600482x483S21100514x546S27100500x526",
+          "@misto": "ruka",
+          "@author": "Teiresiás S2",
+          "@copyright": "MU, Středisko Teiresiás",
+          "@source": "",
+          "@admin": "",
+          "@primary": false,
+          "_text": "8986(x5y60)_8993(x15y65)_55873_26209(x32y63)_35425(x18y43)"
+        }
+      ],
+      "video_front": "A_sluzbaMUOZ210712072.mp4",
+      "video_side": "B_sluzbaMUOZ210712072.mp4",
+      "hamnosys": {
+        "_text": "",
+        "@author": "",
+        "@source": "",
+        "@copyright": "",
+        "@admin": "",
+        "@status": "hidden"
+      },
+      "@swstatus": "published",
+      "lemma_type": "single"
+    },
+    "media": [],
+    "meanings": [
+      {
+        "id": "2909-1",
+        "status": "hidden",
+        "updated_at": "2025-02-18 11:49:43",
+        "category": [],
+        "relation": [
+          {
+            "meaning_id": "29172-1",
+            "type": "synonym",
+            "target": "czj",
+            "status": "hidden"
+          },
+          {
+            "meaning_id": "74491-1",
+            "type": "translation",
+            "target": "cs",
+            "status": "published"
+          },
+          {
+            "meaning_id": "obsluhovat",
+            "type": "translation",
+            "target": "cs",
+            "status": "hidden"
+          },
+          {
+            "meaning_id": "posluhovat",
+            "type": "translation",
+            "target": "cs",
+            "status": "hidden"
+          },
+          {
+            "meaning_id": "serve",
+            "type": "translation",
+            "target": "en",
+            "status": "hidden"
+          }
+        ],
+        "author": "",
+        "copyright": "",
+        "source": "",
+        "admin": "",
+        "style_region": "",
+        "pracskupina": "",
+        "number": 1,
+        "created_at": null,
+        "text": {
+          "_text": ""
+        }
+      }
+    ],
+    "sort_key": "70002909"
+  },
+  {
+    "id": "1683",
+    "dict": "cs",
+    "lemma": {
+      "title": "Horská služba",
+      "title_dia": "Horska sluzba",
+      "title_var": "",
+      "pron": "",
+      "completeness": "0",
+      "pracskupina": "all",
+      "admin_comment": "",
+      "status": "published",
+      "puvod": "",
+      "lemma_type": "collocation",
+      "created_at": "",
+      "updated_at": "2019-07-24 15:03:48",
+      "grammar_note": [
+        {
+          "@flexe_neskl": "false",
+          "@author": "",
+          "@source": "",
+          "@admin": "",
+          "@status": "published",
+          "@slovni_druh": "ustalene",
+          "@skupina": "",
+          "@skupina2": ""
+        }
+      ],
+      "style_note": [
+        {
+          "@kategorie": "",
+          "@stylpriznak": "",
+          "@author": "",
+          "@source": "",
+          "@admin": "",
+          "@status": "published"
+        }
+      ]
+    },
+    "type": "write",
+    "meanings": [
+      {
+        "id": "1683-1",
+        "mid": "cs.1683-1",
+        "author": "",
+        "copyright": null,
+        "source": "",
+        "admin": "",
+        "style_region": null,
+        "oblast": "",
+        "pracskupina": "",
+        "number": "1",
+        "status": "published",
+        "category": [],
+        "created_at": null,
+        "updated_at": "2019-07-24 15:03:48",
+        "relation": [
+          {
+            "target": "czj",
+            "meaning_id": "10552-1",
+            "status": "hidden",
+            "type": "translation",
+            "mid": "czj.10552-1"
+          },
+          {
+            "target": "czj",
+            "meaning_id": "23445-1",
+            "status": "hidden",
+            "type": "translation",
+            "mid": "czj.23445-1"
+          }
+        ],
+        "usages": [
+          {
+            "id": "1683-1_us1",
+            "mid": "cs.1683-1_us1",
+            "author": "",
+            "copyright": null,
+            "source": "http://aktualne.centrum.cz/zpravy/nehody/clanek.phtml?id=694373",
+            "admin": "https://ske.fi.muni.cz/bonito/run.cgi/first?iquery=Horsk%C3%BD+slu%C5%BEba&corpname=preloaded%2Fcztenten12_8&corpus-search-form=true",
+            "text": {
+              "_text": "Jeden člen výpravy se cítil zcela vyčerpán, proto zavolali Horskou službu."
+            },
+            "type": "sentence",
+            "updated_at": "2019-07-24 15:03:48",
+            "created_at": null,
+            "status": "published"
+          }
+        ],
+        "text": {
+          "_text": "organizace pečující o bezpečnost návštěvníků hor"
+        }
+      }
+    ],
+    "collocations": {
+      "status": "published",
+      "colloc": [
+        "49678",
+        "74573"
+      ]
+    }
+  },
+  {
+    "id": "115714",
+    "dict": "cs",
+    "lemma": {
+      "title": "kardinální",
+      "title_dia": "kardinalni",
+      "title_var": "",
+      "pron": "-dy-",
+      "completeness": "0",
+      "pracskupina": "",
+      "admin_comment": "SSC ID:SCS|kardinální|příd.|0.1",
+      "status": "published",
+      "puvod": "l",
+      "lemma_type": "single",
+      "created_at": "",
+      "updated_at": "2016-06-10 16:23:37",
+      "grammar_note": [
+        {
+          "@slovni_druh": "adj",
+          "@source": "",
+          "@status": "published",
+          "@skupina": "",
+          "@admin": "",
+          "@skupina2": "",
+          "@author": "",
+          "@flexe_neskl": "false"
+        }
+      ],
+      "style_note": [
+        {
+          "@source": "",
+          "@status": "published",
+          "@admin": "",
+          "@stylpriznak": "knizni;odborny",
+          "@author": "",
+          "@kategorie": ""
+        }
+      ]
+    },
+    "type": "write",
+    "meanings": [
+      {
+        "id": "115714-1",
+        "mid": "cs.115714-1",
+        "author": "",
+        "copyright": null,
+        "source": "",
+        "admin": "",
+        "style_region": null,
+        "oblast": "",
+        "pracskupina": "",
+        "number": "1",
+        "status": "published",
+        "category": [],
+        "created_at": null,
+        "updated_at": "2016-06-10 16:23:37",
+        "relation": [
+          {
+            "target": "cs",
+            "meaning_id": "85250-2",
+            "status": "published",
+            "type": "synonym",
+            "mid": "cs.85250-2"
+          },
+          {
+            "target": "cs",
+            "meaning_id": "65310-3",
+            "status": "published",
+            "type": "synonym",
+            "mid": "cs.65310-3"
+          },
+          {
+            "target": "cs",
+            "meaning_id": "49368-1",
+            "status": "published",
+            "type": "synonym",
+            "mid": "cs.49368-1"
+          }
+        ],
+        "usages": [
+          {
+            "id": "115714-1_us0",
+            "mid": "cs.115714-1_us0",
+            "author": "",
+            "copyright": null,
+            "source": "http://technet.idnes.cz/chrante-svoji-e-mailovou-adresu-pred-spammery-f40-/software.aspx?c=A050221_070815_bezpecnost_vse",
+            "admin": "https://ske.fi.muni.cz/bonito/run.cgi/first?iquery=kardin%C3%A1ln%C3%AD&corpname=preloaded%2Fcztenten12_8&corpus-search-form=true",
+            "text": {
+              "_text": "Uposlechnout dotyčné výzvy je kardinální chyba, které se důvěřiví uživatelé elektronické pošty často dopouštějí."
+            },
+            "type": "sentence",
+            "updated_at": "2016-06-10 16:23:37",
+            "created_at": null,
+            "status": "published"
+          },
+          {
+            "id": "115714-1_us1",
+            "mid": "cs.115714-1_us1",
+            "author": "",
+            "copyright": null,
+            "source": "http://www.ibabylon.cz/content/view/366/28/",
+            "admin": "https://ske.fi.muni.cz/bonito/run.cgi/first?iquery=kardin%C3%A1ln%C3%AD&corpname=preloaded%2Fcztenten12_8&corpus-search-form=true",
+            "text": {
+              "_text": "A to je ta kardinální otázka, na kterou zatím není odpověď."
+            },
+            "type": "sentence",
+            "updated_at": "2016-06-10 16:23:37",
+            "created_at": null,
+            "status": "published"
+          }
+        ],
+        "text": {
+          "_text": "nejdůležitější, nejvýznamnější"
+        }
+      }
+    ],
+    "collocations": {
+      "status": "published"
+    },
+    "html": "<html><span class=\"h\">kardinální</span><span class=\"v\">[-dy-]</span><span class=\"g\">příd.</span><span class=\"f\">&lt;l&gt;</span><span class=\"s\">hlavní, základní, podstatný</span>: <span class=\"e\">k. otázka, chyba</span>; <span class=\"o\">bot.</span> <span class=\"e\">k. body</span> <span class=\"s\">mezní tepelné body (hodnoty), za jejichž hranicí dolů n. nahoru rostlina přestává růst</span>; <span class=\"o\">mat.</span> <span class=\"e\">k. číslo konečné množiny</span> <span class=\"s\">počet prvků této množiny</span>; <span class=\"o\">ekon.</span> <span class=\"e\">k. škála</span> <span class=\"s\">používající konkrétně definované rozdíly mezi přechodným a následným prvkem</span> (op. ordinální)</html>"
+  },
+  {
+    "id": "77330",
+    "dict": "cs",
+    "lemma": {
+      "title": "škála",
+      "title_dia": "skala",
+      "gram": {
+        "form": [
+          {
+            "@tag": "nPc1",
+            "_text": "škály"
+          },
+          {
+            "@tag": "nPc2",
+            "_text": "škál"
+          },
+          {
+            "@tag": "nPc3",
+            "_text": "škálám"
+          },
+          {
+            "@tag": "nPc4",
+            "_text": "škály"
+          },
+          {
+            "@tag": "nPc5",
+            "_text": "škály"
+          },
+          {
+            "@tag": "nPc6",
+            "_text": "škálách"
+          },
+          {
+            "@tag": "nPc7",
+            "_text": "škálami"
+          },
+          {
+            "@tag": "nSc1",
+            "_text": "škála"
+          },
+          {
+            "@tag": "nSc2",
+            "_text": "škály"
+          },
+          {
+            "@tag": "nSc3",
+            "_text": "škále"
+          },
+          {
+            "@tag": "nSc4",
+            "_text": "škálu"
+          },
+          {
+            "@tag": "nSc5",
+            "_text": "škálo"
+          },
+          {
+            "@tag": "nSc6",
+            "_text": "škále"
+          },
+          {
+            "@tag": "nSc7",
+            "_text": "škálou"
+          }
+        ]
+      },
+      "completeness": "0",
+      "admin_comment": "SSC ID:škála|ž|0.1",
+      "puvod": "",
+      "grammar_note": [
+        {
+          "@slovni_druh": "subst",
+          "@skupina": "",
+          "@skupina2": "z",
+          "_text": "ženský rod"
+        }
+      ],
+      "style_note": [
+        {}
+      ],
+      "lemma_type": "single"
+    },
+    "type": "write",
+    "meanings": [
+      {
+        "id": "77330-1",
+        "mid": "cs.77330-1",
+        "author": null,
+        "copyright": null,
+        "source": null,
+        "admin": null,
+        "style_region": null,
+        "oblast": "",
+        "pracskupina": null,
+        "number": "1",
+        "category": [],
+        "relation": [
+          {
+            "target": "cs",
+            "meaning_id": "stupnice 2",
+            "status": null,
+            "type": "synonym",
+            "mid": "cs.stupnice 2"
+          },
+          {
+            "target": "en",
+            "meaning_id": "4672-1",
+            "status": "hidden",
+            "type": "translation",
+            "mid": "en.4672-1"
+          }
+        ],
+        "usages": [
+          {
+            "id": null,
+            "mid": "cs.",
+            "author": null,
+            "copyright": null,
+            "source": null,
+            "admin": null,
+            "text": {
+              "_text": "škála tónů"
+            },
+            "type": null
+          },
+          {
+            "id": null,
+            "mid": "cs.",
+            "author": null,
+            "copyright": null,
+            "source": null,
+            "admin": null,
+            "text": {
+              "_text": "barevná škála"
+            },
+            "type": null
+          },
+          {
+            "id": null,
+            "mid": "cs.",
+            "author": null,
+            "copyright": null,
+            "source": null,
+            "admin": null,
+            "text": {
+              "_text": "celá škála možností (řada)"
+            },
+            "type": null
+          }
+        ],
+        "text": {
+          "_text": "stupnice 2"
+        }
+      }
+    ],
+    "collocations": {
+      "status": ""
+    },
+    "html": "<html>\n    <span style=\"background-color:yellow\"><b>škála</b>, -y <small>ž</small> &lt;n ← i ← l&gt; <i>stupnice 2</i>: škála tónů; barevná škála; <small>přen. hovor.</small> celá škála možností <i>řada</i></span>\n    <p/>\n  </html>"
+  }
+]

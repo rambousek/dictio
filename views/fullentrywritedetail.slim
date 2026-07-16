@@ -5,12 +5,12 @@
 .detail__head
   p.detail__badge.detail__badge--top class=(((@is_edit or @is_admin)? "detail__badge__#{@entry['dict']}":""))
     | #{I18n.t("dict."+@entry['dict'])} 
-    - if (@is_edit or @is_admin)
-     a class="edit" href="/editor#{@entry['dict']}/?id=#{@entry['id']}" 
-      | [#{@entry['dict']}-#{@entry['id']}]
+    - if @is_edit or @is_admin
+      a class="edit" href="/editor#{@entry['dict']}/?id=#{@entry['id']}"
+        | [#{@entry['dict']}-#{@entry['id']}]
       span.icon.icon--edit
-       svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
-        use xlink:href="/img/edit.svg#Capa_1" x="0" y="0" width="100%" height="100%"
+        svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+          use xlink:href="/img/edit.svg#Capa_1" x="0" y="0" width="100%" height="100%"
   .detail-word
     h1.detail-word__headline #{@entry['lemma']['title']} 
     - if @entry['lemma']['pron'] and @entry['lemma']['pron'] != ""
@@ -28,21 +28,19 @@
         - unless coll.equal?(@entry['collocations']['entries'].last)
           | , 
   - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'].to_s != ''}
-      h2.detail-category 
-        / - if @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'] != 'ustalene'}
-        /  | #{I18n.t("entry.lexical")}: 
-        span
-          - slovni_druhy = []
-          - @entry['lemma']['grammar_note'].each{|gr| 
-          -  sd = I18n.t('gram.slovni_druh.' + gr['@slovni_druh'])
-          -  if gr['@skupina'].to_s != '' or gr['@skupina2'].to_s != ''
-            - gramdet = []
-            - gr['@skupina'].to_s. split(';').each{|sk| gramdet << I18n.t('gram.detail.' + gr['@slovni_druh'] + '_' + sk)}
-            - gr['@skupina2'].to_s. split(';').each{|sk| gramdet << I18n.t('gram.detail.' + gr['@slovni_druh'] + '_' + sk)}
-            - sd += ' (' + gramdet.join(', ') + ')'
-          -  slovni_druhy << sd
-          - }
-          = slovni_druhy.uniq.join(', ')
+    h2.detail-category
+      span
+        - slovni_druhy = []
+        - @entry['lemma']['grammar_note'].each{|gr|
+        -  sd = I18n.t('gram.slovni_druh.' + gr['@slovni_druh'])
+        -  if gr['@skupina'].to_s != '' or gr['@skupina2'].to_s != ''
+          - gramdet = []
+          - gr['@skupina'].to_s. split(';').each{|sk| gramdet << I18n.t('gram.detail.' + gr['@slovni_druh'] + '_' + sk)}
+          - gr['@skupina2'].to_s. split(';').each{|sk| gramdet << I18n.t('gram.detail.' + gr['@slovni_druh'] + '_' + sk)}
+          - sd += ' (' + gramdet.join(', ') + ')'
+        -  slovni_druhy << sd
+        - }
+        = slovni_druhy.uniq.join(', ')
   - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gram| gram['variant'] and gram['variant'].size > 0}
     h2.detail-category 
       | #{I18n.t("entry.grammar_variant")}: 
@@ -362,11 +360,11 @@
               - mtext = meaning['text']['_text'].gsub(/\[[0-9]+(-[0-9]+)?\]/) {|rl| rla=rl[1..-2].split('-'); "<a href='/#{@entry['dict']}/show/#{rla[0]}'>#{meaning['def_relations'][rla[0]]}"+(rla[1].to_s==''?"":" (#{rla[1]})")+"</a>"}
               == mtext
           - else 
-              .info.is-pushed style="margin-top: 0; padding: 0"
-                 span.icon.icon--info.info__icon style="margin-top: 0; color: gray; top: -1px;" 
-                  svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
-                    use xlink:href="/img/icons.svg#info" x="0" y="0" width="100%" height="100%"
-                 p style="color: gray; font-style: italic; padding-left: 50px;" #{I18n.t("entry.nocontent")}
+            .info.is-pushed style="margin-top: 0; padding: 0"
+              span.icon.icon--info.info__icon style="margin-top: 0; color: gray; top: -1px;"
+                svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                  use xlink:href="/img/icons.svg#info" x="0" y="0" width="100%" height="100%"
+              p style="color: gray; font-style: italic; padding-left: 50px;" #{I18n.t("entry.nocontent")}
           - if meaning['relation'] and meaning['relation'].find{|rel| rel['type'] == 'synonym'}
             h4 #{I18n.t("entry.synonyms")}:
             - meaning['relation'].select{|rel| rel['type'] == 'synonym'}.each do |rel|
@@ -402,8 +400,7 @@
             - meaning['usages'].select { |usg| usg['type'] == 'sentence' }.each do |usg|
               p.example
                 em = usg.dig('text', '_text')
-            p.more-example.link style="display:none;cursor:pointer" = I18n.t('entry.more_example')  
-  
+            p.more-example.link style="display:none;cursor:pointer" = I18n.t('entry.more_example')
       .col.col--2
         .detail__block.detail__block--wide
           == slim :fullentrytrans

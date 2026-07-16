@@ -17,7 +17,11 @@ require 'yabeda/prometheus'
 require 'resolv'
 
 require_relative 'lib/czj'
-require_relative 'lib/host-config'
+if ENV['RACK_ENV'] == 'test'
+  require_relative 'test/host-config'
+else
+  require_relative 'lib/host-config'
+end
 require_relative 'lib/dict-config'
 require_relative 'lib/czj_fsw'
 require_relative 'lib/czj_comment'
@@ -26,9 +30,10 @@ require_relative 'lib/czj_web_helper'
 require_relative 'lib/czj_admin'
 require_relative 'lib/czj_admin_info'
 require_relative 'lib/czj_admin_duplicate'
+require_relative 'lib/czj_api_helper'
 
 class CzjApp < Sinatra::Base
-  $mongo = Mongo::Client.new($mongoHost)
+  $mongo = Mongo::Client.new($mongoHost) if $mongo.nil?
   $georeader = MaxMind::GeoIP2::Reader.new(
     database: '/usr/share/GeoIP/GeoLite2-Country.mmdb'
   )
@@ -704,9 +709,10 @@ class CzjApp < Sinatra::Base
       get '/editor'+code, :dict_allowed => code do
         @dictcode = code
         @dict_info = $dict_info
-	js_type = $dict_info[code]['type']
-	js_path = File.join(settings.public_folder, "editor", "#{js_type}.js")
-	@app_version = File.mtime(js_path).to_i
+	      js_type = $dict_info[code]['type']
+	      js_path = File.join(settings.public_folder, "editor", "#{js_type}.js")
+	      common_path = File.join(settings.public_folder, "editor", "editor-common.js")
+	      @app_version = [File.mtime(js_path), File.mtime(common_path)].max.to_i
         slim :editor, :layout=>false
       end
       get '/editor'+code do
@@ -766,6 +772,16 @@ class CzjApp < Sinatra::Base
       content_type :json
       body = reports.get_report(dict, params, @user_info).to_json
     end
+    get '/'+code+'/export' do
+      content_type :json
+      data = reports.get_report(dict, params, @user_info)['entries']
+      if $dict_info[code]['type'] == 'sign'
+        result = CzjApiHelper.reformat_report_sign(dict, data)
+      else
+        result = CzjApiHelper.reformat_report_write(dict, data)
+      end
+      result.to_json
+    end
     get '/'+code+'/csvreport' do
       content_type 'text/csv; charset=utf-8'
       attachment code+'report.csv'
@@ -806,49 +822,49 @@ class CzjApp < Sinatra::Base
             }
             ri << sws.join(',')
           end
-	  # synonyma
-	  syns = []
-	  if rep['meanings']
-	  rep['meanings'].each{|rm|
-            if rm['relation']
-		    rm['relation'].select{|rel| rel['type'] == 'synonym'}.each{|rr|
-			    syns << rr['meaning_id'].split('-')[0]
-		    }
-	    end
-	  }
-	  end
-	  ri << syns.join(',')
-	  # varianty
-	  vars = []
-	  if rep['lemma']['grammar_note'] and rep['lemma']['grammar_note'][0]['variant']
-		  rep['lemma']['grammar_note'][0]['variant'].each{|var|
-			  vars << var['_text'] if var['_text']
-		  }
-	  end
-	  if rep['lemma']['style_note'] and rep['lemma']['style_note'][0]['variant']
-		  rep['lemma']['style_note'][0]['variant'].each{|var|
-			  vars << var['_text'] if var['_text']
-		  }
-	  end
-	  ri << vars.join(',')
-	  # slovni druh
-	  pos = ''
-	  pos2 = ''
-	  pos3 = ''
-	  if rep['lemma']['grammar_note'] and rep['lemma']['grammar_note'][0] 
-		  if rep['lemma']['grammar_note'][0]['@slovni_druh']
-			  pos = rep['lemma']['grammar_note'][0]['@slovni_druh']
-		  end
-		  if rep['lemma']['grammar_note'][0]['@skupina']
-			  pos2 = rep['lemma']['grammar_note'][0]['@skupina']
-		  end
-		  if rep['lemma']['grammar_note'][0]['@skupina2']
-			  pos3 = rep['lemma']['grammar_note'][0]['@skupina2']
-		  end
-	  end
-	  ri << pos
-	  ri << pos2
-	  ri << pos3
+          # synonyma
+          syns = []
+          if rep['meanings']
+          rep['meanings'].each{|rm|
+                  if rm['relation']
+              rm['relation'].select{|rel| rel['type'] == 'synonym'}.each{|rr|
+                syns << rr['meaning_id'].split('-')[0]
+              }
+            end
+          }
+          end
+          ri << syns.join(',')
+          # varianty
+          vars = []
+          if rep['lemma']['grammar_note'] and rep['lemma']['grammar_note'][0]['variant']
+            rep['lemma']['grammar_note'][0]['variant'].each{|var|
+              vars << var['_text'] if var['_text']
+            }
+          end
+          if rep['lemma']['style_note'] and rep['lemma']['style_note'][0]['variant']
+            rep['lemma']['style_note'][0]['variant'].each{|var|
+              vars << var['_text'] if var['_text']
+            }
+          end
+          ri << vars.join(',')
+          # slovni druh
+          pos = ''
+          pos2 = ''
+          pos3 = ''
+          if rep['lemma']['grammar_note'] and rep['lemma']['grammar_note'][0]
+            if rep['lemma']['grammar_note'][0]['@slovni_druh']
+              pos = rep['lemma']['grammar_note'][0]['@slovni_druh']
+            end
+            if rep['lemma']['grammar_note'][0]['@skupina']
+              pos2 = rep['lemma']['grammar_note'][0]['@skupina']
+            end
+            if rep['lemma']['grammar_note'][0]['@skupina2']
+              pos3 = rep['lemma']['grammar_note'][0]['@skupina2']
+            end
+          end
+          ri << pos
+          ri << pos2
+          ri << pos3
 
           csv << ri.join(';')
         }
