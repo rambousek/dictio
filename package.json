@@ -1,0 +1,11 @@
+{
+  "name": "dictio-e2e",
+  "private": true,
+  "description": "Playwright end-to-end tests for the dictio public site (app runs against test/fixtures via FakeMongo)",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.53.0"
+  }
+}
