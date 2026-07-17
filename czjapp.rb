@@ -786,11 +786,16 @@ class CzjApp < Sinatra::Base
       content_type 'text/csv; charset=utf-8'
       attachment code+'report.csv'
       if $dict_info[code]['type'] == 'sign'
-	      csv = ['ID;video čelní;video boční;překlady;překlady text;fsw;synonyma;varianty;sl.druh;sl.druh2;sl.druh3']
+	      csv = ['ID;video čelní;video boční;orient;překlady;překlady text;fsw;synonyma;varianty;sl.druh;sl.druh2;sl.druh3']
         reports.get_report(dict, params, @user_info)['entries'].each{|rep|
           ri = [rep['id']]
           ri << rep['lemma']['video_front'].to_s
           ri << rep['lemma']['video_side'].to_s
+          if rep['lemma']['video_front'].to_s == ''
+            ri << ''
+          else
+            ri << CzjApiHelper.video_orient(dict.get_media_location(rep['lemma']['video_front'].to_s, code))
+          end
           rels = []
           relst = []
           if rep['meanings']

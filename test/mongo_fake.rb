@@ -3,8 +3,8 @@ require "json"
 # Minimal in-memory stand-in for the Mongo client, backed by JSON fixtures
 # in test/fixtures/. Supports the query shapes the display code uses:
 # equality (incl. dotted paths and array membership), $exists, $ne, $in,
-# and the :sort find option. Anything else raises so a test fails loudly
-# instead of silently returning wrong data.
+# $and, $or, the :sort find option and skip/limit. Anything else raises so
+# a test fails loudly instead of silently returning wrong data.
 class FakeMongo
   FIXDIR = File.expand_path("fixtures", __dir__)
 
@@ -62,6 +62,14 @@ class FakeResult
     Marshal.load(Marshal.dump(@docs.first)) unless @docs.empty?
   end
 
+  def skip(n)
+    FakeResult.new(@docs.drop(n.to_i))
+  end
+
+  def limit(n)
+    FakeResult.new(@docs.take(n.to_i))
+  end
+
   def count_documents
     @docs.size
   end
@@ -72,7 +80,13 @@ module FakeMongoQuery
   module_function
 
   def match?(doc, filter)
-    filter.all? { |key, cond| match_key?(doc, key.to_s, cond) }
+    filter.all? do |key, cond|
+      case key.to_s
+      when "$and" then cond.all? { |sub| match?(doc, sub) }
+      when "$or" then cond.any? { |sub| match?(doc, sub) }
+      else match_key?(doc, key.to_s, cond)
+      end
+    end
   end
 
   def match_key?(doc, path, cond)

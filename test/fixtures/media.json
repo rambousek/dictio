@@ -17,6 +17,23 @@
     ]
   },
   {
+    "id": "11626",
+    "dict": "czj",
+    "location": "B_velryba1.mp4",
+    "original_file_name": "B_velryba1.mp4",
+    "id_meta_copyright": "Teiresiás OZZ",
+    "id_meta_author": "Teiresiás MUNI 4.0",
+    "id_meta_source": "LANGER, J. a kol. Znaková zásoba českého znakového jazyka k rozšiřujícímu studiu surdopedie se zaměřením na znakový jazyk (1., 2., 3., 4. díl). 2. doplněné vydání, Olomouc: Univerzita Palackého, 2005",
+    "status": "published",
+    "label": "velryba==A",
+    "type": "sign_side",
+    "created_at": "2020-01-08 18:49:15",
+    "orient": "lr",
+    "entry_folder": [
+      "10000"
+    ]
+  },
+  {
     "id": "12381",
     "dict": "czj",
     "location": "A_horska_sluzba1.mp4",
@@ -32,5 +49,186 @@
     "entry_folder": [
       "10552"
     ]
+  },
+  {
+    "id": "12382",
+    "dict": "czj",
+    "location": "B_horska_sluzba1.mp4",
+    "original_file_name": "B_horska_sluzba1.mp4",
+    "id_meta_copyright": "Teiresiás OZZ",
+    "id_meta_author": "Teiresiás MUNI 4.0",
+    "id_meta_source": "",
+    "status": "published",
+    "label": "horska-sluzba==A",
+    "type": "sign_side",
+    "created_at": "2019-12-18 11:21:36",
+    "orient": "lr",
+    "entry_folder": [
+      "10552"
+    ]
+  },
+  {
+    "id": "56260",
+    "dict": "czj",
+    "location": "D_pohadkaMUOZ240206023.mp4",
+    "original_file_name": "",
+    "label": "",
+    "id_meta_copyright": "",
+    "id_meta_author": "Teiresiás KF UZM",
+    "id_meta_source": "",
+    "admin_comment": "",
+    "type": "sign_definition",
+    "status": "hidden",
+    "orient": "pr",
+    "created_at": "",
+    "entry_folder": [
+      "23465"
+    ],
+    "updated_at": "2025-10-24 13:31:22"
+  },
+  {
+    "id": "56236",
+    "dict": "czj",
+    "location": "K_kavaMUOZ240206026.mp4",
+    "original_file_name": "",
+    "label": "",
+    "id_meta_copyright": "",
+    "id_meta_author": "Teiresiás KF UZM",
+    "id_meta_source": "",
+    "admin_comment": "",
+    "type": "sign_usage_example",
+    "status": "hidden",
+    "orient": "pr",
+    "created_at": "",
+    "entry_folder": [
+      "38"
+    ],
+    "updated_at": "2024-03-11 14:08:09"
+  },
+  {
+    "id": "58542",
+    "dict": "czj",
+    "location": "K_carodejMUOZ240529026.mp4",
+    "original_file_name": "",
+    "label": "",
+    "id_meta_copyright": "",
+    "id_meta_author": "Teiresiás KF UZM",
+    "id_meta_source": "",
+    "admin_comment": "",
+    "type": "sign_usage_example",
+    "status": "hidden",
+    "orient": "pr",
+    "created_at": "",
+    "entry_folder": [
+      "17108"
+    ],
+    "updated_at": "2024-12-16 14:47:02"
+  },
+  {
+    "id": "63788",
+    "dict": "czj",
+    "location": "K_oselMUOZ251107040.mp4",
+    "original_file_name": "K_oselMUOZ251107040.mp4",
+    "label": "osel==M0",
+    "id_meta_copyright": "",
+    "id_meta_author": "Teiresiás OZZ",
+    "id_meta_source": "",
+    "admin_comment": "",
+    "type": "sign_usage_example",
+    "status": "",
+    "orient": "",
+    "created_at": "2025-12-01 11:01:59",
+    "entry_folder": [
+      "9998"
+    ]
+  },
+  {
+    "id": "55392",
+    "dict": "czj",
+    "location": "A_pohadkaMUOZ231122204.mp4",
+    "original_file_name": "",
+    "label": "",
+    "id_meta_copyright": "",
+    "id_meta_author": "",
+    "id_meta_source": "Teiresiás OZZ",
+    "admin_comment": "",
+    "type": "sign_front",
+    "status": "published",
+    "orient": "pr",
+    "created_at": "",
+    "updated_at": "2026-01-06 15:00:23"
+  },
+  {
+    "id": "55393",
+    "dict": "czj",
+    "location": "B_pohadkaMUOZ231122204.mp4",
+    "original_file_name": "",
+    "label": "",
+    "id_meta_copyright": "",
+    "id_meta_author": "",
+    "id_meta_source": "Teiresiás OZZ",
+    "admin_comment": "",
+    "type": "sign_side",
+    "status": "published",
+    "orient": "pr",
+    "created_at": "",
+    "updated_at": "2026-01-06 15:00:23"
+  },
+  {
+    "id": "46018",
+    "dict": "czj",
+    "location": "A_pohadkyMUOZ191127017.mp4",
+    "original_file_name": "",
+    "id_meta_copyright": "",
+    "id_meta_author": "Teiresiás MUNI 4.0",
+    "id_meta_source": "",
+    "status": "published",
+    "label": "",
+    "type": "sign_front",
+    "created_at": "",
+    "orient": "lr",
+    "entry_folder": [
+      "38"
+    ],
+    "admin_comment": "",
+    "updated_at": "2023-12-05 09:59:37"
+  },
+  {
+    "id": "46077",
+    "dict": "czj",
+    "location": "B_pohadkyMUOZ191127017.mp4",
+    "original_file_name": "",
+    "id_meta_copyright": "",
+    "id_meta_author": "Teiresiás MUNI 4.0",
+    "id_meta_source": "",
+    "status": "published",
+    "label": "",
+    "type": "sign_side",
+    "created_at": "",
+    "orient": "lr",
+    "entry_folder": [
+      "38"
+    ],
+    "admin_comment": "",
+    "updated_at": "2023-12-05 09:59:37"
+  },
+  {
+    "id": "54158",
+    "dict": "czj",
+    "location": "pohadka1.mp4",
+    "original_file_name": "",
+    "label": "",
+    "id_meta_copyright": "",
+    "id_meta_author": "Teiresiás OZZ",
+    "id_meta_source": "",
+    "admin_comment": "",
+    "type": "sign_front",
+    "status": "hidden",
+    "orient": "pr",
+    "created_at": "",
+    "entry_folder": [
+      "38"
+    ],
+    "updated_at": "2023-10-30 12:53:43"
   }
 ]

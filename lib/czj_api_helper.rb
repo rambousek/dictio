@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 module CzjApiHelper
+  # Map a media document's stored orientation (pr/lr) to the export value P/L.
+  def self.video_orient(media)
+    %w[lr l].include?((media || {})['orient'].to_s.downcase) ? 'L' : 'P'
+  end
+
   def self.reformat_report_sign(dict, data)
     result = data.map do |entry|
       lemma = entry['lemma'] || {}
