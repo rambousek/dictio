@@ -21,4 +21,25 @@ class ReportExportTest < AppTest
     assert_equal "A_velryba1.mp4", row[1]
     assert_equal "L", row[3]
   end
+
+  def test_json_export_orient_fields
+    get "/czj/export", "idsf" => "38"
+    assert_predicate last_response, :ok?
+    doc = JSON.parse(last_response.body).find { |e| e["ID"] == "38" }
+    assert_equal "A_pohadkaMUOZ231122204.mp4", doc["video_front"]
+    assert_equal "P", doc["video_front_orient"]
+    assert_equal "B_pohadkaMUOZ231122204.mp4", doc["video_side"]
+    assert_equal "P", doc["video_side_orient"]
+    orients = doc["more_video"].to_h { |v| [v["video"], v["video_orient"]] }
+    assert_equal({"A_pohadkyMUOZ191127017.mp4" => "L",
+                  "B_pohadkyMUOZ191127017.mp4" => "L",
+                  "pohadka1.mp4" => "P"}, orients)
+  end
+
+  def test_json_export_orient_left
+    get "/czj/export", "idsf" => "10000"
+    doc = JSON.parse(last_response.body).find { |e| e["ID"] == "10000" }
+    assert_equal "L", doc["video_front_orient"]
+    assert_equal "L", doc["video_side_orient"]
+  end
 end
