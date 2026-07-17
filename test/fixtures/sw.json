@@ -59,5 +59,25 @@
     "entries_used": [
       "41198"
     ]
+  },
+  {
+    "id": "38",
+    "dict": "czj",
+    "swmix": [
+      {
+        "@id": "",
+        "@fsw": "M541x543S30004482x483S34400482x483S10010487x513S20610507x520",
+        "@misto": "brada",
+        "@author": "Teiresiás OZZ",
+        "@copyright": "",
+        "@source": "",
+        "@admin": "",
+        "@primary": false,
+        "_text": "49157(x-18y-17)_55681(x-18y-17)_17(x-13y13)_25169(x7y20)"
+      }
+    ],
+    "entries_used": [
+      "38"
+    ]
   }
 ]

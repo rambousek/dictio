@@ -59,9 +59,14 @@ add_refs = lambda do |entry|
     doc = client["media"].find({"id" => mid, "dict" => dict}).first
     media["#{dict}-#{mid}"] = plain(doc) if doc
   end
-  if entry.dig("lemma", "video_front").to_s != ""
-    doc = client["media"].find({"location" => entry["lemma"]["video_front"], "dict" => dict}).first
-    media["#{dict}-loc-#{entry["lemma"]["video_front"]}"] = plain(doc) if doc
+  %w[video_front video_side].each do |field|
+    loc = entry.dig("lemma", field).to_s
+    next if loc == ""
+    doc = client["media"].find({"location" => loc, "dict" => dict}).first
+    media["#{dict}-#{doc["id"]}"] = plain(doc) if doc
+  end
+  client["media"].find({"entry_folder" => entry["id"], "dict" => dict}).each do |doc|
+    media["#{dict}-#{doc["id"]}"] = plain(doc)
   end
   swdoc = client["sw"].find({"id" => entry["id"], "dict" => dict}).first
   sw["#{dict}-#{entry["id"]}"] = plain(swdoc) if swdoc
@@ -78,9 +83,12 @@ seed_colloc = client["entries"].find({"dict" => "czj", "empty" => {"$exists" => 
                                       "collocations.colloc.0" => {"$exists" => true}}).first
 seed_colloc_w = client["entries"].find({"dict" => "cs", "empty" => {"$exists" => false},
                                         "collocations.colloc.0" => {"$exists" => true}}).first
+# czj/38 has extra videos attached (more_video in the JSON export).
+seed_more_video = client["entries"].find({"dict" => "czj", "id" => "38",
+                                          "empty" => {"$exists" => false}}).first
 raise "no seed entries found" if seed_write.nil? || seed_sign.nil?
 
-[seed_write, seed_sign, seed_colloc, seed_colloc_w].compact.map { |e| plain(e) }.each do |entry|
+[seed_write, seed_sign, seed_colloc, seed_colloc_w, seed_more_video].compact.map { |e| plain(e) }.each do |entry|
   entries["#{entry["dict"]}-#{entry["id"]}"] = entry
 end
 entries.values.dup.each { |e| add_refs.call(e) }

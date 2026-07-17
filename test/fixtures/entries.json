@@ -480,6 +480,206 @@
   },
   {
     "dict": "czj",
+    "id": "38",
+    "lemma": {
+      "updated_at": "2026-01-06 15:00:21",
+      "media_folder_id": "",
+      "created_at": "2023-08-09 13:31:17",
+      "completeness": "0",
+      "pracskupina": "obecna",
+      "puvod": null,
+      "admin_comment": "",
+      "status": "hidden",
+      "homonym": [
+        ""
+      ],
+      "grammar_note": [
+        {
+          "_text": "",
+          "@region": "",
+          "@author": "",
+          "@copyright": "",
+          "@source": "",
+          "@admin": "",
+          "@status": "hidden",
+          "@mluv_komp": "pohádka",
+          "@mluv_komp_sel": "povinny",
+          "@oral_komp": "",
+          "@oral_komp_sel": null,
+          "variant": [],
+          "@slovni_druh": "subst",
+          "@skupina": null,
+          "@skupina2": "",
+          "@skupina3": ""
+        }
+      ],
+      "style_note": [
+        {
+          "_text": "",
+          "@generace": "",
+          "@kategorie": null,
+          "@stylpriznak": "",
+          "@gender": null,
+          "@author": "",
+          "@copyright": "",
+          "@source": "",
+          "@admin": "",
+          "@status": "hidden",
+          "variant": []
+        }
+      ],
+      "sw": [
+        {
+          "@id": "",
+          "@fsw": "M541x543S30004482x483S34400482x483S10010487x513S20610507x520",
+          "@misto": "brada",
+          "@author": "Teiresiás OZZ",
+          "@copyright": "",
+          "@source": "",
+          "@admin": "",
+          "@primary": false,
+          "_text": "49157(x-18y-17)_55681(x-18y-17)_17(x-13y13)_25169(x7y20)"
+        }
+      ],
+      "video_front": "A_pohadkaMUOZ231122204.mp4",
+      "video_side": "B_pohadkaMUOZ231122204.mp4",
+      "hamnosys": {
+        "_text": "",
+        "@author": "",
+        "@source": "",
+        "@copyright": "",
+        "@admin": "",
+        "@status": "hidden"
+      },
+      "@swstatus": "published",
+      "lemma_type": "single"
+    },
+    "media": [],
+    "meanings": [
+      {
+        "id": "38-1",
+        "status": "published",
+        "updated_at": "2026-01-06 15:00:21",
+        "category": [],
+        "relation": [
+          {
+            "meaning_id": "29379-1",
+            "type": "synonym",
+            "target": "czj",
+            "status": "published"
+          },
+          {
+            "meaning_id": "43-1",
+            "type": "synonym",
+            "target": "czj",
+            "status": "published"
+          },
+          {
+            "meaning_id": "31909-1",
+            "type": "translation",
+            "target": "cs",
+            "status": "published"
+          },
+          {
+            "meaning_id": "65413-1",
+            "type": "translation",
+            "target": "cs",
+            "status": "published"
+          },
+          {
+            "meaning_id": "218-1",
+            "type": "translation",
+            "target": "uzm",
+            "status": "published"
+          },
+          {
+            "meaning_id": "199-1",
+            "type": "translation",
+            "target": "uk",
+            "status": "published"
+          },
+          {
+            "meaning_id": "23465-1",
+            "type": "synonym",
+            "target": "czj",
+            "status": "published"
+          },
+          {
+            "meaning_id": "6844-1",
+            "type": "translation",
+            "target": "en",
+            "status": "published"
+          }
+        ],
+        "author": "",
+        "copyright": "",
+        "source": "",
+        "admin": "",
+        "style_region": "",
+        "pracskupina": "",
+        "number": 1,
+        "created_at": "2023-08-09 13:31:17",
+        "text": {
+          "file": {
+            "@media_id": "56260"
+          }
+        },
+        "usages": [
+          {
+            "id": "38-1_us0",
+            "updated_at": "2026-01-06 15:00:21",
+            "status": "published",
+            "text": {
+              "file": {
+                "@media_id": "56236"
+              }
+            },
+            "author": "Teiresiás KF UZM",
+            "copyright": "",
+            "source": "",
+            "admin": "",
+            "type": "sentence",
+            "created_at": "2024-02-22 13:57:35"
+          },
+          {
+            "id": "38-1_us1",
+            "updated_at": "2026-01-06 15:00:21",
+            "status": "published",
+            "text": {
+              "file": {
+                "@media_id": "58542"
+              }
+            },
+            "author": "Teiresiás KF UZM",
+            "copyright": "",
+            "source": "",
+            "admin": "",
+            "type": "sentence",
+            "created_at": "2024-08-20 13:37:30"
+          },
+          {
+            "id": "38-1_us2",
+            "updated_at": "2026-01-06 15:00:21",
+            "status": "published",
+            "text": {
+              "file": {
+                "@media_id": "63788"
+              }
+            },
+            "author": "Teiresiás OZZ",
+            "copyright": "",
+            "source": "",
+            "admin": "",
+            "type": "sentence",
+            "created_at": "2025-12-19 11:28:50"
+          }
+        ]
+      }
+    ],
+    "sort_key": "20000038"
+  },
+  {
+    "dict": "czj",
     "id": "17145",
     "lemma": {
       "updated_at": "2024-11-26 13:04:22",
@@ -1096,5 +1296,1432 @@
       "status": ""
     },
     "html": "<html>\n    <span style=\"background-color:yellow\"><b>škála</b>, -y <small>ž</small> &lt;n ← i ← l&gt; <i>stupnice 2</i>: škála tónů; barevná škála; <small>přen. hovor.</small> celá škála možností <i>řada</i></span>\n    <p/>\n  </html>"
+  },
+  {
+    "dict": "czj",
+    "id": "29379",
+    "lemma": {
+      "updated_at": "2025-01-09 13:11:43",
+      "media_folder_id": "",
+      "created_at": "2023-10-30 15:33:31",
+      "completeness": "0",
+      "pracskupina": "obecna",
+      "puvod": null,
+      "admin_comment": "",
+      "status": "hidden",
+      "homonym": [
+        ""
+      ],
+      "grammar_note": [
+        {
+          "_text": "",
+          "@region": "",
+          "@author": "Teiresiás OZZ",
+          "@copyright": "",
+          "@source": "",
+          "@admin": "",
+          "@status": "hidden",
+          "@mluv_komp": "",
+          "@mluv_komp_sel": null,
+          "@oral_komp": "",
+          "@oral_komp_sel": null,
+          "variant": [],
+          "@slovni_druh": "subst",
+          "@skupina": null,
+          "@skupina2": "",
+          "@skupina3": ""
+        }
+      ],
+      "style_note": [
+        {
+          "_text": "",
+          "@generace": "",
+          "@kategorie": null,
+          "@stylpriznak": "",
+          "@gender": null,
+          "@author": "Teiresiás OZZ",
+          "@copyright": "",
+          "@source": "",
+          "@admin": "",
+          "@status": "hidden",
+          "variant": []
+        }
+      ],
+      "sw": [
+        {
+          "@id": "",
+          "@fsw": "M518x543S30004482x483S34400482x483S10010487x513S20500507x520",
+          "@misto": "brada",
+          "@author": "Teiresiás S2",
+          "@copyright": "",
+          "@source": "",
+          "@admin": "",
+          "@primary": false,
+          "_text": "49157_55681_17(x5y30)_25057(x25y37)"
+        },
+        {
+          "@id": "",
+          "@fsw": "M551x600S34c00482x483S18547532x573S1854f453x573S21000493x568S22f05517x553S22f13467x553S17c40502x538S17c48482x538",
+          "@misto": "ruka",
+          "@author": "Teiresiás S2",
+          "@copyright": "",
+          "@source": "",
+          "@admin": "",
+          "@primary": false,
+          "_text": "56449(x29)_12840(x79y90)_12848(y90)_26113(x40y85)_29094(x64y70)_29108(x14y70)_11969(x49y55)_11977(x29y55)"
+        }
+      ],
+      "video_front": "A_pohadkaMUOZ231122240.mp4",
+      "video_side": "B_pohadkaMUOZ231122240.mp4",
+      "hamnosys": {
+        "_text": "",
+        "@author": "Teiresiás OZZ",
+        "@source": "",
+        "@copyright": "",
+        "@admin": "",
+        "@status": "hidden"
+      },
+      "@swstatus": "hidden",
+      "lemma_type": "kompozitum"
+    },
+    "media": [],
+    "collocations": {
+      "status": "hidden",
+      "swcompos": "A, B",
+      "colloc": []
+    },
+    "meanings": [
+      {
+        "id": "29379-1",
+        "status": "published",
+        "updated_at": "2025-01-09 13:11:43",
+        "category": [],
+        "relation": [
+          {
+            "meaning_id": "65413-1",
+            "type": "translation",
+            "target": "cs",
+            "status": "published"
+          },
+          {
+            "meaning_id": "218-1",
+            "type": "translation",
+            "target": "uzm",
+            "status": "published"
+          },
+          {
+            "meaning_id": "38-1",
+            "type": "synonym",
+            "target": "czj",
+            "status": "published"
+          },
+          {
+            "meaning_id": "43-1",
+            "type": "synonym",
+            "target": "czj",
+            "status": "published"
+          },
+          {
+            "meaning_id": "199-1",
+            "type": "translation",
+            "target": "uk",
+            "status": "published"
+          },
+          {
+            "meaning_id": "23465-1",
+            "type": "synonym",
+            "target": "czj",
+            "status": "published"
+          },
+          {
+            "meaning_id": "6844-1",
+            "type": "translation",
+            "target": "en",
+            "status": "published"
+          }
+        ],
+        "author": "Teiresiás OZZ",
+        "copyright": "",
+        "source": "",
+        "admin": "",
+        "style_region": "",
+        "pracskupina": "",
+        "number": 1,
+        "created_at": "2023-10-30 15:33:31",
+        "text": {
+          "file": {
+            "@media_id": "56260"
+          }
+        },
+        "usages": [
+          {
+            "id": "29379-1_us0",
+            "updated_at": "2025-01-09 13:11:43",
+            "status": "published",
+            "text": {
+              "file": {
+                "@media_id": "58602"
+              }
+            },
+            "author": "Teiresiás KF UZM",
+            "copyright": "",
+            "source": "",
+            "admin": "",
+            "type": "sentence",
+            "created_at": "2024-08-21 12:32:41"
+          }
+        ]
+      }
+    ],
+    "sort_key": "20029379"
+  },
+  {
+    "dict": "czj",
+    "id": "43",
+    "lemma": {
+      "updated_at": "2026-01-16 16:41:26",
+      "media_folder_id": "",
+      "created_at": "2023-08-09 13:31:17",
+      "completeness": "0",
+      "pracskupina": "obecna",
+      "puvod": null,
+      "admin_comment": "",
+      "status": "hidden",
+      "homonym": [
+        ""
+      ],
+      "grammar_note": [
+        {
+          "_text": "",
+          "@region": "cechy",
+          "@author": "",
+          "@copyright": "",
+          "@source": "",
+          "@admin": "",
+          "@status": "hidden",
+          "@mluv_komp": "pohádka",
+          "@mluv_komp_sel": "povinny",
+          "@oral_komp": "",
+          "@oral_komp_sel": null,
+          "variant": [],
+          "@slovni_druh": "subst",
+          "@skupina": null,
+          "@skupina2": "",
+          "@skupina3": ""
+        }
+      ],
+      "style_note": [
+        {
+          "_text": "",
+          "@generace": "",
+          "@kategorie": null,
+          "@stylpriznak": "",
+          "@gender": null,
+          "@author": "",
+          "@copyright": "",
+          "@source": "",
+          "@admin": "",
+          "@status": "hidden",
+          "variant": []
+        }
+      ],
+      "sw": [
+        {
+          "@id": "",
+          "@fsw": "M544x537S30007482x483S11521517x483S2df06517x513S20500507x473S35000482x483",
+          "@misto": "hlava",
+          "@author": "Teiresiás S2",
+          "@copyright": "",
+          "@source": "",
+          "@admin": "",
+          "@primary": false,
+          "_text": "49160(y10)_2050(x35y10)_45991(x35y40)_25057(x25)_56833(y10)"
+        },
+        {
+          "@id": "",
+          "@fsw": "M551x600S34c00482x483S18547532x573S1854f453x573S21000493x568S22f05517x553S22f13467x553S17c40502x538S17c48482x538",
+          "@misto": "ruka",
+          "@author": "Teiresiás S2",
+          "@copyright": "",
+          "@source": "",
+          "@admin": "",
+          "@primary": false,
+          "_text": "56449(x29)_12840(x79y90)_12848(y90)_26113(x40y85)_29094(x64y70)_29108(x14y70)_11969(x49y55)_11977(x29y55)"
+        }
+      ],
+      "video_front": "A_pohadkaMUOZ240116107.mp4",
+      "video_side": "B_pohadkaMUOZ240116107.mp4",
+      "hamnosys": {
+        "_text": "",
+        "@author": "",
+        "@source": "",
+        "@copyright": "",
+        "@admin": "",
+        "@status": "hidden"
+      },
+      "@swstatus": "published",
+      "lemma_type": "kompozitum"
+    },
+    "media": [],
+    "collocations": {
+      "status": "hidden",
+      "swcompos": "A,B",
+      "colloc": [
+        "4861"
+      ]
+    },
+    "meanings": [
+      {
+        "id": "43-1",
+        "status": "published",
+        "updated_at": "2026-01-16 16:41:26",
+        "category": [],
+        "relation": [
+          {
+            "meaning_id": "23465-1",
+            "type": "synonym",
+            "target": "czj",
+            "status": "published"
+          },
+          {
+            "meaning_id": "29379-1",
+            "type": "synonym",
+            "target": "czj",
+            "status": "published"
+          },
+          {
+            "meaning_id": "38-1",
+            "type": "synonym",
+            "target": "czj",
+            "status": "published"
+          },
+          {
+            "meaning_id": "31909-1",
+            "type": "translation",
+            "target": "cs",
+            "status": "published"
+          },
+          {
+            "meaning_id": "65413-1",
+            "type": "translation",
+            "target": "cs",
+            "status": "published"
+          },
+          {
+            "meaning_id": "218-1",
+            "type": "translation",
+            "target": "uzm",
+            "status": "published"
+          },
+          {
+            "meaning_id": "199-1",
+            "type": "translation",
+            "target": "uk",
+            "status": "published"
+          },
+          {
+            "meaning_id": "6844-1",
+            "type": "translation",
+            "target": "en",
+            "status": "published"
+          }
+        ],
+        "author": "",
+        "copyright": "",
+        "source": "",
+        "admin": "",
+        "style_region": "",
+        "pracskupina": "",
+        "number": 1,
+        "created_at": "2023-08-09 13:31:17",
+        "text": {
+          "file": {
+            "@media_id": "56260"
+          }
+        },
+        "usages": [
+          {
+            "id": "43-1_us0",
+            "updated_at": "2026-01-16 16:41:26",
+            "status": "published",
+            "text": {
+              "file": {
+                "@media_id": "60240"
+              }
+            },
+            "author": "Teiresiás OZZ",
+            "copyright": "",
+            "source": "",
+            "admin": "",
+            "type": "sentence",
+            "created_at": "2025-02-27 14:49:33"
+          },
+          {
+            "id": "43-1_us1",
+            "updated_at": "2026-01-16 16:41:26",
+            "status": "published",
+            "text": {
+              "file": {
+                "@media_id": "64113"
+              }
+            },
+            "author": "Teiresiás OZZ",
+            "copyright": "",
+            "source": "",
+            "admin": "",
+            "type": "sentence",
+            "created_at": "2026-01-12 17:13:54"
+          }
+        ]
+      }
+    ],
+    "sort_key": "60000043"
+  },
+  {
+    "id": "31909",
+    "dict": "cs",
+    "lemma": {
+      "title": "báchorka",
+      "title_dia": "bachorka",
+      "pron": "",
+      "gram": {
+        "form": [
+          {
+            "@tag": "nPc1",
+            "_text": "báchorky"
+          },
+          {
+            "@tag": "nPc2",
+            "_text": "báchorek"
+          },
+          {
+            "@tag": "nPc3",
+            "_text": "báchorkám"
+          },
+          {
+            "@tag": "nPc4",
+            "_text": "báchorky"
+          },
+          {
+            "@tag": "nPc5",
+            "_text": "báchorky"
+          },
+          {
+            "@tag": "nPc6",
+            "_text": "báchorkách"
+          },
+          {
+            "@tag": "nPc7",
+            "_text": "báchorkami"
+          },
+          {
+            "@tag": "nSc1",
+            "_text": "báchorka"
+          },
+          {
+            "@tag": "nSc2",
+            "_text": "báchorky"
+          },
+          {
+            "@tag": "nSc3",
+            "_text": "báchorce"
+          },
+          {
+            "@tag": "nSc4",
+            "_text": "báchorku"
+          },
+          {
+            "@tag": "nSc5",
+            "_text": "báchorko"
+          },
+          {
+            "@tag": "nSc6",
+            "_text": "báchorce"
+          },
+          {
+            "@tag": "nSc7",
+            "_text": "báchorkou"
+          }
+        ]
+      },
+      "completeness": "0",
+      "pracskupina": "",
+      "admin_comment": "",
+      "status": "published",
+      "puvod": "",
+      "lemma_type": "single",
+      "created_at": "",
+      "updated_at": "2015-04-16 10:24:05",
+      "grammar_note": [
+        {
+          "@status": "published",
+          "@skupina2": "z",
+          "@author": "",
+          "@skupina": "",
+          "@flexe_neskl": "false",
+          "@admin": "",
+          "@source": "",
+          "@copyright": "",
+          "@slovni_druh": "subst"
+        }
+      ],
+      "style_note": [
+        {
+          "@status": "published",
+          "@stylpriznak": "",
+          "@author": "",
+          "@admin": "",
+          "@source": "",
+          "@kategorie": "",
+          "@copyright": "",
+          "_text": "Ve významu 2 je expresivní."
+        }
+      ]
+    },
+    "type": "write",
+    "meanings": [
+      {
+        "id": "31909-1",
+        "mid": "cs.31909-1",
+        "author": "",
+        "copyright": "",
+        "source": "",
+        "admin": "",
+        "style_region": null,
+        "oblast": "",
+        "pracskupina": null,
+        "number": "1",
+        "status": "published",
+        "category": [],
+        "created_at": null,
+        "updated_at": "2015-04-16 10:24:05",
+        "relation": [
+          {
+            "target": "cs",
+            "meaning_id": "65413-1",
+            "status": "published",
+            "type": "synonym",
+            "mid": "cs.65413-1"
+          },
+          {
+            "target": "czj",
+            "type": "translation",
+            "meaning_id": "38-1",
+            "status": "published"
+          },
+          {
+            "target": "czj",
+            "type": "translation",
+            "meaning_id": "43-1",
+            "status": "published"
+          }
+        ],
+        "usages": [
+          {
+            "id": "31909-1_us0",
+            "mid": "cs.31909-1_us0",
+            "author": "",
+            "copyright": "",
+            "source": "http://kultura.idnes.cz/s-novou-stedrovecerni-pohadkou-laska-rohata-miri-reziser-do-zlateho-fondu-1te-/filmvideo.aspx?c=A091221_184620_filmvideo_tt",
+            "admin": "https://ske.fi.muni.cz/bonito/run.cgi/first?corpname=preloaded%2Fcztenten12_clean2&iquery=b%C3%A1chorka&queryselector=iqueryrow&default_attr=word&fc_lemword_window_type=both&fc_lemword_wsize=5&gdex_enabled=1&viewmode=sentence",
+            "text": {
+              "_text": "Z názvu nového příběhu je zřejmé, že se v něm objeví tradiční hrdinové českých báchorek – čerti, kteří budí více smíchu než strachu."
+            },
+            "type": null,
+            "updated_at": "2015-04-16 10:24:05",
+            "created_at": null,
+            "status": "published"
+          }
+        ],
+        "text": {
+          "_text": "vypravování o smyšleném světě, nadpřirozených silách"
+        }
+      },
+      {
+        "id": "31909-2",
+        "mid": "cs.31909-2",
+        "author": "",
+        "copyright": "",
+        "source": "",
+        "admin": "",
+        "style_region": null,
+        "oblast": "",
+        "pracskupina": null,
+        "number": "2",
+        "status": "published",
+        "category": [],
+        "created_at": null,
+        "updated_at": "2015-04-16 10:24:05",
+        "relation": [
+          {
+            "target": "cs",
+            "meaning_id": "31910-2",
+            "status": "published",
+            "type": "synonym",
+            "mid": "cs.31910-2"
+          },
+          {
+            "target": "cs",
+            "meaning_id": "65413-2",
+            "status": "published",
+            "type": "synonym",
+            "mid": "cs.65413-2"
+          },
+          {
+            "target": "cs",
+            "meaning_id": "36358-1",
+            "status": "published",
+            "type": "synonym",
+            "mid": "cs.36358-1"
+          },
+          {
+            "target": "cs",
+            "meaning_id": "37697-1",
+            "status": "published",
+            "type": "synonym",
+            "mid": "cs.37697-1"
+          }
+        ],
+        "usages": [
+          {
+            "id": "31909-2_us0",
+            "mid": "cs.31909-2_us0",
+            "author": "",
+            "copyright": "",
+            "source": "upraveno http://hn.ihned.cz/?article[comment][ukaz_vsechny]=1&article[comment][art_id]=39146170&p=501100_d&article[id]=39146170",
+            "admin": "https://ske.fi.muni.cz/bonito/run.cgi/first?corpname=preloaded%2Fcztenten12_clean2&iquery=b%C3%A1chorka&queryselector=iqueryrow&default_attr=word&fc_lemword_window_type=both&fc_lemword_wsize=5&gdex_enabled=1&viewmode=sentence",
+            "text": {
+              "_text": "Drtivá většina lidí věří báchorkám o tom, že očkování nás chrání před nemocemi."
+            },
+            "type": null,
+            "updated_at": "2015-04-16 10:24:05",
+            "created_at": null,
+            "status": "published"
+          }
+        ],
+        "text": {
+          "_text": "něco smyšleného, nepravdivého"
+        }
+      }
+    ],
+    "collocations": {
+      "status": "published",
+      "colloc": []
+    },
+    "html": "<html>\n    <span style=\"background-color:yellow\"><b>báchorka</b>, -y <small>ž</small> <b>1</b> <i>pohádka 1</i>: národní báchorky <b>2</b> <small>expr.</small> <i>výmysl, smyšlenka, pohádka 2, bajka 2</i>: myslivecké báchorky</span>\n    <p/>\n  </html>"
+  },
+  {
+    "dict": "cs",
+    "id": "65413",
+    "lemma": {
+      "updated_at": "2024-07-23 13:36:35",
+      "completeness": "0",
+      "pracskupina": null,
+      "admin_comment": "SSC ID:pohádka|ž|0.1",
+      "status": "hidden",
+      "title": "pohádka",
+      "title_var": "",
+      "pron": "",
+      "puvod": null,
+      "grammar_note": [
+        {
+          "_text": "ženský rod",
+          "@flexe_neskl": false,
+          "@author": "",
+          "@source": "",
+          "@admin": "",
+          "@status": "hidden",
+          "variant": [],
+          "@slovni_druh": "subst",
+          "@skupina": "",
+          "@skupina2": "z"
+        }
+      ],
+      "style_note": [
+        {
+          "_text": "zní to jako pohádka (krásně, neskutečně); \nžít jako v pohádce (šťastně);",
+          "@kategorie": "",
+          "@stylpriznak": "",
+          "@author": "",
+          "@source": "",
+          "@admin": "",
+          "@status": "hidden",
+          "variant": []
+        }
+      ],
+      "lemma_type": "single",
+      "gram": {
+        "form": [
+          {
+            "_text": "pohádky",
+            "@tag": "nPc1"
+          },
+          {
+            "_text": "pohádek",
+            "@tag": "nPc2"
+          },
+          {
+            "_text": "pohádkám",
+            "@tag": "nPc3"
+          },
+          {
+            "_text": "pohádky",
+            "@tag": "nPc4"
+          },
+          {
+            "_text": "pohádky",
+            "@tag": "nPc5"
+          },
+          {
+            "_text": "pohádkách",
+            "@tag": "nPc6"
+          },
+          {
+            "_text": "pohádkami",
+            "@tag": "nPc7"
+          },
+          {
+            "_text": "pohádka",
+            "@tag": "nSc1"
+          },
+          {
+            "_text": "pohádky",
+            "@tag": "nSc2"
+          },
+          {
+            "_text": "pohádce",
+            "@tag": "nSc3"
+          },
+          {
+            "_text": "pohádku",
+            "@tag": "nSc4"
+          },
+          {
+            "_text": "pohádko",
+            "@tag": "nSc5"
+          },
+          {
+            "_text": "pohádce",
+            "@tag": "nSc6"
+          },
+          {
+            "_text": "pohádkou",
+            "@tag": "nSc7"
+          }
+        ]
+      },
+      "title_dia": "pohadka"
+    },
+    "html": "<html><span style=\"background-color:yellow\"><b>pohádka</b>, -y <small>ž</small> <i>báchorka</i> <b>1</b> <i>vypravování o smyšleném světě, nadpřirozených silách</i>: lidové pohádky a pověsti; vyprávět dětem pohádky; <small>přen. expr.</small> zimní pohádka <i>krása</i>; ty šaty, to je pohádka <i>jsou krásné</i> <b>2</b> <small>expr.</small> <i>výmysl</i>: nevykládej nám tu pohádky <i>nelži</i> ♦ zní to jako pohádka <i>krásně, neskutečně</i>; žít jako v pohádce <i>šťastně</i></span>; <b>pohádkový</b> <small>příd.</small> <i>k 1</i>: pohádková knížka; <small>přen. expr.</small> pohádková příroda <i>krásná</i>; <b>pohádkově</b> <small>přísl.</small>: <small>expr.</small> být pohádkově bohatý<p/></html>",
+    "meanings": [
+      {
+        "id": "65413-1",
+        "status": "hidden",
+        "updated_at": "2024-07-23 13:36:35",
+        "relation": [
+          {
+            "meaning_id": "31909-1",
+            "type": "synonym",
+            "target": "cs",
+            "status": "published"
+          },
+          {
+            "meaning_id": "218-1",
+            "type": "translation",
+            "target": "uzm",
+            "status": "published"
+          },
+          {
+            "meaning_id": "23465-1",
+            "type": "translation",
+            "target": "czj",
+            "status": "published"
+          },
+          {
+            "meaning_id": "29379-1",
+            "type": "translation",
+            "target": "czj",
+            "status": "published"
+          },
+          {
+            "meaning_id": "38-1",
+            "type": "translation",
+            "target": "czj",
+            "status": "published"
+          },
+          {
+            "meaning_id": "43-1",
+            "type": "translation",
+            "target": "czj",
+            "status": "published"
+          },
+          {
+            "meaning_id": "199-1",
+            "type": "translation",
+            "target": "uk",
+            "status": "published"
+          },
+          {
+            "meaning_id": "6844-1",
+            "type": "translation",
+            "target": "en",
+            "status": "published"
+          }
+        ],
+        "author": "",
+        "source": "",
+        "admin": "",
+        "oblast": "",
+        "pracskupina": "",
+        "number": 1,
+        "text": {
+          "_text": "vypravování o smyšleném světě, nadpřirozených silách"
+        },
+        "usages": [
+          {
+            "id": "65413-1_us0",
+            "updated_at": "2024-07-23 13:36:35",
+            "status": "hidden",
+            "text": {
+              "_text": "lidové pohádky a pověsti"
+            },
+            "author": "",
+            "source": "",
+            "admin": "",
+            "type": "sentence",
+            "created_at": "2023-12-05 10:03:03"
+          },
+          {
+            "id": "65413-1_us1",
+            "updated_at": "2024-07-23 13:36:35",
+            "status": "hidden",
+            "text": {
+              "_text": "vyprávět dětem pohádky"
+            },
+            "author": "",
+            "source": "",
+            "admin": "",
+            "type": "sentence",
+            "created_at": "2023-12-05 10:03:03"
+          },
+          {
+            "id": "65413-1_us2",
+            "updated_at": "2024-07-23 13:36:35",
+            "status": "hidden",
+            "text": {
+              "_text": "zimní pohádka (krása)"
+            },
+            "author": "",
+            "source": "",
+            "admin": "",
+            "type": "sentence",
+            "created_at": "2023-12-05 10:03:03"
+          },
+          {
+            "id": "65413-1_us3",
+            "updated_at": "2024-07-23 13:36:35",
+            "status": "hidden",
+            "text": {
+              "_text": "ty šaty, to je pohádka (jsou krásné)"
+            },
+            "author": "",
+            "source": "",
+            "admin": "",
+            "type": "sentence",
+            "created_at": "2023-12-05 10:03:03"
+          }
+        ]
+      },
+      {
+        "id": "65413-2",
+        "status": "hidden",
+        "updated_at": "2024-07-23 13:36:35",
+        "relation": [
+          {
+            "meaning_id": "31909-2",
+            "type": "synonym",
+            "target": "cs",
+            "status": "published"
+          }
+        ],
+        "author": "",
+        "source": "",
+        "admin": "",
+        "oblast": "",
+        "pracskupina": "",
+        "number": 2,
+        "text": {
+          "_text": "výmysl"
+        },
+        "usages": [
+          {
+            "id": "65413-2_us0",
+            "updated_at": "2024-07-23 13:36:35",
+            "status": "hidden",
+            "text": {
+              "_text": "nevykládej nám tu pohádky (nelži)"
+            },
+            "author": "",
+            "source": "",
+            "admin": "",
+            "type": "sentence",
+            "created_at": "2023-12-05 10:03:03"
+          }
+        ]
+      }
+    ],
+    "sort_key": "20065413"
+  },
+  {
+    "dict": "uzm",
+    "id": "218",
+    "lemma": {
+      "updated_at": "2024-07-23 13:34:22",
+      "media_folder_id": "",
+      "created_at": "2023-09-15 08:57:04",
+      "completeness": "0",
+      "pracskupina": null,
+      "puvod": null,
+      "admin_comment": "",
+      "status": "hidden",
+      "homonym": [
+        ""
+      ],
+      "grammar_note": [
+        {
+          "_text": "",
+          "@region": "",
+          "@author": "",
+          "@copyright": "",
+          "@source": "",
+          "@admin": "",
+          "@status": "hidden",
+          "@mluv_komp": "",
+          "@mluv_komp_sel": null,
+          "@oral_komp": "",
+          "@oral_komp_sel": null,
+          "variant": [],
+          "@slovni_druh": "subst",
+          "@skupina": null,
+          "@skupina2": "",
+          "@skupina3": ""
+        }
+      ],
+      "style_note": [
+        {
+          "_text": "",
+          "@generace": "",
+          "@kategorie": null,
+          "@stylpriznak": "",
+          "@gender": null,
+          "@author": "",
+          "@copyright": "",
+          "@source": "",
+          "@admin": "",
+          "@status": "hidden",
+          "variant": []
+        }
+      ],
+      "sw": [
+        {
+          "@id": "",
+          "@fsw": "M555x518S10011516x486S2d307521x466S34c00482x483S2f700529x451",
+          "@misto": "hlava;neutral",
+          "@author": "Teiresiás MUNI 4.0",
+          "@copyright": "",
+          "@source": "",
+          "@admin": "",
+          "@primary": false,
+          "_text": "18(x34y35)_44840(x39y15)_56449(y32)_48289(x47)"
+        }
+      ],
+      "video_front": "A_казкаMUUZM230719035.mp4",
+      "video_side": "B_казкаMUUZM230719035.mp4",
+      "hamnosys": {
+        "_text": "",
+        "@author": "",
+        "@source": "",
+        "@copyright": "",
+        "@admin": "",
+        "@status": "hidden"
+      },
+      "@swstatus": "published",
+      "lemma_type": "single"
+    },
+    "media": [],
+    "meanings": [
+      {
+        "id": "218-1",
+        "status": "hidden",
+        "updated_at": "2024-07-23 13:34:22",
+        "category": [],
+        "relation": [
+          {
+            "meaning_id": "199-1",
+            "type": "translation",
+            "target": "uk",
+            "status": "published"
+          },
+          {
+            "meaning_id": "65413-1",
+            "type": "translation",
+            "target": "cs",
+            "status": "published"
+          },
+          {
+            "meaning_id": "23465-1",
+            "type": "translation",
+            "target": "czj",
+            "status": "published"
+          },
+          {
+            "meaning_id": "29379-1",
+            "type": "translation",
+            "target": "czj",
+            "status": "published"
+          },
+          {
+            "meaning_id": "38-1",
+            "type": "translation",
+            "target": "czj",
+            "status": "published"
+          },
+          {
+            "meaning_id": "43-1",
+            "type": "translation",
+            "target": "czj",
+            "status": "published"
+          },
+          {
+            "meaning_id": "6844-1",
+            "type": "translation",
+            "target": "en",
+            "status": "published"
+          }
+        ],
+        "author": "",
+        "copyright": "",
+        "source": "",
+        "admin": "",
+        "style_region": "",
+        "pracskupina": "",
+        "number": 1,
+        "created_at": "2023-09-15 08:57:04",
+        "text": {
+          "_text": ""
+        },
+        "usages": [
+          {
+            "id": "218-1_us0",
+            "updated_at": "2024-07-23 13:34:22",
+            "status": "published",
+            "text": {
+              "file": {
+                "@media_id": "976"
+              }
+            },
+            "author": "Teiresiás OZZ",
+            "copyright": "",
+            "source": "",
+            "admin": "",
+            "type": "sentence",
+            "created_at": "2023-09-15 11:14:30"
+          }
+        ]
+      }
+    ],
+    "sort_key": "20000218"
+  },
+  {
+    "dict": "uk",
+    "id": "199",
+    "lemma": {
+      "updated_at": "2024-07-23 13:35:49",
+      "created_at": "2023-09-15 08:57:04",
+      "completeness": "0",
+      "pracskupina": null,
+      "admin_comment": "",
+      "status": "hidden",
+      "title": "казка",
+      "title_var": "",
+      "pron": "",
+      "puvod": null,
+      "grammar_note": [
+        {
+          "_text": "",
+          "@flexe_neskl": false,
+          "@author": "",
+          "@source": "",
+          "@admin": "",
+          "@status": "hidden",
+          "variant": [],
+          "@slovni_druh": "subst",
+          "@skupina": "",
+          "@skupina2": ""
+        }
+      ],
+      "style_note": [
+        {
+          "_text": "",
+          "@kategorie": "",
+          "@stylpriznak": "",
+          "@author": "",
+          "@source": "",
+          "@admin": "",
+          "@status": "hidden",
+          "variant": []
+        }
+      ],
+      "lemma_type": "single",
+      "title_dia": "?????"
+    },
+    "meanings": [
+      {
+        "id": "199-1",
+        "status": "published",
+        "updated_at": "2024-07-23 13:35:49",
+        "relation": [
+          {
+            "meaning_id": "218-1",
+            "type": "translation",
+            "target": "uzm",
+            "status": "published"
+          },
+          {
+            "meaning_id": "65413-1",
+            "type": "translation",
+            "target": "cs",
+            "status": "published"
+          },
+          {
+            "meaning_id": "23465-1",
+            "type": "translation",
+            "target": "czj",
+            "status": "published"
+          },
+          {
+            "meaning_id": "29379-1",
+            "type": "translation",
+            "target": "czj",
+            "status": "published"
+          },
+          {
+            "meaning_id": "38-1",
+            "type": "translation",
+            "target": "czj",
+            "status": "published"
+          },
+          {
+            "meaning_id": "43-1",
+            "type": "translation",
+            "target": "czj",
+            "status": "published"
+          },
+          {
+            "meaning_id": "6844-1",
+            "type": "translation",
+            "target": "en",
+            "status": "published"
+          }
+        ],
+        "author": "",
+        "source": "https://slovnyk.ua/index.php?swrd=казка",
+        "admin": "",
+        "oblast": "",
+        "pracskupina": "",
+        "number": 1,
+        "created_at": "2023-09-15 08:57:04",
+        "text": {
+          "_text": "Розповідний народно-поетичний або писемно-літературний твір про вигадані події, вигаданих осіб, іноді за участю фантастичних сил."
+        },
+        "usages": [
+          {
+            "id": "199-1_us0",
+            "updated_at": "2024-07-23 13:35:49",
+            "status": "published",
+            "text": {
+              "_text": "На ніч мама читала дітям казку"
+            },
+            "author": "",
+            "source": "",
+            "admin": "",
+            "type": "sentence"
+          }
+        ]
+      }
+    ],
+    "sort_key": "20000199"
+  },
+  {
+    "dict": "czj",
+    "id": "23465",
+    "lemma": {
+      "updated_at": "2025-04-03 16:13:05",
+      "media_folder_id": "",
+      "created_at": "2019-12-10 09:20:44",
+      "completeness": "0",
+      "pracskupina": "obecna",
+      "puvod": "",
+      "admin_comment": "",
+      "status": "hidden",
+      "homonym": [
+        ""
+      ],
+      "grammar_note": [
+        {
+          "_text": "",
+          "@region": "cechy",
+          "@author": "",
+          "@copyright": "",
+          "@source": "",
+          "@admin": "",
+          "@status": "hidden",
+          "@mluv_komp": "pohádka",
+          "@mluv_komp_sel": "povinny",
+          "@oral_komp": "",
+          "@oral_komp_sel": null,
+          "variant": [],
+          "@slovni_druh": "subst",
+          "@skupina": null,
+          "@skupina2": "",
+          "@skupina3": ""
+        }
+      ],
+      "style_note": [
+        {
+          "_text": "",
+          "@generace": "",
+          "@kategorie": null,
+          "@stylpriznak": "",
+          "@gender": null,
+          "@author": "",
+          "@copyright": "",
+          "@source": "",
+          "@admin": "",
+          "@status": "hidden",
+          "variant": []
+        }
+      ],
+      "sw": [
+        {
+          "@id": "",
+          "@fsw": "M554x518S34400482x483S30007482x483S11511512x488S2e201527x473S20500512x473",
+          "@misto": "celo",
+          "@author": "Teiresiás S2",
+          "@copyright": "MU, Středisko Teiresiás",
+          "@source": "",
+          "@admin": "",
+          "@primary": false,
+          "_text": "55681(y10)_49160(y10)_2034(x30y15)_46274(x45)_25057(x30)"
+        }
+      ],
+      "video_front": "A_pohadkaMUOZ231122252.mp4",
+      "video_side": "B_pohadkaMUOZ231122252.mp4",
+      "hamnosys": {
+        "_text": "",
+        "@author": "",
+        "@source": "",
+        "@copyright": "",
+        "@admin": "",
+        "@status": "hidden"
+      },
+      "@swstatus": "published",
+      "lemma_type": "single"
+    },
+    "media": [],
+    "meanings": [
+      {
+        "id": "23465-1",
+        "status": "published",
+        "updated_at": "2025-04-03 16:13:05",
+        "category": [],
+        "relation": [
+          {
+            "meaning_id": "65413-1",
+            "type": "translation",
+            "target": "cs",
+            "status": "published"
+          },
+          {
+            "meaning_id": "218-1",
+            "type": "translation",
+            "target": "uzm",
+            "status": "published"
+          },
+          {
+            "meaning_id": "29379-1",
+            "type": "synonym",
+            "target": "czj",
+            "status": "published"
+          },
+          {
+            "meaning_id": "38-1",
+            "type": "synonym",
+            "target": "czj",
+            "status": "published"
+          },
+          {
+            "meaning_id": "43-1",
+            "type": "synonym",
+            "target": "czj",
+            "status": "published"
+          },
+          {
+            "meaning_id": "199-1",
+            "type": "translation",
+            "target": "uk",
+            "status": "published"
+          },
+          {
+            "meaning_id": "6844-1",
+            "type": "translation",
+            "target": "en",
+            "status": "published"
+          }
+        ],
+        "author": "",
+        "copyright": "",
+        "source": "",
+        "admin": "",
+        "style_region": "",
+        "pracskupina": "",
+        "number": 1,
+        "created_at": null,
+        "text": {
+          "file": {
+            "@media_id": "56260"
+          }
+        },
+        "usages": [
+          {
+            "id": "23465-1_us0",
+            "updated_at": "2025-04-03 16:13:05",
+            "status": "published",
+            "text": {
+              "file": {
+                "@media_id": "59171"
+              }
+            },
+            "author": "Teiresiás OZZ",
+            "copyright": "",
+            "source": "",
+            "admin": "",
+            "type": "sentence",
+            "created_at": "2024-12-03 09:53:57"
+          }
+        ]
+      }
+    ],
+    "sort_key": "60023465"
+  },
+  {
+    "dict": "en",
+    "id": "6844",
+    "lemma": {
+      "updated_at": "2023-12-06 09:27:12",
+      "created_at": "2023-12-06 09:25:24",
+      "completeness": "0",
+      "pracskupina": "all",
+      "admin_comment": "",
+      "status": "hidden",
+      "title": "fairy tale",
+      "title_var": "",
+      "pron": "ˈfɛər i ˌteɪl ",
+      "puvod": null,
+      "grammar_note": [
+        {
+          "_text": "",
+          "@flexe_neskl": false,
+          "@author": "Teiresiás OZZ",
+          "@source": "",
+          "@admin": "",
+          "@status": "hidden",
+          "variant": [],
+          "@slovni_druh": "ustalene",
+          "@skupina": "",
+          "@skupina2": ""
+        }
+      ],
+      "style_note": [
+        {
+          "_text": "",
+          "@kategorie": "",
+          "@stylpriznak": "",
+          "@author": "Teiresiás OZZ",
+          "@source": "",
+          "@admin": "",
+          "@status": "hidden",
+          "variant": []
+        }
+      ],
+      "lemma_type": "collocation",
+      "title_dia": "fairy tale"
+    },
+    "collocations": {
+      "status": "hidden",
+      "colloc": []
+    },
+    "meanings": [
+      {
+        "id": "6844-1",
+        "status": "hidden",
+        "updated_at": "2023-12-06 09:27:12",
+        "relation": [
+          {
+            "target": "uzm",
+            "type": "translation",
+            "meaning_id": "218-1",
+            "status": "published"
+          },
+          {
+            "target": "uk",
+            "type": "translation",
+            "meaning_id": "199-1",
+            "status": "published"
+          },
+          {
+            "target": "cs",
+            "type": "translation",
+            "meaning_id": "65413-1",
+            "status": "published"
+          },
+          {
+            "target": "czj",
+            "type": "translation",
+            "meaning_id": "23465-1",
+            "status": "published"
+          },
+          {
+            "target": "czj",
+            "type": "translation",
+            "meaning_id": "29379-1",
+            "status": "published"
+          },
+          {
+            "target": "czj",
+            "type": "translation",
+            "meaning_id": "38-1",
+            "status": "published"
+          },
+          {
+            "target": "czj",
+            "type": "translation",
+            "meaning_id": "43-1",
+            "status": "published"
+          }
+        ],
+        "author": "Teiresiás OZZ",
+        "source": "https://www.dictionary.com/browse/fairy-tale",
+        "admin": "",
+        "oblast": "",
+        "pracskupina": "",
+        "number": 1,
+        "created_at": "2023-12-06 09:25:24",
+        "text": {
+          "_text": "A story, usually for children, about elves, hobgoblins, dragons, fairies, or other magical creatures."
+        }
+      }
+    ],
+    "sort_key": "20006844"
   }
 ]

@@ -620,7 +620,38 @@ main role="main"
                       - unless @params['koment'] and @params['komentbox'] == 'vazby'
                         a.btn class="btn-secondary report-" onclick="URLChange2('komentbox','vazby','koment','ne')" #{I18n.t("admin.koment.vazby")}
               a.btn style="background-color: gray; margin-left: auto; margin-right: auto" href="/#{@dictcode}/csvreport?#{@params.map{|k,v| (k=='def_skup'?"def_skup[]=#{v[0]}":"#{k}=#{v}")}.join('&')}" CSV export
-              a.btn style="background-color: gray; margin-left: auto; margin-right: auto" target="_blank" href="/#{@dictcode}/export?#{@params.map{|k,v| (k=='def_skup'?"def_skup[]=#{v[0]}":"#{k}=#{v}")}.join('&')}" JSON export
+              a#json-export-btn.btn style="background-color: gray; margin-left: auto; margin-right: auto; cursor: pointer" data-query="#{@params.map{|k,v| (k=='def_skup'?"def_skup[]=#{v[0]}":"#{k}=#{v}")}.join('&')}" onclick="startJsonExport()" JSON export
+              javascript:
+                var exportPollTimer = null;
+                function startJsonExport() {
+                  var btn = document.getElementById('json-export-btn');
+                  if (btn.dataset.running) return;
+                  btn.dataset.running = '1';
+                  var orig = btn.textContent;
+                  btn.textContent = 'Připravuje se…';
+                  var reset = function() { delete btn.dataset.running; btn.textContent = orig; };
+                  var fail = function() { clearInterval(exportPollTimer); reset(); alert('Export selhal.'); };
+                  fetch('/#{@dictcode}/export/start?' + btn.dataset.query)
+                    .then(function(r) { if (!r.ok) throw 0; return r.json(); })
+                    .then(function(job) {
+                      var tries = 0;
+                      exportPollTimer = setInterval(function() {
+                        tries += 1;
+                        if (tries > 600) { fail(); return; }
+                        fetch('/#{@dictcode}/export/status/' + job.id)
+                          .then(function(r) { if (!r.ok) throw 0; return r.json(); })
+                          .then(function(st) {
+                            if (st.status === 'done') {
+                              clearInterval(exportPollTimer);
+                              reset();
+                              window.location = '/#{@dictcode}/export/download/' + job.id;
+                            } else if (st.status !== 'running') { fail(); }
+                          })
+                          .catch(fail);
+                      }, 3000);
+                    })
+                    .catch(fail);
+                }
 
         .col.col--2.col--start.layout-aside-admin 
 

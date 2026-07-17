@@ -31,6 +31,7 @@ require_relative 'lib/czj_admin'
 require_relative 'lib/czj_admin_info'
 require_relative 'lib/czj_admin_duplicate'
 require_relative 'lib/czj_api_helper'
+require_relative 'lib/czj_export_job'
 
 class CzjApp < Sinatra::Base
   $mongo = Mongo::Client.new($mongoHost) if $mongo.nil?
@@ -782,15 +783,47 @@ class CzjApp < Sinatra::Base
       end
       result.to_json
     end
+    # long exports run in the background, frontend polls status and downloads the result
+    get '/'+code+'/export/start' do
+      content_type :json
+      query = params
+      user_info = @user_info
+      id = CzjExportJob.start(user: @user_info ? @user_info['login'] : '', filename: code+'-export.json', content_type: 'application/json') do
+        data = reports.get_report(dict, query, user_info)['entries']
+        if $dict_info[code]['type'] == 'sign'
+          CzjApiHelper.reformat_report_sign(dict, data).to_json
+        else
+          CzjApiHelper.reformat_report_write(dict, data).to_json
+        end
+      end
+      {'id' => id}.to_json
+    end
+    get '/'+code+'/export/status/:job_id' do
+      content_type :json
+      meta = CzjExportJob.meta(params['job_id'])
+      # 200 even for unknown ids: the not_found handler would replace a 404 body with HTML
+      {'status' => meta.nil? ? 'unknown' : meta['status']}.to_json
+    end
+    get '/'+code+'/export/download/:job_id' do
+      meta = CzjExportJob.meta(params['job_id'])
+      halt 404 if meta.nil? or meta['status'] != 'done'
+      halt 403 if meta['user'] != (@user_info ? @user_info['login'] : '').to_s
+      send_file CzjExportJob.data_path(params['job_id']), :filename => meta['filename'], :type => meta['content_type'], :disposition => :attachment
+    end
     get '/'+code+'/csvreport' do
       content_type 'text/csv; charset=utf-8'
       attachment code+'report.csv'
       if $dict_info[code]['type'] == 'sign'
-	      csv = ['ID;video čelní;video boční;překlady;překlady text;fsw;synonyma;varianty;sl.druh;sl.druh2;sl.druh3']
+	      csv = ['ID;video čelní;video boční;orient;překlady;překlady text;fsw;synonyma;varianty;sl.druh;sl.druh2;sl.druh3']
         reports.get_report(dict, params, @user_info)['entries'].each{|rep|
           ri = [rep['id']]
           ri << rep['lemma']['video_front'].to_s
           ri << rep['lemma']['video_side'].to_s
+          if rep['lemma']['video_front'].to_s == ''
+            ri << ''
+          else
+            ri << CzjApiHelper.video_orient(dict.get_media_location(rep['lemma']['video_front'].to_s, code))
+          end
           rels = []
           relst = []
           if rep['meanings']

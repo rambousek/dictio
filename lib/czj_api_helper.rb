@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 module CzjApiHelper
+  # Map a media document's stored orientation (pr/lr) to the export value P/L.
+  def self.video_orient(media)
+    %w[lr l].include?((media || {})['orient'].to_s.downcase) ? 'L' : 'P'
+  end
+
   def self.reformat_report_sign(dict, data)
     result = data.map do |entry|
       lemma = entry['lemma'] || {}
@@ -36,10 +41,15 @@ module CzjApiHelper
           unless main_videos.include?(media_data['location']) || variant_ids.include?(media_data['id'].to_s)
             more_media << {
               'id' => media_data['id'],
-              'video' => media_data['location']
+              'video' => media_data['location'],
+              'video_orient' => video_orient(media_data)
             }
           end
         end
+      end
+
+      front_media, side_media = [lemma['video_front'], lemma['video_side']].map do |loc|
+        files.find { |m| m.is_a?(Hash) && m['location'] == loc } if loc.to_s != ''
       end
 
       meanings = (entry['meanings'] || []).map do |meaning|
@@ -98,7 +108,9 @@ module CzjApiHelper
       {
         'ID' => entry['id'],
         'video_front' => lemma['video_front'],
+        'video_front_orient' => lemma['video_front'].to_s == '' ? nil : video_orient(front_media),
         'video_side' => lemma['video_side'],
+        'video_side_orient' => lemma['video_side'].to_s == '' ? nil : video_orient(side_media),
         'pos' => grammar_note['@slovni_druh'] || '',
         'pos2' => grammar_note['@skupina'] || '',
         'pos3' => grammar_note['@skupina2'] || '',
