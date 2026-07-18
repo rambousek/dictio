@@ -121,14 +121,14 @@ class CzjApp < Sinatra::Base
       @users = $mongo['history'].distinct('user').sort
 	  limit = params['limit'].to_i
       limit = 100 if limit.nil? or limit == 0
-      @report = $dict_array['czj'].list_history(params['code'].to_s, params['user'].to_s, params['entry'].to_s, limit)
+      @report = CzjHistory.list_history(params['code'].to_s, params['user'].to_s, params['entry'].to_s, limit)
       @params = params
       slim :history
     end
 
     get '/compare/:cid' do
       @dict_info = $dict_info
-      @change = $dict_array['czj'].get_history(params['cid'])
+      @change = CzjHistory.get_history(params['cid'])
       @dictcode = @change['dict']
       @show_dictcode = @change['dict']
       @target = ''
@@ -138,8 +138,8 @@ class CzjApp < Sinatra::Base
       end
       @entry_new = $dict_array[@dictcode].full_entry(@change['full_entry'], false)
       @entry_new = $dict_array[@dictcode].add_rels(@entry_new, false)
-      @prev = $dict_array[@dictcode].history_prev(@change)
-      @next = $dict_array[@dictcode].history_next(@change)
+      @prev = CzjHistory.history_prev(@change)
+      @next = CzjHistory.history_next(@change)
       slim :historycompare
     end
 

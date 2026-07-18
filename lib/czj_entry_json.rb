@@ -2,11 +2,9 @@
 module CzjEntryJson
   module_function
 
-  # history lookup is intentionally hard-coded to the czj dict, matching the
-  # historical inline route behavior
   def build_doc(dict, dict_array, code, params, add_rev)
     if params['history'].to_s != '' and params['historytype'].to_s != ''
-      change = dict_array['czj'].get_history(params['history'])
+      change = CzjHistory.get_history(params['history'])
       if params['historytype'].to_s == 'old'
         if change['full_entry_old']
           doc = change['full_entry_old']

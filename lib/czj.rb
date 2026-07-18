@@ -27,7 +27,6 @@ class CZJDict < Object
   include CzjRelations
   include CzjDictAdmin
   include CzjVideoReport
-  include CzjHistory
   include CzjImport
   include CzjWordlist
 
