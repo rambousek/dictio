@@ -64,12 +64,15 @@ class CzjApp < Sinatra::Base
       sign_dicts << code
     end
   }
+  # constants so route files reopening the class can reference them
+  WRITE_DICTS = write_dicts
+  SIGN_DICTS = sign_dicts
   $dict_array = {}
-  comments = CzjComment.new
-  comments.sign_dicts = sign_dicts
-  reports = CzjReport.new
-  reports.sign_dicts = sign_dicts
-  admin_dict = CzjAdmin.new
+  COMMENTS = CzjComment.new
+  COMMENTS.sign_dicts = SIGN_DICTS
+  REPORTS = CzjReport.new
+  REPORTS.sign_dicts = SIGN_DICTS
+  ADMIN_DICT = CzjAdmin.new
 
   @user_info = nil
   helpers Sinatra::Cookies
@@ -176,7 +179,7 @@ class CzjApp < Sinatra::Base
     @search_limit = 10
     @translate_limit = 9
     @report_limit = 15
-    cookies.set(:dictio_pref, {:httponly=>false, :value=>(write_dicts+sign_dicts).map{|i| 'dict-'+i+'=true'}.join(';')})
+    cookies.set(:dictio_pref, {:httponly=>false, :value=>(WRITE_DICTS+SIGN_DICTS).map{|i| 'dict-'+i+'=true'}.join(';')})
     @is_edit = $is_edit
     @is_admin = $is_admin
     @is_test = $is_test
@@ -244,20 +247,20 @@ class CzjApp < Sinatra::Base
     @search_params = {}
     @request = request
     @selected_page = 'admin'
-    @lemma_counts = admin_dict.info_count.get_count_entry
+    @lemma_counts = ADMIN_DICT.info_count.get_count_entry
     @duplicate = CzjAdminDuplicate.get_duplicate_counts
-    @notrans_count = admin_dict.info_count.get_count_relation_notrans
+    @notrans_count = ADMIN_DICT.info_count.get_count_relation_notrans
     page = 'admin'
     slim page.to_sym
   end
 
-  (write_dicts+sign_dicts).each{|code|
+  (WRITE_DICTS+SIGN_DICTS).each{|code|
   	$stdout.puts code
     dict = CZJDict.new(code)
-    dict.write_dicts = write_dicts
-    dict.sign_dicts = sign_dicts
+    dict.write_dicts = WRITE_DICTS
+    dict.sign_dicts = SIGN_DICTS
     dict.dict_info = $dict_info
-    dict.comments = comments
+    dict.comments = COMMENTS
     $dict_array[code] = dict
  
     get '/'+code do
@@ -595,7 +598,7 @@ class CzjApp < Sinatra::Base
       end
       get '/'+code+'/comments/:id(/:type)?' do
         content_type :json
-        comments.get_comments(code, params['id'], params['type'].to_s).to_json
+        COMMENTS.get_comments(code, params['id'], params['type'].to_s).to_json
       end
       post '/'+code+'/save' do
         data = JSON.parse(params['data'])
@@ -636,7 +639,7 @@ class CzjApp < Sinatra::Base
       end
       get '/'+code+'/del_comment/:cid' do
         if params['cid'] != ''
-          comments.comment_del(params['cid'])
+          COMMENTS.comment_del(params['cid'])
         end
         content_type :json
         {"success"=>true,"msg"=>"Uloženo"}.to_json
@@ -717,14 +720,14 @@ class CzjApp < Sinatra::Base
     if $is_edit or $is_admin
       post '/'+code+'/add_comment' do
         if params['box'] != '' and params['entry'] != '' and params['type'] != ''
-          comments.comment_add(dict, @user_info['login'], params['entry'], params['box'], params['text'], params['user'])
+          COMMENTS.comment_add(dict, @user_info['login'], params['entry'], params['box'], params['text'], params['user'])
         end
         content_type :json
         {"success"=>true,"msg"=>"Uloženo"}.to_json
       end
       post '/'+code+'/save_comment/:cid' do
         if params['cid'] != ''
-          comments.comment_save(params['cid'], params['assign'], params['solved'])
+          COMMENTS.comment_save(params['cid'], params['assign'], params['solved'])
         end
         content_type :json
         {"success"=>true,"msg"=>"Uloženo"}.to_json
@@ -734,7 +737,7 @@ class CzjApp < Sinatra::Base
         @params = params
         @target = ''
         @dict_info = $dict_info
-        @report = reports.get_comment_report(dict, params)
+        @report = REPORTS.get_comment_report(dict, params)
         @users = dict.get_users
         slim :commentreport
       end
@@ -745,7 +748,7 @@ class CzjApp < Sinatra::Base
       @target = ''
       @dict_info = $dict_info
       @params = params
-      @report = reports.get_report(dict, params, @user_info, 0, @report_limit)
+      @report = REPORTS.get_report(dict, params, @user_info, 0, @report_limit)
       @duplicate = CzjAdminDuplicate.get_duplicate_counts
       slim :report
     end
@@ -754,16 +757,16 @@ class CzjApp < Sinatra::Base
       @target = ''
       @dict_info = $dict_info
       @params = params
-      @report = reports.get_report(dict, params, @user_info, params['start'].to_i, params['limit'].to_i)
+      @report = REPORTS.get_report(dict, params, @user_info, params['start'].to_i, params['limit'].to_i)
       slim :reportresultlist, :layout=>false
     end
     get '/'+code+'/jsonreport' do
       content_type :json
-      reports.get_report(dict, params, @user_info).to_json
+      REPORTS.get_report(dict, params, @user_info).to_json
     end
     get '/'+code+'/export' do
       content_type :json
-      data = reports.get_report(dict, params, @user_info)['entries']
+      data = REPORTS.get_report(dict, params, @user_info)['entries']
       if $dict_info[code]['type'] == 'sign'
         result = CzjApiHelper.reformat_report_sign(dict, data)
       else
@@ -777,7 +780,7 @@ class CzjApp < Sinatra::Base
       query = params
       user_info = @user_info
       id = CzjExportJob.start(user: @user_info ? @user_info['login'] : '', filename: code+'-export.json', content_type: 'application/json') do
-        data = reports.get_report(dict, query, user_info)['entries']
+        data = REPORTS.get_report(dict, query, user_info)['entries']
         if $dict_info[code]['type'] == 'sign'
           CzjApiHelper.reformat_report_sign(dict, data).to_json
         else
@@ -803,7 +806,7 @@ class CzjApp < Sinatra::Base
       attachment code+'report.csv'
       if $dict_info[code]['type'] == 'sign'
 	      csv = ['ID;video čelní;video boční;orient;překlady;překlady text;fsw;synonyma;varianty;sl.druh;sl.druh2;sl.druh3']
-        reports.get_report(dict, params, @user_info)['entries'].each{|rep|
+        REPORTS.get_report(dict, params, @user_info)['entries'].each{|rep|
           ri = [rep['id']]
           ri << rep['lemma']['video_front'].to_s
           ri << rep['lemma']['video_side'].to_s
@@ -891,7 +894,7 @@ class CzjApp < Sinatra::Base
         }
       else
         csv = ['ID;lemma;slovní druh;význam ID;definice;zdroj definice;*příklad ID;*příklad;*zdroj příkladu;překlady;překlady text']
-        reports.get_report(dict, params, @user_info)['entries'].each{|rep|
+        REPORTS.get_report(dict, params, @user_info)['entries'].each{|rep|
           if rep['meanings'] and rep['meanings'].size > 0
             rep['meanings'].each{|rm|
               ri = [rep['id']]
