@@ -210,7 +210,7 @@ class CzjEditMedia < Object
   # @param [String] entry_id
   # @return [Array[String]]
   def save_uploaded_file(filedata, metadata, entry_id)
-    filename = filedata['filename'].force_encoding("UTF-8").gsub(/[^\w^\p{Cyrillic}^\.^_^-]/, '')
+    filename = filedata['filename'].force_encoding("UTF-8").gsub(/[^\w^\p{Cyrillic}\.-]/, '')
     filename = filename[0,2]+filename[2..-1].gsub('_','-')
     $stdout.puts 'SAVE UPLOAD'
     $stdout.puts filedata['filename']

@@ -329,7 +329,7 @@ class CzjApp < Sinatra::Base
           collect{|x| [x['login']]}
       end
       $stdout.puts 'END json'+Time.now.to_s
-      body = doc.to_json
+      doc.to_json
     end
     get '/'+code+'/jsonsearch/:type/:search(/:start)?(/:limit)?' do 
       content_type :json
@@ -339,11 +339,11 @@ class CzjApp < Sinatra::Base
           more_params[parname] = params[parname]
         end
       }
-      body = dict.search(code, params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i, more_params).to_json
+      dict.search(code, params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i, more_params).to_json
     end
     get '/'+code+'/jsontranslate/:target/:type/:search(/:start)?(/:limit)?' do 
       content_type :json
-      body = dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i).to_json
+      dict.translate2(code, params['target'], params['search'].to_s.strip, params['type'].to_s, params['start'].to_i, params['limit'].to_i).to_json
     end
     get '/'+code+'/search/:type/:search(/:selected)?' do
       @dict_info = $dict_info
@@ -442,7 +442,6 @@ class CzjApp < Sinatra::Base
       @dict_info = $dict_info
       @request = request
       @target = params['target']
-      selected = params['selected']
       @tran_path = '/'+code+'/translate/'+params['target']+'/'+params['type']+'/'+params['search']
       more_params = {}
       url_pars = []
@@ -565,23 +564,23 @@ class CzjApp < Sinatra::Base
       purge = true if params['purge'] == '1'
       count = dict.sw.cache_all_sw(purge)
       content_type :json
-      body = {'count': count}.to_json
+      {'count': count}.to_json
     end
     get '/'+code+'/cache_all_rel' do
       purge = false
       purge = true if params['purge'] == '1'
       count = dict.cache_all_relations(purge)
       content_type :json
-      body = {'count': count}.to_json
+      {'count': count}.to_json
     end
     get '/'+code+'/cache_rel_entry/:id' do
       count = dict.cache_relations_entry(code, params['id'])
       content_type :json
-      body = {'count': count}.to_json
+      {'count': count}.to_json
     end
     get '/'+code+'/normalize_fsw' do
       count = dict.sw.normalize_fsw
-      body = {'count': count}.to_json
+      {'count': count}.to_json
     end
 
 
@@ -592,17 +591,17 @@ class CzjApp < Sinatra::Base
         newid = dict.get_new_id
         doc = {'user_info' => @user_info, 'newid' => newid}
         content_type :json
-        body = doc.to_json
+        doc.to_json
       end
       get '/'+code+'/comments/:id(/:type)?' do
         content_type :json
-        body = comments.get_comments(code, params['id'], params['type'].to_s).to_json
+        comments.get_comments(code, params['id'], params['type'].to_s).to_json
       end
       post '/'+code+'/save' do
         data = JSON.parse(params['data'])
         dict.save_doc(data, @user_info['login'])
         content_type :json
-        body = {"success"=>true,"msg"=>"Uloženo"}.to_json
+        {"success"=>true,"msg"=>"Uloženo"}.to_json
       end
       post '/'+code+'/delete/:id' do
         if params['id'].to_s != ''
@@ -610,9 +609,9 @@ class CzjApp < Sinatra::Base
             dict.remove_all_relations(params['id'].to_s)
             dict.remove_colloc(params['id'].to_s)
             dict.delete_doc(params['id'].to_s)
-            body = 'DELETED ' + params['id'].to_s
+            'DELETED ' + params['id'].to_s
           else
-            body = 'not authorized to delete entry'
+            'not authorized to delete entry'
           end
         end
       end
@@ -624,15 +623,15 @@ class CzjApp < Sinatra::Base
           }
         end
         content_type :json
-        body = {"success"=>true,"msg"=>"Uloženo"}.to_json
+        {"success"=>true,"msg"=>"Uloženo"}.to_json
       end
       post '/'+code+'/remove_video' do
         content_type :json
         if params['entry_id'].to_s != '' and params['media_id'].to_s != ''
           dict.edit_media.remove_video(params['entry_id'].to_s, params['media_id'].to_s)
-          body = {"success"=>true, "message"=>"Soubor odebrán"}.to_json
+          {"success"=>true, "message"=>"Soubor odebrán"}.to_json
         else
-          body = {'success'=>false, 'message'=>"Chybí parametry videa"}.to_json
+          {'success'=>false, 'message'=>"Chybí parametry videa"}.to_json
         end
       end
       get '/'+code+'/del_comment/:cid' do
@@ -640,7 +639,7 @@ class CzjApp < Sinatra::Base
           comments.comment_del(params['cid'])
         end
         content_type :json
-        body = {"success"=>true,"msg"=>"Uloženo"}.to_json
+        {"success"=>true,"msg"=>"Uloženo"}.to_json
       end
       get '/'+code+'/filelist/:id' do
         list = dict.edit_media.get_entry_files(params['id'], params['type'].to_s)
@@ -648,34 +647,34 @@ class CzjApp < Sinatra::Base
           list = dict.edit_media.find_files(params['search'].to_s, params['type'].to_s)
         end
         content_type :json
-        body = list.to_json
+        list.to_json
       end
       get '/'+code+'/relfind' do
         data = dict.find_relation(params['search'].to_s)
         content_type :json
-        body = data.to_json
+        data.to_json
       end
       get '/'+code+'/linkfind' do
         data = dict.find_link(params['search'].to_s)
         content_type :json
-        body = data.to_json
+        data.to_json
       end
       get '/'+code+'/getfsw' do
         fsw = CzjFsw.getfsw(params['sw'].to_s)
-        body = fsw
+        fsw
       end
       get '/'+code+'/fromfsw' do
         sw = CzjFsw.fromfsw(params['fsw'].to_s)
-        body = sw
+        sw
       end
       get '/'+code+'/relationinfo' do
         info = dict.get_relation_info(params['meaning_id'].to_s)
-        body = info
+        info
       end
       get '/'+code+'/getrelations' do
         list = dict.get_relations(params['meaning_id'].to_s, params['type'].to_s, @user_info)
         content_type :json
-        body = list.to_json
+        list.to_json
       end
       post '/'+code+'/upload' do
         $stdout.puts params
@@ -695,7 +694,7 @@ class CzjApp < Sinatra::Base
       end
       get '/'+code+'/getgram/:id' do
         content_type :json
-        body = dict.get_gram(params['id']).to_json
+        dict.get_gram(params['id']).to_json
       end
       get '/editor'+code, :dict_allowed => code do
         @dictcode = code
@@ -717,19 +716,18 @@ class CzjApp < Sinatra::Base
 
     if $is_edit or $is_admin
       post '/'+code+'/add_comment' do
-        user = ''
         if params['box'] != '' and params['entry'] != '' and params['type'] != ''
           comments.comment_add(dict, @user_info['login'], params['entry'], params['box'], params['text'], params['user'])
         end
         content_type :json
-        body = {"success"=>true,"msg"=>"Uloženo"}.to_json
+        {"success"=>true,"msg"=>"Uloženo"}.to_json
       end
       post '/'+code+'/save_comment/:cid' do
         if params['cid'] != ''
           comments.comment_save(params['cid'], params['assign'], params['solved'])
         end
         content_type :json
-        body = {"success"=>true,"msg"=>"Uloženo"}.to_json
+        {"success"=>true,"msg"=>"Uloženo"}.to_json
       end
       get '/admin/'+code+'/comments' do
         @dictcode = code
@@ -761,7 +759,7 @@ class CzjApp < Sinatra::Base
     end
     get '/'+code+'/jsonreport' do
       content_type :json
-      body = reports.get_report(dict, params, @user_info).to_json
+      reports.get_report(dict, params, @user_info).to_json
     end
     get '/'+code+'/export' do
       content_type :json
@@ -849,7 +847,7 @@ class CzjApp < Sinatra::Base
           syns = []
           if rep['meanings']
           rep['meanings'].each{|rm|
-                  if rm['relation']
+            if rm['relation']
               rm['relation'].select{|rel| rel['type'] == 'synonym'}.each{|rr|
                 syns << rr['meaning_id'].split('-')[0]
               }
@@ -929,7 +927,7 @@ class CzjApp < Sinatra::Base
           end
         }
       end
-      body = csv.join("\n")
+      csv.join("\n")
     end
     get '/'+code+'/videoreport' do
       @dictcode = code
@@ -954,24 +952,24 @@ class CzjApp < Sinatra::Base
     end
     get '/'+code+'/jsonvideoreport' do
       content_type :json
-      body = dict.get_videoreport(params).to_json
+      dict.get_videoreport(params).to_json
     end
     get '/'+code+'/csvvideoreport' do
       content_type 'text/csv; charset=utf-8'
       attachment 'export.csv'
       csv = ['název;hesla;autor;zdroj;autor videa;datum']
       csv += dict.export_videoreport(params)
-      body = csv.join("\n")
+      csv.join("\n")
     end
 
     if $is_admin
       get '/'+code+'/jsonduplicate' do
         content_type :json
-        body = CzjAdminDuplicate.get_duplicate(dict).to_json
+        CzjAdminDuplicate.get_duplicate(dict).to_json
       end
       get '/'+code+'/duplicatelist(/:start)?(/:limit)?' do
         content_type :json
-        body = CzjAdminDuplicate.get_duplicate(dict, params['start'].to_i, params['limit'].to_i).to_json
+        CzjAdminDuplicate.get_duplicate(dict, params['start'].to_i, params['limit'].to_i).to_json
       end
       get '/'+code+'/duplicate' do
         @dictcode = code
@@ -1042,9 +1040,9 @@ class CzjApp < Sinatra::Base
       res = $dict_array['czj'].save_user(data)
       content_type :json
       if res == true
-        body = {"success"=>true,"msg"=>"Uloženo"}.to_json
+        {"success"=>true,"msg"=>"Uloženo"}.to_json
       else
-        body = {"success"=>false,"msg"=>res}.to_json
+        {"success"=>false,"msg"=>res}.to_json
       end
     end
 
@@ -1052,9 +1050,9 @@ class CzjApp < Sinatra::Base
       res = $dict_array['czj'].delete_user(params['login'])
       content_type :json
       if res == true
-        body = {"success"=>true,"msg"=>"Uloženo"}.to_json
+        {"success"=>true,"msg"=>"Uloženo"}.to_json
       else
-        body = {"success"=>false,"msg"=>res}.to_json
+        {"success"=>false,"msg"=>res}.to_json
       end
     end
 
@@ -1131,9 +1129,9 @@ class CzjApp < Sinatra::Base
           targetdict = $dict_array[params['data']['targetdict']]
         end
         Thread.new{ $dict_array[params['data']['srcdict']].import_run(params['data'], targetdict, params['data']['not_createrel'], @user_info['login'], logid) }
-        body = {'logid'=>logid}.to_json
+        {'logid'=>logid}.to_json
       else
-        body = {'error'=>'no dict info'}.to_json
+        {'error'=>'no dict info'}.to_json
       end
     end
 
@@ -1149,9 +1147,9 @@ class CzjApp < Sinatra::Base
     data = $mongo['symbol'].find({'id'=>params['id']}).first
     if params['callback'].to_s == ''
       content_type :json
-      body = data.to_json
+      data.to_json
     else
-      body = params['callback'] + '(' + data.to_json.to_s + ')'
+      params['callback'] + '(' + data.to_json.to_s + ')'
     end
   end
 
@@ -1173,9 +1171,9 @@ class CzjApp < Sinatra::Base
     }
     if params['callback'].to_s == ''
       content_type :json
-      body = data.to_json
+      data.to_json
     else
-      body = params['callback'] + '(' + data.to_json.to_s + ')'
+      params['callback'] + '(' + data.to_json.to_s + ')'
     end
   end
 
@@ -1193,7 +1191,7 @@ class CzjApp < Sinatra::Base
     request = Net::HTTP::Get.new(uri.request_uri, {'Authorization'=>'Bearer '+apikey})
     response = http.request(request)
     content_type :json
-    body = response.body
+    response.body
   end
 
   get '/testerror' do

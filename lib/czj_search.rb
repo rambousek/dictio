@@ -143,7 +143,6 @@ module CzjSearchMethods
     case type
     when 'text'
       search = '' if search == '_'
-      search_orig = search.clone
       search = search.downcase
       if search =~ /^[0-9]+$/
         @entrydb.find({'dict': dictcode, 'id': search}).each{|re|
