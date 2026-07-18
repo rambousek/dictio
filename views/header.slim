@@ -44,12 +44,12 @@ header.header role="banner"
                           .btn class="btn-#{@dictcode}" #{I18n.t("dict.#{@dictcode}")}:
                       li
                         - if @dictcode 
-                          a href="/#{@dictcode}/report" #{I18n.t("admin.reports")}
+                          a href="https://admin.dictio.info/#{@dictcode}/report" #{I18n.t("admin.reports")}
                           - if @is_admin
                             li  
                               a href="https://edit.dictio.info/editor#{@dictcode}/?id=" #{I18n.t("admin.newentry2")} 
                         - else
-                          a href="/admin" #{I18n.t("admin.report-list")} 
+                          a href="https://admin.dictio.info/admin" #{I18n.t("admin.report-list")}
                       - if @dictcode and @dict_info[@dictcode]['type'] == 'sign'
                         li
                           - if @dictcode
@@ -61,7 +61,7 @@ header.header role="banner"
                           a href="https://admin.dictio.info/#{@dictcode}/notrans" #{I18n.t("admin.nolemma")}
                       li
                         - if @dictcode
-                          a href="/admin/#{@dictcode}/comments?assign=#{@user_info['login']}" #{I18n.t("admin.comments")}
+                          a href="https://admin.dictio.info/admin/#{@dictcode}/comments?assign=#{@user_info['login']}" #{I18n.t("admin.comments")}
                       li
                         - if @dictcode
                           a href="https://admin.dictio.info/#{@dictcode}/duplicate" #{I18n.t("admin.dup")}
@@ -69,7 +69,7 @@ header.header role="banner"
                           a href="https://admin.dictio.info/duplicates" #{I18n.t("admin.dup")}
                       - if @dictcode
                         li 
-                          a.btn href="/admin" #{I18n.t("admin.all")}
+                          a.btn href="https://admin.dictio.info/admin" #{I18n.t("admin.all")}
                       - if @is_admin  
                         li
                           a href="https://admin.dictio.info/users" #{I18n.t("admin.users.title")}
