@@ -1,41 +1,52 @@
-name: CI
+name: Deploy
 
-# Controls when the action will run. 
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
-
-  # Allows you to run this workflow manually from the Actions tab
+  pull_request:
   workflow_dispatch:
+
+# Serialize deploys; a second push waits instead of racing the first on the servers.
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
 jobs:
-  deploy-view:
+  test:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
-      - name: Run on view
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+      - run: bundle exec rake test
+
+  deploy:
+    # Deploy only for pushes to main (and manual dispatch), never for PRs.
+    if: github.event_name != 'pull_request'
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      # One host failing must not cancel deploys already running on the others.
+      fail-fast: false
+      matrix:
+        host: [www.dictio.info, edit.dictio.info, admin.dictio.info]
+    steps:
+      - name: Deploy to ${{ matrix.host }}
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/private.key
           chmod 400 ~/.ssh/private.key
-          ssh -i ~/.ssh/private.key -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@www.dictio.info "cd /srv/dictio; GIT_SSH_COMMAND='ssh -i ~/.ssh/github' git fetch; git reset --hard origin/main; bundle; ./restart.sh"
-  deploy-edit:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - name: Run on edit
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/private.key
-          chmod 400 ~/.ssh/private.key
-          ssh -i ~/.ssh/private.key -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@edit.dictio.info "cd /srv/dictio; GIT_SSH_COMMAND='ssh -i ~/.ssh/github' git fetch; git reset --hard origin/main; bundle; ./restart.sh"
-  deploy-admin:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - name: Run on admin
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/private.key
-          chmod 400 ~/.ssh/private.key
-          ssh -i ~/.ssh/private.key -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@admin.dictio.info "cd /srv/dictio; GIT_SSH_COMMAND='ssh -i ~/.ssh/github' git fetch; git reset --hard origin/main; bundle; ./restart.sh"
+          # accept-new instead of no: still trust-on-first-use on a fresh runner,
+          # but add a KNOWN_HOSTS secret for real pinning when convenient.
+          ssh -i ~/.ssh/private.key -o StrictHostKeyChecking=accept-new \
+            ${{ secrets.SSH_USER }}@${{ matrix.host }} \
+            "set -e
+             cd /srv/dictio
+             GIT_SSH_COMMAND='ssh -i ~/.ssh/github' git fetch
+             git reset --hard origin/main
+             bundle install
+             ./restart.sh"
