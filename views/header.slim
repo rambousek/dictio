@@ -162,6 +162,7 @@ header.header role="banner"
           .nav-switcher role="button" aria-controls="navigation" tabindex="0" aria-label="Menu"
             .nav-switcher__line
 <!-- /hlavička -->
-.block class="mobile-hide"  
-  a.btn href="#" onclick="citaceGen(); return false;" class="transparent" style="text-align:right;position:absolute; right: 63px;font-size:0.75rem;cursor:pointer;z-index: 50;margin-top: 10px;" #{I18n.t("menu.cite")} „  “    
+.block class="mobile-hide"
+  - if @cite_attr
+    a.btn href="#" onclick="citaceGen(); return false;" class="transparent" style="text-align:right;position:absolute; right: 63px;font-size:0.75rem;cursor:pointer;z-index: 50;margin-top: 10px;" #{I18n.t("menu.cite")} „  “
   
