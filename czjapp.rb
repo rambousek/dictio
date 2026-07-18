@@ -35,9 +35,10 @@ require_relative 'lib/czj_export_job'
 
 class CzjApp < Sinatra::Base
   $mongo = Mongo::Client.new($mongoHost) if $mongo.nil?
-  $georeader = MaxMind::GeoIP2::Reader.new(
-    database: '/usr/share/GeoIP/GeoLite2-Country.mmdb'
-  )
+  # GeoIP DB is installed on the servers; without it (CI) the country lookup
+  # at $georeader.country raises and falls back to the hostname heuristic.
+  geoip_db = '/usr/share/GeoIP/GeoLite2-Country.mmdb'
+  $georeader = MaxMind::GeoIP2::Reader.new(database: geoip_db) if File.exist?(geoip_db)
   
   configure do
     set :bind, '0.0.0.0'
@@ -200,17 +201,6 @@ class CzjApp < Sinatra::Base
     @request = request
     @selected_page = 'about'
     page = 'about-'+I18n.locale.to_s
-    @cite_attr = CzjWebHelper.get_cite_attr('page', request.path_info, @selected_page)
-    @cite_text = CzjWebHelper.build_cite(@cite_attr)
-    slim page.to_sym
-  end
-
-  get '/citace' do
-    @dict_info = $dict_info
-    @search_params = {}
-    @request = request
-    @selected_page = 'citace'
-    page = 'citace-'+I18n.locale.to_s
     @cite_attr = CzjWebHelper.get_cite_attr('page', request.path_info, @selected_page)
     @cite_text = CzjWebHelper.build_cite(@cite_attr)
     slim page.to_sym
