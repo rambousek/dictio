@@ -1,14 +1,16 @@
 class CzjApp < Sinatra::Base
-  get '/admin' do
-    @dict_info = $dict_info
-    @search_params = {}
-    @request = request
-    @selected_page = 'admin'
-    @lemma_counts = ADMIN_DICT.info_count.get_count_entry
-    @duplicate = CzjAdminDuplicate.get_duplicate_counts
-    @notrans_count = ADMIN_DICT.info_count.get_count_relation_notrans
-    page = 'admin'
-    slim page.to_sym
+  if $is_admin
+    get '/admin' do
+      @dict_info = $dict_info
+      @search_params = {}
+      @request = request
+      @selected_page = 'admin'
+      @lemma_counts = ADMIN_DICT.info_count.get_count_entry
+      @duplicate = CzjAdminDuplicate.get_duplicate_counts
+      @notrans_count = ADMIN_DICT.info_count.get_count_relation_notrans
+      page = 'admin'
+      slim page.to_sym
+    end
   end
 
   (WRITE_DICTS+SIGN_DICTS).each{|code|
