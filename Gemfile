@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-gem "puma", "~> 6.6"
+gem "puma", "~> 8.0"
 gem "bson", "~> 5.1", ">= 5.1.1"
 gem "sinatra", "~> 4.1"
 gem "mongo", "~> 2.21"
