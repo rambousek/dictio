@@ -87,6 +87,7 @@ sk:
     entries: "Hesiel"
     published: "Zverejnených vo výkladovom slovníku"
     mostsearchweek: "Najhľadanejšie tento týždeň"
+    mostdisplayweek: "Najzobrazovanejšie tento týždeň"
     profile_saved: "Profil uložen"
     not_authorized: "Neplatné přihlášení"
   menu:

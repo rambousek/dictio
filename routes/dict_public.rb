@@ -17,6 +17,7 @@ class CzjApp < Sinatra::Base
       @target = ''
       @entry = dict.getdoc(params['id'], false)
       if @entry != {}
+        CzjUsageStat.track('show', code, params['id'], '', request.user_agent)
         @title = $dict_info[code]['label'] + ' ' + params['id']
         @cite_attr = CzjWebHelper.get_cite_attr('show', request.path_info, nil, $dict_info, @entry, @dictcode)
         @cite_text = CzjWebHelper.build_cite(@cite_attr)
@@ -85,6 +86,9 @@ class CzjApp < Sinatra::Base
       @url_params = url_pars.join('&')
       @result = dict.search(code, params['search'].to_s.strip, params['type'].to_s, 0, @search_limit, more_params)
       $stdout.puts(@result['count'])
+      if params['type'] == 'text' and @result['count'] > 0
+        CzjUsageStat.track('search', code, params['search'], '', request.user_agent)
+      end
       if @result['count'] == 0
         File.open("public/log/search.csv", "a"){|f| f << [code, params['search'].to_s, Time.now.strftime("%Y-%m-%d %H:%M:%S")].join(";")+"\n"}
       end
@@ -110,6 +114,7 @@ class CzjApp < Sinatra::Base
       @entry = dict.getdoc(params['entry'], false)
       @search_type = 'search'
       if @entry != nil and @entry != {}
+        CzjUsageStat.track('show', code, params['entry'], '', request.user_agent)
         @cite_attr = CzjWebHelper.get_cite_attr('search', request.path_info, nil, $dict_info, @entry, @dictcode)
         @cite_text = CzjWebHelper.build_cite(@cite_attr)
         @add_cite = true

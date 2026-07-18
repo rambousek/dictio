@@ -36,6 +36,7 @@ class CzjApp < Sinatra::Base
         end
       end
       if @entry != nil and @entry != {}
+        CzjUsageStat.track('show', @show_dictcode, @entry['id'], '', request.user_agent)
         @cite_attr = CzjWebHelper.get_cite_attr('translate', request.path_info, nil, $dict_info, @entry, @dictcode, @target)
         @cite_text = CzjWebHelper.build_cite(@cite_attr)
         slim :fullentry
@@ -96,6 +97,9 @@ class CzjApp < Sinatra::Base
           @search = m['match']
           @result = dict.translate2(code, params['target'], m['match'], params['type'], params['start'].to_i, params['limit'].to_i)
         end
+      end
+      if params['start'].to_i == 0 and params['type'] == 'text' and @result['count'] > 0
+        CzjUsageStat.track('translate', code, @search, params['target'], request.user_agent)
       end
       #výpis výsledků hledání
       slim :transresultlist, layout: false

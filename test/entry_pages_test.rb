@@ -32,6 +32,29 @@ class EntryPagesTest < AppTest
     assert_includes last_response.body, e["lemma"]["video_front"]
   end
 
+  def test_homepage_shows_top_searched_and_displayed
+    e = entry("cs", with: ["lemma", "title"])
+    day = Date.today.strftime("%Y-%m-%d")
+    $mongo.load("usageStat", [ # standard:disable Style/GlobalVars
+      {"type" => "search", "dict" => "cs", "target" => "", "key" => "škola", "day" => day, "count" => 5},
+      {"type" => "show", "dict" => "cs", "target" => "", "key" => e["id"], "day" => day, "count" => 3}
+    ])
+    get "/?lang=en"
+    assert_predicate last_response, :ok?
+    assert_includes last_response.body, "/cs/translate/czj/text/%C5%A1kola"
+    assert_includes last_response.body, "/cs/show/#{e["id"]}"
+    assert_includes last_response.body, e["lemma"]["title"]
+    assert_includes last_response.body, I18n.t("home.mostdisplayweek", locale: "en")
+  ensure
+    $mongo.load("usageStat", []) # standard:disable Style/GlobalVars
+  end
+
+  def test_homepage_hides_top_lists_without_data
+    get "/"
+    assert_predicate last_response, :ok?
+    refute_includes last_response.body, "recent__headline"
+  end
+
   def test_public_pages_do_not_load_edit_tools_js
     get "/"
     assert_includes last_response.body, "/js/dictio.js"

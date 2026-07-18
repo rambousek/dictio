@@ -16,33 +16,22 @@ main class="homepage" role="main"
     == slim :searchboxsearch
     - @msclass = ""
     == slim :mobilesearch
-    .recent
-      .container
-        .recent__row
-          .recent__item
-            h2.recent__headline #{I18n.t("home.mostsearchweek")}
-            ul
-              li
-                a href="/cs/translate/czj/text/škola" škola
-              li
-                a href="/cs/translate/czj/text/hrát" hrát
-              li
-                a href="/cs/translate/czj/text/sůl" sůl
-              li
-                a href="/cs/translate/czj/text/ahoj" ahoj
-              li
-                a href="/cs/translate/czj/text/práce" práce
-          .recent__item
-            h2.recent__headline &nbsp;
-            ul
-              li
-                a href="/cs/translate/czj/text/kostel" kostel
-              li
-                a href="/cs/translate/czj/text/postel" postel
-              li
-                a href="/cs/translate/czj/text/dům" dům
-              li
-                a href="/cs/translate/czj/text/židle" židle
-              li
-                a href="/cs/translate/czj/text/kolega" kolega
+    - if @top_searched.to_a != [] or @top_displayed.to_a != []
+      .recent
+        .container
+          .recent__row
+            - if @top_searched.to_a != []
+              .recent__item
+                h2.recent__headline #{I18n.t("home.mostsearchweek")}
+                ul
+                  - @top_searched.each do |item|
+                    li
+                      a href="/#{item['dict']}/translate/#{@dict_info[item['dict']]['target']}/text/#{Rack::Utils.escape_path(item['key'])}" #{item['key']}
+            - if @top_displayed.to_a != []
+              .recent__item
+                h2.recent__headline #{I18n.t("home.mostdisplayweek")}
+                ul
+                  - @top_displayed.each do |item|
+                    li
+                      a href="/#{item['dict']}/show/#{Rack::Utils.escape_path(item['key'])}" #{item['label']}
 

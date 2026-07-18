@@ -87,6 +87,7 @@ ua:
     entries: "Паролів"
     published: "опубліковано в Словнику"
     mostsearchweek: "Найбільш розшук тижня"
+    mostdisplayweek: "Найчастіше переглянуті цього тижня"
     profile_saved: "Профіль збережено"
     not_authorized: "Недійсний вхід"
   menu:

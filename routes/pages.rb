@@ -7,6 +7,7 @@ class CzjApp < Sinatra::Base
     @count_entry = stat['entries'][0]['count']
     @count_rels = ((stat['rel'][0]['count'].to_i+stat['usgrel'][0]['count'].to_i)/2).round
     @params = params
+    @top_searched, @top_displayed = CzjUsageStat.homepage_top
     @cite_attr = CzjWebHelper.get_cite_attr('page', request.path_info, 'index')
     @cite_text = CzjWebHelper.build_cite(@cite_attr)
     slim :home
