@@ -584,6 +584,7 @@ cs:
     usage: "schválený příklad"
     translation: "zadaný ekvivalent"
     pubtrans: "schválený ekvivalent"
+    pubsynonym: "schválené synonymum"
     synonym: "synonymum"
     comments: "komentáře"
     koment:
@@ -592,6 +593,7 @@ cs:
       video: "video"
       videoAB: "záhlaví (video)"
       swfield: "signwriting"
+      swfieldset: "signwriting"
       hamnbox: "hamnosys"
       gramdesc: "gramatický popis"
       styldesc: "stylistický popis"
