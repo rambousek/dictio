@@ -32,6 +32,7 @@ require_relative 'lib/czj_admin_info'
 require_relative 'lib/czj_admin_duplicate'
 require_relative 'lib/czj_api_helper'
 require_relative 'lib/czj_export_job'
+require_relative 'lib/czj_fuzzy_match'
 
 class CzjApp < Sinatra::Base
   $mongo = Mongo::Client.new($mongoHost) if $mongo.nil?

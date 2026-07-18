@@ -70,51 +70,8 @@ class CzjApp < Sinatra::Base
       @resultinfo1 = false
       @resultinfo2 = false
       @resultinfo3 = false
-      puts "DEBUG: Calling translate2 with search term: #{@search}"              
-      
-      def find_closest_match(search, possible_matches, max_distance)
-        filtered_matches = possible_matches.select do |term|
-          DamerauLevenshtein.distance(search, term) <= max_distance
-        end
-        filtered_matches.min_by { |term| DamerauLevenshtein.distance(search, term) }
-      end
-      
-      def process_multisyllabic_search(words_array, possible_matches, dict, code, params)
-        words_array.shift if words_array.first.length <= 2
-        while words_array.size > 0
-          closest_match = find_closest_match(words_array.first, possible_matches, 2)
-          if closest_match
-            @resultinfo3 = true
-            @search = closest_match
-            return dict.translate2(code, params['target'], closest_match, params['type'], params['start'].to_i, params['limit'].to_i)            
-          else
-            words_array.shift
-          end
-        end
-        return nil
-      end
-      
-      def process_single_word_search(search, possible_matches, dict, code, params)
-        search.slice!(0, 2) if search.start_with?("ne") && (code == "cs" || code == "sk") &&  search.length > 4
-        @resultinfo1 = true
-        while search.length > 1
-          closest_match = find_closest_match(search, possible_matches, 2)
-          if closest_match
-            @resultinfo2 = true if not @resultinfo1
-            @search = closest_match
-            return dict.translate2(code, params['target'], closest_match, params['type'], params['start'].to_i, params['limit'].to_i) 
-          else
-            if search.length >= 10
-              search = search[0, [search.length / 2, 1].max]
-            else
-              search.slice!(-2, 2)
-            end
-            @resultinfo1 = false if @resultinfo1
-          end
-        end
-        return nil
-      end
-      
+      puts "DEBUG: Calling translate2 with search term: #{@search}"
+
       @result = dict.translate2(code, params['target'], @search, params['type'], params['start'].to_i, params['limit'].to_i, more_params)
       if @result['count'] == 0 and @search != ''
         # Logování neúspěšného vyhledávání
@@ -127,14 +84,17 @@ class CzjApp < Sinatra::Base
         @search = @search.downcase
       
         words_array = @search.split.reject(&:empty?)
-        result_similar = nil
         if words_array.size > 1
-          result_similar = process_multisyllabic_search(words_array, possible_matches, dict, code, params)
+          m = CzjFuzzyMatch.multisyllabic_match(words_array, possible_matches)
+          @resultinfo3 = m['resultinfo3']
         else
-          result_similar = process_single_word_search(@search, possible_matches, dict, code, params)
+          m = CzjFuzzyMatch.single_word_match(@search, possible_matches, code)
+          @resultinfo1 = m['resultinfo1']
+          @resultinfo2 = m['resultinfo2']
         end
-        if result_similar
-          @result = result_similar
+        if m['match']
+          @search = m['match']
+          @result = dict.translate2(code, params['target'], m['match'], params['type'], params['start'].to_i, params['limit'].to_i)
         end
       end
       #výpis výsledků hledání
