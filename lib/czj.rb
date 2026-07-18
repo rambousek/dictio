@@ -11,6 +11,7 @@ require_relative 'czj_relations'
 require_relative 'czj_dict_admin'
 require_relative 'czj_video_report'
 require_relative 'czj_history'
+require_relative 'czj_users'
 require_relative 'czj_import'
 require_relative 'czj_wordlist'
 

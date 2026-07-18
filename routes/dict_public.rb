@@ -51,7 +51,7 @@ class CzjApp < Sinatra::Base
       doc = CzjEntryJson.build_doc(dict, $dict_array, code, params, add_rev)
       if $is_edit
         doc['user_info'] = @user_info
-        doc['user_list'] = CzjEntryJson.user_list($dict_array[code].get_users, code)
+        doc['user_list'] = CzjEntryJson.user_list(CzjUsers.get_users, code)
       end
       $stdout.puts 'END json'+Time.now.to_s
       doc.to_json

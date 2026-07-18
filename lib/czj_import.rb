@@ -1,6 +1,6 @@
 # Bulk import workflow: file upload handling and running imports of sign/translation entries.
 module CzjImport
-  def handle_upload(filedata, dir)
+  def self.handle_upload(filedata, dir)
     if not filedata.nil? and not filedata['filename'].nil? and filedata['filename'] != '' and not filedata['tempfile'].nil?
       fn = filedata['filename']
       fn = fn[0,2] + fn[2..-1].gsub('_','')
@@ -123,7 +123,7 @@ module CzjImport
     logfile.close
   end
 
-  def get_import_files(dir)
+  def self.get_import_files(dir)
     importfiles = []
     meta = {}
     gotmeta = false
@@ -159,7 +159,7 @@ module CzjImport
     end
     Dir.entries(dir).each{|fn|
       if fn.end_with?('mp4')
-        label = @edit_media.norm_name(fn)[0]
+        label = CzjEditMedia.norm_name(fn)[0]
         data = {
           'filename'=> fn,
           'label' => label,

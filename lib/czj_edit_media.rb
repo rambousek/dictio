@@ -36,7 +36,7 @@ class CzjEditMedia < Object
         'dict' => @dictcode,
         'location' => location,
         'original_file_name' => location,
-        'label' => norm_name(location)[0],
+        'label' => CzjEditMedia.norm_name(location)[0],
         'id_meta_copyright' => metadata['id_meta_copyright'],
         'id_meta_author' => metadata['id_meta_author'],
         'id_meta_source' => metadata['id_meta_source'],
@@ -227,7 +227,7 @@ class CzjEditMedia < Object
       'dict' => @dictcode,
       'location' => filename,
       'original_file_name' => filename,
-      'label' => norm_name(filename)[0],
+      'label' => CzjEditMedia.norm_name(filename)[0],
       'id_meta_copyright' => metadata['id_meta_copyright'],
       'id_meta_author' => metadata['id_meta_author'],
       'id_meta_source' => metadata['id_meta_source'],
@@ -255,7 +255,7 @@ class CzjEditMedia < Object
   # normalize file name
   # @param [String] name
   # @return [Array[String]]
-  def norm_name(name)
+  def self.norm_name(name)
     name = name.sub('.flv','')
     name = name.sub('.mp4','')
     sense = ''

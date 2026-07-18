@@ -69,7 +69,7 @@ class CzjApp < Sinatra::Base
     end
 
     post '/savesettings' do
-      $dict_array['czj'].save_user_setting(@user_info, params)
+      CzjUsers.save_user_setting(@user_info, params)
       redirect to('/usersettings?profile_save=true&lang='+params['default_lang'].to_s)
     end
   end
@@ -85,13 +85,13 @@ class CzjApp < Sinatra::Base
 
     get '/users', :admin => true do
       @dict_info = $dict_info
-      @users = $dict_array['czj'].get_users
+      @users = CzjUsers.get_users
       slim :users
     end
 
     post '/users/save', :admin => true do
       data = JSON.parse(params['user'])
-      res = $dict_array['czj'].save_user(data)
+      res = CzjUsers.save_user(data)
       content_type :json
       if res == true
         {"success"=>true,"msg"=>"Uloženo"}.to_json
@@ -101,7 +101,7 @@ class CzjApp < Sinatra::Base
     end
 
     post '/users/delete', :admin => true do
-      res = $dict_array['czj'].delete_user(params['login'])
+      res = CzjUsers.delete_user(params['login'])
       content_type :json
       if res == true
         {"success"=>true,"msg"=>"Uloženo"}.to_json
@@ -152,9 +152,9 @@ class CzjApp < Sinatra::Base
       $stdout.puts params
       $stdout.puts params['data1']
       dir = Dir::mktmpdir('czj','/tmp')
-      $dict_array['czj'].handle_upload(params['data1'], dir)
-      $dict_array['czj'].handle_upload(params['data2'], dir)
-      $dict_array['czj'].handle_upload(params['data3'], dir)
+      CzjImport.handle_upload(params['data1'], dir)
+      CzjImport.handle_upload(params['data2'], dir)
+      CzjImport.handle_upload(params['data3'], dir)
       redirect to('/import2?dir=' + dir)
     end
 
@@ -168,7 +168,7 @@ class CzjApp < Sinatra::Base
     get '/import2' do
       @dict_info = $dict_info
       @dir = params['dir']
-      @importfiles, @gotmeta = $dict_array['czj'].get_import_files(@dir)
+      @importfiles, @gotmeta = CzjImport.get_import_files(@dir)
       slim :adminimport2
     end
 

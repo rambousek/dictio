@@ -155,7 +155,7 @@ class CzjApp < Sinatra::Base
         @target = ''
         @dict_info = $dict_info
         @report = REPORTS.get_comment_report(dict, params)
-        @users = dict.get_users
+        @users = CzjUsers.get_users
         slim :commentreport
       end
     end
