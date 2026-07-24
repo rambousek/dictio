@@ -85,4 +85,14 @@ module CzjWebHelper
     I18n.t('cite.text', video: video, online: online, dict_info: dict_info,
            date: DateTime.now.strftime('%-d. %-m. %Y'), url: cite_attr['data']['page-url'])
   end
+
+  # @param [Hash] media
+  # @return [String]
+  def self.cite_video_meta(media)
+    return '' unless media
+    parts = []
+    parts << "autor: #{media['id_meta_author']}" if media['id_meta_author'].to_s != ''
+    parts << "zdroj: #{media['id_meta_source']}" if media['id_meta_source'].to_s != ''
+    parts.empty? ? '' : ', ' + parts.join(', ')
+  end
 end
