@@ -1,6 +1,6 @@
 # Bulk import workflow: file upload handling and running imports of sign/translation entries.
 module CzjImport
-  def handle_upload(filedata, dir)
+  def self.handle_upload(filedata, dir)
     if not filedata.nil? and not filedata['filename'].nil? and filedata['filename'] != '' and not filedata['tempfile'].nil?
       fn = filedata['filename']
       fn = fn[0,2] + fn[2..-1].gsub('_','')
@@ -123,7 +123,7 @@ module CzjImport
     logfile.close
   end
 
-  def get_import_files(dir)
+  def self.get_import_files(dir)
     importfiles = []
     meta = {}
     gotmeta = false
@@ -140,26 +140,26 @@ module CzjImport
         mrow['zdroj'] = ma[6] if ma[6].to_s != ''
         mrow['preklad'] = ma[7] if ma[7].to_s != ''
         if ma[1].to_s != ''
-          videofile = ma[1].to_s.gsub(/[^-^\.^_^[[:alnum:]]]/, '')
+          videofile = ma[1].to_s.gsub(/[^-^\._[[:alnum:]]]/, '')
           meta[videofile] = mrow
         end
         if ma[2].to_s != ''
-          videofile = ma[2].to_s.gsub(/[^-^\.^_^[[:alnum:]]]/, '')
+          videofile = ma[2].to_s.gsub(/[^-^\._[[:alnum:]]]/, '')
           meta[videofile] = mrow
         end
         if ma[8].to_s != ''
-          videofile = ma[8].to_s.gsub(/[^-^\.^_^[[:alnum:]]]/, '')
+          videofile = ma[8].to_s.gsub(/[^-^\._[[:alnum:]]]/, '')
           meta[videofile] = mrow
         end
         if ma[9].to_s != ''
-          videofile = ma[9].to_s.gsub(/[^-^\.^_^[[:alnum:]]]/, '')
+          videofile = ma[9].to_s.gsub(/[^-^\._[[:alnum:]]]/, '')
           meta[videofile] = mrow
         end
       }
     end
     Dir.entries(dir).each{|fn|
       if fn.end_with?('mp4')
-        label = @edit_media.norm_name(fn)[0]
+        label = CzjEditMedia.norm_name(fn)[0]
         data = {
           'filename'=> fn,
           'label' => label,

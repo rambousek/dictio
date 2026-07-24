@@ -87,6 +87,7 @@ en:
     entries: "Entries"
     published: "Published in the dictionary"
     mostsearchweek: "Most searched this week"
+    mostdisplayweek: "Most displayed this week"
     profile_saved: "Profile saved"
     not_authorized: "Not authorized"
   menu:

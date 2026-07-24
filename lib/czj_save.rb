@@ -219,7 +219,7 @@ module CzjSave
     end
 
     # save history
-    save_history_info(dict, entryid, data, olddata, user)
+    CzjHistory.save_history_info(dict, entryid, data, olddata, user)
     data.delete('track_changes')
     $stdout.puts data
 

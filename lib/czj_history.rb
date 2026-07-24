@@ -1,5 +1,7 @@
 # Entry change history: saving, listing, navigating revisions.
 module CzjHistory
+  extend self
+
   def save_history_info(dict, entryid, data_new, data_old, user)
     changes = data_new['track_changes']
     data_new.delete('track_changes')

@@ -87,6 +87,7 @@ cs:
     entries: "Hesel"
     published: "Zveřejněno ve výkladovém slovníku"
     mostsearchweek: "Nejhledanější v týdnu"
+    mostdisplayweek: "Nejzobrazovanější v týdnu"
     profile_saved: "Profil uložen"
     not_authorized: "Neplatné přihlášení"
   menu:

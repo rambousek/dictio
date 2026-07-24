@@ -36,7 +36,7 @@ class CzjEditMedia < Object
         'dict' => @dictcode,
         'location' => location,
         'original_file_name' => location,
-        'label' => norm_name(location)[0],
+        'label' => CzjEditMedia.norm_name(location)[0],
         'id_meta_copyright' => metadata['id_meta_copyright'],
         'id_meta_author' => metadata['id_meta_author'],
         'id_meta_source' => metadata['id_meta_source'],
@@ -210,7 +210,7 @@ class CzjEditMedia < Object
   # @param [String] entry_id
   # @return [Array[String]]
   def save_uploaded_file(filedata, metadata, entry_id)
-    filename = filedata['filename'].force_encoding("UTF-8").gsub(/[^\w^\p{Cyrillic}^\.^_^-]/, '')
+    filename = filedata['filename'].force_encoding("UTF-8").gsub(/[^\w^\p{Cyrillic}\.-]/, '')
     filename = filename[0,2]+filename[2..-1].gsub('_','-')
     $stdout.puts 'SAVE UPLOAD'
     $stdout.puts filedata['filename']
@@ -227,7 +227,7 @@ class CzjEditMedia < Object
       'dict' => @dictcode,
       'location' => filename,
       'original_file_name' => filename,
-      'label' => norm_name(filename)[0],
+      'label' => CzjEditMedia.norm_name(filename)[0],
       'id_meta_copyright' => metadata['id_meta_copyright'],
       'id_meta_author' => metadata['id_meta_author'],
       'id_meta_source' => metadata['id_meta_source'],
@@ -255,7 +255,7 @@ class CzjEditMedia < Object
   # normalize file name
   # @param [String] name
   # @return [Array[String]]
-  def norm_name(name)
+  def self.norm_name(name)
     name = name.sub('.flv','')
     name = name.sub('.mp4','')
     sense = ''
