@@ -323,6 +323,7 @@ div.options {
   transition: background 0.15s;
 }
 .quote-btn:hover { background: #e0e0e0; }
+body.quote-mode-active .quote-btn { display: inline-flex; }
 
 /* Make quotable sections position-relative so the button anchors to them */
 .quotable { position: relative; }

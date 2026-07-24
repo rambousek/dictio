@@ -729,13 +729,15 @@ function zavriModal() {
 (function() {
   let quoteMode = false;
 
-  window.toggleQuoteMode = function() {
-    quoteMode = !quoteMode;
-    document.querySelectorAll('.quote-btn').forEach(btn => {
-      btn.style.display = quoteMode ? 'inline-flex' : 'none';
-    });
+  function setQuoteMode(active) {
+    quoteMode = active;
+    document.body.classList.toggle('quote-mode-active', quoteMode);
     const toggle = document.getElementById('quote-toggle');
     if (toggle) toggle.classList.toggle('quote-toggle--active', quoteMode);
+  }
+
+  window.toggleQuoteMode = function() {
+    setQuoteMode(!quoteMode);
   };
 
   function triggerQuote(e) {
@@ -744,6 +746,16 @@ function zavriModal() {
     const section = e.currentTarget.closest('.quotable');
     const text = section.dataset.quote || window.location.href;
     showQuoteOverlay(text);
+  }
+
+  function highlightQuotable(e) {
+    const section = e.currentTarget.closest('.quotable');
+    if (section) section.classList.add('quotable--highlight');
+  }
+
+  function unhighlightQuotable(e) {
+    const section = e.currentTarget.closest('.quotable');
+    if (section) section.classList.remove('quotable--highlight');
   }
 
   function showQuoteOverlay(text) {
@@ -792,8 +804,16 @@ function zavriModal() {
   document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.quote-btn').forEach(btn => {
       btn.addEventListener('click', triggerQuote);
+      btn.addEventListener('mouseenter', highlightQuotable);
+      btn.addEventListener('mouseleave', unhighlightQuotable);
     });
     const toggle = document.getElementById('quote-toggle');
     if (toggle) toggle.addEventListener('click', toggleQuoteMode);
+  });
+
+  // Pages restored from bfcache keep their DOM (and body class) as it was
+  // when navigated away from, so force quote mode back off on restore.
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted) setQuoteMode(false);
   });
 })();
