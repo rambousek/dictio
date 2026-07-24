@@ -37,11 +37,40 @@ module CzjUsageStat
       entry = $mongo['entries'].find({'dict'=>row['dict'], 'id'=>row['key'], 'empty'=>{'$exists'=>false}}).first
       next if entry.nil?
       row['label'] = entry.dig('lemma', 'title').to_s
-      row['label'] = $dict_info[row['dict']]['label'] + ' ' + row['key'] if row['label'] == ''
+      row['label'] = display_label(entry, row) if row['label'] == ''
       resolved << row
       break if resolved.size == limit
     }
     resolved
+  end
+
+  # sign entries have no text lemma; build a label from translations instead,
+  # same dedupe+skip-empty pattern as views/title.slim, tried in the dict's own
+  # write language first (search_in), then cs, before falling back to the id
+  def display_label(entry, row)
+    search_in = $dict_info[row['dict']]['search_in'].to_s
+    search_in = 'cs' if search_in == ''
+    [search_in, 'cs'].uniq.each{|target|
+      translations = entry['meanings'].to_a.flat_map{|m| m['relation'].to_a}
+        .select{|rel| rel['type']=='translation' and rel['status']!='hidden' and rel['target']==target}
+        .map{|rel| relation_title(rel)}.compact.uniq
+      return $dict_info[row['dict']]['label'] + ' ' + translations.join(', ') unless translations.empty?
+    }
+    $dict_info[row['dict']]['label'] + ' ' + row['key']
+  end
+
+  # meaning_id is either "<id>-<number>" (look up the real lemma title) or
+  # already human-readable text used as-is — same convention as
+  # CzjEntry#add_rels (lib/czj_entry.rb:152-194), but a single light lookup
+  # instead of the full getdoc/add_rels path (media/collocation/sign-writing
+  # resolution we don't need here, for every relation of every row)
+  def relation_title(rel)
+    if rel['meaning_id'] =~ /\A\d+-\d+\z/
+      lemmaid = rel['meaning_id'].split('-').first
+      $mongo['entries'].find({'dict'=>rel['target'], 'id'=>lemmaid, 'empty'=>{'$exists'=>false}}).first&.dig('lemma', 'title')
+    else
+      rel['meaning_id']
+    end
   end
 
   def top_keys(types, days, limit)

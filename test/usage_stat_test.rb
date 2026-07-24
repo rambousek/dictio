@@ -14,6 +14,7 @@ class UsageStatTest < Minitest::Test
 
   def teardown
     $mongo.load("usageStat", []) # standard:disable Style/GlobalVars
+    $mongo.load("entries", JSON.parse(File.read(File.join(FakeMongo::FIXDIR, "entries.json")))) # standard:disable Style/GlobalVars
   end
 
   def test_track_is_noop_in_test_mode
@@ -75,5 +76,25 @@ class UsageStatTest < Minitest::Test
     $mongo.load("usageStat", [stat("show", "czj", entry["id"], 2, 0)]) # standard:disable Style/GlobalVars
     top = CzjUsageStat.top_displayed
     assert_equal "ČZJ " + entry["id"].to_s, top.first["label"]
+  end
+
+  def test_top_displayed_resolves_translation_in_search_in_language
+    # uzm/218 has no lemma title but a published translation to "uk" (uzm's
+    # search_in), meaning_id "199-1" resolving to uk/199's lemma in the fixture
+    $mongo.load("usageStat", [stat("show", "uzm", "218", 2, 0)]) # standard:disable Style/GlobalVars
+    top = CzjUsageStat.top_displayed
+    assert_equal "УЖМ казка", top.first["label"]
+  end
+
+  def test_top_displayed_falls_back_to_cs_when_no_search_in_translation
+    $mongo.load("entries", [ # standard:disable Style/GlobalVars
+      {"dict" => "ogs", "id" => "1", "lemma" => {"title" => ""},
+       "meanings" => [{"relation" => [
+         {"type" => "translation", "target" => "cs", "status" => "published", "meaning_id" => "ruka"}
+       ]}]}
+    ])
+    $mongo.load("usageStat", [stat("show", "ogs", "1", 2, 0)]) # standard:disable Style/GlobalVars
+    top = CzjUsageStat.top_displayed
+    assert_equal "OGS ruka", top.first["label"]
   end
 end
