@@ -15,13 +15,13 @@
       span.icon.icon--edit
         svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
         use xlink:href="/img/edit.svg#Capa_1" x="0" y="0" width="100%" height="100%"
-  .video-top.quotable data-quote="#{@entry['dict'].upcase}-#{@entry['id']}"
-    span.quote-btn title="Citace video" ❝
+  .video-top
     -if @entry['media']['video_front'] and @entry['media']['video_front']['status'] == 'hidden'
       img src="/img/warning.png" 
       div.notapproved #{I18n.t("entry.notapproved")}
     .video
-      .video__content.video-front
+      .video__content.video-front.quotable data-quote="#{@entry['dict'].upcase}-#{@entry['id']}"
+        span.quote-btn title="Citace video" ❝
         - orient = @entry.dig('media', 'video_front', 'orient').to_s
         - if orient != ''
           span.video-orient= I18n.t("entry.dom" + orient[0].upcase)
@@ -70,7 +70,8 @@
                     img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}#{$fsw_style}" alt=""
 
   - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'].to_s != '' or gr['@mluv_komp'].to_s != '' or gr['@oral_komp'].to_s != '' or gr['_text'].to_s != '' or gr['variant'] != nil or gr['@region'].to_s != ''}
-    .block.mobile-hide
+    .block.mobile-hide.quotable data-quote="gram.styl."
+      span.quote-btn title="Citace gram" ❝
       - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'].to_s != ''}
         h2.detail-category
           / - if @entry['lemma']['grammar_note'].find { |gr| !%w[ustalene finger].include?(gr['@slovni_druh']) }
@@ -235,8 +236,8 @@
     - @meaning = meaning
     .row
       .col.col--2
-        .detail__block.detail__block--line
-          .video-simple.quotable data-quote="#{@entry['dict'].upcase}-#{@entry['id']}, #{I18n.t('entry.meaning')} #{meaning['number']}"
+        .detail__block.detail__block--line.quotable data-quote="#{@entry['dict'].upcase}-#{@entry['id']}, #{I18n.t('entry.meaning')} #{meaning['number']}"
+          .video-simple
             h3 id="meaning#{meaning['number']}" #{I18n.t("entry.meaning")} #{meaning['number']}
             span.quote-btn title="Citace význam" ❝
             - if meaning['category'] and meaning['category'].find{|cat| not cat.nil?}
@@ -252,7 +253,8 @@
               - if meaning['status'] == 'hidden'
                 img src="/img/warning.png" 
                 div.notapproved #{I18n.t("entry.notapproved")} 
-              .video.video--shrink
+              .video.video--shrink.quotable data-quote="video"
+                span.quote-btn title="Citace video" ❝
                 .video__content
                   video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@show_dictcode}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}"
                     source src="https://files.dictio.info/video#{@show_dictcode}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
