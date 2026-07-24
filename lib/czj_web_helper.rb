@@ -90,9 +90,23 @@ module CzjWebHelper
   # @return [String]
   def self.cite_video_meta(media)
     return '' unless media
+    format_meta(media['id_meta_author'], media['id_meta_source'])
+  end
+
+  # @param [Hash] usg
+  # @return [String]
+  def self.cite_usage_meta(usg)
+    return '' unless usg
+    format_meta(usg['author'], usg['source'])
+  end
+
+  # @param [String] author
+  # @param [String] source
+  # @return [String]
+  def self.format_meta(author, source)
     parts = []
-    parts << "autor: #{media['id_meta_author']}" if media['id_meta_author'].to_s != ''
-    parts << "zdroj: #{media['id_meta_source']}" if media['id_meta_source'].to_s != ''
+    parts << "autor: #{author}" if author.to_s != ''
+    parts << "zdroj: #{source}" if source.to_s != ''
     parts.empty? ? '' : ', ' + parts.join(', ')
   end
 end
