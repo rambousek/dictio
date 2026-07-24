@@ -34,6 +34,19 @@ class UsageStatTest < Minitest::Test
       top.map { |r| [r["dict"], r["key"], r["count"]] }
   end
 
+  def test_top_searched_excludes_numeric_only_keys
+    $mongo.load("usageStat", [ # standard:disable Style/GlobalVars
+      stat("search", "cs", "3881", 100, 0),
+      stat("search", "cs", "3881a", 1, 0),
+      stat("search", "cs", "pes", 5, 0)
+    ])
+    top = CzjUsageStat.top_searched
+    keys = top.map { |r| r["key"] }
+    refute_includes keys, "3881"
+    assert_includes keys, "3881a"
+    assert_includes keys, "pes"
+  end
+
   def test_top_searched_ignores_old_days_and_honors_limit
     docs = [stat("search", "cs", "stary", 99, 8)]
     docs += (1..7).map { |i| stat("search", "cs", "slovo#{i}", i, 0) }

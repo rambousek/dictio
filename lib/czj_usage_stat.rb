@@ -22,9 +22,11 @@ module CzjUsageStat
     $stderr.puts 'usageStat track failed: '+e.message
   end
 
-  # top queries over the last +days+, search+translate merged, grouped by (dict, key)
+  # top queries over the last +days+, search+translate merged, grouped by (dict, key);
+  # numeric-only keys (id lookups, not real words) are dropped
   def top_searched(days = 7, limit = 5)
-    top_keys(%w[search translate], days, limit)
+    rows = top_keys(%w[search translate], days, limit*3)
+    rows.reject{|row| row['key'] =~ /\A\d+\z/}.first(limit)
   end
 
   # top opened entries over the last +days+, resolved to display labels
