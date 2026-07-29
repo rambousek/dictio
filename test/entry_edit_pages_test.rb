@@ -82,4 +82,48 @@ class EntryEditPagesTest < AppTest
   def test_edit_sign_homonym_with_textual_antonym
     assert_homonym_page_renders("77006", "77005", "antonym")
   end
+
+  # The remaining *_edit templates had no coverage at all. czj/38 is used for
+  # the sign cases because it carries translations, which is what pulls in
+  # fullentrytrans_edit.
+  def test_edit_full_sign_entry
+    in_edit_mode do
+      get "/czj/show/38"
+      assert_predicate last_response, :ok?
+      # the /editor link is emitted only by the *_edit templates, so this
+      # proves the edit branch was taken rather than the public fallback
+      assert_includes last_response.body, "/editor"
+    end
+  end
+
+  def test_edit_full_write_entry
+    in_edit_mode do
+      get "/cs/show/#{ENTRIES.find { |e| e["dict"] == "cs" }["id"]}"
+      assert_predicate last_response, :ok?
+      assert_includes last_response.body, "/editor"
+    end
+  end
+
+  def test_edit_write_searchentry
+    in_edit_mode do
+      get "/cs/searchentry/#{ENTRIES.find { |e| e["dict"] == "cs" }["id"]}"
+      assert_predicate last_response, :ok?
+      assert_includes last_response.body, "/editor"
+    end
+  end
+
+  # homonymsign_edit renders from fullentrysigndetail_edit, so this needs the
+  # /show route rather than /searchentry. Fixture czj/2909 points at homonym
+  # 21592, which is not in the fixture subset, so inject the pair.
+  def test_edit_full_sign_entry_with_homonym
+    in_edit_mode do
+      parent = Marshal.load(Marshal.dump(ENTRIES.find { |e| e["dict"] == "czj" }))
+      parent["id"] = "77007"
+      parent["lemma"]["homonym"] = ["38"]
+      $mongo.load("entries", ENTRIES + [parent]) # standard:disable Style/GlobalVars
+      get "/czj/show/77007"
+      assert_predicate last_response, :ok?
+      assert_includes last_response.body, "homonym-block"
+    end
+  end
 end
