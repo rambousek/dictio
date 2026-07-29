@@ -21,14 +21,21 @@ class FakeMongo
   end
 
   # replace a collection's docs for a single test (fixtures with values
-  # relative to Date.today can't live in static JSON files)
+  # relative to Date.today can't live in static JSON files). Mutates the
+  # collection in place rather than swapping it: lib/czj.rb and friends hold
+  # on to $mongo['entries'] from boot, so replacing the object is invisible
+  # to them and the test would silently keep seeing the original fixtures.
   def load(name, docs)
-    @collections[name.to_s] = FakeCollection.new(docs)
+    @collections[name.to_s].replace(docs)
   end
 end
 
 class FakeCollection
   def initialize(docs)
+    @docs = docs
+  end
+
+  def replace(docs)
     @docs = docs
   end
 
