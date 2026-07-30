@@ -1,10 +1,11 @@
 require_relative "test_helper"
 
-# CzjComment#count_assigned against injected koment docs (FakeMongo).
+# CzjComment#count_assigned and CzjReport#get_comment_report against injected
+# koment docs (FakeMongo).
 class CommentTest < Minitest::Test
-  def comment(dict, assign, solved = nil)
-    doc = {"dict" => dict, "entry" => "1", "box" => "lemma", "text" => "x",
-           "user" => "eva", "time" => "2026-07-30 10:00", "assign" => assign}
+  def comment(dict, assign, solved = nil, user = "eva")
+    doc = {"dict" => dict, "entry" => "3881", "box" => "lemma", "text" => "x",
+           "user" => user, "time" => "2026-07-30 10:00", "assign" => assign}
     doc["solved"] = solved unless solved.nil?
     doc
   end
@@ -31,5 +32,39 @@ class CommentTest < Minitest::Test
   def test_count_assigned_empty_login
     $mongo.load("koment", [comment("cs", "")]) # standard:disable Style/GlobalVars
     assert_empty @comments.count_assigned("")
+  end
+
+  def report(params)
+    CzjApp::REPORTS.get_comment_report($dict_array["cs"], params) # standard:disable Style/GlobalVars
+  end
+
+  def load_report_comments
+    $mongo.load("koment", [ # standard:disable Style/GlobalVars
+      comment("cs", "deb", nil, "eva"),
+      comment("cs", "eva", nil, "eva"),
+      comment("cs", "deb", nil, "petr"),
+      comment("cs", "deb", "1", "eva"),
+      comment("czj", "deb", nil, "eva")
+    ])
+  end
+
+  def test_comment_report_filters_by_author
+    load_report_comments
+    result = report("user" => "eva")
+    assert_equal 2, result["resultcount"]
+    assert_equal ["eva"], result["comments"].map { |k| k["user"] }.uniq
+  end
+
+  def test_comment_report_author_and_assign_combined
+    load_report_comments
+    result = report("user" => "eva", "assign" => "deb")
+    assert_equal 1, result["resultcount"]
+    assert_equal "deb", result["comments"][0]["assign"]
+  end
+
+  def test_comment_report_empty_author_not_filtered
+    load_report_comments
+    assert_equal 3, report("user" => "")["resultcount"]
+    assert_equal 3, report({})["resultcount"]
   end
 end

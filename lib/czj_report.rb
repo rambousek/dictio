@@ -29,6 +29,9 @@ class CzjReport
         query['$and'] << {'assign' => params['assign']}
       end
     end
+    if params.include?('user') and params['user'] != ''
+      query['$and'] << {'user' => params['user']}
+    end
     $stdout.puts query
     if params.include?('entry') and params['entry'] != ''
       query['entry'] = params['entry']
