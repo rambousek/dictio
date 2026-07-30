@@ -107,6 +107,12 @@ class CzjApp < Sinatra::Base
       return false
     end
 
+    # Unsolved comments assigned to logged-in user, per dictionary
+    def assigned_comments
+      return {} unless @user_info
+      @assigned_comments ||= COMMENTS.count_assigned(@user_info['login'])
+    end
+
     def get_hostname(ip)
       $stdout.puts 'START getname '+Time.now.to_s
       begin
