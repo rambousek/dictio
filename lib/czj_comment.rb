@@ -63,6 +63,27 @@ class CzjComment < Object
     end
   end
 
+  # Count unsolved comments assigned to user, grouped by dictionary
+  # @param [String] login User login
+  # @return [Hash{String->Integer}] Comment count per dictionary code
+  def count_assigned(login)
+    counts = {}
+    return counts if login.to_s == ''
+    @commentdb.aggregate([
+      {'$match' => {
+        'assign' => login,
+        '$or' => [
+          {'solved' => ''},
+          {'solved' => {'$exists' => false}}
+        ]
+      }},
+      {'$group' => {'_id' => '$dict', 'count' => {'$sum' => 1}}}
+    ]).each{|row|
+      counts[row['_id']] = row['count']
+    }
+    counts
+  end
+
   # Find comments for selected entry
   # @param [String] dictcode Dictionary code
   # @param [String] id Entry ID

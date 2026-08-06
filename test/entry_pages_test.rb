@@ -4,9 +4,58 @@ require "json"
 # Routes rendered from fixture data through the FakeMongo (test/fixtures/).
 class EntryPagesTest < AppTest
   FIXTURES = JSON.parse(File.read(File.join(FakeMongo::FIXDIR, "entries.json")))
+  LOCALES = %w[cs de en sk ua].freeze
 
   def entry(dict, with: nil)
     FIXTURES.find { |e| e["dict"] == dict && (with.nil? || e.dig(*with).to_s != "") }
+  end
+
+  # title.slim picks translations matching the *current* UI locale, so a
+  # relation that only breaks in one language is invisible to single-locale
+  # tests. Render every entry page in all of them.
+  def assert_renders_in_every_locale(url)
+    LOCALES.each do |locale|
+      get url, "lang" => locale
+      assert_predicate last_response, :ok?, "#{url} failed for lang=#{locale}"
+    end
+  end
+
+  # Sweeps every fixture entry rather than one per type: the fixtures are a
+  # real production sample, and czj/2909 carries a published cs translation
+  # whose target is unresolvable — exactly the shape that broke title.slim.
+  def test_every_fixture_entry_renders_in_every_locale
+    FIXTURES.each do |e|
+      assert_renders_in_every_locale("/#{e["dict"]}/show/#{e["id"]}")
+    end
+  end
+
+  # A relation whose target entry cannot be resolved: czj_entry.rb skips it
+  # with `next if relentry.nil?`, leaving the relation with no 'entry' key.
+  # meaning_id must look like "<id>-<number>" so add_rels takes that lookup
+  # path in the first place.
+  def entry_with_dangling_translation(id, target)
+    doc = Marshal.load(Marshal.dump(entry("czj", with: ["lemma", "video_front"])))
+    doc["id"] = id
+    doc["meanings"][0]["relation"] = [
+      {"target" => target, "meaning_id" => "999999-1", "status" => "published", "type" => "translation"}
+    ]
+    doc
+  end
+
+  # Guards against the dangling-relation fix being over-broad and dropping
+  # every translation from the title.
+  def test_title_still_lists_resolvable_translations
+    get "/czj/show/38", "lang" => "cs"
+    assert_predicate last_response, :ok?
+    assert_match(/<title>.*ČZJ-38 \(.+\).*<\/title>/m, last_response.body)
+  end
+
+  def test_show_entry_with_dangling_translation
+    $mongo.load("entries", FIXTURES + [entry_with_dangling_translation("88001", "cs")]) # standard:disable Style/GlobalVars
+    # cs is the failing case: the dangling relation targets the UI locale.
+    assert_renders_in_every_locale("/czj/show/88001")
+  ensure
+    $mongo.load("entries", FIXTURES) # standard:disable Style/GlobalVars
   end
 
   def test_homepage_shows_entry_counts

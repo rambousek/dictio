@@ -221,7 +221,7 @@
       - if meaning['relation'] and meaning['relation'].find{|rel| rel['type'] == 'synonym' and rel['entry']}
         h4 = I18n.t("entry.synonyms")
         .row.row--start.translation-group-sign
-          - meaning['relation'].select{|rel| rel['type'] == 'synonym' and rel['entry']}.each do |rel|
+          - meaning['relation'].select{|rel| rel['type'] == 'synonym' and rel['entry'] and rel['entry']['id']}.each do |rel|
             - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id']
             .col.col--2.col--precise
               - if rel['status'] == 'hidden'
@@ -250,7 +250,7 @@
       - if meaning['relation'] and meaning['relation'].find{|rel| rel['type'] == 'antonym' and rel['entry']}
         h4 = I18n.t("entry.antonyms")
         .row.row--start.translation-group-sign
-          - meaning['relation'].select{|rel| rel['type'] == 'antonym' and rel['entry']}.each do |rel|
+          - meaning['relation'].select{|rel| rel['type'] == 'antonym' and rel['entry'] and rel['entry']['id']}.each do |rel|
             - relid = (rel['target'] == @dictcode) ? rel['entry']['id'] : rel['target']+'-'+rel['entry']['id']
             .col.col--2.col--precise
               - if rel['status'] == 'hidden'
