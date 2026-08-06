@@ -502,6 +502,7 @@ en:
     historycompareedit: "Compare edit"
     historyold: "old version"
     historynew: "new version, saved "
+    historydeleted: "deleted"
     prev: "previous"
     next: "next"
     show: "show"

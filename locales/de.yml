@@ -502,6 +502,7 @@ de:
     historycompareedit: "Compare edit"
     historyold: "old version"
     historynew: "new version, saved "
+    historydeleted: "deleted"
     prev: "previous"
     next: "next"
     report-list: "Wörterbuchübersicht"

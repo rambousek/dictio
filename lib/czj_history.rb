@@ -17,6 +17,20 @@ module CzjHistory
     $mongo['history'].insert_one(history)
   end
 
+  def save_delete_info(dict, entryid, data_old, user)
+    history = {
+      'dict' => dict,
+      'entry' => entryid,
+      'user' => user,
+      'timestamp' => Time.now.strftime('%Y-%m-%d %H:%M:%S'),
+      'detail' => 'smazáno heslo',
+      'action' => 'delete',
+      'full_entry_old' => data_old,
+      'full_entry' => nil
+    }
+    $mongo['history'].insert_one(history)
+  end
+
   def list_history(code, user, entry, limit = 100)
     report = {'entries'=>[]}
     $stderr.puts code

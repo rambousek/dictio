@@ -136,8 +136,10 @@ class CzjApp < Sinatra::Base
         @entry_old = $dict_array[@dictcode].full_entry(@change['full_entry_old'], false)
         @entry_old = $dict_array[@dictcode].add_rels(@entry_old, false)
       end
-      @entry_new = $dict_array[@dictcode].full_entry(@change['full_entry'], false)
-      @entry_new = $dict_array[@dictcode].add_rels(@entry_new, false)
+      if @change['full_entry']
+        @entry_new = $dict_array[@dictcode].full_entry(@change['full_entry'], false)
+        @entry_new = $dict_array[@dictcode].add_rels(@entry_new, false)
+      end
       @prev = CzjHistory.history_prev(@change)
       @next = CzjHistory.history_next(@change)
       slim :historycompare

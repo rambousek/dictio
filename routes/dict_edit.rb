@@ -28,7 +28,7 @@ class CzjApp < Sinatra::Base
           if @user_info['editor'].length > 0 or @user_info['revizor'].length > 0 or @user_info['perm'].include?('admin')
             dict.remove_all_relations(params['id'].to_s)
             dict.remove_colloc(params['id'].to_s)
-            dict.delete_doc(params['id'].to_s)
+            dict.delete_doc(params['id'].to_s, @user_info['login'])
             'DELETED ' + params['id'].to_s
           else
             'not authorized to delete entry'

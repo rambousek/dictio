@@ -502,6 +502,7 @@ ua:
     historycompareedit: "Порівняти редагування"
     historyold: "оригінальна версія"
     historynew: "нова версія, збережено"
+    historydeleted: "видалено"
     prev: "попередня"
     next: "наступний"
     report-list: "огляд словника"

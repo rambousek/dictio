@@ -14,8 +14,10 @@ module CzjEntryJson
       else
         doc = change['full_entry']
       end
-      doc = dict_array[code].full_entry(doc, false)
-      doc = dict_array[code].add_rels(doc, false)
+      if doc
+        doc = dict_array[code].full_entry(doc, false)
+        doc = dict_array[code].add_rels(doc, false)
+      end
     else
       doc = dict.getdoc(params['id'], add_rev)
     end
