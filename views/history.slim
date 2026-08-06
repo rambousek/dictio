@@ -49,9 +49,6 @@ main role="main"
                       = entry['entry']
                 td
                   b = "#{entry['user']}:"
-                  - if entry['action'] == 'delete'
-                    p
-                      b style="color: #b00" = I18n.t('admin.historydeleted')
                   p style="font-size: smaller"
                     = entry['detail']
                 td
