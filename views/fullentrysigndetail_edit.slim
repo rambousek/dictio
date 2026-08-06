@@ -20,7 +20,7 @@
       img src="/img/warning.png" 
       div.notapproved #{I18n.t("entry.notapproved")}
     .video
-      .video__content.video-front.quotable data-quote="#{@cite_text} (video#{CzjWebHelper.cite_video_meta(@entry['media']['video_front'])})"
+      .video__content.video-front.quotable data-quote="#{CzjWebHelper.build_video_cite($dict_info, @entry, @entry['media']['video_front'], 'lemma')}"
         span.quote-btn title="Citace video" ❝
         - orient = @entry.dig('media', 'video_front', 'orient').to_s
         - if orient != ''
@@ -30,7 +30,8 @@
         video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@show_dictcode}/#{@entry['lemma']['video_front']}"
           source src="https://files.dictio.info/video#{@show_dictcode}/#{@entry['lemma']['video_front']}" type="video/mp4"
       - if @entry['lemma']['video_side'] != ''
-        .video__content.video-side style="display:none"
+        .video__content.video-side.quotable style="display:none" data-quote="#{CzjWebHelper.build_video_cite($dict_info, @entry, @entry['media']['video_side'], 'lemma')}"
+          span.quote-btn title="Citace video" ❝
           video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@show_dictcode}/#{@entry['lemma']['video_side']}"
             source src="https://files.dictio.info/video#{@show_dictcode}/#{@entry['lemma']['video_side']}" type="video/mp4"
       .video__controls
@@ -253,7 +254,7 @@
               - if meaning['status'] == 'hidden'
                 img src="/img/warning.png" 
                 div.notapproved #{I18n.t("entry.notapproved")} 
-              .video.video--shrink.quotable data-quote="#{@cite_text} (význam #{meaning['number']}, video#{CzjWebHelper.cite_video_meta(@entry['media'][meaning['text']['file']['@media_id']])})"
+              .video.video--shrink.quotable data-quote="#{CzjWebHelper.build_video_cite($dict_info, @entry, @entry['media'][meaning['text']['file']['@media_id']], 'definition')}"
                 span.quote-btn title="Citace video" ❝
                 .video__content
                   video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@show_dictcode}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}"
@@ -331,7 +332,7 @@
                 .col.col--2.col--precise
                   - if usg['status'] == 'hidden'
                     img src="/img/warning.png" style="width: 20px" title="#{I18n.t('entry.notapproved')}"      
-                  .video.video--small.quotable data-quote="#{@cite_text} (příklad#{CzjWebHelper.cite_video_meta(@entry['media'][usg['text']['file']['@media_id']])})"
+                  .video.video--small.quotable data-quote="#{CzjWebHelper.build_video_cite($dict_info, @entry, @entry['media'][usg['text']['file']['@media_id']], 'example')}"
                     span.quote-btn title="Citace příklad" ❝
                     .video__content
                       video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@show_dictcode}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}"

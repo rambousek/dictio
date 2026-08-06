@@ -76,7 +76,9 @@ module CzjWebHelper
 
     if cite_attr['data']['page-type'] == 'video'
       online = ''
-      video = I18n.t('cite.video', video: cite_attr['data']['page-video'])
+      kind = cite_attr['data']['video-kind'] || video_kind_from_filename(cite_attr['data']['page-video'])
+      video = I18n.t('cite.video_' + kind, video: cite_attr['data']['page-video'],
+                                           dictionary: I18n.t('dict_cite_1.' + cite_attr['data']['page-lang']))
     else
       online = I18n.t('cite.online')
       video = ''
@@ -84,6 +86,39 @@ module CzjWebHelper
 
     I18n.t('cite.text', video: video, online: online, dict_info: dict_info,
            date: DateTime.now.strftime('%-d. %-m. %Y'), url: cite_attr['data']['page-url'])
+  end
+
+  # Citation of a single video file, independent of the page it is shown on.
+  # @param [Hash] dict_info
+  # @param [Hash] entry
+  # @param [Hash] media
+  # @param [String] kind one of lemma, definition, example
+  # @return [Hash]
+  def self.get_video_cite_attr(dict_info, entry, media, kind)
+    path = '/' + entry['dict'] + '/show/' + entry['id'].to_s + '/' + media['location']
+    cite_attr = get_cite_attr('video', path, nil, dict_info, entry, entry['dict'], nil, nil, media['location'])
+    cite_attr['data']['video-kind'] = kind
+    cite_attr
+  end
+
+  # @param [Hash] dict_info
+  # @param [Hash] entry
+  # @param [Hash] media
+  # @param [String] kind one of lemma, definition, example
+  # @return [String]
+  def self.build_video_cite(dict_info, entry, media, kind)
+    return '' unless media.is_a?(Hash) and media['location'].to_s != ''
+    build_cite(get_video_cite_attr(dict_info, entry, media, kind)) + cite_video_meta(media)
+  end
+
+  # @param [String] filename
+  # @return [String]
+  def self.video_kind_from_filename(filename)
+    case filename.to_s[0]
+    when 'D' then 'definition'
+    when 'K' then 'example'
+    else 'lemma'
+    end
   end
 
   # @param [Hash] media
@@ -104,9 +139,9 @@ module CzjWebHelper
   # @param [String] source
   # @return [String]
   def self.format_meta(author, source)
-    parts = []
-    parts << "autor: #{author}" if author.to_s != ''
-    parts << "zdroj: #{source}" if source.to_s != ''
-    parts.empty? ? '' : ', ' + parts.join(', ')
+    meta = ''
+    meta += I18n.t('cite.author', author: author) if author.to_s != ''
+    meta += I18n.t('cite.source', source: source) if source.to_s != ''
+    meta
   end
 end
