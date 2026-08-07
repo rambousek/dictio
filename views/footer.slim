@@ -11,7 +11,7 @@ footer.footer role="contentinfo"
   .container
     .footer__wrapper
       p.footer__copy
-        span DICTIO v 7.1 
+        span DICTIO v 7.1#{$app_commit ? " (#{$app_commit})" : ''}
         | &copy; 2007-#{Date.today.year} Masaryk University / All rights reserved
       nav.nav.nav--footer role="navigation"
         ul
