@@ -1,6 +1,8 @@
 # Administrative operations: entry deletion/id generation, untranslated-relation reports.
 module CzjDictAdmin
-  def delete_doc(entry_id)
+  def delete_doc(entry_id, user = '')
+    olddata = getone(@dictcode, entry_id)
+    CzjHistory.save_delete_info(@dictcode, entry_id, olddata, user) if olddata
     $mongo['relation'].find({'source_dict': @dictcode, 'source_id': entry_id}).delete_many
     $mongo['relation'].find({'target': @dictcode, 'target_id': entry_id}).delete_many
     @entrydb.find({'dict'=>@dictcode, 'id'=>entry_id}).delete_many

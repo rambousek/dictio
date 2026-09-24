@@ -506,6 +506,7 @@ cs:
     historycompareedit: "Porovnat edit"
     historyold: "původní verze"
     historynew: "nová verze, uloženo "
+    historydeleted: "smazáno"
     prev: "předchozí"
     next: "další"
     report-list: "přehled slovníků"

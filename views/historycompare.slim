@@ -25,13 +25,19 @@ main id="mobilespacetop" role="main"
                 - @entry = @entry_old
                 == slim :fullentrysigndetail_edit
             td width="40%" style="vertical-align: top;"
-              - @entry = @entry_new
-              == slim :fullentrysigndetail_edit
+              - if @entry_new
+                - @entry = @entry_new
+                == slim :fullentrysigndetail_edit
+              - else
+                b = I18n.t('admin.historydeleted')
           - else
             td width="40%" style="vertical-align: top;"
               - if @entry_old
                 - @entry = @entry_old
                 == slim :fullentrywritedetail_edit
             td width="40%" style="vertical-align: top;"
-              - @entry = @entry_new
-              == slim :fullentrywritedetail_edit
+              - if @entry_new
+                - @entry = @entry_new
+                == slim :fullentrywritedetail_edit
+              - else
+                b = I18n.t('admin.historydeleted')

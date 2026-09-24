@@ -18,3 +18,11 @@ $dict_info = {
   'lse' => {'type' => 'sign', 'label'=>'LSE', 'search_in'=>'es', 'target'=>'es', 'pos'=>pos_sign, 'stylpriznak'=>stylpriznak_sign},
 }
 $fsw_style = '-CG_white_'
+
+# short hash of the deployed commit, shown in the footer; nil outside a git checkout
+$app_commit = begin
+  hash = `git -C #{File.expand_path('..', __dir__)} rev-parse --short HEAD 2>/dev/null`.strip
+  hash.empty? ? nil : hash
+rescue
+  nil
+end
