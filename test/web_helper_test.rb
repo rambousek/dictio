@@ -28,40 +28,51 @@ class WebHelperTest < Minitest::Test
 
   SIGN_DICT_INFO = {"czj" => {"type" => "sign"}}
   SIGN_ENTRY = {"dict" => "czj", "id" => "18702", "lemma" => {"video_front" => "A_okno-x.mp4"}}
+  WRITE_DICT_INFO = {"cs" => {"type" => "write"}}
+  WRITE_ENTRY = {"dict" => "cs", "id" => "62072", "lemma" => {"title" => "okno"}}
 
-  def video_cite(location, kind)
-    I18n.locale = "cs"
-    media = {"location" => location}
-    CzjWebHelper.build_video_cite(SIGN_DICT_INFO, SIGN_ENTRY, media, kind)
+  def app_version
+    $app_version # standard:disable Style/GlobalVars
   end
 
-  def expected_video_cite(location, phrase)
-    "#{location} [online]. #{phrase}. In: <i>Dictio: Vícejazyčný slovník znakových jazyků</i>. " \
-      "Brno: Masarykova univerzita, 2007. Výkladový slovník českého znakového jazyka, heslo czj-18702. " \
-      "Cit. <i>#{DateTime.now.strftime("%-d. %-m. %Y")}</i>. " \
-      "Dostupné z URL: https://www.dictio.info/czj/show/18702/#{location}."
+  def cite_date
+    DateTime.now.strftime("%-d. %-m. %Y")
+  end
+
+  def video_cite(location, kind, meaning = nil)
+    I18n.locale = "cs"
+    CzjWebHelper.build_video_cite(SIGN_DICT_INFO, SIGN_ENTRY, {"location" => location}, kind, meaning)
+  end
+
+  def test_build_cite_page_has_version
+    I18n.locale = "cs"
+    attr = CzjWebHelper.get_cite_attr("page", "/", "index")
+    assert_equal "<i>Dictio: Vícejazyčný slovník znakových jazyků</i> [online]. Verze #{app_version}. " \
+      "Brno: Masarykova univerzita, 2007- . Cit. #{cite_date}. Dostupné z URL: https://www.dictio.info/.",
+      CzjWebHelper.build_cite(attr)
   end
 
   def test_build_video_cite_lemma
-    assert_equal expected_video_cite("A_okno-x.mp4", "Soubor s lexémem českého znakového jazyka"),
+    assert_equal "A_okno-x.mp4 [online]. Soubor s lexémem českého znakového jazyka. " \
+      "In: <i>Dictio: Vícejazyčný slovník znakových jazyků</i>. Verze #{app_version}. " \
+      "Brno: Masarykova univerzita, 2007- . Výkladový slovník českého znakového jazyka, heslo czj-18702. " \
+      "Cit. #{cite_date}. Dostupné z URL: https://www.dictio.info/czj/show/18702/A_okno-x.mp4.",
       video_cite("A_okno-x.mp4", "lemma")
   end
 
   def test_build_video_cite_definition
-    assert_equal expected_video_cite("D_okno.mp4", "Soubor se sémantickou definicí lexému českého znakového jazyka"),
-      video_cite("D_okno.mp4", "definition")
+    assert_equal "KOLEKTIV AUTORŮ. D_okno.mp4. " \
+      "In: <i>Dictio: Vícejazyčný slovník znakových jazyků</i>. Verze #{app_version}. " \
+      "Brno: Masarykova univerzita, 2007- . Výkladový slovník českého znakového jazyka, heslo czj-18702, význam 1. " \
+      "Cit. #{cite_date}. Dostupné z URL: https://www.dictio.info/czj/show/18702/D_okno.mp4.",
+      video_cite("D_okno.mp4", "definition", "1")
   end
 
   def test_build_video_cite_example
-    assert_equal expected_video_cite("K_okno.mp4", "Soubor s kontextovým příkladem českého znakového jazyka"),
-      video_cite("K_okno.mp4", "example")
-  end
-
-  def test_build_video_cite_appends_author_and_source
-    I18n.locale = "cs"
-    media = {"location" => "A_okno-x.mp4", "id_meta_author" => "Teiresiás MUNI", "id_meta_source" => "Sbírka XY"}
-    cite = CzjWebHelper.build_video_cite(SIGN_DICT_INFO, SIGN_ENTRY, media, "lemma")
-    assert cite.end_with?("A_okno-x.mp4. Autor: Teiresiás MUNI. Zdroj: Sbírka XY.")
+    assert_includes video_cite("K_okno.mp4", "example", "1"),
+      "KOLEKTIV AUTORŮ. K_okno.mp4. In: "
+    assert_includes video_cite("K_okno.mp4", "example", "1"),
+      "heslo czj-18702, význam 1, příklady. Cit."
   end
 
   def test_build_video_cite_without_media
@@ -73,6 +84,27 @@ class WebHelperTest < Minitest::Test
     I18n.locale = "cs"
     attr = CzjWebHelper.get_cite_attr("video", "/czj/show/18702/D_okno.mp4", nil,
       SIGN_DICT_INFO, SIGN_ENTRY, "czj", nil, nil, "D_okno.mp4")
-    assert_includes CzjWebHelper.build_cite(attr), "Soubor se sémantickou definicí lexému českého znakového jazyka"
+    assert CzjWebHelper.build_cite(attr).start_with?("KOLEKTIV AUTORŮ. D_okno.mp4. In: ")
+  end
+
+  def test_build_part_cite_write_meaning
+    I18n.locale = "cs"
+    assert_equal "<i>Dictio: Vícejazyčný slovník znakových jazyků</i>. Verze #{app_version}. " \
+      "Brno: Masarykova univerzita, 2007- . Výkladový slovník češtiny, heslo okno, význam 1. " \
+      "Cit. #{cite_date}. Dostupné z URL: https://www.dictio.info/cs/search/text/okno/62072.",
+      CzjWebHelper.build_part_cite(WRITE_DICT_INFO, WRITE_ENTRY, "1")
+  end
+
+  def test_build_part_cite_write_examples
+    I18n.locale = "cs"
+    assert_includes CzjWebHelper.build_part_cite(WRITE_DICT_INFO, WRITE_ENTRY, "1", true),
+      "Výkladový slovník češtiny, heslo okno, význam 1, příklady. Cit."
+  end
+
+  def test_build_part_cite_sign_meaning
+    I18n.locale = "cs"
+    cite = CzjWebHelper.build_part_cite(SIGN_DICT_INFO, SIGN_ENTRY, "2")
+    assert_includes cite, "heslo czj-18702, význam 2. Cit."
+    assert cite.end_with?("Dostupné z URL: https://www.dictio.info/czj/show/18702.")
   end
 end

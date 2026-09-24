@@ -71,8 +71,7 @@
                     img src="https://sign.dictio.info/fsw/sign/png/#{sw['@fsw']}#{$fsw_style}" alt=""
 
   - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'].to_s != '' or gr['@mluv_komp'].to_s != '' or gr['@oral_komp'].to_s != '' or gr['_text'].to_s != '' or gr['variant'] != nil or gr['@region'].to_s != ''}
-    .block.mobile-hide.quotable data-quote="#{@cite_text} (Formální popis)"
-      span.quote-btn title="Citace formální popis" ❝
+    .block.mobile-hide
       - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'].to_s != ''}
         h2.detail-category
           / - if @entry['lemma']['grammar_note'].find { |gr| !%w[ustalene finger].include?(gr['@slovni_druh']) }
@@ -237,7 +236,7 @@
     - @meaning = meaning
     .row
       .col.col--2
-        .detail__block.detail__block--line.quotable data-quote="#{@cite_text} (význam #{meaning['number']})"
+        .detail__block.detail__block--line.quotable data-quote="#{CzjWebHelper.build_part_cite($dict_info, @entry, meaning['number'])}"
           .video-simple
             h3 id="meaning#{meaning['number']}" #{I18n.t("entry.meaning")} #{meaning['number']}
             span.quote-btn title="Citace význam" ❝
@@ -254,7 +253,7 @@
               - if meaning['status'] == 'hidden'
                 img src="/img/warning.png" 
                 div.notapproved #{I18n.t("entry.notapproved")} 
-              .video.video--shrink.quotable data-quote="#{CzjWebHelper.build_video_cite($dict_info, @entry, @entry['media'][meaning['text']['file']['@media_id']], 'definition')}"
+              .video.video--shrink.quotable data-quote="#{CzjWebHelper.build_video_cite($dict_info, @entry, @entry['media'][meaning['text']['file']['@media_id']], 'definition', meaning['number'])}"
                 span.quote-btn title="Citace video" ❝
                 .video__content
                   video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@show_dictcode}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}"
@@ -332,7 +331,7 @@
                 .col.col--2.col--precise
                   - if usg['status'] == 'hidden'
                     img src="/img/warning.png" style="width: 20px" title="#{I18n.t('entry.notapproved')}"      
-                  .video.video--small.quotable data-quote="#{CzjWebHelper.build_video_cite($dict_info, @entry, @entry['media'][usg['text']['file']['@media_id']], 'example')}"
+                  .video.video--small.quotable data-quote="#{CzjWebHelper.build_video_cite($dict_info, @entry, @entry['media'][usg['text']['file']['@media_id']], 'example', meaning['number'])}"
                     span.quote-btn title="Citace příklad" ❝
                     .video__content
                       video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@show_dictcode}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}"

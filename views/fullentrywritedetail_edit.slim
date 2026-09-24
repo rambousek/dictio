@@ -27,8 +27,7 @@
           a href="/#{@dictcode}/show/#{coll['id']}" #{coll['lemma']['title']}
         - unless coll.equal?(@entry['collocations']['entries'].last)
           | , 
-  .block.mobile-hide.quotable data-quote="#{@cite_text} (Formální popis)"
-    span.quote-btn title="Citace gram" ❝
+  .block.mobile-hide
     - if @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'].find{|gr| gr['@slovni_druh'].to_s != ''}
       h2.detail-category
         span
@@ -343,7 +342,7 @@
     - @meaning = meaning
     .row
       .col.col--2
-        .detail__block.detail__block--line.quotable data-quote="#{@cite_text} (význam #{meaning['number']})"
+        .detail__block.detail__block--line.quotable data-quote="#{CzjWebHelper.build_part_cite($dict_info, @entry, meaning['number'])}"
           span.quote-btn title="Citace význam" ❝
           h3 id="meaning#{meaning['number']}" #{I18n.t("entry.meaning")} #{meaning['number']}
           - if meaning['oblast'].to_s != '' 
@@ -394,7 +393,7 @@
           - if meaning['usages'] && meaning['usages'].count { |usg| usg['type'] == 'sentence' } > 0
             h4 #{I18n.t("entry.examples")}:
             - meaning['usages'].select { |usg| usg['type'] == 'sentence' }.each do |usg|
-              p.example.quotable data-quote="#{@cite_text} (příklad#{CzjWebHelper.cite_usage_meta(usg)})"
+              p.example.quotable data-quote="#{CzjWebHelper.build_part_cite($dict_info, @entry, meaning['number'], true)}"
                 span.quote-btn title="Citace příklad" ❝
                 em = usg.dig('text', '_text')
             p.more-example.link style="display:none;cursor:pointer" = I18n.t('entry.more_example')
