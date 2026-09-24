@@ -633,6 +633,7 @@ function loadSearchResult(ev) {
     }
     $('.entry-content')[0].scrollIntoView();
     onLoadSearchResult();
+    refreshQuoteAvailability();
     // update window title
     let title = $('#search-title-meta title');
     if (title && title.html() != '') {
@@ -695,9 +696,27 @@ function showhide(id) {
      e.style.display = 'block';
 }
 
-function citaceGen() { /* funkce předávající hodnoty ze stránky pro citace */
-  document.getElementById("modalText").innerHTML = $('footer #citeInfo').data('cite-text');
+function showCite(title, html) {
+  document.getElementById("modalTitle").textContent = title;
+  document.getElementById("modalText").innerHTML = html;
   document.getElementById("modal").style.display = "flex";
+}
+
+function citaceGen() { /* funkce předávající hodnoty ze stránky pro citace */
+  showCite(document.getElementById("modal").dataset.pageTitle, $('footer #citeInfo').data('cite-text'));
+}
+
+// copy as HTML (keeps italics when pasted into a word processor) with plain text fallback
+function copyCite(el) {
+  const html = el.innerHTML;
+  const text = el.innerText || el.textContent;
+  if (window.ClipboardItem && navigator.clipboard.write) {
+    return navigator.clipboard.write([new ClipboardItem({
+      'text/html': new Blob([html], {type: 'text/html'}),
+      'text/plain': new Blob([text], {type: 'text/plain'})
+    })]);
+  }
+  return navigator.clipboard.writeText(text);
 }
 
 function kopirovatText() {
@@ -706,19 +725,15 @@ function kopirovatText() {
 
   if (!textElement || !copyButton) return;
 
-  const textToCopy = textElement.innerText || textElement.textContent;
-
-  navigator.clipboard.writeText(textToCopy)
+  copyCite(textElement)
     .then(() => {
-      // změna textu tlačítka
-      copyButton.textContent = "Zkopírováno do schránky";
-      copyButton.disabled = true; // volitelně – deaktivace tlačítka
+      copyButton.textContent = copyButton.dataset.copied;
+      copyButton.disabled = true;
 
-      // po 3 sekundách vrátit původní text
       setTimeout(() => {
-        copyButton.textContent = "Zkopírovat do schránky";
+        copyButton.textContent = copyButton.dataset.copy;
         copyButton.disabled = false;
-      }, 10000);
+      }, 3000);
     })
 }
 
@@ -732,84 +747,69 @@ function zavriModal() {
   function setQuoteMode(active) {
     quoteMode = active;
     document.body.classList.toggle('quote-mode-active', quoteMode);
-    const toggle = document.getElementById('quote-toggle');
-    if (toggle) toggle.classList.toggle('quote-toggle--active', quoteMode);
+    let hint = document.getElementById('quote-hint');
+    if (quoteMode && !hint) {
+      const labels = document.getElementById('modal').dataset;
+      hint = document.createElement('div');
+      hint.id = 'quote-hint';
+      const text = document.createElement('span');
+      text.textContent = labels.hint;
+      const cancel = document.createElement('button');
+      cancel.type = 'button';
+      cancel.className = 'btn';
+      cancel.textContent = labels.cancel;
+      cancel.addEventListener('click', () => setQuoteMode(false));
+      hint.append(text, cancel);
+      document.body.appendChild(hint);
+    } else if (!quoteMode && hint) {
+      hint.remove();
+    }
   }
 
   window.toggleQuoteMode = function() {
     setQuoteMode(!quoteMode);
   };
 
-  function triggerQuote(e) {
+  // search results load entries via AJAX, so re-check after each load
+  window.refreshQuoteAvailability = function() {
+    const available = document.querySelector('.quotable') !== null;
+    document.body.classList.toggle('has-quotable', available);
+    if (!available) setQuoteMode(false);
+  };
+
+  // delegated in capture phase: buttons in AJAX-loaded entries have no own listeners,
+  // and the click must not reach video/section handlers underneath
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.quote-btn');
+    if (!btn) return;
     e.preventDefault();
     e.stopPropagation();
-    const section = e.currentTarget.closest('.quotable');
-    const text = section.dataset.quote || window.location.href;
-    showQuoteOverlay(text);
-  }
+    const section = btn.closest('.quotable');
+    section.classList.remove('quotable--highlight');
+    setQuoteMode(false);
+    showCite(document.getElementById('modal').dataset.partTitle, section.dataset.quote);
+  }, true);
 
-  function highlightQuotable(e) {
-    const section = e.currentTarget.closest('.quotable');
-    if (section) section.classList.add('quotable--highlight');
-  }
-
-  function unhighlightQuotable(e) {
-    const section = e.currentTarget.closest('.quotable');
-    if (section) section.classList.remove('quotable--highlight');
-  }
-
-  function showQuoteOverlay(text) {
-    // Remove any existing overlay
-    const existing = document.getElementById('quote-overlay');
-    if (existing) existing.remove();
-
-    const overlay = document.createElement('div');
-    overlay.id = 'quote-overlay';
-    overlay.innerHTML = `
-      <div id="quote-overlay__box" class="modal-content">
-        <div id="quote-overlay__body">
-          ${text}
-        </div>
-        <div id="quote-overlay__footer" class="modal-buttons">
-          <button class="btn" id="quote-overlay__close" title="Zavřít">Zavřít</button>
-          <button class="btn" id="quote-overlay__copy">Kopírovat</button>
-        </div>
-      </div>
-    `;
-
-    document.body.appendChild(overlay);
-
-    // Copy button
-    overlay.querySelector('#quote-overlay__copy').addEventListener('click', () => {
-      navigator.clipboard.writeText(text).then(() => {
-        const btn = overlay.querySelector('#quote-overlay__copy');
-        btn.textContent = 'Zkopírováno ✓';
-        btn.style.background = '#2ecc71';
-        setTimeout(() => {
-          btn.textContent = 'Kopírovat';
-          btn.style.background = '';
-        }, 2000);
-      });
-    });
-
-    // Close on button
-    overlay.querySelector('#quote-overlay__close').addEventListener('click', () => overlay.remove());
-
-    // Close on backdrop click
-    overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) overlay.remove();
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.quote-btn').forEach(btn => {
-      btn.addEventListener('click', triggerQuote);
-      btn.addEventListener('mouseenter', highlightQuotable);
-      btn.addEventListener('mouseleave', unhighlightQuotable);
-    });
-    const toggle = document.getElementById('quote-toggle');
-    if (toggle) toggle.addEventListener('click', toggleQuoteMode);
+  document.addEventListener('mouseover', (e) => {
+    const btn = e.target.closest('.quote-btn');
+    if (btn) btn.closest('.quotable').classList.add('quotable--highlight');
   });
+
+  document.addEventListener('mouseout', (e) => {
+    const btn = e.target.closest('.quote-btn');
+    if (btn) btn.closest('.quotable').classList.remove('quotable--highlight');
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (document.getElementById('modal').style.display === 'flex') {
+      zavriModal();
+    } else if (quoteMode) {
+      setQuoteMode(false);
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', refreshQuoteAvailability);
 
   // Pages restored from bfcache keep their DOM (and body class) as it was
   // when navigated away from, so force quote mode back off on restore.

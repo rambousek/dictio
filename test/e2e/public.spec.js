@@ -118,3 +118,61 @@ test("entry pages load without JS errors", async ({ page }) => {
   await page.goto("/cs/show/99999999"); // notfound page
   expect(errors).toEqual([]);
 });
+
+test.describe("part citation", () => {
+  const QUOTE_ENTRY = "/czj/show/38?lang=cs";
+
+  test("offered only on entry detail pages", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("footer .quote-part-link")).toBeHidden();
+    await page.goto(QUOTE_ENTRY);
+    await expect(page.locator("footer .quote-part-link")).toBeVisible();
+    await expect(page.locator(".cite-buttons .quote-part-link")).toBeVisible();
+  });
+
+  test("page citation has its heading", async ({ page }) => {
+    await page.goto(QUOTE_ENTRY);
+    await page.locator(".cite-buttons a", { hasText: "Citovat" }).first().click();
+    await expect(page.locator("#modal")).toBeVisible();
+    await expect(page.locator("#modalTitle")).toHaveText("Citace této stránky");
+  });
+
+  test("quote mode shows hint, part citation opens in the cite modal", async ({ page, context }) => {
+    const errors = trackPageErrors(page);
+    await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+    await page.goto(QUOTE_ENTRY);
+    await expect(page.locator(".quote-btn").first()).toBeHidden();
+
+    await page.locator(".cite-buttons .quote-part-link").click();
+    await expect(page.locator("body")).toHaveClass(/quote-mode-active/);
+    await expect(page.locator("#quote-hint")).toContainText("Vyberte část hesla, kterou chcete citovat.");
+
+    await page.locator(".video--shrink .quote-btn").first().click();
+    await expect(page.locator("#quote-hint")).toHaveCount(0);
+    await expect(page.locator("body")).not.toHaveClass(/quote-mode-active/);
+    await expect(page.locator("#modalTitle")).toHaveText("Citace části hesla");
+    await expect(page.locator("#modalText")).toContainText("KOLEKTIV AUTORŮ.");
+    await expect(page.locator("#modalText")).toContainText("heslo czj-38, význam 1.");
+
+    await page.locator("#copyButton").click();
+    await expect(page.locator("#copyButton")).toHaveText("Zkopírováno do schránky");
+    const copied = await page.evaluate(() => navigator.clipboard.readText());
+    expect(copied).toContain("Dictio: Vícejazyčný slovník znakových jazyků");
+    expect(copied).not.toContain("<i>");
+
+    await page.keyboard.press("Escape");
+    await expect(page.locator("#modal")).toBeHidden();
+    expect(errors).toEqual([]);
+  });
+
+  test("hint cancel button and Escape leave quote mode", async ({ page }) => {
+    await page.goto(QUOTE_ENTRY);
+    await page.locator(".cite-buttons .quote-part-link").click();
+    await page.locator("#quote-hint button").click();
+    await expect(page.locator("body")).not.toHaveClass(/quote-mode-active/);
+    await page.locator("footer .quote-part-link a").click();
+    await expect(page.locator("#quote-hint")).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(page.locator("#quote-hint")).toHaveCount(0);
+  });
+});

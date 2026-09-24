@@ -1,12 +1,13 @@
 <!-- patička -->
 footer.footer role="contentinfo"
-  .modal id="modal" style="display: none"
+  .modal id="modal" style="display: none" data-page-title=I18n.t("cite.page_title") data-part-title=I18n.t("cite.part_title") data-hint=I18n.t("cite.part_hint") data-cancel=I18n.t("cite.cancel")
     .modal-content
+      h3 id="modalTitle"
       p id="modalText"
 
       .modal-buttons
-        button#copyButton class="btn" style="margin-right: 10px" type="button" onclick="kopirovatText()" Zkopírovat do schránky
-        button class="btn" type="button" onclick="zavriModal()" Zavřít
+        button#copyButton class="btn" style="margin-right: 10px" type="button" onclick="kopirovatText()" data-copy=I18n.t("cite.copy") data-copied=I18n.t("cite.copied") = I18n.t("cite.copy")
+        button class="btn" type="button" onclick="zavriModal()" = I18n.t("cite.close")
 
   .container
     .footer__wrapper
@@ -17,8 +18,8 @@ footer.footer role="contentinfo"
         ul
           li
             a href="#" onclick="citaceGen(); return false;" #{I18n.t("menu.cite")}
-          li
-            a href="#" onclick="toggleQuoteMode(); return false;" část
+          li.quote-part-link
+            a href="#" onclick="toggleQuoteMode(); return false;" = I18n.t("cite.part_button")
           li
             a href="/help" #{I18n.t("menu.help")}
           li

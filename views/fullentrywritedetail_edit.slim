@@ -343,7 +343,7 @@
     .row
       .col.col--2
         .detail__block.detail__block--line.quotable data-quote="#{CzjWebHelper.build_part_cite($dict_info, @entry, meaning['number'])}"
-          span.quote-btn title="Citace význam" ❝
+          span.quote-btn title="#{I18n.t('cite.part_btn_title')}" ❝
           h3 id="meaning#{meaning['number']}" #{I18n.t("entry.meaning")} #{meaning['number']}
           - if meaning['oblast'].to_s != '' 
             p.naming class="naming2"
@@ -394,7 +394,7 @@
             h4 #{I18n.t("entry.examples")}:
             - meaning['usages'].select { |usg| usg['type'] == 'sentence' }.each do |usg|
               p.example.quotable data-quote="#{CzjWebHelper.build_part_cite($dict_info, @entry, meaning['number'], true)}"
-                span.quote-btn title="Citace příklad" ❝
+                span.quote-btn title="#{I18n.t('cite.part_btn_title')}" ❝
                 em = usg.dig('text', '_text')
             p.more-example.link style="display:none;cursor:pointer" = I18n.t('entry.more_example')
       .col.col--2

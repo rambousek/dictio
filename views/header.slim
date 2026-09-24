@@ -169,5 +169,7 @@ header.header role="banner"
 <!-- /hlavička -->
 .block class="mobile-hide"
   - if @cite_attr
-    a.btn href="#" onclick="citaceGen(); return false;" class="transparent" style="text-align:right;position:absolute; right: 63px;font-size:0.75rem;cursor:pointer;z-index: 50;margin-top: 10px;" #{I18n.t("menu.cite")} „  “
+    .cite-buttons
+      a.btn.transparent href="#" onclick="citaceGen(); return false;" #{I18n.t("menu.cite")} „  “
+      a.btn.transparent.quote-part-link href="#" onclick="toggleQuoteMode(); return false;" = I18n.t("cite.part_button")
   

@@ -20,7 +20,8 @@
       img src="/img/warning.png" 
       div.notapproved #{I18n.t("entry.notapproved")}
     .video
-      .video__content.video-front
+      .video__content.video-front.quotable data-quote="#{CzjWebHelper.build_video_cite($dict_info, @entry, @entry.dig('media', 'video_front'), 'lemma')}"
+        span.quote-btn title="#{I18n.t('cite.part_btn_title')}" ❝
         - orient = @entry.dig('media', 'video_front', 'orient').to_s
         - if orient != ''
           span.video-orient= I18n.t("entry.dom" + orient[0].upcase)
@@ -29,7 +30,8 @@
         video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@show_dictcode}/#{@entry['lemma']['video_front']}"
           source src="https://files.dictio.info/video#{@show_dictcode}/#{@entry['lemma']['video_front']}" type="video/mp4"
       - if @entry['lemma']['video_side'] != ''
-        .video__content.video-side style="display:none"
+        .video__content.video-side.quotable style="display:none" data-quote="#{CzjWebHelper.build_video_cite($dict_info, @entry, @entry.dig('media', 'video_side'), 'lemma')}"
+          span.quote-btn title="#{I18n.t('cite.part_btn_title')}" ❝
           video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@show_dictcode}/#{@entry['lemma']['video_side']}"
             source src="https://files.dictio.info/video#{@show_dictcode}/#{@entry['lemma']['video_side']}" type="video/mp4"
       .video__controls
@@ -233,9 +235,10 @@
     - @meaning = meaning
     .row
       .col.col--2
-        .detail__block.detail__block--line
+        .detail__block.detail__block--line.quotable data-quote="#{CzjWebHelper.build_part_cite($dict_info, @entry, meaning['number'])}"
           .video-simple
             h3 id="meaning#{meaning['number']}" #{I18n.t("entry.meaning")} #{meaning['number']}
+            span.quote-btn title="#{I18n.t('cite.part_btn_title')}" ❝
             - if meaning['category'] and meaning['category'].find{|cat| not cat.nil?}
               p.naming class="naming2"
                 / | #{I18n.t("entry.category")}: 
@@ -246,7 +249,8 @@
             /    | Semantic region: 
             /    a href="#" Human body
             - if meaning.dig('text', 'file') and meaning['status'] != 'hidden'
-              .video.video--shrink
+              .video.video--shrink.quotable data-quote="#{CzjWebHelper.build_video_cite($dict_info, @entry, @entry.dig('media', meaning['text']['file']['@media_id']), 'definition', meaning['number'])}"
+                span.quote-btn title="#{I18n.t('cite.part_btn_title')}" ❝
                 .video__content
                   video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@show_dictcode}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}"
                     source src="https://files.dictio.info/video#{@show_dictcode}/#{@entry['media'][meaning["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
@@ -318,7 +322,8 @@
             .row.row--start.translation-group-sign
               - valid_usages.each do |usg|
                 .col.col--2.col--precise
-                  .video.video--small
+                  .video.video--small.quotable data-quote="#{CzjWebHelper.build_video_cite($dict_info, @entry, @entry.dig('media', usg['text']['file']['@media_id']), 'example', meaning['number'])}"
+                    span.quote-btn title="#{I18n.t('cite.part_btn_title')}" ❝
                     .video__content
                       video width="100%" controls="" onmouseover="this.play()" onmouseout=""  poster="/thumb/video#{@show_dictcode}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}"
                         source src="https://files.dictio.info/video#{@show_dictcode}/#{@entry['media'][usg["text"]["file"]["@media_id"]]['location']}" type="video/mp4"
