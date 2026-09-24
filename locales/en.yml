@@ -85,7 +85,7 @@ en:
     text: "%{video}<i>Dictio: Vícejazyčný slovník znakových jazyků</i>%{online}. Verze %{version}. Brno: Masarykova univerzita, 2007- . %{dict_info}Cit. %{date}. Dostupné z URL: %{url}."
     page_title: "Cite this page"
     part_title: "Cite part of the entry"
-    part_button: "Cite only part of the entry"
+    part_button: "Cite part"
     part_hint: "Select the part of the entry you want to cite."
     part_btn_title: "Cite this part"
     cancel: "Cancel"
