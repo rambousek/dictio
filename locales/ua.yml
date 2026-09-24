@@ -85,7 +85,7 @@ ua:
     text: "%{video}<i>Dictio: Vícejazyčný slovník znakových jazyků</i>%{online}. Verze %{version}. Brno: Masarykova univerzita, 2007- . %{dict_info}Cit. %{date}. Dostupné z URL: %{url}."
     page_title: "Цитування цієї сторінки"
     part_title: "Цитування частини гасла"
-    part_button: "Цитувати лише частину гасла"
+    part_button: "Цитувати частину"
     part_hint: "Виберіть частину гасла, яку хочете цитувати."
     part_btn_title: "Цитувати цю частину"
     cancel: "Скасувати"

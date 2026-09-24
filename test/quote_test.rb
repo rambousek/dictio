@@ -39,7 +39,7 @@ class QuoteTest < AppTest
   def test_part_cite_button_and_modal_labels
     get "/czj/show/38", "lang" => "cs"
     body = last_response.body
-    assert_includes body, "Citovat jen část hesla"
+    assert_includes body, "Citovat část"
     assert_includes body, 'data-page-title="Citace této stránky"'
     assert_includes body, 'data-part-title="Citace části hesla"'
     assert_includes body, 'data-hint="Vyberte část hesla, kterou chcete citovat."'
