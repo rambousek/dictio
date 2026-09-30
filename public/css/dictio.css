@@ -341,9 +341,6 @@ body.quote-mode-active .quote-btn { display: inline-flex; }
 }
 .cite-buttons .btn { font-size: 0.75rem; cursor: pointer; }
 
-a.cite-tab-button {
-  color: white;
-}
 /* part citation is offered only when the page shows an entry detail */
 body:not(.has-quotable) .quote-part-link { display: none !important; }
 
@@ -404,6 +401,7 @@ body:not(.has-quotable) .quote-part-link { display: none !important; }
   padding: 8px 10px;
   margin: 2px 0;
   white-space: nowrap;
+  color: white;
 }
 
 .cite-tab-icon {
