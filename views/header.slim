@@ -167,9 +167,15 @@ header.header role="banner"
           .nav-switcher role="button" aria-controls="navigation" tabindex="0" aria-label="Menu"
             .nav-switcher__line
 <!-- /hlavička -->
-.block class="mobile-hide"
-  - if @cite_attr
-    .cite-buttons
-      a.btn.transparent href="#" onclick="citaceGen(); return false;" #{I18n.t("menu.cite")} „  “
-      a.btn.transparent.quote-part-link href="#" onclick="toggleQuoteMode(); return false;" = I18n.t("cite.part_button")
   
+/ Výsuvná záložka pro citaci
+- if @cite_attr
+  .cite-tab
+    .cite-tab-content
+      a.cite-tab-button href="#" onclick="citaceGen(); return false;"
+        span.cite-tab-icon ❝
+        span.cite-tab-text = I18n.t("menu.cite")
+
+      a.cite-tab-button.quote-part-link href="#" onclick="toggleQuoteMode(); return false;"
+        span.cite-tab-icon -❝
+        span.cite-tab-text = I18n.t("cite.part_button")
