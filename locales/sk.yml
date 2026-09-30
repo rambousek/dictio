@@ -84,6 +84,7 @@ sk:
     online: " [online]"
     text: "%{video}<i>Dictio: Vícejazyčný slovník znakových jazyků</i>%{online}. Verze %{version}. Brno: Masarykova univerzita, 2007- . %{dict_info}Cit. %{date}. Dostupné z URL: %{url}."
     page_title: "Citácia tejto stránky"
+    page_cite: "Citovať túto stránku"
     part_title: "Citácia časti hesla"
     part_button: "Citovať časť"
     part_hint: "Vyberte časť hesla, ktorú chcete citovať."
