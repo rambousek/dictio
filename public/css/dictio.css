@@ -315,7 +315,7 @@ div.options {
   right: 4px;
   width: 26px;
   height: 26px;
-  background: #f5f5f5;
+  background: #lightblue;
   border: 1px solid #ccc;
   border-radius: 4px;
   cursor: pointer;
@@ -323,12 +323,12 @@ div.options {
   z-index: 10;
   transition: background 0.15s;
 }
-.quote-btn:hover { background: #e0e0e0; }
+.quote-btn:hover { background: #blue; }
 body.quote-mode-active .quote-btn { display: inline-flex; }
 
 /* Make quotable sections position-relative so the button anchors to them */
 .quotable { position: relative; }
-.quotable.quotable--highlight { outline: 2px dashed #c0392b33; }
+.quotable.quotable--highlight { outline: 2px solid #blue; background: blue; }
 
 .cite-buttons {
   position: absolute;
