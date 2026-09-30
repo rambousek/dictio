@@ -391,7 +391,6 @@ body:not(.has-quotable) .quote-part-link { display: none !important; }
   border-radius: 8px 0 0 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   padding: 8px;
-  color: white;
 }
 
 .cite-tab-button {
@@ -401,10 +400,6 @@ body:not(.has-quotable) .quote-part-link { display: none !important; }
   padding: 8px 10px;
   margin: 2px 0;
   white-space: nowrap;
-}
-
-a.cite-tab-button {
-  color: white;
 }
 
 .cite-tab-icon {
