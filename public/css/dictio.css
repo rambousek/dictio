@@ -418,4 +418,5 @@ body:not(.has-quotable) .quote-part-link { display: none !important; }
   padding: 8px 10px;
   text-decoration: none;
   white-space: nowrap;
+  color: white;
 }
