@@ -376,41 +376,45 @@ body:not(.has-quotable) .quote-part-link { display: none !important; }
   top: 50%;
   transform: translateY(-50%);
   z-index: 1000;
-  width: 250px;
+  display: flex;
+  align-items: stretch;
   transition: right 0.3s ease;
+  color: white
 }
 
 .cite-tab:hover {
   right: 0;
 }
 
-.cite-tab-content {
+/* Svislý nápis */
+.cite-tab-label {
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: #03c9a9;
   border: 1px solid #03c9a9;
   border-right: none;
   border-radius: 8px 0 0 8px;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+/* Blok s odkazy */
+.cite-tab-content {
+  width: 210px;
+  background: #03c9a9;
+  border: 1px solid #03c9a9;
+  border-radius: 0 0 0 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   padding: 8px;
-  color: white;
 }
 
 .cite-tab-button {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
+  display: block;
   padding: 8px 10px;
-  margin: 2px 0;
+  text-decoration: none;
   white-space: nowrap;
-  color: white;
-}
-
-.cite-tab-icon {
-  display: inline-block;
-  width: 28px;
-  text-align: center;
-  font-size: 18px;
-}
-
-.cite-tab-text {
-  margin-left: 6px;
 }

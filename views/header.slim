@@ -172,10 +172,10 @@ header.header role="banner"
 - if @cite_attr
   .cite-tab
     .cite-tab-content
+      span.cite-tab-icon = I18n.t("menu.cite")
+
       a.cite-tab-button href="#" onclick="citaceGen(); return false;"
-        span.cite-tab-icon ❝ 
         span.cite-tab-text = I18n.t("cite.page_cite")
 
       a.cite-tab-button.quote-part-link href="#" onclick="toggleQuoteMode(); return false;"
-        span.cite-tab-icon ❝ 
         span.cite-tab-text = I18n.t("cite.part_button")
