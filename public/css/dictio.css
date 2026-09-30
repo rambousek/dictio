@@ -323,12 +323,12 @@ div.options {
   z-index: 10;
   transition: background 0.15s;
 }
-.quote-btn:hover { background: blue; }
+.quote-btn:hover { background: #03c9a9; }
 body.quote-mode-active .quote-btn { display: inline-flex; }
 
 /* Make quotable sections position-relative so the button anchors to them */
 .quotable { position: relative; }
-.quotable.quotable--highlight { outline: 2px solid blue; background: blue; }
+.quotable.quotable--highlight { outline: 2px solid lightblue; background: lightblue; color: black }
 
 .cite-buttons {
   position: absolute;
