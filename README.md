@@ -19,10 +19,13 @@ dnf install ruby ruby-devel make gcc redhat-rpm-config nginx certbot python3-cer
 gem install bundler
 ```
 
-certificate
+certificate (Let's Encrypt, per host: www/edit/admin/files)
 ```
-certbot certonly --nginx -d www.dictio.info
+certbot certonly --nginx -d www.dictio.info --deploy-hook "systemctl reload nginx"
+systemctl enable --now certbot-renew.timer
+certbot renew --dry-run
 ```
+`certonly` doesn't touch nginx config, so the deploy hook (saved in `/etc/letsencrypt/renewal/<host>.conf`) is what makes nginx pick up renewed certs. EPEL ships the timer disabled. For an existing cert, add the hook with `certbot reconfigure --cert-name www.dictio.info --deploy-hook "systemctl reload nginx"` (certbot ≥ 2.3; older: add `renew_hook = systemctl reload nginx` under `[renewalparams]` in the renewal conf).
 
 ### mongo
 https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-red-hat/
