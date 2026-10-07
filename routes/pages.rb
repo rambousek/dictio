@@ -56,4 +56,15 @@ class CzjApp < Sinatra::Base
     @cite_text = CzjWebHelper.build_cite(@cite_attr)
     slim page.to_sym
   end
+
+   get '/citace' do
+    @dict_info = $dict_info
+    @search_params = {}
+    @request = request
+    @selected_page = 'citace'
+    page = 'citace-'+I18n.locale.to_s
+    @cite_attr = CzjWebHelper.get_cite_attr('page', request.path_info, @selected_page)
+    @cite_text = CzjWebHelper.build_cite(@cite_attr)
+    slim page.to_sym
+  end
 end
