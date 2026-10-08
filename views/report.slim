@@ -108,7 +108,7 @@ main role="main"
                     .sub 
                       span onclick="showhide('pre-toapp')" style="cursor: pointer"
                         label
-                          | · #{I18n.t("admin.presets.toapprove")}
+                          | #{I18n.t("admin.presets.toapprove")}
                           span.icon class="icon--arrow-down nav-lang__dropdown"
                             svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                               use xlink:href="/img/icons.svg#arrow-down" width="100%" height="100%" x="0" y="0"
@@ -373,7 +373,7 @@ main role="main"
                           |  #{I18n.t("admin.translation")}
                       div id="translationfilter" style="display: #{filter_translation_active ? 'block' : 'none'}"
                         div
-                          | · #{I18n.t("admin.translation")}
+                          | · #{I18n.t("admin.extrans")}
                         - translation_codes = ['cs','czj','en','asl','is','sj','spj','de','ogs','uk','uzm']
                         - translation_codes.each do |code|
                           - param = 'translation' + code
@@ -447,7 +447,7 @@ main role="main"
                               button.report-filter-switch-btn type="button" data-mode="plus" aria-label="+" +
                               button.report-filter-switch-btn type="button" data-mode="minus" aria-label="−" -
                               button.report-filter-switch-btn type="button" data-mode="off" aria-label="x" x
-                  button.btn.btn-secondary.report-filter-submit type="submit" Filtrovat
+                  button.btn.btn-secondary.report-filter-submit type="submit" style="width: 100;" = I18n.t("admin.filter")
 
                 javascript:
                   /*
