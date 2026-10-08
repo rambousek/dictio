@@ -1,0 +1,16 @@
+# Copy to lib/host-config.rb (gitignored) and fill in real values.
+$mongoHost = "mongodb://127.0.0.1:27017/dictio"
+$environment = :production
+$session_secret = "" # at least 64 hex chars: ruby -rsecurerandom -e 'puts SecureRandom.hex(64)'
+# edit.dictio.info: $is_edit = true; admin.dictio.info: $is_admin = true
+$is_edit = false
+$is_admin = false
+# SSH access to files.dictio.info for media upload (Net::SSH :key_data)
+$files_user = ""
+$files_keys = [<<~KEY]
+  -----BEGIN OPENSSH PRIVATE KEY-----
+  ...
+  -----END OPENSSH PRIVATE KEY-----
+KEY
+# Sketch Engine API key for corpus lookups (routes/swapi.rb)
+$ske_api = ""

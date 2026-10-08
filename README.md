@@ -1,32 +1,31 @@
 # dictio
 
+Servers: Rocky Linux 8. Hosts: www.dictio.info (public), edit.dictio.info, admin.dictio.info, files.dictio.info (media).
+
 ## install
 
 ```
-yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
-yum install vim mc ruby bash-completion git htop screen wget
-group add dictio
+dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+dnf install vim mc bash-completion git htop screen wget
+groupadd dictio
 ```
 
 ### view
+EL8 default Ruby stream is 2.5, too old for the Gemfile.
 ```
-yum install nginx ruby-devel make gcc redhat-rpm-config certbot python3-certbot-apache mod_ssl
-gem install bundle
-bundle install
-ln -s /usr/lib64/libruby.so.3.4 /usr/lib64/libruby.so.2.5
+dnf module reset ruby
+dnf module enable ruby:3.3
+dnf install ruby ruby-devel make gcc redhat-rpm-config nginx certbot python3-certbot-nginx
+gem install bundler
 ```
 
-certifikát
+certificate
 ```
-certbot certonly -d beta.dictio.info
+certbot certonly --nginx -d www.dictio.info
 ```
 
 ### mongo
-https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/
-```
-yum install ruby-devel make gcc redhat-rpm-config
-gem install mongo json bson
-```
+https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-red-hat/
 
 ## config
 ### view
@@ -34,9 +33,19 @@ gem install mongo json bson
 mkdir /srv/dictio
 chgrp dictio /srv/dictio/
 chmod g+w /srv/dictio/
-cd /srv/dictio 
 git clone git@github.com:rambousek/dictio.git /srv/dictio
+cd /srv/dictio
+mkdir -p tmp/pids logs
+bundle install
+cp lib/host-config.rb.sample lib/host-config.rb   # fill in values
+./restart.sh
 ```
+
+`./restart.sh` starts puma (socket `tmp/puma.sock`) or does a phased restart if running.
+
+GeoIP (optional, country stats): `/usr/share/GeoIP/GeoLite2-Country.mmdb`, e.g. via `geoipupdate`.
+
+Deploy: pushes to `main` run `.github/workflows/deploy.yml`, which SSHes to each host (`SSH_USER`/`SSH_KEY` secrets), fetches with `~/.ssh/github` deploy key, `git reset --hard origin/main`, `bundle install`, `./restart.sh`.
 
 /etc/nginx/conf.d/dictio.conf
 ```
@@ -47,16 +56,16 @@ upstream sinatra {
 server {
    listen 80;
    listen [::]:80;
-   server_name beta.dictio.info;
+   server_name www.dictio.info;
    return 301 https://$host$request_uri;
 }
 
 server {
     listen 443 ssl;
     root /srv/dictio/public;
-    server_name beta.dictio.info;
-    ssl_certificate_key /etc/letsencrypt/live/beta.dictio.info/privkey.pem;
-    ssl_certificate /etc/letsencrypt/live/beta.dictio.info/fullchain.pem;
+    server_name www.dictio.info;
+    ssl_certificate_key /etc/letsencrypt/live/www.dictio.info/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/www.dictio.info/fullchain.pem;
     keepalive_timeout 70;
     ssl_session_cache shared:SSL:10m;
     ssl_session_timeout 10m;
@@ -125,7 +134,7 @@ systemctl enable mongod
 
 /etc/mongod.conf - net: bindIp:
 
-crontab: mongo-counts.sh mongo-media.sh cleancomment.rb
+crontab: scripts/mongo-counts.sh scripts/mongo-media.sh scripts/cleancomment.rb
 
 ### sign
 https://github.com/sutton-signwriting/font-db
@@ -159,5 +168,6 @@ WantedBy=multi-user.target
 - prometheus
 - prometheus-node-exporter
 - https://github.com/percona/mongodb_exporter
+- puma metrics (yabeda): `127.0.0.1:9395/metrics`, puma control app `127.0.0.1:9293`
 
 

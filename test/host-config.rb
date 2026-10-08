@@ -3,7 +3,6 @@
 # the code under test never runs a query against it.
 $mongoHost = ENV.fetch("TEST_MONGO", "mongodb://127.0.0.1:27017/dictio_test")
 $environment = :test
-$hostname = "example.org"
 $session_secret = "0" * 64
 $is_edit = false
 $is_admin = false
