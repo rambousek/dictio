@@ -2217,7 +2217,7 @@ a.btn {
     background: var(--translate-bg-seda) }
   @media (min-width: 992px) {
     .layout-aside-admin:first-child {
-      max-width: 220px;
+      max-width: 300px;
       /* padding: 88px 63px 70px 10px; */} }
 
 .layout-sidebar {

@@ -547,6 +547,7 @@ en:
     moreopt: "Available options:"    
     not: "not "
     lemma: "lemma"
+    lemma-type: "lemma type"
     sem: "meanings"
     ekv: "connections"
     schvcelni: "Approved front view"

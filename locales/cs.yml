@@ -547,6 +547,7 @@ cs:
     moreopt: "Všechny volby"
     not: "ne"
     lemma: "záhlaví"
+    lemma-type: "typ hesla"
     sem: "významy"
     ekv: "vazby"
     schvcelni: "schválené čelní video"

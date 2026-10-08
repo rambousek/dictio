@@ -546,6 +546,7 @@ de:
     newentry2: "+ Eintrag"
     not: "nicht "
     lemma: "lemma"
+    lemma-type: "lemma Typ"
     sem: "Bedeutungen"
     ekv: "Verbindungen"
     schvcelni: "genehmigt Frontvideo"

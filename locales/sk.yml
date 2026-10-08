@@ -546,6 +546,7 @@ sk:
     newentry2: "+ lema"
     not: "nie"
     lemma: "záhlavie"
+    lemma-type: "typ heslá"
     sem: "významy"
     ekv: "väzby"
     schvcelni: "schválené čelné video"
