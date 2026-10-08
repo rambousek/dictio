@@ -108,7 +108,7 @@ main role="main"
                     .sub 
                       span onclick="showhide('pre-toapp')" style="cursor: pointer"
                         label
-                          | · #{I18n.t("admin.presets.toapprove")}
+                          | #{I18n.t("admin.presets.toapprove")}
                           span.icon class="icon--arrow-down nav-lang__dropdown"
                             svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
                               use xlink:href="/img/icons.svg#arrow-down" width="100%" height="100%" x="0" y="0"
@@ -447,7 +447,7 @@ main role="main"
                               button.report-filter-switch-btn type="button" data-mode="plus" aria-label="+" +
                               button.report-filter-switch-btn type="button" data-mode="minus" aria-label="−" -
                               button.report-filter-switch-btn type="button" data-mode="off" aria-label="x" x
-                  button.btn.btn-secondary.report-filter-submit type="submit" Filtrovat
+                  button.btn.btn-secondary.report-filter-submit type="submit" style="width: 100%;" #{I18n.t("admin.filter")}
 
                 javascript:
                   /*
@@ -693,7 +693,7 @@ main role="main"
                 - if @params.count{|k,_| k =~ /sw/} > 0
                   th               
                 th width="10%"
-                  a.btn class="btn--secondary" style="width: 100%;" href="https://edit.dictio.info/editor#{@dictcode}/?id=" 
+                  a.btn class="btn--secondary" href="https://edit.dictio.info/editor#{@dictcode}/?id=" 
                     | + #{I18n.t("admin.newentry")}        
             == slim :reportresultlist
           - if @report['resultcount'].to_i > @report['entries'].size
