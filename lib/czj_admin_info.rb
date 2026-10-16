@@ -14,14 +14,14 @@ module CzjAdminInfo
   # @param [String] dictcode
   # @return [Integer]
   def self.get_count_relation_notrans_to(dictcode)
-    return $mongo['entries'].find({'meanings.relation': {'$elemMatch': {'notrans': true, 'target': dictcode}}}).count
+    return $mongo['entries'].find({'meanings.relation': {'$elemMatch': {'notrans': true, 'target': dictcode}}}).count_documents
   end
 
   # count notrans relations from dictionary
   # @param [String] dictcode
   # @return [Integer]
   def self.get_count_relation_notrans_from(dictcode)
-    return $mongo['entries'].find({'dict': dictcode, 'meanings.relation.notrans': true}).count
+    return $mongo['entries'].find({'dict': dictcode, 'meanings.relation.notrans': true}).count_documents
   end
 
 

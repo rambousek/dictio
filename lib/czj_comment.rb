@@ -54,7 +54,7 @@ class CzjComment < Object
   # @param [String] solved Is solved
   def comment_save(cid, assign, solved)
     comments = @commentdb.find({'_id' => BSON::ObjectId.from_string(cid)})
-    if comments.count == 1
+    if comments.count_documents == 1
       comment_data = comments.first
       comment_data['assign'] = assign
       comment_data['solved'] = solved
