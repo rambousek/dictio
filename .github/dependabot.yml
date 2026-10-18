@@ -4,4 +4,7 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 10    groups:
+      bundler:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
