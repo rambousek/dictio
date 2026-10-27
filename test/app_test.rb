@@ -2,7 +2,7 @@ require_relative "test_helper"
 
 # Route smoke tests — only routes that don't query MongoDB.
 class StaticPagesTest < AppTest
-  LOCALES = %w[cs de en sk ua].freeze
+  LOCALES = %w[cs de en es sk ua].freeze
 
   # routes/pages.rb picks the template by interpolating the locale
   # (page = 'help-' + I18n.locale.to_s), so a missing or syntactically broken

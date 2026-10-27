@@ -1,4 +1,12 @@
 class CzjApp < Sinatra::Base
+  helpers do
+    def localized_template(name)
+      %w[en cs].unshift(I18n.locale.to_s).uniq.find do |locale|
+        File.file?(File.join(settings.root, 'views', "#{name}-#{locale}.slim"))
+      end || "#{name}-cs"
+    end
+  end
+
   get '/' do
     @dict_info = $dict_info
     @search_params = {}
@@ -18,7 +26,7 @@ class CzjApp < Sinatra::Base
     @search_params = {}
     @request = request
     @selected_page = 'about'
-    page = 'about-'+I18n.locale.to_s
+    page = localized_template('about')
     @cite_attr = CzjWebHelper.get_cite_attr('page', request.path_info, @selected_page)
     @cite_text = CzjWebHelper.build_cite(@cite_attr)
     slim page.to_sym
@@ -29,7 +37,7 @@ class CzjApp < Sinatra::Base
     @search_params = {}
     @request = request
     @selected_page = 'help'
-    page = 'help-'+I18n.locale.to_s
+    page = localized_template('help')
     @cite_attr = CzjWebHelper.get_cite_attr('page', request.path_info, @selected_page)
     @cite_text = CzjWebHelper.build_cite(@cite_attr)
     slim page.to_sym
@@ -40,7 +48,7 @@ class CzjApp < Sinatra::Base
     @search_params = {}
     @request = request
     @selected_page = 'help'
-    page = 'helpsign-'+I18n.locale.to_s
+    page = localized_template('helpsign')
     @cite_attr = CzjWebHelper.get_cite_attr('page', request.path_info, @selected_page)
     @cite_text = CzjWebHelper.build_cite(@cite_attr)
     slim page.to_sym
@@ -51,7 +59,7 @@ class CzjApp < Sinatra::Base
     @search_params = {}
     @request = request
     @selected_page = 'contact'
-    page = 'contact-'+I18n.locale.to_s
+    page = localized_template('contact')
     @cite_attr = CzjWebHelper.get_cite_attr('page', request.path_info, @selected_page)
     @cite_text = CzjWebHelper.build_cite(@cite_attr)
     slim page.to_sym
@@ -62,7 +70,7 @@ class CzjApp < Sinatra::Base
     @search_params = {}
     @request = request
     @selected_page = 'citace'
-    page = 'citace-'+I18n.locale.to_s
+    page = localized_template('citace')
     @cite_attr = CzjWebHelper.get_cite_attr('page', request.path_info, @selected_page)
     @cite_text = CzjWebHelper.build_cite(@cite_attr)
     slim page.to_sym

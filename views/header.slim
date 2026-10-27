@@ -124,6 +124,8 @@ header.header role="banner"
                 a href="#{@langpath}#{(@langpath[-1]=='?')?'':'&'}lang=de" == I18n.t("locale.de")
               li
                 a href="#{@langpath}#{(@langpath[-1]=='?')?'':'&'}lang=ua" == I18n.t("locale.ua")
+              li
+                a href="#{@langpath}#{(@langpath[-1]=='?')?'':'&'}lang=es" == I18n.t("locale.es")
 
         <!-- mobilni menu -->
         .mobile-menu
@@ -152,6 +154,10 @@ header.header role="banner"
                     a href="#{@langpath}#{(@langpath[-1]=='?')?'':'&'}lang=sk" == I18n.t("locale.sk")
                   li
                     a href="#{@langpath}#{(@langpath[-1]=='?')?'':'&'}lang=de" == I18n.t("locale.de")
+                  li
+                    a href="#{@langpath}#{(@langpath[-1]=='?')?'':'&'}lang=ua" == I18n.t("locale.ua")
+                  li
+                    a href="#{@langpath}#{(@langpath[-1]=='?')?'':'&'}lang=es" == I18n.t("locale.es")
               .mobile-menu__bottom
                 - if @is_edit
                   img src="/img/user.png" style="height: 24px"

@@ -4,7 +4,7 @@ require "json"
 # Routes rendered from fixture data through the FakeMongo (test/fixtures/).
 class EntryPagesTest < AppTest
   FIXTURES = JSON.parse(File.read(File.join(FakeMongo::FIXDIR, "entries.json")))
-  LOCALES = %w[cs de en sk ua].freeze
+  LOCALES = %w[cs de en es sk ua].freeze
 
   def entry(dict, with: nil)
     FIXTURES.find { |e| e["dict"] == dict && (with.nil? || e.dig(*with).to_s != "") }
