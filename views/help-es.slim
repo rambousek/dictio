@@ -1,0 +1,330 @@
+main role="main"
+  section.section role="region"
+    .container
+      .row
+        article.col.col--2.col--start role="article"
+          p style="position: absolute; right: 25px;"
+            a class="btn btn--secondary" href="/helpsign"
+              | Cambiar a la versión en International Sign
+              img src="/img/sl.png" style="width: 32px; position: absolute;"
+          h1 Ayuda
+          .info
+            h4 Contenido
+            p
+              a href="#jak" Cómo utilizar este diccionario
+            p
+              a href="#keyboard" Teclado virtual
+            p
+              a href="#heslo" Estructura de una entrada del diccionario
+            p
+              a href="#lexcat" Categorías léxicas de la lengua de signos checa
+            p
+              a href="#word-order" Orden básico de las palabras en la lengua de signos checa
+          h2 id="jak"
+            | Cómo utilizar este diccionario
+            a href="#jak" onclick="showhide ('help1');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Haz clic para mostrar International Sign"
+            div id="help1" style="display:none; position:fixed; top:105px; right:10px;"
+              video preload="metadata" src="https://files.dictio.info/help/helpIS01.mp4" height="300" controls=true autoplay=true
+              div.close onclick="showhide ('help1');"
+          p.lead DICTIO contiene diccionarios de varios idiomas, que aparecen en el menú desplegable. Permite buscar equivalentes (traducciones) entre dos de los idiomas disponibles y consultar información sobre las entradas de cada diccionario.
+          p Para buscar, se pueden introducir palabras o signos.
+
+          h3 Buscar mediante una palabra de una lengua oral
+          .row.row--start
+            .col.col--2
+              ul
+                li Selecciona el idioma de origen y el de destino.
+                li Escribe la palabra completa o una parte en el campo de búsqueda.
+                li
+                  em (Opcional) Selecciona la categoría léxica que buscas.
+                li Haz clic en el icono de búsqueda <img src="/img/help/search-help.png" />.
+                li Aparecerá una lista de resultados.
+                li Haz clic en un resultado para ver más información sobre la entrada.
+                li Los equivalentes (traducciones) aparecen en cada significado de la entrada.
+            .col.col--2
+              video preload="metadata" src="https://files.dictio.info/help/helpEN-IS.mp4" height="300" controls=true autoplay=false
+          h3 id="sli"
+            | Buscar mediante un signo
+            a href="#sli" onclick="showhide ('help2');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Haz clic para mostrar International Sign"
+            div id="help2" style="display:none; position:fixed; top:105px; right:10px;"
+              video preload="metadata" src="https://files.dictio.info/help/helpIS02.mp4" height="300" controls=true autoplay=false
+              div.close onclick="showhide ('help2');"
+          .row.row--start
+            .col.col--2
+              ul
+                li Selecciona el idioma de origen y el de destino.
+                li Utiliza el teclado virtual para introducir parte del signo.
+                li Puedes indicar la configuración de la mano dominante y el espacio de articulación, y elegir si buscas signos realizados con una o dos manos. Si seleccionas la misma configuración para la mano dominante y la no dominante, se activará automáticamente la opción de signos de dos manos. De forma predeterminada se buscan signos de una mano.
+                li Para especificar más detalles, puedes utilizar la opción SignWriting (no disponible por el momento).
+                li
+                  em (Opcional)
+                  | Selecciona la categoría léxica que buscas.
+                li Haz clic en el icono de búsqueda <img src="/img/help/search-help.png" />.
+                li Aparecerá una lista de resultados.
+                li Haz clic en un resultado para ver más información sobre la entrada.
+                li Los equivalentes (traducciones) aparecen en cada significado de la entrada.
+            .col.col--2
+              video preload="metadata" src="https://files.dictio.info/help/helpIS-EN.mp4" height="300" controls=true autoplay=false
+
+          h3 id="keyboard" Teclado virtual
+          p El teclado virtual permite introducir partes de signos de las lenguas de signos. Incluye configuraciones manuales y una parte del espacio de articulación. Permite especificar si se buscan signos de una o dos manos, si las configuraciones de ambas manos son iguales y si las dos manos están activas.
+          table class="table table--limit"
+            tbody
+              tr
+                td
+                  img src="/img/keys_dark/hands.png" align="left"
+                td Opciones de manos
+              tr
+                td
+                  img src="/img/keys_dark/one-hand.png" align="left"
+                td Opción de signo de una mano
+              tr
+                td
+                  img src="/img/keys_dark/two-hand.png" align="left"
+                td Opción de signo de dos manos
+              tr
+                td
+                  img src="/img/keys_dark/symetric.png" align="left"
+                td Configuraciones manuales idénticas (mano dominante y no dominante)
+              tr
+                td
+                  img src="/img/keys_dark/both-move.png" align="left"
+                td Opción de ambas manos activas
+          h2 id="heslo"
+            | Estructura de una entrada del diccionario
+            a href="#heslo" onclick="showhide ('help3');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Haz clic para mostrar International Sign"
+            div id="help3" style="display:none; position:fixed; top:105px; right:10px;"
+              video preload="metadata" src="https://files.dictio.info/help/helpIS03.mp4" height="300" controls=true autoplay=false
+              div.close onclick="showhide ('help3');"
+          p Cada entrada consta de tres partes:
+          ul
+            li Encabezamiento
+            li Sección formal (información gramatical, etc.)
+            li Sección semántica
+            li Colocaciones
+
+          h3 id="header"
+            | Encabezamiento
+            a href="#header" onclick="showhide ('help4');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Haz clic para mostrar International Sign"
+            div id="help4" style="display:none; position:fixed; top:105px; right:10px;"
+              video preload="metadata" src="https://files.dictio.info/help/helpIS04.mp4" height="300" controls=true autoplay=false
+              div.close onclick="showhide ('help4');"
+          p El encabezamiento de una entrada de <strong>lengua oral</strong> contiene el lema (1), una pronunciación no habitual entre paréntesis (2) y, si existe, una variante ortográfica (3).
+          img src="/img/help/headerwriteEN.png" align="left"
+          p El encabezamiento de una entrada de <strong>lengua de signos</strong> contiene vídeos y transcripciones, ya que las lenguas de signos no cuentan con un sistema de escritura convencional de uso generalizado. La forma básica del lema es el vídeo frontal (1), acompañado de una vista lateral (2). También se incluye una transcripción en SignWriting (3) y, si procede, otra en HamNoSys (4).
+          p
+            em Como hay personas signantes zurdas y diestras, la información sobre la lateralidad aparece en la esquina superior izquierda. (L: zurda, R: diestra) (5)
+            img src="/img/help/headersignEN.png" align="left"
+
+          h3 id="formal"
+            | Sección formal
+            a href="#formal" onclick="showhide ('help5');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Haz clic para mostrar International Sign"
+            div id="help5" style="display:none; position:fixed; top:105px; right:10px;"
+              video preload="metadata" src="https://files.dictio.info/help/helpIS05.mp4" height="300" controls=true autoplay=false
+          p La sección formal de un lema de <strong>lengua oral</strong> puede contener la siguiente información:
+          ul
+            li Origen de la palabra (en el caso de préstamos),
+            li Categoría léxica,
+            li Variantes posibles (ortografía, categoría léxica y morfología),
+            li Paradigma morfológico de las categorías léxicas flexivas (tabla de declinación),
+            li Información estilística (restricciones territoriales, sociales o estilísticas de uso).
+
+          p La sección formal de un lema de <strong>lengua de signos</strong> puede contener la siguiente información:
+          ul
+            li Origen del signo,
+            li Categoría léxica,
+            li Componente de habla: solo se indica en los lexemas en los que es obligatorio para la articulación; se escribe en minúscula. Las partes entre paréntesis son opcionales. Si hay varias variantes posibles, se separan con una barra, por ejemplo: «term(ín)/datum».
+            li Componente oral: solo se indica cuando es obligatorio,
+            li Variantes gramaticales o estilísticas,
+            li Área de distribución (zona donde suele usarse el lexema o grupo de usuarios habitual).
+
+          h3 id="semantic"
+            | Sección semántica
+            a href="#semantic" onclick="showhide ('help6');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Haz clic para mostrar International Sign"
+            div id="help6" style="display:none; position:fixed; top:105px; right:10px;"
+              video preload="metadata" src="https://files.dictio.info/help/helpIS06.mp4" height="300" controls=true autoplay=false
+          p Esta sección presenta la definición del significado con ejemplos, información sobre relaciones semánticas y expresiones pluriverbales fijas que contienen la expresión descrita.
+          p La <strong>definición del significado</strong> (definición semántica) sigue la forma habitual de las definiciones de diccionario. En las lenguas de signos se introducen pequeños ajustes para conservar la naturalidad del discurso <em>(por ejemplo, la expresión del encabezamiento y la que constituye el núcleo de la definición no tienen por qué pertenecer a la misma categoría léxica; se permite repetir la expresión definida al comienzo de la definición)</em>.
+          p De acuerdo con la tradición lexicográfica, todos los significados asociados a una misma forma se incluyen bajo un solo lema. El diccionario distingue entre homonimia <em>(varios lemas)</em> y polisemia <em>(un solo lema)</em>; los casos dudosos se agrupan bajo un lema. Además, los distintos significados pueden llevar una indicación de <strong>ámbito semántico</strong>, que informa del contexto <em>(disciplina científica o ámbito general de actividad humana)</em> en el que suele aparecer la expresión con ese significado. Esta indicación se toma de la fuente original cuando también se reproduce la definición. A los lemas nuevos <em>(sobre todo los terminológicos)</em> se les asigna uno de los ámbitos semánticos mencionados en las fuentes utilizadas (para más información, consulta la página «Acerca del diccionario»). Los significados de ámbitos específicos aparecen después de los significados generales, es decir, los que no pertenecen a un ámbito concreto. Aquí se puede consultar la lista completa de ámbitos semánticos.
+          p Los <strong>ejemplos de uso</strong> se presentan en forma de oraciones. Su objetivo es mostrar características gramaticales <em>(o estilísticas)</em> y connotaciones particulares del lema descrito. A veces ilustran principalmente usos en relaciones sintácticas habituales <em>(por ejemplo, con determinados verbos o preposiciones)</em>; en otros casos, precisan la definición semántica. Los ejemplos proceden de varias fuentes: para las lenguas de signos, los elaboran, revisan o aprueban grupos de trabajo formados por usuarios nativos; para las lenguas orales, se a) buscan en corpus de textos (por ejemplo, con Sketch Engine* para el checo) o b) se adaptan de diccionarios fuente cuando no se encuentran ejemplos adecuados en el corpus.
+          p Esta sección también incluye <strong>relaciones semánticas</strong> con unidades de la misma lengua (<strong>sinónimos y antónimos</strong>) y con unidades de la otra lengua del diccionario (<strong>equivalentes semánticos</strong>, también llamados traducciones, y viceversa). Los elementos de esta sección pueden enlazar con otra entrada independiente <em>(si existe en el diccionario de la lengua de destino)</em> o presentarse como texto.
+
+          h3 id="colloc"
+            | Colocaciones
+            a href="#colloc" onclick="showhide ('help7');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Haz clic para mostrar International Sign"
+            div id="help7" style="display:none; position:fixed; top:105px; right:10px;"
+              video preload="metadata" src="https://files.dictio.info/help/helpIS07.mp4" height="300" controls=true autoplay=false
+          p La última parte del lema recoge colocaciones fijas que contienen la expresión descrita. Incluye tanto combinaciones breves (fraseologismos, modismos y algunas comparaciones) como refranes y dichos completos. Se incorporan unidades pluriverbales idiomáticas, cuyo significado global no se puede deducir únicamente del significado de sus palabras.
+
+          h2 id="lexcat"
+            | Categorías léxicas de la lengua de signos checa
+          p La primera información de la descripción formal de una entrada de la lengua de signos checa es la categoría léxica del signo. Como cualquier lengua natural, la lengua de signos checa distingue grupos de expresiones con características morfológicas, sintácticas (distribucionales) y semánticas comunes. En las distintas lenguas, estas semejanzas y diferencias sistemáticas se suelen describir mediante categorías léxicas conocidas como partes de la oración. Definir cada categoría a partir de una combinación de propiedades morfológicas, sintácticas y semánticas de las unidades léxicas es una herramienta suficientemente general para sistematizar el vocabulario de cualquier lengua natural. Siguiendo esta tradición, normalmente se asigna una categoría léxica a cada unidad del diccionario. Sin embargo, la clasificación no es sencilla, dada la estructura gramatical de las lenguas de signos y el grado de desarrollo del análisis teórico de la lengua de signos checa. Por ello, explicamos brevemente nuestro enfoque y definimos los términos utilizados en el diccionario.
+          p Nuestro enfoque combina las aportaciones de la lingüística general con la investigación actual sobre la lengua de signos checa. Aplicamos las categorías léxicas tradicionales cuando el material de esta lengua permite hacerlo. En otros casos usamos términos de los estudios especializados sobre la lengua de signos checa o de la bibliografía internacional. Como las instituciones académicas pertinentes todavía están elaborando una descripción teórica completa de su gramática, la clasificación propuesta pretende servir de punto de partida para futuras discusiones académicas.
+          p Para describir el léxico de la lengua de signos checa utilizamos las partes tradicionales de la oración: sustantivo, verbo, pronombre, numeral, conjunción y partícula. De los estudios sobre esta lengua también adoptamos la categoría de «expresión de categorización». De la tradición internacional tomamos los términos clasificador, especificador de forma y tamaño, modificador y expresión interrogativa.
+          p A continuación se presentan los criterios generales y las características gramaticales típicas de cada categoría. Las excepciones se indican en la nota gramatical del lexema correspondiente.
+          p Criterios para asignar signos a categorías léxicas
+
+          h3
+            | 1) Sustantivos
+            a href="#noun" onclick="showhide('noun');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Haz clic para mostrar International Sign"
+            div id="noun" style="display:none; position:fixed; top:105px; right:10px;"
+              video preload="metadata" src="https://files.dictio.info/help/lexISnoun.mp4" height="300" controls=true autoplay=false
+              div.close onclick="showhide('noun');"
+          p Se clasifican como sustantivos los signos que cumplen los siguientes criterios:
+          ul
+            li <strong>Semántico</strong>: designan entidades (personas, animales, objetos, etc.), cualidades, materiales, etc.
+            li <strong>Sintáctico</strong>: a) pueden combinarse con numerales cardinales y otros cuantificadores; b) la adición de otro sustantivo siempre se interpreta de forma coordinada.
+            li <strong>Morfológico</strong>: la reduplicación del signo, la incorporación de un numeral o la reduplicación de una proforma expresa el plural. Como criterio complementario, los sustantivos pueden presentar componentes de habla, a diferencia de los componentes orales de los verbos.
+          p Entre los sustantivos se distinguen dos subcategorías: nombres comunes y nombres propios. Los nombres comunes designan grupos de entidades (clases de personas, objetos, fenómenos, etc.). Los nombres propios, o signos de nombre, se refieren a una entidad concreta, la distinguen de otras de la misma clase y la identifican como única dentro de ella.
+
+          h3
+            | 2) Verbos
+            a href="#verb" onclick="showhide('verb');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Haz clic para mostrar International Sign"
+            div id="verb" style="display:none; position:fixed; top:105px; right:10px;"
+              video preload="metadata" src="https://files.dictio.info/help/lexISverb.mp4" height="300" controls=true autoplay=false
+              div.close onclick="showhide('verb');"
+          p Se clasifican como verbos los signos que cumplen los siguientes criterios:
+          ul
+            li <strong>Semántico</strong>: designan acciones o estados.
+            li <strong>Sintáctico</strong>: no se combinan con numerales cardinales.
+          p <strong>Criterios morfológicos</strong>:
+          ul
+            li Presentan distintos tipos de concordancia (por ejemplo, de persona, número o lugar).
+            li Es posible modificar el aspecto mediante recursos no manuales.
+            li La reduplicación expresa el aspecto o, en algunos casos, la concordancia de número con el objeto.
+          p También pueden servir como indicios la presencia de componentes orales (frente a los componentes de habla de los sustantivos) o la posibilidad de expresar la negación mediante recursos no manuales.
+
+          p
+            strong Tipos de verbos
+          p Según otros criterios, los verbos se dividen en cuatro tipos:
+          ul
+            li
+              strong Verbos simples
+              p Normalmente se articulan sobre el cuerpo o cerca de él (por ejemplo, RÁD [GUSTAR]). No llevan afijos de persona, lugar o número, aunque algunos pueden llevar afijos aspectuales. El sujeto y el objeto deben expresarse léxicamente, normalmente mediante pronombres. El sujeto precede al verbo y el objeto lo sigue.
+            li
+              strong Verbos de concordancia
+              p Llevan afijos de persona, número y aspecto, pero no de lugar (por ejemplo, VRÁTIT [VOLVER]).
+              p Se subdividen en cuatro tipos:
+              ul
+                li <strong>Subjetivos</strong>: el inicio y el final del movimiento expresan el sujeto (por ejemplo, VRÁTIT).
+                li <strong>Objetivos</strong>: el inicio y el final del movimiento expresan, respectivamente, el objeto y el sujeto (por ejemplo, POZVAT [INVITAR]).
+                li <strong>De concordancia restringida</strong>: no concuerdan plenamente con todos los objetos y sujetos; a menudo no expresan concordancia con la primera persona (por ejemplo, UZNAT [RECONOCER]).
+                li <strong>Recíprocos</strong>: expresan acciones mutuas entre dos sujetos; cada mano corresponde a uno de ellos (por ejemplo, SEZNÁMIT [PRESENTAR]).
+            li
+              strong Verbos espaciales
+              p Llevan afijos de lugar, pero no de persona, número ni aspecto (por ejemplo, PSÁT [ESCRIBIR]). Pueden indicar el movimiento de un objeto en el espacio, especificar una ubicación o describir un medio.
+            li
+              strong Verbos clasificadores
+              p Incorporan configuraciones manuales clasificadoras que concuerdan con las propiedades del objeto, como su forma, tamaño u otras características.
+
+          h3
+            | 3) Pronombres
+            a href="#pron" onclick="showhide('pron');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Haz clic para mostrar International Sign"
+            div id="pron" style="display:none; position:fixed; top:105px; right:10px;"
+              video preload="metadata" src="https://files.dictio.info/help/lexISpron.mp4" height="300" controls=true autoplay=false
+              div.close onclick="showhide('pron');"
+          p Los pronombres incluyen exclusivamente expresiones con función deíctica o anafórica. Se dividen en pronombres demostrativos y posesivos:
+          ul
+            li Los pronombres <strong>demostrativos</strong> se refieren a una persona participante en la comunicación o a un objeto presente en el contexto comunicativo (uso deíctico), o bien a un signo al que apunta el índice extendido (uso anafórico; por ejemplo, YO). En las formas plurales pueden apuntar otros dedos (por ejemplo, NOSOTROS DOS).
+            li Los pronombres <strong>posesivos</strong> indican pertenencia a una persona participante en la comunicación o a un signo hacia el que se orienta la palma de quien signa (por ejemplo, SUYO).
+
+          h3
+            | 4) Numerales
+            a href="#num" onclick="showhide('num');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Haz clic para mostrar International Sign"
+            div id="num" style="display:none; position:fixed; top:105px; right:10px;"
+              video preload="metadata" src="https://files.dictio.info/help/lexISnum.mp4" height="300" controls=true autoplay=false
+              div.close onclick="showhide('num');"
+          p Los numerales incluyen expresiones relacionadas con los números y la numeración. Según criterios semánticos y otros, se distinguen numerales cardinales, ordinales, multiplicativos, icónicos e indefinidos:
+          ul
+            li Los numerales <strong>cardinales</strong> indican una cantidad simple y definida, y se realizan en el espacio neutro.
+            li Los numerales <strong>ordinales</strong> expresan orden y presentan una morfología flexiva más rica, por ejemplo, desplazamientos en el espacio de articulación o cambios de orientación.
+            li Los numerales <strong>multiplicativos</strong> indican la frecuencia o repetición de acciones, o el grado en que una propiedad supera otra en una comparación.
+            li Los numerales <strong>icónicos</strong> imitan total o parcialmente, mediante el movimiento del signo, la forma escrita de la cifra correspondiente.
+            li Los numerales <strong>indefinidos</strong> expresan una cantidad indeterminada.
+
+          h3
+            | 5) Modificadores
+            a href="#mod" onclick="showhide('mod');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Haz clic para mostrar International Sign"
+            div id="mod" style="display:none; position:fixed; top:105px; right:10px;"
+              video preload="metadata" src="https://files.dictio.info/help/lexISmod.mp4" height="300" controls=true autoplay=false
+              div.close onclick="showhide('mod');"
+          p Los modificadores son signos que precisan entidades o acciones verbales. Se clasifican en cualitativos, espaciales, temporales y aspectuales:
+          ul
+            li Los modificadores <strong>cualitativos</strong> expresan cualidades de entidades o acciones (por ejemplo, BONITO). A diferencia de los demás grupos, suelen admitir gradación.
+            li Los modificadores <strong>temporales</strong> precisan el momento de la acción y pueden establecer un marco temporal (por ejemplo, HOY). Se caracterizan por incorporar morfemas numerales; la reduplicación, si aparece, indica frecuencia y no pluralidad.
+            li Los modificadores <strong>aspectuales</strong> precisan el inicio, final, desarrollo o falta de realización de una acción (por ejemplo, YA). Se asocian exclusivamente con verbos.
+            li Los modificadores <strong>espaciales</strong> suelen ser expresiones deícticas que indican la ubicación de un objeto y, a veces, también su trayectoria (por ejemplo, AL LADO).
+
+          h3
+            | 6) Conjunciones
+            a href="#con" onclick="showhide ('con');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Haz clic para mostrar International Sign"
+            div id="con" style="display:none; position:fixed; top:105px; right:10px;"
+              video preload="metadata" src="https://files.dictio.info/help/lexIScon.mp4" height="300" controls=true autoplay=false
+              div.close onclick="showhide ('con');"
+          p Las conjunciones son signos que expresan distintas relaciones lógicas entre dos oraciones o entre elementos de una oración.
+
+          h3
+            | 7) Expresiones interrogativas
+            a href="#inter" onclick="showhide ('inter');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Haz clic para mostrar International Sign"
+            div id="inter" style="display:none; position:fixed; top:105px; right:10px;"
+              video preload="metadata" src="https://files.dictio.info/help/lexISiterr.mp4" height="300" controls=true autoplay=false
+              div.close onclick="showhide ('inter');"
+          p Las expresiones interrogativas corresponden al concepto lingüístico de palabras interrogativas. Son signos que forman preguntas parciales y solicitan información concreta.
+
+          h3
+            | 8) Expresiones de categorización
+            a href="#cat" onclick="showhide ('cat');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Haz clic para mostrar International Sign"
+            div id="cat" style="display:none; position:fixed; top:105px; right:10px;"
+              video preload="metadata" src="https://files.dictio.info/help/lexIScat.mp4" height="300" controls=true autoplay=false
+              div.close onclick="showhide ('cat');"
+          p La clase de expresiones de categorización se define mediante una lista. Desde el punto de vista semántico, son expresiones más o menos gramaticalizadas que organizan relaciones de hiperónimos e hipónimos entre lexemas y distinguen los niveles superior o inferior del nivel básico.
+
+          h3
+            | 9) Partículas
+          p Las partículas expresan la actitud subjetiva de quien signa ante el enunciado, su inmediatez o el grado de certeza. Las partículas negativas forman un tipo específico: niegan un elemento de la oración o la oración completa (por ejemplo, EN ABSOLUTO).
+
+          h3
+            | 10) Clasificadores
+            a href="#clf" onclick="showhide ('clf');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Haz clic para mostrar International Sign"
+            div id="clf" style="display:none; position:fixed; top:105px; right:10px;"
+              video preload="metadata" src="https://files.dictio.info/help/lexISclf.mp4" height="300" controls=true autoplay=false
+              div.close onclick="showhide ('clf');"
+          p Los clasificadores incluyen configuraciones manuales clasificadoras y especificadores de forma y tamaño.
+          p En las configuraciones manuales clasificadoras distinguimos los siguientes tipos semánticos:
+          ul
+            li Clasificadores de <strong>objetos</strong> (por ejemplo, FIGURA).
+            li Clasificadores de <strong>partes del cuerpo</strong> (por ejemplo, CLF-5o).
+            li Clasificadores de <strong>manipulación</strong> (por ejemplo, CLF-AS).
+            li Clasificadores de <strong>contacto</strong> (por ejemplo, CLF-A1).
+            li Los <strong>especificadores de forma y tamaño</strong> describen con más detalle la forma de un objeto (por ejemplo, un sustantivo). Indican atributos como profundidad, grosor, anchura, contorno, textura de la superficie o cantidad de objetos (por ejemplo, CUADRADO).
+
+          h2 id="word-order"
+            | Orden básico de las palabras en la lengua de signos checa
+            a href="#sentence" onclick="showhide ('sentence');"
+              img src="/img/sl.png" style="width: 32px; vertical-align: bottom;" title="Lengua de signos checa"
+            div id="sentence" style="display:none; position:fixed; top:105px; right:10px;"
+              video preload="metadata" src="https://files.dictio.info/help/lexISsentence.mp4" height="300" controls=true autoplay=false
+              div.close onclick="showhide ('sentence');"
+
+          p La primera posición de la oración la ocupa el marco temporal, seguido de la indicación del lugar, el sujeto y el objeto. El verbo ocupa la última posición.
+          p Dentro del marco temporal se coloca primero el término más general y después el más específico. Por ejemplo, «18 de abril» se expresa como ABRIL 18 y «a las ocho de la mañana» como MAÑANA OCHO-HORAS.
+          p Para expresar un lugar se utiliza el llamado principio de espiral, que va de lo general a lo específico. Por ejemplo, «en la plaza de Královo Pole, en Brno» se expresaría así: REPÚBLICA CHECA, BRNO, KRÁLOVO POLE, PLAZA.
+          p Al expresar el sujeto y el objeto (generalmente dentro de grupos nominales), se coloca primero el sustantivo y después sus modificadores. El orden habitual en los grupos nominales que se refieren a personas es: a) sustantivo, pronombre; b) sustantivo, modificador.
+          p El orden habitual de los elementos de un objeto (o sujeto) complejo es: sustantivo, modificador o especificador de propiedad o forma, modificador de color. Por ejemplo, «un bonito televisor CRT negro» se expresa como TELEVISOR CRT NEGRO BONITO. Se pueden omitir elementos del grupo nominal, pero debe mantenerse su orden. «Un coche rojo pequeño» se expresa como COCHE PEQUEÑO ROJO; «una mesa bonita», como MESA BONITA; y «una mesa cuadrada», como MESA CUADRADO.
+          p El verbo depende del sujeto (sustantivo) con el que concuerda. Esta concordancia se refleja, por ejemplo, en el clasificador correspondiente. Cuando aparecen dos verbos seguidos (normalmente un modal y un verbo principal), el modal va primero. Por ejemplo: QUERER NADAR. Los verbos pueden modificarse e intensificarse mediante componentes no manuales.
