@@ -1,9 +1,10 @@
 class CzjApp < Sinatra::Base
   helpers do
     def localized_template(name)
-      %w[en cs].unshift(I18n.locale.to_s).uniq.find do |locale|
-        File.file?(File.join(settings.root, 'views', "#{name}-#{locale}.slim"))
-      end || "#{name}-cs"
+      locale = %w[en cs].unshift(I18n.locale.to_s).uniq.find do |l|
+        File.file?(File.join(settings.root, 'views', "#{name}-#{l}.slim"))
+      end || 'cs'
+      "#{name}-#{locale}"
     end
   end
 
