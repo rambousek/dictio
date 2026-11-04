@@ -68,7 +68,8 @@ class CzjApp < Sinatra::Base
     secret: $session_secret,
     httponly: true,
     secure: true,
-    same_site: :lax
+    same_site: :lax,
+    assume_ssl: true
   
   write_dicts = []
   sign_dicts = []
