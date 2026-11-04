@@ -232,7 +232,9 @@ class WordListsTest < AppTest
     refute translations.any? { |translation| translation["title"] == "skryté" }
 
     assert_empty service.approved_translations(entry, "none")
-    assert_equal ["pohádka"], service.approved_translations(entry, "cs").map { |translation| translation["title"] }
+    cs_translations = service.approved_translations(entry, "cs")
+    assert_equal %w[pohádka šestý sedmý osmý devátý], cs_translations.map { |translation| translation["title"] }
+    assert cs_translations.all? { |translation| translation["dict"] == "cs" }
     assert_equal ["czj"], service.approved_translations(entry, "czj").map { |translation| translation["dict"] }
   end
 
