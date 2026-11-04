@@ -27,8 +27,9 @@ style type="text/css"
   | .report-filter-arrow { display: inline-block; width: 10px; font-size: 18px; line-height: 1; font-weight: 400; transition: transform .15s ease; }
   | .report-filter-arrow.is-expanded { transform: rotate(90deg); }
   | .report-id-range { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  | .report-id-range label { display: block; }
-  | .report-id-range input { width: 100%; box-sizing: border-box; }
+  | .report-id-range-field { min-width: 0; }
+  | .report-id-range-field label, .report-id-range-field input[type='number'] { display: block; width: 100%; box-sizing: border-box; }
+  | .report-id-range-field input[type='range'] { display: block; width: 100%; margin: 8px 0 0; accent-color: #03c9a9; }
     input[type='checkbox'] {display: none} 
     .col label { font-size: 0.85rem; }    
     .sub.report-filter-section { border: 1px solid; border-radius: 5px; border-color: dimgray;}
@@ -262,10 +263,14 @@ main role="main"
                         span #{I18n.t("admin.id_range")}
                       div#idrange style="display: #{filter_id_range_active ? 'block' : 'none'}"
                         .report-id-range
-                          label for="id_from" #{I18n.t("admin.id_from")}
-                          input#id_from type="number" min="0" step="1" value=@params['id_from']
-                          label for="id_to" #{I18n.t("admin.id_to")}
-                          input#id_to type="number" min="0" step="1" value=@params['id_to']
+                          .report-id-range-field
+                            label for="id_from" #{I18n.t("admin.id_from")}
+                            input#id_from type="number" min=@id_range_min max=@id_range_max step="1" value=@params['id_from']
+                            input#id_from_slider type="range" min=@id_range_min max=@id_range_max step="1" value=(@params['id_from'].to_s.empty? ? @id_range_min : @params['id_from'])
+                          .report-id-range-field
+                            label for="id_to" #{I18n.t("admin.id_to")}
+                            input#id_to type="number" min=@id_range_min max=@id_range_max step="1" value=@params['id_to']
+                            input#id_to_slider type="range" min=@id_range_min max=@id_range_max step="1" value=(@params['id_to'].to_s.empty? ? @id_range_max : @params['id_to'])
                     .sub.report-filter-section
                       label.report-filter-section-title onclick="toggleReportFilterSection('skupina', this)"
                         span.report-filter-arrow class="#{filter_workgroup_active ? 'is-expanded' : ''}" >
@@ -474,6 +479,49 @@ main role="main"
                    */
                   var currentFilterUrl = new URL(window.location.href);
                   var currentFilterParams = currentFilterUrl.searchParams;
+
+                  var idFromInput = document.getElementById('id_from');
+                  var idToInput = document.getElementById('id_to');
+                  var idFromSlider = document.getElementById('id_from_slider');
+                  var idToSlider = document.getElementById('id_to_slider');
+
+                  idFromSlider.addEventListener('input', function() {
+                    if (Number(idFromSlider.value) > Number(idToSlider.value)) {
+                      idToSlider.value = idFromSlider.value;
+                      idToInput.value = idToSlider.value;
+                    }
+                    idFromInput.value = idFromSlider.value;
+                  });
+
+                  idToSlider.addEventListener('input', function() {
+                    if (Number(idToSlider.value) < Number(idFromSlider.value)) {
+                      idFromSlider.value = idToSlider.value;
+                      idFromInput.value = idFromSlider.value;
+                    }
+                    idToInput.value = idToSlider.value;
+                  });
+
+                  idFromInput.addEventListener('input', function() {
+                    if (idFromInput.value !== '') {
+                      idFromSlider.value = idFromInput.value;
+                      idFromInput.value = idFromSlider.value;
+                      if (Number(idFromInput.value) > Number(idToSlider.value)) {
+                        idToSlider.value = idFromInput.value;
+                        idToInput.value = idToSlider.value;
+                      }
+                    }
+                  });
+
+                  idToInput.addEventListener('input', function() {
+                    if (idToInput.value !== '') {
+                      idToSlider.value = idToInput.value;
+                      idToInput.value = idToSlider.value;
+                      if (Number(idToInput.value) < Number(idFromSlider.value)) {
+                        idFromSlider.value = idToInput.value;
+                        idFromInput.value = idFromSlider.value;
+                      }
+                    }
+                  });
 
                   document.querySelectorAll('#report-filter-form .report-filter-row').forEach(function(row) {
                     var check = row.querySelector('.report-filter-check');

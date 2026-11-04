@@ -7,6 +7,15 @@ class CzjApp < Sinatra::Base
       @target = ''
       @dict_info = $dict_info
       @params = params
+      id_query = {'dict' => code, 'empty' => {'$exists' => false}}
+      id_sort_options = {
+        :projection => {'id' => 1},
+        :collation => {'locale' => 'cs', 'numericOrdering' => true}
+      }
+      first_entry = $mongo['entries'].find(id_query, id_sort_options.merge(:sort => {'id' => 1})).first
+      last_entry = $mongo['entries'].find(id_query, id_sort_options.merge(:sort => {'id' => -1})).first
+      @id_range_min = first_entry ? first_entry['id'] : '0'
+      @id_range_max = last_entry ? last_entry['id'] : @id_range_min
       @report = REPORTS.get_report(dict, params, @user_info, 0, @report_limit)
       @duplicate = CzjAdminDuplicate.get_duplicate_counts
       slim :report
