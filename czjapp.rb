@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
 require 'rubygems'
 require 'sinatra'
+require 'rack/session/cookie'
 require 'mongo'
 require 'json'
 require 'bson'
@@ -55,19 +56,19 @@ class CzjApp < Sinatra::Base
     set :logging, true
     set :environment, $environment
     set :session_secret, $session_secret
-    set :sessions, {
-      key: 'dictio.session',
-      domain: '.dictio.info',
-      httponly: true,
-      secure: true,
-      same_site: :lax
-    }
-    enable :sessions
     I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
     I18n.load_path = Dir[File.join(settings.root, 'locales', '*.yml')]
     I18n.backend.load_translations
     I18n.default_locale = 'cs'
   end
+
+  use Rack::Session::Cookie,
+    key: 'dictio.session',
+    domain: '.dictio.info',
+    secret: $session_secret,
+    httponly: true,
+    secure: true,
+    same_site: :lax
   
   write_dicts = []
   sign_dicts = []
