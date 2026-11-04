@@ -26,10 +26,18 @@ style type="text/css"
   | .report-filter-section-title { display: flex; align-items: center; gap: 7px; cursor: pointer; user-select: none; }
   | .report-filter-arrow { display: inline-block; width: 10px; font-size: 18px; line-height: 1; font-weight: 400; transition: transform .15s ease; }
   | .report-filter-arrow.is-expanded { transform: rotate(90deg); }
+  | .report-dual-slider { --range-start: 0%; --range-end: 100%; position: relative; height: 24px; margin: 8px 8px 12px; }
+  | .report-dual-slider::before, .report-dual-slider::after { content: ""; position: absolute; top: 10px; height: 4px; border-radius: 2px; }
+  | .report-dual-slider::before { left: 0; right: 0; background: #aaa; }
+  | .report-dual-slider::after { left: var(--range-start); right: calc(100% - var(--range-end)); background: #03c9a9; }
+  | .report-dual-slider input[type='range'] { position: absolute; top: 0; right: -7px; left: -7px; width: calc(100% + 14px); height: 24px; margin: 0; background: transparent; appearance: none; -webkit-appearance: none; pointer-events: none; }
+  | .report-dual-slider input[type='range']::-webkit-slider-runnable-track { height: 4px; background: transparent; }
+  | .report-dual-slider input[type='range']::-moz-range-track { height: 4px; background: transparent; }
+  | .report-dual-slider input[type='range']::-webkit-slider-thumb { width: 14px; height: 14px; margin-top: -5px; border: 0; border-radius: 50%; background: #0876d1; appearance: none; -webkit-appearance: none; pointer-events: auto; cursor: grab; }
+  | .report-dual-slider input[type='range']::-moz-range-thumb { width: 14px; height: 14px; border: 0; border-radius: 50%; background: #0876d1; pointer-events: auto; cursor: grab; }
   | .report-id-range { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   | .report-id-range-field { min-width: 0; }
   | .report-id-range-field label, .report-id-range-field input[type='number'] { display: block; width: 100%; box-sizing: border-box; }
-  | .report-id-range-field input[type='range'] { display: block; width: 100%; margin: 8px 0 0; accent-color: #03c9a9; }
     input[type='checkbox'] {display: none} 
     .col label { font-size: 0.85rem; }    
     .sub.report-filter-section { border: 1px solid; border-radius: 5px; border-color: dimgray;}
@@ -262,15 +270,16 @@ main role="main"
                         span.report-filter-arrow class="#{filter_id_range_active ? 'is-expanded' : ''}" >
                         span #{I18n.t("admin.id_range")}
                       div#idrange style="display: #{filter_id_range_active ? 'block' : 'none'}"
+                        .report-dual-slider#id_range_slider
+                          input#id_from_slider type="range" min=@id_range_min max=@id_range_max step="1" value=(@params['id_from'].to_s.empty? ? @id_range_min : @params['id_from']) aria-label=I18n.t("admin.id_from")
+                          input#id_to_slider type="range" min=@id_range_min max=@id_range_max step="1" value=(@params['id_to'].to_s.empty? ? @id_range_max : @params['id_to']) aria-label=I18n.t("admin.id_to")
                         .report-id-range
                           .report-id-range-field
                             label for="id_from" #{I18n.t("admin.id_from")}
                             input#id_from type="number" min=@id_range_min max=@id_range_max step="1" value=@params['id_from']
-                            input#id_from_slider type="range" min=@id_range_min max=@id_range_max step="1" value=(@params['id_from'].to_s.empty? ? @id_range_min : @params['id_from'])
                           .report-id-range-field
                             label for="id_to" #{I18n.t("admin.id_to")}
                             input#id_to type="number" min=@id_range_min max=@id_range_max step="1" value=@params['id_to']
-                            input#id_to_slider type="range" min=@id_range_min max=@id_range_max step="1" value=(@params['id_to'].to_s.empty? ? @id_range_max : @params['id_to'])
                     .sub.report-filter-section
                       label.report-filter-section-title onclick="toggleReportFilterSection('skupina', this)"
                         span.report-filter-arrow class="#{filter_workgroup_active ? 'is-expanded' : ''}" >
@@ -485,12 +494,25 @@ main role="main"
                   var idFromSlider = document.getElementById('id_from_slider');
                   var idToSlider = document.getElementById('id_to_slider');
 
+                  function updateIdRangeSlider() {
+                    var min = Number(idFromSlider.min);
+                    var max = Number(idFromSlider.max);
+                    var span = max - min || 1;
+                    var start = ((Number(idFromSlider.value) - min) / span) * 100;
+                    var end = ((Number(idToSlider.value) - min) / span) * 100;
+                    document.getElementById('id_range_slider').style.setProperty('--range-start', start + '%');
+                    document.getElementById('id_range_slider').style.setProperty('--range-end', end + '%');
+                    idFromSlider.style.zIndex = Number(idFromSlider.value) > max - (span * 0.05) ? '4' : '3';
+                    idToSlider.style.zIndex = Number(idToSlider.value) <= min + (span * 0.05) ? '4' : '3';
+                  }
+
                   idFromSlider.addEventListener('input', function() {
                     if (Number(idFromSlider.value) > Number(idToSlider.value)) {
                       idToSlider.value = idFromSlider.value;
                       idToInput.value = idToSlider.value;
                     }
                     idFromInput.value = idFromSlider.value;
+                    updateIdRangeSlider();
                   });
 
                   idToSlider.addEventListener('input', function() {
@@ -499,6 +521,7 @@ main role="main"
                       idFromInput.value = idFromSlider.value;
                     }
                     idToInput.value = idToSlider.value;
+                    updateIdRangeSlider();
                   });
 
                   idFromInput.addEventListener('input', function() {
@@ -509,6 +532,7 @@ main role="main"
                         idToSlider.value = idFromInput.value;
                         idToInput.value = idToSlider.value;
                       }
+                      updateIdRangeSlider();
                     }
                   });
 
@@ -520,8 +544,17 @@ main role="main"
                         idFromSlider.value = idToInput.value;
                         idFromInput.value = idFromSlider.value;
                       }
+                      updateIdRangeSlider();
                     }
                   });
+
+                  if (idFromInput.value !== '') idFromInput.value = idFromSlider.value;
+                  if (idToInput.value !== '') idToInput.value = idToSlider.value;
+                  if (Number(idFromSlider.value) > Number(idToSlider.value)) {
+                    idToSlider.value = idFromSlider.value;
+                    idToInput.value = idToSlider.value;
+                  }
+                  updateIdRangeSlider();
 
                   document.querySelectorAll('#report-filter-form .report-filter-row').forEach(function(row) {
                     var check = row.querySelector('.report-filter-check');
