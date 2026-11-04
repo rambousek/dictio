@@ -60,7 +60,7 @@ class AuthenticationTest < AppTest
       value.start_with?("dictio.session=")
     end
     refute_nil cookie
-    assert_includes cookie, "Domain=.dictio.info"
+    assert_includes cookie.downcase, "domain=.dictio.info"
     assert_includes cookie.downcase, "secure"
     assert_includes cookie.downcase, "httponly"
 
