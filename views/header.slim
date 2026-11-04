@@ -98,7 +98,7 @@ header.header role="banner"
                       li
                         form action="/logout" method="post" style="display: inline"
                           input type="hidden" name="csrf_token" value=csrf_token
-                          button.nav__control type="submit" #{I18n.t("menu.logout")}
+                          button.btn type="submit" #{I18n.t("menu.logout")}
             - else
               li
                 a href="https://edit.dictio.info#{@request.fullpath}" class="nav__control"

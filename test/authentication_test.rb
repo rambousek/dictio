@@ -57,6 +57,8 @@ class AuthenticationTest < AppTest
       value.start_with?("dictio.session=")
     end
     refute_nil initial_cookie, "login page must issue the session cookie used for CSRF validation"
+    assert_includes last_response.body, 'href="/" class="logo"'
+    assert_includes last_response.body, "/img/icons.svg#logo-symbol"
     assert_includes initial_cookie.downcase, "domain=.dictio.info"
     edit_post "/login", login: USER["login"], password: PASSWORD, return_to: "/about", csrf_token: csrf_token
     assert last_response.redirect?
