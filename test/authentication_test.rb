@@ -29,8 +29,8 @@ class AuthenticationTest < AppTest
     $is_edit = true # standard:disable Style/GlobalVars
     $is_admin = false # standard:disable Style/GlobalVars
     $mongo.load("users", [USER]) # standard:disable Style/GlobalVars
-    host! "edit.dictio.info"
-    https!
+    header "HTTP_HOST", "edit.dictio.info"
+    header "HTTPS", "on"
   end
 
   def teardown
@@ -57,7 +57,7 @@ class AuthenticationTest < AppTest
 
     $is_edit = false # standard:disable Style/GlobalVars
     $is_admin = true # standard:disable Style/GlobalVars
-    host! "admin.dictio.info"
+    header "HTTP_HOST", "admin.dictio.info"
     get "/about"
     assert_predicate last_response, :ok?
     assert_includes last_response.body, "Test Editor"
@@ -95,7 +95,7 @@ class AuthenticationTest < AppTest
 
   def test_public_site_remains_accessible_without_login
     $is_edit = false # standard:disable Style/GlobalVars
-    host! "www.dictio.info"
+    header "HTTP_HOST", "www.dictio.info"
     $mongo.load("users", []) # standard:disable Style/GlobalVars
 
     get "/about"

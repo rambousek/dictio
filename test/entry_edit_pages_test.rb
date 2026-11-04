@@ -22,8 +22,8 @@ class EntryEditPagesTest < AppTest
     previous = $is_edit # standard:disable Style/GlobalVars
     $is_edit = true # standard:disable Style/GlobalVars
     $mongo.load("users", [EDITOR]) # standard:disable Style/GlobalVars
-    host! "edit.dictio.info"
-    https!
+    header "HTTP_HOST", "edit.dictio.info"
+    header "HTTPS", "on"
     get "/login"
     csrf_token = last_response.body[/name="csrf_token" value="([^"]+)"/, 1]
     post "/login", login: EDITOR["login"], password: EDITOR_PASSWORD, csrf_token: csrf_token
@@ -31,8 +31,8 @@ class EntryEditPagesTest < AppTest
     yield
   ensure
     $is_edit = previous # standard:disable Style/GlobalVars
-    host! "example.org"
-    https! false
+    header "HTTP_HOST", "example.org"
+    header "HTTPS", nil
     $mongo.load("entries", ENTRIES) # standard:disable Style/GlobalVars
     $mongo.load("users", []) # standard:disable Style/GlobalVars
   end
