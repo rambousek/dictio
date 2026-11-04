@@ -51,7 +51,7 @@ class AuthenticationTest < AppTest
     assert_includes last_response.location, "/login?return_to=%2Fabout"
 
     edit_get "/login", return_to: "/about"
-    csrf_token = last_response.body[/name="csrf_token" value="([^"]+)"/, 1]
+    csrf_token = csrf_token_from_response
     refute_nil csrf_token
     edit_post "/login", login: USER["login"], password: PASSWORD, return_to: "/about", csrf_token: csrf_token
     assert last_response.redirect?
@@ -70,7 +70,7 @@ class AuthenticationTest < AppTest
 
   def test_invalid_login_does_not_authorize_protected_pages
     edit_get "/login", return_to: "/about"
-    csrf_token = last_response.body[/name="csrf_token" value="([^"]+)"/, 1]
+    csrf_token = csrf_token_from_response
     edit_post "/login", login: USER["login"], password: "wrong", return_to: "/about", csrf_token: csrf_token
     assert_equal 401, last_response.status
     assert_includes last_response.body, 'name="password"'
@@ -87,7 +87,7 @@ class AuthenticationTest < AppTest
 
   def test_password_change_invalidates_existing_session
     edit_get "/login", return_to: "/about"
-    csrf_token = last_response.body[/name="csrf_token" value="([^"]+)"/, 1]
+    csrf_token = csrf_token_from_response
     edit_post "/login", login: USER["login"], password: PASSWORD, return_to: "/about", csrf_token: csrf_token
     assert last_response.redirect?
 

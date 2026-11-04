@@ -17,4 +17,11 @@ class AppTest < Minitest::Test
   def app
     CzjApp
   end
+
+  def csrf_token_from_response
+    input = last_response.body.scan(/<input\b[^>]*>/).find do |tag|
+      tag.include?('name="csrf_token"')
+    end
+    input && input[/\bvalue="([^"]*)"/, 1]
+  end
 end

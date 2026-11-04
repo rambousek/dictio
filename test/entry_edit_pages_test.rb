@@ -27,7 +27,7 @@ class EntryEditPagesTest < AppTest
     $is_edit = true # standard:disable Style/GlobalVars
     $mongo.load("users", [EDITOR]) # standard:disable Style/GlobalVars
     edit_get "/login"
-    csrf_token = last_response.body[/name="csrf_token" value="([^"]+)"/, 1]
+    csrf_token = csrf_token_from_response
     post "https://edit.dictio.info/login", login: EDITOR["login"], password: EDITOR_PASSWORD, csrf_token: csrf_token
     assert_predicate last_response, :redirect?
     yield
