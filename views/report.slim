@@ -253,16 +253,19 @@ main role="main"
                 - filter_semantic_active = ['vyznamcszad','vyznamvid','vyznam','vyznamcs','usagecszad','usagevid','usage','usagecs'].any? { |p| @params[p] }
                 - filter_translation_active = ['translationcs','translationczj','translationen','translationasl','translationis','translationsj','translationspj','translationde','translationogs','translationuk','translationuzm','synonym','pubtranscs','pubtransczj','pubtransen','pubtransasl','pubtransis','pubtranssj','pubtransspj','pubtransde','pubtransogs','pubtransuk','pubtransuzm','pubsynonym'].any? { |p| @params[p] }
                 - filter_comments_active = @params['koment'] || @params['komentbox']
+                - filter_id_range_active = @params['id_from'].to_s != '' or @params['id_to'].to_s != ''
                 form#report-filter-form onsubmit="applyReportFilters(event)" style="margin-top: 10px"
                   div.report-filter-list
                     .sub.report-filter-section
-                      label.report-filter-section-title for="id_from"
+                      label.report-filter-section-title onclick="toggleReportFilterSection('idrange', this)"
+                        span.report-filter-arrow class="#{filter_id_range_active ? 'is-expanded' : ''}" >
                         span #{I18n.t("admin.id_range")}
-                      div.report-id-range
-                        label for="id_from" #{I18n.t("admin.id_from")}
-                        input#id_from type="number" min="0" step="1" value=@params['id_from']
-                        label for="id_to" #{I18n.t("admin.id_to")}
-                        input#id_to type="number" min="0" step="1" value=@params['id_to']
+                      div#idrange style="display: #{filter_id_range_active ? 'block' : 'none'}"
+                        .report-id-range
+                          label for="id_from" #{I18n.t("admin.id_from")}
+                          input#id_from type="number" min="0" step="1" value=@params['id_from']
+                          label for="id_to" #{I18n.t("admin.id_to")}
+                          input#id_to type="number" min="0" step="1" value=@params['id_to']
                     .sub.report-filter-section
                       label.report-filter-section-title onclick="toggleReportFilterSection('skupina', this)"
                         span.report-filter-arrow class="#{filter_workgroup_active ? 'is-expanded' : ''}" >
