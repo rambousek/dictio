@@ -93,6 +93,32 @@ class AuthenticationTest < AppTest
     assert_equal 403, last_response.status
   end
 
+  def test_administrator_links_are_available_from_edit_only_to_admin_users
+    edit_get "/login"
+    csrf_token = csrf_token_from_response
+    admin_user = USER.merge("admin" => true)
+    $mongo.load("users", [admin_user]) # standard:disable Style/GlobalVars
+    edit_post "/login", login: admin_user["login"], password: PASSWORD, csrf_token: csrf_token
+    assert last_response.redirect?
+
+    edit_get "/about"
+    assert_includes last_response.body, "https://admin.dictio.info/users"
+    assert_includes last_response.body, "https://admin.dictio.info/history"
+    assert_includes last_response.body, "https://admin.dictio.info/import"
+  end
+
+  def test_administrator_links_are_hidden_from_regular_editors
+    edit_get "/login"
+    csrf_token = csrf_token_from_response
+    edit_post "/login", login: USER["login"], password: PASSWORD, csrf_token: csrf_token
+    assert last_response.redirect?
+
+    edit_get "/about"
+    refute_includes last_response.body, "https://admin.dictio.info/users"
+    refute_includes last_response.body, "https://admin.dictio.info/history"
+    refute_includes last_response.body, "https://admin.dictio.info/import"
+  end
+
   def test_password_change_invalidates_existing_session
     edit_get "/login", return_to: "/about"
     csrf_token = csrf_token_from_response

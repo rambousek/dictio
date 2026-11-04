@@ -47,7 +47,7 @@ header.header role="banner"
                       li
                         - if @dictcode 
                           a href="https://admin.dictio.info/#{@dictcode}/report" #{I18n.t("admin.reports")}
-                          - if @is_admin
+                          - if @user_info['admin']
                             li  
                               a href="https://edit.dictio.info/editor#{@dictcode}/?id=" #{I18n.t("admin.newentry2")} 
                         - else
@@ -75,7 +75,7 @@ header.header role="banner"
                       - if @dictcode
                         li 
                           a.btn href="https://admin.dictio.info/admin" #{I18n.t("admin.all")}
-                      - if @is_admin  
+                      - if @user_info['admin']
                         li
                           a href="https://admin.dictio.info/users" #{I18n.t("admin.users.title")}
                         li
