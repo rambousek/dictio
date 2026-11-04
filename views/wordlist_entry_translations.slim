@@ -1,10 +1,11 @@
 - unless item['translations'].empty?
-  |  —
-  - item['translations'].each_with_index do |translation, index|
-    - if index > 0
-      | ,
-    - if @dict_info[translation['dict']]['type'] == 'sign' and translation['video']
-      video class=translation['dict'] width="88" height="70" style="margin-left: 4px; vertical-align: middle" onmouseover="this.play()" onmouseout="this.pause()" poster="/thumb/video#{translation['dict']}/#{translation['video']}"
-        source type="video/mp4" src="https://files.dictio.info/video#{translation['dict']}/#{translation['video']}"
-    - else
-      |  #{translation['title']}
+  span.wordlist-entry-translations
+    |  —
+    - item['translations'].each_with_index do |translation, index|
+      - if index > 0
+        | ,
+      - if @dict_info[translation['dict']]['type'] == 'sign' and translation['video']
+        video class=translation['dict'] width="88" height="70" style="margin-left: 4px" onmouseover="this.play()" onmouseout="this.pause()" poster="/thumb/video#{translation['dict']}/#{translation['video']}"
+          source type="video/mp4" src="https://files.dictio.info/video#{translation['dict']}/#{translation['video']}"
+      - else
+        |  #{translation['title']}

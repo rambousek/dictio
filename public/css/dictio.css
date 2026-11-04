@@ -54,6 +54,67 @@ video.czj {
   border-left: solid 4px #19B5FE;
 }
 
+.wordlist-entry-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wordlist-entry-main {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 420px;
+  width: 420px;
+  min-height: 36px;
+}
+
+.wordlist-entry-main--sign {
+  min-height: 142px;
+}
+
+.wordlist-entry-translations {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.wordlist-entry-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.wordlist-entry-actions form {
+  display: inline-block;
+  margin: 0;
+}
+
+.wordlist-entry-action--remove {
+  width: 100px;
+}
+
+.wordlist-entry-action--move {
+  width: 92px;
+}
+
+.wordlist-entry-actions button {
+  width: 100%;
+}
+
+@media (max-width: 700px) {
+  .wordlist-entry-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .wordlist-entry-main {
+    flex-basis: auto;
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
 .detail__badge__cs, .trans__badge__cs, .btn-cs, .trans__badge__cs a {
   background-color: darkmagenta !important;
   color: whitesmoke !important;

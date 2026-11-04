@@ -8,21 +8,22 @@ main role="main"
       - else
         ol
           - @entries.each do |item|
-            li
-              - if item['entry']
-                - label = item['entry'].dig('lemma', 'title').to_s
-                - label = item['entry'].dig('lemma', 'video_front').to_s if label.empty?
-                - label = item['id'] if label.empty?
-                - if @dict_info[item['dict']]['type'] == 'sign'
-                  - video_front = item['entry'].dig('lemma', 'video_front').to_s
-                  - if video_front.empty?
-                    img class=item['dict'] src="/img/emptyvideo.jpg" width="177"
+            li.wordlist-entry-row
+              div class="wordlist-entry-main #{'wordlist-entry-main--sign' if @dict_info[item['dict']]['type'] == 'sign'}"
+                - if item['entry']
+                  - label = item['entry'].dig('lemma', 'title').to_s
+                  - label = item['entry'].dig('lemma', 'video_front').to_s if label.empty?
+                  - label = item['id'] if label.empty?
+                  - if @dict_info[item['dict']]['type'] == 'sign'
+                    - video_front = item['entry'].dig('lemma', 'video_front').to_s
+                    - if video_front.empty?
+                      img class=item['dict'] src="/img/emptyvideo.jpg" width="177"
+                    - else
+                      video class=item['dict'] width="177" height="142" onmouseover="this.play()" onmouseout="this.pause()"
+                        source type="video/mp4" src="https://files.dictio.info/video#{item['dict']}/#{video_front}"
+                    a href=word_lists.entry_url(@wordlist, item) = item['id']
                   - else
-                    video class=item['dict'] width="177" height="142" onmouseover="this.play()" onmouseout="this.pause()"
-                      source type="video/mp4" src="https://files.dictio.info/video#{item['dict']}/#{video_front}"
-                  a href=word_lists.entry_url(@wordlist, item) = item['id']
+                    a href=word_lists.entry_url(@wordlist, item) #{label} (#{item['id']})
+                  == slim :wordlist_entry_translations, locals: {item: item}
                 - else
-                  a href=word_lists.entry_url(@wordlist, item) #{label} (#{item['id']})
-                == slim :wordlist_entry_translations, locals: {item: item}
-              - else
-                | #{item['id']} — #{I18n.t("wordlists.missing_entry")}
+                  | #{item['id']} — #{I18n.t("wordlists.missing_entry")}
