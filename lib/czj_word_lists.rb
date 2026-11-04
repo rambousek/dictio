@@ -181,12 +181,17 @@ class CzjWordLists
         "dict" => ref["dict"],
         "id" => ref["id"].to_s,
         "entry" => entry,
-        "translations" => entry ? approved_translations(entry) : []
+        "translations" => entry ? approved_translations(entry, wordlist["second_language"]) : []
       }
     end
   end
 
-  def approved_translations(entry)
+  def approved_translations(entry, second_language)
+    second_language = second_language.to_s
+    second_language = SECOND_LANGUAGE_ALL unless SECOND_LANGUAGE_MODES.include?(second_language) ||
+                                                   $dict_info.key?(second_language)
+    return [] if second_language == "none"
+
     translations = []
     entry_cache = {}
     relations = Array(entry["meanings"]).flat_map do |meaning|
@@ -198,6 +203,7 @@ class CzjWordLists
 
       target = relation["target"].to_s
       next unless $dict_info.key?(target)
+      next unless second_language == SECOND_LANGUAGE_ALL || target == second_language
 
       meaning_id = relation["meaning_id"].to_s
       if (match = /\A(\d+)-\d+(?:_us\d+)?\z/.match(meaning_id))

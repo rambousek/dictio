@@ -223,13 +223,17 @@ class WordListsTest < AppTest
       }]
     }
 
-    translations = service.approved_translations(entry)
+    translations = service.approved_translations(entry, "all")
 
     assert_equal 5, translations.length
     assert_equal "pohádka", translations.first["title"]
     assert_equal "czj", translations[1]["dict"]
     assert_equal "A_velryba1.mp4", translations[1]["video"]
     refute translations.any? { |translation| translation["title"] == "skryté" }
+
+    assert_empty service.approved_translations(entry, "none")
+    assert_equal ["pohádka"], service.approved_translations(entry, "cs").map { |translation| translation["title"] }
+    assert_equal ["czj"], service.approved_translations(entry, "czj").map { |translation| translation["dict"] }
   end
 
   def test_wordlist_renders_approved_sign_translation_video
