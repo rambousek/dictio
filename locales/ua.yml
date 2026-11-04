@@ -142,6 +142,10 @@ ua:
     title: "Мої словники"
     name: "Назва"
     dictionary: "Мова словника"
+    second_language: "Друга мова"
+    second_language_modes:
+      none: "Без перекладів"
+      all: "Усі переклади"
     create: "Створити словник"
     empty: "У вас ще немає словників."
     public: "публічний"

@@ -142,6 +142,10 @@ en:
     title: "My wordlists"
     name: "Name"
     dictionary: "Dictionary language"
+    second_language: "Second language"
+    second_language_modes:
+      none: "No translations"
+      all: "All translations"
     create: "Create wordlist"
     empty: "You do not have any wordlists yet."
     public: "public"

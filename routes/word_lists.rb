@@ -69,6 +69,7 @@ class CzjApp < Sinatra::Base
       @user_info['login'],
       name: params['name'],
       sort_mode: params['sort_mode'],
+      second_language: params['second_language'],
       is_public: params['is_public'] == 'true'
     )
     redirect "/wordlists/#{params['id']}?error=invalid" unless wordlist

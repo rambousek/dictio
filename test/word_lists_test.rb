@@ -159,7 +159,8 @@ class WordListsTest < AppTest
     edit_get "/wordlists/#{list_id}"
     token = csrf_token_from_response
     edit_post "/wordlists/#{list_id}/update",
-              name: "Shared list", sort_mode: "alphabetical", is_public: "true", csrf_token: token
+              name: "Shared list", sort_mode: "alphabetical", second_language: "all",
+              is_public: "true", csrf_token: token
     wordlist = CzjWordLists.new.find_owned(list_id, USER["login"])
 
     edit_get "/wordlist/#{wordlist['share_token']}"
@@ -172,7 +173,43 @@ class WordListsTest < AppTest
     assert_predicate last_response, :ok?
     assert_includes last_response.body, "Shared list"
     assert_includes last_response.body, "vosk"
+    assert_includes last_response.body, 'href="/cs/show/3881"'
     refute_match(/<form\b/, last_response.body)
+  end
+
+  def test_entry_urls_follow_the_wordlists_second_language
+    service = CzjWordLists.new
+    item = {"dict" => "cs", "id" => "3881"}
+
+    assert_equal "/cs/show/3881", service.entry_url({"second_language" => "all"}, item)
+    assert_equal "/cs/search/text/3881", service.entry_url({"second_language" => "none"}, item)
+    assert_equal "/cs/translate/en/text/*/cs-3881", service.entry_url({"second_language" => "en"}, item)
+    assert_equal "/cs/show/3881", service.entry_url({}, item)
+  end
+
+  def test_second_language_is_saved_and_rejects_unknown_dictionary
+    login
+    list_id = create_wordlist
+    edit_get "/wordlists/#{list_id}"
+    token = csrf_token_from_response
+
+    edit_post "/wordlists/#{list_id}/update",
+              name: "Translated list", sort_mode: "manual", second_language: "en",
+              is_public: "false", csrf_token: token
+
+    assert_equal "en", CzjWordLists.new.find_owned(list_id, USER["login"])["second_language"]
+    CzjWordLists.new.add_entry(list_id, USER["login"], "3881")
+    edit_get "/wordlists/#{list_id}"
+    assert_includes last_response.body, 'href="/cs/translate/en/text/*/cs-3881"'
+
+    edit_get "/wordlists/#{list_id}"
+    token = csrf_token_from_response
+    edit_post "/wordlists/#{list_id}/update",
+              name: "Translated list", sort_mode: "manual", second_language: "unknown",
+              is_public: "false", csrf_token: token
+
+    assert_includes last_response.location, "error=invalid"
+    assert_equal "en", CzjWordLists.new.find_owned(list_id, USER["login"])["second_language"]
   end
 
   def test_manual_order_can_be_changed

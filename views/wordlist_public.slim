@@ -13,6 +13,6 @@ main role="main"
                 - label = item['entry'].dig('lemma', 'title').to_s
                 - label = item['entry'].dig('lemma', 'video_front').to_s if label.empty?
                 - label = item['id'] if label.empty?
-                a href="/#{item['dict']}/show/#{item['id']}" #{label} (#{item['id']})
+                a href=word_lists.entry_url(@wordlist, item) #{label} (#{item['id']})
               - else
                 | #{item['id']} — #{I18n.t("wordlists.missing_entry")}

@@ -142,6 +142,10 @@ sk:
     title: "Moje slovníčky"
     name: "Názov"
     dictionary: "Jazyk slovníka"
+    second_language: "Druhý jazyk"
+    second_language_modes:
+      none: "Bez prekladov"
+      all: "Všetky preklady"
     create: "Vytvoriť slovníček"
     empty: "Zatiaľ nemáte žiadny slovníček."
     public: "verejný"

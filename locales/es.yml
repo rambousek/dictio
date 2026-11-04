@@ -142,6 +142,10 @@ es:
     title: "Mis listas de palabras"
     name: "Nombre"
     dictionary: "Idioma del diccionario"
+    second_language: "Segundo idioma"
+    second_language_modes:
+      none: "Sin traducciones"
+      all: "Todas las traducciones"
     create: "Crear lista"
     empty: "Todavía no tienes listas de palabras."
     public: "pública"

@@ -2,6 +2,8 @@ require "securerandom"
 
 class CzjWordLists
   SORT_MODES = %w[alphabetical id manual].freeze
+  SECOND_LANGUAGE_MODES = %w[none all].freeze
+  SECOND_LANGUAGE_ALL = "all"
   MAX_NAME_LENGTH = 100
 
   def self.ensure_indexes
@@ -35,6 +37,7 @@ class CzjWordLists
       "owner_login" => owner_login.to_s,
       "name" => name,
       "dict" => dictcode.to_s,
+      "second_language" => SECOND_LANGUAGE_ALL,
       "is_public" => false,
       "share_token" => SecureRandom.urlsafe_base64(24, false),
       "sort_mode" => "manual",
@@ -46,23 +49,43 @@ class CzjWordLists
     wordlist
   end
 
-  def update(id, owner_login, name:, sort_mode:, is_public:)
+  def update(id, owner_login, name:, sort_mode:, second_language:, is_public:)
     wordlist = find_owned(id, owner_login)
     return nil unless wordlist
 
     name = clean_name(name)
-    return nil if name.empty? || !SORT_MODES.include?(sort_mode.to_s)
+    second_language = second_language.to_s
+    valid_second_language = SECOND_LANGUAGE_MODES.include?(second_language) || $dict_info.key?(second_language)
+    return nil if name.empty? || !SORT_MODES.include?(sort_mode.to_s) || !valid_second_language
 
     $mongo["wordlists"].update_one(
       {"_id" => wordlist["_id"], "owner_login" => owner_login.to_s},
       {"$set" => {
         "name" => name,
         "sort_mode" => sort_mode.to_s,
+        "second_language" => second_language,
         "is_public" => !!is_public,
         "updated_at" => Time.now
       }}
     )
     find_owned(id, owner_login)
+  end
+
+  def entry_url(wordlist, item)
+    dictcode = item["dict"].to_s
+    entry_id = Rack::Utils.escape_path(item["id"].to_s)
+    second_language = wordlist["second_language"].to_s
+    second_language = SECOND_LANGUAGE_ALL unless SECOND_LANGUAGE_MODES.include?(second_language) ||
+                                                   $dict_info.key?(second_language)
+
+    case second_language
+    when "none"
+      "/#{dictcode}/search/text/#{entry_id}"
+    when "all"
+      "/#{dictcode}/show/#{entry_id}"
+    else
+      "/#{dictcode}/translate/#{second_language}/text/*/#{dictcode}-#{entry_id}"
+    end
   end
 
   def delete(id, owner_login)

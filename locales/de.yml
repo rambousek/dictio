@@ -142,6 +142,10 @@ de:
     title: "Meine Wortlisten"
     name: "Name"
     dictionary: "Wörterbuchsprache"
+    second_language: "Zweite Sprache"
+    second_language_modes:
+      none: "Keine Übersetzungen"
+      all: "Alle Übersetzungen"
     create: "Wortliste erstellen"
     empty: "Sie haben noch keine Wortlisten."
     public: "öffentlich"
