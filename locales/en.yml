@@ -132,6 +132,12 @@ en:
     mostdisplayweek: "Most displayed this week"
     profile_saved: "Profile saved"
     not_authorized: "Not authorized"
+  auth:
+    title: "Log in"
+    login: "Username"
+    password: "Password"
+    submit: "Log in"
+    invalid: "Invalid username or password"
   menu:
     about: "About"
     cite: "Cite"

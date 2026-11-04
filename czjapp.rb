@@ -9,6 +9,8 @@ require 'i18n'
 require 'i18n/backend/fallbacks'
 require 'net/scp'
 require 'resolv'
+require 'openssl'
+require 'securerandom'
 require 'sinatra/cookies'
 require 'maxmind/geoip2'
 require 'damerau-levenshtein'
@@ -53,11 +55,18 @@ class CzjApp < Sinatra::Base
     set :logging, true
     set :environment, $environment
     set :session_secret, $session_secret
+    enable :sessions
+    set :sessions, {
+      key: 'dictio.session',
+      domain: '.dictio.info',
+      httponly: true,
+      secure: true,
+      same_site: :lax
+    }
     I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
     I18n.load_path = Dir[File.join(settings.root, 'locales', '*.yml')]
     I18n.backend.load_translations
     I18n.default_locale = 'cs'
-    enable :sessions
   end
   
   write_dicts = []
@@ -84,26 +93,71 @@ class CzjApp < Sinatra::Base
   helpers do
     def protected!
       return if authorized?
-      headers['WWW-Authenticate'] = 'Basic realm="CZJ"'
-      halt 401, {'Refresh' => '1; URL=https://www.dictio.info?login_fail=true'}, 'Not authorized'
+      redirect "/login?#{Rack::Utils.build_query('return_to' => request.fullpath)}"
     end
 
     def authorized?
-      @auth ||=  Rack::Auth::Basic::Request.new(request.env)
-      if @auth.provided? and @auth.basic? and @auth.credentials
-        user = @auth.credentials.first.force_encoding('UTF-8')
-        pass = @auth.credentials[1].force_encoding('UTF-8')
-        res = $mongo['users'].find({'login':user}).first
-        return false if res.nil?
-        if user == res['login'] and pass.crypt(res['password'][0,2]) == res['password']
-          @user_info = {'login'=>res['login'], 'name'=>res['name'], 'email'=>res['email'], 'skupina'=>res['skupina'], 'copy'=>res['copy'], 'autor'=>res['autor'], 'zdroj'=>res['zdroj'], 'perm'=>[], 'admin'=>res['admin'], 'editor'=>res['editor'], 'revizor'=>res['revizor'], 'dict_allowed'=>res['lang'], 'default_dict'=>res['default_dict'], 'default_lang'=>res['default_lang'], 'edit_dict'=>res['edit_dict'], 'edit_synonym'=>res['edit_synonym'], 'edit_trans'=>res['edit_trans']}
-          res['editor'].each{|e| @user_info['perm'] << 'editor_'+e}
-          res['revizor'].each{|e| @user_info['perm'] << 'revizor_'+e}
-          @user_info['perm'] = ['admin'] if res['admin']
-          return true
-        end
+      login = session[:user_login]
+      return false if login.to_s.empty?
+
+      user = $mongo['users'].find({'login': login}).first
+      signature = session[:auth_signature].to_s
+      current_signature = user && OpenSSL::HMAC.hexdigest('SHA256', $session_secret, user['password'].to_s)
+      unless user && signature.length == current_signature.length &&
+          Rack::Utils.secure_compare(signature, current_signature)
+        session.delete(:user_login)
+        session.delete(:auth_signature)
+        return false
       end
-      return false
+
+      @user_info = {
+        'login' => user['login'],
+        'name' => user['name'],
+        'email' => user['email'],
+        'skupina' => user['skupina'],
+        'copy' => user['copy'],
+        'autor' => user['autor'],
+        'zdroj' => user['zdroj'],
+        'perm' => [],
+        'admin' => user['admin'],
+        'editor' => user['editor'],
+        'revizor' => user['revizor'],
+        'dict_allowed' => user['lang'],
+        'default_dict' => user['default_dict'],
+        'default_lang' => user['default_lang'],
+        'edit_dict' => user['edit_dict'],
+        'edit_synonym' => user['edit_synonym'],
+        'edit_trans' => user['edit_trans']
+      }
+      user['editor'].each { |e| @user_info['perm'] << 'editor_' + e }
+      user['revizor'].each { |e| @user_info['perm'] << 'revizor_' + e }
+      @user_info['perm'] = ['admin'] if user['admin']
+      true
+    end
+
+    def safe_return_path(path)
+      return '/' unless path.is_a?(String)
+      return '/' unless path.start_with?('/') && !path.start_with?('//')
+      return '/' if path.include?("\\") || path.match?(/[\r\n]/)
+      return '/' if path == '/login' || path.start_with?('/login?') || path == '/logout'
+
+      path
+    end
+
+    def csrf_token
+      session[:csrf_token] ||= SecureRandom.hex(32)
+    end
+
+    def verify_csrf_token!
+      expected = session[:csrf_token].to_s
+      provided = params['csrf_token'].to_s
+      valid = expected.length == provided.length && !expected.empty? &&
+        Rack::Utils.secure_compare(expected, provided)
+      halt 403, 'Invalid CSRF token' unless valid
+    end
+
+    def protected_host?
+      $is_edit || $is_admin
     end
 
     # Unsolved comments assigned to logged-in user, per dictionary
@@ -171,7 +225,7 @@ class CzjApp < Sinatra::Base
 
 
   before do
-    protected! if $is_edit or $is_admin
+    protected! if protected_host? && !['/login', '/logout'].include?(request.path_info)
     if @user_info and @user_info['default_lang'].to_s != "" and I18n.available_locales.map(&:to_s).include?(@user_info["default_lang"]) and session[:locale].to_s == ""
       session[:locale] = @user_info['default_lang']
     end
@@ -194,6 +248,48 @@ class CzjApp < Sinatra::Base
     @is_edit = $is_edit
     @is_admin = $is_admin
     @is_test = $is_test
+  end
+
+  get '/login' do
+    halt 404 unless protected_host?
+
+    @login_return_to = safe_return_path(params['return_to'])
+    if authorized?
+      redirect @login_return_to
+    else
+      slim :login, layout: false
+    end
+  end
+
+  post '/login' do
+    halt 404 unless protected_host?
+    verify_csrf_token!
+
+    login = params['login'].to_s.force_encoding('UTF-8')
+    password = params['password'].to_s.force_encoding('UTF-8')
+    user = $mongo['users'].find({'login': login}).first
+    stored_password = user && user['password'].to_s
+
+    if user && user['login'] == login && stored_password.length >= 2 &&
+        password.crypt(stored_password[0, 2]) == stored_password
+      session.clear
+      session[:user_login] = user['login']
+      session[:auth_signature] = OpenSSL::HMAC.hexdigest('SHA256', $session_secret, stored_password)
+      redirect safe_return_path(params['return_to'])
+    else
+      @login_error = true
+      @login_return_to = safe_return_path(params['return_to'])
+      status 401
+      slim :login, layout: false
+    end
+  end
+
+  post '/logout' do
+    halt 404 unless protected_host?
+    verify_csrf_token!
+
+    session.clear
+    redirect 'https://www.dictio.info'
   end
 
 

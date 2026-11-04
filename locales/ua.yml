@@ -132,6 +132,12 @@ ua:
     mostdisplayweek: "Найчастіше переглянуті цього тижня"
     profile_saved: "Профіль збережено"
     not_authorized: "Недійсний вхід"
+  auth:
+    title: "Вхід"
+    login: "Ім'я користувача"
+    password: "Пароль"
+    submit: "Увійти"
+    invalid: "Неправильне ім'я користувача або пароль"
   menu:
     about: "О словнику"
     cite: "Цитувати"

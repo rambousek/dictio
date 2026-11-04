@@ -1,7 +1,7 @@
 # Copy to lib/host-config.rb (gitignored) and fill in real values.
 $mongoHost = "mongodb://127.0.0.1:27017/dictio"
 $environment = :production
-$session_secret = "" # at least 64 hex chars: ruby -rsecurerandom -e 'puts SecureRandom.hex(64)'
+$session_secret = "" # same value on www/edit/admin; at least 64 hex chars: ruby -rsecurerandom -e 'puts SecureRandom.hex(64)'
 # edit.dictio.info: $is_edit = true; admin.dictio.info: $is_admin = true
 $is_edit = false
 $is_admin = false

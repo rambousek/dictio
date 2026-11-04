@@ -132,6 +132,12 @@ cs:
     mostdisplayweek: "Nejzobrazovanější v týdnu"
     profile_saved: "Profil uložen"
     not_authorized: "Neplatné přihlášení"
+  auth:
+    title: "Přihlášení"
+    login: "Uživatelské jméno"
+    password: "Heslo"
+    submit: "Přihlásit se"
+    invalid: "Neplatné uživatelské jméno nebo heslo"
   menu:
     about: "O slovníku"
     cite: "Citovat"

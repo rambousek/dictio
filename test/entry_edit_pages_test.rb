@@ -7,8 +7,7 @@ require "json"
 class EntryEditPagesTest < AppTest
   ENTRIES = JSON.parse(File.read(File.join(FakeMongo::FIXDIR, "entries.json")))
 
-  # czjapp.rb runs `protected!` on every request once $is_edit is set, and
-  # authorized? compares pass.crypt(stored[0, 2]) against the stored value.
+  # Edit routes now use a cookie session populated through the login form.
   EDITOR_PASSWORD = "secret"
   EDITOR = {
     "login" => "editor", "password" => EDITOR_PASSWORD.crypt("ab"),
@@ -23,10 +22,17 @@ class EntryEditPagesTest < AppTest
     previous = $is_edit # standard:disable Style/GlobalVars
     $is_edit = true # standard:disable Style/GlobalVars
     $mongo.load("users", [EDITOR]) # standard:disable Style/GlobalVars
-    basic_authorize EDITOR["login"], EDITOR_PASSWORD
+    host! "edit.dictio.info"
+    https!
+    get "/login"
+    csrf_token = last_response.body[/name="csrf_token" value="([^"]+)"/, 1]
+    post "/login", login: EDITOR["login"], password: EDITOR_PASSWORD, csrf_token: csrf_token
+    assert_predicate last_response, :redirect?
     yield
   ensure
     $is_edit = previous # standard:disable Style/GlobalVars
+    host! "example.org"
+    https! false
     $mongo.load("entries", ENTRIES) # standard:disable Style/GlobalVars
     $mongo.load("users", []) # standard:disable Style/GlobalVars
   end

@@ -132,6 +132,12 @@ es:
     mostdisplayweek: "Más consultadas esta semana"
     profile_saved: "Perfil guardado"
     not_authorized: "No autorizado"
+  auth:
+    title: "Iniciar sesión"
+    login: "Nombre de usuario"
+    password: "Contraseña"
+    submit: "Iniciar sesión"
+    invalid: "Nombre de usuario o contraseña no válidos"
   menu:
     about: "Acerca del diccionario"
     cite: "Citar"

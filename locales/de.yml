@@ -132,6 +132,12 @@ de:
     mostdisplayweek: "Diese Woche am häufigsten aufgerufen"
     profile_saved: "Änderung gespeichert"
     not_authorized: "Sie sind nicht berechtigt."
+  auth:
+    title: "Anmelden"
+    login: "Benutzername"
+    password: "Passwort"
+    submit: "Anmelden"
+    invalid: "Ungültiger Benutzername oder ungültiges Passwort"
   menu:
     about: "Über"
     cite: "Zitieren"

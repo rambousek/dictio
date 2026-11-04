@@ -1,0 +1,24 @@
+doctype html
+html
+  head
+    title = I18n.t("auth.title")
+    meta charset="utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    meta name="robots" content="noindex,nofollow"
+    link rel="stylesheet" href="/css/styles.css" type="text/css"
+    link rel="stylesheet" href="/css/dictio.css" type="text/css"
+  body
+    main.container role="main"
+      h1 = I18n.t("auth.title")
+      - if @login_error
+        p role="alert" = I18n.t("auth.invalid")
+      form action="/login" method="post"
+        input type="hidden" name="return_to" value=@login_return_to
+        input type="hidden" name="csrf_token" value=csrf_token
+        p
+          label for="login" = I18n.t("auth.login")
+          input id="login" type="text" name="login" autocomplete="username" required=true autofocus=true
+        p
+          label for="password" = I18n.t("auth.password")
+          input id="password" type="password" name="password" autocomplete="current-password" required=true
+        button.btn type="submit" = I18n.t("auth.submit")

@@ -48,6 +48,13 @@ cp lib/host-config.rb.sample lib/host-config.rb   # fill in values
 
 GeoIP (optional, country stats): `/usr/share/GeoIP/GeoLite2-Country.mmdb`, e.g. via `geoipupdate`.
 
+The `edit.dictio.info` and `admin.dictio.info` hosts share a login session using a
+Secure, HttpOnly cookie for `.dictio.info`. Set the same `$session_secret` in
+`lib/host-config.rb` on all three app hosts (`www`, `edit`, and `admin`); the
+public site remains accessible without logging in, but the browser sends the
+shared cookie to it as well. Use this only while all `dictio.info` subdomains
+are trusted and served over HTTPS.
+
 Deploy: pushes to `main` run `.github/workflows/deploy.yml`, which SSHes to each host (`SSH_USER`/`SSH_KEY` secrets), fetches with `~/.ssh/github` deploy key, `git reset --hard origin/main`, `bundle install`, `./restart.sh`.
 
 /etc/nginx/conf.d/dictio.conf
@@ -172,5 +179,4 @@ WantedBy=multi-user.target
 - prometheus-node-exporter
 - https://github.com/percona/mongodb_exporter
 - puma metrics (yabeda): `127.0.0.1:9395/metrics`, puma control app `127.0.0.1:9293`
-
 

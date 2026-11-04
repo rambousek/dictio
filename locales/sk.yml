@@ -132,6 +132,12 @@ sk:
     mostdisplayweek: "Najzobrazovanejšie tento týždeň"
     profile_saved: "Profil uložen"
     not_authorized: "Neplatné přihlášení"
+  auth:
+    title: "Prihlásenie"
+    login: "Používateľské meno"
+    password: "Heslo"
+    submit: "Prihlásiť sa"
+    invalid: "Neplatné používateľské meno alebo heslo"
   menu:
     about: "O slovníku"
     cite: "Citovat"
