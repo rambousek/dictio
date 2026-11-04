@@ -183,8 +183,80 @@ class WordListsTest < AppTest
 
     assert_equal "/cs/show/3881", service.entry_url({"second_language" => "all"}, item)
     assert_equal "/cs/search/text/3881", service.entry_url({"second_language" => "none"}, item)
-    assert_equal "/cs/translate/en/text/*/cs-3881", service.entry_url({"second_language" => "en"}, item)
+    assert_equal "/en/translate/cs/text/*/cs-3881", service.entry_url({"second_language" => "en"}, item)
     assert_equal "/cs/show/3881", service.entry_url({}, item)
+
+    sign_item = {"dict" => "czj", "id" => "1234"}
+    sign_wordlist = {"dict" => "czj", "second_language" => "cs"}
+    assert_equal "/cs/translate/czj/text/*/czj-1234", service.entry_url(sign_wordlist, sign_item)
+  end
+
+  def test_sign_language_wordlist_displays_front_video_at_report_size
+    login
+    list_id = create_wordlist(dict: "czj")
+    edit_get "/wordlists/#{list_id}"
+    token = csrf_token_from_response
+    edit_post "/wordlists/#{list_id}/entries", entry_id: "10000", csrf_token: token
+    edit_get "/wordlists/#{list_id}"
+
+    assert_includes last_response.body, 'video class="czj" width="177" height="142"'
+    assert_includes last_response.body, 'src="https://files.dictio.info/videoczj/A_velryba1.mp4"'
+  end
+
+  def test_wordlist_shows_only_up_to_five_published_translations
+    service = CzjWordLists.new
+    entry = {
+      "meanings" => [{
+        "relation" => [
+          {"type" => "translation", "target" => "cs", "meaning_id" => "pohádka", "status" => "published"},
+          {"type" => "translation", "target" => "czj", "meaning_id" => "10000-1", "status" => "published"},
+          {"type" => "translation", "target" => "cs", "meaning_id" => "skryté", "status" => "hidden"},
+          {"type" => "translation", "target" => "cs", "meaning_id" => "šestý", "status" => "published"},
+          {"type" => "translation", "target" => "cs", "meaning_id" => "sedmý", "status" => "published"},
+          {"type" => "translation", "target" => "cs", "meaning_id" => "osmý", "status" => "published"},
+          {"type" => "translation", "target" => "cs", "meaning_id" => "devátý", "status" => "published"}
+        ]
+      }]
+    }
+
+    translations = service.approved_translations(entry)
+
+    assert_equal 5, translations.length
+    assert_equal "pohádka", translations.first["title"]
+    assert_equal "czj", translations[1]["dict"]
+    assert_equal "A_velryba1.mp4", translations[1]["video"]
+    refute translations.any? { |translation| translation["title"] == "skryté" }
+  end
+
+  def test_wordlist_renders_approved_sign_translation_video
+    login
+    list_id = create_wordlist
+    entry = $mongo["entries"].find({"dict" => "cs", "id" => "3881"}).first # standard:disable Style/GlobalVars
+    original_meanings = Marshal.load(Marshal.dump(entry["meanings"])) # standard:disable Style/GlobalVars
+    begin
+      $mongo["entries"].update_one(
+        {"dict" => "cs", "id" => "3881"},
+        {"$set" => {"meanings" => [{
+          "relation" => [{
+            "type" => "translation",
+            "target" => "czj",
+            "meaning_id" => "10000-1",
+            "status" => "published"
+          }]
+        }]}}
+      ) # standard:disable Style/GlobalVars
+      edit_get "/wordlists/#{list_id}"
+      token = csrf_token_from_response
+      edit_post "/wordlists/#{list_id}/entries", entry_id: "3881", csrf_token: token
+      edit_get "/wordlists/#{list_id}"
+
+      assert_includes last_response.body, 'src="https://files.dictio.info/videoczj/A_velryba1.mp4"'
+    ensure
+      $mongo["entries"].update_one(
+        {"dict" => "cs", "id" => "3881"},
+        {"$set" => {"meanings" => original_meanings}}
+      ) # standard:disable Style/GlobalVars
+    end
   end
 
   def test_second_language_is_saved_and_rejects_unknown_dictionary
@@ -200,7 +272,7 @@ class WordListsTest < AppTest
     assert_equal "en", CzjWordLists.new.find_owned(list_id, USER["login"])["second_language"]
     CzjWordLists.new.add_entry(list_id, USER["login"], "3881")
     edit_get "/wordlists/#{list_id}"
-    assert_includes last_response.body, 'href="/cs/translate/en/text/*/cs-3881"'
+    assert_includes last_response.body, 'href="/en/translate/cs/text/*/cs-3881"'
 
     edit_get "/wordlists/#{list_id}"
     token = csrf_token_from_response

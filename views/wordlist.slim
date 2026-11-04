@@ -54,7 +54,17 @@ main role="main"
                 - label = item['entry'].dig('lemma', 'title').to_s
                 - label = item['entry'].dig('lemma', 'video_front').to_s if label.empty?
                 - label = item['id'] if label.empty?
-                a href=word_lists.entry_url(@wordlist, item) #{label} (#{item['id']})
+                - if @dict_info[item['dict']]['type'] == 'sign'
+                  - video_front = item['entry'].dig('lemma', 'video_front').to_s
+                  - if video_front.empty?
+                    img class=item['dict'] src="/img/emptyvideo.jpg" width="177"
+                  - else
+                    video class=item['dict'] width="177" height="142" onmouseover="this.play()" onmouseout="this.pause()"
+                      source type="video/mp4" src="https://files.dictio.info/video#{item['dict']}/#{video_front}"
+                  a href=word_lists.entry_url(@wordlist, item) = item['id']
+                - else
+                  a href=word_lists.entry_url(@wordlist, item) #{label} (#{item['id']})
+                == slim :wordlist_entry_translations, locals: {item: item}
               - else
                 | #{item['id']} — #{I18n.t("wordlists.missing_entry")}
               form action="/wordlists/#{@wordlist['_id']}/entries/#{item['id']}/remove" method="post" style="display: inline"

@@ -84,7 +84,7 @@ class CzjWordLists
     when "all"
       "/#{dictcode}/show/#{entry_id}"
     else
-      "/#{dictcode}/translate/#{second_language}/text/*/#{dictcode}-#{entry_id}"
+      "/#{second_language}/translate/#{dictcode}/text/*/#{dictcode}-#{entry_id}"
     end
   end
 
@@ -176,8 +176,56 @@ class CzjWordLists
                      refs
                    end
     ordered_refs.map do |ref|
-      {"dict" => ref["dict"], "id" => ref["id"].to_s, "entry" => docs_by_id[ref["id"].to_s]}
+      entry = docs_by_id[ref["id"].to_s]
+      {
+        "dict" => ref["dict"],
+        "id" => ref["id"].to_s,
+        "entry" => entry,
+        "translations" => entry ? approved_translations(entry) : []
+      }
     end
+  end
+
+  def approved_translations(entry)
+    translations = []
+    entry_cache = {}
+    relations = Array(entry["meanings"]).flat_map do |meaning|
+      Array(meaning["relation"])
+    end
+
+    relations.each do |relation|
+      next unless relation["type"] == "translation" && relation["status"] == "published"
+
+      target = relation["target"].to_s
+      next unless $dict_info.key?(target)
+
+      meaning_id = relation["meaning_id"].to_s
+      if (match = /\A(\d+)-\d+(?:_us\d+)?\z/.match(meaning_id))
+        target_id = match[1]
+        cache_key = [target, target_id]
+        unless entry_cache.key?(cache_key)
+          entry_cache[cache_key] = $mongo["entries"].find(
+            {"dict" => target, "id" => target_id, "empty" => {"$exists" => false}}
+          ).first
+        end
+        target_entry = entry_cache[cache_key]
+        next unless target_entry
+
+        lemma = target_entry["lemma"] || {}
+        translation = {"dict" => target, "title" => lemma["title"].to_s}
+        video_front = lemma["video_front"].to_s
+        translation["video"] = video_front unless video_front.empty?
+      else
+        translation = {"dict" => target, "title" => meaning_id}
+      end
+
+      next if translation["title"].empty? && translation["video"].to_s.empty?
+
+      translations << translation
+      break if translations.length == 5
+    end
+
+    translations
   end
 
   private
