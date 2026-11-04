@@ -18,21 +18,21 @@ class EntryEditPagesTest < AppTest
     "edit_dict" => [], "edit_synonym" => [], "edit_trans" => []
   }.freeze
 
+  def edit_get(path)
+    get "https://edit.dictio.info#{path}"
+  end
+
   def in_edit_mode
     previous = $is_edit # standard:disable Style/GlobalVars
     $is_edit = true # standard:disable Style/GlobalVars
     $mongo.load("users", [EDITOR]) # standard:disable Style/GlobalVars
-    header "HTTP_HOST", "edit.dictio.info"
-    header "HTTPS", "on"
-    get "/login"
+    edit_get "/login"
     csrf_token = last_response.body[/name="csrf_token" value="([^"]+)"/, 1]
-    post "/login", login: EDITOR["login"], password: EDITOR_PASSWORD, csrf_token: csrf_token
+    post "https://edit.dictio.info/login", login: EDITOR["login"], password: EDITOR_PASSWORD, csrf_token: csrf_token
     assert_predicate last_response, :redirect?
     yield
   ensure
     $is_edit = previous # standard:disable Style/GlobalVars
-    header "HTTP_HOST", "example.org"
-    header "HTTPS", nil
     $mongo.load("entries", ENTRIES) # standard:disable Style/GlobalVars
     $mongo.load("users", []) # standard:disable Style/GlobalVars
   end
@@ -53,7 +53,7 @@ class EntryEditPagesTest < AppTest
   def test_edit_sign_entry_with_textual_synonym
     in_edit_mode do
       $mongo.load("entries", ENTRIES + [entry_with_textual_relation("77001", "synonym")]) # standard:disable Style/GlobalVars
-      get "/czj/searchentry/77001"
+      edit_get "/czj/searchentry/77001"
       assert_predicate last_response, :ok?
     end
   end
@@ -61,7 +61,7 @@ class EntryEditPagesTest < AppTest
   def test_edit_sign_entry_with_textual_antonym
     in_edit_mode do
       $mongo.load("entries", ENTRIES + [entry_with_textual_relation("77002", "antonym")]) # standard:disable Style/GlobalVars
-      get "/czj/searchentry/77002"
+      edit_get "/czj/searchentry/77002"
       assert_predicate last_response, :ok?
     end
   end
@@ -76,7 +76,7 @@ class EntryEditPagesTest < AppTest
       parent["lemma"]["homonym"] = [homonym_id]
       homonym = entry_with_textual_relation(homonym_id, type)
       $mongo.load("entries", ENTRIES + [parent, homonym]) # standard:disable Style/GlobalVars
-      get "/czj/searchentry/#{parent_id}"
+      edit_get "/czj/searchentry/#{parent_id}"
       assert_predicate last_response, :ok?
     end
   end
@@ -94,7 +94,7 @@ class EntryEditPagesTest < AppTest
   # fullentrytrans_edit.
   def test_edit_full_sign_entry
     in_edit_mode do
-      get "/czj/show/38"
+      edit_get "/czj/show/38"
       assert_predicate last_response, :ok?
       # the /editor link is emitted only by the *_edit templates, so this
       # proves the edit branch was taken rather than the public fallback
@@ -104,7 +104,7 @@ class EntryEditPagesTest < AppTest
 
   def test_edit_full_write_entry
     in_edit_mode do
-      get "/cs/show/#{ENTRIES.find { |e| e["dict"] == "cs" }["id"]}"
+      edit_get "/cs/show/#{ENTRIES.find { |e| e["dict"] == "cs" }["id"]}"
       assert_predicate last_response, :ok?
       assert_includes last_response.body, "/editor"
     end
@@ -112,7 +112,7 @@ class EntryEditPagesTest < AppTest
 
   def test_edit_write_searchentry
     in_edit_mode do
-      get "/cs/searchentry/#{ENTRIES.find { |e| e["dict"] == "cs" }["id"]}"
+      edit_get "/cs/searchentry/#{ENTRIES.find { |e| e["dict"] == "cs" }["id"]}"
       assert_predicate last_response, :ok?
       assert_includes last_response.body, "/editor"
     end
@@ -127,7 +127,7 @@ class EntryEditPagesTest < AppTest
       parent["id"] = "77007"
       parent["lemma"]["homonym"] = ["38"]
       $mongo.load("entries", ENTRIES + [parent]) # standard:disable Style/GlobalVars
-      get "/czj/show/77007"
+      edit_get "/czj/show/77007"
       assert_predicate last_response, :ok?
       assert_includes last_response.body, "homonym-block"
     end
