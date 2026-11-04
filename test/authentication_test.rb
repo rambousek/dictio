@@ -56,7 +56,10 @@ class AuthenticationTest < AppTest
     edit_post "/login", login: USER["login"], password: PASSWORD, return_to: "/about", csrf_token: csrf_token
     assert last_response.redirect?
     assert_equal "/about", URI(last_response.location).path
-    cookie = last_response.headers["Set-Cookie"].to_s
+    cookie = Array(last_response.headers["Set-Cookie"]).find do |value|
+      value.start_with?("dictio.session=")
+    end
+    refute_nil cookie
     assert_includes cookie, "Domain=.dictio.info"
     assert_includes cookie.downcase, "secure"
     assert_includes cookie.downcase, "httponly"
