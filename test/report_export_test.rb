@@ -5,6 +5,23 @@ require "json"
 # main front/side videos with orient "pr" plus extra videos in more_video,
 # czj/10000 has a front video with orient "lr").
 class ReportExportTest < AppTest
+  def test_report_id_range_adds_inclusive_bounds
+    dict = $dict_array["czj"] # standard:disable Style/GlobalVars
+    search_cond, = CzjApp::REPORTS.get_search_cond(dict, {
+      "id_from" => "38",
+      "id_to" => "10000"
+    }, {})
+
+    assert_includes search_cond, {id: {"$gte" => "38", "$lte" => "10000"}}
+  end
+
+  def test_report_id_range_accepts_a_single_bound
+    dict = $dict_array["czj"] # standard:disable Style/GlobalVars
+    search_cond, = CzjApp::REPORTS.get_search_cond(dict, {"id_from" => "38"}, {})
+
+    assert_includes search_cond, {id: {"$gte" => "38"}}
+  end
+
   def test_csvreport_has_orient_in_fourth_column
     get "/czj/csvreport", "idsf" => "38"
     assert_predicate last_response, :ok?

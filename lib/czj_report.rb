@@ -123,6 +123,12 @@ class CzjReport
       idfa.reject!(&:empty?)
       search_cond << {'id': {'$in': idfa}}
     end
+    id_range = {}
+    id_from = params['id_from'].to_s.strip
+    id_to = params['id_to'].to_s.strip
+    id_range['$gte'] = id_from unless id_from.empty?
+    id_range['$lte'] = id_to unless id_to.empty?
+    search_cond << {'id': id_range} unless id_range.empty?
 
     # celni video schvalene
     if params['schvcelni'].to_s != ''

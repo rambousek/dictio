@@ -26,6 +26,9 @@ style type="text/css"
   | .report-filter-section-title { display: flex; align-items: center; gap: 7px; cursor: pointer; user-select: none; }
   | .report-filter-arrow { display: inline-block; width: 10px; font-size: 18px; line-height: 1; font-weight: 400; transition: transform .15s ease; }
   | .report-filter-arrow.is-expanded { transform: rotate(90deg); }
+  | .report-id-range { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  | .report-id-range label { display: block; }
+  | .report-id-range input { width: 100%; box-sizing: border-box; }
     input[type='checkbox'] {display: none} 
     .col label { font-size: 0.85rem; }    
     .sub.report-filter-section { border: 1px solid; border-radius: 5px; border-color: dimgray;}
@@ -51,6 +54,9 @@ main role="main"
               - if @params['idsf'] 
                 | #{I18n.t("admin.idsel")}: 
                 div style="overflow-x: scroll; overflow-y: hidden; max-width: 170px;" #{@params['idsf']}    
+              - if @params['id_from'].to_s != '' or @params['id_to'].to_s != ''
+                | #{I18n.t("admin.id_range")}:
+                div #{@params['id_from']} – #{@params['id_to']}
                         
               .sub                          
                 h3 onclick="showhide('presets')" style="cursor: pointer"
@@ -249,6 +255,14 @@ main role="main"
                 - filter_comments_active = @params['koment'] || @params['komentbox']
                 form#report-filter-form onsubmit="applyReportFilters(event)" style="margin-top: 10px"
                   div.report-filter-list
+                    .sub.report-filter-section
+                      label.report-filter-section-title for="id_from"
+                        span #{I18n.t("admin.id_range")}
+                      div.report-id-range
+                        label for="id_from" #{I18n.t("admin.id_from")}
+                        input#id_from type="number" min="0" step="1" value=@params['id_from']
+                        label for="id_to" #{I18n.t("admin.id_to")}
+                        input#id_to type="number" min="0" step="1" value=@params['id_to']
                     .sub.report-filter-section
                       label.report-filter-section-title onclick="toggleReportFilterSection('skupina', this)"
                         span.report-filter-arrow class="#{filter_workgroup_active ? 'is-expanded' : ''}" >
@@ -540,6 +554,7 @@ main role="main"
                     var url = new URL(window.location.href);
 
                     var filterParams = [
+                      'id_from', 'id_to',
                       'typhesla', 'seltyphesla', 'skup', 'def_skup[]',
                       'schvcelni', 'schvbocni', 'celni', 'bocni', 'bez_sw', 'nes_sw',
                       'mkok', 'sldruh', 'slovni_druh',
@@ -555,6 +570,11 @@ main role="main"
 
                     filterParams.forEach(function(param) {
                       url.searchParams.delete(param);
+                    });
+
+                    ['id_from', 'id_to'].forEach(function(param) {
+                      var input = form.querySelector('#' + param);
+                      if (input.value !== '') url.searchParams.set(param, input.value);
                     });
 
                     var selected = form.querySelectorAll('.report-filter-check:checked');
