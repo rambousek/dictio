@@ -199,7 +199,11 @@ class WordListsTest < AppTest
     edit_post "/wordlists/#{list_id}/entries", entry_id: "10000", csrf_token: token
     edit_get "/wordlists/#{list_id}"
 
-    assert_includes last_response.body, 'video class="czj" width="177" height="142"'
+    video_tag = last_response.body[/<video\b[^>]*>/]
+    assert video_tag, "Expected a video element for the sign-language entry"
+    assert_includes video_tag, 'class="czj"'
+    assert_includes video_tag, 'width="177"'
+    assert_includes video_tag, 'height="142"'
     assert_includes last_response.body, 'src="https://files.dictio.info/videoczj/A_velryba1.mp4"'
   end
 
