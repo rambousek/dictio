@@ -4,7 +4,9 @@ title
     - locale_target = 'uk'
   - if locale_target == 'sk'
     - locale_target = 'sj'
-  - if @search_type
+  - if @wordlist
+    | Dictio: #{@wordlist['name']}
+  - elsif @search_type
     - if @search_type == 'translate'
       - if @entry
         - if $dict_info[@show_dictcode]['type'] == 'write'

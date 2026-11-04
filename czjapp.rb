@@ -40,10 +40,12 @@ require_relative 'lib/czj_csv_report'
 require_relative 'lib/czj_entry_json'
 require_relative 'lib/czj_korpus'
 require_relative 'lib/czj_usage_stat'
+require_relative 'lib/czj_word_lists'
 
 class CzjApp < Sinatra::Base
   $mongo = Mongo::Client.new($mongoHost) if $mongo.nil?
   Thread.new { CzjUsageStat.ensure_indexes } unless $is_test
+  Thread.new { CzjWordLists.ensure_indexes } unless $is_test
   # GeoIP DB is installed on the servers; without it (CI) the country lookup
   # at $georeader.country raises and falls back to the hostname heuristic.
   geoip_db = '/usr/share/GeoIP/GeoLite2-Country.mmdb'
@@ -336,4 +338,5 @@ require_relative "routes/dict_translate"
 require_relative "routes/dict_edit"
 require_relative "routes/dict_reports"
 require_relative "routes/admin"
+require_relative "routes/word_lists"
 require_relative "routes/swapi"

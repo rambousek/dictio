@@ -1,7 +1,7 @@
 require_relative "test_helper"
 require_relative "../lib/czj_history"
 
-# FakeMongo is read-only, so record inserts through a stand-in $mongo
+# History writes use a stand-in $mongo so the fixture-backed database stays isolated.
 class RecordingCollection
   attr_reader :inserted
 

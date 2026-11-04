@@ -1,0 +1,27 @@
+main role="main"
+  section.section role="region"
+    .container
+      h1 = I18n.t("wordlists.title")
+      - if @wordlist_error == 'invalid'
+        p role="alert" = I18n.t("wordlists.invalid")
+      form action="/wordlists" method="post"
+        input type="hidden" name="csrf_token" value=csrf_token
+        p
+          label for="wordlist-name" = I18n.t("wordlists.name")
+          input#wordlist-name type="text" name="name" maxlength=CzjWordLists::MAX_NAME_LENGTH required=true
+        p
+          label for="wordlist-dict" = I18n.t("wordlists.dictionary")
+          select#wordlist-dict name="dict" required=true
+            - @dict_info.each do |code, _info|
+              option value=code selected=(code == @default_dict) = I18n.t("dict.#{code}")
+        button.btn type="submit" = I18n.t("wordlists.create")
+      - if @wordlists.empty?
+        p = I18n.t("wordlists.empty")
+      - else
+        ul
+          - @wordlists.each do |wordlist|
+            li
+              a href="/wordlists/#{wordlist['_id']}" = wordlist['name']
+              |  (#{I18n.t("dict.#{wordlist['dict']}")})
+              - if wordlist['is_public']
+                |  · #{I18n.t("wordlists.public")}

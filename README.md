@@ -57,6 +57,14 @@ public site remains accessible without logging in, but the browser sends the
 shared cookie to it as well. Use this only while all `dictio.info` subdomains
 are trusted and served over HTTPS.
 
+### User wordlists
+Signed-in users can create wordlists on `edit.dictio.info` or
+`admin.dictio.info`. Each list belongs to one dictionary and stores references
+to entry IDs, not copies of dictionary content. Lists can be ordered
+alphabetically, by ID, or manually. Public lists are read-only and available on
+`www.dictio.info` through an unguessable share URL; private lists are never
+served by that public route.
+
 Deploy: pushes to `main` run `.github/workflows/deploy.yml`, which SSHes to each host (`SSH_USER`/`SSH_KEY` secrets), fetches with `~/.ssh/github` deploy key, `git reset --hard origin/main`, `bundle install`, `./restart.sh`.
 
 /etc/nginx/conf.d/dictio.conf

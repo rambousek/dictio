@@ -49,13 +49,54 @@ class FakeCollection
     FakeResult.new(result)
   end
 
-  def insert_one(*)
-    raise NotImplementedError, "FakeMongo is read-only"
+  def insert_one(doc)
+    @docs << Marshal.load(Marshal.dump(doc))
+    FakeWriteResult.new(1)
   end
-  alias_method :update_one, :insert_one
-  alias_method :update_many, :insert_one
-  alias_method :delete_one, :insert_one
-  alias_method :delete_many, :insert_one
+
+  def update_one(filter, update, _options = {})
+    doc = @docs.find { |candidate| FakeMongoQuery.match?(candidate, filter) }
+    return FakeWriteResult.new(0) unless doc
+
+    modified = false
+    update.each do |operator, fields|
+      fields.each do |key, value|
+        case operator.to_s
+        when "$set"
+          unless doc[key.to_s] == value
+            doc[key.to_s] = Marshal.load(Marshal.dump(value))
+            modified = true
+          end
+        when "$addToSet"
+          doc[key.to_s] ||= []
+          unless doc[key.to_s].include?(value)
+            doc[key.to_s] << Marshal.load(Marshal.dump(value))
+            modified = true
+          end
+        when "$pull"
+          doc[key.to_s] ||= []
+          original_size = doc[key.to_s].size
+          doc[key.to_s].reject! { |item| FakeMongoQuery.match?(item, value) }
+          modified = true if doc[key.to_s].size != original_size
+        else
+          raise NotImplementedError, "FakeMongo: update operator #{operator} not supported"
+        end
+      end
+    end
+    FakeWriteResult.new(1, modified ? 1 : 0)
+  end
+
+  def delete_one(filter)
+    index = @docs.index { |doc| FakeMongoQuery.match?(doc, filter) }
+    @docs.delete_at(index) if index
+    FakeWriteResult.new(index ? 1 : 0)
+  end
+
+  def delete_many(filter)
+    before = @docs.size
+    @docs.reject! { |doc| FakeMongoQuery.match?(doc, filter) }
+    FakeWriteResult.new(before - @docs.size)
+  end
 
   # Read-side subset of the aggregation pipeline: $match, $group (hash _id of
   # '$field' refs, $sum accumulator), $sort (single key), $limit. Anything
@@ -80,6 +121,16 @@ class FakeCollection
       end
     end
     docs
+  end
+end
+
+class FakeWriteResult
+  attr_reader :matched_count, :modified_count, :deleted_count
+
+  def initialize(matched_count, modified_count = matched_count)
+    @matched_count = matched_count
+    @modified_count = modified_count
+    @deleted_count = matched_count
   end
 end
 

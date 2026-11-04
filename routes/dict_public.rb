@@ -15,6 +15,8 @@ class CzjApp < Sinatra::Base
       @search_params = {}
       @search_type = 'show'
       @target = ''
+      @wordlist_error = params['error']
+      @wordlist_added = params['wordlist_added'] == 'true'
       @entry = dict.getdoc(params['id'], false)
       if @entry != {}
         CzjUsageStat.track('show', code, params['id'], '', request.user_agent)

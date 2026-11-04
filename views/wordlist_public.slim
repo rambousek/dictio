@@ -1,0 +1,18 @@
+main role="main"
+  section.section role="region"
+    .container
+      h1 = @wordlist['name']
+      p #{I18n.t("wordlists.dictionary")}: #{I18n.t("dict.#{@wordlist['dict']}")}
+      - if @entries.empty?
+        p = I18n.t("wordlists.no_entries")
+      - else
+        ol
+          - @entries.each do |item|
+            li
+              - if item['entry']
+                - label = item['entry'].dig('lemma', 'title').to_s
+                - label = item['entry'].dig('lemma', 'video_front').to_s if label.empty?
+                - label = item['id'] if label.empty?
+                a href="/#{item['dict']}/show/#{item['id']}" #{label} (#{item['id']})
+              - else
+                | #{item['id']} — #{I18n.t("wordlists.missing_entry")}

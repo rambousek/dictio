@@ -1,0 +1,62 @@
+main role="main"
+  section.section role="region"
+    .container
+      h1 = @wordlist['name']
+      p
+        a href="/wordlists" = I18n.t("wordlists.back")
+      - if @wordlist_error
+        p role="alert" = I18n.t("wordlists.errors.#{@wordlist_error}", default: I18n.t("wordlists.invalid"))
+      p
+        | #{I18n.t("wordlists.dictionary")}: #{I18n.t("dict.#{@wordlist['dict']}")}
+      form action="/wordlists/#{@wordlist['_id']}/update" method="post"
+        input type="hidden" name="csrf_token" value=csrf_token
+        p
+          label for="wordlist-name" = I18n.t("wordlists.name")
+          input#wordlist-name type="text" name="name" maxlength=CzjWordLists::MAX_NAME_LENGTH required=true value=@wordlist['name']
+        p
+          label for="wordlist-sort" = I18n.t("wordlists.sort")
+          select#wordlist-sort name="sort_mode"
+            - CzjWordLists::SORT_MODES.each do |mode|
+              option value=mode selected=(mode == @wordlist['sort_mode']) = I18n.t("wordlists.sort_modes.#{mode}")
+        p
+          label
+            input type="checkbox" name="is_public" value="true" checked=@wordlist['is_public']
+            = I18n.t("wordlists.public_toggle")
+        button.btn type="submit" = I18n.t("wordlists.save")
+      - if @wordlist['is_public']
+        p
+          | #{I18n.t("wordlists.share_link")}:
+          a href="https://www.dictio.info/wordlist/#{@wordlist['share_token']}" https://www.dictio.info/wordlist/#{@wordlist['share_token']}
+      form action="/wordlists/#{@wordlist['_id']}/delete" method="post" onsubmit="return confirm('#{I18n.t("wordlists.confirm_delete")}')"
+        input type="hidden" name="csrf_token" value=csrf_token
+        button.btn.btn--secondary type="submit" = I18n.t("wordlists.delete")
+      h2 = I18n.t("wordlists.entries")
+      form action="/wordlists/#{@wordlist['_id']}/entries" method="post"
+        input type="hidden" name="csrf_token" value=csrf_token
+        p
+          label for="entry-id" = I18n.t("wordlists.entry_id")
+          input#entry-id type="text" name="entry_id" required=true
+        button.btn type="submit" = I18n.t("wordlists.add")
+      - if @entries.empty?
+        p = I18n.t("wordlists.no_entries")
+      - else
+        ol
+          - @entries.each_with_index do |item, index|
+            li
+              - if item['entry']
+                - label = item['entry'].dig('lemma', 'title').to_s
+                - label = item['entry'].dig('lemma', 'video_front').to_s if label.empty?
+                - label = item['id'] if label.empty?
+                a href="/#{item['dict']}/show/#{item['id']}" #{label} (#{item['id']})
+              - else
+                | #{item['id']} — #{I18n.t("wordlists.missing_entry")}
+              form action="/wordlists/#{@wordlist['_id']}/entries/#{item['id']}/remove" method="post" style="display: inline"
+                input type="hidden" name="csrf_token" value=csrf_token
+                button.btn.btn--secondary type="submit" = I18n.t("wordlists.remove")
+              - if @wordlist['sort_mode'] == 'manual'
+                form action="/wordlists/#{@wordlist['_id']}/entries/#{item['id']}/move/up" method="post" style="display: inline"
+                  input type="hidden" name="csrf_token" value=csrf_token
+                  button.btn.btn--secondary type="submit" disabled=(index == 0) = I18n.t("wordlists.move_up")
+                form action="/wordlists/#{@wordlist['_id']}/entries/#{item['id']}/move/down" method="post" style="display: inline"
+                  input type="hidden" name="csrf_token" value=csrf_token
+                  button.btn.btn--secondary type="submit" disabled=(index == @entries.length - 1) = I18n.t("wordlists.move_down")
