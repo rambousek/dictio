@@ -53,6 +53,11 @@ class AuthenticationTest < AppTest
     edit_get "/login", return_to: "/about"
     csrf_token = csrf_token_from_response
     refute_nil csrf_token
+    initial_cookie = Array(last_response.headers["Set-Cookie"]).find do |value|
+      value.start_with?("dictio.session=")
+    end
+    refute_nil initial_cookie, "login page must issue the session cookie used for CSRF validation"
+    assert_includes initial_cookie.downcase, "domain=.dictio.info"
     edit_post "/login", login: USER["login"], password: PASSWORD, return_to: "/about", csrf_token: csrf_token
     assert last_response.redirect?
     assert_equal "/about", URI(last_response.location).path
