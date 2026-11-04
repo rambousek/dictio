@@ -64,8 +64,8 @@ video.czj {
   display: flex;
   align-items: center;
   gap: 6px;
-  flex: 0 0 420px;
-  width: 420px;
+  flex: 1 1 auto;
+  min-width: 0;
   min-height: 36px;
 }
 
@@ -109,7 +109,6 @@ video.czj {
   }
 
   .wordlist-entry-main {
-    flex-basis: auto;
     max-width: 100%;
     width: 100%;
   }
