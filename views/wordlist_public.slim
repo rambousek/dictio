@@ -6,7 +6,7 @@ main role="main"
       - if @entries.empty?
         p = I18n.t("wordlists.no_entries")
       - else
-        ol
+        ol.wordlist-entries
           - @entries.each do |item|
             li.wordlist-entry-row
               div class="wordlist-entry-main #{'wordlist-entry-main--sign' if @dict_info[item['dict']]['type'] == 'sign'}"
@@ -23,7 +23,7 @@ main role="main"
                         source type="video/mp4" src="https://files.dictio.info/video#{item['dict']}/#{video_front}"
                     a href=word_lists.entry_url(@wordlist, item) = item['id']
                   - else
-                    a href=word_lists.entry_url(@wordlist, item) #{label} (#{item['id']})
+                    a href=word_lists.entry_url(@wordlist, item) = label
                   == slim :wordlist_entry_translations, locals: {item: item}
                 - else
                   | #{item['id']} — #{I18n.t("wordlists.missing_entry")}

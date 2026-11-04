@@ -47,7 +47,7 @@ main role="main"
       - if @entries.empty?
         p = I18n.t("wordlists.no_entries")
       - else
-        ol
+        ol.wordlist-entries
           - @entries.each_with_index do |item, index|
             li.wordlist-entry-row
               div class="wordlist-entry-main #{'wordlist-entry-main--sign' if @dict_info[item['dict']]['type'] == 'sign'}"

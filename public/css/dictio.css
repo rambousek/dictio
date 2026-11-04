@@ -54,10 +54,23 @@ video.czj {
   border-left: solid 4px #19B5FE;
 }
 
+.wordlist-entries {
+  counter-reset: wordlist-entry;
+  list-style: none;
+  padding-left: 0;
+}
+
 .wordlist-entry-row {
   display: flex;
   align-items: center;
   gap: 8px;
+  counter-increment: wordlist-entry;
+}
+
+.wordlist-entry-row::before {
+  content: counter(wordlist-entry) ".";
+  flex: 0 0 22px;
+  text-align: right;
 }
 
 .wordlist-entry-main {

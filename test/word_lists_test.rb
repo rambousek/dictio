@@ -174,6 +174,8 @@ class WordListsTest < AppTest
     assert_includes last_response.body, "Shared list"
     assert_includes last_response.body, "vosk"
     assert_includes last_response.body, 'href="/cs/show/3881"'
+    refute_includes last_response.body, "vosk (3881)"
+    assert_includes last_response.body, 'class="wordlist-entry-row"'
     refute_match(/<form\b/, last_response.body)
   end
 
