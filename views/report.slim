@@ -65,7 +65,8 @@ main role="main"
             article.col.col--start role="article" style="display: block"
               h3 #{I18n.t("admin.activeopt")} 
               - if @params['idsf'] 
-                | #{I18n.t("admin.idsel")}: 
+                | #{I18n.t("admin.idsel")}:
+                button#clear-selected-ids type="button" title="Zrušit výběr ID" aria-label="Zrušit výběr ID" style="margin-left: .4em; cursor: pointer" X
                 div style="overflow-x: scroll; overflow-y: hidden; max-width: 170px;" #{@params['idsf']}    
               - if @params['id_from'].to_s != '' or @params['id_to'].to_s != ''
                 | #{I18n.t("admin.id_range")}:

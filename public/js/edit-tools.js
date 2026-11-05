@@ -47,6 +47,12 @@ $( document ).ready(function() {
     document.getElementById('video-export-dialog').close();
   });
 
+  $('#clear-selected-ids').on('click', function() {
+    var url = new URL(window.location.href);
+    url.searchParams.delete('idsf');
+    window.location.href = url.pathname + (url.search ? url.search : '');
+  });
+
   $('#video-export-start').on('click', function() {
     var form = document.getElementById('video-export-form');
     var dialog = document.getElementById('video-export-dialog');
