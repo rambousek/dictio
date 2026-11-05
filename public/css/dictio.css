@@ -96,7 +96,8 @@ video.czj {
 }
 
 .wordlist-add-entry-controls input {
-  flex: 1 1 auto;
+  width: 0;
+  flex: 1 1 0;
   min-width: 0;
 }
 
