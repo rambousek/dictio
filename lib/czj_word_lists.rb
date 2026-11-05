@@ -49,11 +49,11 @@ class CzjWordLists
     wordlist
   end
 
-  def update(id, owner_login, name:, sort_mode:, second_language:, is_public:)
+  def update(id, owner_login, name: nil, sort_mode:, second_language:, is_public:)
     wordlist = find_owned(id, owner_login)
     return nil unless wordlist
 
-    name = clean_name(name)
+    name = clean_name(name.nil? ? wordlist["name"] : name)
     second_language = second_language.to_s
     valid_second_language = SECOND_LANGUAGE_MODES.include?(second_language) || $dict_info.key?(second_language)
     return nil if name.empty? || !SORT_MODES.include?(sort_mode.to_s) || !valid_second_language

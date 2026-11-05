@@ -102,6 +102,23 @@ class WordListsTest < AppTest
     assert_equal "all", wordlist["second_language"]
   end
 
+  def test_wordlist_settings_can_be_updated_without_submitting_name
+    login
+    list_id = create_wordlist(name: "Keep this name")
+    edit_get "/wordlists/#{list_id}"
+    token = csrf_token_from_response
+
+    edit_post "/wordlists/#{list_id}/update",
+              sort_mode: "alphabetical", second_language: "all",
+              is_public: "false", csrf_token: token
+
+    assert last_response.redirect?
+    refute_includes last_response.location, "error=invalid"
+    wordlist = CzjWordLists.new.find_owned(list_id, USER["login"])
+    assert_equal "Keep this name", wordlist["name"]
+    assert_equal "alphabetical", wordlist["sort_mode"]
+  end
+
   def test_entry_page_action_adds_to_the_selected_wordlist
     login
     list_id = create_wordlist
