@@ -1,5 +1,8 @@
+- selected_entry_ids = @params['idsf'].to_s.split(/[,;\s]/).reject(&:empty?)
 - @report['entries'].each do |entry|
   tr.report-row
+    td.report-row-select-cell
+      input.report-entry-select type="checkbox" value=entry['id'] aria-label="Vybrat heslo #{entry['id']}" checked=selected_entry_ids.include?(entry['id'].to_s)
     td
       - if @is_admin or @is_edit
         a class="btn btn-#{@dictcode}" href="https://edit.dictio.info/#{@dictcode}/show/#{entry['id']}" target="_blank" = entry['id']
@@ -86,4 +89,3 @@
     - if @is_admin or @is_edit
       td
         a.btn href="https://edit.dictio.info/editor#{@dictcode}/?id=#{entry['id']}" target="_blank" edit
-

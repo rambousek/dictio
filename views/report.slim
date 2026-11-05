@@ -40,6 +40,8 @@ style type="text/css"
   | .report-id-range-field label, .report-id-range-field input[type='number'] { display: block; width: 100%; box-sizing: border-box; }
   | #video-export-form input[type='checkbox'] { display: inline-block; width: auto; height: auto; margin: 0 .45em 10px 0; appearance: auto; -webkit-appearance: checkbox; accent-color: #03c9a9; vertical-align: middle; }
   | #video-export-form label { cursor: pointer; }
+  | #report-results-table .report-entry-select { display: inline-block; width: auto; height: auto; margin: 0; appearance: auto; -webkit-appearance: checkbox; accent-color: #03c9a9; cursor: pointer; }
+  | #report-results-table .report-row-select-cell { width: 1%; padding: 8px; text-align: center; vertical-align: top; }
     input[type='checkbox'] {display: none} 
     .col label { font-size: 0.85rem; }    
     .sub.report-filter-section { border: 1px solid; border-radius: 5px; border-color: dimgray;}
@@ -640,7 +642,7 @@ main role="main"
                     var url = new URL(window.location.href);
 
                     var filterParams = [
-                      'id_from', 'id_to',
+                      'id_from', 'id_to', 'idsf',
                       'typhesla', 'seltyphesla', 'skup', 'def_skup[]',
                       'schvcelni', 'schvbocni', 'celni', 'bocni', 'bez_sw', 'nes_sw',
                       'mkok', 'sldruh', 'slovni_druh',
@@ -662,6 +664,12 @@ main role="main"
                       var input = form.querySelector('#' + param);
                       if (input.value !== '') url.searchParams.set(param, input.value);
                     });
+
+                    var selectedEntryIds = Array.from(document.querySelectorAll('.report-entry-select:checked'))
+                      .map(function(check) { return check.value; });
+                    if (selectedEntryIds.length) {
+                      url.searchParams.set('idsf', selectedEntryIds.join(','));
+                    }
 
                     var selected = form.querySelectorAll('.report-filter-check:checked');
                     var groupMode = null;
@@ -791,8 +799,9 @@ main role="main"
               | #{I18n.t("admin.dups_warn")} (#{@duplicate['duplicate'].select{|info| info['code'] == @dictcode}[0]['count']}). 
               a href="https://admin.dictio.info/#{@dictcode}/duplicate" #{I18n.t("admin.show")} 
     
-          table.table.table--no-margin.report-table.report-results data-resultcount=@report['resultcount']
+          table#report-results-table.table.table--no-margin.report-table.report-results data-resultcount=@report['resultcount']
             tr class="btn-#{@dictcode}"
+              th
               th width="10%" #{I18n.t("home.entries")}: #{@report['resultcount']}
               th
               - if @params['komentbox']
