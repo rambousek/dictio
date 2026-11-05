@@ -53,7 +53,7 @@ class CzjVideoExport
   private
 
   def selected_videos
-    query, = REPORTS.get_search_cond(@dict, @filters, @user_info)
+    query, = CzjApp::REPORTS.get_search_cond(@dict, @filters, @user_info)
     selected = {}
     $mongo["entries"].find(
       {"$and" => query},
