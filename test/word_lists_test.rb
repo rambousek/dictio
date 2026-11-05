@@ -1,4 +1,5 @@
 require_relative "test_helper"
+require "uri"
 
 class WordListsTest < AppTest
   PASSWORD = "wordlist-password"
@@ -162,7 +163,7 @@ class WordListsTest < AppTest
     assert_includes last_response.location, "missing=1"
     assert_equal [{"dict" => "cs", "id" => "3881"}],
                  CzjWordLists.new.find_owned(list_id, USER["login"])["entries"]
-    edit_get last_response.location
+    edit_get URI(last_response.location).request_uri
     assert_includes last_response.body, I18n.t(
       "wordlists.batch_result", added: 1, duplicate: 1, missing: 1, invalid: 0
     )
