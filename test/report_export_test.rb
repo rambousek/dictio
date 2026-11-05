@@ -26,7 +26,7 @@ class ReportExportTest < AppTest
     dict = $dict_array["czj"] # standard:disable Style/GlobalVars
     search_cond, = CzjApp::REPORTS.get_search_cond(dict, {"idsf" => "38,10000"}, {})
 
-    assert_includes search_cond, {id: {"$in" => %w[38 10000]}}
+    assert_includes search_cond, {id: {:$in => %w[38 10000]}}
   end
 
   def test_csvreport_has_orient_in_fourth_column
