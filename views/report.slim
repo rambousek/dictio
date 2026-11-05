@@ -38,7 +38,7 @@ style type="text/css"
   | .report-id-range { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   | .report-id-range-field { min-width: 0; }
   | .report-id-range-field label, .report-id-range-field input[type='number'] { display: block; width: 100%; box-sizing: border-box; }
-  | #video-export-form input[type='checkbox'] { display: inline-block; width: auto; height: auto; margin: 0 .45em 0 0; appearance: auto; -webkit-appearance: checkbox; accent-color: #03c9a9; vertical-align: middle; }
+  | #video-export-form input[type='checkbox'] { display: inline-block; width: auto; height: auto; margin: 0 .45em 10px 0; appearance: auto; -webkit-appearance: checkbox; accent-color: #03c9a9; vertical-align: middle; }
   | #video-export-form label { cursor: pointer; }
     input[type='checkbox'] {display: none} 
     .col label { font-size: 0.85rem; }    
@@ -752,6 +752,7 @@ main role="main"
                     div style="display: flex; gap: .5em; margin-top: 1em"
                       button.btn type="button" onclick="startVideoExport()" = I18n.t("video_export.start")
                       button.btn type="button" onclick="document.getElementById('video-export-dialog').close()" = I18n.t("video_export.cancel")
+                    p#video-export-status role="status" aria-live="polite" style="display: none; margin-top: .75em"
               javascript:
                 var exportPollTimer = null;
                 var videoExportPollTimer = null;
@@ -788,8 +789,11 @@ main role="main"
                   var dialog = document.getElementById('video-export-dialog');
                   var form = document.getElementById('video-export-form');
                   var button = form.querySelector('button[onclick="startVideoExport()"]');
+                  var status = document.getElementById('video-export-status');
                   if (button.disabled) return;
                   button.disabled = true;
+                  status.textContent = #{I18n.t("video_export.preparing").to_json};
+                  status.style.display = 'block';
                   var body = new URLSearchParams(new FormData(form));
                   body.set('filters', document.getElementById('video-export-filters').value);
                   fetch('/#{@dictcode}/video-export/start', {
@@ -797,17 +801,27 @@ main role="main"
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                     body: body
                   })
-                    .then(function(r) { if (!r.ok) throw 0; return r.json(); })
+                    .then(function(r) {
+                      if (!r.ok) throw new Error('HTTP ' + r.status);
+                      return r.json();
+                    })
                     .then(function(job) {
+                      status.textContent = #{I18n.t("video_export.processing").to_json};
                       var tries = 0;
                       videoExportPollTimer = setInterval(function() {
                         tries += 1;
-                        if (tries > 600) { clearInterval(videoExportPollTimer); button.disabled = false; alert(#{I18n.t("video_export.failed").to_json}); return; }
+                        if (tries > 600) {
+                          clearInterval(videoExportPollTimer);
+                          button.disabled = false;
+                          status.textContent = #{I18n.t("video_export.failed").to_json};
+                          return;
+                        }
                         fetch('/#{@dictcode}/export/status/' + job.id)
                           .then(function(r) { if (!r.ok) throw 0; return r.json(); })
                           .then(function(st) {
                             if (st.status === 'done') {
                               clearInterval(videoExportPollTimer);
+                              status.textContent = #{I18n.t("video_export.ready").to_json};
                               dialog.close();
                               button.disabled = false;
                               window.location = '/#{@dictcode}/export/download/' + job.id;
@@ -817,13 +831,20 @@ main role="main"
                               var message = st.error === 'size_limit' ? #{I18n.t("video_export.size_limit_exceeded").to_json} :
                                 (st.error === 'estimated_size_limit' ? #{I18n.t("video_export.estimated_size_limit_exceeded").to_json} :
                                 (st.error === 'video_count_limit' ? #{I18n.t("video_export.video_count_limit_exceeded").to_json} : #{I18n.t("video_export.failed").to_json}));
-                              alert(message);
+                              status.textContent = message;
                             }
                           })
-                          .catch(function() { clearInterval(videoExportPollTimer); button.disabled = false; alert(#{I18n.t("video_export.failed").to_json}); });
+                          .catch(function() {
+                            clearInterval(videoExportPollTimer);
+                            button.disabled = false;
+                            status.textContent = #{I18n.t("video_export.failed").to_json};
+                          });
                       }, 3000);
                     })
-                    .catch(function() { button.disabled = false; alert(#{I18n.t("video_export.failed").to_json}); });
+                    .catch(function(error) {
+                      button.disabled = false;
+                      status.textContent = #{I18n.t("video_export.failed").to_json} + ' (' + error.message + ')';
+                    });
                 }
 
         .col.col--2.col--start.layout-aside-admin 

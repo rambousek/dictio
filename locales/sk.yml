@@ -1,7 +1,10 @@
 sk:
   video_export:
     button: "Exportovať videá"
-    title: "Vyberte videá na export"
+    title: "Pripraviť videá na stiahnutie"
+    preparing: "Spúšťam export…"
+    processing: "Export sa pripravuje. Pri väčšom počte videí to môže chvíľu trvať…"
+    ready: "Export je pripravený, sťahovanie sa spúšťa…"
     front: "Čelné"
     side: "Bočné"
     definition: "Definície"

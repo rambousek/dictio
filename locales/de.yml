@@ -1,7 +1,10 @@
 de:
   video_export:
     button: "Videos exportieren"
-    title: "Videos zum Export auswählen"
+    title: "Videos zum Herunterladen vorbereiten"
+    preparing: "Export wird gestartet…"
+    processing: "Der Export wird vorbereitet. Bei vielen Videos kann dies einige Zeit dauern…"
+    ready: "Der Export ist fertig; der Download beginnt…"
     front: "Frontal"
     side: "Seitlich"
     definition: "Definitionen"

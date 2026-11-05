@@ -1,7 +1,10 @@
 cs:
   video_export:
     button: "Export videí"
-    title: "Vyberte videa k exportu"
+    title: "Připravit videa pro stažení"
+    preparing: "Zahajuji export…"
+    processing: "Export se připravuje. Při větším počtu videí to může chvíli trvat…"
+    ready: "Export je připraven, stahování se zahajuje…"
     front: "Čelní"
     side: "Boční"
     definition: "Definice"
