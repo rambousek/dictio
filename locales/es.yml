@@ -731,6 +731,11 @@ es:
       comtrans: "equivalentes comentados"
     users:
       title: "administración de usuarios"
+      search_label: "Buscar por usuario o nombre"
+      search_button: "Buscar"
+      search_results: "Cuentas encontradas:"
+      search_no_results: "No se encontraron usuarios."
+      add_user: "Añadir usuario"
       setting: "Configuración personal"
       lang: "interfaz"
       dict: "diccionario predeterminado"

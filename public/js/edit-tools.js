@@ -70,6 +70,12 @@ $( document ).ready(function() {
   });
 
   // user admin
+  $('#show-new-user').click(function() {
+    $('.user-info').not('.new-user').hide();
+    $('.new-user').show();
+    $(this).hide();
+  });
+
   $('.save-user').click(function() {
     var table = $(this).parents('.user-info');
     var user = {};

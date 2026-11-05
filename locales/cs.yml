@@ -734,6 +734,11 @@ cs:
       comtrans: "komentované ekvivalenty"
     users:
       title: "správa uživatelů"
+      search_label: "Vyhledat podle loginu nebo jména"
+      search_button: "Vyhledat"
+      search_results: "Nalezené účty:"
+      search_no_results: "Žádný uživatel neodpovídá zadanému hledání."
+      add_user: "Přidat uživatele"
       setting: "Uživatelské nastavení"
       lang: "jazyk rozhraní"
       dict: "defaultní slovník"

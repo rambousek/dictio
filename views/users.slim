@@ -8,10 +8,18 @@ main role="main"
   section.section 
     .container      
       form action="/users" method="get"
-        label for="user-select" #{I18n.t("admin.users.login")}:
-        select#user-select name="user" onchange="this.form.submit()"
-          - @all_users.each do |user|
-            option value=user['login'] selected=("selected" if user['login'] == @selected_login) = [user['login'], user['name']].compact.reject(&:empty?).join(" — ")
+        label for="user-search" = I18n.t("admin.users.search_label")
+        input#user-search type="search" name="search" value=@user_search
+        button.btn type="submit" = I18n.t("admin.users.search_button")
+      - if !@user_search.empty?
+        - if @matching_users.empty?
+          p = I18n.t("admin.users.search_no_results")
+        - else
+          p = I18n.t("admin.users.search_results")
+          ul
+            - @matching_users.each do |user|
+              li
+                a href=("/users?" + Rack::Utils.build_query("search" => @user_search, "user" => user['login'])) = [user['login'], user['name']].compact.reject(&:empty?).join(" — ")
       - @users.each do |user|
         table.info.user-info
           form
@@ -87,7 +95,8 @@ main role="main"
                 
         br
   
-      table.info.user-info.new-user
+      button.btn#show-new-user type="button" = I18n.t("admin.users.add_user")
+      table.info.user-info.new-user style="display: none"
         form
           tr
             td colspan="2" 

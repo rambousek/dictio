@@ -733,6 +733,11 @@ de:
       comtrans: "komentiert Äquivalenten"
     users:
       title: "Benutzerverwaltung"
+      search_label: "Nach Login oder Name suchen"
+      search_button: "Suchen"
+      search_results: "Passende Konten:"
+      search_no_results: "Keine passenden Benutzer gefunden."
+      add_user: "Benutzer hinzufügen"
       setting: "Benutzereinstellung"
       lang: "Interface"
       dict: "Standardwörterbuch"

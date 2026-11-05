@@ -734,6 +734,11 @@ en:
       comtrans: "commented equivalents"
     users:
       title: "user administration"
+      search_label: "Search by login or name"
+      search_button: "Search"
+      search_results: "Matching accounts:"
+      search_no_results: "No users matched your search."
+      add_user: "Add user"
       setting: "Personal setting"
       lang: "interface"
       dict: "default dictionary"

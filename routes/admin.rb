@@ -86,8 +86,17 @@ class CzjApp < Sinatra::Base
     get '/users', :admin => true do
       @dict_info = $dict_info
       @all_users = CzjUsers.get_users
-      selected_user = @all_users.find { |user| user['login'] == params['user'] } || @all_users.first
-      @selected_login = selected_user && selected_user['login']
+      @user_search = params['search'].to_s.strip
+      @matching_users = if @user_search.empty?
+                          []
+                        else
+                          query = @user_search.downcase
+                          @all_users.select do |user|
+                            user['login'].to_s.downcase.include?(query) ||
+                              user['name'].to_s.downcase.include?(query)
+                          end
+                        end
+      selected_user = @all_users.find { |user| user['login'] == params['user'] }
       @users = selected_user ? [selected_user] : []
       slim :users
     end
