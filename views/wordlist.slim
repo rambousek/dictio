@@ -53,8 +53,7 @@ main role="main"
       form action="/wordlists/#{@wordlist['_id']}/entries" method="post"
         input type="hidden" name="csrf_token" value=csrf_token
         p
-          label.wordlist-entry-id-label for="entry-id" = I18n.t("wordlists.entry_id")
-          input#entry-id type="text" name="entry_id" required=true aria-describedby="entry-id-help"
+          input#entry-id.wordlist-entry-id type="text" name="entry_id" placeholder=I18n.t("wordlists.entry_id") aria-label=I18n.t("wordlists.entry_id") required=true aria-describedby="entry-id-help"
           small#entry-id-help = I18n.t("wordlists.entry_ids_help")
         button.btn type="submit" = I18n.t("wordlists.add")
       - if @entries.empty?

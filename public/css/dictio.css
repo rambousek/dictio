@@ -83,10 +83,10 @@ video.czj {
   font-weight: 700;
 }
 
-.wordlist-entry-id-label {
+.wordlist-entry-id::placeholder {
   color: var(--zakladni-text-cerna1);
-  font-size: 1rem;
   font-weight: 400;
+  opacity: 1;
 }
 
 .wordlist-entry-row {
