@@ -1,4 +1,18 @@
 ua:
+  video_export:
+    button: "Експорт відео"
+    title: "Виберіть відео для експорту"
+    front: "Фронтальні"
+    side: "Бічні"
+    definition: "Визначення"
+    examples: "Приклади"
+    all_existing: "Усі наявні"
+    start: "Підготувати ZIP"
+    cancel: "Скасувати"
+    failed: "Не вдалося експортувати відео."
+    size_limit_exceeded: "Експорт перевищив максимальний розмір 1 ГБ."
+    estimated_size_limit_exceeded: "Орієнтовний розмір експорту перевищує 750 МБ. Звузьте фільтри або виберіть менше типів відео."
+    video_count_limit_exceeded: "Експорт перевищив максимальну кількість 2 000 відео."
   locale:
     en: "English"
     cs: "Česky"

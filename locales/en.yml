@@ -1,4 +1,18 @@
 en:
+  video_export:
+    button: "Export videos"
+    title: "Select videos to export"
+    front: "Front"
+    side: "Side"
+    definition: "Definitions"
+    examples: "Examples"
+    all_existing: "All existing"
+    start: "Prepare ZIP"
+    cancel: "Cancel"
+    failed: "Video export failed."
+    size_limit_exceeded: "The export exceeded the 1 GB size limit."
+    estimated_size_limit_exceeded: "The estimated export size exceeds 750 MB. Narrow the filters or select fewer video types."
+    video_count_limit_exceeded: "The export exceeded the limit of 2,000 videos."
   locale:
     en: "English"
     cs: "Česky"

@@ -1,4 +1,18 @@
 cs:
+  video_export:
+    button: "Export videí"
+    title: "Vyberte videa k exportu"
+    front: "Čelní"
+    side: "Boční"
+    definition: "Definice"
+    examples: "Příklady"
+    all_existing: "Všechna existující"
+    start: "Připravit ZIP"
+    cancel: "Zrušit"
+    failed: "Export videí se nezdařil."
+    size_limit_exceeded: "Export překročil maximální velikost 1 GB."
+    estimated_size_limit_exceeded: "Odhadovaná velikost exportu překračuje 750 MB. Zúžte filtry nebo vyberte méně typů videí."
+    video_count_limit_exceeded: "Export překročil maximální počet 2 000 videí."
   locale:
     en: "English"
     cs: "Česky"

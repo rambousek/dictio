@@ -60,14 +60,46 @@ class CzjApp < Sinatra::Base
     get '/'+code+'/export/status/:job_id' do
       content_type :json
       meta = CzjExportJob.meta(params['job_id'])
+      halt 403 if meta && meta['admin_only'] && !(@user_info && @user_info['admin'])
       # 200 even for unknown ids: the not_found handler would replace a 404 body with HTML
-      {'status' => meta.nil? ? 'unknown' : meta['status']}.to_json
+      {'status' => meta.nil? ? 'unknown' : meta['status'], 'error' => meta && meta['error']}.to_json
     end
     get '/'+code+'/export/download/:job_id' do
       meta = CzjExportJob.meta(params['job_id'])
       halt 404 if meta.nil? or meta['status'] != 'done'
+      halt 403 if meta['admin_only'] && !(@user_info && @user_info['admin'])
       halt 403 if meta['user'] != (@user_info ? @user_info['login'] : '').to_s
       send_file CzjExportJob.data_path(params['job_id']), :filename => meta['filename'], :type => meta['content_type'], :disposition => :attachment
+    end
+    post '/'+code+'/video-export/start' do
+      halt 403 unless @user_info && @user_info['admin']
+      verify_csrf_token!
+      halt 404 unless $dict_info[code]['type'] == 'sign'
+
+      selections = {
+        "front" => params["front"] == "1",
+        "front_all" => params["front_all"] == "1",
+        "side" => params["side"] == "1",
+        "side_all" => params["side_all"] == "1",
+        "definition" => params["definition"] == "1",
+        "examples" => params["examples"] == "1"
+      }
+      selections["front_all"] = false unless selections["front"]
+      selections["side_all"] = false unless selections["side"]
+      halt 422, "Select at least one video category" unless selections.values.any?
+
+      filters = Rack::Utils.parse_nested_query(params["filters"].to_s)
+      user_info = @user_info
+      id = CzjExportJob.start_file(
+        user: @user_info ? @user_info["login"] : "",
+        filename: code + "-videos.zip",
+        content_type: "application/zip",
+        admin_only: true
+      ) do |path|
+        CzjVideoExport.new(dict, filters, user_info, selections).write(path)
+      end
+      content_type :json
+      {"id" => id}.to_json
     end
     get '/'+code+'/csvreport' do
       content_type 'text/csv; charset=utf-8'

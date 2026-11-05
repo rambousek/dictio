@@ -722,8 +722,37 @@ main role="main"
                   }
               a.btn style="background-color: gray; margin-left: auto; margin-right: auto" href="/#{@dictcode}/csvreport?#{@params.map{|k,v| (k=='def_skup'?"def_skup[]=#{v[0]}":"#{k}=#{v}")}.join('&')}" CSV export
               a#json-export-btn.btn style="background-color: gray; margin-left: auto; margin-right: auto; cursor: pointer" data-query="#{@params.map{|k,v| (k=='def_skup'?"def_skup[]=#{v[0]}":"#{k}=#{v}")}.join('&')}" onclick="startJsonExport()" JSON export
+              - if @dict_info[@dictcode]['type'] == 'sign' and @user_info and @user_info['admin']
+                button#video-export-open.btn type="button" style="background-color: gray; margin-left: auto; margin-right: auto" onclick="document.getElementById('video-export-dialog').showModal()" = I18n.t("video_export.button")
+                dialog#video-export-dialog
+                  form#video-export-form method="dialog"
+                    h3 = I18n.t("video_export.title")
+                    input type="hidden" name="csrf_token" value=csrf_token
+                    input#video-export-filters type="hidden" value=Rack::Utils.build_query(@params)
+                    label
+                      input type="checkbox" name="front" value="1"
+                      = I18n.t("video_export.front")
+                    label style="display: block; margin-left: 1.5em"
+                      input type="checkbox" name="front_all" value="1"
+                      = I18n.t("video_export.all_existing")
+                    label style="display: block"
+                      input type="checkbox" name="side" value="1"
+                      = I18n.t("video_export.side")
+                    label style="display: block; margin-left: 1.5em"
+                      input type="checkbox" name="side_all" value="1"
+                      = I18n.t("video_export.all_existing")
+                    label style="display: block"
+                      input type="checkbox" name="definition" value="1"
+                      = I18n.t("video_export.definition")
+                    label style="display: block"
+                      input type="checkbox" name="examples" value="1"
+                      = I18n.t("video_export.examples")
+                    div style="display: flex; gap: .5em; margin-top: 1em"
+                      button.btn type="button" onclick="startVideoExport()" = I18n.t("video_export.start")
+                      button.btn type="button" onclick="document.getElementById('video-export-dialog').close()" = I18n.t("video_export.cancel")
               javascript:
                 var exportPollTimer = null;
+                var videoExportPollTimer = null;
                 function startJsonExport() {
                   var btn = document.getElementById('json-export-btn');
                   if (btn.dataset.running) return;
@@ -752,6 +781,47 @@ main role="main"
                       }, 3000);
                     })
                     .catch(fail);
+                }
+                function startVideoExport() {
+                  var dialog = document.getElementById('video-export-dialog');
+                  var form = document.getElementById('video-export-form');
+                  var button = form.querySelector('button[onclick="startVideoExport()"]');
+                  if (button.disabled) return;
+                  button.disabled = true;
+                  var body = new URLSearchParams(new FormData(form));
+                  body.set('filters', document.getElementById('video-export-filters').value);
+                  fetch('/#{@dictcode}/video-export/start', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    body: body
+                  })
+                    .then(function(r) { if (!r.ok) throw 0; return r.json(); })
+                    .then(function(job) {
+                      var tries = 0;
+                      videoExportPollTimer = setInterval(function() {
+                        tries += 1;
+                        if (tries > 600) { clearInterval(videoExportPollTimer); button.disabled = false; alert(#{I18n.t("video_export.failed").to_json}); return; }
+                        fetch('/#{@dictcode}/export/status/' + job.id)
+                          .then(function(r) { if (!r.ok) throw 0; return r.json(); })
+                          .then(function(st) {
+                            if (st.status === 'done') {
+                              clearInterval(videoExportPollTimer);
+                              dialog.close();
+                              button.disabled = false;
+                              window.location = '/#{@dictcode}/export/download/' + job.id;
+                            } else if (st.status !== 'running') {
+                              clearInterval(videoExportPollTimer);
+                              button.disabled = false;
+                              var message = st.error === 'size_limit' ? #{I18n.t("video_export.size_limit_exceeded").to_json} :
+                                (st.error === 'estimated_size_limit' ? #{I18n.t("video_export.estimated_size_limit_exceeded").to_json} :
+                                (st.error === 'video_count_limit' ? #{I18n.t("video_export.video_count_limit_exceeded").to_json} : #{I18n.t("video_export.failed").to_json}));
+                              alert(message);
+                            }
+                          })
+                          .catch(function() { clearInterval(videoExportPollTimer); button.disabled = false; alert(#{I18n.t("video_export.failed").to_json}); });
+                      }, 3000);
+                    })
+                    .catch(function() { button.disabled = false; alert(#{I18n.t("video_export.failed").to_json}); });
                 }
 
         .col.col--2.col--start.layout-aside-admin 

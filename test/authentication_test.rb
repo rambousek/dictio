@@ -192,6 +192,17 @@ class AuthenticationTest < AppTest
     refute_includes last_response.body, "https://admin.dictio.info/import"
   end
 
+  def test_video_export_is_forbidden_to_regular_editors
+    edit_get "/login"
+    csrf_token = csrf_token_from_response
+    edit_post "/login", login: USER["login"], password: PASSWORD, csrf_token: csrf_token
+    assert last_response.redirect?
+
+    edit_post "/czj/video-export/start", csrf_token: csrf_token, front: "1"
+
+    assert_equal 403, last_response.status
+  end
+
   def test_password_change_invalidates_existing_session
     edit_get "/login", return_to: "/about"
     csrf_token = csrf_token_from_response

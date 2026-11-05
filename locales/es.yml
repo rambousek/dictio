@@ -1,4 +1,18 @@
 es:
+  video_export:
+    button: "Exportar vídeos"
+    title: "Selecciona los vídeos para exportar"
+    front: "Frontal"
+    side: "Lateral"
+    definition: "Definiciones"
+    examples: "Ejemplos"
+    all_existing: "Todos los existentes"
+    start: "Preparar ZIP"
+    cancel: "Cancelar"
+    failed: "Error al exportar los vídeos."
+    size_limit_exceeded: "La exportación superó el límite de tamaño de 1 GB."
+    estimated_size_limit_exceeded: "El tamaño estimado de la exportación supera los 750 MB. Reduce los filtros o selecciona menos tipos de vídeo."
+    video_count_limit_exceeded: "La exportación superó el límite de 2.000 vídeos."
   locale:
     en: "Inglés"
     cs: "Checo"

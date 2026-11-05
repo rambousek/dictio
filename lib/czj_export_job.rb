@@ -38,6 +38,35 @@ module CzjExportJob
     id
   end
 
+  # Runs a background export that writes its result directly to disk.
+  def self.start_file(user:, filename:, content_type:, admin_only: false, &block)
+    FileUtils.mkdir_p(DIR)
+    cleanup
+    id = SecureRandom.hex(8)
+    write_meta(id,
+      "status" => "running",
+      "user" => user.to_s,
+      "filename" => filename,
+      "content_type" => content_type,
+      "admin_only" => admin_only,
+      "created" => Time.now.to_i)
+    Thread.new do
+      meta = read_meta(id)
+      begin
+        block.call(data_path(id))
+        raise "Export produced no file" unless File.file?(data_path(id))
+
+        write_meta(id, meta.merge("status" => "done"))
+      rescue => e
+        File.delete(data_path(id)) if File.exist?(data_path(id))
+        warn "export job #{id} failed: #{e.message}\n" + e.backtrace.join("\n")
+        error = e.respond_to?(:code) ? e.code : nil
+        write_meta(id, meta.merge("status" => "error", "error" => error))
+      end
+    end
+    id
+  end
+
   # @return [Hash, nil] job metadata, nil for unknown/invalid id
   def self.meta(id)
     return nil unless ID_RE.match?(id.to_s)
