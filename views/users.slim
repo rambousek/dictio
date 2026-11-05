@@ -12,18 +12,6 @@ main role="main"
         input#user-search type="search" name="search" value=@user_search
         button.btn type="submit" = I18n.t("admin.users.search_button")
       a.btn href="/users?all=1" = I18n.t("admin.users.show_all")
-      - if @show_all_users || !@user_search.empty?
-        - if @matching_users.empty?
-          p = I18n.t("admin.users.search_no_results")
-        - else
-          p = I18n.t("admin.users.search_results")
-          ul
-            - @matching_users.each do |user|
-              li
-                - selection_params = {"user" => user['login']}
-                - selection_params["all"] = "1" if @show_all_users
-                - selection_params["search"] = @user_search unless @user_search.empty?
-                a href=("/users?" + Rack::Utils.build_query(selection_params)) = [user['login'], user['name']].compact.reject(&:empty?).join(" — ")
       - @users.each do |user|
         table.info.user-info
           form
@@ -98,6 +86,19 @@ main role="main"
                 input.btn.delete-user type="button" style="background-color: darkred" value="#{I18n.t("admin.users.delete")}"
                 
         br
+
+      - if @show_all_users || !@user_search.empty?
+        - if @matching_users.empty?
+          p = I18n.t("admin.users.search_no_results")
+        - else
+          p = I18n.t("admin.users.search_results")
+          ul
+            - @matching_users.each do |user|
+              li
+                - selection_params = {"user" => user['login']}
+                - selection_params["all"] = "1" if @show_all_users
+                - selection_params["search"] = @user_search unless @user_search.empty?
+                a href=("/users?" + Rack::Utils.build_query(selection_params)) = [user['login'], user['name']].compact.reject(&:empty?).join(" — ")
   
       button.btn#show-new-user type="button" = I18n.t("admin.users.add_user")
       table.info.user-info.new-user style="display: none"
