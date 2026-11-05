@@ -164,6 +164,7 @@ sk:
       email_failed: "Účet nebol aktivovaný, pretože sa nepodarilo odoslať overovací e-mail. Skúste registráciu odoslať znova."
   wordlists:
     title: "Moje slovníčky"
+    settings: "Nastavenia"
     name: "Názov"
     rename: "Premenovať slovníček"
     dictionary: "Jazyk slovníka"

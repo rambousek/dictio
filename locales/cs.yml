@@ -164,6 +164,7 @@ cs:
       email_failed: "Účet nebyl aktivován, protože se nepodařilo odeslat ověřovací e-mail. Zkuste registraci odeslat znovu."
   wordlists:
     title: "Moje slovníčky"
+    settings: "Nastavení"
     name: "Název"
     rename: "Přejmenovat slovníček"
     dictionary: "Jazyk slovníku"

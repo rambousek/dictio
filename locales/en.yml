@@ -164,6 +164,7 @@ en:
       email_failed: "The account was not activated because the verification email could not be sent. Please submit the registration again."
   wordlists:
     title: "My wordlists"
+    settings: "Settings"
     name: "Name"
     rename: "Rename wordlist"
     dictionary: "Dictionary language"

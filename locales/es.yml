@@ -164,6 +164,7 @@ es:
       email_failed: "La cuenta no se activó porque no se pudo enviar el correo de verificación. Vuelve a enviar el registro."
   wordlists:
     title: "Mis listas de palabras"
+    settings: "Configuración"
     name: "Nombre"
     rename: "Cambiar el nombre de la lista"
     dictionary: "Idioma del diccionario"

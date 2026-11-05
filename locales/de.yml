@@ -164,6 +164,7 @@ de:
       email_failed: "Das Konto wurde nicht aktiviert, da die Bestätigungs-E-Mail nicht gesendet werden konnte. Bitte senden Sie die Registrierung erneut ab."
   wordlists:
     title: "Meine Wortlisten"
+    settings: "Einstellungen"
     name: "Name"
     rename: "Wortliste umbenennen"
     dictionary: "Wörterbuchsprache"
