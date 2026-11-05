@@ -83,11 +83,11 @@ main role="main"
               div.wordlist-entry-actions
                 form.wordlist-entry-action--remove action="/wordlists/#{@wordlist['_id']}/entries/#{item['id']}/remove" method="post"
                   input type="hidden" name="csrf_token" value=csrf_token
-                  button.btn.btn--secondary type="submit" = I18n.t("wordlists.remove")
+                  button.btn.btn--secondary type="submit" title=I18n.t("wordlists.remove") aria-label=I18n.t("wordlists.remove") X
                 - if @wordlist['sort_mode'] == 'manual'
                   form.wordlist-entry-action--move action="/wordlists/#{@wordlist['_id']}/entries/#{item['id']}/move/up" method="post"
                     input type="hidden" name="csrf_token" value=csrf_token
-                    button.btn.btn--secondary type="submit" disabled=(index == 0) = I18n.t("wordlists.move_up")
+                    button.btn.btn--secondary type="submit" title=I18n.t("wordlists.move_up") aria-label=I18n.t("wordlists.move_up") disabled=(index == 0) ↑
                   form.wordlist-entry-action--move action="/wordlists/#{@wordlist['_id']}/entries/#{item['id']}/move/down" method="post"
                     input type="hidden" name="csrf_token" value=csrf_token
-                    button.btn.btn--secondary type="submit" disabled=(index == @entries.length - 1) = I18n.t("wordlists.move_down")
+                    button.btn.btn--secondary type="submit" title=I18n.t("wordlists.move_down") aria-label=I18n.t("wordlists.move_down") disabled=(index == @entries.length - 1) ↓

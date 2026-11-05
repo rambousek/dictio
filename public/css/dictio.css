@@ -154,15 +154,19 @@ video.czj {
 }
 
 .wordlist-entry-action--remove {
-  width: 100px;
+  width: 36px;
 }
 
 .wordlist-entry-action--move {
-  width: 92px;
+  width: 36px;
 }
 
 .wordlist-entry-actions button {
   width: 100%;
+  padding: 6px 0;
+  font-size: 0.875rem;
+  line-height: 1;
+  text-transform: none;
 }
 
 @media (max-width: 700px) {
