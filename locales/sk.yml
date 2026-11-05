@@ -737,6 +737,7 @@ sk:
       search_button: "Vyhľadať"
       search_results: "Nájdené účty:"
       search_no_results: "Zadanému hľadaniu nevyhovuje žiadny používateľ."
+      show_all: "Vypísať všetkých používateľov"
       add_user: "Pridať používateľa"
       setting: "Použivateľské nastavenie"
       lang: "rozhranie"

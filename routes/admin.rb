@@ -87,7 +87,10 @@ class CzjApp < Sinatra::Base
       @dict_info = $dict_info
       @all_users = CzjUsers.get_users
       @user_search = params['search'].to_s.strip
-      @matching_users = if @user_search.empty?
+      @show_all_users = params['all'] == '1'
+      @matching_users = if @show_all_users
+                          @all_users
+                        elsif @user_search.empty?
                           []
                         else
                           query = @user_search.downcase

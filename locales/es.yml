@@ -735,6 +735,7 @@ es:
       search_button: "Buscar"
       search_results: "Cuentas encontradas:"
       search_no_results: "No se encontraron usuarios."
+      show_all: "Mostrar todos los usuarios"
       add_user: "Añadir usuario"
       setting: "Configuración personal"
       lang: "interfaz"

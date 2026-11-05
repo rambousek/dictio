@@ -737,6 +737,7 @@ de:
       search_button: "Suchen"
       search_results: "Passende Konten:"
       search_no_results: "Keine passenden Benutzer gefunden."
+      show_all: "Alle Benutzer anzeigen"
       add_user: "Benutzer hinzufügen"
       setting: "Benutzereinstellung"
       lang: "Interface"

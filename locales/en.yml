@@ -738,6 +738,7 @@ en:
       search_button: "Search"
       search_results: "Matching accounts:"
       search_no_results: "No users matched your search."
+      show_all: "Show all users"
       add_user: "Add user"
       setting: "Personal setting"
       lang: "interface"
