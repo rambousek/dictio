@@ -16,6 +16,9 @@ style type="text/css"
   | .report-filter-switch-btn:hover { background: rgba(255,255,255,.08); color: #fff; }
   | .report-filter-switch-btn.active { background: #03c9a9; color: #000; font-weight: 700; }
   | .report-filter-switch-btn[data-mode="off"].active { background: #444; color: #ddd; }
+  | .report-active-id-filter { display: flex; align-items: flex-start; gap: 6px; }
+  | .report-active-id-filter-label { flex: 1 1 auto; min-width: 0; }
+  | .report-active-id-filter-switch { margin-left: auto; }
   | .report-filter-submit { margin-top: 12px; width: 100%; }
   | .report-preset-button { display: inline-flex; align-items: center; gap: 5px; margin: 2px 3px 2px 0; padding: 4px 9px; border: 1px solid gray !important; border-radius: 4px; background: none !important; color: #fff !important; font-size: inherit; line-height: 1.3; font-weight: 600; text-decoration: none; cursor: pointer; box-shadow: 0 0 0 1px rgba(255,255,255,.08); transition: background-color .12s ease, border-color .12s ease, box-shadow .12s ease, transform .08s ease; }
   | .report-preset-button::before { content: "▶"; font-size: 9px; opacity: .85; }
@@ -65,9 +68,12 @@ main role="main"
             article.col.col--start role="article" style="display: block"
               h3 #{I18n.t("admin.activeopt")} 
               - if @params['idsf'] 
-                | #{I18n.t("admin.idsel")}:
-                button#clear-selected-ids type="button" title="Zrušit výběr ID" aria-label="Zrušit výběr ID" style="margin-left: .4em; cursor: pointer" X
-                div style="overflow-x: scroll; overflow-y: hidden; max-width: 170px;" #{@params['idsf']}    
+                div.report-active-id-filter
+                  div.report-active-id-filter-label
+                    | #{I18n.t("admin.idsel")}:
+                    div style="overflow-x: scroll; overflow-y: hidden; max-width: 170px;" #{@params['idsf']}
+                  div.report-filter-switch.report-active-id-filter-switch
+                    button#clear-selected-ids.report-filter-switch-btn type="button" data-mode="off" title="Zrušit výběr ID" aria-label="Zrušit výběr ID" X
               - if @params['id_from'].to_s != '' or @params['id_to'].to_s != ''
                 | #{I18n.t("admin.id_range")}:
                 div #{@params['id_from']} – #{@params['id_to']}
