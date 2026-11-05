@@ -1,7 +1,6 @@
 ENV["RACK_ENV"] = "test"
 
 require "minitest/autorun"
-require "minitest/mock"
 require "rack/test"
 
 # Install the fixture-backed Mongo fake before the app boots (czjapp.rb only

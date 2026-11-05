@@ -112,8 +112,14 @@ class AuthenticationTest < AppTest
       csrf_token: csrf_token
     }
 
-    CzjMail.stub(:send_mail, ->(to, subject, body) { sent_mail = [to, subject, body] }) do
+    original_send_mail = CzjMail.method(:send_mail)
+    CzjMail.define_singleton_method(:send_mail) do |to, subject, body|
+      sent_mail = [to, subject, body]
+    end
+    begin
       edit_post "/register", registration_params
+    ensure
+      CzjMail.define_singleton_method(:send_mail, original_send_mail)
     end
 
     assert_predicate last_response, :ok?
