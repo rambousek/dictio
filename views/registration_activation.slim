@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    title = I18n.t("auth.activation_title")
+    meta charset="utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    meta name="robots" content="noindex,nofollow"
+    link rel="stylesheet" href="/css/styles.css" type="text/css"
+    link rel="stylesheet" href="/css/dictio.css" type="text/css"
+  body
+    header.header role="banner"
+      .container.container--wide
+        .header__wrapper
+          a href="/" class="logo"
+            span.icon.icon--logo-symbol.logo__symbol
+              svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                use xlink:href="/img/icons.svg#logo-symbol" x="0" y="0" width="100%" height="100%"
+            .logo__text Dictio
+    main.container role="main"
+      h1 = I18n.t("auth.activation_title")
+      - if @activation_success
+        p role="status" = I18n.t("auth.activation_success")
+        a.btn href="/login" = I18n.t("auth.submit")
+      - else
+        p role="alert" = I18n.t("auth.activation_invalid")

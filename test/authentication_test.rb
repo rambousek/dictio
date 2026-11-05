@@ -93,6 +93,73 @@ class AuthenticationTest < AppTest
     assert_equal 403, last_response.status
   end
 
+  def test_login_page_links_to_registration
+    edit_get "/login"
+
+    assert_includes last_response.body, 'href="/register"'
+  end
+
+  def test_registration_requires_email_activation_before_login
+    edit_get "/register"
+    csrf_token = csrf_token_from_response
+    sent_mail = nil
+    registration_params = {
+      login: "new-user",
+      name: "New User",
+      email: "new-user@example.test",
+      password: "a-secure-password",
+      password_confirmation: "a-secure-password",
+      csrf_token: csrf_token
+    }
+
+    CzjMail.stub(:send_mail, ->(to, subject, body) { sent_mail = [to, subject, body] }) do
+      edit_post "/register", registration_params
+    end
+
+    assert_predicate last_response, :ok?
+    assert_includes last_response.body, I18n.t("auth.registration_sent")
+    refute_nil sent_mail
+    assert_equal "new-user@example.test", sent_mail[0]
+    assert_includes sent_mail[2], "https://edit.dictio.info/activate/"
+
+    user = $mongo["users"].find({"login" => "new-user"}).first
+    assert_equal false, user["email_verified"]
+    assert_equal false, user["admin"]
+    assert_empty user["editor"]
+    assert CzjUsers.password_valid?("a-secure-password", user["password"])
+    refute CzjUsers.password_valid?("wrong-password", user["password"])
+
+    edit_get "/login"
+    edit_post "/login", login: "new-user", password: "a-secure-password",
+                        csrf_token: csrf_token_from_response
+    assert_equal 401, last_response.status
+
+    activation_token = sent_mail[2].match(%r{/activate/([A-Za-z0-9_-]+)})[1]
+    edit_get "/activate/#{activation_token}"
+    assert_predicate last_response, :ok?
+    assert_includes last_response.body, I18n.t("auth.activation_success")
+    assert_equal true, $mongo["users"].find({"login" => "new-user"}).first["email_verified"]
+
+    edit_get "/login"
+    edit_post "/login", login: "new-user", password: "a-secure-password",
+                        csrf_token: csrf_token_from_response
+    assert last_response.redirect?
+  end
+
+  def test_registration_rejects_invalid_data_and_requires_csrf
+    edit_post "/register", login: "x", name: "", email: "invalid",
+                           password: "short", password_confirmation: "different"
+    assert_equal 403, last_response.status
+
+    edit_get "/register"
+    edit_post "/register", login: "x", name: "", email: "invalid",
+                           password: "short", password_confirmation: "different",
+                           csrf_token: csrf_token_from_response
+
+    assert_equal 422, last_response.status
+    assert_empty $mongo["users"].find({"login" => "x"}).to_a
+  end
+
   def test_administrator_links_are_available_from_edit_only_to_admin_users
     edit_get "/login"
     csrf_token = csrf_token_from_response

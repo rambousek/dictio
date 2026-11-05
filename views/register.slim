@@ -1,0 +1,45 @@
+doctype html
+html
+  head
+    title = I18n.t("auth.register_title")
+    meta charset="utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    meta name="robots" content="noindex,nofollow"
+    link rel="stylesheet" href="/css/styles.css" type="text/css"
+    link rel="stylesheet" href="/css/dictio.css" type="text/css"
+  body
+    header.header role="banner"
+      .container.container--wide
+        .header__wrapper
+          a href="/" class="logo"
+            span.icon.icon--logo-symbol.logo__symbol
+              svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                use xlink:href="/img/icons.svg#logo-symbol" x="0" y="0" width="100%" height="100%"
+            .logo__text Dictio
+    main.container role="main"
+      h1 = I18n.t("auth.register_title")
+      - if @registration_sent
+        p role="status" = I18n.t("auth.registration_sent")
+      - else
+        - if @registration_error
+          p role="alert" = I18n.t("auth.registration_errors.#{@registration_error}", default: I18n.t("auth.registration_errors.invalid"))
+        form action="/register" method="post"
+          input type="hidden" name="csrf_token" value=csrf_token
+          p
+            label for="register-login" = I18n.t("auth.login")
+            input#register-login type="text" name="login" autocomplete="username" minlength="3" maxlength="32" pattern="[a-zA-Z0-9_.-]+" required=true value=params['login']
+          p
+            label for="register-name" = I18n.t("auth.contact_name")
+            input#register-name type="text" name="name" autocomplete="name" maxlength="200" required=true value=params['name']
+          p
+            label for="register-email" = I18n.t("auth.email")
+            input#register-email type="email" name="email" autocomplete="email" required=true value=params['email']
+          p
+            label for="register-password" = I18n.t("auth.password")
+            input#register-password type="password" name="password" autocomplete="new-password" minlength="10" maxlength="1024" required=true
+          p
+            label for="register-password-confirmation" = I18n.t("auth.password_confirmation")
+            input#register-password-confirmation type="password" name="password_confirmation" autocomplete="new-password" minlength="10" maxlength="1024" required=true
+          button.btn type="submit" = I18n.t("auth.register_submit")
+      p
+        a href="/login" = I18n.t("auth.back_to_login")

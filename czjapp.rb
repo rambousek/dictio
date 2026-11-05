@@ -107,7 +107,7 @@ class CzjApp < Sinatra::Base
       user = $mongo['users'].find({'login': login}).first
       signature = session[:auth_signature].to_s
       current_signature = user && OpenSSL::HMAC.hexdigest('SHA256', $session_secret, user['password'].to_s)
-      unless user && signature.length == current_signature.length &&
+      unless user && user['email_verified'] != false && signature.length == current_signature.length &&
           Rack::Utils.secure_compare(signature, current_signature)
         session.delete(:user_login)
         session.delete(:auth_signature)
@@ -229,7 +229,9 @@ class CzjApp < Sinatra::Base
 
 
   before do
-    protected! if protected_host? && !['/login', '/logout'].include?(request.path_info)
+    public_auth_path = ['/login', '/logout', '/register'].include?(request.path_info) ||
+      request.path_info.start_with?('/activate/')
+    protected! if protected_host? && !public_auth_path
     if @user_info and @user_info['default_lang'].to_s != "" and I18n.available_locales.map(&:to_s).include?(@user_info["default_lang"]) and session[:locale].to_s == ""
       session[:locale] = @user_info['default_lang']
     end
@@ -274,8 +276,8 @@ class CzjApp < Sinatra::Base
     user = $mongo['users'].find({'login': login}).first
     stored_password = user && user['password'].to_s
 
-    if user && user['login'] == login && stored_password.length >= 2 &&
-        password.crypt(stored_password[0, 2]) == stored_password
+    if user && user['login'] == login && user['email_verified'] != false &&
+        CzjUsers.password_valid?(password, stored_password)
       session.clear
       session[:user_login] = user['login']
       session[:auth_signature] = OpenSSL::HMAC.hexdigest('SHA256', $session_secret, stored_password)
@@ -286,6 +288,47 @@ class CzjApp < Sinatra::Base
       status 401
       slim :login, layout: false
     end
+  end
+
+  get '/register' do
+    @registration_error = params['error']
+    slim :register, layout: false
+  end
+
+  post '/register' do
+    verify_csrf_token!
+    registration = CzjUsers.register_user(
+      login: params['login'],
+      password: params['password'],
+      password_confirmation: params['password_confirmation'],
+      name: params['name'],
+      email: params['email']
+    )
+    if registration.is_a?(Hash)
+      activation_url = "https://edit.dictio.info/activate/#{Rack::Utils.escape_path(registration['token'])}"
+      subject = I18n.t("auth.activation_email_subject")
+      message = I18n.t("auth.activation_email_body", login: registration["login"], url: activation_url)
+      begin
+        CzjMail.send_mail(registration["email"], subject, message)
+      rescue StandardError => e
+        $stderr.puts "registration email delivery failed for #{registration['login']}: #{e.message}"
+        @registration_error = "email_failed"
+        status 503
+        slim :register, layout: false
+      else
+        @registration_sent = true
+        slim :register, layout: false
+      end
+    else
+      @registration_error = registration.to_s
+      status 422
+      slim :register, layout: false
+    end
+  end
+
+  get '/activate/:token' do
+    @activation_success = CzjUsers.activate_user(params['token'])
+    slim :registration_activation, layout: false
   end
 
   post '/logout' do

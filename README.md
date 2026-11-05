@@ -67,6 +67,13 @@ dictionary. Public lists are read-only and available on `www.dictio.info`
 through an unguessable share URL; private lists are never served by that public
 route.
 
+### User registration
+New users can register on `edit.dictio.info/register` with a username, password,
+full name, and email address. Accounts remain unavailable for login until the
+user follows the email verification link, which expires after 24 hours. New
+self-registered accounts receive no administrative or editorial permissions;
+an administrator can grant permissions later.
+
 Deploy: pushes to `main` run `.github/workflows/deploy.yml`, which SSHes to each host (`SSH_USER`/`SSH_KEY` secrets), fetches with `~/.ssh/github` deploy key, `git reset --hard origin/main`, `bundle install`, `./restart.sh`.
 
 /etc/nginx/conf.d/dictio.conf

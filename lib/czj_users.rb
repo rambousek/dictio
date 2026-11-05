@@ -1,6 +1,105 @@
 # User account management and settings.
+require "digest"
+
 module CzjUsers
   extend self
+
+  REGISTRATION_TOKEN_TTL = 24 * 60 * 60
+  PASSWORD_ITERATIONS = 210_000
+
+  def password_digest(password)
+    salt = SecureRandom.hex(16)
+    digest = OpenSSL::PKCS5.pbkdf2_hmac(password, salt, PASSWORD_ITERATIONS, 32, "sha256").unpack1("H*")
+    "pbkdf2_sha256$#{PASSWORD_ITERATIONS}$#{salt}$#{digest}"
+  end
+
+  def password_valid?(password, stored_password)
+    if stored_password.to_s.start_with?("pbkdf2_sha256$")
+      algorithm, iterations, salt, expected = stored_password.split("$", 4)
+      return false unless algorithm == "pbkdf2_sha256" && iterations.to_i == PASSWORD_ITERATIONS &&
+                          salt.to_s.match?(/\A[0-9a-f]{32}\z/) && expected.to_s.match?(/\A[0-9a-f]{64}\z/)
+
+      actual = OpenSSL::PKCS5.pbkdf2_hmac(password, salt, iterations.to_i, 32, "sha256").unpack1("H*")
+      Rack::Utils.secure_compare(actual, expected)
+    else
+      stored_password = stored_password.to_s
+      stored_password.length >= 2 && password.crypt(stored_password[0, 2]) == stored_password
+    end
+  end
+
+  def register_user(login:, password:, password_confirmation:, name:, email:)
+    login = login.to_s.strip
+    name = name.to_s.strip
+    email = email.to_s.strip.downcase
+    return :invalid_login unless login.match?(/\A[a-zA-Z0-9_.-]{3,32}\z/)
+    return :invalid_name if name.empty? || name.length > 200
+    return :invalid_email if email.length > 254 || !email.match?(/\A[^@\s]+@[^@\s]+\.[^@\s]+\z/)
+    return :short_password if password.to_s.length < 10
+    return :long_password if password.to_s.length > 1024
+    return :password_mismatch unless password == password_confirmation
+
+    users = $mongo["users"]
+    existing_login = users.find({"login" => login}).first
+    existing_email = users.find({"email" => email}).first
+    if existing_email && existing_email["login"] != login
+      return :email_taken
+    end
+    if existing_login && (existing_login["email_verified"] != false || existing_login["email"].to_s.downcase != email)
+      return :login_taken
+    end
+
+    token = SecureRandom.urlsafe_base64(32)
+    user = {
+      "login" => login,
+      "password" => password_digest(password),
+      "name" => name,
+      "email" => email,
+      "email_verified" => false,
+      "activation_token_hash" => Digest::SHA256.hexdigest(token),
+      "activation_expires_at" => Time.now + REGISTRATION_TOKEN_TTL,
+      "skupina" => [],
+      "copy" => "",
+      "autor" => "",
+      "zdroj" => "",
+      "admin" => false,
+      "editor" => [],
+      "revizor" => [],
+      "lang" => [],
+      "default_dict" => "",
+      "default_lang" => "cs",
+      "edit_dict" => [],
+      "edit_synonym" => false,
+      "edit_trans" => false
+    }
+
+    if existing_login
+      users.update_one({"login" => login}, {"$set" => user})
+    else
+      users.insert_one(user)
+    end
+    {"login" => login, "email" => email, "token" => token}
+  end
+
+  def activate_user(token)
+    return false if token.to_s.empty?
+
+    user = $mongo["users"].find(
+      {"activation_token_hash" => Digest::SHA256.hexdigest(token.to_s)}
+    ).first
+    return false unless user && user["email_verified"] == false
+    return false unless user["activation_expires_at"].is_a?(Time) &&
+                        user["activation_expires_at"] > Time.now
+
+    result = $mongo["users"].update_one(
+      {"login" => user["login"], "email_verified" => false},
+      {"$set" => {
+        "email_verified" => true,
+        "activation_token_hash" => nil,
+        "activation_expires_at" => nil
+      }}
+    )
+    result.matched_count.positive?
+  end
 
   def get_users
     res = []
@@ -13,6 +112,9 @@ module CzjUsers
   def save_user(data)
     if data['login'].to_s != ''
       user = $mongo['users'].find({'login': data['login']}).first
+      %w[email_verified activation_token_hash activation_expires_at].each do |field|
+        data[field] = user[field] if user && user.key?(field)
+      end
       subject = ""
       if data['password'].to_s == '' and user != nil
         subject, message = CzjMail::prepare_mail_text('changeuser', data)
