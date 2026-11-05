@@ -165,6 +165,7 @@ en:
   wordlists:
     title: "My wordlists"
     name: "Name"
+    rename: "Rename wordlist"
     dictionary: "Dictionary language"
     second_language: "Second language"
     second_language_modes:

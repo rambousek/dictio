@@ -71,6 +71,20 @@ class CzjWordLists
     find_owned(id, owner_login)
   end
 
+  def update_name(id, owner_login, name)
+    wordlist = find_owned(id, owner_login)
+    return nil unless wordlist
+
+    name = clean_name(name)
+    return nil if name.empty?
+
+    $mongo["wordlists"].update_one(
+      {"_id" => wordlist["_id"], "owner_login" => owner_login.to_s},
+      {"$set" => {"name" => name, "updated_at" => Time.now}}
+    )
+    find_owned(id, owner_login)
+  end
+
   def entry_url(wordlist, item)
     dictcode = item["dict"].to_s
     entry_id = Rack::Utils.escape_path(item["id"].to_s)

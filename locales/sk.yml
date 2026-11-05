@@ -165,6 +165,7 @@ sk:
   wordlists:
     title: "Moje slovníčky"
     name: "Názov"
+    rename: "Premenovať slovníček"
     dictionary: "Jazyk slovníka"
     second_language: "Druhý jazyk"
     second_language_modes:

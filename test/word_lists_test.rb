@@ -87,6 +87,21 @@ class WordListsTest < AppTest
     assert_empty CzjWordLists.new.find_owned(list_id, USER["login"])["entries"]
   end
 
+  def test_owner_can_rename_wordlist_without_changing_settings
+    login
+    list_id = create_wordlist
+    edit_get "/wordlists/#{list_id}"
+    token = csrf_token_from_response
+
+    edit_post "/wordlists/#{list_id}/name", name: "Renamed list", csrf_token: token
+
+    assert last_response.redirect?
+    wordlist = CzjWordLists.new.find_owned(list_id, USER["login"])
+    assert_equal "Renamed list", wordlist["name"]
+    assert_equal "manual", wordlist["sort_mode"]
+    assert_equal "all", wordlist["second_language"]
+  end
+
   def test_entry_page_action_adds_to_the_selected_wordlist
     login
     list_id = create_wordlist

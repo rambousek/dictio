@@ -165,6 +165,7 @@ de:
   wordlists:
     title: "Meine Wortlisten"
     name: "Name"
+    rename: "Wortliste umbenennen"
     dictionary: "Wörterbuchsprache"
     second_language: "Zweite Sprache"
     second_language_modes:

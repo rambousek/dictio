@@ -76,6 +76,16 @@ $( document ).ready(function() {
     $(this).hide();
   });
 
+  $('#edit-wordlist-name').click(function() {
+    var form = $('#wordlist-name-form');
+    var isVisible = form.is(':visible');
+    form.toggle(!isVisible);
+    $(this).attr('aria-expanded', String(!isVisible));
+    if (!isVisible) {
+      form.find('[name=name]').trigger('focus');
+    }
+  });
+
   $('.save-user').click(function() {
     var table = $(this).parents('.user-info');
     var user = {};

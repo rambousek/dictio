@@ -60,6 +60,18 @@ video.czj {
   padding-left: 0;
 }
 
+.wordlist-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wordlist-title-edit {
+  border: 0;
+  background: transparent;
+  padding: 4px;
+}
+
 .wordlist-entry-row {
   display: flex;
   align-items: center;
@@ -117,13 +129,16 @@ video.czj {
 
 @media (max-width: 700px) {
   .wordlist-entry-row {
-    align-items: flex-start;
-    flex-direction: column;
+    align-items: center;
   }
 
   .wordlist-entry-main {
     max-width: 100%;
     width: 100%;
+  }
+
+  .wordlist-entry-actions {
+    flex-shrink: 0;
   }
 }
 

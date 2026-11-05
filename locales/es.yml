@@ -165,6 +165,7 @@ es:
   wordlists:
     title: "Mis listas de palabras"
     name: "Nombre"
+    rename: "Cambiar el nombre de la lista"
     dictionary: "Idioma del diccionario"
     second_language: "Segundo idioma"
     second_language_modes:

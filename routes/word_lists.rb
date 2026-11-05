@@ -76,6 +76,14 @@ class CzjApp < Sinatra::Base
     redirect "/wordlists/#{wordlist['_id']}"
   end
 
+  post '/wordlists/:id/name' do
+    require_word_lists_host!
+    verify_csrf_token!
+    wordlist = word_lists.update_name(params['id'], @user_info['login'], params['name'])
+    redirect "/wordlists/#{params['id']}?error=invalid" unless wordlist
+    redirect "/wordlists/#{wordlist['_id']}"
+  end
+
   post '/wordlists/:id/delete' do
     require_word_lists_host!
     verify_csrf_token!

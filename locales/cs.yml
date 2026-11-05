@@ -165,6 +165,7 @@ cs:
   wordlists:
     title: "Moje slovníčky"
     name: "Název"
+    rename: "Přejmenovat slovníček"
     dictionary: "Jazyk slovníku"
     second_language: "Druhý jazyk"
     second_language_modes:

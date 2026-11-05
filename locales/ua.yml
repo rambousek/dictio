@@ -165,6 +165,7 @@ ua:
   wordlists:
     title: "Мої словники"
     name: "Назва"
+    rename: "Перейменувати словник"
     dictionary: "Мова словника"
     second_language: "Друга мова"
     second_language_modes:
