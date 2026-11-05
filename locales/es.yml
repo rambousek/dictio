@@ -660,7 +660,7 @@ es:
     newentry: "nueva entrada"
     newentry2: "+ entrada"
     activeopt: "Las entradas se muestran según las siguientes opciones:"
-    idsel: "Solo entradas con ID"
+    idsel: "Solo entradas seleccionadas"
     id_range: "Rango de ID"
     id_from: "Desde"
     id_to: "Hasta"

@@ -278,12 +278,6 @@ main role="main"
                         span.report-filter-arrow class="#{filter_id_range_active ? 'is-expanded' : ''}" >
                         span #{I18n.t("admin.id_range")}
                       div#idrange style="display: #{filter_id_range_active ? 'block' : 'none'}"
-                        div.report-id-selection
-                          span.report-id-selection-label #{I18n.t("admin.idsel")}
-                          div#idsf-mode-switch.report-filter-switch
-                            button.report-filter-switch-btn type="button" data-mode="plus" class="#{idsf_mode == 'plus' ? 'active' : ''}" aria-label="+" title="Zobrazit výběr ID" +
-                            button.report-filter-switch-btn type="button" data-mode="minus" class="#{idsf_mode == 'minus' ? 'active' : ''}" aria-label="−" title="Zrušit výběr ID" -
-                            button.report-filter-switch-btn type="button" data-mode="off" class="#{idsf_mode == 'off' ? 'active' : ''}" aria-label="X" title="Deaktivovat výběr ID" X
                         .report-dual-slider#id_range_slider
                           input#id_from_slider type="range" min=@id_range_min max=@id_range_max step="1" value=(@params['id_from'].to_s.empty? ? @id_range_min : @params['id_from']) aria-label=I18n.t("admin.id_from")
                           input#id_to_slider type="range" min=@id_range_min max=@id_range_max step="1" value=(@params['id_to'].to_s.empty? ? @id_range_max : @params['id_to']) aria-label=I18n.t("admin.id_to")
@@ -294,6 +288,12 @@ main role="main"
                           .report-id-range-field
                             label for="id_to" #{I18n.t("admin.id_to")}
                             input#id_to type="number" min=@id_range_min max=@id_range_max step="1" value=@params['id_to']
+                        div.report-id-selection
+                          span.report-id-selection-label #{I18n.t("admin.idsel")}
+                          div#idsf-mode-switch.report-filter-switch
+                            button.report-filter-switch-btn type="button" data-mode="plus" class="#{idsf_mode == 'plus' ? 'active' : ''}" aria-label="+" title="Zobrazit výběr ID" +
+                            button.report-filter-switch-btn type="button" data-mode="minus" class="#{idsf_mode == 'minus' ? 'active' : ''}" aria-label="−" title="Zrušit výběr ID" -
+                            button.report-filter-switch-btn type="button" data-mode="off" class="#{idsf_mode == 'off' ? 'active' : ''}" aria-label="X" title="Deaktivovat výběr ID" X
                     .sub.report-filter-section
                       label.report-filter-section-title onclick="toggleReportFilterSection('skupina', this)"
                         span.report-filter-arrow class="#{filter_workgroup_active ? 'is-expanded' : ''}" >

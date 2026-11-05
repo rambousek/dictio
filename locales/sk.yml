@@ -659,7 +659,7 @@ sk:
     reports_old: "Staré prehľady hesiel (stav k 19. 3. 2021)"
     report_old_main: "Rozcestnik"
     activeopt: "Zobrazujú sa heslá podľa nasledujúcich volieb:"
-    idsel: "Iba heslá s ID"
+    idsel: "Iba vybrané heslá"
     id_range: "Rozsah ID"
     id_from: "Od"
     id_to: "Do"

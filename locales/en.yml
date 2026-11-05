@@ -663,7 +663,7 @@ en:
     newentry: "new entry"
     newentry2: "+ entry"
     activeopt: "Entries are shown according to the following options:"
-    idsel: "Only entries with ID"
+    idsel: "Selected entries only"
     id_range: "ID range"
     id_from: "From"
     id_to: "To"

@@ -659,7 +659,7 @@ de:
     reports_old: "Frühere Liste der Einträge (Stand: 19.03.2021)"
     report_old_main: "Hauptverzeichnis "
     activeopt: "Einträge nach folgenden Optionen anzeigen: "
-    idsel: "nur Einträge mit id"
+    idsel: "Nur ausgewählte Einträge"
     id_range: "ID-Bereich"
     id_from: "Von"
     id_to: "Bis"

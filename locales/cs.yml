@@ -663,7 +663,7 @@ cs:
     newentry: "nové lemma"
     newentry2: "+ lemma"
     activeopt: "Zobrazena hesla na základě následujících voleb:"
-    idsel: "Pouze hesla s ID"
+    idsel: "Jen vybraná hesla"
     id_range: "Rozsah ID"
     id_from: "Od"
     id_to: "Do"
