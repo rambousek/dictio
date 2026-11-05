@@ -16,9 +16,8 @@ style type="text/css"
   | .report-filter-switch-btn:hover { background: rgba(255,255,255,.08); color: #fff; }
   | .report-filter-switch-btn.active { background: #03c9a9; color: #000; font-weight: 700; }
   | .report-filter-switch-btn[data-mode="off"].active { background: #444; color: #ddd; }
-  | .report-active-id-filter { display: flex; align-items: flex-start; gap: 6px; }
-  | .report-active-id-filter-label { flex: 1 1 auto; min-width: 0; }
-  | .report-active-id-filter-switch { margin-left: auto; }
+  | .report-id-selection { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
+  | .report-id-selection-label { font-weight: 600; }
   | .report-filter-submit { margin-top: 12px; width: 100%; }
   | .report-preset-button { display: inline-flex; align-items: center; gap: 5px; margin: 2px 3px 2px 0; padding: 4px 9px; border: 1px solid gray !important; border-radius: 4px; background: none !important; color: #fff !important; font-size: inherit; line-height: 1.3; font-weight: 600; text-decoration: none; cursor: pointer; box-shadow: 0 0 0 1px rgba(255,255,255,.08); transition: background-color .12s ease, border-color .12s ease, box-shadow .12s ease, transform .08s ease; }
   | .report-preset-button::before { content: "▶"; font-size: 9px; opacity: .85; }
@@ -43,7 +42,9 @@ style type="text/css"
   | .report-id-range-field label, .report-id-range-field input[type='number'] { display: block; width: 100%; box-sizing: border-box; }
   | #video-export-form input[type='checkbox'] { display: inline-block; width: auto; height: auto; margin: 0 .45em 10px 0; appearance: auto; -webkit-appearance: checkbox; accent-color: #03c9a9; vertical-align: middle; }
   | #video-export-form label { cursor: pointer; }
-  | #report-results-table .report-entry-select { display: inline-block; width: auto; height: auto; margin: 0; appearance: auto; -webkit-appearance: checkbox; accent-color: #03c9a9; cursor: pointer; }
+  | #report-results-table .report-entry-select { display: none; width: auto; height: auto; margin: 0; appearance: auto; -webkit-appearance: checkbox; accent-color: #03c9a9; cursor: pointer; }
+  | #report-results-table[data-idsf-mode="plus"] .report-entry-select { display: inline-block; }
+  | #report-results-table:not([data-idsf-mode="plus"]) .report-row-select-cell, #report-results-table:not([data-idsf-mode="plus"]) .report-row-select-heading { display: none; }
   | #report-results-table .report-row-select-cell { width: 1%; padding: 8px; text-align: center; vertical-align: top; }
     input[type='checkbox'] {display: none} 
     .col label { font-size: 0.85rem; }    
@@ -67,13 +68,6 @@ main role="main"
           div
             article.col.col--start role="article" style="display: block"
               h3 #{I18n.t("admin.activeopt")} 
-              - if @params['idsf'] 
-                div.report-active-id-filter
-                  div.report-active-id-filter-label
-                    | #{I18n.t("admin.idsel")}:
-                    div style="overflow-x: scroll; overflow-y: hidden; max-width: 170px;" #{@params['idsf']}
-                  div.report-filter-switch.report-active-id-filter-switch
-                    button#clear-selected-ids.report-filter-switch-btn type="button" data-mode="off" title="Zrušit výběr ID" aria-label="Zrušit výběr ID" X
               - if @params['id_from'].to_s != '' or @params['id_to'].to_s != ''
                 | #{I18n.t("admin.id_range")}:
                 div #{@params['id_from']} – #{@params['id_to']}
@@ -273,7 +267,10 @@ main role="main"
                 - filter_semantic_active = ['vyznamcszad','vyznamvid','vyznam','vyznamcs','usagecszad','usagevid','usage','usagecs'].any? { |p| @params[p] }
                 - filter_translation_active = ['translationcs','translationczj','translationen','translationasl','translationis','translationsj','translationspj','translationde','translationogs','translationuk','translationuzm','synonym','pubtranscs','pubtransczj','pubtransen','pubtransasl','pubtransis','pubtranssj','pubtransspj','pubtransde','pubtransogs','pubtransuk','pubtransuzm','pubsynonym'].any? { |p| @params[p] }
                 - filter_comments_active = @params['koment'] || @params['komentbox']
-                - filter_id_range_active = @params['id_from'].to_s != '' or @params['id_to'].to_s != ''
+                - idsf_mode = @params['idsf_mode'].to_s
+                - idsf_mode = 'plus' if @params['idsf'].to_s != ''
+                - idsf_mode = 'off' unless %w[plus minus off].include?(idsf_mode)
+                - filter_id_range_active = @params['id_from'].to_s != '' || @params['id_to'].to_s != '' || @params['idsf'].to_s != '' || @params['idsf_mode'].to_s != ''
                 form#report-filter-form onsubmit="applyReportFilters(event)" style="margin-top: 10px"
                   div.report-filter-list
                     .sub.report-filter-section
@@ -281,6 +278,12 @@ main role="main"
                         span.report-filter-arrow class="#{filter_id_range_active ? 'is-expanded' : ''}" >
                         span #{I18n.t("admin.id_range")}
                       div#idrange style="display: #{filter_id_range_active ? 'block' : 'none'}"
+                        div.report-id-selection
+                          span.report-id-selection-label #{I18n.t("admin.idsel")}
+                          div#idsf-mode-switch.report-filter-switch
+                            button.report-filter-switch-btn type="button" data-mode="plus" class="#{idsf_mode == 'plus' ? 'active' : ''}" aria-label="+" title="Zobrazit výběr ID" +
+                            button.report-filter-switch-btn type="button" data-mode="minus" class="#{idsf_mode == 'minus' ? 'active' : ''}" aria-label="−" title="Zrušit výběr ID" -
+                            button.report-filter-switch-btn type="button" data-mode="off" class="#{idsf_mode == 'off' ? 'active' : ''}" aria-label="X" title="Deaktivovat výběr ID" X
                         .report-dual-slider#id_range_slider
                           input#id_from_slider type="range" min=@id_range_min max=@id_range_max step="1" value=(@params['id_from'].to_s.empty? ? @id_range_min : @params['id_from']) aria-label=I18n.t("admin.id_from")
                           input#id_to_slider type="range" min=@id_range_min max=@id_range_max step="1" value=(@params['id_to'].to_s.empty? ? @id_range_max : @params['id_to']) aria-label=I18n.t("admin.id_to")
@@ -649,7 +652,7 @@ main role="main"
                     var url = new URL(window.location.href);
 
                     var filterParams = [
-                      'id_from', 'id_to', 'idsf',
+                      'id_from', 'id_to', 'idsf', 'idsf_mode',
                       'typhesla', 'seltyphesla', 'skup', 'def_skup[]',
                       'schvcelni', 'schvbocni', 'celni', 'bocni', 'bez_sw', 'nes_sw',
                       'mkok', 'sldruh', 'slovni_druh',
@@ -672,10 +675,17 @@ main role="main"
                       if (input.value !== '') url.searchParams.set(param, input.value);
                     });
 
-                    var selectedEntryIds = Array.from(document.querySelectorAll('.report-entry-select:checked'))
-                      .map(function(check) { return check.value; });
-                    if (selectedEntryIds.length) {
-                      url.searchParams.set('idsf', selectedEntryIds.join(','));
+                    var idsfModeButton = document.querySelector('#idsf-mode-switch .report-filter-switch-btn.active');
+                    var idsfMode = idsfModeButton ? idsfModeButton.dataset.mode : 'off';
+                    if (idsfMode === 'plus') {
+                      var selectedEntryIds = Array.from(document.querySelectorAll('.report-entry-select:checked'))
+                        .map(function(check) { return check.value; });
+                      if (selectedEntryIds.length) {
+                        url.searchParams.set('idsf', selectedEntryIds.join(','));
+                      }
+                      url.searchParams.set('idsf_mode', 'plus');
+                    } else if (idsfMode === 'minus') {
+                      url.searchParams.set('idsf_mode', 'minus');
                     }
 
                     var selected = form.querySelectorAll('.report-filter-check:checked');
@@ -806,9 +816,9 @@ main role="main"
               | #{I18n.t("admin.dups_warn")} (#{@duplicate['duplicate'].select{|info| info['code'] == @dictcode}[0]['count']}). 
               a href="https://admin.dictio.info/#{@dictcode}/duplicate" #{I18n.t("admin.show")} 
     
-          table#report-results-table.table.table--no-margin.report-table.report-results data-resultcount=@report['resultcount']
+          table#report-results-table.table.table--no-margin.report-table.report-results data-resultcount=@report['resultcount'] data-idsf-mode=idsf_mode
             tr class="btn-#{@dictcode}"
-              th
+              th.report-row-select-heading
               th width="10%" #{I18n.t("home.entries")}: #{@report['resultcount']}
               th
               - if @params['komentbox']

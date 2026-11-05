@@ -47,10 +47,18 @@ $( document ).ready(function() {
     document.getElementById('video-export-dialog').close();
   });
 
-  $('#clear-selected-ids').on('click', function() {
-    var url = new URL(window.location.href);
-    url.searchParams.delete('idsf');
-    window.location.href = url.pathname + (url.search ? url.search : '');
+  $('#idsf-mode-switch .report-filter-switch-btn').on('click', function() {
+    var mode = this.dataset.mode;
+    var table = document.getElementById('report-results-table');
+    $('#idsf-mode-switch .report-filter-switch-btn').each(function() {
+      this.classList.toggle('active', this.dataset.mode === mode);
+    });
+    table.dataset.idsfMode = mode;
+    if (mode !== 'plus') {
+      document.querySelectorAll('.report-entry-select').forEach(function(checkbox) {
+        checkbox.checked = false;
+      });
+    }
   });
 
   $('#video-export-start').on('click', function() {
