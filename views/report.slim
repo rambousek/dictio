@@ -725,12 +725,12 @@ main role="main"
               a.btn style="background-color: gray; margin-left: auto; margin-right: auto" href="/#{@dictcode}/csvreport?#{@params.map{|k,v| (k=='def_skup'?"def_skup[]=#{v[0]}":"#{k}=#{v}")}.join('&')}" CSV export
               a#json-export-btn.btn style="background-color: gray; margin-left: auto; margin-right: auto; cursor: pointer" data-query="#{@params.map{|k,v| (k=='def_skup'?"def_skup[]=#{v[0]}":"#{k}=#{v}")}.join('&')}" onclick="startJsonExport()" JSON export
               - if @dict_info[@dictcode]['type'] == 'sign' and @user_info and @user_info['admin']
-                button#video-export-open.btn type="button" style="background-color: gray; margin-left: auto; margin-right: auto" onclick="document.getElementById('video-export-dialog').showModal()" = I18n.t("video_export.button")
+                button#video-export-open.btn type="button" style="background-color: gray; margin-left: auto; margin-right: auto" = I18n.t("video_export.button")
                 dialog#video-export-dialog
-                  form#video-export-form method="dialog"
+                  form#video-export-form data-start-url="/#{@dictcode}/video-export/start" data-status-url="/#{@dictcode}/export/status/" data-download-url="/#{@dictcode}/export/download/" data-message-preparing=I18n.t("video_export.preparing") data-message-processing=I18n.t("video_export.processing") data-message-ready=I18n.t("video_export.ready") data-message-failed=I18n.t("video_export.failed") data-message-size-limit=I18n.t("video_export.size_limit_exceeded") data-message-estimated-size-limit=I18n.t("video_export.estimated_size_limit_exceeded") data-message-video-count-limit=I18n.t("video_export.video_count_limit_exceeded")
                     h3 = I18n.t("video_export.title")
                     input type="hidden" name="csrf_token" value=csrf_token
-                    input#video-export-filters type="hidden" value=Rack::Utils.build_query(@params)
+                    input type="hidden" name="filters" value=Rack::Utils.build_query(@params)
                     label
                       input type="checkbox" name="front" value="1"
                       = I18n.t("video_export.front")
@@ -750,12 +750,11 @@ main role="main"
                       input type="checkbox" name="examples" value="1"
                       = I18n.t("video_export.examples")
                     div style="display: flex; gap: .5em; margin-top: 1em"
-                      button.btn type="button" onclick="startVideoExport()" = I18n.t("video_export.start")
-                      button.btn type="button" onclick="document.getElementById('video-export-dialog').close()" = I18n.t("video_export.cancel")
+                      button#video-export-start.btn type="button" = I18n.t("video_export.start")
+                      button#video-export-cancel.btn type="button" = I18n.t("video_export.cancel")
                     p#video-export-status role="status" aria-live="polite" style="display: none; margin-top: .75em"
               javascript:
                 var exportPollTimer = null;
-                var videoExportPollTimer = null;
                 function startJsonExport() {
                   var btn = document.getElementById('json-export-btn');
                   if (btn.dataset.running) return;
@@ -785,68 +784,6 @@ main role="main"
                     })
                     .catch(fail);
                 }
-                function startVideoExport() {
-                  var dialog = document.getElementById('video-export-dialog');
-                  var form = document.getElementById('video-export-form');
-                  var button = form.querySelector('button[onclick="startVideoExport()"]');
-                  var status = document.getElementById('video-export-status');
-                  if (button.disabled) return;
-                  button.disabled = true;
-                  status.textContent = #{I18n.t("video_export.preparing").to_json};
-                  status.style.display = 'block';
-                  var body = new URLSearchParams(new FormData(form));
-                  body.set('filters', document.getElementById('video-export-filters').value);
-                  fetch('/#{@dictcode}/video-export/start', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                    body: body
-                  })
-                    .then(function(r) {
-                      if (!r.ok) throw new Error('HTTP ' + r.status);
-                      return r.json();
-                    })
-                    .then(function(job) {
-                      status.textContent = #{I18n.t("video_export.processing").to_json};
-                      var tries = 0;
-                      videoExportPollTimer = setInterval(function() {
-                        tries += 1;
-                        if (tries > 600) {
-                          clearInterval(videoExportPollTimer);
-                          button.disabled = false;
-                          status.textContent = #{I18n.t("video_export.failed").to_json};
-                          return;
-                        }
-                        fetch('/#{@dictcode}/export/status/' + job.id)
-                          .then(function(r) { if (!r.ok) throw 0; return r.json(); })
-                          .then(function(st) {
-                            if (st.status === 'done') {
-                              clearInterval(videoExportPollTimer);
-                              status.textContent = #{I18n.t("video_export.ready").to_json};
-                              dialog.close();
-                              button.disabled = false;
-                              window.location = '/#{@dictcode}/export/download/' + job.id;
-                            } else if (st.status !== 'running') {
-                              clearInterval(videoExportPollTimer);
-                              button.disabled = false;
-                              var message = st.error === 'size_limit' ? #{I18n.t("video_export.size_limit_exceeded").to_json} :
-                                (st.error === 'estimated_size_limit' ? #{I18n.t("video_export.estimated_size_limit_exceeded").to_json} :
-                                (st.error === 'video_count_limit' ? #{I18n.t("video_export.video_count_limit_exceeded").to_json} : #{I18n.t("video_export.failed").to_json}));
-                              status.textContent = message;
-                            }
-                          })
-                          .catch(function() {
-                            clearInterval(videoExportPollTimer);
-                            button.disabled = false;
-                            status.textContent = #{I18n.t("video_export.failed").to_json};
-                          });
-                      }, 3000);
-                    })
-                    .catch(function(error) {
-                      button.disabled = false;
-                      status.textContent = #{I18n.t("video_export.failed").to_json} + ' (' + error.message + ')';
-                    });
-                }
-
         .col.col--2.col--start.layout-aside-admin 
 
           - if @duplicate['duplicate'].select{|info| info['code'] == @dictcode}.size > 0

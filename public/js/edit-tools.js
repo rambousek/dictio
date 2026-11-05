@@ -3,6 +3,8 @@
    keep public-site code in dictio.js instead. */
 
 $( document ).ready(function() {
+  var videoExportPollTimer = null;
+
   /* add comment on notrans */
   $('.notranscomment').click(function(event) {
     console.log($(this))
@@ -35,6 +37,88 @@ $( document ).ready(function() {
         $('.load_next_report').hide();
       }
     });
+  });
+
+  $('#video-export-open').on('click', function() {
+    document.getElementById('video-export-dialog').showModal();
+  });
+
+  $('#video-export-cancel').on('click', function() {
+    document.getElementById('video-export-dialog').close();
+  });
+
+  $('#video-export-start').on('click', function() {
+    var form = document.getElementById('video-export-form');
+    var dialog = document.getElementById('video-export-dialog');
+    var status = document.getElementById('video-export-status');
+    var startButton = document.getElementById('video-export-start');
+    var cancelButton = document.getElementById('video-export-cancel');
+    if (!form || startButton.disabled) return;
+
+    var messages = form.dataset;
+    var setStatus = function(message) {
+      status.textContent = message;
+      status.style.display = 'block';
+    };
+    var setBusy = function(busy) {
+      startButton.disabled = busy;
+      cancelButton.disabled = busy;
+    };
+    var fail = function(message) {
+      clearInterval(videoExportPollTimer);
+      setBusy(false);
+      setStatus(message);
+    };
+
+    setBusy(true);
+    setStatus(messages.messagePreparing);
+
+    fetch(form.dataset.startUrl, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: new URLSearchParams(new FormData(form))
+    })
+      .then(function(response) {
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        return response.json();
+      })
+      .then(function(job) {
+        setStatus(messages.messageProcessing);
+        var tries = 0;
+        videoExportPollTimer = setInterval(function() {
+          tries += 1;
+          if (tries > 600) {
+            fail(messages.messageFailed);
+            return;
+          }
+
+          fetch(form.dataset.statusUrl + job.id)
+            .then(function(response) {
+              if (!response.ok) throw new Error('HTTP ' + response.status);
+              return response.json();
+            })
+            .then(function(result) {
+              if (result.status === 'done') {
+                clearInterval(videoExportPollTimer);
+                setStatus(messages.messageReady);
+                dialog.close();
+                setBusy(false);
+                window.location = form.dataset.downloadUrl + job.id;
+              } else if (result.status !== 'running') {
+                var errorMessage = result.error === 'size_limit' ? messages.messageSizeLimit :
+                  (result.error === 'estimated_size_limit' ? messages.messageEstimatedSizeLimit :
+                  (result.error === 'video_count_limit' ? messages.messageVideoCountLimit : messages.messageFailed));
+                fail(errorMessage);
+              }
+            })
+            .catch(function(error) {
+              fail(messages.messageFailed + ' (' + error.message + ')');
+            });
+        }, 3000);
+      })
+      .catch(function(error) {
+        fail(messages.messageFailed + ' (' + error.message + ')');
+      });
   });
 
   // load all report results
