@@ -16,8 +16,6 @@ style type="text/css"
   | .report-filter-switch-btn:hover { background: rgba(255,255,255,.08); color: #fff; }
   | .report-filter-switch-btn.active { background: #03c9a9; color: #000; font-weight: 700; }
   | .report-filter-switch-btn[data-mode="off"].active { background: #444; color: #ddd; }
-  | .report-id-selection { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
-  | .report-id-selection-label { font-weight: 600; }
   | .report-filter-submit { margin-top: 12px; width: 100%; }
   | .report-preset-button { display: inline-flex; align-items: center; gap: 5px; margin: 2px 3px 2px 0; padding: 4px 9px; border: 1px solid gray !important; border-radius: 4px; background: none !important; color: #fff !important; font-size: inherit; line-height: 1.3; font-weight: 600; text-decoration: none; cursor: pointer; box-shadow: 0 0 0 1px rgba(255,255,255,.08); transition: background-color .12s ease, border-color .12s ease, box-shadow .12s ease, transform .08s ease; }
   | .report-preset-button::before { content: "▶"; font-size: 9px; opacity: .85; }
@@ -288,8 +286,9 @@ main role="main"
                           .report-id-range-field
                             label for="id_to" #{I18n.t("admin.id_to")}
                             input#id_to type="number" min=@id_range_min max=@id_range_max step="1" value=@params['id_to']
-                        div.report-id-selection
-                          span.report-id-selection-label #{I18n.t("admin.idsel")}
+                        div.report-filter-row style="display: flex; align-items: center; gap: 6px; margin: 3px 0"
+                          label.report-filter-label
+                            span #{I18n.t("admin.idsel")}
                           div#idsf-mode-switch.report-filter-switch
                             button.report-filter-switch-btn type="button" data-mode="plus" class="#{idsf_mode == 'plus' ? 'active' : ''}" aria-label="+" title="Zobrazit výběr ID" +
                             button.report-filter-switch-btn type="button" data-mode="minus" class="#{idsf_mode == 'minus' ? 'active' : ''}" aria-label="−" title="Zrušit výběr ID" -
