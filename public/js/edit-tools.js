@@ -76,6 +76,11 @@ $( document ).ready(function() {
     $(this).hide();
   });
 
+  $('#show-new-wordlist').click(function() {
+    $('#new-wordlist-form').show().find('[name=name]').trigger('focus');
+    $(this).hide();
+  });
+
   $('#edit-wordlist-name').click(function() {
     var form = $('#wordlist-name-form');
     var isVisible = form.is(':visible');
