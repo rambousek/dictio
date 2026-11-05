@@ -18,7 +18,7 @@ $dict_info = {
   'lse' => {'type' => 'sign', 'label'=>'LSE', 'search_in'=>'es', 'target'=>'es', 'pos'=>pos_sign, 'stylpriznak'=>stylpriznak_sign},
 }
 $fsw_style = '-CG_white_'
-$app_version = '7.2'
+$app_version = '7.3'
 
 # short hash of the deployed commit, shown in the footer; nil outside a git checkout
 $app_commit = begin
