@@ -52,10 +52,10 @@ main role="main"
         p role="status" = I18n.t("wordlists.batch_result", added: params['added'].to_i, duplicate: params['duplicate'].to_i, missing: params['missing'].to_i, invalid: params['invalid'].to_i)
       form action="/wordlists/#{@wordlist['_id']}/entries" method="post"
         input type="hidden" name="csrf_token" value=csrf_token
-        p
+        div.wordlist-add-entry-controls
           input#entry-id.wordlist-entry-id type="text" name="entry_id" placeholder=I18n.t("wordlists.entry_id") aria-label=I18n.t("wordlists.entry_id") required=true aria-describedby="entry-id-help"
-          small#entry-id-help = I18n.t("wordlists.entry_ids_help")
-        button.btn type="submit" = I18n.t("wordlists.add")
+          button.btn type="submit" = I18n.t("wordlists.add")
+        small#entry-id-help = I18n.t("wordlists.entry_ids_help")
       - if @entries.empty?
         p = I18n.t("wordlists.no_entries")
       - else

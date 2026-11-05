@@ -89,6 +89,26 @@ video.czj {
   opacity: 1;
 }
 
+.wordlist-add-entry-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.wordlist-add-entry-controls input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.wordlist-add-entry-controls button {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.wordlist-add-entry-controls + small {
+  display: block;
+}
+
 .wordlist-entry-row {
   display: flex;
   align-items: center;
