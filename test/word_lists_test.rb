@@ -147,6 +147,27 @@ class WordListsTest < AppTest
     assert_equal 1, service.find_owned(list_id, USER["login"])["entries"].size
   end
 
+  def test_multiple_entries_can_be_added_from_comma_separated_ids
+    login
+    list_id = create_wordlist
+
+    edit_get "/wordlists/#{list_id}"
+    token = csrf_token_from_response
+    edit_post "/wordlists/#{list_id}/entries",
+              entry_id: "3881, 3881, missing-id", csrf_token: token
+
+    assert last_response.redirect?
+    assert_includes last_response.location, "added=1"
+    assert_includes last_response.location, "duplicate=1"
+    assert_includes last_response.location, "missing=1"
+    assert_equal [{"dict" => "cs", "id" => "3881"}],
+                 CzjWordLists.new.find_owned(list_id, USER["login"])["entries"]
+    edit_get last_response.location
+    assert_includes last_response.body, I18n.t(
+      "wordlists.batch_result", added: 1, duplicate: 1, missing: 1, invalid: 0
+    )
+  end
+
   def test_wordlist_mutations_require_csrf
     login
 
@@ -164,7 +185,7 @@ class WordListsTest < AppTest
     edit_post "/wordlists/#{list_id}/entries", entry_id: "38", csrf_token: token
 
     assert_empty CzjWordLists.new.find_owned(list_id, USER["login"])["entries"]
-    assert_includes last_response.location, "error=entry_not_found"
+    assert_includes last_response.location, "missing=1"
   end
 
   def test_private_wordlist_is_not_public_and_other_users_cannot_own_it

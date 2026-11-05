@@ -189,6 +189,8 @@ ua:
     confirm_delete: "Ви впевнені, що хочете видалити цей словник?"
     entries: "Словникові статті"
     entry_id: "ID статті"
+    entry_ids_help: "Розділяйте кілька ID комами."
+    batch_result: "Додано: %{added}; дублікати: %{duplicate}; не знайдено: %{missing}; недійсні ID: %{invalid}."
     add_to: "Додати до словника"
     create_first: "Створити словник"
     entry_added: "Статтю додано до словника."

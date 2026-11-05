@@ -189,6 +189,8 @@ cs:
     confirm_delete: "Opravdu chcete slovníček smazat?"
     entries: "Hesla"
     entry_id: "ID hesla"
+    entry_ids_help: "Více ID oddělte čárkou."
+    batch_result: "Přidáno: %{added}; duplicitních: %{duplicate}; nenalezených: %{missing}; neplatných ID: %{invalid}."
     add_to: "Přidat do slovníčku"
     create_first: "Vytvořit slovníček"
     entry_added: "Heslo bylo přidáno do slovníčku."

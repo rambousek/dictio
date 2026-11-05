@@ -18,26 +18,27 @@ main role="main"
         p role="alert" = I18n.t("wordlists.errors.#{@wordlist_error}", default: I18n.t("wordlists.invalid"))
       p
         | #{I18n.t("wordlists.dictionary")}: #{I18n.t("dict.#{@wordlist['dict']}")}
-      form action="/wordlists/#{@wordlist['_id']}/update" method="post"
-        input type="hidden" name="csrf_token" value=csrf_token
-        h2 = I18n.t("wordlists.settings")
-        p
-          label for="wordlist-sort" = I18n.t("wordlists.sort")
-          select#wordlist-sort name="sort_mode"
-            - CzjWordLists::SORT_MODES.each do |mode|
-              option value=mode selected=(mode == @wordlist['sort_mode']) = I18n.t("wordlists.sort_modes.#{mode}")
-        p
-          label for="wordlist-second-language" = I18n.t("wordlists.second_language")
-          select#wordlist-second-language name="second_language"
-            - %w[none all].each do |mode|
-              option value=mode selected=(mode == (@wordlist['second_language'] || CzjWordLists::SECOND_LANGUAGE_ALL)) = I18n.t("wordlists.second_language_modes.#{mode}")
-            - @dict_info.each do |code, _info|
-              option value=code selected=(code == @wordlist['second_language']) = I18n.t("dict.#{code}")
-        p
-          label
-            input type="checkbox" name="is_public" value="true" checked=@wordlist['is_public']
-            = I18n.t("wordlists.public_toggle")
-        button.btn type="submit" = I18n.t("wordlists.save")
+      details.wordlist-settings
+        summary = I18n.t("wordlists.settings")
+        form action="/wordlists/#{@wordlist['_id']}/update" method="post"
+          input type="hidden" name="csrf_token" value=csrf_token
+          p
+            label for="wordlist-sort" = I18n.t("wordlists.sort")
+            select#wordlist-sort name="sort_mode"
+              - CzjWordLists::SORT_MODES.each do |mode|
+                option value=mode selected=(mode == @wordlist['sort_mode']) = I18n.t("wordlists.sort_modes.#{mode}")
+          p
+            label for="wordlist-second-language" = I18n.t("wordlists.second_language")
+            select#wordlist-second-language name="second_language"
+              - %w[none all].each do |mode|
+                option value=mode selected=(mode == (@wordlist['second_language'] || CzjWordLists::SECOND_LANGUAGE_ALL)) = I18n.t("wordlists.second_language_modes.#{mode}")
+              - @dict_info.each do |code, _info|
+                option value=code selected=(code == @wordlist['second_language']) = I18n.t("dict.#{code}")
+          p
+            label
+              input type="checkbox" name="is_public" value="true" checked=@wordlist['is_public']
+              = I18n.t("wordlists.public_toggle")
+          button.btn type="submit" = I18n.t("wordlists.save")
       - if @wordlist['is_public']
         p
           | #{I18n.t("wordlists.share_link")}:
@@ -47,11 +48,14 @@ main role="main"
         button.btn.btn--secondary type="submit" = I18n.t("wordlists.delete")
       hr
       h2 = I18n.t("wordlists.entries")
+      - if params['added'] || params['duplicate'] || params['missing'] || params['invalid']
+        p role="status" = I18n.t("wordlists.batch_result", added: params['added'].to_i, duplicate: params['duplicate'].to_i, missing: params['missing'].to_i, invalid: params['invalid'].to_i)
       form action="/wordlists/#{@wordlist['_id']}/entries" method="post"
         input type="hidden" name="csrf_token" value=csrf_token
         p
           label for="entry-id" = I18n.t("wordlists.entry_id")
-          input#entry-id type="text" name="entry_id" required=true
+          input#entry-id type="text" name="entry_id" required=true aria-describedby="entry-id-help"
+          small#entry-id-help = I18n.t("wordlists.entry_ids_help")
         button.btn type="submit" = I18n.t("wordlists.add")
       - if @entries.empty?
         p = I18n.t("wordlists.no_entries")

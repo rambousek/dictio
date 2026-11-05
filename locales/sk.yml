@@ -189,6 +189,8 @@ sk:
     confirm_delete: "Naozaj chcete slovníček zmazať?"
     entries: "Heslá"
     entry_id: "ID hesla"
+    entry_ids_help: "Viacero ID oddeľte čiarkou."
+    batch_result: "Pridané: %{added}; duplicitné: %{duplicate}; nenájdené: %{missing}; neplatné ID: %{invalid}."
     add_to: "Pridať do slovníčka"
     create_first: "Vytvoriť slovníček"
     entry_added: "Heslo bolo pridané do slovníčka."

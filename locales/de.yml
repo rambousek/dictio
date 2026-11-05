@@ -189,6 +189,8 @@ de:
     confirm_delete: "Möchten Sie diese Wortliste wirklich löschen?"
     entries: "Einträge"
     entry_id: "Eintrags-ID"
+    entry_ids_help: "Mehrere IDs durch Kommas trennen."
+    batch_result: "Hinzugefügt: %{added}; Duplikate: %{duplicate}; nicht gefunden: %{missing}; ungültige IDs: %{invalid}."
     add_to: "Zur Wortliste hinzufügen"
     create_first: "Wortliste erstellen"
     entry_added: "Der Eintrag wurde zur Wortliste hinzugefügt."

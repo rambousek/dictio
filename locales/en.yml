@@ -189,6 +189,8 @@ en:
     confirm_delete: "Are you sure you want to delete this wordlist?"
     entries: "Entries"
     entry_id: "Entry ID"
+    entry_ids_help: "Separate multiple IDs with commas."
+    batch_result: "Added: %{added}; duplicates: %{duplicate}; not found: %{missing}; invalid IDs: %{invalid}."
     add_to: "Add to wordlist"
     create_first: "Create a wordlist"
     entry_added: "The entry was added to the wordlist."

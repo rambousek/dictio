@@ -132,6 +132,18 @@ class CzjWordLists
     :added
   end
 
+  def add_entries(id, owner_login, entry_ids)
+    return nil unless find_owned(id, owner_login)
+
+    ids = entry_ids.to_s.split(",", -1).map(&:strip).reject(&:empty?)
+    results = Hash.new(0)
+    ids = [""] if ids.empty?
+    ids.each do |entry_id|
+      results[add_entry(id, owner_login, entry_id)] += 1
+    end
+    results
+  end
+
   def remove_entry(id, owner_login, entry_id)
     wordlist = find_owned(id, owner_login)
     return false unless wordlist

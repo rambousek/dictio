@@ -189,6 +189,8 @@ es:
     confirm_delete: "¿Seguro que quieres eliminar esta lista?"
     entries: "Entradas"
     entry_id: "ID de la entrada"
+    entry_ids_help: "Separa varios ID con comas."
+    batch_result: "Añadidas: %{added}; duplicadas: %{duplicate}; no encontradas: %{missing}; ID no válidos: %{invalid}."
     add_to: "Añadir a la lista"
     create_first: "Crear una lista"
     entry_added: "La entrada se añadió a la lista."

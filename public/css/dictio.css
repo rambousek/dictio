@@ -72,6 +72,16 @@ video.czj {
   padding: 4px;
 }
 
+.wordlist-settings {
+  margin: 1rem 0;
+}
+
+.wordlist-settings summary {
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
 .wordlist-entry-row {
   display: flex;
   align-items: center;

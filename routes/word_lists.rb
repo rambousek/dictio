@@ -94,16 +94,15 @@ class CzjApp < Sinatra::Base
   post '/wordlists/:id/entries' do
     require_word_lists_host!
     verify_csrf_token!
-    result = word_lists.add_entry(params['id'], @user_info['login'], params['entry_id'])
-    error = case result
-            when :added then nil
-            when :duplicate then 'duplicate'
-            when :entry_not_found then 'entry_not_found'
-            when :invalid_id then 'invalid_id'
-            else 'not_found'
-            end
-    suffix = error ? "?error=#{error}" : ''
-    redirect "/wordlists/#{params['id']}#{suffix}"
+    results = word_lists.add_entries(params['id'], @user_info['login'], params['entry_id'])
+    halt 404 unless results
+    query = {
+      "added" => results[:added],
+      "duplicate" => results[:duplicate],
+      "missing" => results[:entry_not_found],
+      "invalid" => results[:invalid_id]
+    }
+    redirect "/wordlists/#{params['id']}?#{Rack::Utils.build_query(query)}"
   end
 
   post '/wordlists/:id/entries/:entry_id/remove' do
