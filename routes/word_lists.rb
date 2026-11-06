@@ -73,6 +73,9 @@ class CzjApp < Sinatra::Base
     @wordlist = word_lists.find_accessible(params['id'], @user_info['login'])
     halt 404 unless @wordlist
     @wordlist_owner = word_lists.owned_by?(@wordlist, @user_info['login'])
+    owner = $mongo["users"].find({"login" => @wordlist["owner_login"]}).first
+    @wordlist_owner_name = owner && owner["name"].to_s.strip
+    @wordlist_owner_name = @wordlist["owner_login"] if @wordlist_owner_name.to_s.empty?
     prepare_word_lists_page(@wordlist['dict'])
     @entries = word_lists.entries_for(@wordlist)
     @wordlist_error = params['error']

@@ -217,7 +217,8 @@ class WordListsTest < AppTest
 
     edit_get "/wordlists/#{wordlist['_id']}"
     assert_predicate last_response, :ok?
-    assert_includes last_response.body, I18n.t("wordlists.shared_with_you")
+    refute_includes last_response.body, I18n.t("wordlists.shared_with_you")
+    assert_includes last_response.body, I18n.t("wordlists.owner_info", name: USER["name"])
     refute_includes last_response.body, "/sharing"
     refute_includes last_response.body, "/transfer"
     refute_includes last_response.body, "/delete"
