@@ -26,6 +26,7 @@ class WordListsTest < AppTest
   COLLABORATOR = USER.merge(
     "login" => "wordlist-collaborator",
     "password" => COLLABORATOR_PASSWORD.crypt("ab"),
+    "name" => "Collaborator User",
     "email" => "wordlist-collaborator@example.test"
   ).freeze
 
@@ -92,6 +93,7 @@ class WordListsTest < AppTest
 
     assert_predicate last_response, :ok?
     assert_includes last_response.body, COLLABORATOR["login"]
+    assert_includes last_response.body, COLLABORATOR["name"]
     refute_includes last_response.body, USER["login"]
     refute_includes last_response.body, USER["name"]
     refute_includes last_response.body, "password"
