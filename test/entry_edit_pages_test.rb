@@ -129,6 +129,9 @@ class EntryEditPagesTest < AppTest
       assert_includes last_response.body, 'action="/wordlists/add-entry"'
       assert_includes last_response.body, 'href="/wordlists?create=true"'
       assert_includes last_response.body, I18n.t("wordlists.show")
+      wordlist_controls_index = last_response.body.index('<section class="container wordlist-entry-tools"')
+      assert wordlist_controls_index
+      assert_operator last_response.body.index("</article>"), :<, wordlist_controls_index
     ensure
       $mongo.load("wordlists", []) # standard:disable Style/GlobalVars
     end

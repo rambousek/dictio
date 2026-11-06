@@ -61,7 +61,20 @@ video.czj {
 }
 
 .wordlist-entry-tools {
-  font-size: 0.875rem;
+  margin: 30px auto 0;
+  padding: 18px 22px;
+  border-radius: 12px;
+  background: var(--zakladni-text-cerna1);
+  color: var(--zakladni-bila);
+  font-size: 0.75rem;
+}
+
+.wordlist-entry-tools p {
+  color: var(--zakladni-bila);
+}
+
+.wordlist-entry-tools label {
+  color: var(--zakladni-bila);
 }
 
 .wordlist-entry-tools-layout,
@@ -101,6 +114,12 @@ video.czj {
 
 .wordlist-entry-tool-links {
   margin-left: auto;
+}
+
+@media (max-width: 700px) {
+  .wordlist-entry-tools {
+    padding: 14px;
+  }
 }
 
 .wordlist-title {
@@ -750,4 +769,3 @@ body:not(.has-quotable) .quote-part-link { display: none !important; }
   white-space: nowrap;
   color: white;
 }
-
