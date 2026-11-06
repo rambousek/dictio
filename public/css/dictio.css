@@ -70,11 +70,11 @@ video.czj {
 }
 
 .wordlist-entry-tools p {
-  color: var(--zakladni-bila);
+  color: var(--zakladni-cerna);
 }
 
 .wordlist-entry-tools label {
-  color: var(--zakladni-bila);
+  color: var(--zakladni-cerna);
 }
 
 .wordlist-entry-tools-layout,
