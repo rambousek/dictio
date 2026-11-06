@@ -23,6 +23,7 @@ class CzjApp < Sinatra::Base
     prepare_word_lists_page(@default_dict)
     @wordlists = word_lists.list_for(@user_info['login'])
     @wordlist_error = params['error']
+    @show_new_wordlist_form = params['create'] == 'true'
     slim :wordlists
   end
 

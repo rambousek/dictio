@@ -60,6 +60,49 @@ video.czj {
   padding-left: 0;
 }
 
+.wordlist-entry-tools {
+  font-size: 0.875rem;
+}
+
+.wordlist-entry-tools-layout,
+.wordlist-add-entry-form,
+.wordlist-entry-tool-links {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.wordlist-add-entry-form {
+  flex: 1 1 320px;
+  margin: 0;
+}
+
+.wordlist-add-entry-field {
+  display: flex;
+  flex: 1 1 220px;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.wordlist-add-entry-field select {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+}
+
+.wordlist-add-entry-form button,
+.wordlist-entry-tool-links .btn {
+  flex: 0 0 auto;
+  font-size: inherit;
+  white-space: nowrap;
+}
+
+.wordlist-entry-tool-links {
+  margin-left: auto;
+}
+
 .wordlist-title {
   display: flex;
   align-items: center;
@@ -548,4 +591,8 @@ body:not(.has-quotable) .quote-part-link { display: none !important; }
   text-decoration: none;
   white-space: nowrap;
   color: white;
+}
+
+#mobilespacetop {
+  background: var(--zakladni-seda1);
 }

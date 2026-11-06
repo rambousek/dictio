@@ -69,6 +69,16 @@ class WordListsTest < AppTest
     assert_includes last_response.location, "/login"
   end
 
+  def test_create_query_opens_wordlist_creation_form
+    login
+
+    edit_get "/wordlists?create=true"
+
+    assert last_response.ok?
+    assert_includes last_response.body, 'id="new-wordlist-form"'
+    refute_match(/id="new-wordlist-form"[^>]*display:\s*none/, last_response.body)
+  end
+
   def test_owner_can_create_add_sort_and_remove_entries
     login
     list_id = create_wordlist
@@ -136,6 +146,8 @@ class WordListsTest < AppTest
 
     edit_get "/cs/show/3881?wordlist_added=true"
     assert_includes last_response.body, I18n.t("wordlists.entry_added")
+    assert_includes last_response.body, 'href="/wordlists?create=true"'
+    assert_includes last_response.body, I18n.t("menu.wordlists")
   end
 
   def test_duplicate_entry_is_only_stored_once

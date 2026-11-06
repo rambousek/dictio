@@ -14,9 +14,9 @@ main role="main"
               |  (#{I18n.t("dict.#{wordlist['dict']}")})
               - if wordlist['is_public']
                 |  · #{I18n.t("wordlists.public")}
-      - unless @wordlist_error == 'invalid'
+      - unless @wordlist_error == 'invalid' || @show_new_wordlist_form
         button.btn#show-new-wordlist type="button" = I18n.t("wordlists.create")
-      form#new-wordlist-form action="/wordlists" method="post" style=("display: none" unless @wordlist_error == 'invalid')
+      form#new-wordlist-form action="/wordlists" method="post" style=("display: none" unless @wordlist_error == 'invalid' || @show_new_wordlist_form)
         input type="hidden" name="csrf_token" value=csrf_token
         p
           label for="wordlist-name" = I18n.t("wordlists.name")
