@@ -336,17 +336,19 @@ class WordListsTest < AppTest
     edit_get "/cs/show/3881?wordlist_added=true"
     assert_includes last_response.body, I18n.t("wordlists.entry_added")
     assert_includes last_response.body, 'href="/wordlists?create=true"'
-    assert_includes last_response.body, 'href="/wordlists"'
+    assert_includes last_response.body, "href=\"/wordlists/#{list_id}\""
     assert_includes last_response.body, I18n.t("wordlists.show")
   end
 
-  def test_wordlist_link_is_disabled_when_user_has_no_wordlists
+  def test_wordlist_link_leads_to_overview_when_no_list_exists_for_current_dictionary
     login
 
+    other_dict_list_id = create_wordlist(name: "Other dictionary", dict: "czj")
     edit_get "/cs/show/3881"
 
-    assert_includes last_response.body, "disabled"
-    assert_includes last_response.body, I18n.t("wordlists.show")
+    assert_includes last_response.body, "href=\"/wordlists\""
+    assert_includes last_response.body, I18n.t("wordlists.title")
+    refute_includes last_response.body, "href=\"/wordlists/#{other_dict_list_id}\""
   end
 
   def test_duplicate_entry_is_only_stored_once

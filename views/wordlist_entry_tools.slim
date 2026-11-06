@@ -1,6 +1,5 @@
 - wordlist_service = CzjWordLists.new
 - entry_wordlists = wordlist_service.list_for(@user_info['login'], @show_dictcode)
-- has_wordlists = wordlist_service.list_for(@user_info['login']).any?
 section.container.wordlist-entry-tools role="region"
   - if @wordlist_added
     p role="status" = I18n.t("wordlists.entry_added")
@@ -14,13 +13,13 @@ section.container.wordlist-entry-tools role="region"
         input type="hidden" name="entry_id" value=@entry['id']
         div.wordlist-add-entry-field
           label for="wordlist-select" = I18n.t("wordlists.add_to")
-          select#wordlist-select name="wordlist_id"
+          select#wordlist-select.wordlist-select name="wordlist_id" data-wordlist-select="true"
             - entry_wordlists.each do |wordlist|
-              option value=wordlist['_id'] = wordlist['name']
+              option value=wordlist['_id'] data-wordlist-url="/wordlists/#{wordlist['_id']}" = wordlist['name']
         button.btn type="submit" = I18n.t("wordlists.add")
     nav.wordlist-entry-tool-links aria-label=I18n.t("wordlists.title")
       a.btn.btn--secondary href="/wordlists?create=true" = I18n.t("wordlists.create")
-      - if has_wordlists
-        a.btn.btn--secondary href="/wordlists" = I18n.t("wordlists.show")
+      - unless entry_wordlists.empty?
+        a.btn.btn--secondary.wordlist-show-link href="/wordlists/#{entry_wordlists.first['_id']}" = I18n.t("wordlists.show")
       - else
-        button.btn.btn--secondary type="button" disabled=true = I18n.t("wordlists.show")
+        a.btn.btn--secondary href="/wordlists" = I18n.t("wordlists.title")

@@ -294,6 +294,12 @@ $( document ).ready(function() {
     }
   });
 
+  $(document).on('change', '[data-wordlist-select]', function() {
+    var selectedOption = this.options[this.selectedIndex];
+    $(this).closest('.wordlist-entry-tools').find('.wordlist-show-link')
+      .attr('href', selectedOption.getAttribute('data-wordlist-url'));
+  });
+
 
   /* show keyboard */
   $('#expression_search').on('focus', function(event) {
