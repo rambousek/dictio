@@ -143,6 +143,10 @@ class WordListsTest < AppTest
     assert_includes last_response.body, 'data-user-results="true"'
     assert_includes last_response.body, 'data-selected-users="true"'
     refute_includes last_response.body, 'data-user-search placeholder='
+    assert_includes last_response.body, "action=\"/wordlists/#{list_id}/update\""
+    assert_includes last_response.body, "action=\"/wordlists/#{list_id}/sharing\""
+    assert_includes last_response.body, "action=\"/wordlists/#{list_id}/transfer\""
+    assert_includes last_response.body, "action=\"/wordlists/#{list_id}/delete\""
     token = csrf_token_from_response
 
     edit_post "/wordlists/#{list_id}/sharing",
@@ -219,10 +223,25 @@ class WordListsTest < AppTest
     assert_predicate last_response, :ok?
     refute_includes last_response.body, I18n.t("wordlists.shared_with_you")
     assert_includes last_response.body, I18n.t("wordlists.owner_info", name: USER["name"])
+    assert_includes last_response.body, 'name="is_public"'
+    refute_includes last_response.body, "action=\"/wordlists/#{wordlist['_id']}/sharing\""
+    refute_includes last_response.body, "action=\"/wordlists/#{wordlist['_id']}/transfer\""
+    refute_includes last_response.body, "action=\"/wordlists/#{wordlist['_id']}/delete\""
     refute_includes last_response.body, "/sharing"
     refute_includes last_response.body, "/transfer"
     refute_includes last_response.body, "/delete"
 
+    token = csrf_token_from_response
+    edit_post "/wordlists/#{wordlist['_id']}/update",
+              name: "Changed by collaborator", sort_mode: "manual",
+              second_language: "all", is_public: "true", csrf_token: token
+    assert last_response.redirect?
+    wordlist = service.find_owned(wordlist["_id"], USER["login"])
+    assert_equal "Changed by collaborator", wordlist["name"]
+    assert wordlist["is_public"]
+
+    edit_get "/wordlists/#{wordlist['_id']}"
+    assert_includes last_response.body, "https://www.dictio.info/wordlist/#{wordlist['share_token']}"
     token = csrf_token_from_response
     edit_post "/wordlists/#{wordlist['_id']}/entries", entry_id: "3881", csrf_token: token
     assert_equal [{"dict" => "cs", "id" => "3881"}],

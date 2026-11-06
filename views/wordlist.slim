@@ -3,15 +3,6 @@ main role="main"
     .container
       h1.wordlist-title
         span = @wordlist['name']
-        button#edit-wordlist-name.wordlist-title-edit type="button" aria-label=I18n.t("wordlists.rename") title=I18n.t("wordlists.rename") aria-expanded="false"
-          span.icon.icon--edit
-            svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
-              use xlink:href="/img/edit.svg#Capa_1" x="0" y="0" width="100%" height="100%"
-      form#wordlist-name-form action="/wordlists/#{@wordlist['_id']}/name" method="post" style="display: none"
-        input type="hidden" name="csrf_token" value=csrf_token
-        label for="wordlist-name" = I18n.t("wordlists.name")
-        input#wordlist-name type="text" name="name" maxlength=CzjWordLists::MAX_NAME_LENGTH required=true value=@wordlist['name']
-        button.btn type="submit" = I18n.t("wordlists.save")
       p
         a href="/wordlists" = I18n.t("wordlists.back")
       - if @wordlist_error
@@ -20,32 +11,41 @@ main role="main"
         p role="status" = I18n.t("wordlists.sharing_updated")
       - if @ownership_transferred
         p role="status" = I18n.t("wordlists.ownership_transferred")
-      p
-        | #{I18n.t("wordlists.dictionary")}: #{I18n.t("dict.#{@wordlist['dict']}")}
-      details.wordlist-settings
-        summary = I18n.t("wordlists.settings")
-        form action="/wordlists/#{@wordlist['_id']}/update" method="post"
+      section.info.wordlist-settings-card
+        h2 = I18n.t("wordlists.settings")
+        form.wordlist-settings-form action="/wordlists/#{@wordlist['_id']}/update" method="post"
           input type="hidden" name="csrf_token" value=csrf_token
-          p
-            label for="wordlist-sort" = I18n.t("wordlists.sort")
-            select#wordlist-sort name="sort_mode"
-              - CzjWordLists::SORT_MODES.each do |mode|
-                option value=mode selected=(mode == @wordlist['sort_mode']) = I18n.t("wordlists.sort_modes.#{mode}")
-          p
-            label for="wordlist-second-language" = I18n.t("wordlists.second_language")
-            select#wordlist-second-language name="second_language"
-              - %w[none all].each do |mode|
-                option value=mode selected=(mode == (@wordlist['second_language'] || CzjWordLists::SECOND_LANGUAGE_ALL)) = I18n.t("wordlists.second_language_modes.#{mode}")
-              - @dict_info.each do |code, _info|
-                option value=code selected=(code == @wordlist['second_language']) = I18n.t("dict.#{code}")
-          p
+          div.wordlist-settings-grid
+            div.wordlist-settings-field
+              label for="wordlist-name" = I18n.t("wordlists.name")
+              input#wordlist-name type="text" name="name" maxlength=CzjWordLists::MAX_NAME_LENGTH required=true value=@wordlist['name']
+            div.wordlist-settings-field
+              label for="wordlist-dict" = I18n.t("wordlists.dictionary")
+              input#wordlist-dict type="text" value=I18n.t("dict.#{@wordlist['dict']}") disabled=true
+            div.wordlist-settings-field
+              label for="wordlist-sort" = I18n.t("wordlists.sort")
+              select#wordlist-sort name="sort_mode"
+                - CzjWordLists::SORT_MODES.each do |mode|
+                  option value=mode selected=(mode == @wordlist['sort_mode']) = I18n.t("wordlists.sort_modes.#{mode}")
+            div.wordlist-settings-field
+              label for="wordlist-second-language" = I18n.t("wordlists.second_language")
+              select#wordlist-second-language name="second_language"
+                - %w[none all].each do |mode|
+                  option value=mode selected=(mode == (@wordlist['second_language'] || CzjWordLists::SECOND_LANGUAGE_ALL)) = I18n.t("wordlists.second_language_modes.#{mode}")
+                - @dict_info.each do |code, _info|
+                  option value=code selected=(code == @wordlist['second_language']) = I18n.t("dict.#{code}")
+          div.wordlist-settings-public
             label
               input type="checkbox" name="is_public" value="true" checked=@wordlist['is_public']
               = I18n.t("wordlists.public_toggle")
+          - if @wordlist['is_public']
+            p.wordlist-public-link
+              | #{I18n.t("wordlists.share_link")}:
+              a href="https://www.dictio.info/wordlist/#{@wordlist['share_token']}" https://www.dictio.info/wordlist/#{@wordlist['share_token']}
           button.btn type="submit" = I18n.t("wordlists.save")
         - if @wordlist_owner
-          details.wordlist-settings
-            summary = I18n.t("wordlists.sharing")
+          section.wordlist-settings-section
+            h3 = I18n.t("wordlists.sharing")
             form.wordlist-user-selection action="/wordlists/#{@wordlist['_id']}/sharing" method="post" data-user-selection="multiple" data-no-results=I18n.t("wordlists.user_search_no_results") data-search-error=I18n.t("wordlists.user_search_error") data-remove-label=I18n.t("wordlists.remove_user")
               input type="hidden" name="csrf_token" value=csrf_token
               - Array(@wordlist['shared_with']).each do |login|
@@ -56,8 +56,8 @@ main role="main"
               div.wordlist-selected-users data-selected-users="true"
               small = I18n.t("wordlists.sharing_help")
               button.btn type="submit" = I18n.t("wordlists.save_sharing")
-          details.wordlist-settings
-            summary = I18n.t("wordlists.transfer_ownership")
+          section.wordlist-settings-section
+            h3 = I18n.t("wordlists.transfer_ownership")
             form.wordlist-user-selection action="/wordlists/#{@wordlist['_id']}/transfer" method="post" data-user-selection="single" data-no-results=I18n.t("wordlists.user_search_no_results") data-search-error=I18n.t("wordlists.user_search_error") data-remove-label=I18n.t("wordlists.remove_user") onsubmit="return confirm('#{I18n.t("wordlists.confirm_transfer")}')"
               input type="hidden" name="csrf_token" value=csrf_token
               input type="hidden" name="new_owner_login" data-selected-login="true"
@@ -66,16 +66,11 @@ main role="main"
               div.wordlist-selected-users data-selected-users="true"
               small = I18n.t("wordlists.transfer_help")
               button.btn type="submit" = I18n.t("wordlists.transfer")
+          form.wordlist-settings-delete action="/wordlists/#{@wordlist['_id']}/delete" method="post" onsubmit="return confirm('#{I18n.t("wordlists.confirm_delete")}')"
+            input type="hidden" name="csrf_token" value=csrf_token
+            button.btn.btn--secondary type="submit" = I18n.t("wordlists.delete")
         - unless @wordlist_owner
-          p = I18n.t("wordlists.owner_info", name: @wordlist_owner_name)
-      - if @wordlist['is_public']
-        p
-          | #{I18n.t("wordlists.share_link")}:
-          a href="https://www.dictio.info/wordlist/#{@wordlist['share_token']}" https://www.dictio.info/wordlist/#{@wordlist['share_token']}
-      - if @wordlist_owner
-        form action="/wordlists/#{@wordlist['_id']}/delete" method="post" onsubmit="return confirm('#{I18n.t("wordlists.confirm_delete")}')"
-          input type="hidden" name="csrf_token" value=csrf_token
-          button.btn.btn--secondary type="submit" = I18n.t("wordlists.delete")
+          p.wordlist-owner-info = I18n.t("wordlists.owner_info", name: @wordlist_owner_name)
       hr
       h2 = I18n.t("wordlists.entries")
       - if params['added'] || params['duplicate'] || params['missing'] || params['invalid']
