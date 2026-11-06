@@ -39,6 +39,10 @@ main role="main"
                 label
                   input type="checkbox" name="is_public" value="true" checked=@wordlist['is_public']
                   = I18n.t("wordlists.public_toggle")
+              - if @wordlist['is_public']
+                p.wordlist-public-link
+                  | #{I18n.t("wordlists.share_link")}:
+                  a href="https://www.dictio.info/wordlist/#{@wordlist['share_token']}" https://www.dictio.info/wordlist/#{@wordlist['share_token']}
               button.btn type="submit" = I18n.t("wordlists.save")
           - if @wordlist_owner
               section.wordlist-settings-section

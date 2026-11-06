@@ -243,9 +243,12 @@ class WordListsTest < AppTest
     assert wordlist["is_public"]
 
     edit_get "/wordlists/#{wordlist['_id']}"
-    public_link_index = last_response.body.index("https://www.dictio.info/wordlist/#{wordlist['share_token']}")
-    assert public_link_index
-    assert_operator last_response.body.index("</details>"), :<, public_link_index
+    public_link = "https://www.dictio.info/wordlist/#{wordlist['share_token']}"
+    public_link_indices = last_response.body.enum_for(:scan, Regexp.new(Regexp.escape(public_link)))
+                                      .map { Regexp.last_match.begin(0) }
+    assert_equal 2, public_link_indices.length
+    assert_operator public_link_indices.first, :<, last_response.body.index("</details>")
+    assert_operator last_response.body.index("</details>"), :<, public_link_indices.last
     token = csrf_token_from_response
     edit_post "/wordlists/#{wordlist['_id']}/entries", entry_id: "3881", csrf_token: token
     assert_equal [{"dict" => "cs", "id" => "3881"}],

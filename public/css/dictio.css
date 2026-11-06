@@ -156,6 +156,10 @@ video.czj {
   overflow-wrap: anywhere;
 }
 
+.wordlist-settings-details[open] + .wordlist-public-link {
+  display: none;
+}
+
 .wordlist-settings-section {
   margin-top: 24px;
   padding-top: 20px;
