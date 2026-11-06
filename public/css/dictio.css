@@ -751,6 +751,3 @@ body:not(.has-quotable) .quote-part-link { display: none !important; }
   color: white;
 }
 
-#mobilespacetop {
-  background: var(--zakladni-seda1);
-}
