@@ -621,7 +621,15 @@ function loadSearchResult(ev) {
   let url = ev.getAttribute('href');
   window.history.pushState({}, '', url); //add entry url to browser history
   $.get('/'+dict+'/searchentry/'+entryid, function(response) {
-    $('.entry-content').html(response);
+    var responseContent = $('<div>').html(response);
+    var wordlistTools = responseContent.children('.wordlist-entry-tools').detach();
+    var entryContent = $('.entry-content');
+    entryContent.empty().append(responseContent.contents());
+    var entryArticle = entryContent.closest('article');
+    entryArticle.nextAll('.wordlist-entry-tools').remove();
+    if (wordlistTools.length) {
+      entryArticle.after(wordlistTools);
+    }
     let el_cite = $('.entry-content #citeInfo');
     if (el_cite) {
       $('footer #citeInfo').remove();

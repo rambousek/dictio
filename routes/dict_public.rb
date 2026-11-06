@@ -116,6 +116,7 @@ class CzjApp < Sinatra::Base
     end
     get '/'+code+'/searchentry/:entry' do
       @dictcode = code
+      @show_dictcode = code
       @entry = dict.getdoc(params['entry'], false)
       @search_type = 'search'
       if @entry != nil and @entry != {}
@@ -123,7 +124,13 @@ class CzjApp < Sinatra::Base
         @cite_attr = CzjWebHelper.get_cite_attr('search', request.path_info, nil, $dict_info, @entry, @dictcode)
         @cite_text = CzjWebHelper.build_cite(@cite_attr)
         @add_cite = true
-        slim :entry, :layout=>false
+        response = slim(:entry, layout: false)
+        if @is_edit || @is_admin
+          @wordlist_error = params['error']
+          @wordlist_added = params['wordlist_added'] == 'true'
+          response += slim(:wordlist_entry_tools, layout: false)
+        end
+        response
       else
         return ''
       end
