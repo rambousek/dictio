@@ -64,8 +64,8 @@ video.czj {
   margin: 30px auto 0;
   padding: 18px 22px;
   border-radius: 12px;
-  background: var(--zakladni-text-cerna1);
-  color: var(--zakladni-bila);
+  background: var(--zakladni-bg-seda1);
+  color: var(--zakladni-cerna);
   font-size: 0.75rem;
 }
 
