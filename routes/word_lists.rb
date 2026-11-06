@@ -27,6 +27,22 @@ class CzjApp < Sinatra::Base
     slim :wordlists
   end
 
+  get '/wordlists/users' do
+    require_word_lists_host!
+    query = params['query'].to_s.strip.downcase
+    halt 400 if query.length < 2
+    content_type :json
+    users = CzjUsers.get_users.filter_map do |user|
+      login = user['login'].to_s
+      name = user['name'].to_s
+      next if login == @user_info['login'].to_s
+      next unless login.downcase.include?(query) || name.downcase.include?(query)
+
+      {"login" => login, "name" => name}
+    end
+    users.first(20).to_json
+  end
+
   post '/wordlists' do
     require_word_lists_host!
     verify_csrf_token!
@@ -62,7 +78,6 @@ class CzjApp < Sinatra::Base
     @wordlist_error = params['error']
     @sharing_updated = params['shared'] == 'true'
     @ownership_transferred = params['transferred'] == 'true'
-    @shared_logins = Array(@wordlist['shared_with']).join("\n")
     slim :wordlist
   end
 

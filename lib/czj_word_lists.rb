@@ -99,7 +99,8 @@ class CzjWordLists
     wordlist = find_owned(id, owner_login)
     return :not_found unless wordlist
 
-    logins = shared_logins.to_s.split(/[,\s]+/).reject(&:empty?).uniq - [owner_login.to_s]
+    logins = Array(shared_logins).flat_map { |value| value.to_s.split(/[,\s]+/) }
+                                 .map(&:strip).reject(&:empty?).uniq - [owner_login.to_s]
     users = if logins.empty?
               []
             else

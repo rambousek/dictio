@@ -126,6 +126,55 @@ video.czj {
   font-weight: 700;
 }
 
+.wordlist-user-search-results {
+  list-style: none;
+  margin: 4px 0 8px;
+  padding: 0;
+}
+
+.wordlist-user-search-results li {
+  margin: 2px 0;
+}
+
+.wordlist-user-result {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid rgba(127, 127, 127, .45);
+  border-radius: 4px;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.wordlist-user-result:hover {
+  background: rgba(3, 201, 169, .15);
+}
+
+.wordlist-selected-users {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0;
+}
+
+.wordlist-user-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  border: 1px solid rgba(127, 127, 127, .55);
+  border-radius: 14px;
+}
+
+.wordlist-user-remove {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
 .wordlist-entry-id::placeholder {
   color: var(--zakladni-text-cerna1);
   font-weight: 400;

@@ -45,29 +45,35 @@ main role="main"
               input type="checkbox" name="is_public" value="true" checked=@wordlist['is_public']
               = I18n.t("wordlists.public_toggle")
           button.btn type="submit" = I18n.t("wordlists.save")
+        - if @wordlist_owner
+          details.wordlist-settings
+            summary = I18n.t("wordlists.sharing")
+            form.wordlist-user-selection action="/wordlists/#{@wordlist['_id']}/sharing" method="post" data-user-selection="multiple" data-no-results=I18n.t("wordlists.user_search_no_results") data-search-error=I18n.t("wordlists.user_search_error") data-remove-label=I18n.t("wordlists.remove_user")
+              input type="hidden" name="csrf_token" value=csrf_token
+              - Array(@wordlist['shared_with']).each do |login|
+                input type="hidden" name="shared_with[]" value=login
+              label for="wordlist-shared-user-search" = I18n.t("wordlists.shared_users")
+              input#wordlist-shared-user-search.wordlist-user-search type="search" autocomplete="off" data-user-search placeholder=I18n.t("wordlists.user_search_placeholder")
+              ul.wordlist-user-search-results data-user-results role="listbox"
+              div.wordlist-selected-users data-selected-users
+              small = I18n.t("wordlists.sharing_help")
+              button.btn type="submit" = I18n.t("wordlists.save_sharing")
+          details.wordlist-settings
+            summary = I18n.t("wordlists.transfer_ownership")
+            form.wordlist-user-selection action="/wordlists/#{@wordlist['_id']}/transfer" method="post" data-user-selection="single" data-no-results=I18n.t("wordlists.user_search_no_results") data-search-error=I18n.t("wordlists.user_search_error") data-remove-label=I18n.t("wordlists.remove_user") onsubmit="return confirm('#{I18n.t("wordlists.confirm_transfer")}')"
+              input type="hidden" name="csrf_token" value=csrf_token
+              input type="hidden" name="new_owner_login" data-selected-login
+              label for="wordlist-new-owner-search" = I18n.t("wordlists.new_owner")
+              input#wordlist-new-owner-search.wordlist-user-search type="search" autocomplete="off" data-user-search placeholder=I18n.t("wordlists.user_search_placeholder")
+              ul.wordlist-user-search-results data-user-results role="listbox"
+              div.wordlist-selected-users data-selected-users
+              small = I18n.t("wordlists.transfer_help")
+              button.btn type="submit" = I18n.t("wordlists.transfer")
       - if @wordlist['is_public']
         p
           | #{I18n.t("wordlists.share_link")}:
           a href="https://www.dictio.info/wordlist/#{@wordlist['share_token']}" https://www.dictio.info/wordlist/#{@wordlist['share_token']}
       - if @wordlist_owner
-        details.wordlist-settings
-          summary = I18n.t("wordlists.sharing")
-          form action="/wordlists/#{@wordlist['_id']}/sharing" method="post"
-            input type="hidden" name="csrf_token" value=csrf_token
-            p
-              label for="wordlist-shared-with" = I18n.t("wordlists.shared_users")
-              textarea#wordlist-shared-with name="shared_with" rows="3" = @shared_logins
-              small = I18n.t("wordlists.sharing_help")
-            button.btn type="submit" = I18n.t("wordlists.save_sharing")
-        details.wordlist-settings
-          summary = I18n.t("wordlists.transfer_ownership")
-          form action="/wordlists/#{@wordlist['_id']}/transfer" method="post" onsubmit="return confirm('#{I18n.t("wordlists.confirm_transfer")}')"
-            input type="hidden" name="csrf_token" value=csrf_token
-            p
-              label for="wordlist-new-owner" = I18n.t("wordlists.new_owner")
-              input#wordlist-new-owner type="text" name="new_owner_login" required=true
-              small = I18n.t("wordlists.transfer_help")
-            button.btn type="submit" = I18n.t("wordlists.transfer")
         form action="/wordlists/#{@wordlist['_id']}/delete" method="post" onsubmit="return confirm('#{I18n.t("wordlists.confirm_delete")}')"
           input type="hidden" name="csrf_token" value=csrf_token
           button.btn.btn--secondary type="submit" = I18n.t("wordlists.delete")

@@ -85,6 +85,19 @@ class WordListsTest < AppTest
     refute_match(/id="new-wordlist-form"[^>]*display:\s*none/, last_response.body)
   end
 
+  def test_wordlist_user_search_returns_only_public_account_fields
+    login
+
+    edit_get "/wordlists/users?query=wordlist"
+
+    assert_predicate last_response, :ok?
+    assert_includes last_response.body, COLLABORATOR["login"]
+    refute_includes last_response.body, USER["login"]
+    refute_includes last_response.body, USER["name"]
+    refute_includes last_response.body, "password"
+    refute_includes last_response.body, USER["email"]
+  end
+
   def test_owner_can_create_add_sort_and_remove_entries
     login
     list_id = create_wordlist
@@ -127,7 +140,7 @@ class WordListsTest < AppTest
     token = csrf_token_from_response
 
     edit_post "/wordlists/#{list_id}/sharing",
-              shared_with: "#{COLLABORATOR['login']}, #{USER['login']}", csrf_token: token
+              shared_with: [COLLABORATOR["login"], USER["login"]], csrf_token: token
     assert last_response.redirect?
     assert_equal [COLLABORATOR["login"]], service.find_owned(list_id, USER["login"])["shared_with"]
     assert service.find_accessible(list_id, COLLABORATOR["login"])
@@ -135,7 +148,7 @@ class WordListsTest < AppTest
 
     edit_get "/wordlists/#{list_id}"
     token = csrf_token_from_response
-    edit_post "/wordlists/#{list_id}/sharing", shared_with: "", csrf_token: token
+    edit_post "/wordlists/#{list_id}/sharing", shared_with: [], csrf_token: token
     assert last_response.redirect?
     assert_nil service.find_accessible(list_id, COLLABORATOR["login"])
     assert service.find_owned(list_id, USER["login"])

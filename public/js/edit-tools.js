@@ -189,6 +189,103 @@ $( document ).ready(function() {
     }
   });
 
+  $('.wordlist-user-selection').each(function() {
+    var form = $(this);
+    var search = form.find('[data-user-search]');
+    var results = form.find('[data-user-results]');
+    var selected = form.find('[data-selected-users]');
+    var isMultiple = form.data('user-selection') === 'multiple';
+    var request = null;
+    var requestNumber = 0;
+
+    function addUser(login, name) {
+      if (!login) return;
+      var hiddenInputs = form.find('input[type="hidden"][name="shared_with[]"], input[type="hidden"][data-selected-login]');
+      if (hiddenInputs.filter(function() { return this.value === login; }).length) return;
+      if (!isMultiple) {
+        hiddenInputs.remove();
+        selected.empty();
+      }
+
+      $('<input>', {
+        type: 'hidden',
+        name: isMultiple ? 'shared_with[]' : 'new_owner_login',
+        value: login,
+        'data-selected-login': isMultiple ? null : ''
+      }).appendTo(form);
+
+      var label = name ? login + ' — ' + name : login;
+      var chip = $('<span>', {class: 'wordlist-user-chip'}).text(label);
+      if (isMultiple) {
+        $('<button>', {
+          type: 'button',
+          class: 'wordlist-user-remove',
+          text: '×',
+          'aria-label': form.data('remove-label') + ' ' + login
+        }).appendTo(chip).on('click', function() {
+          form.find('input[type="hidden"][name="shared_with[]"]').filter(function() {
+            return this.value === login;
+          }).remove();
+          chip.remove();
+        });
+      } else {
+        $('<button>', {
+          type: 'button',
+          class: 'wordlist-user-remove',
+          text: '×',
+          'aria-label': form.data('remove-label')
+        }).appendTo(chip).on('click', function() {
+          form.find('[data-selected-login]').remove();
+          chip.remove();
+        });
+      }
+      selected.append(chip);
+    }
+
+    var existingLogins = form.find('input[type="hidden"][name="shared_with[]"]').map(function() {
+      return this.value;
+    }).get();
+    form.find('input[type="hidden"][name="shared_with[]"]').remove();
+    existingLogins.forEach(function(login) {
+      addUser(login, '');
+    });
+
+    search.on('input', function() {
+      var query = $.trim(search.val());
+      var currentRequest = ++requestNumber;
+      if (request) request.abort();
+      results.empty();
+      if (query.length < 2) return;
+
+      request = $.getJSON('/wordlists/users', {query: query})
+        .done(function(users) {
+          if (currentRequest !== requestNumber) return;
+          if (!users.length) {
+            results.append($('<li>').text(form.data('no-results')));
+            return;
+          }
+          users.forEach(function(user) {
+            var label = user.name ? user.login + ' — ' + user.name : user.login;
+            $('<button>', {
+              type: 'button',
+              class: 'wordlist-user-result',
+              role: 'option',
+              text: label
+            }).on('click', function() {
+              addUser(user.login, user.name);
+              search.val('').trigger('focus');
+              results.empty();
+            }).appendTo($('<li>').appendTo(results));
+          });
+        })
+        .fail(function(_xhr, status) {
+          if (status !== 'abort' && currentRequest === requestNumber) {
+            results.append($('<li>').text(form.data('search-error')));
+          }
+        });
+    });
+  });
+
   $('.save-user').click(function() {
     var table = $(this).parents('.user-info');
     var user = {};
