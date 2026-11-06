@@ -142,6 +142,8 @@ class WordListsTest < AppTest
     assert_includes last_response.body, 'data-user-search="true"'
     assert_includes last_response.body, 'data-user-results="true"'
     assert_includes last_response.body, 'data-selected-users="true"'
+    assert_includes last_response.body, '<details class="wordlist-settings-details">'
+    assert_includes last_response.body, "<summary>#{I18n.t('wordlists.settings')}</summary>"
     refute_includes last_response.body, 'data-user-search placeholder='
     assert_includes last_response.body, "action=\"/wordlists/#{list_id}/update\""
     assert_includes last_response.body, "action=\"/wordlists/#{list_id}/sharing\""
@@ -241,7 +243,9 @@ class WordListsTest < AppTest
     assert wordlist["is_public"]
 
     edit_get "/wordlists/#{wordlist['_id']}"
-    assert_includes last_response.body, "https://www.dictio.info/wordlist/#{wordlist['share_token']}"
+    public_link_index = last_response.body.index("https://www.dictio.info/wordlist/#{wordlist['share_token']}")
+    assert public_link_index
+    assert_operator last_response.body.index("</details>"), :<, public_link_index
     token = csrf_token_from_response
     edit_post "/wordlists/#{wordlist['_id']}/entries", entry_id: "3881", csrf_token: token
     assert_equal [{"dict" => "cs", "id" => "3881"}],

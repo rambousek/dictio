@@ -113,8 +113,15 @@ video.czj {
   margin: 1rem 0;
 }
 
-.wordlist-settings-card h2 {
-  margin-top: 0;
+.wordlist-settings-details summary {
+  color: var(--zakladni-cerna2);
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.wordlist-settings-details[open] summary {
+  margin-bottom: 20px;
 }
 
 .wordlist-settings-grid {
