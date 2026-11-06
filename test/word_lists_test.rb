@@ -86,6 +86,34 @@ class WordListsTest < AppTest
     refute_match(/id="new-wordlist-form"[^>]*display:\s*none/, last_response.body)
   end
 
+  def test_wordlist_overview_shows_collapsible_cards_with_metadata_and_public_link
+    login
+    list_id = create_wordlist(name: "Overview list")
+    wordlist = CzjWordLists.new.find_owned(list_id, USER["login"])
+    $mongo["wordlists"].update_one(
+      {"_id" => list_id},
+      {"$set" => {
+        "entries" => [{"dict" => "cs", "id" => "3881"}, {"dict" => "cs", "id" => "3882"}],
+        "is_public" => true
+      }}
+    ) # standard:disable Style/GlobalVars
+
+    edit_get "/wordlists"
+
+    assert_predicate last_response, :ok?
+    assert_includes last_response.body, '<details class="wordlist-list-details">'
+    assert_includes last_response.body, 'href="/wordlists/' + list_id + '">Overview list</a>'
+    assert_includes last_response.body, I18n.t("dict.cs")
+    assert_includes last_response.body, I18n.t("wordlists.public")
+    assert_includes last_response.body, "#{I18n.t('wordlists.entries')}: 2"
+    assert_includes last_response.body, "href=\"https://www.dictio.info/wordlist/#{wordlist['share_token']}\""
+    assert_includes last_response.body, I18n.t("wordlists.show")
+
+    $mongo["wordlists"].update_one({"_id" => list_id}, {"$set" => {"is_public" => false}}) # standard:disable Style/GlobalVars
+    edit_get "/wordlists"
+    refute_includes last_response.body, "https://www.dictio.info/wordlist/#{wordlist['share_token']}"
+  end
+
   def test_wordlist_user_search_returns_only_public_account_fields
     login
 
@@ -244,7 +272,8 @@ class WordListsTest < AppTest
 
     edit_get "/wordlists/#{wordlist['_id']}"
     public_link = "https://www.dictio.info/wordlist/#{wordlist['share_token']}"
-    public_link_indices = last_response.body.enum_for(:scan, Regexp.new(Regexp.escape(public_link)))
+    public_link_href = "href=\"#{public_link}\""
+    public_link_indices = last_response.body.enum_for(:scan, Regexp.new(Regexp.escape(public_link_href)))
                                       .map { Regexp.last_match.begin(0) }
     assert_equal 2, public_link_indices.length
     assert_operator public_link_indices.first, :<, last_response.body.index("</details>")
@@ -379,6 +408,8 @@ class WordListsTest < AppTest
 
     assert_nil service.find_owned(list_id, "another-user")
     assert_nil service.find_public(wordlist["share_token"])
+    edit_get "/wordlists/#{list_id}"
+    refute_includes last_response.body, "href=\"https://www.dictio.info/wordlist/#{wordlist['share_token']}\""
 
     $is_edit = false # standard:disable Style/GlobalVars
     get "https://www.dictio.info/wordlist/#{wordlist['share_token']}"

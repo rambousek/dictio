@@ -7,15 +7,25 @@ main role="main"
       - if @wordlists.empty?
         p = I18n.t("wordlists.empty")
       - else
-        ul
+        ul.wordlist-list
           - @wordlists.each do |wordlist|
-            li
-              a href="/wordlists/#{wordlist['_id']}" = wordlist['name']
-              |  (#{I18n.t("dict.#{wordlist['dict']}")})
-              - if wordlist['owner_login'] != @user_info['login']
-                |  · #{I18n.t("wordlists.shared_with_you")}
+            li.info.wordlist-list-card
+              details.wordlist-list-details
+                summary
+                  a href="/wordlists/#{wordlist['_id']}" = wordlist['name']
+                  span.wordlist-list-meta
+                    | #{I18n.t("dict.#{wordlist['dict']}")}
+                    - if wordlist['owner_login'] != @user_info['login']
+                      |  · #{I18n.t("wordlists.shared_with_you")}
+                    - if wordlist['is_public']
+                      |  · #{I18n.t("wordlists.public")}
+                    |  · #{I18n.t("wordlists.entries")}: #{Array(wordlist['entries']).length}
+                p
+                  a.btn href="/wordlists/#{wordlist['_id']}" = I18n.t("wordlists.show")
               - if wordlist['is_public']
-                |  · #{I18n.t("wordlists.public")}
+                p.wordlist-public-link
+                  | #{I18n.t("wordlists.share_link")}:
+                  a href="https://www.dictio.info/wordlist/#{wordlist['share_token']}" https://www.dictio.info/wordlist/#{wordlist['share_token']}
       - unless @wordlist_error == 'invalid' || @show_new_wordlist_form
         button.btn#show-new-wordlist type="button" = I18n.t("wordlists.create")
       form#new-wordlist-form action="/wordlists" method="post" style=("display: none" unless @wordlist_error == 'invalid' || @show_new_wordlist_form)

@@ -113,6 +113,41 @@ video.czj {
   margin: 1rem 0;
 }
 
+.wordlist-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.wordlist-list-card {
+  margin: 1rem 0;
+}
+
+.wordlist-list-details summary {
+  color: var(--zakladni-cerna2);
+  cursor: pointer;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.wordlist-list-details summary a {
+  color: inherit;
+}
+
+.wordlist-list-meta {
+  margin-left: 12px;
+  font-size: .875rem;
+  font-weight: 400;
+}
+
+.wordlist-list-details p {
+  margin-top: 16px;
+}
+
+.wordlist-list-card .wordlist-public-link {
+  margin-top: 12px;
+}
+
 .wordlist-settings-details summary {
   color: var(--zakladni-cerna2);
   cursor: pointer;
@@ -190,6 +225,16 @@ video.czj {
   list-style: none;
   margin: 4px 0 8px;
   padding: 0;
+}
+
+.wordlist-user-selection,
+.wordlist-user-search {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.wordlist-user-selection {
+  min-width: 0;
 }
 
 .wordlist-user-search-results li {
