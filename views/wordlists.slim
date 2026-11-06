@@ -19,7 +19,7 @@ main role="main"
                       |  · #{I18n.t("wordlists.shared_with_you")}
                     - if wordlist['is_public']
                       |  · #{I18n.t("wordlists.public")}
-                    |  · #{I18n.t("wordlists.entries")}: #{Array(wordlist['entries']).length}
+                    |  · #{I18n.t("wordlists.entry_count")}: #{Array(wordlist['entries']).length}
                 p
                   a.btn href="/wordlists/#{wordlist['_id']}" = I18n.t("wordlists.show")
               - if wordlist['is_public']

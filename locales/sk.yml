@@ -221,6 +221,7 @@ sk:
     delete: "Zmazať slovníček"
     confirm_delete: "Naozaj chcete slovníček zmazať?"
     entries: "Heslá"
+    entry_count: "Počet hesiel"
     entry_id: "ID hesla"
     entry_ids_help: "Viacero ID oddeľte čiarkou."
     batch_result: "Pridané: %{added}; duplicitné: %{duplicate}; nenájdené: %{missing}; neplatné ID: %{invalid}."

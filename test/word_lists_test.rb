@@ -105,7 +105,7 @@ class WordListsTest < AppTest
     assert_includes last_response.body, 'href="/wordlists/' + list_id + '">Overview list</a>'
     assert_includes last_response.body, I18n.t("dict.cs")
     assert_includes last_response.body, I18n.t("wordlists.public")
-    assert_includes last_response.body, "#{I18n.t('wordlists.entries')}: 2"
+    assert_includes last_response.body, "#{I18n.t('wordlists.entry_count')}: 2"
     assert_includes last_response.body, "href=\"https://www.dictio.info/wordlist/#{wordlist['share_token']}\""
     assert_includes last_response.body, I18n.t("wordlists.show")
 
