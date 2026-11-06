@@ -139,6 +139,10 @@ class WordListsTest < AppTest
     list_id = create_wordlist
     service = CzjWordLists.new
     edit_get "/wordlists/#{list_id}"
+    assert_includes last_response.body, 'data-user-search="true"'
+    assert_includes last_response.body, 'data-user-results="true"'
+    assert_includes last_response.body, 'data-selected-users="true"'
+    refute_includes last_response.body, 'data-user-search placeholder='
     token = csrf_token_from_response
 
     edit_post "/wordlists/#{list_id}/sharing",
