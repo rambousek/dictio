@@ -50,4 +50,30 @@ main id="mobilespacetop" role="main"
               span #{I18n.t("search.notfound")}
           - if @entry != nil
             == slim :entry
-
+            - if @is_edit or @is_admin
+              - wordlist_service = CzjWordLists.new
+              - entry_wordlists = wordlist_service.list_for(@user_info['login'], @show_dictcode)
+              - has_wordlists = wordlist_service.list_for(@user_info['login']).any?
+              section.wordlist-entry-tools role="region"
+                - if @wordlist_added
+                  p role="status" = I18n.t("wordlists.entry_added")
+                - if @wordlist_error
+                  p role="alert" = I18n.t("wordlists.errors.#{@wordlist_error}", default: I18n.t("wordlists.invalid"))
+                div.wordlist-entry-tools-layout
+                  - unless entry_wordlists.empty?
+                    form.wordlist-add-entry-form action="/wordlists/add-entry" method="post"
+                      input type="hidden" name="csrf_token" value=csrf_token
+                      input type="hidden" name="dict" value=@show_dictcode
+                      input type="hidden" name="entry_id" value=@entry['id']
+                      div.wordlist-add-entry-field
+                        label for="wordlist-select" = I18n.t("wordlists.add_to")
+                        select#wordlist-select name="wordlist_id"
+                          - entry_wordlists.each do |wordlist|
+                            option value=wordlist['_id'] = wordlist['name']
+                      button.btn type="submit" = I18n.t("wordlists.add")
+                  nav.wordlist-entry-tool-links aria-label=I18n.t("wordlists.title")
+                    a.btn.btn--secondary href="/wordlists?create=true" = I18n.t("wordlists.create")
+                    - if has_wordlists
+                      a.btn.btn--secondary href="/wordlists" = I18n.t("wordlists.show")
+                    - else
+                      button.btn.btn--secondary type="button" disabled=true = I18n.t("wordlists.show")

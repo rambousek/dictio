@@ -3,6 +3,8 @@ main role="main"
     .container
       h1.wordlist-title
         span = @wordlist['name']
+        - unless @wordlist_owner
+          small = I18n.t("wordlists.shared_with_you")
         button#edit-wordlist-name.wordlist-title-edit type="button" aria-label=I18n.t("wordlists.rename") title=I18n.t("wordlists.rename") aria-expanded="false"
           span.icon.icon--edit
             svg.icon__svg xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -16,6 +18,10 @@ main role="main"
         a href="/wordlists" = I18n.t("wordlists.back")
       - if @wordlist_error
         p role="alert" = I18n.t("wordlists.errors.#{@wordlist_error}", default: I18n.t("wordlists.invalid"))
+      - if @sharing_updated
+        p role="status" = I18n.t("wordlists.sharing_updated")
+      - if @ownership_transferred
+        p role="status" = I18n.t("wordlists.ownership_transferred")
       p
         | #{I18n.t("wordlists.dictionary")}: #{I18n.t("dict.#{@wordlist['dict']}")}
       details.wordlist-settings
@@ -43,9 +49,28 @@ main role="main"
         p
           | #{I18n.t("wordlists.share_link")}:
           a href="https://www.dictio.info/wordlist/#{@wordlist['share_token']}" https://www.dictio.info/wordlist/#{@wordlist['share_token']}
-      form action="/wordlists/#{@wordlist['_id']}/delete" method="post" onsubmit="return confirm('#{I18n.t("wordlists.confirm_delete")}')"
-        input type="hidden" name="csrf_token" value=csrf_token
-        button.btn.btn--secondary type="submit" = I18n.t("wordlists.delete")
+      - if @wordlist_owner
+        details.wordlist-settings
+          summary = I18n.t("wordlists.sharing")
+          form action="/wordlists/#{@wordlist['_id']}/sharing" method="post"
+            input type="hidden" name="csrf_token" value=csrf_token
+            p
+              label for="wordlist-shared-with" = I18n.t("wordlists.shared_users")
+              textarea#wordlist-shared-with name="shared_with" rows="3" = @shared_logins
+              small = I18n.t("wordlists.sharing_help")
+            button.btn type="submit" = I18n.t("wordlists.save_sharing")
+        details.wordlist-settings
+          summary = I18n.t("wordlists.transfer_ownership")
+          form action="/wordlists/#{@wordlist['_id']}/transfer" method="post" onsubmit="return confirm('#{I18n.t("wordlists.confirm_transfer")}')"
+            input type="hidden" name="csrf_token" value=csrf_token
+            p
+              label for="wordlist-new-owner" = I18n.t("wordlists.new_owner")
+              input#wordlist-new-owner type="text" name="new_owner_login" required=true
+              small = I18n.t("wordlists.transfer_help")
+            button.btn type="submit" = I18n.t("wordlists.transfer")
+        form action="/wordlists/#{@wordlist['_id']}/delete" method="post" onsubmit="return confirm('#{I18n.t("wordlists.confirm_delete")}')"
+          input type="hidden" name="csrf_token" value=csrf_token
+          button.btn.btn--secondary type="submit" = I18n.t("wordlists.delete")
       hr
       h2 = I18n.t("wordlists.entries")
       - if params['added'] || params['duplicate'] || params['missing'] || params['invalid']

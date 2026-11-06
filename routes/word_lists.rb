@@ -38,7 +38,7 @@ class CzjApp < Sinatra::Base
   post '/wordlists/add-entry' do
     require_word_lists_host!
     verify_csrf_token!
-    wordlist = word_lists.find_owned(params['wordlist_id'], @user_info['login'])
+    wordlist = word_lists.find_accessible(params['wordlist_id'], @user_info['login'])
     halt 404 unless wordlist && wordlist['dict'] == params['dict'].to_s
     result = word_lists.add_entry(wordlist['_id'], @user_info['login'], params['entry_id'])
     error = case result
@@ -54,11 +54,15 @@ class CzjApp < Sinatra::Base
 
   get '/wordlists/:id' do
     require_word_lists_host!
-    @wordlist = word_lists.find_owned(params['id'], @user_info['login'])
+    @wordlist = word_lists.find_accessible(params['id'], @user_info['login'])
     halt 404 unless @wordlist
+    @wordlist_owner = word_lists.owned_by?(@wordlist, @user_info['login'])
     prepare_word_lists_page(@wordlist['dict'])
     @entries = word_lists.entries_for(@wordlist)
     @wordlist_error = params['error']
+    @sharing_updated = params['shared'] == 'true'
+    @ownership_transferred = params['transferred'] == 'true'
+    @shared_logins = Array(@wordlist['shared_with']).join("\n")
     slim :wordlist
   end
 
@@ -85,9 +89,30 @@ class CzjApp < Sinatra::Base
     redirect "/wordlists/#{wordlist['_id']}"
   end
 
+  post '/wordlists/:id/sharing' do
+    require_word_lists_host!
+    verify_csrf_token!
+    result = word_lists.update_sharing(params['id'], @user_info['login'], params['shared_with'])
+    halt 404 if result == :not_found
+    redirect "/wordlists/#{params['id']}?error=invalid_users" if result == :invalid_users
+    redirect "/wordlists/#{params['id']}?shared=true"
+  end
+
+  post '/wordlists/:id/transfer' do
+    require_word_lists_host!
+    verify_csrf_token!
+    result = word_lists.transfer_ownership(params['id'], @user_info['login'], params['new_owner_login'])
+    halt 404 if result == :not_found
+    redirect "/wordlists/#{params['id']}?error=invalid_owner" if result == :invalid_owner
+    redirect "/wordlists/#{params['id']}?transferred=true"
+  end
+
   post '/wordlists/:id/delete' do
     require_word_lists_host!
     verify_csrf_token!
+    wordlist = word_lists.find_accessible(params['id'], @user_info['login'])
+    halt 404 unless wordlist
+    halt 403 unless word_lists.owned_by?(wordlist, @user_info['login'])
     word_lists.delete(params['id'], @user_info['login'])
     redirect '/wordlists'
   end

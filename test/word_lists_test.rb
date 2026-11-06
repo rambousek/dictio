@@ -22,13 +22,19 @@ class WordListsTest < AppTest
     "edit_synonym" => false,
     "edit_trans" => false
   }.freeze
+  COLLABORATOR_PASSWORD = "wordlist-collaborator-password"
+  COLLABORATOR = USER.merge(
+    "login" => "wordlist-collaborator",
+    "password" => COLLABORATOR_PASSWORD.crypt("ab"),
+    "email" => "wordlist-collaborator@example.test"
+  ).freeze
 
   def setup
     @previous_edit = $is_edit
     @previous_admin = $is_admin
     $is_edit = true # standard:disable Style/GlobalVars
     $is_admin = false # standard:disable Style/GlobalVars
-    $mongo.load("users", [USER]) # standard:disable Style/GlobalVars
+    $mongo.load("users", [USER, COLLABORATOR]) # standard:disable Style/GlobalVars
     $mongo.load("wordlists", []) # standard:disable Style/GlobalVars
   end
 
@@ -47,10 +53,10 @@ class WordListsTest < AppTest
     post "https://edit.dictio.info#{path}", params
   end
 
-  def login
+  def login(user = USER, password = PASSWORD)
     edit_get "/login"
     token = csrf_token_from_response
-    edit_post "/login", login: USER["login"], password: PASSWORD, csrf_token: token
+    edit_post "/login", login: user["login"], password: password, csrf_token: token
     assert last_response.redirect?
   end
 
@@ -113,6 +119,114 @@ class WordListsTest < AppTest
     assert_equal "all", wordlist["second_language"]
   end
 
+  def test_owner_can_share_and_revoke_wordlist_access
+    login
+    list_id = create_wordlist
+    service = CzjWordLists.new
+    edit_get "/wordlists/#{list_id}"
+    token = csrf_token_from_response
+
+    edit_post "/wordlists/#{list_id}/sharing",
+              shared_with: "#{COLLABORATOR['login']}, #{USER['login']}", csrf_token: token
+    assert last_response.redirect?
+    assert_equal [COLLABORATOR["login"]], service.find_owned(list_id, USER["login"])["shared_with"]
+    assert service.find_accessible(list_id, COLLABORATOR["login"])
+    assert_includes service.list_for(COLLABORATOR["login"]), service.find_owned(list_id, USER["login"])
+
+    edit_get "/wordlists/#{list_id}"
+    token = csrf_token_from_response
+    edit_post "/wordlists/#{list_id}/sharing", shared_with: "", csrf_token: token
+    assert last_response.redirect?
+    assert_nil service.find_accessible(list_id, COLLABORATOR["login"])
+    assert service.find_owned(list_id, USER["login"])
+  end
+
+  def test_sharing_rejects_unknown_users_without_changing_access
+    login
+    list_id = create_wordlist
+    service = CzjWordLists.new
+    service.update_sharing(list_id, USER["login"], COLLABORATOR["login"])
+    edit_get "/wordlists/#{list_id}"
+    token = csrf_token_from_response
+
+    edit_post "/wordlists/#{list_id}/sharing", shared_with: "missing-user", csrf_token: token
+
+    assert_includes last_response.location, "error=invalid_users"
+    assert_equal [COLLABORATOR["login"]], service.find_owned(list_id, USER["login"])["shared_with"]
+  end
+
+  def test_owner_can_transfer_wordlist_ownership_and_remains_a_collaborator
+    login
+    list_id = create_wordlist
+    edit_get "/wordlists/#{list_id}"
+    token = csrf_token_from_response
+
+    edit_post "/wordlists/#{list_id}/transfer",
+              new_owner_login: COLLABORATOR["login"], csrf_token: token
+
+    assert last_response.redirect?
+    assert_includes last_response.location, "transferred=true"
+    service = CzjWordLists.new
+    wordlist = service.find_owned(list_id, COLLABORATOR["login"])
+    assert_equal [USER["login"]], wordlist["shared_with"]
+    assert_nil service.find_owned(list_id, USER["login"])
+    assert service.find_accessible(list_id, USER["login"])
+    assert_equal 0, service.delete(list_id, USER["login"]).deleted_count
+    edit_get URI(last_response.location).request_uri
+    assert_includes last_response.body, I18n.t("wordlists.ownership_transferred")
+    refute_includes last_response.body, "/transfer"
+  end
+
+  def test_ownership_transfer_rejects_unknown_user
+    login
+    list_id = create_wordlist
+    edit_get "/wordlists/#{list_id}"
+    token = csrf_token_from_response
+
+    edit_post "/wordlists/#{list_id}/transfer",
+              new_owner_login: "missing-user", csrf_token: token
+
+    assert_includes last_response.location, "error=invalid_owner"
+    assert CzjWordLists.new.find_owned(list_id, USER["login"])
+  end
+
+  def test_shared_user_can_edit_wordlist_but_cannot_delete_or_manage_sharing
+    service = CzjWordLists.new
+    wordlist = service.create(USER["login"], "Shared list", "cs")
+    assert_equal :updated, service.update_sharing(wordlist["_id"], USER["login"], COLLABORATOR["login"])
+    login(COLLABORATOR, COLLABORATOR_PASSWORD)
+
+    edit_get "/wordlists/#{wordlist['_id']}"
+    assert_predicate last_response, :ok?
+    assert_includes last_response.body, I18n.t("wordlists.shared_with_you")
+    refute_includes last_response.body, "/sharing"
+    refute_includes last_response.body, "/transfer"
+    refute_includes last_response.body, "/delete"
+
+    token = csrf_token_from_response
+    edit_post "/wordlists/#{wordlist['_id']}/entries", entry_id: "3881", csrf_token: token
+    assert_equal [{"dict" => "cs", "id" => "3881"}],
+                 service.find_owned(wordlist["_id"], USER["login"])["entries"]
+
+    edit_post "/wordlists/#{wordlist['_id']}/name",
+              name: "Changed by collaborator", csrf_token: token
+    assert_equal "Changed by collaborator", service.find_owned(wordlist["_id"], USER["login"])["name"]
+
+    edit_post "/wordlists/#{wordlist['_id']}/delete", csrf_token: token
+    assert_equal 403, last_response.status
+    assert service.find_owned(wordlist["_id"], USER["login"])
+
+    edit_post "/wordlists/#{wordlist['_id']}/sharing",
+              shared_with: "", csrf_token: token
+    assert_equal 404, last_response.status
+    assert service.find_accessible(wordlist["_id"], COLLABORATOR["login"])
+
+    edit_post "/wordlists/#{wordlist['_id']}/transfer",
+              new_owner_login: COLLABORATOR["login"], csrf_token: token
+    assert_equal 404, last_response.status
+    assert service.find_owned(wordlist["_id"], USER["login"])
+  end
+
   def test_wordlist_settings_can_be_updated_without_submitting_name
     login
     list_id = create_wordlist(name: "Keep this name")
@@ -147,7 +261,17 @@ class WordListsTest < AppTest
     edit_get "/cs/show/3881?wordlist_added=true"
     assert_includes last_response.body, I18n.t("wordlists.entry_added")
     assert_includes last_response.body, 'href="/wordlists?create=true"'
-    assert_includes last_response.body, I18n.t("menu.wordlists")
+    assert_includes last_response.body, 'href="/wordlists"'
+    assert_includes last_response.body, I18n.t("wordlists.show")
+  end
+
+  def test_wordlist_link_is_disabled_when_user_has_no_wordlists
+    login
+
+    edit_get "/cs/show/3881"
+
+    assert_includes last_response.body, "disabled"
+    assert_includes last_response.body, I18n.t("wordlists.show")
   end
 
   def test_duplicate_entry_is_only_stored_once

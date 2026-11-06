@@ -107,6 +107,9 @@ class CzjApp < Sinatra::Base
       @input_type = params['type']
       @search_params = more_params
       @dictcode = code
+      @show_dictcode = code
+      @wordlist_error = params['error']
+      @wordlist_added = params['wordlist_added'] == 'true'
       @target = 'czj'
       
       slim :searchresult

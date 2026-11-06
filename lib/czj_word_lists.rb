@@ -9,19 +9,28 @@ class CzjWordLists
   def self.ensure_indexes
     collection = $mongo["wordlists"].indexes
     collection.create_one({"owner_login" => 1, "updated_at" => -1})
+    collection.create_one({"shared_with" => 1, "updated_at" => -1})
     collection.create_one({"share_token" => 1}, unique: true)
   rescue => e
     $stderr.puts "wordlists index creation failed: #{e.message}"
   end
 
   def list_for(owner_login, dictcode = nil)
-    query = {"owner_login" => owner_login.to_s}
+    query = {"$or" => [{"owner_login" => owner_login.to_s}, {"shared_with" => owner_login.to_s}]}
     query["dict"] = dictcode.to_s unless dictcode.to_s.empty?
     $mongo["wordlists"].find(query, :sort => {"updated_at" => -1}).to_a
   end
 
   def find_owned(id, owner_login)
     $mongo["wordlists"].find({"_id" => id.to_s, "owner_login" => owner_login.to_s}).first
+  end
+
+  def find_accessible(id, login)
+    $mongo["wordlists"].find(accessible_query(id, login)).first
+  end
+
+  def owned_by?(wordlist, login)
+    wordlist && wordlist["owner_login"].to_s == login.to_s
   end
 
   def find_public(share_token)
@@ -35,6 +44,7 @@ class CzjWordLists
     wordlist = {
       "_id" => SecureRandom.hex(16),
       "owner_login" => owner_login.to_s,
+      "shared_with" => [],
       "name" => name,
       "dict" => dictcode.to_s,
       "second_language" => SECOND_LANGUAGE_ALL,
@@ -50,7 +60,7 @@ class CzjWordLists
   end
 
   def update(id, owner_login, name: nil, sort_mode:, second_language:, is_public:)
-    wordlist = find_owned(id, owner_login)
+    wordlist = find_accessible(id, owner_login)
     return nil unless wordlist
 
     name = clean_name(name.nil? ? wordlist["name"] : name)
@@ -59,7 +69,7 @@ class CzjWordLists
     return nil if name.empty? || !SORT_MODES.include?(sort_mode.to_s) || !valid_second_language
 
     $mongo["wordlists"].update_one(
-      {"_id" => wordlist["_id"], "owner_login" => owner_login.to_s},
+      accessible_query(wordlist["_id"], owner_login),
       {"$set" => {
         "name" => name,
         "sort_mode" => sort_mode.to_s,
@@ -68,21 +78,61 @@ class CzjWordLists
         "updated_at" => Time.now
       }}
     )
-    find_owned(id, owner_login)
+    find_accessible(id, owner_login)
   end
 
   def update_name(id, owner_login, name)
-    wordlist = find_owned(id, owner_login)
+    wordlist = find_accessible(id, owner_login)
     return nil unless wordlist
 
     name = clean_name(name)
     return nil if name.empty?
 
     $mongo["wordlists"].update_one(
-      {"_id" => wordlist["_id"], "owner_login" => owner_login.to_s},
+      accessible_query(wordlist["_id"], owner_login),
       {"$set" => {"name" => name, "updated_at" => Time.now}}
     )
-    find_owned(id, owner_login)
+    find_accessible(id, owner_login)
+  end
+
+  def update_sharing(id, owner_login, shared_logins)
+    wordlist = find_owned(id, owner_login)
+    return :not_found unless wordlist
+
+    logins = shared_logins.to_s.split(/[,\s]+/).reject(&:empty?).uniq - [owner_login.to_s]
+    users = if logins.empty?
+              []
+            else
+              $mongo["users"].find({"login" => {"$in" => logins}}).to_a
+            end
+    valid_logins = users.map { |user| user["login"].to_s }
+    return :invalid_users unless (logins - valid_logins).empty?
+
+    $mongo["wordlists"].update_one(
+      {"_id" => wordlist["_id"], "owner_login" => owner_login.to_s},
+      {"$set" => {"shared_with" => logins, "updated_at" => Time.now}}
+    )
+    :updated
+  end
+
+  def transfer_ownership(id, owner_login, new_owner_login)
+    wordlist = find_owned(id, owner_login)
+    return :not_found unless wordlist
+
+    new_owner_login = new_owner_login.to_s.strip
+    return :invalid_owner if new_owner_login.empty? || new_owner_login == owner_login.to_s
+    return :invalid_owner unless $mongo["users"].find({"login" => new_owner_login}).first
+
+    shared_logins = (Array(wordlist["shared_with"]) + [owner_login.to_s]).uniq - [new_owner_login]
+    result = $mongo["wordlists"].update_one(
+      {"_id" => wordlist["_id"], "owner_login" => owner_login.to_s},
+      {"$set" => {
+        "owner_login" => new_owner_login,
+        "shared_with" => shared_logins,
+        "updated_at" => Time.now
+      }}
+    )
+    result.matched_count.positive? ? :updated : :not_found
   end
 
   def entry_url(wordlist, item)
@@ -107,7 +157,7 @@ class CzjWordLists
   end
 
   def add_entry(id, owner_login, entry_id)
-    wordlist = find_owned(id, owner_login)
+    wordlist = find_accessible(id, owner_login)
     return :not_found unless wordlist
 
     entry_id = entry_id.to_s.strip
@@ -119,21 +169,21 @@ class CzjWordLists
 
     entry_ref = {"dict" => wordlist["dict"], "id" => entry_id}
     result = $mongo["wordlists"].update_one(
-      {"_id" => wordlist["_id"], "owner_login" => owner_login.to_s},
+      accessible_query(wordlist["_id"], owner_login),
       {"$addToSet" => {"entries" => entry_ref}}
     )
     return :not_found if result.matched_count.zero?
     return :duplicate if result.modified_count.zero?
 
     $mongo["wordlists"].update_one(
-      {"_id" => wordlist["_id"], "owner_login" => owner_login.to_s},
+      accessible_query(wordlist["_id"], owner_login),
       {"$set" => {"updated_at" => Time.now}}
     )
     :added
   end
 
   def add_entries(id, owner_login, entry_ids)
-    return nil unless find_owned(id, owner_login)
+    return nil unless find_accessible(id, owner_login)
 
     ids = entry_ids.to_s.split(",", -1).map(&:strip).reject(&:empty?)
     results = Hash.new(0)
@@ -145,11 +195,11 @@ class CzjWordLists
   end
 
   def remove_entry(id, owner_login, entry_id)
-    wordlist = find_owned(id, owner_login)
+    wordlist = find_accessible(id, owner_login)
     return false unless wordlist
 
     $mongo["wordlists"].update_one(
-      {"_id" => wordlist["_id"], "owner_login" => owner_login.to_s},
+      accessible_query(wordlist["_id"], owner_login),
       {"$pull" => {"entries" => {"dict" => wordlist["dict"], "id" => entry_id.to_s}},
        "$set" => {"updated_at" => Time.now}}
     )
@@ -157,7 +207,7 @@ class CzjWordLists
   end
 
   def move_entry(id, owner_login, entry_id, direction)
-    wordlist = find_owned(id, owner_login)
+    wordlist = find_accessible(id, owner_login)
     return false unless wordlist && %w[up down].include?(direction)
 
     entries = Array(wordlist["entries"]).map(&:dup)
@@ -169,10 +219,20 @@ class CzjWordLists
 
     entries[index], entries[target_index] = entries[target_index], entries[index]
     $mongo["wordlists"].update_one(
-      {"_id" => wordlist["_id"], "owner_login" => owner_login.to_s},
+      accessible_query(wordlist["_id"], owner_login),
       {"$set" => {"entries" => entries, "updated_at" => Time.now}}
     )
     true
+  end
+
+  def accessible_query(id, login)
+    {
+      "_id" => id.to_s,
+      "$or" => [
+        {"owner_login" => login.to_s},
+        {"shared_with" => login.to_s}
+      ]
+    }
   end
 
   def entries_for(wordlist)

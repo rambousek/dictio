@@ -13,7 +13,9 @@ main id="mobilespacetop" role="main"
         - else
           == slim :fullentrysigndetail
   - if @is_edit or @is_admin
-    - entry_wordlists = CzjWordLists.new.list_for(@user_info['login'], @show_dictcode)
+    - wordlist_service = CzjWordLists.new
+    - entry_wordlists = wordlist_service.list_for(@user_info['login'], @show_dictcode)
+    - has_wordlists = wordlist_service.list_for(@user_info['login']).any?
     section.container.wordlist-entry-tools role="region"
       - if @wordlist_added
         p role="status" = I18n.t("wordlists.entry_added")
@@ -33,7 +35,10 @@ main id="mobilespacetop" role="main"
             button.btn type="submit" = I18n.t("wordlists.add")
         nav.wordlist-entry-tool-links aria-label=I18n.t("wordlists.title")
           a.btn.btn--secondary href="/wordlists?create=true" = I18n.t("wordlists.create")
-          a.btn.btn--secondary href="/wordlists" = I18n.t("menu.wordlists")
+          - if has_wordlists
+            a.btn.btn--secondary href="/wordlists" = I18n.t("wordlists.show")
+          - else
+            button.btn.btn--secondary type="button" disabled=true = I18n.t("wordlists.show")
 
 #search-title-meta style="display: none"
   == slim :title

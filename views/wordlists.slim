@@ -12,6 +12,8 @@ main role="main"
             li
               a href="/wordlists/#{wordlist['_id']}" = wordlist['name']
               |  (#{I18n.t("dict.#{wordlist['dict']}")})
+              - if wordlist['owner_login'] != @user_info['login']
+                |  · #{I18n.t("wordlists.shared_with_you")}
               - if wordlist['is_public']
                 |  · #{I18n.t("wordlists.public")}
       - unless @wordlist_error == 'invalid' || @show_new_wordlist_form

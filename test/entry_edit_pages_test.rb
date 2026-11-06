@@ -118,6 +118,22 @@ class EntryEditPagesTest < AppTest
     end
   end
 
+  def test_selected_search_result_includes_wordlist_controls
+    in_edit_mode do
+      entry_id = ENTRIES.find { |e| e["dict"] == "cs" }["id"]
+      CzjWordLists.new.create("editor", "Test list", "cs")
+
+      edit_get "/cs/search/text/vosk/#{entry_id}"
+
+      assert_predicate last_response, :ok?
+      assert_includes last_response.body, 'action="/wordlists/add-entry"'
+      assert_includes last_response.body, 'href="/wordlists?create=true"'
+      assert_includes last_response.body, I18n.t("wordlists.show")
+    ensure
+      $mongo.load("wordlists", []) # standard:disable Style/GlobalVars
+    end
+  end
+
   # homonymsign_edit renders from fullentrysigndetail_edit, so this needs the
   # /show route rather than /searchentry. Fixture czj/2909 points at homonym
   # 21592, which is not in the fixture subset, so inject the pair.
