@@ -221,7 +221,7 @@ cs:
     delete: "Smazat slovníček"
     confirm_delete: "Opravdu chcete slovníček smazat?"
     entries: "Hesla"
-    entry_count: "Počet hesel"
+    entry_count: "počet hesel"
     entry_id: "ID hesla"
     entry_ids_help: "Více ID oddělte čárkou."
     batch_result: "Přidáno: %{added}; duplicitních: %{duplicate}; nenalezených: %{missing}; neplatných ID: %{invalid}."
