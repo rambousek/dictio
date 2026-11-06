@@ -625,7 +625,8 @@ function loadSearchResult(ev) {
     var wordlistTools = responseContent.children('.wordlist-entry-tools').detach();
     var entryContent = $('.entry-content');
     entryContent.empty().append(responseContent.contents());
-    var entryArticle = entryContent.closest('article');
+    var searchSection = entryContent.closest('.section--no-space');
+    var entryArticle = searchSection.children('article.container');
     entryArticle.nextAll('.wordlist-entry-tools').remove();
     if (wordlistTools.length) {
       entryArticle.after(wordlistTools);
