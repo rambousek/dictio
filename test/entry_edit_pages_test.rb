@@ -123,7 +123,7 @@ class EntryEditPagesTest < AppTest
       entry_id = ENTRIES.find { |e| e["dict"] == "cs" }["id"]
       CzjWordLists.new.create("editor", "Test list", "cs")
 
-      edit_get "/cs/search/text/vosk/#{entry_id}"
+      edit_get "/cs/search/text/*/#{entry_id}"
 
       assert_predicate last_response, :ok?
       assert_includes last_response.body, 'action="/wordlists/add-entry"'
