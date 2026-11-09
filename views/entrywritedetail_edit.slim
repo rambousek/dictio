@@ -48,7 +48,10 @@
               = var['_text']
             |,
 - if @entry['lemma']['gram'] and @entry['lemma']['gram']['form']
-  - if  @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nSc1'}.size > 0 or  @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc1'}.size > 0
+  - has_nsc1 = @entry['lemma']['gram']['form'].any?{|form| form['@tag'] == 'nSc1'}
+  - has_npc1 = @entry['lemma']['gram']['form'].any?{|form| form['@tag'] == 'nPc1'}
+  - pomnozne = @entry['lemma']['grammar_note'] && @entry['lemma']['grammar_note'][0] && @entry['lemma']['grammar_note'][0]['@skupina'].to_s == 'pomnozne'
+  - if (has_nsc1 or has_npc1) and (not pomnozne or has_npc1)
     table.table.table--no-margin
       tr
         th
@@ -120,7 +123,7 @@
         td 
           - if @entry['lemma']['gram']['form'].find{|form| form['@tag'] == 'nPc7'}
             = @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc7'}[0]['_text']
-  - if  @entry['lemma']['gram']['form'].select{|form| form['@tag'] == 'nPc1'}.size > 0 and @entry['lemma']['grammar_note'] and @entry['lemma']['grammar_note'][0] and @entry['lemma']['grammar_note'][0]['@skupina'].to_s == 'pomnozne'
+  - if pomnozne and not has_npc1
     table.table.table--no-margin
       tr
         th
