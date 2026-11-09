@@ -101,6 +101,7 @@ class AuthenticationTest < AppTest
     assert_includes last_response.body, '<meta name="robots" content="noindex,nofollow">'
     assert_includes last_response.body, "<title>#{I18n.t('auth.title')}</title>"
     assert_includes last_response.body, 'href="/register"'
+    assert_includes last_response.body, 'href="https://edit.dictio.info/login"'
   end
 
   def test_registration_and_activation_use_the_global_layout
