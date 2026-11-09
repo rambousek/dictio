@@ -46,6 +46,9 @@ class AuthenticationTest < AppTest
   end
 
   def test_login_session_is_shared_by_edit_and_admin
+    user = USER.merge("editor" => ["czj"])
+    $mongo.load("users", [user]) # standard:disable Style/GlobalVars
+
     edit_get "/about"
     assert last_response.redirect?
     assert_includes last_response.location, "/login?return_to=%2Fabout"
@@ -58,7 +61,7 @@ class AuthenticationTest < AppTest
     end
     refute_nil initial_cookie, "login page must issue the session cookie used for CSRF validation"
     assert_includes initial_cookie.downcase, "domain=.dictio.info"
-    edit_post "/login", login: USER["login"], password: PASSWORD, return_to: "/about", csrf_token: csrf_token
+    edit_post "/login", login: user["login"], password: PASSWORD, return_to: "/about", csrf_token: csrf_token
     assert last_response.redirect?
     assert_equal "/about", URI(last_response.location).path
     cookie = Array(last_response.headers["Set-Cookie"]).find do |value|
