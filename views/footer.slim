@@ -21,12 +21,11 @@ footer.footer role="contentinfo"
           li.quote-part-link
             a href="#" onclick="toggleQuoteMode(); return false;" = I18n.t("cite.part_button")
           li
-            a href="/help" #{I18n.t("menu.help")}
+            a href="#{@public_site_url}/help" #{I18n.t("menu.help")}
           li
-            a href="/contact" #{I18n.t("menu.contact")}
+            a href="#{@public_site_url}/contact" #{I18n.t("menu.contact")}
 
   - if @cite_attr
     div#citeInfo *@cite_attr data-cite-text=@cite_text
 
 <!-- /patička -->
-

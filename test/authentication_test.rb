@@ -101,7 +101,12 @@ class AuthenticationTest < AppTest
     assert_match(/<meta\b(?=[^>]*name="robots")(?=[^>]*content="noindex,nofollow")[^>]*>/, last_response.body)
     assert_includes last_response.body, "<title>#{I18n.t('auth.title')}</title>"
     assert_includes last_response.body, 'href="/register"'
-    assert_includes last_response.body, 'href="https://edit.dictio.info/login"'
+    assert_includes last_response.body, 'href="https://www.dictio.info/"'
+    assert_includes last_response.body, 'href="https://www.dictio.info/about"'
+    assert_includes last_response.body, 'href="https://www.dictio.info/help"'
+    assert_includes last_response.body, 'href="https://www.dictio.info/contact"'
+    assert_includes last_response.body, 'href="https://www.dictio.info/?lang=cs"'
+    refute_includes last_response.body, 'href="https://edit.dictio.info/login"'
     refute_includes last_response.body, 'class="mobile-search'
   end
 
@@ -110,12 +115,20 @@ class AuthenticationTest < AppTest
     assert_includes last_response.body, '<header class="header"'
     assert_includes last_response.body, '<footer class="footer"'
     assert_includes last_response.body, "<title>#{I18n.t('auth.register_title')}</title>"
+    assert_includes last_response.body, 'href="https://www.dictio.info/about"'
+    assert_includes last_response.body, 'href="https://www.dictio.info/help"'
+    assert_includes last_response.body, 'href="https://www.dictio.info/contact"'
+    assert_includes last_response.body, 'href="https://www.dictio.info/?lang=cs"'
+    refute_includes last_response.body, 'href="https://edit.dictio.info/register"'
     refute_includes last_response.body, 'class="mobile-search'
 
     edit_get "/activate/invalid-token"
     assert_includes last_response.body, '<header class="header"'
     assert_includes last_response.body, '<footer class="footer"'
     assert_includes last_response.body, "<title>#{I18n.t('auth.activation_title')}</title>"
+    assert_includes last_response.body, 'href="https://www.dictio.info/about"'
+    assert_includes last_response.body, 'href="https://www.dictio.info/help"'
+    assert_includes last_response.body, 'href="https://www.dictio.info/contact"'
     refute_includes last_response.body, 'class="mobile-search'
   end
 

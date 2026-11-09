@@ -234,6 +234,9 @@ class CzjApp < Sinatra::Base
     @request = request
     public_auth_path = ['/login', '/logout', '/register'].include?(request.path_info) ||
       request.path_info.start_with?('/activate/')
+    public_auth_page = ['/login', '/register'].include?(request.path_info) ||
+      request.path_info.start_with?('/activate/')
+    @public_site_url = public_auth_page ? 'https://www.dictio.info' : ''
     protected! if protected_host? && !public_auth_path
     if @user_info and @user_info['default_lang'].to_s != "" and I18n.available_locales.map(&:to_s).include?(@user_info["default_lang"]) and session[:locale].to_s == ""
       session[:locale] = @user_info['default_lang']
@@ -250,6 +253,7 @@ class CzjApp < Sinatra::Base
     I18n.locale = @selectlang
     @langpath = request.fullpath.gsub(/lang=[a-z]*/,'').gsub(/&&*/,'&')
     @langpath += '?' unless @langpath.include?('?')
+    @language_link_base = @public_site_url.empty? ? @langpath : "#{@public_site_url}/?"
     @search_limit = 10
     @translate_limit = 9
     @report_limit = 15
