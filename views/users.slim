@@ -35,6 +35,11 @@ main role="main"
                   | #{I18n.t("admin.users.email")}:
                   input type="text" name="email" value="#{user['email']}" size="40"
             tr
+              td colspan="4"
+                label
+                  | #{I18n.t("admin.users.organization")}:
+                  input type="text" name="organization" value="#{user['organization']}"
+            tr
               td colspan="2"
                 label
                   input type="checkbox" name="admin" checked=("checked" if user['admin'])
@@ -121,6 +126,11 @@ main role="main"
               label
                 | #{I18n.t("admin.users.email")}:
                 input type="text" name="email" size="40"
+          tr
+            td colspan="4"
+              label
+                | #{I18n.t("admin.users.organization")}:
+                input type="text" name="organization"
           tr                
             td colspan="2"
               label

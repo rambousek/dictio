@@ -21,6 +21,11 @@ main role="main"
                   input type="text" name="name" value=@user_info['name']
               tr
                 td
+                  label #{I18n.t("admin.users.organization")}:
+                td
+                  input type="text" name="organization" maxlength="200" value=@user_info['organization']
+              tr
+                td
                   label #{I18n.t("admin.users.email")}:
                 td
                   input type="text" name="email" value=@user_info['email']

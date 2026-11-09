@@ -119,6 +119,7 @@ class CzjApp < Sinatra::Base
         'login' => user['login'],
         'name' => user['name'],
         'email' => user['email'],
+        'organization' => user['organization'],
         'skupina' => user['skupina'],
         'copy' => user['copy'],
         'autor' => user['autor'],
@@ -230,6 +231,7 @@ class CzjApp < Sinatra::Base
 
 
   before do
+    @request = request
     public_auth_path = ['/login', '/logout', '/register'].include?(request.path_info) ||
       request.path_info.start_with?('/activate/')
     protected! if protected_host? && !public_auth_path
@@ -260,17 +262,21 @@ class CzjApp < Sinatra::Base
   get '/login' do
     halt 404 unless protected_host?
 
+    @page_title = I18n.t("auth.title")
+    @noindex = true
     @login_return_to = safe_return_path(params['return_to'])
     if authorized?
       redirect @login_return_to
     else
-      slim :login, layout: false
+      slim :login
     end
   end
 
   post '/login' do
     halt 404 unless protected_host?
     verify_csrf_token!
+    @page_title = I18n.t("auth.title")
+    @noindex = true
 
     login = params['login'].to_s.force_encoding('UTF-8')
     password = params['password'].to_s.force_encoding('UTF-8')
@@ -287,23 +293,28 @@ class CzjApp < Sinatra::Base
       @login_error = true
       @login_return_to = safe_return_path(params['return_to'])
       status 401
-      slim :login, layout: false
+      slim :login
     end
   end
 
   get '/register' do
+    @page_title = I18n.t("auth.register_title")
+    @noindex = true
     @registration_error = params['error']
-    slim :register, layout: false
+    slim :register
   end
 
   post '/register' do
     verify_csrf_token!
+    @page_title = I18n.t("auth.register_title")
+    @noindex = true
     registration = CzjUsers.register_user(
       login: params['login'],
       password: params['password'],
       password_confirmation: params['password_confirmation'],
       name: params['name'],
-      email: params['email']
+      email: params['email'],
+      organization: params['organization']
     )
     if registration.is_a?(Hash)
       activation_url = "https://edit.dictio.info/activate/#{Rack::Utils.escape_path(registration['token'])}"
@@ -315,21 +326,23 @@ class CzjApp < Sinatra::Base
         $stderr.puts "registration email delivery failed for #{registration['login']}: #{e.message}"
         @registration_error = "email_failed"
         status 503
-        slim :register, layout: false
+        slim :register
       else
         @registration_sent = true
-        slim :register, layout: false
+        slim :register
       end
     else
       @registration_error = registration.to_s
       status 422
-      slim :register, layout: false
+      slim :register
     end
   end
 
   get '/activate/:token' do
+    @page_title = I18n.t("auth.activation_title")
+    @noindex = true
     @activation_success = CzjUsers.activate_user(params['token'])
-    slim :registration_activation, layout: false
+    slim :registration_activation
   end
 
   post '/logout' do

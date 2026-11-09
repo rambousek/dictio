@@ -287,6 +287,7 @@ $( document ).ready(function() {
     }
     user.name = table.find('[name=name]').val()
     user.email = table.find('[name=email]').val()
+    user.organization = table.find('[name=organization]').val()
     user.autor = table.find('[name=autor]').val()
     user.copy = table.find('[name=copy]').val()
     user.zdroj = table.find('[name=zdroj]').val()

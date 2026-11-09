@@ -27,10 +27,11 @@ module CzjUsers
     end
   end
 
-  def register_user(login:, password:, password_confirmation:, name:, email:)
+  def register_user(login:, password:, password_confirmation:, name:, email:, organization: "")
     login = login.to_s.strip
     name = name.to_s.strip
     email = email.to_s.strip.downcase
+    organization = organization.to_s.strip
     return :invalid_login unless login.match?(/\A[a-zA-Z0-9_.-]{3,32}\z/)
     return :invalid_name if name.empty? || name.length > 200
     return :invalid_email if email.length > 254 || !email.match?(/\A[^@\s]+@[^@\s]+\.[^@\s]+\z/)
@@ -54,6 +55,7 @@ module CzjUsers
       "password" => password_digest(password),
       "name" => name,
       "email" => email,
+      "organization" => organization,
       "email_verified" => false,
       "activation_token_hash" => Digest::SHA256.hexdigest(token),
       "activation_expires_at" => Time.now + REGISTRATION_TOKEN_TTL,
@@ -166,6 +168,7 @@ module CzjUsers
       user_data['default_dict'] = new_info['default_dict'].to_s
       user_data['email'] = new_info['email'].to_s
       user_data['name'] = new_info['name'].to_s
+      user_data['organization'] = new_info['organization'].to_s.strip
       user_data['edit_synonym'] = false
       user_data['edit_trans'] = false
       user_data['edit_dict'] = []

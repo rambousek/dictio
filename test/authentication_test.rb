@@ -96,16 +96,35 @@ class AuthenticationTest < AppTest
   def test_login_page_links_to_registration
     edit_get "/login"
 
+    assert_includes last_response.body, '<header class="header"'
+    assert_includes last_response.body, '<footer class="footer"'
+    assert_includes last_response.body, '<meta name="robots" content="noindex,nofollow">'
+    assert_includes last_response.body, "<title>#{I18n.t('auth.title')}</title>"
     assert_includes last_response.body, 'href="/register"'
+  end
+
+  def test_registration_and_activation_use_the_global_layout
+    edit_get "/register"
+    assert_includes last_response.body, '<header class="header"'
+    assert_includes last_response.body, '<footer class="footer"'
+    assert_includes last_response.body, "<title>#{I18n.t('auth.register_title')}</title>"
+
+    edit_get "/activate/invalid-token"
+    assert_includes last_response.body, '<header class="header"'
+    assert_includes last_response.body, '<footer class="footer"'
+    assert_includes last_response.body, "<title>#{I18n.t('auth.activation_title')}</title>"
   end
 
   def test_registration_requires_email_activation_before_login
     edit_get "/register"
     csrf_token = csrf_token_from_response
+    assert_includes last_response.body, 'name="organization"'
+    assert_includes last_response.body, I18n.t("auth.organization")
     sent_mail = nil
     registration_params = {
       login: "new-user",
       name: "New User",
+      organization: "Example Organization",
       email: "new-user@example.test",
       password: "a-secure-password",
       password_confirmation: "a-secure-password",
@@ -131,6 +150,7 @@ class AuthenticationTest < AppTest
     user = $mongo["users"].find({"login" => "new-user"}).first
     assert_equal false, user["email_verified"]
     assert_equal false, user["admin"]
+    assert_equal "Example Organization", user["organization"]
     assert_empty user["editor"]
     assert CzjUsers.password_valid?("a-secure-password", user["password"])
     refute CzjUsers.password_valid?("wrong-password", user["password"])
@@ -164,6 +184,26 @@ class AuthenticationTest < AppTest
 
     assert_equal 422, last_response.status
     assert_empty $mongo["users"].find({"login" => "x"}).to_a
+  end
+
+  def test_user_can_update_organization_in_profile_settings
+    edit_get "/login"
+    edit_post "/login", login: USER["login"], password: PASSWORD,
+                        csrf_token: csrf_token_from_response
+    assert last_response.redirect?
+
+    edit_get "/usersettings"
+    assert_predicate last_response, :ok?
+    assert_includes last_response.body, 'name="organization"'
+    assert_includes last_response.body, I18n.t("admin.users.organization")
+
+    edit_post "/savesettings",
+              name: USER["name"], email: USER["email"], organization: "Example Institute",
+              default_lang: "cs", default_dict: "cs"
+
+    assert last_response.redirect?
+    user = $mongo["users"].find({"login" => USER["login"]}).first
+    assert_equal "Example Institute", user["organization"]
   end
 
   def test_administrator_links_are_available_from_edit_only_to_admin_users
