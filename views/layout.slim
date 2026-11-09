@@ -28,8 +28,6 @@ html
     .content
       == slim :header
       == yield
-    - @msclass = "mobile-search--modal"
-    == slim :mobilesearch
     == slim :footer
 
     script src="/js/libs/svg4everybody.min.js"

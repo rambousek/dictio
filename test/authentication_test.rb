@@ -102,6 +102,7 @@ class AuthenticationTest < AppTest
     assert_includes last_response.body, "<title>#{I18n.t('auth.title')}</title>"
     assert_includes last_response.body, 'href="/register"'
     assert_includes last_response.body, 'href="https://edit.dictio.info/login"'
+    refute_includes last_response.body, 'class="mobile-search'
   end
 
   def test_registration_and_activation_use_the_global_layout
@@ -109,11 +110,13 @@ class AuthenticationTest < AppTest
     assert_includes last_response.body, '<header class="header"'
     assert_includes last_response.body, '<footer class="footer"'
     assert_includes last_response.body, "<title>#{I18n.t('auth.register_title')}</title>"
+    refute_includes last_response.body, 'class="mobile-search'
 
     edit_get "/activate/invalid-token"
     assert_includes last_response.body, '<header class="header"'
     assert_includes last_response.body, '<footer class="footer"'
     assert_includes last_response.body, "<title>#{I18n.t('auth.activation_title')}</title>"
+    refute_includes last_response.body, 'class="mobile-search'
   end
 
   def test_registration_requires_email_activation_before_login
