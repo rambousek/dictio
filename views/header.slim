@@ -171,7 +171,7 @@ header.header role="banner"
                     input type="hidden" name="csrf_token" value=csrf_token
                     button.btn type="submit" #{I18n.t("menu.logout")}
                 - else   
-                  a.btn href="#{@public_site_url.empty? ? "https://edit.dictio.info#{@request.fullpath}" : "#{@public_site_url}/"}" #{I18n.t("menu.login")}
+                  a.btn href="https://edit.dictio.info#{@request.fullpath}" #{I18n.t("menu.login")}
         .nav__mobile
           .nav__mobile-search
             span.icon.icon--magnifier

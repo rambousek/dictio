@@ -79,9 +79,12 @@ class AuthenticationTest < AppTest
   def test_invalid_login_does_not_authorize_protected_pages
     edit_get "/login", return_to: "/about"
     csrf_token = csrf_token_from_response
+    refute_includes last_response.body, I18n.t("auth.forgot_password")
     edit_post "/login", login: USER["login"], password: "wrong", return_to: "/about", csrf_token: csrf_token
     assert_equal 401, last_response.status
     assert_includes last_response.body, 'name="password"'
+    assert_includes last_response.body,
+                    "<p role=\"alert\">#{I18n.t('auth.invalid')}</p><p><a href=\"/password-reset\">#{I18n.t('auth.forgot_password')}</a></p>"
 
     edit_get "/about"
     assert last_response.redirect?
@@ -182,14 +185,14 @@ class AuthenticationTest < AppTest
     assert_includes last_response.body, '<footer class="footer"'
     assert_match(/<meta\b(?=[^>]*name="robots")(?=[^>]*content="noindex,nofollow")[^>]*>/, last_response.body)
     assert_includes last_response.body, "<title>#{I18n.t('auth.title')}</title>"
-    assert_includes last_response.body, 'href="/password-reset"'
+    refute_includes last_response.body, I18n.t("auth.forgot_password")
     assert_includes last_response.body, 'href="/register"'
     assert_includes last_response.body, 'href="https://www.dictio.info/"'
     assert_includes last_response.body, 'href="https://www.dictio.info/about"'
     assert_includes last_response.body, 'href="https://www.dictio.info/help"'
     assert_includes last_response.body, 'href="https://www.dictio.info/contact"'
     assert_includes last_response.body, 'href="https://www.dictio.info/?lang=cs"'
-    refute_includes last_response.body, 'href="https://edit.dictio.info/login"'
+    assert_includes last_response.body, 'href="https://edit.dictio.info/login"'
     refute_includes last_response.body, 'class="mobile-search'
   end
 
@@ -202,7 +205,7 @@ class AuthenticationTest < AppTest
     assert_includes last_response.body, 'href="https://www.dictio.info/help"'
     assert_includes last_response.body, 'href="https://www.dictio.info/contact"'
     assert_includes last_response.body, 'href="https://www.dictio.info/?lang=cs"'
-    refute_includes last_response.body, 'href="https://edit.dictio.info/register"'
+    assert_includes last_response.body, 'href="https://edit.dictio.info/register"'
     refute_includes last_response.body, 'class="mobile-search'
 
     edit_get "/activate/invalid-token"
@@ -212,6 +215,7 @@ class AuthenticationTest < AppTest
     assert_includes last_response.body, 'href="https://www.dictio.info/about"'
     assert_includes last_response.body, 'href="https://www.dictio.info/help"'
     assert_includes last_response.body, 'href="https://www.dictio.info/contact"'
+    assert_includes last_response.body, 'href="https://edit.dictio.info/activate/invalid-token"'
     refute_includes last_response.body, 'class="mobile-search'
   end
 

@@ -3,6 +3,8 @@ section.section role="region"
     h1 = I18n.t("auth.title")
     - if @login_error
       p role="alert" = I18n.t("auth.invalid")
+      p
+        a href="/password-reset" = I18n.t("auth.forgot_password")
     form action="/login" method="post"
       input type="hidden" name="return_to" value=@login_return_to
       input type="hidden" name="csrf_token" value=csrf_token
@@ -15,6 +17,4 @@ section.section role="region"
       button.btn type="submit" = I18n.t("auth.submit")
     p
       a href="/register" = I18n.t("auth.register_link")
-    p
-      a href="/password-reset" = I18n.t("auth.forgot_password")
     
