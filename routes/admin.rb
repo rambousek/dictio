@@ -42,6 +42,8 @@ class CzjApp < Sinatra::Base
         slim :duplicate
       end
       get '/'+code+'/notrans' do
+        halt 404 unless can_edit_entries?
+
         @dictcode = code
         @target = ''
         @dict_info = $dict_info

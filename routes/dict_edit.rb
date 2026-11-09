@@ -150,6 +150,8 @@ class CzjApp < Sinatra::Base
         {"success"=>true,"msg"=>"Uloženo"}.to_json
       end
       get '/admin/'+code+'/comments' do
+        halt 404 unless can_edit_entries?
+
         @dictcode = code
         @params = params
         @target = ''

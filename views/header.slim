@@ -58,15 +58,16 @@ header.header role="banner"
                             a href="https://admin.dictio.info/#{@dictcode}/videoreport" #{I18n.t("admin.video")}                          
                           - else 
                             a href="https://admin.dictio.info/video" #{I18n.t("admin.video")}
-                      li
-                        - if @dictcode
-                          a href="https://admin.dictio.info/#{@dictcode}/notrans" #{I18n.t("admin.nolemma")}
-                      li
-                        - if @dictcode
-                          a href="https://admin.dictio.info/admin/#{@dictcode}/comments?assign=#{@user_info['login']}"
-                            | #{I18n.t("admin.comments")}
-                            - if assigned_comments[@dictcode].to_i > 0
-                              span style="color: red" (#{assigned_comments[@dictcode]})
+                      - if can_edit_entries?
+                        li
+                          - if @dictcode
+                            a href="https://admin.dictio.info/#{@dictcode}/notrans" #{I18n.t("admin.nolemma")}
+                        li
+                          - if @dictcode
+                            a href="https://admin.dictio.info/admin/#{@dictcode}/comments?assign=#{@user_info['login']}"
+                              | #{I18n.t("admin.comments")}
+                              - if assigned_comments[@dictcode].to_i > 0
+                                span style="color: red" (#{assigned_comments[@dictcode]})
                       - if can_view_duplicate_list?
                         li
                           - if @dictcode

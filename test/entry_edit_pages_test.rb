@@ -129,6 +129,8 @@ class EntryEditPagesTest < AppTest
       assert_includes last_response.body, I18n.t("menu.admin")
       refute_includes last_response.body, "https://admin.dictio.info/duplicates"
       refute_includes last_response.body, "https://admin.dictio.info/czj/duplicate"
+      refute_includes last_response.body, "https://admin.dictio.info/czj/notrans"
+      refute_includes last_response.body, "https://admin.dictio.info/admin/czj/comments"
 
       edit_get "/czj/report"
 
