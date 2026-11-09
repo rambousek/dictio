@@ -135,6 +135,7 @@ class EntryEditPagesTest < AppTest
       assert_predicate last_response, :ok?
       refute_match(/href="https:\/\/edit\.dictio\.info\/editor/, last_response.body)
       refute_includes last_response.body, I18n.t("admin.newentry")
+      refute_includes last_response.body, "https://admin.dictio.info/czj/duplicate"
     end
   end
 

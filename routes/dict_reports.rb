@@ -17,7 +17,7 @@ class CzjApp < Sinatra::Base
       @id_range_min = first_entry ? first_entry['id'] : '0'
       @id_range_max = last_entry ? last_entry['id'] : @id_range_min
       @report = REPORTS.get_report(dict, params, @user_info, 0, @report_limit)
-      @duplicate = CzjAdminDuplicate.get_duplicate_counts
+      @duplicate = can_view_duplicate_list? ? CzjAdminDuplicate.get_duplicate_counts : {'duplicate' => []}
       slim :report
     end
     get '/'+code+'/reportlist(/:start)?(/:limit)?' do
