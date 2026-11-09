@@ -123,6 +123,7 @@ class AuthenticationTest < AppTest
 
     edit_get "/reset-password/#{token}"
     assert_equal "no-referrer", last_response.headers["Referrer-Policy"]
+    assert_includes last_response.body, I18n.t("auth.password_reset_new_password_hint")
     assert_includes last_response.body, 'name="password_confirmation"'
     csrf_token = csrf_token_from_response
     edit_post "/reset-password/#{token}",

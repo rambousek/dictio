@@ -8,7 +8,7 @@ main id="mobilespacetop" role="main"
           - if @dict_info[@dictcode]['type'] == 'sign'
             div.search-results-sign
               - @result['entries'].each do |entry|
-                - if @is_edit or @is_admin
+                - if can_edit_entries?
                   span.trans__badge style="position: relative;" class="trans__badge__#{@dictcode}"
                     a.edit href="https://edit.dictio.info/editor#{entry['dict']}/?id=#{entry['id']}" #{@dictcode}-#{entry['id']}
                 div style="width:70%"
@@ -36,7 +36,7 @@ main id="mobilespacetop" role="main"
                 - if entry['lemma'] and entry['lemma']['title']
                   li
                     a href="#{@search_path}/#{entry['id']}#{(@url_params==''?'':'?')}#{@url_params}" onclick="return loadSearchResult(this)" data-entryid="#{entry['id']}" data-dict="#{entry['dict']}" = entry['lemma']['title']
-                    - if @is_edit or @is_admin
+                    - if can_edit_entries?
                       span.trans__badge style="position: relative; margin-left: 5px" class="trans__badge__#{@dictcode}"
                         a.edit href="https://edit.dictio.info/editor#{entry['dict']}/?id=#{entry['id']}" #{@dictcode}-#{entry['id']}
           - if @result['count'].to_i > @result['entries'].size

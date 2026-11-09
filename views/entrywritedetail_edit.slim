@@ -1,6 +1,6 @@
 .detail-word
   h1.detail-word__headline #{@entry['lemma']['title']}
-  - if @is_edit
+  - if can_edit_entries?
     p.detail__badge class="detail__badge--top detail__badge__#{@entry['dict']}" 
       a class="edit" href="/editor#{@entry['dict']}/?id=#{@entry['id']}"
         | #{@entry['dict']}-#{@entry['id']}

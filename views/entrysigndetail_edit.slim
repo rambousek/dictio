@@ -1,5 +1,5 @@
 .detail__head style="max-width:100%"
-  - if @is_edit
+  - if can_edit_entries?
     p.detail__badge.detail__badge--top class="detail__badge__#{@entry['dict']}"
       a class="edit" href="/editor#{@entry['dict']}/?id=#{@entry['id']}"
         | #{@entry['dict']}-#{@entry['id']}

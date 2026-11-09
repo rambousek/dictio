@@ -22,13 +22,13 @@ class EntryEditPagesTest < AppTest
     get "https://edit.dictio.info#{path}"
   end
 
-  def in_edit_mode
+  def in_edit_mode(user = EDITOR)
     previous = $is_edit # standard:disable Style/GlobalVars
     $is_edit = true # standard:disable Style/GlobalVars
-    $mongo.load("users", [EDITOR]) # standard:disable Style/GlobalVars
+    $mongo.load("users", [user]) # standard:disable Style/GlobalVars
     edit_get "/login"
     csrf_token = csrf_token_from_response
-    post "https://edit.dictio.info/login", login: EDITOR["login"], password: EDITOR_PASSWORD, csrf_token: csrf_token
+    post "https://edit.dictio.info/login", login: user["login"], password: EDITOR_PASSWORD, csrf_token: csrf_token
     assert_predicate last_response, :redirect?
     yield
   ensure
@@ -99,6 +99,55 @@ class EntryEditPagesTest < AppTest
       # the /editor link is emitted only by the *_edit templates, so this
       # proves the edit branch was taken rather than the public fallback
       assert_includes last_response.body, "/editor"
+      assert_includes last_response.body, "background-color: red"
+    end
+  end
+
+  def test_entry_edit_links_and_red_header_are_hidden_without_permissions
+    user = EDITOR.merge("editor" => [], "revizor" => [])
+
+    in_edit_mode(user) do
+      edit_get "/czj/show/38"
+
+      assert_predicate last_response, :ok?
+      refute_match(/href="(?:https:\/\/edit\.dictio\.info)?\/editor/, last_response.body)
+      refute_includes last_response.body, "background-color: red"
+      refute_includes last_response.body, "[czj-38]"
+      refute_includes last_response.body, I18n.t("menu.admin")
+    end
+  end
+
+  def test_komparator_sees_entry_id_on_translate_detail_without_edit_link
+    user = EDITOR.merge("editor" => ["komparator"], "revizor" => [])
+
+    in_edit_mode(user) do
+      edit_get "/czj/translate/cs/text/skakat/38"
+
+      assert_predicate last_response, :ok?
+      assert_includes last_response.body, "[czj-38]"
+      refute_match(/href="(?:https:\/\/edit\.dictio\.info)?\/editor/, last_response.body)
+      assert_includes last_response.body, I18n.t("menu.admin")
+      refute_includes last_response.body, "https://admin.dictio.info/duplicates"
+      refute_includes last_response.body, "https://admin.dictio.info/czj/duplicate"
+
+      edit_get "/czj/report"
+
+      assert_predicate last_response, :ok?
+      refute_match(/href="https:\/\/edit\.dictio\.info\/editor/, last_response.body)
+      refute_includes last_response.body, I18n.t("admin.newentry")
+    end
+  end
+
+  def test_entry_edit_links_and_red_header_are_hidden_for_komparator
+    user = EDITOR.merge("editor" => ["komparator"], "revizor" => [])
+
+    in_edit_mode(user) do
+      edit_get "/czj/show/38"
+
+      assert_predicate last_response, :ok?
+      refute_match(/href="(?:https:\/\/edit\.dictio\.info)?\/editor/, last_response.body)
+      refute_includes last_response.body, "background-color: red"
+      assert_includes last_response.body, "[czj-38]"
     end
   end
 

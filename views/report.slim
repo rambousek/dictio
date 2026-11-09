@@ -848,7 +848,7 @@ main role="main"
                     | #{I18n.t("admin.koment._us")}
                   - if @params['komentbox'] == 'vazby'
                     | #{I18n.t("admin.koment.vazby")}
-              - if @is_admin or @is_edit
+              - if can_edit_entries?
                 - if @params.count{|k,_| k =~ /sw/} > 0
                   th               
                 th width="10%"

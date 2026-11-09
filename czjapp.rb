@@ -141,6 +141,28 @@ class CzjApp < Sinatra::Base
       true
     end
 
+    def can_edit_entries?
+      return false unless @user_info
+      return true if @user_info['admin']
+
+      permissions = Array(@user_info['perm'])
+      !permissions.empty? && !permissions.include?('editor_komparator')
+    end
+
+    def can_view_entry_ids?
+      can_edit_entries? || Array(@user_info && @user_info['perm']).include?('editor_komparator')
+    end
+
+    def can_view_admin_menu?
+      return false unless @user_info
+
+      @user_info['admin'] || !Array(@user_info['perm']).empty?
+    end
+
+    def can_view_duplicate_list?
+      can_view_admin_menu? && !Array(@user_info && @user_info['perm']).include?('editor_komparator')
+    end
+
     def safe_return_path(path)
       return '/' unless path.is_a?(String)
       return '/' unless path.start_with?('/') && !path.start_with?('//')

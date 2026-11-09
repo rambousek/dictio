@@ -1,7 +1,7 @@
 .detail__head
   p.detail__badge.detail__badge--top class=((@is_edit? "detail__badge__#{@homonym['dict']}":""))
     | #{I18n.t("dict."+@homonym['dict'])} 
-    - if @is_edit
+    - if can_edit_entries?
       a class="edit" href="/editor#{@homonym['dict']}/?id=#{@homonym['id']}" 
         | [#{@homonym['dict']}-#{@homonym['id']}]
         span.icon.icon--edit
@@ -294,4 +294,3 @@
             == slim :fullentrytrans_edit
           - else
             == slim :fullentrytrans
-

@@ -86,6 +86,6 @@
           - entry['meanings'].select{|m| m['relation']}.each do |m|
             - m['relation'].select{|r| r['notrans'].to_s == 'true'}.each do |r|
               li #{r['target']}: #{r['meaning_id']} - v cílovém jazyce chybí
-    - if @is_admin or @is_edit
+    - if can_edit_entries?
       td
         a.btn href="https://edit.dictio.info/editor#{@dictcode}/?id=#{entry['id']}" target="_blank" edit

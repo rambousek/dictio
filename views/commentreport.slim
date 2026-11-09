@@ -60,4 +60,5 @@ main role="main"
                   - if koment.include?('assign') and koment['assign'] != ''
                     b → #{koment['assign']}
                 td 
-                  a.btn href="https://edit.dictio.info/editor#{koment['dict']}/?id=#{koment['entry']}" target="_blank" edit
+                  - if can_edit_entries?
+                    a.btn href="https://edit.dictio.info/editor#{koment['dict']}/?id=#{koment['entry']}" target="_blank" edit

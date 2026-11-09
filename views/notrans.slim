@@ -40,7 +40,8 @@ main role="main"
                       td 
                         a href="/#{entry['dict']}/show/#{entry['id']}" target="_blank" #{entry['dict']} #{entry['id']} (#{entry['relation']['meaning']})
                         br
-                        a.btn href="https://edit.dictio.info/editor#{entry['dict']}/?id=#{entry['id']}" target="_blank" edit                                                          
+                        - if can_edit_entries?
+                          a.btn href="https://edit.dictio.info/editor#{entry['dict']}/?id=#{entry['id']}" target="_blank" edit
                      
             h2           
               | #{I18n.t("admin.notrans2")}
@@ -79,5 +80,6 @@ main role="main"
                         td 
                           a href="/#{entry['dict']}/show/#{entry['id']}" target="_blank" #{entry['dict']} #{entry['id']} (#{entry['relation']['meaning']})
                           br
-                          a.btn href="https://edit.dictio.info/editor#{entry['dict']}/?id=#{entry['id']}" target="_blank" edit                                                            
+                          - if can_edit_entries?
+                            a.btn href="https://edit.dictio.info/editor#{entry['dict']}/?id=#{entry['id']}" target="_blank" edit
           
