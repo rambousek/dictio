@@ -261,6 +261,7 @@ class CzjApp < Sinatra::Base
     @public_site_url = public_auth_page ? 'https://www.dictio.info' : ''
     response['Referrer-Policy'] = 'no-referrer' if request.path_info.start_with?('/reset-password/')
     protected! if protected_host? && !public_auth_path
+    halt 404 if $is_admin && @user_info && !can_view_admin_menu?
     if @user_info and @user_info['default_lang'].to_s != "" and I18n.available_locales.map(&:to_s).include?(@user_info["default_lang"]) and session[:locale].to_s == ""
       session[:locale] = @user_info['default_lang']
     end

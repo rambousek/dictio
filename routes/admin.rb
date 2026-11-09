@@ -6,8 +6,8 @@ class CzjApp < Sinatra::Base
       @request = request
       @selected_page = 'admin'
       @lemma_counts = ADMIN_DICT.info_count.get_count_entry
-      @duplicate = CzjAdminDuplicate.get_duplicate_counts
-      @notrans_count = ADMIN_DICT.info_count.get_count_relation_notrans
+      @duplicate = can_view_duplicate_list? ? CzjAdminDuplicate.get_duplicate_counts : {'duplicate' => []}
+      @notrans_count = can_edit_entries? ? ADMIN_DICT.info_count.get_count_relation_notrans : Hash.new(0)
       page = 'admin'
       slim page.to_sym
     end

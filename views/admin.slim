@@ -17,17 +17,18 @@ main role="main"
                 td
                   a.btn class="btn--secondary" href="/#{code}/report" #{I18n.t("admin.reports")} (#{@lemma_counts[code]['entry_count']})
                 td
-                  a.btn class="btn--round" href="https://edit.dictio.info/editor#{code}/?id=" #{I18n.t("admin.newentry2")}
+                  - if can_edit_entries?
+                    a.btn class="btn--round" href="https://edit.dictio.info/editor#{code}/?id=" #{I18n.t("admin.newentry2")}
                 td
-                  - if $dict_info[code] and $dict_info[code]['type'] == 'sign'
+                  - if can_edit_entries? and $dict_info[code] and $dict_info[code]['type'] == 'sign'
                     a.btn class="btn--secondary" href="/#{code}/videoreport" #{I18n.t("admin.video")}
                 td
-                  - if @duplicate['duplicate'].select{|info| info['code'] == code}[0] != nil
+                  - if can_view_duplicate_list? and @duplicate['duplicate'].select{|info| info['code'] == code}[0] != nil
                     a.btn class="btn--secondary" href="https://admin.dictio.info/#{code}/duplicate"
                       | #{I18n.t("admin.dup")}
                       span style="color: red" (#{@duplicate['duplicate'].select{|info| info['code'] == code}[0]['count']})
                 td
-                  - if @notrans_count[code] > 0
+                  - if can_edit_entries? and @notrans_count[code] > 0
                     a.btn class="btn--secondary" href="https://admin.dictio.info/#{code}/notrans"
                       | #{I18n.t("admin.nolemma")}
                       span style="color: red" (#{@notrans_count[code]})
