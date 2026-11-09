@@ -177,9 +177,12 @@ module CzjUsers
       $dict_info.each{|code, _|
         user_data['edit_dict'] << code if new_info['edit_dict_'+code].to_s == 'on'
       }
-      $mongo['users'].find({'login': user_info['login']}).delete_many
-      $mongo['users'].insert_one(user_data)
-      true
+      updated_fields = user_data.reject { |key, _value| key == '_id' }
+      result = $mongo['users'].update_one(
+        {'login': user_info['login']},
+        {'$set' => updated_fields}
+      )
+      result.matched_count.positive?
     end
   end
 end
