@@ -232,11 +232,12 @@ class CzjApp < Sinatra::Base
 
   before do
     @request = request
-    public_auth_path = ['/login', '/logout', '/register'].include?(request.path_info) ||
-      request.path_info.start_with?('/activate/')
-    public_auth_page = ['/login', '/register'].include?(request.path_info) ||
-      request.path_info.start_with?('/activate/')
+    public_auth_path = ['/login', '/logout', '/register', '/password-reset'].include?(request.path_info) ||
+      request.path_info.start_with?('/activate/', '/reset-password/')
+    public_auth_page = ['/login', '/register', '/password-reset'].include?(request.path_info) ||
+      request.path_info.start_with?('/activate/', '/reset-password/')
     @public_site_url = public_auth_page ? 'https://www.dictio.info' : ''
+    response['Referrer-Policy'] = 'no-referrer' if request.path_info.start_with?('/reset-password/')
     protected! if protected_host? && !public_auth_path
     if @user_info and @user_info['default_lang'].to_s != "" and I18n.available_locales.map(&:to_s).include?(@user_info["default_lang"]) and session[:locale].to_s == ""
       session[:locale] = @user_info['default_lang']
@@ -306,6 +307,57 @@ class CzjApp < Sinatra::Base
     @noindex = true
     @registration_error = params['error']
     slim :register
+  end
+
+  get '/password-reset' do
+    @page_title = I18n.t("auth.password_reset_title")
+    @noindex = true
+    slim :password_reset
+  end
+
+  post '/password-reset' do
+    verify_csrf_token!
+    @page_title = I18n.t("auth.password_reset_title")
+    @noindex = true
+    reset = CzjUsers.create_password_reset(params['email'])
+    if reset
+      reset_url = "https://edit.dictio.info/reset-password/#{Rack::Utils.escape_path(reset['token'])}"
+      subject = I18n.t("auth.password_reset_email_subject")
+      message = I18n.t("auth.password_reset_email_body", login: reset["login"], url: reset_url)
+      begin
+        CzjMail.send_mail(reset["email"], subject, message)
+      rescue StandardError => e
+        $stderr.puts "password reset email delivery failed for #{reset['login']}: #{e.message}"
+      end
+    end
+    @password_reset_sent = true
+    slim :password_reset
+  end
+
+  get '/reset-password/:token' do
+    @page_title = I18n.t("auth.password_reset_title")
+    @noindex = true
+    @password_reset_token = params['token']
+    slim :password_reset
+  end
+
+  post '/reset-password/:token' do
+    verify_csrf_token!
+    @page_title = I18n.t("auth.password_reset_title")
+    @noindex = true
+    @password_reset_token = params['token']
+    result = CzjUsers.reset_password(
+      @password_reset_token,
+      params['password'],
+      params['password_confirmation']
+    )
+    if result == true
+      @password_reset_success = true
+    else
+      @password_reset_error = result.to_s
+      status 422 unless result == :invalid_token
+    end
+    slim :password_reset
   end
 
   post '/register' do

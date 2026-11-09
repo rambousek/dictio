@@ -5,6 +5,7 @@ module CzjUsers
   extend self
 
   REGISTRATION_TOKEN_TTL = 24 * 60 * 60
+  PASSWORD_RESET_TOKEN_TTL = 60 * 60
   PASSWORD_ITERATIONS = 210_000
 
   def password_digest(password)
@@ -101,6 +102,58 @@ module CzjUsers
       }}
     )
     result.matched_count.positive?
+  end
+
+  def create_password_reset(email)
+    normalized_email = email.to_s.strip.downcase
+    return nil if normalized_email.empty?
+
+    user = $mongo["users"].find({}).find do |candidate|
+      candidate["email"].to_s.downcase == normalized_email &&
+        candidate["email_verified"] != false
+    end
+    return nil unless user
+
+    token = SecureRandom.urlsafe_base64(32)
+    expires_at = Time.now + PASSWORD_RESET_TOKEN_TTL
+    result = $mongo["users"].update_one(
+      {"login" => user["login"]},
+      {"$set" => {
+        "password_reset_token_hash" => Digest::SHA256.hexdigest(token),
+        "password_reset_expires_at" => expires_at
+      }}
+    )
+    return nil unless result.matched_count.positive?
+
+    {"login" => user["login"], "email" => user["email"], "token" => token}
+  end
+
+  def reset_password(token, password, password_confirmation)
+    return :invalid_token if token.to_s.empty?
+    return :short_password if password.to_s.length < 10
+    return :long_password if password.to_s.length > 1024
+    return :password_mismatch unless password == password_confirmation
+
+    token_hash = Digest::SHA256.hexdigest(token.to_s)
+    user = $mongo["users"].find({"password_reset_token_hash" => token_hash}).first
+    return :invalid_token unless user &&
+      user["password_reset_expires_at"].is_a?(Time) &&
+      user["password_reset_expires_at"] > Time.now &&
+      user["email_verified"] != false
+
+    result = $mongo["users"].update_one(
+      {
+        "login" => user["login"],
+        "password_reset_token_hash" => token_hash,
+        "password_reset_expires_at" => user["password_reset_expires_at"]
+      },
+      {"$set" => {
+        "password" => password_digest(password),
+        "password_reset_token_hash" => nil,
+        "password_reset_expires_at" => nil
+      }}
+    )
+    result.matched_count.positive? ? true : :invalid_token
   end
 
   def get_users

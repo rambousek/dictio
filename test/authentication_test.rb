@@ -93,6 +93,88 @@ class AuthenticationTest < AppTest
     assert_equal 403, last_response.status
   end
 
+  def test_password_reset_uses_one_time_token_and_updates_password
+    edit_get "/password-reset"
+    csrf_token = csrf_token_from_response
+    assert_includes last_response.body, I18n.t("auth.password_reset_instructions")
+
+    sent_mail = nil
+    original_send_mail = CzjMail.method(:send_mail)
+    CzjMail.define_singleton_method(:send_mail) do |to, subject, body|
+      sent_mail = [to, subject, body]
+    end
+    begin
+      edit_post "/password-reset", email: USER["email"].upcase, csrf_token: csrf_token
+    ensure
+      CzjMail.define_singleton_method(:send_mail, original_send_mail)
+    end
+
+    assert_predicate last_response, :ok?
+    assert_includes last_response.body, I18n.t("auth.password_reset_sent")
+    assert_equal USER["email"], sent_mail[0]
+    assert_includes sent_mail[2], "https://edit.dictio.info/reset-password/"
+    token = sent_mail[2].match(%r{/reset-password/([A-Za-z0-9_-]+)})[1]
+    stored_user = $mongo["users"].find({"login" => USER["login"]}).first
+    refute_equal token, stored_user["password_reset_token_hash"]
+    assert_operator stored_user["password_reset_expires_at"], :>, Time.now
+
+    edit_get "/reset-password/#{token}"
+    assert_equal "no-referrer", last_response.headers["Referrer-Policy"]
+    assert_includes last_response.body, 'name="password_confirmation"'
+    csrf_token = csrf_token_from_response
+    edit_post "/reset-password/#{token}",
+              password: "a-new-secure-password",
+              password_confirmation: "a-new-secure-password",
+              csrf_token: csrf_token
+
+    assert_predicate last_response, :ok?
+    assert_includes last_response.body, I18n.t("auth.password_reset_success")
+    stored_user = $mongo["users"].find({"login" => USER["login"]}).first
+    assert CzjUsers.password_valid?("a-new-secure-password", stored_user["password"])
+    refute CzjUsers.password_valid?(PASSWORD, stored_user["password"])
+    assert_nil stored_user["password_reset_token_hash"]
+    assert_nil stored_user["password_reset_expires_at"]
+    assert_equal :invalid_token,
+                 CzjUsers.reset_password(token, "another-secure-password", "another-secure-password")
+
+    edit_get "/login"
+    edit_post "/login", login: USER["login"], password: "a-new-secure-password",
+                        csrf_token: csrf_token_from_response
+    assert last_response.redirect?
+  end
+
+  def test_password_reset_request_and_submission_require_csrf
+    edit_post "/password-reset", email: USER["email"]
+    assert_equal 403, last_response.status
+
+    edit_post "/reset-password/invalid-token",
+              password: "a-new-secure-password",
+              password_confirmation: "a-new-secure-password"
+    assert_equal 403, last_response.status
+  end
+
+  def test_password_reset_page_uses_global_layout_and_hides_account_existence
+    edit_get "/password-reset"
+    csrf_token = csrf_token_from_response
+    assert_includes last_response.body, '<header class="header"'
+    assert_includes last_response.body, '<footer class="footer"'
+    assert_includes last_response.body, I18n.t("auth.password_reset_title")
+
+    original_send_mail = CzjMail.method(:send_mail)
+    CzjMail.define_singleton_method(:send_mail) do |_to, _subject, _body|
+    end
+    begin
+      edit_post "/password-reset", email: USER["email"], csrf_token: csrf_token
+      known_account_response = last_response.body
+      assert_includes known_account_response, I18n.t("auth.password_reset_sent")
+
+      edit_post "/password-reset", email: "unknown@example.test", csrf_token: csrf_token
+      assert_equal known_account_response, last_response.body
+    ensure
+      CzjMail.define_singleton_method(:send_mail, original_send_mail)
+    end
+  end
+
   def test_login_page_links_to_registration
     edit_get "/login"
 
@@ -100,6 +182,7 @@ class AuthenticationTest < AppTest
     assert_includes last_response.body, '<footer class="footer"'
     assert_match(/<meta\b(?=[^>]*name="robots")(?=[^>]*content="noindex,nofollow")[^>]*>/, last_response.body)
     assert_includes last_response.body, "<title>#{I18n.t('auth.title')}</title>"
+    assert_includes last_response.body, 'href="/password-reset"'
     assert_includes last_response.body, 'href="/register"'
     assert_includes last_response.body, 'href="https://www.dictio.info/"'
     assert_includes last_response.body, 'href="https://www.dictio.info/about"'
