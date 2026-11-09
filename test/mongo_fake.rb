@@ -36,7 +36,7 @@ class FakeCollection
   end
 
   def replace(docs)
-    @docs = docs
+    @docs = Marshal.load(Marshal.dump(docs))
   end
 
   def find(filter = {}, opts = {})
