@@ -98,7 +98,7 @@ class AuthenticationTest < AppTest
 
     assert_includes last_response.body, '<header class="header"'
     assert_includes last_response.body, '<footer class="footer"'
-    assert_includes last_response.body, '<meta name="robots" content="noindex,nofollow">'
+    assert_match(/<meta\b(?=[^>]*name="robots")(?=[^>]*content="noindex,nofollow")[^>]*>/, last_response.body)
     assert_includes last_response.body, "<title>#{I18n.t('auth.title')}</title>"
     assert_includes last_response.body, 'href="/register"'
     assert_includes last_response.body, 'href="https://edit.dictio.info/login"'

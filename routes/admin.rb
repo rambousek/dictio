@@ -53,6 +53,20 @@ class CzjApp < Sinatra::Base
     end
   }
 
+  get '/usersettings' do
+    halt 404 unless protected_host?
+
+    @dict_info = $dict_info
+    slim :usersettings
+  end
+
+  post '/savesettings' do
+    halt 404 unless protected_host?
+
+    CzjUsers.save_user_setting(@user_info, params)
+    redirect to('/usersettings?profile_save=true&lang='+params['default_lang'].to_s)
+  end
+
   if $is_edit or $is_admin
     get '/video' do
       @dict_info = $dict_info
@@ -61,16 +75,6 @@ class CzjApp < Sinatra::Base
       @selected_page = 'help'
       page = 'video'
       slim page.to_sym
-    end
-
-    get '/usersettings' do
-      @dict_info = $dict_info
-      slim :usersettings
-    end
-
-    post '/savesettings' do
-      CzjUsers.save_user_setting(@user_info, params)
-      redirect to('/usersettings?profile_save=true&lang='+params['default_lang'].to_s)
     end
   end
 
