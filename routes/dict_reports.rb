@@ -113,6 +113,8 @@ class CzjApp < Sinatra::Base
       csv.join("\n")
     end
     get '/'+code+'/videoreport' do
+      halt 404 unless can_edit_entries?
+
       @dictcode = code
       @target = ''
       @dict_info = $dict_info
@@ -126,6 +128,8 @@ class CzjApp < Sinatra::Base
       slim :videoreport
     end
     get '/'+code+'/videoreportlist(/:start)?(/:limit)?' do
+      halt 404 unless can_edit_entries?
+
       @dictcode = code
       @target = ''
       @dict_info = $dict_info
@@ -134,10 +138,14 @@ class CzjApp < Sinatra::Base
       slim :videoreportresultlist, :layout=>false
     end
     get '/'+code+'/jsonvideoreport' do
+      halt 404 unless can_edit_entries?
+
       content_type :json
       dict.get_videoreport(params).to_json
     end
     get '/'+code+'/csvvideoreport' do
+      halt 404 unless can_edit_entries?
+
       content_type 'text/csv; charset=utf-8'
       attachment 'export.csv'
       csv = ['název;hesla;autor;zdroj;autor videa;datum']

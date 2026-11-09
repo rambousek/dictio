@@ -117,6 +117,17 @@ class EntryEditPagesTest < AppTest
     end
   end
 
+  def test_user_without_permissions_cannot_access_video_reports
+    user = EDITOR.merge("editor" => [], "revizor" => [])
+
+    in_edit_mode(user) do
+      ["/czj/videoreport", "/czj/videoreportlist", "/czj/jsonvideoreport", "/czj/csvvideoreport"].each do |path|
+        edit_get path
+        assert_equal 404, last_response.status, "#{path} should be inaccessible without permissions"
+      end
+    end
+  end
+
   def test_komparator_sees_entry_id_on_translate_detail_without_edit_link
     user = EDITOR.merge("editor" => ["komparator"], "revizor" => [])
 
