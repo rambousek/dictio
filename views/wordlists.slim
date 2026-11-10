@@ -1,7 +1,12 @@
 main role="main"
-  section.section role="region"
+  section.section role="region" style="background-color: #1c2641"
     .container
-      h1 = I18n.t("wordlists.title")
+      .row
+        article.col.col--2.col--start role="article"
+          h1 style="color: white" #{I18n.t("menu.admin")} 
+          h2 style="color: silver" #{I18n.t("wordlists.title")}
+  section.section 
+    .container      
       - if @wordlist_error == 'invalid'
         p role="alert" = I18n.t("wordlists.invalid")
       - if @wordlists.empty?

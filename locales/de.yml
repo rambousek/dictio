@@ -233,6 +233,7 @@ de:
     sharing_updated: "Die Freigabe der Wortliste wurde gespeichert."
     shared_with_you: "geteilt"
     owner: "Eigentümer"
+    no_owner: "Ohne Eigentümer"
     owner_label: "Eigentümer: %{name}"
     visibility: "Sichtbarkeit"
     private: "privat"

@@ -132,7 +132,7 @@ class CzjWordLists
     return :invalid_owner if new_owner_login.empty? || new_owner_login == owner_login.to_s
     return :invalid_owner unless $mongo["users"].find({"login" => new_owner_login}).first
 
-    shared_logins = (Array(wordlist["shared_with"]) + [owner_login.to_s]).uniq - [new_owner_login]
+    shared_logins = (Array(wordlist["shared_with"]) + [owner_login.to_s]).reject(&:empty?).uniq - [new_owner_login]
     result = $mongo["wordlists"].update_one(
       {"_id" => wordlist["_id"], "owner_login" => owner_login.to_s},
       {"$set" => {

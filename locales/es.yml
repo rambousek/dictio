@@ -233,6 +233,7 @@ es:
     sharing_updated: "Se ha guardado el uso compartido de la lista."
     shared_with_you: "compartida"
     owner: "Propietario"
+    no_owner: "Sin propietario"
     owner_label: "Propietario: %{name}"
     visibility: "Visibilidad"
     private: "privada"

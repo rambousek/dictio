@@ -233,6 +233,7 @@ en:
     sharing_updated: "Wordlist sharing has been saved."
     shared_with_you: "shared"
     owner: "Owner"
+    no_owner: "Unassigned"
     owner_label: "Owner: %{name}"
     visibility: "Visibility"
     private: "private"

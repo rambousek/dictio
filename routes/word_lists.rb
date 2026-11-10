@@ -26,7 +26,7 @@ class CzjApp < Sinatra::Base
       require_word_lists_admin!
       wordlist = word_lists.find_by_id(id)
       halt 404 unless wordlist
-      wordlist['owner_login']
+      wordlist['owner_login'].to_s
     end
   end
 
@@ -59,9 +59,11 @@ class CzjApp < Sinatra::Base
     halt 404 unless @wordlist
     @wordlist_admin = true
     @wordlist_owner = true
-    owner = $mongo['users'].find({'login' => @wordlist['owner_login']}).first
+    owner_login = @wordlist['owner_login'].to_s
+    owner = $mongo['users'].find({'login' => owner_login}).first unless owner_login.empty?
     @wordlist_owner_name = owner && owner['name'].to_s.strip
-    @wordlist_owner_name = @wordlist['owner_login'] if @wordlist_owner_name.to_s.empty?
+    @wordlist_owner_name = owner_login if @wordlist_owner_name.to_s.empty? && !owner_login.empty?
+    @wordlist_owner_name = I18n.t('wordlists.no_owner') if owner_login.empty?
     prepare_word_lists_page(@wordlist['dict'])
     @entries = word_lists.entries_for(@wordlist)
     @wordlist_error = params['error']

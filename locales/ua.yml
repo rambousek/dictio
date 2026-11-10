@@ -233,6 +233,7 @@ ua:
     sharing_updated: "Спільний доступ до словника збережено."
     shared_with_you: "спільний"
     owner: "Власник"
+    no_owner: "Без власника"
     owner_label: "Власник: %{name}"
     visibility: "Видимість"
     private: "приватний"

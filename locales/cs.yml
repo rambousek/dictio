@@ -233,6 +233,7 @@ cs:
     sharing_updated: "Sdílení slovníčku bylo uloženo."
     shared_with_you: "sdílený"
     owner: "Vlastník"
+    no_owner: "Bez vlastníka"
     owner_label: "Vlastník: %{name}"
     visibility: "Viditelnost"
     private: "soukromý"

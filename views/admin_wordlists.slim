@@ -15,12 +15,15 @@ main role="main"
               th = I18n.t("wordlists.visibility")
           tbody
             - @wordlists.each do |wordlist|
-              - owner_name = @wordlist_owners[wordlist['owner_login']].to_s.strip
-              - owner_name = wordlist['owner_login'] if owner_name.empty?
+              - owner_login = wordlist['owner_login'].to_s
+              - owner_name = @wordlist_owners[owner_login].to_s.strip
+              - owner_name = I18n.t("wordlists.no_owner") if owner_login.empty?
+              - owner_name = owner_login if owner_name.empty?
+              - owner_display = owner_login.empty? ? owner_name : "#{owner_name} (#{owner_login})"
               tr
                 td
                   a href="/admin/wordlists/#{wordlist['_id']}" = wordlist['name']
-                td #{owner_name} (#{wordlist['owner_login']})
+                td = owner_display
                 td = I18n.t("dict.#{wordlist['dict']}")
                 td = Array(wordlist['entries']).length
                 td = I18n.t(wordlist['is_public'] ? "wordlists.public" : "wordlists.private")

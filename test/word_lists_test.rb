@@ -77,8 +77,8 @@ class WordListsTest < AppTest
     assert last_response.redirect?
   end
 
-  def login_admin
-    $mongo.load("users", [USER, COLLABORATOR, ADMIN]) # standard:disable Style/GlobalVars
+  def login_admin(users = [USER, COLLABORATOR, ADMIN])
+    $mongo.load("users", users) # standard:disable Style/GlobalVars
     login(ADMIN, ADMIN_PASSWORD)
     $is_edit = false # standard:disable Style/GlobalVars
     $is_admin = true # standard:disable Style/GlobalVars
@@ -167,8 +167,19 @@ class WordListsTest < AppTest
     end
 
     assert_nil $mongo["users"].find({"login" => USER["login"]}).first
-    assert_equal USER["login"], service.find_by_id(wordlist["_id"])["owner_login"]
+    assert_equal "", service.find_by_id(wordlist["_id"])["owner_login"]
     assert_equal [{"dict" => "cs", "id" => "3881"}], service.find_by_id(wordlist["_id"])["entries"]
+
+    login_admin([COLLABORATOR, ADMIN])
+    admin_get "/admin/wordlists/#{wordlist['_id']}"
+    assert_predicate last_response, :ok?
+    assert_includes last_response.body, I18n.t("wordlists.owner_label", name: I18n.t("wordlists.no_owner"))
+    token = csrf_token_from_response
+    admin_post "/admin/wordlists/#{wordlist['_id']}/update",
+               name: "Adopted by admin", sort_mode: "manual",
+               second_language: "all", is_public: "false", csrf_token: token
+    assert last_response.redirect?
+    assert_equal "Adopted by admin", service.find_by_id(wordlist["_id"])["name"]
   end
 
   def test_deleting_user_can_delete_nonempty_unshared_wordlists

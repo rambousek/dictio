@@ -313,6 +313,15 @@ module CzjUsers
               'updated_at' => Time.now
             }}
           )
+        elsif action == :keep
+          wordlists.update_one(
+            {'_id' => wordlist['_id'], 'owner_login' => login},
+            {'$set' => {
+              'owner_login' => '',
+              'shared_with' => [],
+              'updated_at' => Time.now
+            }}
+          )
         elsif action == :delete
           wordlists.delete_one({'_id' => wordlist['_id'], 'owner_login' => login})
         end
