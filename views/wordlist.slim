@@ -5,7 +5,7 @@ main role="main"
       h1.wordlist-title
         span = @wordlist['name']
       p
-        a href=(@wordlist_admin ? "/admin/wordlists" : "/wordlists") = I18n.t("wordlists.back")
+        a href=(@wordlist_admin ? "/admin/wordlists" : "/wordlists") = I18n.t(@wordlist_admin ? "wordlists.back_admin" : "wordlists.back")
       - if @wordlist_error
         p role="alert" = I18n.t("wordlists.errors.#{@wordlist_error}", default: I18n.t("wordlists.invalid"))
       - if @sharing_updated

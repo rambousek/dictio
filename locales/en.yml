@@ -213,6 +213,7 @@ en:
     empty: "You do not have any wordlists yet."
     public: "public"
     back: "Back to my wordlists"
+    back_admin: "Back to wordlist overview"
     invalid: "Please check the provided values."
     sort: "Sort order"
     sort_modes:

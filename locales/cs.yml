@@ -213,6 +213,7 @@ cs:
     empty: "Zatím nemáte žádný slovníček."
     public: "veřejný"
     back: "Zpět na moje slovníčky"
+    back_admin: "Zpět na přehled slovníčků"
     invalid: "Zkontrolujte zadané údaje."
     sort: "Řazení"
     sort_modes:

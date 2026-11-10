@@ -8,7 +8,7 @@ class WordListsTest < AppTest
     "password" => PASSWORD.crypt("ab"),
     "name" => "Wordlist User",
     "email" => "wordlist@example.test",
-    "skupina" => "",
+    "skupina" => [],
     "copy" => "",
     "autor" => "",
     "zdroj" => "",

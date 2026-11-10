@@ -213,6 +213,7 @@ es:
     empty: "Todavía no tienes listas de palabras."
     public: "pública"
     back: "Volver a mis listas"
+    back_admin: "Volver al resumen de listas"
     invalid: "Comprueba los datos introducidos."
     sort: "Orden"
     sort_modes:

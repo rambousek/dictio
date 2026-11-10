@@ -213,6 +213,7 @@ de:
     empty: "Sie haben noch keine Wortlisten."
     public: "öffentlich"
     back: "Zurück zu meinen Wortlisten"
+    back_admin: "Zurück zur Wortlistenübersicht"
     invalid: "Bitte überprüfen Sie Ihre Eingaben."
     sort: "Sortierung"
     sort_modes:
