@@ -407,6 +407,8 @@ $( document ).ready(function() {
                 if (search.data('entry-type') === 'sign' && lemma.video_front) {
                   var video = document.createElement('video');
                   video.className = 'wordlist-entry-result__video';
+                  video.width = 177;
+                  video.height = 142;
                   video.preload = 'metadata';
                   video.muted = true;
                   video.playsInline = true;

@@ -289,8 +289,10 @@ video.czj {
 }
 
 .wordlist-entry-result__video {
-  width: 72px;
-  height: 54px;
+  width: 177px;
+  height: 142px;
+  max-width: 100%;
+  max-height: 142px;
   flex: 0 0 auto;
   object-fit: cover;
   background: #111;
