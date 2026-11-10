@@ -115,6 +115,78 @@ class WordListsTest < AppTest
     assert CzjWordLists.new.find_owned(list["_id"], USER["login"])
   end
 
+  def test_deleting_user_removes_owned_wordlists_and_shared_access
+    service = CzjWordLists.new
+    empty_private_list = service.create(USER["login"], "Empty private list", "cs")
+    shared_list = service.create(USER["login"], "Shared list", "cs")
+    collaborator_list = service.create(COLLABORATOR["login"], "Collaborator list", "cs")
+    $mongo.load("users", [USER, COLLABORATOR, ADMIN]) # standard:disable Style/GlobalVars
+    assert_equal :added, service.add_entry(shared_list["_id"], USER["login"], "3881")
+    assert_equal :updated, service.update_sharing(shared_list["_id"], USER["login"], [COLLABORATOR["login"], ADMIN["login"]])
+    assert_equal :updated, service.update_sharing(collaborator_list["_id"], COLLABORATOR["login"], USER["login"])
+
+    original_send_mail = CzjMail.method(:send_mail)
+    CzjMail.define_singleton_method(:send_mail) { |_to, _subject, _body| }
+    begin
+      assert CzjUsers.delete_user(USER["login"])
+    ensure
+      CzjMail.define_singleton_method(:send_mail, original_send_mail)
+    end
+
+    assert_nil service.find_by_id(empty_private_list["_id"])
+    preserved_list = service.find_by_id(shared_list["_id"])
+    assert_equal COLLABORATOR["login"], preserved_list["owner_login"]
+    assert_equal [ADMIN["login"]], preserved_list["shared_with"]
+    assert_equal [{"dict" => "cs", "id" => "3881"}], preserved_list["entries"]
+    assert_equal [], service.find_by_id(collaborator_list["_id"])["shared_with"]
+    assert_nil $mongo["users"].find({"login" => USER["login"]}).first
+  end
+
+  def test_nonempty_unshared_wordlist_requires_a_deletion_choice
+    service = CzjWordLists.new
+    wordlist = service.create(USER["login"], "Private list", "cs")
+    assert_equal :added, service.add_entry(wordlist["_id"], USER["login"], "3881")
+
+    assert_equal :wordlists_require_choice, CzjUsers.delete_user(USER["login"])
+
+    assert $mongo["users"].find({"login" => USER["login"]}).first
+    assert_equal USER["login"], service.find_by_id(wordlist["_id"])["owner_login"]
+    assert_equal [{"dict" => "cs", "id" => "3881"}], service.find_by_id(wordlist["_id"])["entries"]
+  end
+
+  def test_deleting_user_can_keep_nonempty_unshared_wordlists
+    service = CzjWordLists.new
+    wordlist = service.create(USER["login"], "Private list", "cs")
+    assert_equal :added, service.add_entry(wordlist["_id"], USER["login"], "3881")
+    original_send_mail = CzjMail.method(:send_mail)
+    CzjMail.define_singleton_method(:send_mail) { |_to, _subject, _body| }
+    begin
+      assert CzjUsers.delete_user(USER["login"], wordlist_action: "keep")
+    ensure
+      CzjMail.define_singleton_method(:send_mail, original_send_mail)
+    end
+
+    assert_nil $mongo["users"].find({"login" => USER["login"]}).first
+    assert_equal USER["login"], service.find_by_id(wordlist["_id"])["owner_login"]
+    assert_equal [{"dict" => "cs", "id" => "3881"}], service.find_by_id(wordlist["_id"])["entries"]
+  end
+
+  def test_deleting_user_can_delete_nonempty_unshared_wordlists
+    service = CzjWordLists.new
+    wordlist = service.create(USER["login"], "Private list", "cs")
+    assert_equal :added, service.add_entry(wordlist["_id"], USER["login"], "3881")
+    original_send_mail = CzjMail.method(:send_mail)
+    CzjMail.define_singleton_method(:send_mail) { |_to, _subject, _body| }
+    begin
+      assert CzjUsers.delete_user(USER["login"], wordlist_action: "delete")
+    ensure
+      CzjMail.define_singleton_method(:send_mail, original_send_mail)
+    end
+
+    assert_nil $mongo["users"].find({"login" => USER["login"]}).first
+    assert_nil service.find_by_id(wordlist["_id"])
+  end
+
   def test_admin_can_view_and_manage_any_users_wordlist
     list = CzjWordLists.new.create(USER["login"], "Admin managed list", "cs")
     login_admin

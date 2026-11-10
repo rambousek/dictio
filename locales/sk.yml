@@ -797,7 +797,7 @@ sk:
       revtrans: "ekvivalenty na schválenie"
       comtrans: "komentované ekvivalenty"
     wordlists:
-      title: "Správa slovníčkov"
+      title: "Používateľské slovníčky"
       empty: "Nenašli sa žiadne slovníčky."
     users:
       title: "správa použivateľov"
@@ -820,6 +820,9 @@ sk:
       organization: "Organizácia"
       save: "uložit"
       delete: "smazat"
+      delete_wordlists_remain: "Používateľ má neprázdne nezdieľané slovníčky. Chcete účet napriek tomu odstrániť?"
+      delete_wordlists_choice: "Zadajte A, ak chcete slovníčky ponechať, alebo B, ak ich chcete odstrániť."
+      delete_wordlists_invalid_choice: "Neplatná voľba. Zadajte A alebo B."
       pass: "heslo"
       userset: "Osobné nastavenie"
       editset: "Nastavenie editácie"

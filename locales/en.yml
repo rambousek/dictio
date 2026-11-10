@@ -798,7 +798,7 @@ en:
       revtrans: "equivalents to approve"
       comtrans: "commented equivalents"
     wordlists:
-      title: "Wordlist administration"
+      title: "User wordlists"
       empty: "No wordlists found."
     users:
       title: "user administration"
@@ -821,6 +821,9 @@ en:
       organization: "Organization"
       save: "Save"
       delete: "delete user"
+      delete_wordlists_remain: "The user has nonempty, unshared wordlists. Delete the account anyway?"
+      delete_wordlists_choice: "Enter A to keep the wordlists or B to delete them."
+      delete_wordlists_invalid_choice: "Invalid choice. Enter A or B."
       pass: "Password"
       userset: "My profile"
       editset: "Editor configuration"

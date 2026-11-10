@@ -797,7 +797,7 @@ de:
       revtrans: "Äquivalenten zu genehmigen"
       comtrans: "komentiert Äquivalenten"
     wordlists:
-      title: "Wortlistenverwaltung"
+      title: "Benutzer-Wortlisten"
       empty: "Keine Wortlisten gefunden."
     users:
       title: "Benutzerverwaltung"
@@ -820,6 +820,9 @@ de:
       organization: "Organisation"
       save: "speichern"
       delete: "löschen"
+      delete_wordlists_remain: "Der Benutzer besitzt nicht leere, nicht geteilte Wortlisten. Möchten Sie das Konto trotzdem löschen?"
+      delete_wordlists_choice: "Geben Sie A ein, um die Wortlisten zu behalten, oder B, um sie zu löschen."
+      delete_wordlists_invalid_choice: "Ungültige Auswahl. Geben Sie A oder B ein."
       pass: "Passwort"
       userset: "mein Profil"
       editset: "Editor-Konfiguration"

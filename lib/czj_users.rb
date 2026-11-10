@@ -268,11 +268,64 @@ module CzjUsers
     end
   end
 
-  def delete_user(login)
+  def delete_user(login, wordlist_action: nil)
     if login.to_s != ''
-      user = $mongo['users'].find({'login': login.to_s}).first
+      return :invalid_wordlist_action if wordlist_action && !%w[keep delete].include?(wordlist_action.to_s)
+
+      login = login.to_s
+      user = $mongo['users'].find({'login': login}).first
+      wordlists = $mongo['wordlists']
+      owned_wordlists = wordlists.find({'owner_login' => login}).to_a
+      shared_logins = owned_wordlists.flat_map do |wordlist|
+        Array(wordlist['shared_with']).map(&:to_s)
+      end.reject { |shared_login| shared_login.empty? || shared_login == login }.uniq
+      existing_shared_logins = if shared_logins.empty?
+                                 []
+                               else
+                                 $mongo['users'].find({'login' => {'$in' => shared_logins}}).to_a.map do |shared_user|
+                                   shared_user['login'].to_s
+                                 end
+                               end
+      wordlist_actions = owned_wordlists.map do |wordlist|
+        successors = Array(wordlist['shared_with']).map(&:to_s).uniq.select do |shared_login|
+          shared_login != login && existing_shared_logins.include?(shared_login)
+        end
+        if successors.any?
+          [:transfer, wordlist, successors.first, successors.drop(1)]
+        elsif Array(wordlist['entries']).empty?
+          [:delete, wordlist]
+        elsif wordlist_action == 'keep'
+          [:keep, wordlist]
+        elsif wordlist_action == 'delete'
+          [:delete, wordlist]
+        else
+          return :wordlists_require_choice
+        end
+      end
+
+      wordlist_actions.each do |action, wordlist, new_owner_login, remaining_shared_logins|
+        if action == :transfer
+          wordlists.update_one(
+            {'_id' => wordlist['_id'], 'owner_login' => login},
+            {'$set' => {
+              'owner_login' => new_owner_login,
+              'shared_with' => remaining_shared_logins,
+              'updated_at' => Time.now
+            }}
+          )
+        elsif action == :delete
+          wordlists.delete_one({'_id' => wordlist['_id'], 'owner_login' => login})
+        end
+      end
+
       subject, message = CzjMail::prepare_mail_text('deluser', user)
-      $mongo['users'].find({'login': login.to_s}).delete_many
+      wordlists.find({'shared_with' => login}).each do |wordlist|
+        wordlists.update_one(
+          {'_id' => wordlist['_id']},
+          {'$pull' => {'shared_with' => login}}
+        )
+      end
+      $mongo['users'].find({'login': login}).delete_many
       CzjMail::send_mail(user["email"], subject, message)
       true
     else

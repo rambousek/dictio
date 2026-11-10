@@ -97,7 +97,9 @@ class FakeCollection
         when "$pull"
           doc[key.to_s] ||= []
           original_size = doc[key.to_s].size
-          doc[key.to_s].reject! { |item| FakeMongoQuery.match?(item, value) }
+          doc[key.to_s].reject! do |item|
+            value.is_a?(Hash) ? FakeMongoQuery.match?(item, value) : item == value
+          end
           modified = true if doc[key.to_s].size != original_size
         else
           raise NotImplementedError, "FakeMongo: update operator #{operator} not supported"

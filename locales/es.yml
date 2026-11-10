@@ -795,7 +795,7 @@ es:
       revtrans: "equivalentes por aprobar"
       comtrans: "equivalentes comentados"
     wordlists:
-      title: "Administración de listas"
+      title: "Listas de palabras de usuario"
       empty: "No se encontraron listas."
     users:
       title: "administración de usuarios"
@@ -818,6 +818,9 @@ es:
       organization: "Organización"
       save: "Guardar"
       delete: "eliminar usuario"
+      delete_wordlists_remain: "El usuario tiene listas con entradas que no están compartidas. ¿Quieres eliminar la cuenta de todos modos?"
+      delete_wordlists_choice: "Escribe A para conservar las listas o B para eliminarlas."
+      delete_wordlists_invalid_choice: "Opción no válida. Escribe A o B."
       pass: "Contraseña"
       userset: "Mi perfil"
       editset: "Configuración del editor"

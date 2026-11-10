@@ -328,13 +328,30 @@ $( document ).ready(function() {
     if (confirm('opravdu smazat?')) {
       var table = $(this).parents('.user-info');
       var login = table.find('[name=login]').val();
-      $.post('/users/delete', {login: login}, (response) => {
-        if (response.success) {
-          document.location.reload();
-        } else {
-          alert(response.msg);
-        }
-      });
+      var deleteUser = function(wordlistAction) {
+        var data = {login: login};
+        if (wordlistAction) data.wordlist_action = wordlistAction;
+        $.post('/users/delete', data, (response) => {
+          if (response.success) {
+            document.location.reload();
+          } else if (response.needs_wordlist_choice) {
+            if (!confirm(response.msg)) return;
+            var choice = window.prompt(response.wordlist_choice_prompt, 'A');
+            if (choice === null) return;
+            choice = choice.trim().toUpperCase();
+            if (choice === 'A') {
+              deleteUser('keep');
+            } else if (choice === 'B') {
+              deleteUser('delete');
+            } else {
+              alert(response.wordlist_choice_invalid);
+            }
+          } else {
+            alert(response.msg);
+          }
+        });
+      };
+      deleteUser(null);
     }
   });
 

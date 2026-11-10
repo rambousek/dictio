@@ -123,12 +123,21 @@ class CzjApp < Sinatra::Base
     end
 
     post '/users/delete', :admin => true do
-      res = CzjUsers.delete_user(params['login'])
+      res = CzjUsers.delete_user(params['login'], wordlist_action: params['wordlist_action'])
       content_type :json
       if res == true
         {"success"=>true,"msg"=>"Uloženo"}.to_json
+      elsif res == :wordlists_require_choice
+        {
+          "success" => false,
+          "needs_wordlist_choice" => true,
+          "msg" => I18n.t("admin.users.delete_wordlists_remain"),
+          "wordlist_choice_prompt" => I18n.t("admin.users.delete_wordlists_choice"),
+          "wordlist_choice_invalid" => I18n.t("admin.users.delete_wordlists_invalid_choice")
+        }.to_json
       else
-        {"success"=>false,"msg"=>res}.to_json
+        message = res == :invalid_wordlist_action ? I18n.t("admin.users.delete_wordlists_invalid_choice") : res
+        {"success"=>false,"msg"=>message}.to_json
       end
     end
 
