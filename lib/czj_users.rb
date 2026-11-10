@@ -257,7 +257,7 @@ module CzjUsers
         subject, message = CzjMail::prepare_mail_text('newuser', data)
         data['password'] = data['password'].crypt((Random.rand(1900)+100).to_s(16)[0,2])
       end
-      $mongo['users'].find({'login': data['login']}).delete_many
+      $mongo['users'].delete_many({'login' => data['login']})
       $mongo['users'].insert_one(data)
       if subject != ""
         CzjMail::send_mail(data['email'], subject, message)
@@ -325,7 +325,7 @@ module CzjUsers
           {'$pull' => {'shared_with' => login}}
         )
       end
-      $mongo['users'].find({'login': login}).delete_many
+      $mongo['users'].delete_many({'login' => login})
       CzjMail::send_mail(user["email"], subject, message)
       true
     else
