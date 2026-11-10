@@ -131,12 +131,10 @@ class CzjApp < Sinatra::Base
         {
           "success" => false,
           "needs_wordlist_choice" => true,
-          "msg" => I18n.t("admin.users.delete_wordlists_remain"),
-          "wordlist_choice_prompt" => I18n.t("admin.users.delete_wordlists_choice"),
-          "wordlist_choice_invalid" => I18n.t("admin.users.delete_wordlists_invalid_choice")
+          "msg" => I18n.t("admin.users.delete_wordlists_remain")
         }.to_json
       else
-        message = res == :invalid_wordlist_action ? I18n.t("admin.users.delete_wordlists_invalid_choice") : res
+        message = res == :invalid_wordlist_action ? I18n.t("admin.users.delete_wordlists_invalid_action") : res
         {"success"=>false,"msg"=>message}.to_json
       end
     end

@@ -92,6 +92,14 @@ main role="main"
                 
         br
 
+      dialog#user-delete-wordlists-dialog.user-delete-dialog aria-labelledby="user-delete-wordlists-title"
+        h2#user-delete-wordlists-title = I18n.t("admin.users.delete_wordlists_dialog_title")
+        p#user-delete-wordlists-message role="alert"
+        div.user-delete-dialog__actions
+          button#user-delete-wordlists-cancel.btn.btn--secondary type="button" = I18n.t("admin.users.delete_cancel")
+          button#user-delete-wordlists-keep.btn type="button" = I18n.t("admin.users.delete_keep_wordlists")
+          button#user-delete-wordlists-delete.btn type="button" style="background-color: darkred" = I18n.t("admin.users.delete_and_remove_wordlists")
+
       - if @show_all_users || !@user_search.empty?
         - if @matching_users.empty?
           p = I18n.t("admin.users.search_no_results")

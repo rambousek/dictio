@@ -2110,6 +2110,31 @@ a.btn {
   margin-bottom: 10px;
 }
 
+.user-delete-dialog {
+  width: min(38rem, calc(100vw - 2rem));
+  max-width: none;
+  padding: 1.5rem;
+  border: 0;
+  border-radius: 8px;
+  box-shadow: 0 12px 40px rgb(0 0 0 / 28%);
+}
+
+.user-delete-dialog::backdrop {
+  background: rgb(0 0 0 / 48%);
+}
+
+.user-delete-dialog__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.user-delete-dialog__actions .btn {
+  white-space: normal;
+}
+
 .info__icon {
   position: absolute;
   top: 20px;

@@ -115,6 +115,18 @@ class WordListsTest < AppTest
     assert CzjWordLists.new.find_owned(list["_id"], USER["login"])
   end
 
+  def test_admin_user_page_renders_wordlist_deletion_choices
+    login_admin
+
+    admin_get "/users"
+
+    assert_predicate last_response, :ok?
+    assert_includes last_response.body, '<dialog class="user-delete-dialog"'
+    assert_includes last_response.body, I18n.t("admin.users.delete_cancel")
+    assert_includes last_response.body, I18n.t("admin.users.delete_keep_wordlists")
+    assert_includes last_response.body, I18n.t("admin.users.delete_and_remove_wordlists")
+  end
+
   def test_deleting_user_removes_owned_wordlists_and_shared_access
     service = CzjWordLists.new
     empty_private_list = service.create(USER["login"], "Empty private list", "cs")

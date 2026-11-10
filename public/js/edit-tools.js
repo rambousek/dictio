@@ -4,6 +4,48 @@
 
 $( document ).ready(function() {
   var videoExportPollTimer = null;
+  var pendingUserDeletion = null;
+  var userDeletionDialog = document.getElementById('user-delete-wordlists-dialog');
+
+  var submitUserDeletion = function(login, wordlistAction) {
+    var data = {login: login};
+    if (wordlistAction) data.wordlist_action = wordlistAction;
+    $.post('/users/delete', data, (response) => {
+      if (response.success) {
+        document.location.reload();
+      } else if (response.needs_wordlist_choice && userDeletionDialog) {
+        pendingUserDeletion = login;
+        document.getElementById('user-delete-wordlists-message').textContent = response.msg;
+        userDeletionDialog.showModal();
+      } else {
+        alert(response.msg);
+      }
+    });
+  };
+
+  var chooseUserDeletion = function(wordlistAction) {
+    if (!pendingUserDeletion || !userDeletionDialog) return;
+    var login = pendingUserDeletion;
+    pendingUserDeletion = null;
+    userDeletionDialog.close();
+    submitUserDeletion(login, wordlistAction);
+  };
+
+  $('#user-delete-wordlists-cancel').on('click', function() {
+    pendingUserDeletion = null;
+    if (userDeletionDialog) userDeletionDialog.close();
+  });
+  $('#user-delete-wordlists-keep').on('click', function() {
+    chooseUserDeletion('keep');
+  });
+  $('#user-delete-wordlists-delete').on('click', function() {
+    chooseUserDeletion('delete');
+  });
+  if (userDeletionDialog) {
+    userDeletionDialog.addEventListener('cancel', function() {
+      pendingUserDeletion = null;
+    });
+  }
 
   /* add comment on notrans */
   $('.notranscomment').click(function(event) {
@@ -328,30 +370,7 @@ $( document ).ready(function() {
     if (confirm('opravdu smazat?')) {
       var table = $(this).parents('.user-info');
       var login = table.find('[name=login]').val();
-      var deleteUser = function(wordlistAction) {
-        var data = {login: login};
-        if (wordlistAction) data.wordlist_action = wordlistAction;
-        $.post('/users/delete', data, (response) => {
-          if (response.success) {
-            document.location.reload();
-          } else if (response.needs_wordlist_choice) {
-            if (!confirm(response.msg)) return;
-            var choice = window.prompt(response.wordlist_choice_prompt, 'A');
-            if (choice === null) return;
-            choice = choice.trim().toUpperCase();
-            if (choice === 'A') {
-              deleteUser('keep');
-            } else if (choice === 'B') {
-              deleteUser('delete');
-            } else {
-              alert(response.wordlist_choice_invalid);
-            }
-          } else {
-            alert(response.msg);
-          }
-        });
-      };
-      deleteUser(null);
+      submitUserDeletion(login, null);
     }
   });
 
