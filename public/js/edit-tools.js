@@ -399,18 +399,48 @@ $( document ).ready(function() {
             } else {
               entries.forEach(function(entry) {
                 var lemma = entry.lemma || {};
-                var title = lemma.title || lemma.video_front || '';
-                var label = title ? entry.id + ' — ' + title : entry.id;
-                $('<li>').append($('<button>', {
+                var button = $('<button>', {
                   type: 'button',
                   class: 'wordlist-entry-result',
-                  role: 'option',
-                  text: label
-                }).on('click', function() {
+                  role: 'option'
+                });
+                if (search.data('entry-type') === 'sign' && lemma.video_front) {
+                  var video = document.createElement('video');
+                  video.className = 'wordlist-entry-result__video';
+                  video.preload = 'metadata';
+                  video.muted = true;
+                  video.playsInline = true;
+                  video.setAttribute('aria-hidden', 'true');
+                  var source = document.createElement('source');
+                  source.type = 'video/mp4';
+                  source.src = 'https://files.dictio.info/video' + search.data('entry-dict') + '/' + lemma.video_front;
+                  video.appendChild(source);
+                  button.addClass('wordlist-entry-result--sign')
+                    .append(video)
+                    .append($('<span>').text(entry.id))
+                    .on('mouseenter', function() {
+                      video.play().catch(function() {});
+                    })
+                    .on('mouseleave', function() {
+                      video.pause();
+                      video.currentTime = 0;
+                    });
+                } else {
+                  var title = lemma.title || '';
+                  button.text(title ? entry.id + ' — ' + title : entry.id);
+                }
+                button.on('click', function() {
                   search.val((prefix ? prefix + ' ' : '') + entry.id).trigger('focus');
                   results.empty().prop('hidden', true);
                   search.attr('aria-expanded', 'false');
-                })).appendTo(results);
+                  var form = search.closest('form')[0];
+                  if (form.requestSubmit) {
+                    form.requestSubmit();
+                  } else {
+                    form.submit();
+                  }
+                });
+                $('<li>').append(button).appendTo(results);
               });
             }
             results.prop('hidden', false);

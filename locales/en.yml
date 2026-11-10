@@ -248,7 +248,7 @@ en:
     confirm_delete: "Are you sure you want to delete this wordlist?"
     entries: "Entries"
     entry_count: "Entry count"
-    entry_id: "Entry ID"
+    entry_id: "Entry ID or name"
     entry_ids_help: "Separate multiple IDs with commas."
     entry_search_no_results: "No entries found."
     entry_search_error: "Unable to search for entries."

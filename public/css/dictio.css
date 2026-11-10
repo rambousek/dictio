@@ -282,6 +282,20 @@ video.czj {
   background: rgba(3, 201, 169, .15);
 }
 
+.wordlist-entry-result--sign {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wordlist-entry-result__video {
+  width: 72px;
+  height: 54px;
+  flex: 0 0 auto;
+  object-fit: cover;
+  background: #111;
+}
+
 .wordlist-selected-users {
   display: flex;
   flex-wrap: wrap;

@@ -248,7 +248,7 @@ sk:
     confirm_delete: "Naozaj chcete slovníček zmazať?"
     entries: "Heslá"
     entry_count: "počet hesiel"
-    entry_id: "ID hesla"
+    entry_id: "ID alebo názov"
     entry_ids_help: "Viacero ID oddeľte čiarkou."
     entry_search_no_results: "Nenašli sa žiadne heslá."
     entry_search_error: "Heslá sa nepodarilo vyhľadať."

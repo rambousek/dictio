@@ -248,7 +248,7 @@ cs:
     confirm_delete: "Opravdu chcete slovníček smazat?"
     entries: "Hesla"
     entry_count: "počet hesel"
-    entry_id: "ID hesla"
+    entry_id: "ID nebo název"
     entry_ids_help: "Více ID oddělte čárkou."
     entry_search_no_results: "Nebylo nalezeno žádné heslo."
     entry_search_error: "Hledání hesel se nepodařilo."

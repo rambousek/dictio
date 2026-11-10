@@ -248,7 +248,7 @@ de:
     confirm_delete: "Möchten Sie diese Wortliste wirklich löschen?"
     entries: "Einträge"
     entry_count: "Anzahl der Einträge"
-    entry_id: "Eintrags-ID"
+    entry_id: "Eintrags-ID oder Name"
     entry_ids_help: "Mehrere IDs durch Kommas trennen."
     entry_search_no_results: "Keine Einträge gefunden."
     entry_search_error: "Einträge konnten nicht gesucht werden."

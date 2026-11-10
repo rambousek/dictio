@@ -248,7 +248,7 @@ ua:
     confirm_delete: "Ви впевнені, що хочете видалити цей словник?"
     entries: "Словникові статті"
     entry_count: "Кількість словникових статей"
-    entry_id: "ID статті"
+    entry_id: "ID або назва статті"
     entry_ids_help: "Розділяйте кілька ID комами."
     entry_search_no_results: "Статей не знайдено."
     entry_search_error: "Не вдалося знайти статті."
