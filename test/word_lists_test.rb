@@ -309,6 +309,8 @@ class WordListsTest < AppTest
     list_id = create_wordlist
 
     edit_get "/wordlists/#{list_id}"
+    assert_includes last_response.body, 'data-entry-autocomplete="true"'
+    assert_includes last_response.body, 'id="wordlist-entry-suggestions"'
     token = csrf_token_from_response
     edit_post "/wordlists/#{list_id}/entries", entry_id: "3881", csrf_token: token
     assert last_response.redirect?

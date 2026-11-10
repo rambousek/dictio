@@ -250,6 +250,8 @@ ua:
     entry_count: "Кількість словникових статей"
     entry_id: "ID статті"
     entry_ids_help: "Розділяйте кілька ID комами."
+    entry_search_no_results: "Статей не знайдено."
+    entry_search_error: "Не вдалося знайти статті."
     batch_result: "Додано: %{added}; дублікати: %{duplicate}; не знайдено: %{missing}; недійсні ID: %{invalid}."
     add_to: "Додати до словника"
     create_first: "Створити словник"

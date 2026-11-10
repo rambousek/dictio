@@ -93,8 +93,9 @@ main role="main"
       form action="#{wordlist_base_path}/entries" method="post"
         input type="hidden" name="csrf_token" value=csrf_token
         div.wordlist-add-entry-controls
-          input#entry-id.wordlist-entry-id type="text" name="entry_id" placeholder=I18n.t("wordlists.entry_id") aria-label=I18n.t("wordlists.entry_id") required=true aria-describedby="entry-id-help"
+          input#entry-id.wordlist-entry-id type="text" name="entry_id" placeholder=I18n.t("wordlists.entry_id") aria-label=I18n.t("wordlists.entry_id") required=true aria-describedby="entry-id-help" autocomplete="off" data-entry-autocomplete="true" data-entry-dict=@wordlist['dict'] aria-autocomplete="list" aria-controls="wordlist-entry-suggestions"
           button.btn type="submit" = I18n.t("wordlists.add")
+        ul#wordlist-entry-suggestions.wordlist-user-search-results.wordlist-entry-results hidden=true role="list" data-no-results=I18n.t("wordlists.entry_search_no_results") data-search-error=I18n.t("wordlists.entry_search_error")
         small#entry-id-help = I18n.t("wordlists.entry_ids_help")
       - if @entries.empty?
         p = I18n.t("wordlists.no_entries")

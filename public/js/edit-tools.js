@@ -367,6 +367,72 @@ $( document ).ready(function() {
     });
   });
 
+  (function() {
+    var search = $('#entry-id[data-entry-autocomplete]');
+    var results = $('#wordlist-entry-suggestions');
+    if (!search.length || !results.length) return;
+
+    var timer = null;
+    var request = null;
+    var requestNumber = 0;
+    search.on('input', function() {
+      var value = search.val().toString();
+      var lastComma = value.lastIndexOf(',');
+      var prefix = lastComma >= 0 ? value.slice(0, lastComma + 1) : '';
+      var query = $.trim(value.slice(lastComma + 1));
+      var currentRequest = ++requestNumber;
+      clearTimeout(timer);
+      if (request) request.abort();
+      results.empty().prop('hidden', true);
+      search.attr('aria-expanded', 'false');
+      if (query.length < 2) return;
+
+      timer = setTimeout(function() {
+        var url = '/' + encodeURIComponent(search.data('entry-dict')) +
+          '/jsonsearch/text/' + encodeURIComponent(query) + '/0/10';
+        request = $.getJSON(url)
+          .done(function(response) {
+            if (currentRequest !== requestNumber) return;
+            var entries = Array.isArray(response.entries) ? response.entries : [];
+            if (!entries.length) {
+              $('<li>').text(results.data('no-results')).appendTo(results);
+            } else {
+              entries.forEach(function(entry) {
+                var lemma = entry.lemma || {};
+                var title = lemma.title || lemma.video_front || '';
+                var label = title ? entry.id + ' — ' + title : entry.id;
+                $('<li>').append($('<button>', {
+                  type: 'button',
+                  class: 'wordlist-entry-result',
+                  role: 'option',
+                  text: label
+                }).on('click', function() {
+                  search.val((prefix ? prefix + ' ' : '') + entry.id).trigger('focus');
+                  results.empty().prop('hidden', true);
+                  search.attr('aria-expanded', 'false');
+                })).appendTo(results);
+              });
+            }
+            results.prop('hidden', false);
+            search.attr('aria-expanded', 'true');
+          })
+          .fail(function(_xhr, status) {
+            if (status === 'abort' || currentRequest !== requestNumber) return;
+            $('<li>').text(results.data('search-error')).appendTo(results);
+            results.prop('hidden', false);
+            search.attr('aria-expanded', 'true');
+          });
+      }, 180);
+    });
+
+    search.on('keydown', function(event) {
+      if (event.key === 'Escape') {
+        results.empty().prop('hidden', true);
+        search.attr('aria-expanded', 'false');
+      }
+    });
+  })();
+
   $('.save-user').click(function() {
     var table = $(this).parents('.user-info');
     var user = {};

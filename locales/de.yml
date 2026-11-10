@@ -250,6 +250,8 @@ de:
     entry_count: "Anzahl der Einträge"
     entry_id: "Eintrags-ID"
     entry_ids_help: "Mehrere IDs durch Kommas trennen."
+    entry_search_no_results: "Keine Einträge gefunden."
+    entry_search_error: "Einträge konnten nicht gesucht werden."
     batch_result: "Hinzugefügt: %{added}; Duplikate: %{duplicate}; nicht gefunden: %{missing}; ungültige IDs: %{invalid}."
     add_to: "Zur Wortliste hinzufügen"
     create_first: "Wortliste erstellen"

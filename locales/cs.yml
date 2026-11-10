@@ -250,6 +250,8 @@ cs:
     entry_count: "počet hesel"
     entry_id: "ID hesla"
     entry_ids_help: "Více ID oddělte čárkou."
+    entry_search_no_results: "Nebylo nalezeno žádné heslo."
+    entry_search_error: "Hledání hesel se nepodařilo."
     batch_result: "Přidáno: %{added}; duplicitních: %{duplicate}; nenalezených: %{missing}; neplatných ID: %{invalid}."
     add_to: "Přidat do slovníčku"
     create_first: "Vytvořit slovníček"

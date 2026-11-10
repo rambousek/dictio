@@ -250,6 +250,8 @@ en:
     entry_count: "Entry count"
     entry_id: "Entry ID"
     entry_ids_help: "Separate multiple IDs with commas."
+    entry_search_no_results: "No entries found."
+    entry_search_error: "Unable to search for entries."
     batch_result: "Added: %{added}; duplicates: %{duplicate}; not found: %{missing}; invalid IDs: %{invalid}."
     add_to: "Add to wordlist"
     create_first: "Create a wordlist"

@@ -260,7 +260,8 @@ video.czj {
   margin: 2px 0;
 }
 
-.wordlist-user-result {
+.wordlist-user-result,
+.wordlist-entry-result {
   width: 100%;
   padding: 6px 8px;
   border: 1px solid rgba(127, 127, 127, .45);
@@ -276,7 +277,8 @@ video.czj {
   text-decoration: none;
 }
 
-.wordlist-user-result:hover {
+.wordlist-user-result:hover,
+.wordlist-entry-result:hover {
   background: rgba(3, 201, 169, .15);
 }
 
