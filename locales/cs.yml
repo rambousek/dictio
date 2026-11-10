@@ -231,6 +231,10 @@ cs:
     save_sharing: "Uložit sdílení"
     sharing_updated: "Sdílení slovníčku bylo uloženo."
     shared_with_you: "sdílený"
+    owner: "Vlastník"
+    owner_label: "Vlastník: %{name}"
+    visibility: "Viditelnost"
+    private: "soukromý"
     owner_info: "Vlastníkem slovníčku je: %{name}. Sdílení nemůžete měnit ani slovníček smazat."
     transfer_ownership: "Změnit vlastníka"
     transfer_help: "Novým vlastníkem se může stát pouze existující uživatel. Dosavadní vlastník zůstane mezi sdílenými uživateli."
@@ -793,6 +797,9 @@ cs:
       nodef: "(bez definic)"
       revtrans: "ekvivalenty ke schválení"
       comtrans: "komentované ekvivalenty"
+    wordlists:
+      title: "Správa slovníčků"
+      empty: "Nebyly nalezeny žádné slovníčky."
     users:
       title: "správa uživatelů"
       search_label: "Vyhledat podle loginu nebo jména"

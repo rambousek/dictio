@@ -231,6 +231,10 @@ de:
     save_sharing: "Freigabe speichern"
     sharing_updated: "Die Freigabe der Wortliste wurde gespeichert."
     shared_with_you: "geteilt"
+    owner: "Eigentümer"
+    owner_label: "Eigentümer: %{name}"
+    visibility: "Sichtbarkeit"
+    private: "privat"
     owner_info: "Eigentümer der Wortliste: %{name}. Sie können die Freigabe nicht ändern und die Wortliste nicht löschen."
     transfer_ownership: "Eigentümer ändern"
     transfer_help: "Nur ein vorhandener Benutzer kann neuer Eigentümer werden. Der bisherige Eigentümer bleibt als freigegebener Benutzer eingetragen."
@@ -792,6 +796,9 @@ de:
       nodef: "(ohne Definitionen)"
       revtrans: "Äquivalenten zu genehmigen"
       comtrans: "komentiert Äquivalenten"
+    wordlists:
+      title: "Wortlistenverwaltung"
+      empty: "Keine Wortlisten gefunden."
     users:
       title: "Benutzerverwaltung"
       search_label: "Nach Login oder Name suchen"

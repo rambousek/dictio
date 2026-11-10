@@ -231,6 +231,10 @@ es:
     save_sharing: "Guardar uso compartido"
     sharing_updated: "Se ha guardado el uso compartido de la lista."
     shared_with_you: "compartida"
+    owner: "Propietario"
+    owner_label: "Propietario: %{name}"
+    visibility: "Visibilidad"
+    private: "privada"
     owner_info: "El propietario de la lista es: %{name}. No puedes cambiar el uso compartido ni eliminar la lista."
     transfer_ownership: "Cambiar propietario"
     transfer_help: "Solo un usuario existente puede convertirse en el nuevo propietario. El propietario actual seguirá teniendo acceso como usuario compartido."
@@ -790,6 +794,9 @@ es:
       nodef: "(sin definiciones)"
       revtrans: "equivalentes por aprobar"
       comtrans: "equivalentes comentados"
+    wordlists:
+      title: "Administración de listas"
+      empty: "No se encontraron listas."
     users:
       title: "administración de usuarios"
       search_label: "Buscar por usuario o nombre"

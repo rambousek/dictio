@@ -21,6 +21,14 @@ class CzjWordLists
     $mongo["wordlists"].find(query, :sort => {"updated_at" => -1}).to_a
   end
 
+  def list_all
+    $mongo["wordlists"].find({}, :sort => {"updated_at" => -1}).to_a
+  end
+
+  def find_by_id(id)
+    $mongo["wordlists"].find({"_id" => id.to_s}).first
+  end
+
   def find_owned(id, owner_login)
     $mongo["wordlists"].find({"_id" => id.to_s, "owner_login" => owner_login.to_s}).first
   end

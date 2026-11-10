@@ -231,6 +231,10 @@ sk:
     save_sharing: "Uložiť zdieľanie"
     sharing_updated: "Zdieľanie slovníčka bolo uložené."
     shared_with_you: "zdieľaný"
+    owner: "Vlastník"
+    owner_label: "Vlastník: %{name}"
+    visibility: "Viditeľnosť"
+    private: "súkromný"
     owner_info: "Vlastníkom slovníčka je: %{name}. Zdieľanie nemôžete meniť ani slovníček odstrániť."
     transfer_ownership: "Zmeniť vlastníka"
     transfer_help: "Novým vlastníkom sa môže stať iba existujúci používateľ. Doterajší vlastník zostane medzi zdieľanými používateľmi."
@@ -792,6 +796,9 @@ sk:
       nodef: "(bez definíc)"
       revtrans: "ekvivalenty na schválenie"
       comtrans: "komentované ekvivalenty"
+    wordlists:
+      title: "Správa slovníčkov"
+      empty: "Nenašli sa žiadne slovníčky."
     users:
       title: "správa použivateľov"
       search_label: "Vyhľadať podľa loginu alebo mena"

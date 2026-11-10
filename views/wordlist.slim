@@ -1,10 +1,11 @@
+- wordlist_base_path = @wordlist_admin ? "/admin/wordlists/#{@wordlist['_id']}" : "/wordlists/#{@wordlist['_id']}"
 main role="main"
   section.section role="region"
     .container
       h1.wordlist-title
         span = @wordlist['name']
       p
-        a href="/wordlists" = I18n.t("wordlists.back")
+        a href=(@wordlist_admin ? "/admin/wordlists" : "/wordlists") = I18n.t("wordlists.back")
       - if @wordlist_error
         p role="alert" = I18n.t("wordlists.errors.#{@wordlist_error}", default: I18n.t("wordlists.invalid"))
       - if @sharing_updated
@@ -14,7 +15,7 @@ main role="main"
       section.info.wordlist-settings-card
         details.wordlist-settings-details
           summary = I18n.t("wordlists.settings")
-          form.wordlist-settings-form action="/wordlists/#{@wordlist['_id']}/update" method="post"
+          form.wordlist-settings-form action="#{wordlist_base_path}/update" method="post"
               input type="hidden" name="csrf_token" value=csrf_token
               div.wordlist-settings-grid
                 div.wordlist-settings-field
@@ -47,7 +48,7 @@ main role="main"
           - if @wordlist_owner
               section.wordlist-settings-section
                 h3 = I18n.t("wordlists.sharing")
-                form.wordlist-user-selection action="/wordlists/#{@wordlist['_id']}/sharing" method="post" data-user-selection="multiple" data-no-results=I18n.t("wordlists.user_search_no_results") data-search-error=I18n.t("wordlists.user_search_error") data-remove-label=I18n.t("wordlists.remove_user")
+                form.wordlist-user-selection action="#{wordlist_base_path}/sharing" method="post" data-user-selection="multiple" data-no-results=I18n.t("wordlists.user_search_no_results") data-search-error=I18n.t("wordlists.user_search_error") data-remove-label=I18n.t("wordlists.remove_user")
                   input type="hidden" name="csrf_token" value=csrf_token
                   - Array(@wordlist['shared_with']).each do |login|
                     input type="hidden" name="shared_with[]" value=login
@@ -59,7 +60,7 @@ main role="main"
                   button.btn type="submit" = I18n.t("wordlists.save_sharing")
               section.wordlist-settings-section
                 h3 = I18n.t("wordlists.transfer_ownership")
-                form.wordlist-user-selection action="/wordlists/#{@wordlist['_id']}/transfer" method="post" data-user-selection="single" data-no-results=I18n.t("wordlists.user_search_no_results") data-search-error=I18n.t("wordlists.user_search_error") data-remove-label=I18n.t("wordlists.remove_user") onsubmit="return confirm('#{I18n.t("wordlists.confirm_transfer")}')"
+                form.wordlist-user-selection action="#{wordlist_base_path}/transfer" method="post" data-user-selection="single" data-no-results=I18n.t("wordlists.user_search_no_results") data-search-error=I18n.t("wordlists.user_search_error") data-remove-label=I18n.t("wordlists.remove_user") onsubmit="return confirm('#{I18n.t("wordlists.confirm_transfer")}')"
                   input type="hidden" name="csrf_token" value=csrf_token
                   input type="hidden" name="new_owner_login" data-selected-login="true"
                   input#wordlist-new-owner-search.wordlist-user-search type="search" autocomplete="off" data-user-search="true" placeholder=I18n.t("wordlists.user_search_placeholder")
@@ -67,9 +68,11 @@ main role="main"
                   div.wordlist-selected-users data-selected-users="true"
                   small = I18n.t("wordlists.transfer_help")
                   button.btn type="submit" = I18n.t("wordlists.transfer")
-              form.wordlist-settings-delete action="/wordlists/#{@wordlist['_id']}/delete" method="post" onsubmit="return confirm('#{I18n.t("wordlists.confirm_delete")}')"
+              form.wordlist-settings-delete action="#{wordlist_base_path}/delete" method="post" onsubmit="return confirm('#{I18n.t("wordlists.confirm_delete")}')"
                 input type="hidden" name="csrf_token" value=csrf_token
                 button.btn.btn--secondary type="submit" = I18n.t("wordlists.delete")
+          - if @wordlist_admin
+            p.wordlist-owner-info = I18n.t("wordlists.owner_label", name: @wordlist_owner_name)
           - unless @wordlist_owner
               p.wordlist-owner-info = I18n.t("wordlists.owner_info", name: @wordlist_owner_name)
         - if @wordlist['is_public']
@@ -80,7 +83,7 @@ main role="main"
       h2 = I18n.t("wordlists.entries")
       - if params['added'] || params['duplicate'] || params['missing'] || params['invalid']
         p role="status" = I18n.t("wordlists.batch_result", added: params['added'].to_i, duplicate: params['duplicate'].to_i, missing: params['missing'].to_i, invalid: params['invalid'].to_i)
-      form action="/wordlists/#{@wordlist['_id']}/entries" method="post"
+      form action="#{wordlist_base_path}/entries" method="post"
         input type="hidden" name="csrf_token" value=csrf_token
         div.wordlist-add-entry-controls
           input#entry-id.wordlist-entry-id type="text" name="entry_id" placeholder=I18n.t("wordlists.entry_id") aria-label=I18n.t("wordlists.entry_id") required=true aria-describedby="entry-id-help"
@@ -111,13 +114,13 @@ main role="main"
                 - else
                   | #{item['id']} — #{I18n.t("wordlists.missing_entry")}
               div.wordlist-entry-actions
-                form.wordlist-entry-action--remove action="/wordlists/#{@wordlist['_id']}/entries/#{item['id']}/remove" method="post"
+                form.wordlist-entry-action--remove action="#{wordlist_base_path}/entries/#{item['id']}/remove" method="post"
                   input type="hidden" name="csrf_token" value=csrf_token
                   button.btn.btn--secondary type="submit" title=I18n.t("wordlists.remove") aria-label=I18n.t("wordlists.remove") X
                 - if @wordlist['sort_mode'] == 'manual'
-                  form.wordlist-entry-action--move action="/wordlists/#{@wordlist['_id']}/entries/#{item['id']}/move/up" method="post"
+                  form.wordlist-entry-action--move action="#{wordlist_base_path}/entries/#{item['id']}/move/up" method="post"
                     input type="hidden" name="csrf_token" value=csrf_token
                     button.btn.btn--secondary type="submit" title=I18n.t("wordlists.move_up") aria-label=I18n.t("wordlists.move_up") disabled=(index == 0) ↑
-                  form.wordlist-entry-action--move action="/wordlists/#{@wordlist['_id']}/entries/#{item['id']}/move/down" method="post"
+                  form.wordlist-entry-action--move action="#{wordlist_base_path}/entries/#{item['id']}/move/down" method="post"
                     input type="hidden" name="csrf_token" value=csrf_token
                     button.btn.btn--secondary type="submit" title=I18n.t("wordlists.move_down") aria-label=I18n.t("wordlists.move_down") disabled=(index == @entries.length - 1) ↓

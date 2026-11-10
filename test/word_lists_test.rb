@@ -29,6 +29,14 @@ class WordListsTest < AppTest
     "name" => "Collaborator User",
     "email" => "wordlist-collaborator@example.test"
   ).freeze
+  ADMIN_PASSWORD = "wordlist-admin-password"
+  ADMIN = USER.merge(
+    "login" => "wordlist-admin",
+    "password" => ADMIN_PASSWORD.crypt("cd"),
+    "name" => "Wordlist Admin",
+    "email" => "wordlist-admin@example.test",
+    "admin" => true
+  ).freeze
 
   def setup
     @previous_edit = $is_edit
@@ -54,11 +62,26 @@ class WordListsTest < AppTest
     post "https://edit.dictio.info#{path}", params
   end
 
+  def admin_get(path)
+    get "https://admin.dictio.info#{path}"
+  end
+
+  def admin_post(path, params = {})
+    post "https://admin.dictio.info#{path}", params
+  end
+
   def login(user = USER, password = PASSWORD)
     edit_get "/login"
     token = csrf_token_from_response
     edit_post "/login", login: user["login"], password: password, csrf_token: token
     assert last_response.redirect?
+  end
+
+  def login_admin
+    $mongo.load("users", [USER, COLLABORATOR, ADMIN]) # standard:disable Style/GlobalVars
+    login(ADMIN, ADMIN_PASSWORD)
+    $is_edit = false # standard:disable Style/GlobalVars
+    $is_admin = true # standard:disable Style/GlobalVars
   end
 
   def create_wordlist(name: "Test list", dict: "cs")
@@ -74,6 +97,66 @@ class WordListsTest < AppTest
 
     assert last_response.redirect?
     assert_includes last_response.location, "/login"
+  end
+
+  def test_non_admin_cannot_access_or_manage_admin_wordlists
+    list = CzjWordLists.new.create(USER["login"], "Private list", "cs")
+    login
+    edit_get "/wordlists"
+    token = csrf_token_from_response
+    $is_edit = false # standard:disable Style/GlobalVars
+    $is_admin = true # standard:disable Style/GlobalVars
+
+    admin_get "/admin/wordlists"
+    assert_equal 404, last_response.status
+
+    admin_post "/admin/wordlists/#{list['_id']}/delete", csrf_token: token
+    assert_equal 404, last_response.status
+    assert CzjWordLists.new.find_owned(list["_id"], USER["login"])
+  end
+
+  def test_admin_can_view_and_manage_any_users_wordlist
+    list = CzjWordLists.new.create(USER["login"], "Admin managed list", "cs")
+    login_admin
+
+    admin_get "/admin/wordlists"
+    assert_predicate last_response, :ok?
+    assert_includes last_response.body, I18n.t("admin.wordlists.title")
+    assert_includes last_response.body, "href=\"/admin/wordlists/#{list['_id']}\""
+    assert_includes last_response.body, USER["name"]
+
+    admin_get "/admin/wordlists/#{list['_id']}"
+    assert_predicate last_response, :ok?
+    assert_includes last_response.body, I18n.t("wordlists.owner_label", name: USER["name"])
+    assert_includes last_response.body, "action=\"/admin/wordlists/#{list['_id']}/update\""
+    token = csrf_token_from_response
+
+    admin_post "/admin/wordlists/#{list['_id']}/update",
+               name: "Renamed by admin", sort_mode: "manual",
+               second_language: "none", is_public: "true", csrf_token: token
+    assert last_response.redirect?
+    assert_equal "Renamed by admin", CzjWordLists.new.find_by_id(list["_id"])["name"]
+
+    admin_post "/admin/wordlists/#{list['_id']}/sharing",
+               shared_with: COLLABORATOR["login"], csrf_token: token
+    assert_equal [COLLABORATOR["login"]], CzjWordLists.new.find_by_id(list["_id"])["shared_with"]
+
+    admin_post "/admin/wordlists/#{list['_id']}/transfer",
+               new_owner_login: COLLABORATOR["login"], csrf_token: token
+    assert_equal COLLABORATOR["login"], CzjWordLists.new.find_by_id(list["_id"])["owner_login"]
+
+    admin_post "/admin/wordlists/#{list['_id']}/entries",
+               entry_id: "3881,3882", csrf_token: token
+    assert_equal %w[3881 3882], CzjWordLists.new.find_by_id(list["_id"])["entries"].map { |entry| entry["id"] }
+
+    admin_post "/admin/wordlists/#{list['_id']}/entries/3881/move/down", csrf_token: token
+    assert_equal %w[3882 3881], CzjWordLists.new.find_by_id(list["_id"])["entries"].map { |entry| entry["id"] }
+
+    admin_post "/admin/wordlists/#{list['_id']}/entries/3881/remove", csrf_token: token
+    assert_equal ["3882"], CzjWordLists.new.find_by_id(list["_id"])["entries"].map { |entry| entry["id"] }
+
+    admin_post "/admin/wordlists/#{list['_id']}/delete", csrf_token: token
+    assert_nil CzjWordLists.new.find_by_id(list["_id"])
   end
 
   def test_create_query_opens_wordlist_creation_form

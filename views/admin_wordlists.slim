@@ -1,0 +1,26 @@
+main role="main"
+  section.section role="region"
+    .container
+      h1 = I18n.t("admin.wordlists.title")
+      - if @wordlists.empty?
+        p = I18n.t("admin.wordlists.empty")
+      - else
+        table.table.wordlist-admin-table
+          thead
+            tr
+              th = I18n.t("wordlists.name")
+              th = I18n.t("wordlists.owner")
+              th = I18n.t("wordlists.dictionary")
+              th = I18n.t("wordlists.entry_count")
+              th = I18n.t("wordlists.visibility")
+          tbody
+            - @wordlists.each do |wordlist|
+              - owner_name = @wordlist_owners[wordlist['owner_login']].to_s.strip
+              - owner_name = wordlist['owner_login'] if owner_name.empty?
+              tr
+                td
+                  a href="/admin/wordlists/#{wordlist['_id']}" = wordlist['name']
+                td #{owner_name} (#{wordlist['owner_login']})
+                td = I18n.t("dict.#{wordlist['dict']}")
+                td = Array(wordlist['entries']).length
+                td = I18n.t(wordlist['is_public'] ? "wordlists.public" : "wordlists.private")

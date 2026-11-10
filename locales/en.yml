@@ -231,6 +231,10 @@ en:
     save_sharing: "Save sharing"
     sharing_updated: "Wordlist sharing has been saved."
     shared_with_you: "shared"
+    owner: "Owner"
+    owner_label: "Owner: %{name}"
+    visibility: "Visibility"
+    private: "private"
     owner_info: "Wordlist owner: %{name}. You cannot change sharing or delete the wordlist."
     transfer_ownership: "Change owner"
     transfer_help: "Only an existing user can become the new owner. The current owner will remain a shared user."
@@ -793,6 +797,9 @@ en:
       nodef: "(without definitions)"
       revtrans: "equivalents to approve"
       comtrans: "commented equivalents"
+    wordlists:
+      title: "Wordlist administration"
+      empty: "No wordlists found."
     users:
       title: "user administration"
       search_label: "Search by login or name"
