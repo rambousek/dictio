@@ -1,12 +1,73 @@
 # User account management and settings.
 require "digest"
+require "json"
+require "net/http"
+require "uri"
 
 module CzjUsers
   extend self
 
   REGISTRATION_TOKEN_TTL = 24 * 60 * 60
+  REGISTRATION_EMAIL_LIMIT = 3
+  REGISTRATION_EMAIL_WINDOW = 24 * 60 * 60
   PASSWORD_RESET_TOKEN_TTL = 60 * 60
   PASSWORD_ITERATIONS = 210_000
+
+  def turnstile_site_key
+    ENV.fetch("CLOUDFLARE_TURNSTILE_SITE_KEY", "").strip
+  end
+
+  def turnstile_configured?
+    !turnstile_site_key.empty? && !ENV.fetch("CLOUDFLARE_TURNSTILE_SECRET_KEY", "").strip.empty?
+  end
+
+  def verify_turnstile(token, hostname:)
+    return false unless turnstile_configured? && !token.to_s.empty?
+
+    uri = URI("https://challenges.cloudflare.com/turnstile/v0/siteverify")
+    request = Net::HTTP::Post.new(uri)
+    request.set_form_data(
+      "secret" => ENV.fetch("CLOUDFLARE_TURNSTILE_SECRET_KEY"),
+      "response" => token.to_s
+    )
+    response = Net::HTTP.start(uri.host, uri.port, use_ssl: true, open_timeout: 3, read_timeout: 3) do |http|
+      http.request(request)
+    end
+    return false unless response.is_a?(Net::HTTPSuccess)
+
+    result = JSON.parse(response.body)
+    result["success"] == true && result["hostname"].to_s.downcase == hostname.to_s.downcase &&
+      result["action"] == "register"
+  rescue StandardError => e
+    $stderr.puts "Cloudflare Turnstile verification failed: #{e.class}"
+    false
+  end
+
+  def registration_rate_limited?(email, now: Time.now)
+    normalized_email = email.to_s.strip.downcase
+    return false if normalized_email.empty?
+
+    window_start = (now.to_i / REGISTRATION_EMAIL_WINDOW) * REGISTRATION_EMAIL_WINDOW
+    email_hash = Digest::SHA256.hexdigest(normalized_email)
+    bucket_id = "#{email_hash}:#{window_start}"
+    limits = $mongo["registration_limits"]
+    limits.update_one(
+      {"_id" => bucket_id},
+      {
+        "$inc" => {"count" => 1},
+        "$setOnInsert" => {"expires_at" => Time.at(window_start + REGISTRATION_EMAIL_WINDOW)}
+      },
+      upsert: true
+    )
+    limits.find({"_id" => bucket_id}).first["count"].to_i > REGISTRATION_EMAIL_LIMIT
+  end
+
+  def ensure_indexes
+    $mongo["users"].indexes.create_one({"activation_expires_at" => 1}, expire_after: 0)
+    $mongo["registration_limits"].indexes.create_one({"expires_at" => 1}, expire_after: 0)
+  rescue StandardError => e
+    $stderr.puts "registration indexes setup failed: #{e.message}"
+  end
 
   def password_digest(password)
     salt = SecureRandom.hex(16)

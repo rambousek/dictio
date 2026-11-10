@@ -180,6 +180,7 @@ de:
       long_password: "Das Passwort darf höchstens 1024 Zeichen lang sein."
       password_mismatch: "Die Passwörter stimmen nicht überein."
     registration_sent: "Wir haben einen Link zur Bestätigung Ihrer E-Mail-Adresse und Aktivierung des Kontos gesendet."
+    registration_unavailable: "Die Registrierung ist vorübergehend nicht verfügbar. Bitte versuchen Sie es später erneut."
     activation_title: "Konto bestätigen"
     activation_success: "Ihre E-Mail-Adresse wurde bestätigt und Ihr Konto ist aktiv. Sie können sich jetzt anmelden."
     activation_invalid: "Dieser Bestätigungslink ist ungültig oder abgelaufen."
@@ -196,6 +197,8 @@ de:
       login_taken: "Dieser Benutzername ist bereits vergeben."
       email_taken: "Diese E-Mail-Adresse wird bereits von einem anderen Konto verwendet."
       email_failed: "Das Konto wurde nicht aktiviert, da die Bestätigungs-E-Mail nicht gesendet werden konnte. Bitte senden Sie die Registrierung erneut ab."
+      verification_failed: "Die Prüfung gegen automatisierte Registrierungen ist fehlgeschlagen. Bitte versuchen Sie es erneut."
+      rate_limited: "Das Registrierungslimit für diese E-Mail-Adresse wurde erreicht. Bitte versuchen Sie es in 24 Stunden erneut."
   wordlists:
     title: "Meine Wortlisten"
     settings: "Einstellungen"

@@ -29,6 +29,7 @@ class AuthenticationTest < AppTest
     $is_edit = true # standard:disable Style/GlobalVars
     $is_admin = false # standard:disable Style/GlobalVars
     $mongo.load("users", [USER]) # standard:disable Style/GlobalVars
+    $mongo.load("registration_limits", []) # standard:disable Style/GlobalVars
   end
 
   def edit_get(path, params = {})
@@ -43,6 +44,33 @@ class AuthenticationTest < AppTest
     $is_edit = @previous_edit # standard:disable Style/GlobalVars
     $is_admin = @previous_admin # standard:disable Style/GlobalVars
     $mongo.load("users", []) # standard:disable Style/GlobalVars
+    $mongo.load("registration_limits", []) # standard:disable Style/GlobalVars
+  end
+
+  def test_registration_email_rate_limit
+    3.times do
+      refute CzjUsers.registration_rate_limited?("new-user@example.test")
+    end
+
+    assert CzjUsers.registration_rate_limited?("NEW-USER@example.test")
+    record = $mongo["registration_limits"].find({}).first
+    assert_equal 4, record["count"]
+    refute_includes record["_id"], "new-user@example.test"
+    assert_operator record["expires_at"], :>, Time.now
+    assert_operator record["expires_at"], :<=, Time.now + CzjUsers::REGISTRATION_EMAIL_WINDOW
+  end
+
+  def test_registration_indexes_expire_pending_accounts_and_rate_limits
+    CzjUsers.ensure_indexes
+
+    user_index = $mongo["users"].indexes.definitions.find do |index|
+      index["keys"] == {"activation_expires_at" => 1}
+    end
+    rate_limit_index = $mongo["registration_limits"].indexes.definitions.find do |index|
+      index["keys"] == {"expires_at" => 1}
+    end
+    assert_equal 0, user_index.dig("options", :expire_after)
+    assert_equal 0, rate_limit_index.dig("options", :expire_after)
   end
 
   def test_login_session_is_shared_by_edit_and_admin

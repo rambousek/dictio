@@ -74,6 +74,22 @@ user follows the email verification link, which expires after 24 hours. New
 self-registered accounts receive no administrative or editorial permissions;
 an administrator can grant permissions later.
 
+Registration uses Cloudflare Turnstile. Create a widget allowing the
+`edit.dictio.info` hostname and provide `CLOUDFLARE_TURNSTILE_SITE_KEY` and
+`CLOUDFLARE_TURNSTILE_SECRET_KEY` to the Puma service environment on each app
+host. The secret key must never be committed to the repository. Registration
+fails closed if either key is missing or Siteverify rejects the token. Pending
+accounts are removed by MongoDB after their `activation_expires_at` time; the
+activation expiry is 24 hours. Verified attempts are limited to three per
+normalized email address per 24-hour window.
+
+Also create a Cloudflare WAF rate-limiting rule for the zone matching
+`http.host eq "edit.dictio.info" and http.request.method eq "POST" and http.request.uri.path eq "/register"`.
+As a starting point, block an IP for 10 minutes after 5 requests in 10 minutes.
+Keep the registration hostnames proxied through Cloudflare so the edge rule
+sees the client IP, and firewall the origin to accept web traffic only from
+Cloudflare IP ranges so the rule cannot be bypassed by connecting directly.
+
 Deploy: pushes to `main` run `.github/workflows/deploy.yml`, which SSHes to each host (`SSH_USER`/`SSH_KEY` secrets), fetches with `~/.ssh/github` deploy key, `git reset --hard origin/main`, `bundle install`, `./restart.sh`.
 
 /etc/nginx/conf.d/dictio.conf

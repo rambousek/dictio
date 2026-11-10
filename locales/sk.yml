@@ -180,6 +180,7 @@ sk:
       long_password: "Heslo môže mať najviac 1024 znakov."
       password_mismatch: "Zadané heslá sa nezhodujú."
     registration_sent: "Na zadanú e-mailovú adresu sme odoslali odkaz na overenie a aktiváciu účtu."
+    registration_unavailable: "Registrácia je dočasne nedostupná. Skúste to, prosím, neskôr."
     activation_title: "Overenie účtu"
     activation_success: "E-mail bol overený a účet je aktívny. Teraz sa môžete prihlásiť."
     activation_invalid: "Overovací odkaz je neplatný alebo jeho platnosť vypršala."
@@ -196,6 +197,8 @@ sk:
       login_taken: "Toto používateľské meno je už obsadené."
       email_taken: "Táto e-mailová adresa sa už používa pri inom účte."
       email_failed: "Účet nebol aktivovaný, pretože sa nepodarilo odoslať overovací e-mail. Skúste registráciu odoslať znova."
+      verification_failed: "Overenie ochrany pred automatickými registráciami zlyhalo. Skúste to, prosím, znova."
+      rate_limited: "Bol dosiahnutý limit registrácií pre túto e-mailovú adresu. Skúste to znova o 24 hodín."
   wordlists:
     title: "Moje slovníčky"
     settings: "Nastavenia"

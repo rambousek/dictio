@@ -180,6 +180,7 @@ en:
       long_password: "Password must be no more than 1024 characters long."
       password_mismatch: "The passwords do not match."
     registration_sent: "We sent an account verification and activation link to your email address."
+    registration_unavailable: "Registration is temporarily unavailable. Please try again later."
     activation_title: "Verify your account"
     activation_success: "Your email has been verified and your account is active. You can now log in."
     activation_invalid: "This verification link is invalid or has expired."
@@ -196,6 +197,8 @@ en:
       login_taken: "This username is already taken."
       email_taken: "This email address is already used by another account."
       email_failed: "The account was not activated because the verification email could not be sent. Please submit the registration again."
+      verification_failed: "The automated registration check failed. Please try again."
+      rate_limited: "The registration limit for this email address has been reached. Please try again in 24 hours."
   wordlists:
     title: "My wordlists"
     settings: "Settings"

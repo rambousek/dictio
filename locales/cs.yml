@@ -180,6 +180,7 @@ cs:
       long_password: "Heslo může mít nejvýše 1024 znaků."
       password_mismatch: "Zadaná hesla se neshodují."
     registration_sent: "Na zadanou e-mailovou adresu jsme odeslali odkaz pro ověření a aktivaci účtu."
+    registration_unavailable: "Registrace je dočasně nedostupná. Zkuste to prosím později."
     activation_title: "Ověření účtu"
     activation_success: "E-mail byl ověřen a účet je aktivní. Nyní se můžete přihlásit."
     activation_invalid: "Ověřovací odkaz je neplatný nebo jeho platnost vypršela."
@@ -196,6 +197,8 @@ cs:
       login_taken: "Toto uživatelské jméno už je obsazené."
       email_taken: "Tato e-mailová adresa už je použitá u jiného účtu."
       email_failed: "Účet nebyl aktivován, protože se nepodařilo odeslat ověřovací e-mail. Zkuste registraci odeslat znovu."
+      verification_failed: "Ověření ochrany proti automatickým registracím se nezdařilo. Zkuste to prosím znovu."
+      rate_limited: "Byl překročen limit registrací pro tuto e-mailovou adresu. Zkuste to znovu za 24 hodin."
   wordlists:
     title: "Moje slovníčky"
     settings: "Nastavení"

@@ -47,6 +47,7 @@ class CzjApp < Sinatra::Base
   $mongo = Mongo::Client.new($mongoHost) if $mongo.nil?
   Thread.new { CzjUsageStat.ensure_indexes } unless $is_test
   Thread.new { CzjWordLists.ensure_indexes } unless $is_test
+  Thread.new { CzjUsers.ensure_indexes } unless $is_test
   # GeoIP DB is installed on the servers; without it (CI) the country lookup
   # at $georeader.country raises and falls back to the hostname heuristic.
   geoip_db = '/usr/share/GeoIP/GeoLite2-Country.mmdb'
@@ -329,6 +330,8 @@ class CzjApp < Sinatra::Base
     @page_title = I18n.t("auth.register_title")
     @noindex = true
     @registration_error = params['error']
+    @turnstile_site_key = CzjUsers.turnstile_site_key unless $is_test
+    @registration_unavailable = !$is_test && !CzjUsers.turnstile_configured?
     slim :register
   end
 
@@ -387,6 +390,24 @@ class CzjApp < Sinatra::Base
     verify_csrf_token!
     @page_title = I18n.t("auth.register_title")
     @noindex = true
+    @turnstile_site_key = CzjUsers.turnstile_site_key unless $is_test
+    @registration_unavailable = !$is_test && !CzjUsers.turnstile_configured?
+    if @registration_unavailable
+      status 503
+      halt 503, slim(:register)
+    end
+    unless $is_test || CzjUsers.verify_turnstile(
+      params['cf-turnstile-response'],
+      hostname: request.host
+    )
+      @registration_error = "verification_failed"
+      halt 422, slim(:register)
+    end
+    if CzjUsers.registration_rate_limited?(params['email'])
+      @registration_error = "rate_limited"
+      halt 429, slim(:register)
+    end
+
     registration = CzjUsers.register_user(
       login: params['login'],
       password: params['password'],

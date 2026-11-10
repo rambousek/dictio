@@ -6,26 +6,32 @@ section.section role="region"
     - else
       - if @registration_error
         p role="alert" = I18n.t("auth.registration_errors.#{@registration_error}", default: I18n.t("auth.registration_errors.invalid"))
-      form action="/register" method="post"
-        input type="hidden" name="csrf_token" value=csrf_token
-        p
-          label for="register-login" = I18n.t("auth.login")
-          input#register-login type="text" name="login" autocomplete="username" minlength="3" maxlength="32" pattern="[a-zA-Z0-9_.-]+" required=true value=params['login']
-        p
-          label for="register-name" = I18n.t("auth.contact_name")
-          input#register-name type="text" name="name" autocomplete="name" maxlength="200" required=true value=params['name']
-        p
-          label for="register-organization" = I18n.t("auth.organization")
-          input#register-organization type="text" name="organization" autocomplete="organization" maxlength="200" value=params['organization']
-        p
-          label for="register-email" = I18n.t("auth.email")
-          input#register-email type="email" name="email" autocomplete="email" required=true value=params['email']
-        p
-          label for="register-password" = I18n.t("auth.password")
-          input#register-password type="password" name="password" autocomplete="new-password" minlength="10" maxlength="1024" required=true
-        p
-          label for="register-password-confirmation" = I18n.t("auth.password_confirmation")
-          input#register-password-confirmation type="password" name="password_confirmation" autocomplete="new-password" minlength="10" maxlength="1024" required=true
-        button.btn type="submit" = I18n.t("auth.register_submit")
+      - if @registration_unavailable
+        p role="alert" = I18n.t("auth.registration_unavailable")
+      - else
+        form action="/register" method="post"
+          input type="hidden" name="csrf_token" value=csrf_token
+          p
+            label for="register-login" = I18n.t("auth.login")
+            input#register-login type="text" name="login" autocomplete="username" minlength="3" maxlength="32" pattern="[a-zA-Z0-9_.-]+" required=true value=params['login']
+          p
+            label for="register-name" = I18n.t("auth.contact_name")
+            input#register-name type="text" name="name" autocomplete="name" maxlength="200" required=true value=params['name']
+          p
+            label for="register-organization" = I18n.t("auth.organization")
+            input#register-organization type="text" name="organization" autocomplete="organization" maxlength="200" value=params['organization']
+          p
+            label for="register-email" = I18n.t("auth.email")
+            input#register-email type="email" name="email" autocomplete="email" required=true value=params['email']
+          p
+            label for="register-password" = I18n.t("auth.password")
+            input#register-password type="password" name="password" autocomplete="new-password" minlength="10" maxlength="1024" required=true
+          p
+            label for="register-password-confirmation" = I18n.t("auth.password_confirmation")
+            input#register-password-confirmation type="password" name="password_confirmation" autocomplete="new-password" minlength="10" maxlength="1024" required=true
+          - if @turnstile_site_key
+            script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async=true defer=true
+            div.cf-turnstile data-sitekey=@turnstile_site_key data-action="register"
+          button.btn type="submit" = I18n.t("auth.register_submit")
     p
       a href="/login" = I18n.t("auth.back_to_login")

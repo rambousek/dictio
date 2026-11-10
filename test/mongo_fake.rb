@@ -33,6 +33,7 @@ end
 class FakeCollection
   def initialize(docs)
     @docs = docs
+    @indexes = FakeIndexManager.new
   end
 
   def replace(docs)
@@ -54,11 +55,23 @@ class FakeCollection
     FakeWriteResult.new(1)
   end
 
-  def update_one(filter, update, _options = {})
+  def indexes
+    @indexes
+  end
+
+  def update_one(filter, update, options = {})
     doc = @docs.find { |candidate| FakeMongoQuery.match?(candidate, filter) }
+    inserted = false
+    if !doc && options[:upsert]
+      doc = filter.each_with_object({}) do |(key, value), result|
+        result[key.to_s] = Marshal.load(Marshal.dump(value)) unless key.to_s.start_with?("$")
+      end
+      @docs << doc
+      inserted = true
+    end
     return FakeWriteResult.new(0) unless doc
 
-    modified = false
+    modified = inserted
     update.each do |operator, fields|
       fields.each do |key, value|
         case operator.to_s
@@ -67,6 +80,14 @@ class FakeCollection
             doc[key.to_s] = Marshal.load(Marshal.dump(value))
             modified = true
           end
+        when "$setOnInsert"
+          next unless inserted
+
+          doc[key.to_s] = Marshal.load(Marshal.dump(value))
+          modified = true
+        when "$inc"
+          doc[key.to_s] = doc.fetch(key.to_s, 0).to_i + value.to_i
+          modified = true
         when "$addToSet"
           doc[key.to_s] ||= []
           unless doc[key.to_s].include?(value)
@@ -121,6 +142,18 @@ class FakeCollection
       end
     end
     docs
+  end
+end
+
+class FakeIndexManager
+  attr_reader :definitions
+
+  def initialize
+    @definitions = []
+  end
+
+  def create_one(keys, **options)
+    @definitions << {"keys" => keys, "options" => options}
   end
 end
 

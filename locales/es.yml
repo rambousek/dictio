@@ -180,6 +180,7 @@ es:
       long_password: "La contraseña no puede superar los 1024 caracteres."
       password_mismatch: "Las contraseñas no coinciden."
     registration_sent: "Hemos enviado a tu correo un enlace para verificar y activar la cuenta."
+    registration_unavailable: "El registro no está disponible temporalmente. Inténtalo de nuevo más tarde."
     activation_title: "Verificar cuenta"
     activation_success: "Tu correo ha sido verificado y la cuenta está activa. Ya puedes iniciar sesión."
     activation_invalid: "El enlace de verificación no es válido o ha caducado."
@@ -196,6 +197,8 @@ es:
       login_taken: "Este nombre de usuario ya está en uso."
       email_taken: "Esta dirección de correo ya está asociada a otra cuenta."
       email_failed: "La cuenta no se activó porque no se pudo enviar el correo de verificación. Vuelve a enviar el registro."
+      verification_failed: "No se pudo completar la comprobación contra registros automatizados. Inténtalo de nuevo."
+      rate_limited: "Se ha alcanzado el límite de registros para esta dirección de correo. Inténtalo de nuevo dentro de 24 horas."
   wordlists:
     title: "Mis listas de palabras"
     settings: "Configuración"
