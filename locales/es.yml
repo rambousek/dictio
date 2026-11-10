@@ -799,7 +799,7 @@ es:
       search_admin: "Administrador"
       search_editor: "Editor"
       search_editor_komparator: "Acceso ampliado"
-      search_wordlists: "Número de listas personales"
+      search_wordlists: "Número de listas"
       show_all: "Mostrar todos los usuarios"
       add_user: "Añadir usuario"
       setting: "Configuración personal"

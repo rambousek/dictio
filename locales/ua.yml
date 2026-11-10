@@ -801,7 +801,7 @@ ua:
       search_admin: "Адміністратор"
       search_editor: "Редактор"
       search_editor_komparator: "Розширений доступ"
-      search_wordlists: "Кількість власних словників"
+      search_wordlists: "Кількість словників"
       show_all: "Показати всіх користувачів"
       add_user: "Додати користувача"
       setting: "Налаштування користувача"

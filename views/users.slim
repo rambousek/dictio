@@ -104,7 +104,7 @@ main role="main"
                 - selection_params["all"] = "1" if @show_all_users
                 - selection_params["search"] = @user_search unless @user_search.empty?
                 a href=("/users?" + Rack::Utils.build_query(selection_params)) = [user['login'], user['name']].compact.reject(&:empty?).join(" — ")
-                small.user-search-summary
+                small.user-search-summary style="margin-left: 0.35em"
                   - editor_rights = Array(user['editor'])
                   - wordlist_count = @user_wordlist_counts.fetch(user['login'], 0)
                   - user_rights = []
@@ -113,7 +113,7 @@ main role="main"
                   - user_rights << I18n.t("admin.users.search_editor_komparator") if editor_rights.include?('komparator')
                   - user_details = []
                   - user_details << "(#{user_rights.join(', ')})" unless user_rights.empty?
-                  - user_details << "#{I18n.t('admin.users.search_wordlists')}: #{wordlist_count}"
+                  - user_details << "#{I18n.t('admin.users.search_wordlists')}: #{wordlist_count}" if wordlist_count.positive?
                   = user_details.join(" ")
   
       button.btn#show-new-user type="button" = I18n.t("admin.users.add_user")

@@ -802,7 +802,7 @@ en:
       search_admin: "Administrator"
       search_editor: "Editor"
       search_editor_komparator: "Extended access"
-      search_wordlists: "Number of user wordlists"
+      search_wordlists: "Number of wordlists"
       show_all: "Show all users"
       add_user: "Add user"
       setting: "Personal setting"

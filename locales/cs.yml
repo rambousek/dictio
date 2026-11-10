@@ -802,7 +802,7 @@ cs:
       search_admin: "Administrátor"
       search_editor: "Editor"
       search_editor_komparator: "Rozšířený přístup"
-      search_wordlists: "Počet uživatelských slovníčků"
+      search_wordlists: "počet slovníčků"
       show_all: "Vypsat všechny uživatele"
       add_user: "Přidat uživatele"
       setting: "Uživatelské nastavení"

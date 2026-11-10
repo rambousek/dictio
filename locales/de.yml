@@ -801,7 +801,7 @@ de:
       search_admin: "Administrator"
       search_editor: "Redakteur"
       search_editor_komparator: "Erweiterter Zugriff"
-      search_wordlists: "Anzahl eigener Wortlisten"
+      search_wordlists: "Anzahl Wortlisten"
       show_all: "Alle Benutzer anzeigen"
       add_user: "Benutzer hinzufügen"
       setting: "Benutzereinstellung"
