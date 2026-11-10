@@ -4,10 +4,9 @@ main role="main"
       .row
         article.col.col--2.col--start role="article"
           h1 style="color: white" #{I18n.t("menu.admin")} 
-          h2 style="color: silver" #{I18n.t("wordlists.title")}
+          h2 style="color: silver" #{I18n.t("admin.wordlists.title")}
   section.section 
     .container
-      h1 = I18n.t("admin.wordlists.title")
       - if @wordlists.empty?
         p = I18n.t("admin.wordlists.empty")
       - else

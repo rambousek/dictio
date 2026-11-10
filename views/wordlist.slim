@@ -1,5 +1,12 @@
 - wordlist_base_path = @wordlist_admin ? "/admin/wordlists/#{@wordlist['_id']}" : "/wordlists/#{@wordlist['_id']}"
 main role="main"
+  - if @wordlist_admin
+    section.section role="region" style="background-color: #1c2641"
+      .container
+        .row
+          article.col.col--2.col--start role="article"
+            h1 style="color: white" = I18n.t("menu.admin")
+            h2 style="color: silver" = I18n.t("admin.wordlists.title")
   section.section role="region"
     .container
       h1.wordlist-title
