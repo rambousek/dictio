@@ -216,6 +216,55 @@ $( document ).ready(function() {
     $(this).hide();
   });
 
+  (function() {
+    var search = $('#user-search');
+    var results = $('#user-search-results');
+    if (!search.length || !results.length) return;
+
+    var timer = null;
+    var request = null;
+    var requestNumber = 0;
+    search.on('input', function() {
+      var query = $.trim(search.val());
+      var currentRequest = ++requestNumber;
+      clearTimeout(timer);
+      if (request) request.abort();
+      results.empty().prop('hidden', true);
+      if (query.length < 2) return;
+
+      timer = setTimeout(function() {
+        request = $.getJSON('/wordlists/users', {query: query, include_current: 'true'})
+          .done(function(users) {
+            if (currentRequest !== requestNumber) return;
+            if (!users.length) {
+              $('<li>').text(results.data('no-results')).appendTo(results);
+            } else {
+              users.forEach(function(user) {
+                var params = new URLSearchParams({user: user.login, search: query});
+                if (new URLSearchParams(window.location.search).get('all') === '1') params.set('all', '1');
+                var label = user.name ? user.login + ' — ' + user.name : user.login;
+                $('<li>').append($('<a>', {
+                  class: 'wordlist-user-result',
+                  href: '/users?' + params.toString(),
+                  text: label
+                })).appendTo(results);
+              });
+            }
+            results.prop('hidden', false);
+          })
+          .fail(function(_xhr, status) {
+            if (status === 'abort' || currentRequest !== requestNumber) return;
+            $('<li>').text(results.data('search-error')).appendTo(results);
+            results.prop('hidden', false);
+          });
+      }, 180);
+    });
+
+    search.on('keydown', function(event) {
+      if (event.key === 'Escape') results.empty().prop('hidden', true);
+    });
+  })();
+
   $('#show-new-wordlist').click(function() {
     $('#new-wordlist-form').show().find('[name=name]').trigger('focus');
     $(this).hide();

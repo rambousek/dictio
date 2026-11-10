@@ -8,8 +8,10 @@ main role="main"
   section.section 
     .container      
       form action="/users" method="get"
-        label for="user-search" = I18n.t("admin.users.search_label")
-        input#user-search type="search" name="search" value=@user_search
+        div.admin-user-search
+          label for="user-search" = I18n.t("admin.users.search_label")
+          input#user-search type="search" name="search" value=@user_search autocomplete="off" aria-autocomplete="list" aria-controls="user-search-results"
+          ul#user-search-results.wordlist-user-search-results.admin-user-search-results hidden=true aria-label=I18n.t("admin.users.search_label") data-no-results=I18n.t("wordlists.user_search_no_results") data-search-error=I18n.t("wordlists.user_search_error")
         button.btn type="submit" = I18n.t("admin.users.search_button")
       a.btn href="/users?all=1" = I18n.t("admin.users.show_all")
       - @users.each do |user|

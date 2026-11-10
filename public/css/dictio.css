@@ -271,6 +271,11 @@ video.czj {
   cursor: pointer;
 }
 
+.admin-user-search-results .wordlist-user-result {
+  display: block;
+  text-decoration: none;
+}
+
 .wordlist-user-result:hover {
   background: rgba(3, 201, 169, .15);
 }
