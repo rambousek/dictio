@@ -146,14 +146,14 @@ class WordListsTest < AppTest
     assert_equal COLLABORATOR["login"], CzjWordLists.new.find_by_id(list["_id"])["owner_login"]
 
     admin_post "/admin/wordlists/#{list['_id']}/entries",
-               entry_id: "3881,3882", csrf_token: token
-    assert_equal %w[3881 3882], CzjWordLists.new.find_by_id(list["_id"])["entries"].map { |entry| entry["id"] }
+               entry_id: "3881,41198", csrf_token: token
+    assert_equal %w[3881 41198], CzjWordLists.new.find_by_id(list["_id"])["entries"].map { |entry| entry["id"] }
 
     admin_post "/admin/wordlists/#{list['_id']}/entries/3881/move/down", csrf_token: token
-    assert_equal %w[3882 3881], CzjWordLists.new.find_by_id(list["_id"])["entries"].map { |entry| entry["id"] }
+    assert_equal %w[41198 3881], CzjWordLists.new.find_by_id(list["_id"])["entries"].map { |entry| entry["id"] }
 
     admin_post "/admin/wordlists/#{list['_id']}/entries/3881/remove", csrf_token: token
-    assert_equal ["3882"], CzjWordLists.new.find_by_id(list["_id"])["entries"].map { |entry| entry["id"] }
+    assert_equal ["41198"], CzjWordLists.new.find_by_id(list["_id"])["entries"].map { |entry| entry["id"] }
 
     admin_post "/admin/wordlists/#{list['_id']}/delete", csrf_token: token
     assert_nil CzjWordLists.new.find_by_id(list["_id"])
