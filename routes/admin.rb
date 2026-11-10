@@ -105,6 +105,7 @@ class CzjApp < Sinatra::Base
                               user['name'].to_s.downcase.include?(query)
                           end
                         end
+        @user_wordlist_counts = CzjUsers.wordlist_counts(@matching_users.map { |user| user['login'] })
       selected_user = @all_users.find { |user| user['login'] == params['user'] }
       @users = selected_user ? [selected_user] : []
       slim :users

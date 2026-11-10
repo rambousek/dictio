@@ -30,6 +30,7 @@ class AuthenticationTest < AppTest
     $is_admin = false # standard:disable Style/GlobalVars
     $mongo.load("users", [USER]) # standard:disable Style/GlobalVars
     $mongo.load("registration_limits", []) # standard:disable Style/GlobalVars
+    $mongo.load("wordlists", []) # standard:disable Style/GlobalVars
   end
 
   def edit_get(path, params = {})
@@ -45,6 +46,19 @@ class AuthenticationTest < AppTest
     $is_admin = @previous_admin # standard:disable Style/GlobalVars
     $mongo.load("users", []) # standard:disable Style/GlobalVars
     $mongo.load("registration_limits", []) # standard:disable Style/GlobalVars
+    $mongo.load("wordlists", []) # standard:disable Style/GlobalVars
+  end
+
+  def test_wordlist_counts_include_only_lists_owned_by_requested_users
+    $mongo.load("wordlists", [
+      {"_id" => "alice-1", "owner_login" => "alice"},
+      {"_id" => "alice-2", "owner_login" => "alice"},
+      {"_id" => "bob-1", "owner_login" => "bob"},
+      {"_id" => "shared", "owner_login" => "owner", "shared_with" => ["alice"]}
+    ]) # standard:disable Style/GlobalVars
+
+    assert_equal({"alice" => 2, "bob" => 1}, CzjUsers.wordlist_counts(%w[alice bob]))
+    assert_equal({}, CzjUsers.wordlist_counts([]))
   end
 
   def test_registration_email_rate_limit

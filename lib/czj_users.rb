@@ -225,6 +225,16 @@ module CzjUsers
     res
   end
 
+  def wordlist_counts(logins)
+    logins = Array(logins).map(&:to_s).reject(&:empty?).uniq
+    return {} if logins.empty?
+
+    $mongo["wordlists"].aggregate([
+      {"$match" => {"owner_login" => {"$in" => logins}}},
+      {"$group" => {"_id" => "$owner_login", "count" => {"$sum" => 1}}}
+    ]).to_h { |row| [row["_id"], row["count"].to_i] }
+  end
+
   def save_user(data)
     if data['login'].to_s != ''
       user = $mongo['users'].find({'login': data['login']}).first

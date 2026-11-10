@@ -104,6 +104,13 @@ main role="main"
                 - selection_params["all"] = "1" if @show_all_users
                 - selection_params["search"] = @user_search unless @user_search.empty?
                 a href=("/users?" + Rack::Utils.build_query(selection_params)) = [user['login'], user['name']].compact.reject(&:empty?).join(" — ")
+                small.user-search-summary
+                  - editor_rights = Array(user['editor'])
+                  - wordlist_count = @user_wordlist_counts.fetch(user['login'], 0)
+                  | #{I18n.t("admin.users.search_admin")}: #{I18n.t(user['admin'] ? "admin.users.yes" : "admin.users.no")} ·
+                  |  #{I18n.t("admin.users.search_editor")}: #{I18n.t(editor_rights.empty? ? "admin.users.no" : "admin.users.yes")} ·
+                  |  #{I18n.t("admin.users.search_editor_komparator")}: #{I18n.t(editor_rights.include?('komparator') ? "admin.users.yes" : "admin.users.no")} ·
+                  |  #{I18n.t("admin.users.search_wordlists")}: #{wordlist_count}
   
       button.btn#show-new-user type="button" = I18n.t("admin.users.add_user")
       table.info.user-info.new-user style="display: none"
