@@ -14,6 +14,9 @@ main role="main"
           ul#user-search-results.wordlist-user-search-results.admin-user-search-results hidden=true aria-label=I18n.t("admin.users.search_label") data-no-results=I18n.t("wordlists.user_search_no_results") data-search-error=I18n.t("wordlists.user_search_error")
         button.btn type="submit" = I18n.t("admin.users.search_button")
       a.btn href="/users?all=1" = I18n.t("admin.users.show_all")
+      datalist#organization-options
+        - @organizations.each do |org|
+          option value="#{org}"
       - @users.each do |user|
         table.info.user-info
           form
@@ -40,7 +43,7 @@ main role="main"
               td colspan="4"
                 label
                   | #{I18n.t("admin.users.organization")}:
-                  input type="text" name="organization" value="#{user['organization']}"
+                  input type="text" name="organization" list="organization-options" value="#{user['organization']}"
             tr
               td colspan="2"
                 label
@@ -151,7 +154,7 @@ main role="main"
             td colspan="4"
               label
                 | #{I18n.t("admin.users.organization")}:
-                input type="text" name="organization"
+                input type="text" name="organization" list="organization-options"
           tr                
             td colspan="2"
               label

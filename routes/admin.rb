@@ -59,6 +59,7 @@ class CzjApp < Sinatra::Base
     halt 404 unless protected_host?
 
     @dict_info = $dict_info
+    @organizations = CzjUsers.get_users.map { |user| user['organization'].to_s.strip }.reject(&:empty?).uniq.sort_by(&:downcase)
     slim :usersettings
   end
 
@@ -92,6 +93,7 @@ class CzjApp < Sinatra::Base
     get '/users', :admin => true do
       @dict_info = $dict_info
       @all_users = CzjUsers.get_users
+      @organizations = @all_users.map { |user| user['organization'].to_s.strip }.reject(&:empty?).uniq.sort_by(&:downcase)
       @user_search = params['search'].to_s.strip
       @show_all_users = params['all'] == '1'
       @matching_users = if @show_all_users

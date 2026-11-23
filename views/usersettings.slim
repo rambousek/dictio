@@ -23,13 +23,10 @@ main role="main"
                 td
                   label #{I18n.t("admin.users.organization")}:
                 td
-                  select name="organization"
+                  input type="text" name="organization" list="organization-options" autocomplete="organization" maxlength="200" value=@user_info['organization']
+                  datalist#organization-options
                     - @organizations.each do |org|
-                      option value="#{org}" selected=("selected" if @user_info['organization'] == org) #{org}
-                    - if @user_info['organization'] && !@organizations.include?(@user_info['organization'])
-                      option value="#{@user_info['organization']}" selected="selected" #{@user_info['organization']} (custom)
-                    - else
-                      option value="" #{I18n.t('admin.users.select_organization')}
+                      option value="#{org}"
               tr
                 td
                   label #{I18n.t("admin.users.email")}:
