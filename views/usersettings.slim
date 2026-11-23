@@ -25,7 +25,7 @@ main role="main"
                 td
                   input type="text" name="organization" list="organization-options" autocomplete="organization" maxlength="200" value=@user_info['organization']
                   datalist#organization-options
-                    - @organizations.each do |org|
+                    - Array(@organizations).each do |org|
                       option value="#{org}"
               tr
                 td

@@ -822,6 +822,7 @@ ua:
       email: "e-mail"
       name: "ім'я та прізвище"
       organization: "Організація"
+      select_organization: "Усі організації"
       save: "зберегти"
       delete: "видалити"
       delete_wordlists_dialog_title: "Видалити користувача зі словниками?"

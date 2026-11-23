@@ -822,6 +822,7 @@ sk:
       email: "e-mail"
       name: "meno a priezvisko"
       organization: "Organizácia"
+      select_organization: "Všetky organizácie"
       save: "uložit"
       delete: "smazat"
       delete_wordlists_dialog_title: "Odstrániť používateľa so slovníčkami?"

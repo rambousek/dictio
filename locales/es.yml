@@ -820,6 +820,7 @@ es:
       email: "Correo electrónico"
       name: "Nombre completo"
       organization: "Organización"
+      select_organization: "Todas las organizaciones"
       save: "Guardar"
       delete: "eliminar usuario"
       delete_wordlists_dialog_title: "¿Eliminar un usuario con listas?"

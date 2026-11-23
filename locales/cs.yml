@@ -823,6 +823,7 @@ cs:
       email: "e-mail"
       name: "jméno a příjmení"
       organization: "Organizace"
+      select_organization: "Všechny organizace"
       save: "uložit"
       delete: "smazat"
       delete_wordlists_dialog_title: "Smazat uživatele se slovníčky?"

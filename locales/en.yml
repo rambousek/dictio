@@ -823,6 +823,7 @@ en:
       email: "E-mail"
       name: "Full name"
       organization: "Organization"
+      select_organization: "All organizations"
       save: "Save"
       delete: "delete user"
       delete_wordlists_dialog_title: "Delete a user with wordlists?"

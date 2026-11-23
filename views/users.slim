@@ -15,12 +15,12 @@ main role="main"
         label for="organization-filter" = I18n.t("admin.users.organization")
         select#organization-filter name="organization"
           option value="" selected=("selected" if @organization_filter.empty?) = I18n.t("admin.users.select_organization")
-          - @organizations.each do |org|
+          - Array(@organizations).each do |org|
             option value="#{org}" selected=("selected" if @organization_filter == org) #{org}
         button.btn type="submit" = I18n.t("admin.users.search_button")
       a.btn href="/users?all=1" = I18n.t("admin.users.show_all")
       datalist#organization-options
-        - @organizations.each do |org|
+        - Array(@organizations).each do |org|
           option value="#{org}"
       - @users.each do |user|
         table.info.user-info
