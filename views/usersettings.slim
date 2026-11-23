@@ -23,7 +23,13 @@ main role="main"
                 td
                   label #{I18n.t("admin.users.organization")}:
                 td
-                  input type="text" name="organization" maxlength="200" value=@user_info['organization']
+                  select name="organization"
+                    - @organizations.each do |org|
+                      option value="#{org}" selected=("selected" if @user_info['organization'] == org) #{org}
+                    - if @user_info['organization'] && !@organizations.include?(@user_info['organization'])
+                      option value="#{@user_info['organization']}" selected="selected" #{@user_info['organization']} (custom)
+                    - else
+                      option value="" #{I18n.t('admin.users.select_organization')}
               tr
                 td
                   label #{I18n.t("admin.users.email")}:
