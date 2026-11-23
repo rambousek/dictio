@@ -2,13 +2,20 @@ class CzjApp < Sinatra::Base
   helpers do
     def require_task_access!
       halt 404 unless protected_host?
-      halt 403 unless @user_info && can_edit_entries?
+      halt 403 unless @user_info
+    end
+
+    def require_task_creation_access!
+      require_task_access!
+      halt 403 unless can_edit_entries?
     end
 
     def find_task_for_user!(id)
       task = $mongo["tasks"].find({"_id" => id.to_s}).first
       halt 404 unless task
-      halt 403 unless task["created_by"].to_s == @user_info["login"].to_s || @user_info["admin"]
+      current_login = @user_info["login"].to_s
+      allowed = task["created_by"].to_s == current_login || task["assigned_login"].to_s == current_login || @user_info["admin"]
+      halt 403 unless allowed
       task
     end
 
@@ -18,12 +25,31 @@ class CzjApp < Sinatra::Base
       @dictcode = task["dict"]
       @target = ""
       @organizations = Array(CzjUsers.get_users).map { |user| user["organization"].to_s.strip }.reject(&:empty?).uniq.sort_by(&:downcase)
-      @task_users = Array(CzjUsers.get_users)
+      assigned_login = task["assigned_login"].to_s
+      @assigned_user = Array(CzjUsers.get_users).find { |user| user["login"].to_s == assigned_login } unless assigned_login.empty?
     end
   end
 
-  post "/tasks" do
+  get "/tasks" do
     require_task_access!
+    current_login = @user_info["login"].to_s
+    task_query = if @user_info["admin"]
+                   {}
+                 else
+                   {"$or" => [{"created_by" => current_login}, {"assigned_login" => current_login}]}
+                 end
+    @tasks = $mongo["tasks"].find(task_query, :sort => {"created_at" => -1}).to_a
+    @task_users = Array(CzjUsers.get_users).to_h do |user|
+      [user["login"].to_s, [user["login"], user["name"]].compact.reject(&:empty?).join(" - ")]
+    end
+    @dict_info = $dict_info
+    @dictcode = nil
+    @target = ""
+    slim :tasks
+  end
+
+  post "/tasks" do
+    require_task_creation_access!
     verify_csrf_token!
     dict = params["dict"].to_s
     halt 404 unless $dict_info.key?(dict)
@@ -35,6 +61,7 @@ class CzjApp < Sinatra::Base
       "_id" => task_id,
       "dict" => dict,
       "report_url" => report_url,
+      "title" => "",
       "created_by" => @user_info["login"].to_s,
       "created_at" => Time.now,
       "organization" => "",
@@ -55,6 +82,7 @@ class CzjApp < Sinatra::Base
     require_task_access!
     verify_csrf_token!
     task = find_task_for_user!(params["id"])
+    title = params["title"].to_s.strip
     organization = params["organization"].to_s.strip
     assigned_login = params["assigned_login"].to_s.strip
     if !assigned_login.empty? && !Array(CzjUsers.get_users).any? { |user| user["login"].to_s == assigned_login }
@@ -62,7 +90,7 @@ class CzjApp < Sinatra::Base
     end
     $mongo["tasks"].update_one(
       {"_id" => task["_id"]},
-      {"$set" => {"organization" => organization, "assigned_login" => assigned_login}}
+      {"$set" => {"title" => title, "organization" => organization, "assigned_login" => assigned_login}}
     )
     redirect to("/tasks/#{task["_id"]}?saved=true")
   end

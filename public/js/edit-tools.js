@@ -290,7 +290,7 @@ $( document ).ready(function() {
 
       $('<input>', {
         type: 'hidden',
-        name: isMultiple ? 'shared_with[]' : 'new_owner_login',
+        name: isMultiple ? 'shared_with[]' : (form.data('selection-input-name') || 'new_owner_login'),
         value: login,
         'data-selected-login': isMultiple ? null : ''
       }).appendTo(form);
@@ -326,10 +326,15 @@ $( document ).ready(function() {
     var existingLogins = form.find('input[type="hidden"][name="shared_with[]"]').map(function() {
       return this.value;
     }).get();
+    var selectedLogin = form.find('input[type="hidden"][data-selected-login]').first();
+    var selectedLoginValue = selectedLogin.val();
+    var selectedLoginName = selectedLogin.data('selected-name') || '';
+    selectedLogin.remove();
     form.find('input[type="hidden"][name="shared_with[]"]').remove();
     existingLogins.forEach(function(login) {
       addUser(login, '');
     });
+    if (selectedLoginValue) addUser(selectedLoginValue, selectedLoginName);
 
     search.on('input', function() {
       var query = $.trim(search.val());
@@ -338,7 +343,9 @@ $( document ).ready(function() {
       results.empty();
       if (query.length < 2) return;
 
-      request = $.getJSON('/wordlists/users', {query: query})
+      var searchOptions = {query: query};
+      if (form.data('include-current')) searchOptions.include_current = 'true';
+      request = $.getJSON('/wordlists/users', searchOptions)
         .done(function(users) {
           if (currentRequest !== requestNumber) return;
           if (!users.length) {

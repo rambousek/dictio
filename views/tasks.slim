@@ -1,0 +1,31 @@
+main role="main"
+  section.section role="region" style="background-color: #1c2641"
+    .container
+      h1 style="color: white" = I18n.t("admin.tasks.list_title")
+  section.section
+    .container
+      - if @tasks.empty?
+        p = I18n.t("admin.tasks.no_tasks")
+      - else
+        table.info.user-info
+          thead
+            tr
+              th = I18n.t("admin.tasks.report")
+              th = I18n.t("admin.users.organization")
+              th = I18n.t("admin.tasks.assignee")
+              th = I18n.t("admin.tasks.created_by")
+              th = I18n.t("admin.tasks.created_at")
+              th
+          tbody
+            - @tasks.each do |task|
+              tr
+                td
+                  strong = I18n.t("dict.#{task['dict']}")
+                  br
+                  a href=task["report_url"] target="_blank" rel="noopener" = task["title"].to_s.strip.empty? ? task["report_url"] : task["title"]
+                td = task["organization"]
+                td = @task_users.fetch(task["assigned_login"].to_s, task["assigned_login"].to_s)
+                td = task["created_by"]
+                td = task["created_at"] && task["created_at"].strftime("%Y-%m-%d %H:%M")
+                td
+                  a.btn href="/tasks/#{task['_id']}" = I18n.t("admin.tasks.manage")

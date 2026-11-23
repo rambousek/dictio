@@ -141,7 +141,7 @@ class CzjApp < Sinatra::Base
     require_word_lists_host!
     query = params['query'].to_s.strip.downcase
     halt 400 if query.length < 2
-    include_current_user = params['include_current'] == 'true' && @user_info['admin']
+    include_current_user = params['include_current'] == 'true' && (@user_info['admin'] || can_edit_entries?)
     content_type :json
     users = CzjUsers.get_users.filter_map do |user|
       login = user['login'].to_s

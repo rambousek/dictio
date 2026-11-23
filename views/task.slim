@@ -9,17 +9,20 @@ main role="main"
       p
         strong = I18n.t("admin.tasks.report")
         | :
-        a href=@task["report_url"] target="_blank" rel="noopener" = @task["report_url"]
+        a href=@task["report_url"] target="_blank" rel="noopener" = @task["title"].to_s.strip.empty? ? @task["report_url"] : @task["title"]
       form action="/tasks/#{@task["_id"]}" method="post"
         input type="hidden" name="csrf_token" value=csrf_token
+        label for="task-title" = I18n.t("admin.tasks.name")
+        input#task-title type="text" name="title" value=@task["title"] maxlength="200"
         label for="task-organization" = I18n.t("admin.users.organization")
         input#task-organization type="text" name="organization" list="task-organization-options" autocomplete="organization" value=@task["organization"]
         datalist#task-organization-options
           - Array(@organizations).each do |organization|
             option value=organization
-        label for="task-assignee" = I18n.t("admin.tasks.assignee")
-        select#task-assignee name="assigned_login"
-          option value="" selected=(@task["assigned_login"].to_s.empty?) = I18n.t("admin.tasks.unassigned")
-          - @task_users.each do |user|
-            option value=user["login"] selected=(@task["assigned_login"].to_s == user["login"].to_s) = [user["login"], user["name"]].compact.reject(&:empty?).join(" ? ")
+        label for="task-assignee-search" = I18n.t("admin.tasks.assignee")
+        div.wordlist-user-selection data-user-selection="single" data-selection-input-name="assigned_login" data-include-current="true" data-no-results=I18n.t("wordlists.user_search_no_results") data-search-error=I18n.t("wordlists.user_search_error") data-remove-label=I18n.t("wordlists.remove_user")
+          input type="hidden" name="assigned_login" data-selected-login="true" data-selected-name=(@assigned_user && @assigned_user["name"]) value=@task["assigned_login"]
+          input#task-assignee-search.wordlist-user-search type="search" autocomplete="off" data-user-search="true" placeholder=I18n.t("wordlists.user_search_placeholder")
+          ul.wordlist-user-search-results data-user-results="true" role="listbox"
+          div.wordlist-selected-users data-selected-users="true"
         button.btn type="submit" = I18n.t("admin.tasks.save")
