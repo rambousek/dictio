@@ -95,17 +95,19 @@ class CzjApp < Sinatra::Base
       @all_users = CzjUsers.get_users
       @organizations = @all_users.map { |user| user['organization'].to_s.strip }.reject(&:empty?).uniq.sort_by(&:downcase)
       @user_search = params['search'].to_s.strip
+      @organization_filter = params['organization'].to_s.strip
       @show_all_users = params['all'] == '1'
-      @matching_users = if @show_all_users
-                          @all_users
-                        elsif @user_search.empty?
-                          []
-                        else
+      @matching_users = if @show_all_users || !@organization_filter.empty? || !@user_search.empty?
                           query = @user_search.downcase
                           @all_users.select do |user|
-                            user['login'].to_s.downcase.include?(query) ||
+                            organization_matches = @organization_filter.empty? || user['organization'].to_s.strip == @organization_filter
+                            search_matches = query.empty? ||
+                              user['login'].to_s.downcase.include?(query) ||
                               user['name'].to_s.downcase.include?(query)
+                            organization_matches && search_matches
                           end
+                        else
+                          []
                         end
         @user_wordlist_counts = CzjUsers.wordlist_counts(@matching_users.map { |user| user['login'] })
       selected_user = @all_users.find { |user| user['login'] == params['user'] }

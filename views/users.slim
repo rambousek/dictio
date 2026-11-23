@@ -12,6 +12,11 @@ main role="main"
           label for="user-search" = I18n.t("admin.users.search_label")
           input#user-search type="search" name="search" value=@user_search autocomplete="off" aria-autocomplete="list" aria-controls="user-search-results"
           ul#user-search-results.wordlist-user-search-results.admin-user-search-results hidden=true aria-label=I18n.t("admin.users.search_label") data-no-results=I18n.t("wordlists.user_search_no_results") data-search-error=I18n.t("wordlists.user_search_error")
+        label for="organization-filter" = I18n.t("admin.users.organization")
+        select#organization-filter name="organization"
+          option value="" selected=("selected" if @organization_filter.empty?) = I18n.t("admin.users.select_organization")
+          - @organizations.each do |org|
+            option value="#{org}" selected=("selected" if @organization_filter == org) #{org}
         button.btn type="submit" = I18n.t("admin.users.search_button")
       a.btn href="/users?all=1" = I18n.t("admin.users.show_all")
       datalist#organization-options
@@ -105,7 +110,7 @@ main role="main"
           button#user-delete-wordlists-keep.btn type="button" = I18n.t("admin.users.delete_keep_wordlists")
           button#user-delete-wordlists-delete.btn type="button" style="background-color: darkred" = I18n.t("admin.users.delete_and_remove_wordlists")
 
-      - if @show_all_users || !@user_search.empty?
+      - if @show_all_users || !@user_search.empty? || !@organization_filter.empty?
         - if @matching_users.empty?
           p = I18n.t("admin.users.search_no_results")
         - else
@@ -116,6 +121,7 @@ main role="main"
                 - selection_params = {"user" => user['login']}
                 - selection_params["all"] = "1" if @show_all_users
                 - selection_params["search"] = @user_search unless @user_search.empty?
+                - selection_params["organization"] = @organization_filter unless @organization_filter.empty?
                 a href=("/users?" + Rack::Utils.build_query(selection_params)) = [user['login'], user['name']].compact.reject(&:empty?).join(" — ")
                 small.user-search-summary style="margin-left: 0.35em"
                   - editor_rights = Array(user['editor'])
