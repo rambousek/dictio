@@ -747,6 +747,12 @@ main role="main"
                     window.location.href = url.pathname + (url.search ? url.search : '');
                   }
               a.btn style="background-color: gray; margin-left: auto; margin-right: auto" href="/#{@dictcode}/csvreport?#{@params.map{|k,v| (k=='def_skup'?"def_skup[]=#{v[0]}":"#{k}=#{v}")}.join('&')}" CSV export
+              - if @user_info && can_edit_entries?
+                form action="/tasks" method="post" style="display: inline; margin: 0 auto"
+                  input type="hidden" name="csrf_token" value=csrf_token
+                  input type="hidden" name="dict" value=@dictcode
+                  input type="hidden" name="report_url" value=request.fullpath
+                  button.btn type="submit" = I18n.t("admin.tasks.create")
               a#json-export-btn.btn style="background-color: gray; margin-left: auto; margin-right: auto; cursor: pointer" data-query="#{@params.map{|k,v| (k=='def_skup'?"def_skup[]=#{v[0]}":"#{k}=#{v}")}.join('&')}" onclick="startJsonExport()" JSON export
               - if @dict_info[@dictcode]['type'] == 'sign' and @user_info and @user_info['admin']
                 button#video-export-open.btn type="button" style="background-color: gray; margin-left: auto; margin-right: auto" = I18n.t("video_export.button")

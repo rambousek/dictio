@@ -1,0 +1,25 @@
+main role="main"
+  section.section role="region" style="background-color: #1c2641"
+    .container
+      h1 style="color: white" = I18n.t("admin.tasks.title")
+  section.section
+    .container
+      - if params["saved"] == "true"
+        p role="status" = I18n.t("admin.tasks.saved")
+      p
+        strong = I18n.t("admin.tasks.report")
+        | :
+        a href=@task["report_url"] target="_blank" rel="noopener" = @task["report_url"]
+      form action="/tasks/#{@task["_id"]}" method="post"
+        input type="hidden" name="csrf_token" value=csrf_token
+        label for="task-organization" = I18n.t("admin.users.organization")
+        input#task-organization type="text" name="organization" list="task-organization-options" autocomplete="organization" value=@task["organization"]
+        datalist#task-organization-options
+          - Array(@organizations).each do |organization|
+            option value=organization
+        label for="task-assignee" = I18n.t("admin.tasks.assignee")
+        select#task-assignee name="assigned_login"
+          option value="" selected=(@task["assigned_login"].to_s.empty?) = I18n.t("admin.tasks.unassigned")
+          - @task_users.each do |user|
+            option value=user["login"] selected=(@task["assigned_login"].to_s == user["login"].to_s) = [user["login"], user["name"]].compact.reject(&:empty?).join(" ? ")
+        button.btn type="submit" = I18n.t("admin.tasks.save")

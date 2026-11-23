@@ -804,6 +804,14 @@ en:
     wordlists:
       title: "User wordlists"
       empty: "No wordlists found."
+    tasks:
+      create: "Create task"
+      title: "Task from report"
+      report: "Report"
+      assignee: "Assign user"
+      unassigned: "Unassigned"
+      save: "Save task"
+      saved: "Task saved."
     users:
       title: "user administration"
       search_label: "Search by login or name"

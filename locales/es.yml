@@ -801,6 +801,14 @@ es:
     wordlists:
       title: "Listas de palabras de usuario"
       empty: "No se encontraron listas."
+    tasks:
+      create: "Crear tarea"
+      title: "Tarea del informe"
+      report: "Informe"
+      assignee: "Asignar usuario"
+      unassigned: "Sin asignar"
+      save: "Guardar tarea"
+      saved: "Tarea guardada."
     users:
       title: "administración de usuarios"
       search_label: "Buscar por usuario o nombre"

@@ -803,6 +803,14 @@ sk:
     wordlists:
       title: "Používateľské slovníčky"
       empty: "Nenašli sa žiadne slovníčky."
+    tasks:
+      create: "Vytvoriť úlohu"
+      title: "Úloha z reportu"
+      report: "Report"
+      assignee: "Priradiť používateľa"
+      unassigned: "Nepriradené"
+      save: "Uložiť úlohu"
+      saved: "Úloha bola uložená."
     users:
       title: "správa použivateľov"
       search_label: "Vyhľadať podľa loginu alebo mena"

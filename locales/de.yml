@@ -803,6 +803,14 @@ de:
     wordlists:
       title: "Benutzer-Wortlisten"
       empty: "Keine Wortlisten gefunden."
+    tasks:
+      create: "Aufgabe erstellen"
+      title: "Aufgabe aus dem Bericht"
+      report: "Bericht"
+      assignee: "Benutzer zuweisen"
+      unassigned: "Nicht zugewiesen"
+      save: "Aufgabe speichern"
+      saved: "Aufgabe gespeichert."
     users:
       title: "Benutzerverwaltung"
       search_label: "Nach Login oder Name suchen"

@@ -804,6 +804,14 @@ cs:
     wordlists:
       title: "Uživatelské slovníčky"
       empty: "Nebyly nalezeny žádné slovníčky."
+    tasks:
+      create: "Vytvořit úkol"
+      title: "Úkol z reportu"
+      report: "Report"
+      assignee: "Přiřadit uživatele"
+      unassigned: "Nepřiřazeno"
+      save: "Uložit úkol"
+      saved: "Úkol byl uložen."
     users:
       title: "správa uživatelů"
       search_label: "Vyhledat podle loginu nebo jména"
