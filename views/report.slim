@@ -752,6 +752,7 @@ main role="main"
                   input type="hidden" name="csrf_token" value=csrf_token
                   input type="hidden" name="dict" value=@dictcode
                   input type="hidden" name="report_url" value=request.fullpath
+                  input type="hidden" name="entry_count" value=@report["resultcount"]
                   button.btn type="submit" = I18n.t("admin.tasks.create")
               a#json-export-btn.btn style="background-color: gray; margin-left: auto; margin-right: auto; cursor: pointer" data-query="#{@params.map{|k,v| (k=='def_skup'?"def_skup[]=#{v[0]}":"#{k}=#{v}")}.join('&')}" onclick="startJsonExport()" JSON export
               - if @dict_info[@dictcode]['type'] == 'sign' and @user_info and @user_info['admin']

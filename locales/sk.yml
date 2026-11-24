@@ -807,6 +807,7 @@ sk:
       create: "Vytvoriť úlohu"
       title: "Úloha z reportu"
       report: "Report"
+      entry_count: "Počet hesiel"
       name: "Názov úlohy"
       assignee: "Priradiť používateľa"
       unassigned: "Nepriradené"
@@ -817,6 +818,8 @@ sk:
       created_by: "Vytvoril"
       created_at: "Vytvorené"
       manage: "Upraviť"
+      refresh_count: "Aktualizovať počet"
+      count_updated: "Počet hesiel bol aktualizovaný podľa aktuálneho reportu."
     users:
       title: "správa použivateľov"
       search_label: "Vyhľadať podľa loginu alebo mena"

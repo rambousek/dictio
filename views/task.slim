@@ -6,10 +6,18 @@ main role="main"
     .container
       - if params["saved"] == "true"
         p role="status" = I18n.t("admin.tasks.saved")
+      - if params["count_updated"] == "true"
+        p role="status" = I18n.t("admin.tasks.count_updated")
       p
         strong = I18n.t("admin.tasks.report")
         | :
         a href=@task["report_url"] target="_blank" rel="noopener" = @task["title"].to_s.strip.empty? ? @task["report_url"] : @task["title"]
+      p
+        strong = I18n.t("admin.tasks.entry_count")
+        | : #{@task["entry_count"] || "-"}
+      form action="/tasks/#{@task["_id"]}/refresh-count" method="post"
+        input type="hidden" name="csrf_token" value=csrf_token
+        button.btn.btn--secondary type="submit" = I18n.t("admin.tasks.refresh_count")
       form action="/tasks/#{@task["_id"]}" method="post"
         input type="hidden" name="csrf_token" value=csrf_token
         label for="task-title" = I18n.t("admin.tasks.name")

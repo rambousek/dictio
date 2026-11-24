@@ -808,6 +808,7 @@ en:
       create: "Create task"
       title: "Task from report"
       report: "Report"
+      entry_count: "Number of entries"
       name: "Task name"
       assignee: "Assign user"
       unassigned: "Unassigned"
@@ -818,6 +819,8 @@ en:
       created_by: "Created by"
       created_at: "Created at"
       manage: "Manage"
+      refresh_count: "Refresh count"
+      count_updated: "The entry count was refreshed from the current report."
     users:
       title: "user administration"
       search_label: "Search by login or name"

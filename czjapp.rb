@@ -281,6 +281,7 @@ class CzjApp < Sinatra::Base
     @search_limit = 10
     @translate_limit = 9
     @report_limit = 15
+    refresh_assigned_task_counts_if_due! if @user_info
     cookies.set(:dictio_pref, {:httponly=>false, :value=>(WRITE_DICTS+SIGN_DICTS).map{|i| 'dict-'+i+'=true'}.join(';')})
     @is_edit = $is_edit
     @is_admin = $is_admin
@@ -317,6 +318,10 @@ class CzjApp < Sinatra::Base
       session.clear
       session[:user_login] = user['login']
       session[:auth_signature] = OpenSSL::HMAC.hexdigest('SHA256', $session_secret, stored_password)
+      if authorized?
+        refresh_assigned_task_counts_for_user!(user['login'])
+        session[:task_count_refresh_at] = Time.now.to_i
+      end
       redirect safe_return_path(params['return_to'])
     else
       @login_error = true

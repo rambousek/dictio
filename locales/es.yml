@@ -805,6 +805,7 @@ es:
       create: "Crear tarea"
       title: "Tarea del informe"
       report: "Informe"
+      entry_count: "Número de entradas"
       name: "Nombre de la tarea"
       assignee: "Asignar usuario"
       unassigned: "Sin asignar"
@@ -815,6 +816,8 @@ es:
       created_by: "Creada por"
       created_at: "Creada el"
       manage: "Gestionar"
+      refresh_count: "Actualizar cantidad"
+      count_updated: "La cantidad se actualizó según el informe actual."
     users:
       title: "administración de usuarios"
       search_label: "Buscar por usuario o nombre"

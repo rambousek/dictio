@@ -807,6 +807,7 @@ de:
       create: "Aufgabe erstellen"
       title: "Aufgabe aus dem Bericht"
       report: "Bericht"
+      entry_count: "Anzahl der Einträge"
       name: "Aufgabenname"
       assignee: "Benutzer zuweisen"
       unassigned: "Nicht zugewiesen"
@@ -817,6 +818,8 @@ de:
       created_by: "Erstellt von"
       created_at: "Erstellt am"
       manage: "Bearbeiten"
+      refresh_count: "Anzahl aktualisieren"
+      count_updated: "Die Anzahl wurde anhand des aktuellen Berichts aktualisiert."
     users:
       title: "Benutzerverwaltung"
       search_label: "Nach Login oder Name suchen"

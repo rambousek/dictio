@@ -808,6 +808,7 @@ cs:
       create: "Vytvořit úkol"
       title: "Úkol z reportu"
       report: "Report"
+      entry_count: "Počet hesel"
       name: "Název úkolu"
       assignee: "Přiřadit uživatele"
       unassigned: "Nepřiřazeno"
@@ -818,6 +819,8 @@ cs:
       created_by: "Vytvořil"
       created_at: "Vytvořeno"
       manage: "Upravit"
+      refresh_count: "Aktualizovat počet"
+      count_updated: "Počet hesel byl aktualizován podle aktuálního reportu."
     users:
       title: "správa uživatelů"
       search_label: "Vyhledat podle loginu nebo jména"
